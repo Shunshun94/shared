@@ -17,6 +17,6 @@ com.hiyoko.Algorithmia.prototype.request = function(url, params) {
 	    			resolve(output.result);
 	    		}
 	    	});
-	});
+	}.bind(this));
 };
 
