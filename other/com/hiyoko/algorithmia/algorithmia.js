@@ -4,7 +4,7 @@ com.hiyoko.Algorithmia = function(apiKey) {
 	Algorithmia.client(apiKey);
 };
 
-com.hiyoko.Algorithmia.prototype.request(url, params) {
+com.hiyoko.Algorithmia.prototype.request = function(url, params) {
 	var paramStr = (typeof params === 'object' ? JSON.stringify(params) : params);
 	
 	return new Promise(function(resolve, reject) {
