@@ -22,8 +22,10 @@ com.hiyoko.component.InputFlow.prototype.buildComponents = function(components) 
 
 com.hiyoko.component.InputFlow.prototype.bindEvents = function() {
 	this.$html.on(com.hiyoko.component.InputFlow.Child.Events.GoBack, function(e){
+		if(this.currentInput !== this.$html.children().length) {
+			this.inputFlows[this.currentInput].disable(com.hiyoko.component.InputFlow.Child.SPEED);
+		}
 		this.currentInput--;
-		this.inputFlows[this.currentInput + 1].disable(com.hiyoko.component.InputFlow.Child.SPEED);
 		this.inputFlows[this.currentInput].open(this.collectValues());
 		e.stopPropagation()
 	}.bind(this));

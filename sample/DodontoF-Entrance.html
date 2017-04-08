@@ -5,8 +5,9 @@
 <title>DodontoF Entry</title>
 <style type="text/css">
 	#entrance > div {
-		height: 800px;
+		height:800px;
 		position:relative;
+		padding:1em;
 	}
 	#entrance-url {
 		background-color:red;
@@ -17,13 +18,24 @@
 	#entrance-password {
 		background-color:blue;
 	}
+	
+	#entrance-url-FreeInput {
+		display:none;
+	}
 </style>
 </head>
 <body>
 <div id="entrance">
 	<div id="entrance-url">
-		<input id="entrance-url-raw" type="text" />
-		<button id="entrance-url-next">次へ</button>
+		<div id="entrance-url-StaticInput">
+			<button id="entrance-url-StaticInput-Hide">リストにないどどんとふを利用する</button><br/>
+			<select id="entrance-url-StaticInput-List"></select><br/>
+		</div>
+		<div id="entrance-url-FreeInput">
+			<button id="entrance-url-FreeInput-Hide">既知のどどんとふを利用する</button><br/>
+			<input type="text" id="entrance-url-FreeInput-Url" size="60" /><br/>
+		</div>
+		<button id="entrance-url-Next">次へ</button>
 	</div>
 	<div id="entrance-room">
 		<button id="entrance-room-back">戻る</button>
@@ -40,6 +52,8 @@
 </div>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<script src="https://shunshun94.github.io/shared/other/com/hiyoko/dodontof/serverList.js"></script>
+<script src='https://shunshun94.github.io/shared/jquery/com/hiyoko/dodontof/v2/DodontoF-Client.js'></script>
 <script src='https://shunshun94.github.io/shared/jquery/com/hiyoko/util/v2/utils.js'></script>
 <script src="https://shunshun94.github.io/shared/jquery/com/hiyoko/components/v1/ApplicationBase.js"></script>
 <script src="../jquery/com/hiyoko/components/v1/InputFlow.js"></script>
