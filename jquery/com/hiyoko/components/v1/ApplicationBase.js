@@ -18,20 +18,20 @@ com.hiyoko.component.ApplicationBase.prototype.getElementsByClass = function(cla
 	return this.getElement('.' + this.id + '-' + className);
 };
 
-com.hiyoko.component.ApplicationBase.prototype.setEnable = function(isEnable) {
+com.hiyoko.component.ApplicationBase.prototype.setEnable = function(isEnable, opt_time) {
 	if(isEnable) {
-		this.$html.show();
+		this.$html.show(opt_time || 0);
 	} else {
-		this.$html.hide();
+		this.$html.hide(opt_time || 0);
 	}
 };
 
-com.hiyoko.component.ApplicationBase.prototype.enable = function() {
-	this.setEnable(true);
+com.hiyoko.component.ApplicationBase.prototype.enable = function(opt_time) {
+	this.setEnable(true, opt_time);
 };
 
-com.hiyoko.component.ApplicationBase.prototype.disable = function() {
-	this.setEnable(false);
+com.hiyoko.component.ApplicationBase.prototype.disable = function(opt_time) {
+	this.setEnable(false, opt_time);
 };
 
 com.hiyoko.component.ApplicationBase.prototype.isEnabled = function() {
