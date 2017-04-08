@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>DodontoF Entry</title>
+<style type="text/css">
+	#entrance > div {
+		height: 800px;
+		position:relative;
+	}
+	#entrance-url {
+		background-color:red;
+	}
+	#entrance-room {
+		background-color:yellow;
+	}
+	#entrance-password {
+		background-color:blue;
+	}
+</style>
+</head>
+<body>
+<div id="entrance">
+	<div id="entrance-url">
+		<input id="entrance-url-raw" type="text" />
+		<button id="entrance-url-next">次へ</button>
+	</div>
+	<div id="entrance-room">
+		<button id="entrance-room-back">戻る</button>
+		<button id="entrance-room-next">次へ</button>
+	</div>
+	<div id="entrance-password">
+		<button id="entrance-password-back">戻る</button>
+		<button id="entrance-password-next">次へ</button>
+	</div>
+	<div id="entrance-option">
+		<button id="entrance-option-back">戻る</button>
+		<button id="entrance-option-next">ログイン</button>
+	</div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<script src='https://shunshun94.github.io/shared/jquery/com/hiyoko/util/v2/utils.js'></script>
+<script src="https://shunshun94.github.io/shared/jquery/com/hiyoko/components/v1/ApplicationBase.js"></script>
+<script src="../jquery/com/hiyoko/components/v1/InputFlow.js"></script>
+<script src="../jquery/com/hiyoko/dodontof/v2/DodontoF-Entrance.js"></script>
+<script>
+	new com.hiyoko.DodontoF.V2.Entrance($('#entrance'));
+	$('#entrance').on(com.hiyoko.component.InputFlow.Events.Finish, function(e){
+		console.log('finish', e.value);
+	});
+</script>
+</body>
+</html>

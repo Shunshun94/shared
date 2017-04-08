@@ -32,10 +32,7 @@ com.hiyoko.component.InputFlow.prototype.bindEvents = function() {
 		this.currentInput++;
 		var params = this.collectValues();
 		if(this.currentInput === this.$html.children().length) {
-			this.$html.trigger({
-				type: com.hiyoko.component.InputFlow.Events.Finish,
-				value: params
-			});
+			this.$html.trigger(new $.Event(com.hiyoko.component.InputFlow.Events.Finish, {value: params}));
 		} else {
 			this.inputFlows[this.currentInput - 1].disable(com.hiyoko.component.InputFlow.Child.SPEED);
 			this.inputFlows[this.currentInput].open(params);
@@ -86,7 +83,7 @@ com.hiyoko.component.InputFlow.Child.prototype.getValue = function() {
 	});
 	
 	return {
-		key: this.id,
+		key: this.id.split('-').pop(),
 		value: value
 	}
 }
