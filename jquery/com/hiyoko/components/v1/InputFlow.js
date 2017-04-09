@@ -26,7 +26,7 @@ com.hiyoko.component.InputFlow.prototype.bindEvents = function() {
 			this.inputFlows[this.currentInput].disable(com.hiyoko.component.InputFlow.Child.SPEED);
 		}
 		this.currentInput--;
-		this.inputFlows[this.currentInput].open(this.collectValues());
+		this.inputFlows[this.currentInput].open(this.collectValues(), true);
 		e.stopPropagation()
 	}.bind(this));
 	
@@ -37,7 +37,7 @@ com.hiyoko.component.InputFlow.prototype.bindEvents = function() {
 			this.$html.trigger(new $.Event(com.hiyoko.component.InputFlow.Events.Finish, {value: params}));
 		} else {
 			this.inputFlows[this.currentInput - 1].disable(com.hiyoko.component.InputFlow.Child.SPEED);
-			this.inputFlows[this.currentInput].open(params);
+			this.inputFlows[this.currentInput].open(params, false);
 		}
 		e.stopPropagation()
 	}.bind(this));
@@ -59,16 +59,13 @@ com.hiyoko.component.InputFlow.Child.Events = {
 	GoNext: 'com-hiyoko-component-InputFlow-Child-GoNext',
 	GoBack: 'com-hiyoko-component-InputFlow-Child-GoBack'
 };
-com.hiyoko.component.InputFlow.Child.SPEED = 500;
 
-com.hiyoko.component.InputFlow.Child.prototype.open = function(params){
+com.hiyoko.component.InputFlow.Child.prototype.open = function(params, isBack){
 	this.$html.show(com.hiyoko.component.InputFlow.Child.SPEED);
 	this.setComponent(params);
 };
 
-com.hiyoko.component.InputFlow.Child.prototype.setComponent = function(params) {
-	console.log(params);
-}
+com.hiyoko.component.InputFlow.Child.prototype.setComponent = function(params) {};
 
 com.hiyoko.component.InputFlow.Child.prototype.getValue = function() {
 	var value = {};
@@ -98,3 +95,4 @@ com.hiyoko.component.InputFlow.Child.prototype.goBack = function(params){
 	this.$html.trigger(new $.Event(com.hiyoko.component.InputFlow.Child.Events.GoBack));
 };
 
+com.hiyoko.component.InputFlow.Child.SPEED = 500;

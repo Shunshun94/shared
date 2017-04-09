@@ -3,50 +3,62 @@
 <head>
 <meta charset="UTF-8">
 <title>DodontoF Entry</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 <style type="text/css">
 	#entrance > div {
 		height:800px;
 		position:relative;
 		padding:1em;
+		background-color:#F0FFF0;
 	}
-	#entrance-url {
-		background-color:red;
-	}
-	#entrance-room {
-		background-color:yellow;
-	}
-	#entrance-password {
-		background-color:blue;
+	#entrance　input {
+		width:100%;
 	}
 	
+	#entrance select {
+		width:100%;
+	}
+	.entrance-room-rooms-room {
+	 margin-top:4px;
+	 padding: 5px;
+  border-radius: 4px;
+		border:#50FF50 2px outset;
+		background-color:#D0FFD0;
+	}
 	#entrance-url-FreeInput {
 		display:none;
 	}
 </style>
 </head>
 <body>
+<p id="link"></p>
 <div id="entrance">
 	<div id="entrance-url">
+		<h2>使うどどんとふを選択してください</h2>
 		<div id="entrance-url-StaticInput">
-			<button id="entrance-url-StaticInput-Hide">リストにないどどんとふを利用する</button><br/>
+			<h3>リストから選択</h3>
 			<select id="entrance-url-StaticInput-List"></select><br/>
+			<button id="entrance-url-StaticInput-Hide">URL を手入力する場合はこちらから</button>
 		</div>
 		<div id="entrance-url-FreeInput">
-			<button id="entrance-url-FreeInput-Hide">既知のどどんとふを利用する</button><br/>
-			<input type="text" id="entrance-url-FreeInput-Url" size="60" /><br/>
+			<h3>URL を手入力</h3>
+			<input type="text" id="entrance-url-FreeInput-Url" /><br/>
+			<button id="entrance-url-FreeInput-Hide">リストから選択する場合はこちらから</button>
 		</div>
-		<button id="entrance-url-Next">次へ</button>
+		<br/><button id="entrance-url-Next">次へ</button>
 	</div>
 	<div id="entrance-room">
 		<button id="entrance-room-back">戻る</button>
-		<button id="entrance-room-next">次へ</button>
+		<div id="entrance-room-list"></div>
 	</div>
 	<div id="entrance-password">
-		<button id="entrance-password-back">戻る</button>
+		<button id="entrance-password-back">戻る</button><br/>
+		入室パスワード<input id="entrance-password-password" type="text" /><br/>
 		<button id="entrance-password-next">次へ</button>
 	</div>
 	<div id="entrance-option">
-		<button id="entrance-option-back">戻る</button>
+		<button id="entrance-option-back">戻る</button><br/>
+		名前<input id="entrance-option-name" type="text" /><br/>
 		<button id="entrance-option-next">ログイン</button>
 	</div>
 </div>
@@ -61,7 +73,15 @@
 <script>
 	new com.hiyoko.DodontoF.V2.Entrance($('#entrance'));
 	$('#entrance').on(com.hiyoko.component.InputFlow.Events.Finish, function(e){
-		console.log('finish', e.value);
+		$('#entrance').hide();
+		var url = 'http://sy17.sakura.ne.jp/shunshun/hiyontof.html?silent=1';
+		url += '&url=' + e.value.url;
+		url += '&room=' + e.value.room.no;
+		url += '&name=' + e.value.option.name;
+		if(e.value.room.isLocked) {
+			url += '&pass=' + e.value.password.password;
+		}
+		document.location = url;
 	});
 </script>
 </body>
