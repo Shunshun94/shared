@@ -15,8 +15,8 @@ com.hiyoko.component.InputFlow.prototype.buildComponents = function(components) 
 	this.inputFlows = com.hiyoko.util.mergeArray(
 			components, $flows, 
 			function(app, dom){return new app(dom);});
-	for(var i = 1; i < $flows.length; i++) {
-		$($flows[i]).hide();
+	for(var i = 1; i < this.inputFlows.length; i++) {
+		this.inputFlows[i].disable();
 	}
 };
 
