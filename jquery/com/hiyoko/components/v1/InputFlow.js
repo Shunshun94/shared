@@ -88,7 +88,7 @@ com.hiyoko.component.InputFlow.Child.prototype.getValue = function() {
 };
 
 com.hiyoko.component.InputFlow.Child.prototype.setValue = function(key, value) {
-	this.$html.getElementById(key).val(value);
+	this.getElementById(key).val(value);
 };
 
 com.hiyoko.component.InputFlow.Child.prototype.goNext = function(params){
