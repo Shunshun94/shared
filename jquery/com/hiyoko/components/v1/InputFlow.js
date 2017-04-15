@@ -85,7 +85,11 @@ com.hiyoko.component.InputFlow.Child.prototype.getValue = function() {
 		key: this.id.split('-').pop(),
 		value: value
 	}
-}
+};
+
+com.hiyoko.component.InputFlow.Child.prototype.setValue = function(key, value) {
+	this.$html.getElementById(key).val(value);
+};
 
 com.hiyoko.component.InputFlow.Child.prototype.goNext = function(params){
 	this.$html.trigger(new $.Event(com.hiyoko.component.InputFlow.Child.Events.GoNext));
