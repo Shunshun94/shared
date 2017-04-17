@@ -287,7 +287,11 @@ com.hiyoko.DodontoF.V2.Room = function(url, room, opt_pass) {
 		return promise;
 	};
 	
-	  
+	tofRoom.prototype.getImageUrl = function(url) {
+		var promise = new $.Deferred;
+		promise.resolve(com.hiyoko.DodontoF.V2.util.getImageUrl(url, this.url));
+		return promise;
+	};
 })(com.hiyoko.DodontoF.V2.Room);
 
 com.hiyoko.DodontoF.V2.RoomDummy = com.hiyoko.DodontoF.V2.RoomDummy || {};
@@ -322,4 +326,17 @@ com.hiyoko.DodontoF.V2.util.urlSuiter_ = function(url) {
 	}
 	// DodontoF
 	return url + "/" + rb;
+};
+
+com.hiyoko.DodontoF.V2.util.getImageUrl = function(picUrl, urlBase){
+	if(picUrl.startsWith("http")){
+		return picUrl;
+	}
+	if(picUrl.startsWith("../") || picUrl.startsWith("/")){
+		return urlBase.replace("DodontoFServer.rb?", picUrl);				
+	}
+	if(picUrl.startsWith("./")){
+		return urlBase.replace("DodontoFServer.rb?", picUrl.substring(1));		
+	}
+	return urlBase.replace("DodontoFServer.rb?", "/" + picUrl);
 };

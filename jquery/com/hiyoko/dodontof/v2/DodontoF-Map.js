@@ -26,13 +26,25 @@ com.hiyoko.DodontoF.V2.Map.prototype.drawStarter = function() {
 	var event = this.getMapStatus().done(function(result){
 		console.log(result);
 		var mapSize = this.getMaxSize(result);
-		console.log(this.drawBackGround(mapSize));
+		this.drawBackGroundLines(mapSize);
+		this.drawBackGroundImage(result, mapSize);
 	}.bind(this));
 	
 	this.fireEvent(event);
 };
 
-com.hiyoko.DodontoF.V2.Map.prototype.drawBackGround = function(mapSize) {
+com.hiyoko.DodontoF.V2.Map.prototype.drawBackGroundImage = function(result, mapSize) {
+	this.fireEvent(this.getAsyncEvent('tofRoomRequest', {method: 'getImageUrl', args:[result.mapData.imageSource]}).done(function(url) {
+		this.$html.css({
+			'background-image': 'url(' + url + ')',
+			'background-position': (mapSize.min.x * this.size * -1) + 'px ' + (mapSize.min.y * this.size * -1) + 'px',
+			'background-size': (mapSize.frame.x * this.size) + 'px ' + (mapSize.frame.y * this.size) + 'px',
+			'background-repeat': 'no-repeat'
+		});
+	}.bind(this)));
+};
+
+com.hiyoko.DodontoF.V2.Map.prototype.drawBackGroundLines = function(mapSize) {
 	var htmlText = com.hiyoko.util.format('<div class="%s-background-col"></div>', this.id);
 	var $line;
 	for(var i = 0; i < mapSize.size.y; i++) {
@@ -58,8 +70,8 @@ com.hiyoko.DodontoF.V2.Map.prototype.drawBackGround = function(mapSize) {
 };
 
 com.hiyoko.DodontoF.V2.Map.prototype.getMaxSize = function(result) {
-	var xs = [];
-	var ys = [];
+	var xs = [0];
+	var ys = [0];
 	
 	xs.push(result.mapData.xMax);
 	ys.push(result.mapData.yMax);
@@ -74,14 +86,9 @@ com.hiyoko.DodontoF.V2.Map.prototype.getMaxSize = function(result) {
 	});
 	
 	return {
-		min: {
-			x: com.hiyoko.util.min(xs),
-			y: com.hiyoko.util.min(ys)
-		},
-		max: {
-			x: com.hiyoko.util.max(xs),
-			y: com.hiyoko.util.max(ys)
-		},
+		min: {x: com.hiyoko.util.min(xs), y: com.hiyoko.util.min(ys)},
+		max: {x: com.hiyoko.util.max(xs), y: com.hiyoko.util.max(ys)},
+		frame: {x: result.mapData.xMax, y: result.mapData.yMax},
 		size: {
 			x: com.hiyoko.util.max(xs) - com.hiyoko.util.min(xs),
 			y: com.hiyoko.util.max(ys) - com.hiyoko.util.min(ys)

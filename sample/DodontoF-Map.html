@@ -17,7 +17,7 @@ $('body').on('tofRoomRequest', function(e) {
 	var client = (new com.hiyoko.DodontoF.V2.Room(query.url, query.room, query.pass));
 	client[e.method].apply(client, e.args).done(e.resolve).fail(e.reject);
 });
-new com.hiyoko.DodontoF.V2.Map($('#dodontof-map'));
+new com.hiyoko.DodontoF.V2.Map($('#dodontof-map'), {size:40});
 </script>
 </body>
 </html>
