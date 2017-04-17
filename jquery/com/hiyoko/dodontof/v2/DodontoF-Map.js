@@ -27,10 +27,35 @@ com.hiyoko.DodontoF.V2.Map.prototype.drawStarter = function() {
 	var event = this.getMapStatus().done(function(result){
 		console.log(result);
 		var mapSize = this.getMaxSize(result);
-		console.log(mapSize)
+		console.log(this.drawBackGround(mapSize));
 	}.bind(this));
 	
 	this.fireEvent(event);
+};
+
+com.hiyoko.DodontoF.V2.Map.prototype.drawBackGround = function(mapSize) {
+	var htmlText = com.hiyoko.util.format('<div class="%s-background-col"></div>', this.id);
+	var $line;
+	for(var i = 0; i < mapSize.size.y; i++) {
+		$line = $(htmlText);
+		for(var j = 0; j < mapSize.size.x; j++) {
+			$line.append(com.hiyoko.util.format('<div class="%s-background-col-box"></div>', this.id));
+		}
+		this.$html.append($line);
+	}
+	this.getElementsByClass('background-col').css({
+		'box-sizing': 'border-box',
+		'height': this.size + 'px'
+	});
+	this.getElementsByClass('background-col-box').css({
+		'box-sizing': 'border-box',
+		'height': this.size + 'px',
+		'width': this.size + 'px',
+		'border': '1px black solid',
+		'display': 'inline-block'
+	});
+	
+	return this.getElementsByClass('background-col');
 };
 
 com.hiyoko.DodontoF.V2.Map.prototype.getMaxSize = function(result) {
