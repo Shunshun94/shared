@@ -18,9 +18,8 @@ com.hiyoko.DodontoF.V2.Map = function($html, opt_options) {
 com.hiyoko.util.extend(com.hiyoko.component.ApplicationBase, com.hiyoko.DodontoF.V2.Map);
 
 com.hiyoko.DodontoF.V2.Map.prototype.getMapStatus = function() {
-	return this.getAsyncEvent('tofRoomRequest', {
-		method: 'getMap'
-	});
+	// Result must be formatted by DodontoF Refresh format
+	return this.getAsyncEvent('tofRoomRequest', {method: 'getMap'});
 };
 
 com.hiyoko.DodontoF.V2.Map.prototype.drawStarter = function() {
