@@ -129,6 +129,23 @@ com.hiyoko.util.forEachMap = function(map, func) {
 	}
 };
 
+com.hiyoko.util.filterMap = function(map, func) {
+	var result = {};
+	for(var key in map) {
+		if(func(map[key], key, map)) {
+			result[key] = map[key];
+		}
+	}
+	return result;
+};
+
+com.hiyoko.util.max = function(array) {
+	return Math.max.apply(null, array);
+};
+
+com.hiyoko.util.min = function(array) {
+	return Math.min.apply(null, array);
+};
 com.hiyoko.util.extend = function(superClass, subClass) {
 	var list = superClass.prototype;
 	for(var key in list) {
