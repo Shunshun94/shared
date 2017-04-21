@@ -129,6 +129,16 @@ com.hiyoko.util.forEachMap = function(map, func) {
 	}
 };
 
+com.hiyoko.util.filterMap = function(map, func) {
+	var result = {};
+	for(var key in map) {
+		if(func(map[key], key, map)) {
+			result[key] = map[key];
+		}
+	}
+	return result;
+};
+
 com.hiyoko.util.max = function(array) {
 	return Math.max.apply(null, array);
 };
