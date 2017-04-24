@@ -139,6 +139,14 @@ com.hiyoko.util.filterMap = function(map, func) {
 	return result;
 };
 
+com.hiyoko.util.mapMap = function(map, func) {
+	var result = {}
+	for(var key in map) {
+		result[key] = func(map[key], key, map);
+	}
+	return result;
+};
+
 com.hiyoko.util.max = function(array) {
 	return Math.max.apply(null, array);
 };
