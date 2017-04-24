@@ -23,6 +23,7 @@ com.hiyoko.VampireBlood.SW2.prototype.parseWeapons = function(json) {
 	var ranks = json.arms_rank;
 	var hands = json.arms_yoho;
 	var notes = json.arms_memo;
+	var cates = json.arms_cate;
 	var rates = json.arms_iryoku;
 	var crits = json.arms_critical;
 	var dams = json.arms_damage;
@@ -32,6 +33,7 @@ com.hiyoko.VampireBlood.SW2.prototype.parseWeapons = function(json) {
 		return {
 			name: v,
 			rank: ranks[i], hand: hands[i], note: notes[i],
+			category: cates[i],
 			rate: Number(rates[i]), crit: Number(crits[i]),
 			damage: Number(dams[i]), hit: Number(hits[i])
 		};
