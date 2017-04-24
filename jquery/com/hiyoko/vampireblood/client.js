@@ -13,7 +13,7 @@ com.hiyoko.VampireBlood.Client.prototype.basicParse = function(json) {
 com.hiyoko.VampireBlood.Client.prototype.sendRequest = function(id) {
 	return $.ajax({
 		type:'get',
-		url:'http://charasheet.vampire-blood.net/' + id + '.js',
+		url:'https://charasheet.vampire-blood.net/' + id + '.js',
 		async:true,
 		dataType:'jsonp'
 	});
