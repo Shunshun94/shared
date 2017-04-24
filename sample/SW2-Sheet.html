@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>SW2 Sheet parse run</title>
+</head>
+<body>
+
+<p>SheetID<input id="input" type="text" /> <input id="exec" type="button" value="出力" /></p>
+<p id="output"></p>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<script src='../jquery/com/hiyoko/util/v2/utils.js'></script>
+<script src="../jquery/com/hiyoko/vampireblood/client.js"></script>
+<script src="../jquery/com/hiyoko/vampireblood/sw2.js"></script>
+<script>
+$('#exec').click(function(e) {
+	com.hiyoko.VampireBlood.SW2.getSheet($('input').val()).done(function(instance) {
+		$('#output').text(JSON.stringify(instance));
+		console.log($('input').val(), instance);
+	});	
+});
+</script>
+</body>
+</html>
