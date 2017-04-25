@@ -82,6 +82,10 @@ com.hiyoko.VampireBlood.SW2.prototype.parseBaseStatus = function(json) {
 	});
 };
 
+com.hiyoko.VampireBlood.SW2.Status = ['器用', '敏捷',
+                                      '筋力', '生命力',
+                                      '知力', '精神力'];
+
 com.hiyoko.VampireBlood.SW2.getSheet = function(id) {
 	var promise = new $.Deferred;
 	new com.hiyoko.VampireBlood.SW2(id, function(instance) {
@@ -89,4 +93,3 @@ com.hiyoko.VampireBlood.SW2.getSheet = function(id) {
 	});
 	return promise;
 };
-
