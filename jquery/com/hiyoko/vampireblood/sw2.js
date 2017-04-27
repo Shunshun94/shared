@@ -113,10 +113,10 @@ com.hiyoko.VampireBlood.SW2.prototype.parseBaseStatus = function(json) {
 		return value;
 	});
 	
-	this.dodge = json.kaihi;
-	this.guard = json.bougo;
-	this.mental = json.life_regist;
-	this.physical = json.mental_regist;
+	this.dodge = Number(json.kaihi);
+	this.guard = Number(json.bougo);
+	this.mental = Number(json.mental_resist);
+	this.physical = Number(json.life_resist);
 };
 
 com.hiyoko.VampireBlood.SW2.Status = ['器用', '敏捷',
