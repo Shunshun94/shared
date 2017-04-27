@@ -8,15 +8,46 @@ com.hiyoko.VampireBlood.SW2 = function(id, opt_callback) {
 		this.parseBaseStatus(data);
 		this.parseMagics(data);
 		this.parseWeapons(data);
+		this.parseGuards(data);
+		this.parseAccessories(data);
 		if(opt_callback) {
 			opt_callback(this);
 		} else {
-			console.log(this);
+			console.log('input', data)
+			console.log('output', this);
 		}
 	}.bind(this));
 };
 
 com.hiyoko.util.extend(com.hiyoko.VampireBlood.Client, com.hiyoko.VampireBlood.SW2);
+
+com.hiyoko.VampireBlood.SW2.prototype.parseAccessories = function(json) {
+	this.accessories = [];
+	var sheetAccessoriesMaxCount = 15;
+	for(var i = 1; i < sheetAccessoriesMaxCount; i++) {
+		if(json['acce' + i + '_name']) {
+			this.accessories.push({
+				name: json['acce' + i + '_name'],
+				note: json['acce' + i + '_memo']
+			});
+		}
+	}
+};
+
+com.hiyoko.VampireBlood.SW2.prototype.parseGuards = function(json) {
+	this.guards = ['armor', 'shield', 'shield2'].filter(function(v){
+		return json[v + '_name'];
+	}).map(function(v) {
+		return {
+			name: json[v + '_name'],
+			guard: Number(json[v + '_bougo'] || 0),
+			dodge: Number(json[v + '_kaihi'] || 0),
+			note: json[v + '_memo']
+		};
+	}.bind(this));
+	
+	
+};
 
 com.hiyoko.VampireBlood.SW2.prototype.parseWeapons = function(json) {
 	var names = json.arms_name;
@@ -61,6 +92,7 @@ com.hiyoko.VampireBlood.SW2.prototype.parseMagics = function(json) {
 };
 
 com.hiyoko.VampireBlood.SW2.prototype.parseBaseStatus = function(json) {
+	this.race = json.shuzoku_name;
 	this.level = Number(json.lv);
 	this.hp = Number(json.HP);
 	this.mp = Number(json.MP);
@@ -80,6 +112,11 @@ com.hiyoko.VampireBlood.SW2.prototype.parseBaseStatus = function(json) {
 	}), function(value) {
 		return value;
 	});
+	
+	this.dodge = json.kaihi;
+	this.guard = json.bougo;
+	this.mental = json.life_regist;
+	this.physical = json.mental_regist;
 };
 
 com.hiyoko.VampireBlood.SW2.Status = ['器用', '敏捷',
