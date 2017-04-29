@@ -41,8 +41,10 @@ com.hiyoko.DodontoF.V2.Map.prototype.drawStarter = function() {
 };
 
 com.hiyoko.DodontoF.V2.Map.prototype.drawObjects = function(objects, mapSize) {
-	com.hiyoko.util.forEachMap(objects, function(list){
-		list.forEach(function(object){
+	com.hiyoko.DodontoF.V2.Map.Object.Layer.filter(function(key) {
+		return objects[key];
+	}).forEach(function(key) {
+		objects[key].forEach(function(object){
 			var pos = object.getPosition();
 			var size = object.getSize();
 			var $object = object.getElement();
@@ -52,11 +54,9 @@ com.hiyoko.DodontoF.V2.Map.prototype.drawObjects = function(objects, mapSize) {
 				'left': (this.size * (pos.min.x + mapSize.min.x * -1 )) + 'px',
 				'top': (this.size * (pos.min.y + mapSize.min.y * -1 )) + 'px',
 			});
-			
 			this.$html.append($object);
 		}.bind(this));
-	}.bind(this));
-	
+	}.bind(this));	
 };
 
 com.hiyoko.DodontoF.V2.Map.prototype.buildObjects = function(result) {
@@ -280,3 +280,5 @@ com.hiyoko.DodontoF.V2.Map.Object.chit = function(data, eventBase, opt_class) {
 
 };
 com.hiyoko.util.extend(com.hiyoko.DodontoF.V2.Map.Object, com.hiyoko.DodontoF.V2.Map.Object.chit);
+
+com.hiyoko.DodontoF.V2.Map.Object.Layer = ['floorTile', 'mapMask', 'mapMarker', 'characterData', 'diceSymbol', 'chit'];
