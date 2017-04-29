@@ -10,12 +10,24 @@ com.hiyoko.DodontoF.V2.Entrance = function($html) {
 	var base = com.hiyoko.DodontoF.V2.Entrance;
 	this.buildComponents([base.Url, base.Room, base.Password, base.Option]);
 	this.bindEvents();
+	
+	this.$html.on(com.hiyoko.component.InputFlow.Events.Finish, function(e){
+		var url = new URL(e.value.url);
+		if(! this.inputFlows[0].urlList.includes(url.href)) {
+			var list = JSON.parse(localStorage.getItem(com.hiyoko.DodontoF.V2.Entrance.Url.OWN_URL_STORAGE) || '[]');
+			list.push(url.href);
+			localStorage.setItem(com.hiyoko.DodontoF.V2.Entrance.Url.OWN_URL_STORAGE, JSON.stringify(list));
+		}
+	}.bind(this));
 };
 com.hiyoko.util.extend(com.hiyoko.component.InputFlow, com.hiyoko.DodontoF.V2.Entrance);
 
 com.hiyoko.DodontoF.V2.Entrance.Url = function($html) {
 	this.$html = $($html);
 	this.id = this.$html.attr('id');
+	
+	this.urlList = [];
+	
 	this.bindEvents();
 	this.buildComponents();
 }
@@ -38,8 +50,15 @@ com.hiyoko.DodontoF.V2.Entrance.Url.prototype.bindEvents = function() {
 };
 
 com.hiyoko.DodontoF.V2.Entrance.Url.prototype.buildComponents = function() {
+	var myList = JSON.parse(localStorage.getItem(com.hiyoko.DodontoF.V2.Entrance.Url.OWN_URL_STORAGE) || '[]').forEach(function(v){
+		this.urlList.push(v);
+		var title = (new URL(v)).host;
+		if(title.endsWith('.sakura.ne.jp')) {title = title.replace('.sakura.ne.jp', '');}
+		this.getElementById('StaticInput-List').append(com.hiyoko.util.format('<option value="%s">%s (%s)</option>', v, title, v));
+	}.bind(this));
 	com.hiyoko.util.forEachMap(com.hiyoko.DodontoF.PUBLIC_SERVER_LIST, function(v, k) {
 		this.getElementById('StaticInput-List').append(com.hiyoko.util.format('<option value="%s">%s (%s)</option>', v, k, v));
+		this.urlList.push(v);
 	}.bind(this));
 };
 
@@ -51,6 +70,7 @@ com.hiyoko.DodontoF.V2.Entrance.Url.prototype.getValue = function() {
 	}
 };
 
+com.hiyoko.DodontoF.V2.Entrance.Url.OWN_URL_STORAGE = 'com-hiyoko-DodontoF-V2-Entrance-Url-OWN_URL_STORAGE';
 
 com.hiyoko.DodontoF.V2.Entrance.Room = function($html) {
 	this.$html = $($html);
