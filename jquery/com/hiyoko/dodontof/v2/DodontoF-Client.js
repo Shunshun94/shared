@@ -152,7 +152,7 @@ com.hiyoko.DodontoF.V2.Room = function(url, room, opt_pass) {
 			})
 			.fail(function(r){
 				promise.reject(r);
-			});			
+			});		
 		} else {
 			promise.reject({result:'Necessary infomration is lacked.'});
 		}
@@ -207,12 +207,52 @@ com.hiyoko.DodontoF.V2.Room = function(url, room, opt_pass) {
 		return updateMemoPromise.promise();
 	};
 
+	tofRoom.prototype.characterListUrlConverter = function(list) {
+		return list.map(function(c){
+			if(c.imageUrl) {
+				c.imageUrl = com.hiyoko.DodontoF.V2.util.getImageUrl(c.imageUrl, this.url);
+			}
+			if(c.imageName) {
+				c.imageName = com.hiyoko.DodontoF.V2.util.getImageUrl(c.imageName, this.url);
+			}
+			return c;
+		}.bind(this));
+	};
+	
 	tofRoom.prototype.getMap = function() {
-		return this.sendRequest_(tofRoom.API_NAMES.GET_CHARACTER, {'characters':0, 'map':0});
+		var result = new $.Deferred;
+		this.sendRequest_(tofRoom.API_NAMES.GET_CHARACTER, {'characters':0, 'map':0}).done(function(r){
+			if(r.result !== 'OK') {
+				result.reject(r.result);
+				return;
+			} else {
+				r.mapData.imageSource = com.hiyoko.DodontoF.V2.util.getImageUrl(r.mapData.imageSource, this.url);
+				r.characters = this.characterListUrlConverter(r.characters);
+				r.graveyard = this.characterListUrlConverter(r.graveyard);
+				result.resolve(r);
+			}
+		}.bind(this)).fail(function(r){
+			result.reject(r);
+		});
+		
+		return result;
 	};
 	
 	tofRoom.prototype.getCharacters = function() {
-		return this.sendRequest_(tofRoom.API_NAMES.GET_CHARACTER, {'characters':0});
+		var result = new $.Deferred;
+		this.sendRequest_(tofRoom.API_NAMES.GET_CHARACTER, {'characters':0}).done(function(r){
+			if(r.result !== 'OK') {
+				result.reject(r.result);
+				return;
+			} else {
+				r.characters = this.characterListUrlConverter(r.characters);
+				r.graveyard = this.characterListUrlConverter(r.graveyard);
+				result.resolve(r);
+			}
+		}.bind(this)).fail(function(r){
+			result.reject(r);
+		});
+		return result;
 	};
 	
 	tofRoom.prototype.updateCharacter = function(args) {
