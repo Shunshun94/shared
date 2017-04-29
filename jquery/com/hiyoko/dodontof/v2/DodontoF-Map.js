@@ -74,14 +74,12 @@ com.hiyoko.DodontoF.V2.Map.prototype.buildObjects = function(result) {
 };
 
 com.hiyoko.DodontoF.V2.Map.prototype.drawBackGroundImage = function(result, mapSize) {
-	this.fireEvent(this.getAsyncEvent('tofRoomRequest', {method: 'getImageUrl', args:[result.mapData.imageSource]}).done(function(url) {
-		this.$html.css({
-			'background-image': 'url(' + url + ')',
-			'background-position': (mapSize.min.x * this.size * -1) + 'px ' + (mapSize.min.y * this.size * -1) + 'px',
-			'background-size': (mapSize.frame.x * this.size) + 'px ' + (mapSize.frame.y * this.size) + 'px',
-			'background-repeat': 'no-repeat'
-		});
-	}.bind(this)));
+	this.$html.css({
+		'background-image': 'url(' + result.mapData.imageSource + ')',
+		'background-position': (mapSize.min.x * this.size * -1) + 'px ' + (mapSize.min.y * this.size * -1) + 'px',
+		'background-size': (mapSize.frame.x * this.size) + 'px ' + (mapSize.frame.y * this.size) + 'px',
+		'background-repeat': 'no-repeat'
+	});
 };
 
 com.hiyoko.DodontoF.V2.Map.prototype.drawBackGroundLines = function(mapSize) {
@@ -150,22 +148,135 @@ com.hiyoko.DodontoF.V2.Map.Object.characterData = function(data, eventBase, opt_
 		max: {x: data.x + data.size, y: data.y + data.size}
 	};
 	this.$dom = $(com.hiyoko.util.format('<div class="%s"></div>', 'com-hiyoko-dodontof-map-object com-hiyoko-dodontof-map-object-characterData'));
-	eventBase.fireEvent(eventBase.getAsyncEvent('tofRoomRequest', {method: 'getImageUrl', args:[data.imageName]}).done(function(url) {
-		this.$dom.css({
-			'box-sizing': 'border-box',
-			'background-image': 'url(' + url + ')',
-			'background-repeat': 'no-repeat',
-			'background-size': 'contain',
-			'background-position': 'center center',
-			'position': 'absolute'
-		});
-		if(opt_class) {
-			this.$dom.addClass(opt_class);
-		}
-	}.bind(this)));
+	this.$dom.css({
+		'box-sizing': 'border-box',
+		'background-image': 'url(' + data.imageName + ')',
+		'background-repeat': 'no-repeat',
+		'background-size': 'contain',
+		'background-position': 'center center',
+		'position': 'absolute'
+	});
+	if(opt_class) {
+		this.$dom.addClass(opt_class);
+	}
+
 };
 com.hiyoko.util.extend(com.hiyoko.DodontoF.V2.Map.Object, com.hiyoko.DodontoF.V2.Map.Object.characterData);
 
+com.hiyoko.DodontoF.V2.Map.Object.mapMask = function(data, eventBase, opt_class) {
+	this.name = data.name;
+	this.size = {x: data.height, y: data.width};
+	this.position = {
+		min: {x: data.x, y: data.y},
+		max: {x: data.x + data.height, y: data.y + data.width}
+	};
+	this.$dom = $(com.hiyoko.util.format('<div class="%s"></div>', 'com-hiyoko-dodontof-map-object com-hiyoko-dodontof-map-object-mapMask'));
+	this.$dom.css({
+		'box-sizing': 'border-box',
+		'background-color': com.hiyoko.util.intToColor(data.color),
+		"opacity": data.alpha,
+		'position': 'absolute',
+		'border': '3px yellow solid',
+		'text-align': 'center'
+	});
+	this.$dom.text(this.name);
+	if(opt_class) {
+		this.$dom.addClass(opt_class);
+	}
 
+};
+com.hiyoko.util.extend(com.hiyoko.DodontoF.V2.Map.Object, com.hiyoko.DodontoF.V2.Map.Object.mapMask);
 
+com.hiyoko.DodontoF.V2.Map.Object.mapMarker = function(data, eventBase, opt_class) {
+	this.name = data.message;
+	this.size = {x: data.height, y: data.width};
+	this.position = {
+		min: {x: data.x, y: data.y},
+		max: {x: data.x + data.height, y: data.y + data.width}
+	};
+	this.$dom = $(com.hiyoko.util.format('<div class="%s"></div>', 'com-hiyoko-dodontof-map-object com-hiyoko-dodontof-map-object-mapMarker'));
+	this.$dom.css({
+		'box-sizing': 'border-box',
+		'background-color': data.isPaint ? com.hiyoko.util.intToColor(data.color) : 'transparent',
+		'position': 'absolute',
+		'border': '3px solid ' + com.hiyoko.util.intToColor(data.color),
+		'text-align': 'center'
+	});
+	this.$dom.text(this.name);
+	if(opt_class) {
+		this.$dom.addClass(opt_class);
+	}
 
+};
+com.hiyoko.util.extend(com.hiyoko.DodontoF.V2.Map.Object, com.hiyoko.DodontoF.V2.Map.Object.mapMarker);
+
+com.hiyoko.DodontoF.V2.Map.Object.diceSymbol = function(data, eventBase, opt_class) {
+	this.name = data.number + '/' + data.maxNumber;
+	this.size = {x: 1, y: 1};
+	this.position = {
+		min: {x: data.x, y: data.y},
+		max: {x: data.x + 1, y: data.y + 1}
+	};
+	this.$dom = $(com.hiyoko.util.format('<div class="%s"></div>', 'com-hiyoko-dodontof-map-object com-hiyoko-dodontof-map-object-diceSymbol'));
+	this.$dom.css({
+		'box-sizing': 'border-box',
+		'background-color': data.owner ? 'gray' : 'white',
+		'color': data.owner ? 'white' : 'black',
+		'position': 'absolute',
+		"opacity": '0.8',
+		'text-align': 'center'
+	});
+	this.$dom.text(data.owner ? '？' : data.number);
+	if(opt_class) {
+		this.$dom.addClass(opt_class);
+	}
+
+};
+com.hiyoko.util.extend(com.hiyoko.DodontoF.V2.Map.Object, com.hiyoko.DodontoF.V2.Map.Object.diceSymbol);
+
+com.hiyoko.DodontoF.V2.Map.Object.floorTile = function(data, eventBase, opt_class) {
+	this.name = '';
+	this.size = {x: data.height, y: data.width};
+	this.position = {
+		min: {x: data.x, y: data.y},
+		max: {x: data.x + this.size.x, y: data.y + this.size.y}
+	};
+	this.$dom = $(com.hiyoko.util.format('<div class="%s"></div>', 'com-hiyoko-dodontof-map-object com-hiyoko-dodontof-map-object-floorTile'));
+	this.$dom.css({
+		'box-sizing': 'border-box',
+		'background-image': 'url(' + data.imageUrl + ')',
+		'background-repeat': 'no-repeat',
+		'background-size': '100% 100%',
+		'background-position': 'center center',
+		'position': 'absolute'
+	});
+	if(opt_class) {
+		this.$dom.addClass(opt_class);
+	}
+
+};
+com.hiyoko.util.extend(com.hiyoko.DodontoF.V2.Map.Object, com.hiyoko.DodontoF.V2.Map.Object.floorTile);
+
+com.hiyoko.DodontoF.V2.Map.Object.chit = function(data, eventBase, opt_class) {
+	this.name = '';
+	this.size = {x: data.height, y: data.width};
+	this.position = {
+		min: {x: data.x, y: data.y},
+		max: {x: data.x + this.size.x, y: data.y + this.size.y}
+	};
+	this.$dom = $(com.hiyoko.util.format('<div class="%s"></div>', 'com-hiyoko-dodontof-map-object com-hiyoko-dodontof-map-object-chit'));
+	this.$dom.css({
+		'box-sizing': 'border-box',
+		'background-image': 'url(' + data.imageUrl + ')',
+		'background-repeat': 'no-repeat',
+		'background-size': 'contain',
+		'background-position': 'center center',
+		'border': '3px solid #CCCCFF',
+		'position': 'absolute'
+	});
+	if(opt_class) {
+		this.$dom.addClass(opt_class);
+	}
+
+};
+com.hiyoko.util.extend(com.hiyoko.DodontoF.V2.Map.Object, com.hiyoko.DodontoF.V2.Map.Object.chit);

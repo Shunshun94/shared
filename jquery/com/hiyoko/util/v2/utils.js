@@ -161,3 +161,28 @@ com.hiyoko.util.extend = function(superClass, subClass) {
 	}
 };
 
+com.hiyoko.util.addStuffRight = function(base, length, opt_char){
+	var char = opt_char ? opt_char : " ";
+	return com.hiyoko.util.stringTimes(char, length - base.length) + base;
+};
+
+/**
+ * 
+ * @param {String} str
+ * @param {number} time
+ */
+com.hiyoko.util.stringTimes = function(str, time){
+	var text = "";
+	for(var i = 0; i < time; i++){
+		text += str;
+	}
+	return text;
+};
+
+com.hiyoko.util.intToColor = function(int){
+	if(int == -1){
+		return "transparent";
+	}
+	return "#" + com.hiyoko.util.addStuffRight(int.toString(16), 6, "0");
+};
+
