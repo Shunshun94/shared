@@ -26,15 +26,16 @@ com.hiyoko.DodontoF.V2.Map.prototype.getMapStatus = function() {
 	return this.getAsyncEvent('tofRoomRequest', {method: 'getMap'});
 };
 
-com.hiyoko.DodontoF.V2.Map.prototype.drawStarter = function() {
+com.hiyoko.DodontoF.V2.Map.prototype.drawStarter = function(opt_callback) {
 	var event = this.getMapStatus().done(function(result){
-		console.log(result);
-		
 		var objects = this.buildObjects(result);
 		var mapSize = this.getMaxSize(result, objects);
 		this.drawBackGroundLines(mapSize);
 		this.drawBackGroundImage(result, mapSize);
 		this.drawObjects(objects, mapSize);
+		if(opt_callback) {
+			opt_callback(objects, mapSize);
+		}
 	}.bind(this));
 	
 	this.fireEvent(event);
@@ -115,10 +116,8 @@ com.hiyoko.DodontoF.V2.Map.prototype.getMaxSize = function(result, objects) {
 	ys.push(result.mapData.yMax);
 	
 	com.hiyoko.util.forEachMap(objects, function(objectList, objectType) {
-		console.log(objectType);
 		objectList.forEach(function(object) {
 			var pos = object.getPosition();
-			console.log('　' + object.getName() + JSON.stringify(pos) + JSON.stringify(object.getSize()));
 			xs.push(pos.min.x); xs.push(pos.max.x);
 			ys.push(pos.min.y); ys.push(pos.max.y);
 		});
