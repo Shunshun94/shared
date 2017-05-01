@@ -67,7 +67,7 @@ com.hiyoko.DodontoF.V2.Map.prototype.buildObjects = function(result) {
 			return com.hiyoko.DodontoF.V2.Map.Object[key];
 	}), function(list, key) {
 			results[key] =list.map(function(data) {
-				return new com.hiyoko.DodontoF.V2.Map.Object[key](data, this);
+				return new com.hiyoko.DodontoF.V2.Map.Object[key](data);
 			}.bind(this));
 	}.bind(this));
 	return results;
@@ -114,9 +114,11 @@ com.hiyoko.DodontoF.V2.Map.prototype.getMaxSize = function(result, objects) {
 	xs.push(result.mapData.xMax);
 	ys.push(result.mapData.yMax);
 	
-	com.hiyoko.util.forEachMap(objects, function(objectList) {
+	com.hiyoko.util.forEachMap(objects, function(objectList, objectType) {
+		console.log(objectType);
 		objectList.forEach(function(object) {
 			var pos = object.getPosition();
+			console.log('　' + object.getName() + JSON.stringify(pos) + JSON.stringify(object.getSize()));
 			xs.push(pos.min.x); xs.push(pos.max.x);
 			ys.push(pos.min.y); ys.push(pos.max.y);
 		});
@@ -140,7 +142,7 @@ com.hiyoko.DodontoF.V2.Map.Object.prototype.getSize = function() {return this.si
 com.hiyoko.DodontoF.V2.Map.Object.prototype.getText = function() {return this.name;};
 com.hiyoko.DodontoF.V2.Map.Object.prototype.getName = function() {return this.name;};
 
-com.hiyoko.DodontoF.V2.Map.Object.characterData = function(data, eventBase, opt_class) {
+com.hiyoko.DodontoF.V2.Map.Object.characterData = function(data, opt_class) {
 	this.name = data.name;
 	this.size = {x: data.size, y: data.size};
 	this.position = {
@@ -163,12 +165,12 @@ com.hiyoko.DodontoF.V2.Map.Object.characterData = function(data, eventBase, opt_
 };
 com.hiyoko.util.extend(com.hiyoko.DodontoF.V2.Map.Object, com.hiyoko.DodontoF.V2.Map.Object.characterData);
 
-com.hiyoko.DodontoF.V2.Map.Object.mapMask = function(data, eventBase, opt_class) {
+com.hiyoko.DodontoF.V2.Map.Object.mapMask = function(data, opt_class) {
 	this.name = data.name;
 	this.size = {x: data.height, y: data.width};
 	this.position = {
 		min: {x: data.x, y: data.y},
-		max: {x: data.x + data.height, y: data.y + data.width}
+		max: {x: data.x + this.size.y, y: data.y + this.size.x}
 	};
 	this.$dom = $(com.hiyoko.util.format('<div class="%s"></div>', 'com-hiyoko-dodontof-map-object com-hiyoko-dodontof-map-object-mapMask'));
 	this.$dom.css({
@@ -187,12 +189,12 @@ com.hiyoko.DodontoF.V2.Map.Object.mapMask = function(data, eventBase, opt_class)
 };
 com.hiyoko.util.extend(com.hiyoko.DodontoF.V2.Map.Object, com.hiyoko.DodontoF.V2.Map.Object.mapMask);
 
-com.hiyoko.DodontoF.V2.Map.Object.mapMarker = function(data, eventBase, opt_class) {
+com.hiyoko.DodontoF.V2.Map.Object.mapMarker = function(data, opt_class) {
 	this.name = data.message;
 	this.size = {x: data.height, y: data.width};
 	this.position = {
 		min: {x: data.x, y: data.y},
-		max: {x: data.x + data.height, y: data.y + data.width}
+		max: {x: data.x + this.size.y, y: data.y + this.size.x}
 	};
 	this.$dom = $(com.hiyoko.util.format('<div class="%s"></div>', 'com-hiyoko-dodontof-map-object com-hiyoko-dodontof-map-object-mapMarker'));
 	this.$dom.css({
@@ -210,7 +212,7 @@ com.hiyoko.DodontoF.V2.Map.Object.mapMarker = function(data, eventBase, opt_clas
 };
 com.hiyoko.util.extend(com.hiyoko.DodontoF.V2.Map.Object, com.hiyoko.DodontoF.V2.Map.Object.mapMarker);
 
-com.hiyoko.DodontoF.V2.Map.Object.diceSymbol = function(data, eventBase, opt_class) {
+com.hiyoko.DodontoF.V2.Map.Object.diceSymbol = function(data, opt_class) {
 	this.name = data.number + '/' + data.maxNumber;
 	this.size = {x: 1, y: 1};
 	this.position = {
@@ -234,12 +236,12 @@ com.hiyoko.DodontoF.V2.Map.Object.diceSymbol = function(data, eventBase, opt_cla
 };
 com.hiyoko.util.extend(com.hiyoko.DodontoF.V2.Map.Object, com.hiyoko.DodontoF.V2.Map.Object.diceSymbol);
 
-com.hiyoko.DodontoF.V2.Map.Object.floorTile = function(data, eventBase, opt_class) {
+com.hiyoko.DodontoF.V2.Map.Object.floorTile = function(data, opt_class) {
 	this.name = '';
 	this.size = {x: data.height, y: data.width};
 	this.position = {
 		min: {x: data.x, y: data.y},
-		max: {x: data.x + this.size.x, y: data.y + this.size.y}
+		max: {x: data.x + this.size.y, y: data.y + this.size.x}
 	};
 	this.$dom = $(com.hiyoko.util.format('<div class="%s"></div>', 'com-hiyoko-dodontof-map-object com-hiyoko-dodontof-map-object-floorTile'));
 	this.$dom.css({
@@ -257,12 +259,12 @@ com.hiyoko.DodontoF.V2.Map.Object.floorTile = function(data, eventBase, opt_clas
 };
 com.hiyoko.util.extend(com.hiyoko.DodontoF.V2.Map.Object, com.hiyoko.DodontoF.V2.Map.Object.floorTile);
 
-com.hiyoko.DodontoF.V2.Map.Object.chit = function(data, eventBase, opt_class) {
+com.hiyoko.DodontoF.V2.Map.Object.chit = function(data, opt_class) {
 	this.name = '';
 	this.size = {x: data.height, y: data.width};
 	this.position = {
 		min: {x: data.x, y: data.y},
-		max: {x: data.x + this.size.x, y: data.y + this.size.y}
+		max: {x: data.x + this.size.y, y: data.y + this.size.x}
 	};
 	this.$dom = $(com.hiyoko.util.format('<div class="%s"></div>', 'com-hiyoko-dodontof-map-object com-hiyoko-dodontof-map-object-chit'));
 	this.$dom.css({
