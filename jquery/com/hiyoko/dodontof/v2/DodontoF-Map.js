@@ -89,7 +89,8 @@ com.hiyoko.DodontoF.V2.Map.prototype.drawBackGroundLines = function(mapSize) {
 	for(var i = 0; i < mapSize.size.y; i++) {
 		$line = $(htmlText);
 		for(var j = 0; j < mapSize.size.x; j++) {
-			$line.append(com.hiyoko.util.format('<div class="%s-background-col-box"></div>', this.id));
+			$line.append(com.hiyoko.util.format('<div class="%s-background-col-box" id="%s-background-col-box-%s-%s"></div>',
+					this.id, this.id, i, j));
 		}
 		this.$html.append($line);
 	}
