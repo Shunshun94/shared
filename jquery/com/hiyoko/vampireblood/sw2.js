@@ -10,6 +10,7 @@ com.hiyoko.VampireBlood.SW2 = function(id, opt_callback) {
 		this.parseWeapons(data);
 		this.parseGuards(data);
 		this.parseAccessories(data);
+		this.parsePets(data);
 		if(opt_callback) {
 			opt_callback(this);
 		} else {
@@ -119,6 +120,74 @@ com.hiyoko.VampireBlood.SW2.prototype.parseBaseStatus = function(json) {
 	this.physical = Number(json.life_resist);
 };
 
+com.hiyoko.VampireBlood.SW2.prototype.parsePets = function(json) {
+	this.pets = {
+		character: [],
+		parts: []
+	};
+	if(json.horse_name) {
+		this.pets.character.push({
+			name: json.horse_name,
+			suitableLevel: json.horse_lv,
+			info: json.horse_memo,
+			speed: Number(json.horse_speed || 0),
+			known: Number(json.horse_known || 0),
+			week : Number(json.horse_weaken || 0),
+			weekPoint:json.horse_weakeneffect
+		});		
+	}
+
+	(json.horses_name || []).forEach(function(name, i) {
+		this.pets.character.push({
+			name: name,
+			suitableLevel: json.horses_lv[i],
+			info: json.horses_text[i],
+			speed: Number(json.horses_speed[i] || 0),
+			known: Number(json.horses_known[i] || 0),
+			week : Number(json.horses_weaken[i] || 0),
+			weekPoint:json.horses_weakeneffect[i]
+		});
+	}.bind(this));
+	
+	for(var i = 1; i < 4; i++) {
+		if(json['horse' + i + '_name']) {
+			this.pets.parts.push({
+				name: json['horse' + i + '_name'],
+				mentality: Number(json['horse' + i + '_hr']),
+				vitality: Number(json['horse' + i + '_mr']),
+				armor: Number(json['horse' + i + '_def']),
+				hp: Number(json['horse' + i + '_hp']),
+				mp: Number(json['horse' + i + '_mp']),
+				attackWays: [{
+					damage: Number(json['horse' + i + '_dmg']),
+					isMagic: false,
+					name: '通常攻撃',
+					value: Number(json['horse' + i + '_hit'])
+				}],
+				dodge: Number(json['horse' + i + '_evd'])
+			});
+		}
+	}
+	
+	(json.horsedatas_name || []).forEach(function(name, i) {
+		this.pets.parts.push({
+			name: name,
+			mentality: Number(json.horsedatas_hr[i]),
+			vitality: Number(json.horsedatas_mr[i]),
+			armor: Number(json.horsedatas_def[i]),
+			hp: Number(json.horsedatas_hp[i]),
+			mp: Number(json.horsedatas_mp[i]),
+			attackWays: [{
+				damage: Number(json.horsedatas_dmg[i]),
+				isMagic: false,
+				name: '通常攻撃',
+				value: Number(json.horsedatas_hit[i])
+			}],
+			dodge: Number(json.horsedatas_evd[i])
+		});
+	}.bind(this));
+};
+
 com.hiyoko.VampireBlood.SW2.Status = ['器用', '敏捷',
                                       '筋力', '生命力',
                                       '知力', '精神力'];
@@ -130,3 +199,4 @@ com.hiyoko.VampireBlood.SW2.getSheet = function(id) {
 	});
 	return promise;
 };
+
