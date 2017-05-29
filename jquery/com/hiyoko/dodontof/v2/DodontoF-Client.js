@@ -242,7 +242,7 @@ com.hiyoko.DodontoF.V2.Room = function(url, room, opt_pass) {
 		var result = new $.Deferred;
 		this.sendRequest_(tofRoom.API_NAMES.GET_CHARACTER, {'characters':0}).done(function(r){
 			if(r.result !== 'OK') {
-				result.reject(r.result);
+				result.reject(r);
 				return;
 			} else {
 				r.characters = this.characterListUrlConverter(r.characters);
@@ -255,7 +255,53 @@ com.hiyoko.DodontoF.V2.Room = function(url, room, opt_pass) {
 		return result;
 	};
 	
+	tofRoom.prototype.convertTofCharacterDataToForceUpdateCharacterArg = function(target) {
+		var result = {
+			targetName: target.name, info: target.info, x: target.x, y: target.y,
+			size: target.size, inisiative: target.inisiative,
+			rotation: target.rotation, image: target.imageName,
+			dogTag: target.dogTag, draggable: target.draggable,
+			isHide: target.isHide
+		};
+		
+		com.hiyoko.util.forEachMap(target.counters, function(v, k) {
+			result[k] = v;
+		});
+		
+		return result;
+	};
+	
 	tofRoom.prototype.updateCharacter = function(args) {
+		var result = new $.Deferred;
+		if(! args.targetName) {
+			result.reject({result:'updateCharacter reuqires targetName as argument property.'});
+		}
+		this.getCharacters().done(function(getCharactersResult){
+			var target = getCharactersResult.characters.filter(function(v){
+				return v.type === 'characterData' && v.name === args.targetName;
+			}.bind(this))[0];
+			if(! Boolean(target)) {
+				result.reject({result:'Could not find targetName "' + args.targetName + '".'});
+				return;
+			}
+			
+			var baseData = this.convertTofCharacterDataToForceUpdateCharacterArg(target);
+			com.hiyoko.util.forEachMap(args, function(v, k) {
+				baseData[k] = v;
+			});
+			
+			this.forceUpdateCharacter(baseData).done(function(r){
+				result.resolve(r);
+			}.bind(this)).fail(function(r){
+				result.reject(r);
+			}.bind(this))
+		}.bind(this)).fail(function(msg){
+			result.reject(msg);
+		}.bind(this));
+		return result;
+	};
+	
+	tofRoom.prototype.forceUpdateCharacter = function(args) {
 		var promise = new $.Deferred;
 		if(! args.targetName) {
 			promise.reject({result:'updateCharacter reuqires targetName as argument property.'});
