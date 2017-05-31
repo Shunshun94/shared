@@ -92,6 +92,18 @@ com.hiyoko.util.stringTimes = function(str, time){
 	return text;
 }
 
+com.hiyoko.util.updateLocalStorage = function(storageId, key, value) {
+	var data = JSON.parse(localStorage.getItem(storageId) || '{}');
+	data[key] = value;
+	localStorage.setItem(storageId, JSON.stringify(data));
+	return data;
+};
+
+com.hiyoko.util.getLocalStorage = function(storageId, key) {
+	var data = JSON.parse(localStorage.getItem(storageId) || '{}');
+	return data[key];
+};
+
 /**
  * @param {Array} arrayA
  * @param {Array} arrayB
