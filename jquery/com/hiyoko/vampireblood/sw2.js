@@ -10,6 +10,7 @@ com.hiyoko.VampireBlood.SW2 = function(id, opt_callback) {
 		this.parseWeapons(data);
 		this.parseGuards(data);
 		this.parseAccessories(data);
+		this.parseSubSkills(data);
 		this.parsePets(data);
 		if(opt_callback) {
 			opt_callback(this);
@@ -118,6 +119,34 @@ com.hiyoko.VampireBlood.SW2.prototype.parseBaseStatus = function(json) {
 	this.guard = Number(json.bougo);
 	this.mental = Number(json.mental_resist);
 	this.physical = Number(json.life_resist);
+};
+
+com.hiyoko.VampireBlood.SW2.prototype.parseSubSkills = function(json) {
+	this.subSkills = {};
+	
+	this.subSkills.tempTech = json.ES_name.map(function(name, i){
+		return {name: name, time: json.ES_koukatime[i], effect: json.ES_kouka[i], reference: json.ES_page[i]}
+	});
+	this.subSkills.spellSong = json.JK_name.map(function(name, i){
+		return {name: name, prepare: json.JK_zentei[i], effect: json.JK_kouka[i], singer: json.JK_eishou[i], reference: json.JK_page[i]}
+	});
+	this.subSkills.horsemanship = json.KG_name.map(function(name, i){
+		return {name: name, timing: json.KG_timing[i], effect: json.KG_kouka[i], prepare: json.KG_zentei[i],
+				type: {	animal: json.KG_animal ? json.KG_animal[i] === '1' : '0',
+						machine: json.KG_Kikai ? json.KG_Kikai[i] === '1' : '0',
+						fantasy: json.KG_Genju ? json.KG_Genju[i] === '1' : '0'},
+				reference: json.KG_page[i]}
+	});
+	this.subSkills.alchemicCard = json.HJ_name.map(function(name, i){
+		return {name: name, color: json.HJ_zentei[i], effect: json.HJ_kouka[i], reference: json.HJ_page[i],
+			size: {B: json.HJ_B[i], A: json.HJ_A[i], S: json.HJ_S[i], SS: json.HJ_SS[i]}}
+	});
+	this.subSkills.leadersOrder = json.HO_name.map(function(name, i){
+		return {name: name, effect: json.HO_kouka[i], reference: json.HO_page[i], type: json.HO_type[i], rank: json.HO_rank[i]}
+	});
+	this.subSkills.fortuneTelling = json.UR_name.map(function(name, i){
+		return {name: name, effect: json.UR_kouka[i], reference: json.UR_page[i], status: json.UR_type[i], action: json.UR_rank[i]}
+	});
 };
 
 com.hiyoko.VampireBlood.SW2.prototype.parsePets = function(json) {

@@ -6,7 +6,8 @@
 </head>
 <body>
 
-<p>SheetID<input id="input" type="text" /> <input id="exec" type="button" value="出力" /></p>
+<p>SheetID<input list="list" id="input" type="text" /> <input id="exec" type="button" value="出力" /></p>
+<datalist id="list"></datalist>
 <p id="output"></p>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
@@ -14,10 +15,14 @@
 <script src="../jquery/com/hiyoko/vampireblood/client.js"></script>
 <script src="../jquery/com/hiyoko/vampireblood/sw2.js"></script>
 <script>
+com.hiyoko.util.forEachMap(JSON.parse(localStorage.getItem('com-hiyoko-sample-sw2sheetparse-index') || '{}'), function(v, k) {
+	$('#list').append(com.hiyoko.util.format('<option value="%s">%s</option>', k, v));
+});
 $('#exec').click(function(e) {
 	com.hiyoko.VampireBlood.SW2.getSheet($('input').val()).done(function(instance) {
 		$('#output').text(JSON.stringify(instance));
 		console.log($('input').val(), instance);
+		com.hiyoko.util.updateLocalStorage('com-hiyoko-sample-sw2sheetparse-index', $('input').val(), instance.name);
 	});	
 });
 </script>
