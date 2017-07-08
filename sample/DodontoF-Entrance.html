@@ -72,7 +72,7 @@
 <script src="../jquery/com/hiyoko/components/v1/InputFlow.js"></script>
 <script src="../jquery/com/hiyoko/dodontof/v2/DodontoF-Entrance.js"></script>
 <script>
-	new com.hiyoko.DodontoF.V2.Entrance($('#entrance'));
+	new com.hiyoko.DodontoF.V2.Entrance($('#entrance'), {visitable:true});
 	$('#entrance').on(com.hiyoko.component.InputFlow.Events.Finish, function(e){
 		$('#entrance').hide();
 		var url = 'http://sy17.sakura.ne.jp/shunshun/hiyontof.html?silent=1';

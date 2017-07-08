@@ -8,13 +8,14 @@ com.hiyoko.component.InputFlow.Events = {
 	Finish: 'com-hiyoko-component-InputFlow-Finish'
 };
 
-com.hiyoko.component.InputFlow.prototype.buildComponents = function(components) {
+com.hiyoko.component.InputFlow.prototype.buildComponents = function(components, opt_options) {
 	var $flows = this.$html.children();
+	var options = opt_options || {};
 	
 	this.currentInput = 0;
 	this.inputFlows = com.hiyoko.util.mergeArray(
 			components, $flows, 
-			function(app, dom){return new app(dom);});
+			function(app, dom){return new app(dom, options);});
 	for(var i = 1; i < this.inputFlows.length; i++) {
 		this.inputFlows[i].disable();
 	}

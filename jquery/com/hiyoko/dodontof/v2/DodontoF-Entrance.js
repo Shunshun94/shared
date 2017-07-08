@@ -3,12 +3,13 @@ com.hiyoko = com.hiyoko || {};
 com.hiyoko.DodontoF = com.hiyoko.DodontoF || {};
 com.hiyoko.DodontoF.V2 = com.hiyoko.DodontoF.V2 || {};
 
-com.hiyoko.DodontoF.V2.Entrance = function($html) {
+com.hiyoko.DodontoF.V2.Entrance = function($html, opt_options) {
 	this.$html = $($html);
 	this.id = this.$html.attr('id');
+	this.options = opt_options || {};
 
 	var base = com.hiyoko.DodontoF.V2.Entrance;
-	this.buildComponents([base.Url, base.Room, base.Password, base.Option]);
+	this.buildComponents([base.Url, base.Room, base.Password, base.Option], this.options);
 	this.bindEvents();
 	
 	this.$html.on(com.hiyoko.component.InputFlow.Events.Finish, function(e){
@@ -72,10 +73,11 @@ com.hiyoko.DodontoF.V2.Entrance.Url.prototype.getValue = function() {
 
 com.hiyoko.DodontoF.V2.Entrance.Url.OWN_URL_STORAGE = 'com-hiyoko-DodontoF-V2-Entrance-Url-OWN_URL_STORAGE';
 
-com.hiyoko.DodontoF.V2.Entrance.Room = function($html) {
+com.hiyoko.DodontoF.V2.Entrance.Room = function($html, options) {
 	this.$html = $($html);
 	this.id = this.$html.attr('id');
 	this.bindEvents();
+	this.visitable = options.visitable || false;
 	this.roomStatus = {
 		no: 0,
 		isLocked: false
@@ -126,7 +128,7 @@ com.hiyoko.DodontoF.V2.Entrance.Room.prototype.generateRoomList = function(rooms
 				room.passwordLockState ?
 					com.hiyoko.util.format(com.hiyoko.DodontoF.V2.Entrance.Room.BUTTON_TEMPLATE, this.id, 'locked', '🔒パスワードを入力して入室する') :
 					com.hiyoko.util.format(com.hiyoko.DodontoF.V2.Entrance.Room.BUTTON_TEMPLATE, this.id, 'entry', '入室する'),
-				room.canVisit && room.passwordLockState ?
+				this.visitable && room.canVisit && room.passwordLockState ?
 					' ' + com.hiyoko.util.format(com.hiyoko.DodontoF.V2.Entrance.Room.BUTTON_TEMPLATE, this.id, 'visitor', '📺見学者として入室する') :
 					''
 			);
