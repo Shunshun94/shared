@@ -85,7 +85,8 @@ com.hiyoko.DodontoF.V2.Room = function(url, room, opt_pass) {
 			CHANGE_MEMO: 'changeMemo',
 			REFRESH: 'refresh',
 			GET_CHARACTER: 'refresh',
-			GET_MAP: 'refresh'
+			GET_MAP: 'refresh',
+			UPLOAD_IMAGE_DATA: 'uploadImageData'
 	};
 	
 	tofRoom.CHARACTER_PARAMS = ['name', 'targetName', 'info','x', 'y',
@@ -112,7 +113,7 @@ com.hiyoko.DodontoF.V2.Room = function(url, room, opt_pass) {
 			dataType:'jsonp'
 		});
 	};
-	
+
 	tofRoom.prototype.getRoomInfo = function() {
 		return this.sendRequest_(tofRoom.API_NAMES.GET_ROOM_INFO, {});
 	};
@@ -369,6 +370,69 @@ com.hiyoko.DodontoF.V2.Room = function(url, room, opt_pass) {
 				promise.reject(result);
 			});			
 		}
+		
+		return promise;
+	};
+
+	tofRoom.prototype.sendRequestPost_ = function(data, opt_callback) {
+		var url = this.url;
+		if(opt_callback) {
+			data.append('callback', opt_callback);
+		}
+		
+		return $.ajax({
+			url  : url,
+			type : 'POST',
+			data : data,
+			async: false,
+			cache       : false,
+			contentType : false,
+			processData : false
+		});
+	};
+
+	tofRoom.prototype.uploadPicture = function(args) {
+		var promise = new $.Deferred;
+		if(! Boolean(args.fileData)) {
+			promise.reject({Result: 'fileData is required.'});
+		}
+		
+		var formData = new FormData();
+		formData.append('webif', tofRoom.API_NAMES.UPLOAD_IMAGE_DATA);
+		formData.append('fileData', args.fileData);
+		formData.append('room', this.base.room);
+
+		if(this.base.pass) {
+			formData.append('password', this.base.pass);
+		}
+		
+		if(args.smallImageData) {
+			formData.append('smallImageData', args.smallImageData);
+		}
+		if(args.tags) {
+			var tmp_tags = Array.isArray(args.tags) ? args.tags.join(' ') : args.tags;
+			formData.append('tags', tmp_tags);
+		}
+		
+		this.sendRequestPost_(formData).done(function(result) {
+			console.log(result);
+			result.tofMethod = tofRoom.API_NAMES.UPLOAD_IMAGE_DATA;
+			result.sentData = {};
+			for(var key of formData.keys()) {
+				result.sentData[key] = formData.get(key);
+			}
+			promise.resolve(result);
+		}).fail(function(result) {
+			result = result || {};
+			console.log(result);
+			result.Result = 'OK';
+			result.tofMethod = tofRoom.API_NAMES.UPLOAD_IMAGE_DATA;
+			result.sentData = {};
+			for(var key of formData.keys()) {
+				result.sentData[key] = formData.get(key);
+			}
+			promise.reject(result);
+		});
 		
 		return promise;
 	};

@@ -73,7 +73,13 @@ com.hiyoko.component.InputFlow.Child.prototype.getValue = function() {
 	var id = this.id + '-';
 	this.$html.find('input').each(function(index) {
 		var key = $(this).attr('id').replace(id, '');
-		var val = $(this).val();
+		var val = false;
+		if($(this).attr('type') === 'checkbox' || $(this).attr('type') === 'checkbox') {
+			val = $(this).prop('checked') ? $(this).val() : false;
+		} else {
+			val = $(this).val();
+		}
+		
 		value[key] = val;
 	});
 	this.$html.find('textarea').each(function(index) {

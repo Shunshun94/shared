@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>DodontoF image uploader</title>
+</head>
+<body>
+<p><a href="http://www.dodontof.com/DodontoF/README.html#webIf_uploadImageData">http://www.dodontof.com/DodontoF/README.html#webIf_uploadImageData</a> を参考に</p>
+<div id="dodontof-imageupload">
+	<input type="file" id="dodontof-imageupload-selectpic" name="fileData" accept="image/*">
+	<input id="dodontof-imageupload-tags" value="キャラクター画像" /><br/>
+	<canvas id="dodontof-imageupload-canvas"></canvas>
+	<button id="dodontof-imageupload-upload">アップロードする</button>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<script src='../jquery/com/hiyoko/util/v2/utils.js'></script>
+<script src='../jquery/com/hiyoko/dodontof/v2/DodontoF-Client.js'></script>
+<script src='../jquery/com/hiyoko/components/v1/ApplicationBase.js'></script>
+<script src="../jquery/com/hiyoko/dodontof/v2/DodontoF-imageUploader.js"></script>
+<script>
+var $form = $('#dodontof-imageupload');
+var query = com.hiyoko.util.getQueries();
+var client = (new com.hiyoko.DodontoF.V2.Room(query.url, query.room, query.pass));
+var uploader = new com.hiyoko.DodontoF.V2.ImageUploader($form, 'キャラクター画像 動作確認')
+
+$form.on('tofRoomRequest', function(event) {
+	client.uploadPicture(event.args).done(event.resolve).fail(event.reject);
+});
+$form.on(com.hiyoko.DodontoF.V2.ImageUploader.Event.DONE, function(e) {
+	alert('アップロードに成功しました。\nタグとして ' + e.sentData.tags + ' を付与してあります。\nどどんとふ上でのファイル名は ' + e.fileName + ' です。');
+});
+$form.on(com.hiyoko.DodontoF.V2.ImageUploader.Event.NO_PATH, function(e) {
+	alert('アップロードに成功しました。\nタグとして ' + e.sentData.tags + ' を付与してあります。');
+});
+$form.on(com.hiyoko.DodontoF.V2.ImageUploader.Event.FAIL, function(e) {
+	alert('アップロードに失敗しました。\n理由：' + e.result);
+});
+
+
+/* 		alert('アップロードに成功しました。\nタグとして ' + $tags.val() + ' を付与してあります。\nどどんとふ上でのファイル名は ' + result.fileName + ' です。');
+		console.log('done', result);
+	}).fail(function(result) {
+		if(result.Result === 'OK') {
+			alert('アップロードに成功しました。\nタグとして ' + $tags.val() + ' を付与してあります。');
+		} else {
+			alert('アップロードに失敗しました。\n理由：' + result.Result);
+		} */
+
+</script>
+</body>
+</html>

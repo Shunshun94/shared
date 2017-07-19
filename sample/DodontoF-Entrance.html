@@ -60,6 +60,7 @@
 		<button id="entrance-option-back">戻る</button><br/>
 		名前<input id="entrance-option-name" type="text" /><br/>
 		更新間隔 (ミリ秒)<input id="entrance-option-reload" type="number" value="10000" /><br/>
+		画像アップローダ<input id="entrance-option-pic" type="checkbox" value="1" /><br/>
 		<button id="entrance-option-next">ログイン</button>
 	</div>
 </div>
@@ -75,7 +76,7 @@
 	new com.hiyoko.DodontoF.V2.Entrance($('#entrance'), {visitable:true});
 	$('#entrance').on(com.hiyoko.component.InputFlow.Events.Finish, function(e){
 		$('#entrance').hide();
-		var url = 'http://sy17.sakura.ne.jp/shunshun/hiyontof.html?silent=1';
+		var url = e.value.option.pic ? './DodontoF-PicUploader.html?dummy=1' : 'http://sy17.sakura.ne.jp/shunshun/hiyontof.html?silent=1';
 		url += '&reload=' + e.value.option.reload;
 		url += '&url=' + e.value.url;
 		url += '&room=' + e.value.room.no;
