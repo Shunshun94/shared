@@ -7,9 +7,9 @@
 <body>
 <p><a href="http://www.dodontof.com/DodontoF/README.html#webIf_uploadImageData">http://www.dodontof.com/DodontoF/README.html#webIf_uploadImageData</a> を参考に</p>
 <div id="dodontof-imageupload">
-	<input type="file" id="dodontof-imageupload-selectpic" name="fileData" accept="image/*">
-	<input id="dodontof-imageupload-tags" value="キャラクター画像" /><br/>
-	<canvas id="dodontof-imageupload-canvas"></canvas>
+	<input type="file" id="dodontof-imageupload-selectpic" name="fileData" accept="image/*"><br/>
+	タグ：<input id="dodontof-imageupload-tags" value="キャラクター画像" /><br/>
+	<canvas id="dodontof-imageupload-canvas"></canvas><br/>
 	<button id="dodontof-imageupload-upload">アップロードする</button>
 </div>
 
@@ -38,17 +38,6 @@ $form.on(com.hiyoko.DodontoF.V2.ImageUploader.Event.FAIL, function(e) {
 	alert('アップロードに失敗しました。\n理由：' + e.message);
 	console.log('failed', e);
 });
-
-
-/* 		alert('アップロードに成功しました。\nタグとして ' + $tags.val() + ' を付与してあります。\nどどんとふ上でのファイル名は ' + result.fileName + ' です。');
-		console.log('done', result);
-	}).fail(function(result) {
-		if(result.Result === 'OK') {
-			alert('アップロードに成功しました。\nタグとして ' + $tags.val() + ' を付与してあります。');
-		} else {
-			alert('アップロードに失敗しました。\n理由：' + result.Result);
-		} */
-
 </script>
 </body>
 </html>

@@ -94,4 +94,14 @@ com.hiyoko.DodontoF.V2.ImageUploader.Event = {
 	FAIL: 'com-hiyoko-dodontof-v2-imageuploader-event-fail'
 };
 
+com.hiyoko.DodontoF.V2.ImageUploader.getBaseDom = function(opt_id) {
+	var id = opt_id || 'dodontof-imageUploader';
+	return com.hiyoko.util.format('<div id="%s">' +
+			'<input type="file" id="%s-selectpic" name="fileData" accept="image/*"><br/>' +
+			'タグ：<input id="%s-tags" value="キャラクター画像" /><br/>' +
+			'<canvas id="%s-canvas"></canvas><br/>' +
+			'<button id="%s-upload">アップロードする</button></div>"',
+			id, id, id, id, id);
+};
+
 
