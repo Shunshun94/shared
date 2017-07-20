@@ -390,48 +390,58 @@ com.hiyoko.DodontoF.V2.Room = function(url, room, opt_pass) {
 			processData : false
 		});
 	};
+	
+	tofRoom.prototype.isExistUploadPicture = function() {
+		return this.sendRequest_(tofRoom.API_NAMES.UPLOAD_IMAGE_DATA, {});
+	};
 
 	tofRoom.prototype.uploadPicture = function(args) {
 		var promise = new $.Deferred;
-		if(! Boolean(args.fileData)) {
-			promise.reject({Result: 'fileData is required.'});
-		}
 		
-		var formData = new FormData();
-		formData.append('webif', tofRoom.API_NAMES.UPLOAD_IMAGE_DATA);
-		formData.append('fileData', args.fileData);
-		formData.append('room', this.base.room);
+		this.isExistUploadPicture().done(function(validationResult) {
+			if(validationResult.result.endsWith('is NOT found')) {
+				promise.reject({result: 'どどんとふ Ver.1.48.28 以降でなければこの機能は使えません'});
+				return;
+			}
+			if(! Boolean(args.fileData)) {
+				promise.reject({result: 'fileData is required.'});
+				return;
+			}
+			
+			var formData = new FormData();
+			formData.append('webif', tofRoom.API_NAMES.UPLOAD_IMAGE_DATA);
+			formData.append('fileData', args.fileData);
+			formData.append('room', this.base.room);
 
-		if(this.base.pass) {
-			formData.append('password', this.base.pass);
-		}
-		
-		if(args.smallImageData) {
-			formData.append('smallImageData', args.smallImageData);
-		}
-		if(args.tags) {
-			var tmp_tags = Array.isArray(args.tags) ? args.tags.join(' ') : args.tags;
-			formData.append('tags', tmp_tags);
-		}
-		
-		this.sendRequestPost_(formData).done(function(result) {
-			console.log(result);
-			result.tofMethod = tofRoom.API_NAMES.UPLOAD_IMAGE_DATA;
-			result.sentData = {};
-			for(var key of formData.keys()) {
-				result.sentData[key] = formData.get(key);
+			if(this.base.pass) {
+				formData.append('password', this.base.pass);
 			}
-			promise.resolve(result);
-		}).fail(function(result) {
-			result = result || {};
-			console.log(result);
-			result.Result = 'OK';
-			result.tofMethod = tofRoom.API_NAMES.UPLOAD_IMAGE_DATA;
-			result.sentData = {};
-			for(var key of formData.keys()) {
-				result.sentData[key] = formData.get(key);
+			
+			if(args.smallImageData) {
+				formData.append('smallImageData', args.smallImageData);
 			}
-			promise.reject(result);
+			if(args.tags) {
+				var tmp_tags = Array.isArray(args.tags) ? args.tags.join(' ') : args.tags;
+				formData.append('tags', tmp_tags);
+			}
+			
+			this.sendRequestPost_(formData).done(function(result) {
+				result.tofMethod = tofRoom.API_NAMES.UPLOAD_IMAGE_DATA;
+				result.sentData = {};
+				for(var key of formData.keys()) {
+					result.sentData[key] = formData.get(key);
+				}
+				promise.resolve(result);
+			}).fail(function(result) {
+				result = result || {};
+				result.result = 'OK';
+				result.tofMethod = tofRoom.API_NAMES.UPLOAD_IMAGE_DATA;
+				result.sentData = {};
+				for(var key of formData.keys()) {
+					result.sentData[key] = formData.get(key);
+				}
+				promise.reject(result);
+			});
 		});
 		
 		return promise;

@@ -40,16 +40,23 @@ com.hiyoko.DodontoF.V2.ImageUploader.prototype.bindEvents = function() {
 		};
 		
 		var event = this.getAsyncEvent('tofRoomRequest', {method: 'uploadPicture', args: data}).done(function(result) {
+			var object = {};
+			object.message = result.result;
+			object.sentData = result.sentData || {};
 			if(result.result === 'OK') {
-				this.fireEvent(new $.Event(com.hiyoko.DodontoF.V2.ImageUploader.Event.DONE, result));
+				object.fileName = result.fileName;
+				this.fireEvent(new $.Event(com.hiyoko.DodontoF.V2.ImageUploader.Event.DONE, object));
 			} else {
-				this.fireEvent(new $.Event(com.hiyoko.DodontoF.V2.ImageUploader.Event.FAIL, result));
+				this.fireEvent(new $.Event(com.hiyoko.DodontoF.V2.ImageUploader.Event.FAIL, object));
 			}			
 		}.bind(this)).fail(function(result) {
+			var object = {};
+			object.message = result.result;
+			object.sentData = result.sentData || {};
 			if(result.result === 'OK') {
-				this.fireEvent(new $.Event(com.hiyoko.DodontoF.V2.ImageUploader.Event.NO_PATH, result));
+				this.fireEvent(new $.Event(com.hiyoko.DodontoF.V2.ImageUploader.Event.NO_PATH, object));
 			} else {
-				this.fireEvent(new $.Event(com.hiyoko.DodontoF.V2.ImageUploader.Event.FAIL, result));
+				this.fireEvent(new $.Event(com.hiyoko.DodontoF.V2.ImageUploader.Event.FAIL, object));
 			}			
 		}.bind(this));
 		this.fireEvent(event);

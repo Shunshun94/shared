@@ -25,7 +25,8 @@ var client = (new com.hiyoko.DodontoF.V2.Room(query.url, query.room, query.pass)
 var uploader = new com.hiyoko.DodontoF.V2.ImageUploader($form, 'キャラクター画像 動作確認')
 
 $form.on('tofRoomRequest', function(event) {
-	client.uploadPicture(event.args).done(event.resolve).fail(event.reject);
+	client[event.method].apply(client, event.args).done(event.resolve).fail(event.reject);
+	//client.uploadPicture(event.args).done(event.resolve).fail(event.reject);
 });
 $form.on(com.hiyoko.DodontoF.V2.ImageUploader.Event.DONE, function(e) {
 	alert('アップロードに成功しました。\nタグとして ' + e.sentData.tags + ' を付与してあります。\nどどんとふ上でのファイル名は ' + e.fileName + ' です。');
@@ -34,7 +35,8 @@ $form.on(com.hiyoko.DodontoF.V2.ImageUploader.Event.NO_PATH, function(e) {
 	alert('アップロードに成功しました。\nタグとして ' + e.sentData.tags + ' を付与してあります。');
 });
 $form.on(com.hiyoko.DodontoF.V2.ImageUploader.Event.FAIL, function(e) {
-	alert('アップロードに失敗しました。\n理由：' + e.result);
+	alert('アップロードに失敗しました。\n理由：' + e.message);
+	console.log('failed', e);
 });
 
 
