@@ -6,6 +6,7 @@
 </head>
 <body>
 <p><a href="http://www.dodontof.com/DodontoF/README.html#webIf_uploadImageData">http://www.dodontof.com/DodontoF/README.html#webIf_uploadImageData</a> を参考に</p>
+<h2>Newer</h2>
 <div id="dodontof-imageupload">
 	<input type="file" id="dodontof-imageupload-selectpic" name="fileData" accept="image/*"><br/>
 	タグ：<input id="dodontof-imageupload-tags" value="キャラクター画像" /><br/>
@@ -13,11 +14,21 @@
 	<button id="dodontof-imageupload-upload">アップロードする</button>
 </div>
 
+<hr/>
+<h2>Older</h2>
+<div id="dodontof-imageupload-old">
+</div>
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 <script src='../jquery/com/hiyoko/util/v2/utils.js'></script>
 <script src='../jquery/com/hiyoko/dodontof/v2/DodontoF-Client.js'></script>
 <script src='../jquery/com/hiyoko/components/v1/ApplicationBase.js'></script>
 <script src="../jquery/com/hiyoko/dodontof/v2/DodontoF-imageUploader.js"></script>
+<script src='../jquery/com/hiyoko/util/v1/hiyokoUtilV1.js'></script>
+<script src='../jquery/com/hiyoko/dodontof/v1/tofClient.js'></script>
+<script src='../jquery/com/hiyoko/dodontof/v1/tofImageUploader.js'></script>
+
+
 <script>
 var $form = $('#dodontof-imageupload');
 var query = com.hiyoko.util.getQueries();
@@ -26,7 +37,6 @@ var uploader = new com.hiyoko.DodontoF.V2.ImageUploader($form, 'キャラクタ�
 
 $form.on('tofRoomRequest', function(event) {
 	client[event.method].apply(client, event.args).done(event.resolve).fail(event.reject);
-	//client.uploadPicture(event.args).done(event.resolve).fail(event.reject);
 });
 $form.on(com.hiyoko.DodontoF.V2.ImageUploader.Event.DONE, function(e) {
 	alert('アップロードに成功しました。\nタグとして ' + e.sentData.tags + ' を付与してあります。\nどどんとふ上でのファイル名は ' + e.fileName + ' です。');
@@ -37,6 +47,28 @@ $form.on(com.hiyoko.DodontoF.V2.ImageUploader.Event.NO_PATH, function(e) {
 $form.on(com.hiyoko.DodontoF.V2.ImageUploader.Event.FAIL, function(e) {
 	alert('アップロードに失敗しました。\n理由：' + e.message);
 	console.log('failed', e);
+});
+
+/////////////////////////
+
+new com.hiyoko.tof.room(query.url, query.room, query.pass, function(tof) {
+	$('#dodontof-imageupload-old').append(com.hiyoko.tof.ImageUploader.getBaseDom('dodontof-imageupload-old-imageUploader'));
+	var oldUploader = new com.hiyoko.tof.ImageUploader($('#dodontof-imageupload-old-imageUploader'), {tags:'猫画像 キャラクター画像'});
+	$('#dodontof-imageupload-old').on(com.hiyoko.tof.ImageUploader.Events.REQUEST, function(e) {
+		tof.uploadPicture(oldUploader.uploadDone, oldUploader.uploadFail, e);
+	});
+	$('#dodontof-imageupload-old').on(com.hiyoko.tof.ImageUploader.Events.DONE, function(e) {
+		console.log(e);
+		alert('画像のアップロードに成功しました。\nタグとして ' + e.params.tags + ' が付与されています。\nファイルは ' + e.fileName + ' です。');
+	});
+	$('#dodontof-imageupload-old').on(com.hiyoko.tof.ImageUploader.Events.NO_PATH, function(e) {
+		console.log(e);
+		alert('画像のアップロードに成功しました。\nタグとして ' + e.params.tags + ' が付与されています。\n他ユーザに画像の設定を依頼してください');
+	});
+	$('#dodontof-imageupload-old').on(com.hiyoko.tof.ImageUploader.Events.FAIL, function(e) {
+		console.log(e);
+		alert(e.message);
+	});
 });
 </script>
 </body>

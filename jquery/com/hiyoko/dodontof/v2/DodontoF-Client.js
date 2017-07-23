@@ -400,11 +400,11 @@ com.hiyoko.DodontoF.V2.Room = function(url, room, opt_pass) {
 		
 		this.isExistUploadPicture().done(function(validationResult) {
 			if(validationResult.result.endsWith('is NOT found')) {
-				promise.reject({result: 'どどんとふ Ver.1.48.28 以降でなければこの機能は使えません'});
+				promise.reject({result: '[ERROR] どどんとふ Ver.1.48.28 以降でなければこの機能は使えません'});
 				return;
 			}
 			if(! Boolean(args.fileData)) {
-				promise.reject({result: 'fileData is required.'});
+				promise.reject({result: '[ERROR] 画像が指定されていません。', detail: 'args.fileData が指定されている必要があります。'});
 				return;
 			}
 			
