@@ -55,7 +55,7 @@ new com.hiyoko.tof.room(query.url, query.room, query.pass, function(tof) {
 	$('#dodontof-imageupload-old').append(com.hiyoko.tof.ImageUploader.getBaseDom('dodontof-imageupload-old-imageUploader'));
 	var oldUploader = new com.hiyoko.tof.ImageUploader($('#dodontof-imageupload-old-imageUploader'), {tags:'猫画像 キャラクター画像'});
 	$('#dodontof-imageupload-old').on(com.hiyoko.tof.ImageUploader.Events.REQUEST, function(e) {
-		tof.uploadPicture(oldUploader.uploadDone, oldUploader.uploadFail, e);
+		tof.uploadPicture(e.resolve, e.reject, e);
 	});
 	$('#dodontof-imageupload-old').on(com.hiyoko.tof.ImageUploader.Events.DONE, function(e) {
 		console.log(e);

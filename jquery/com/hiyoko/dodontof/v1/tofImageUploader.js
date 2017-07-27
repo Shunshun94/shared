@@ -81,6 +81,8 @@ com.hiyoko.tof.ImageUploader = function($baseHtml, opt_options) {
 			};
 
 			var event = new $.Event(com.hiyoko.tof.ImageUploader.Events.REQUEST, data);
+			event.resolve = this.uploadDone;
+			event.reject = this.uploadFail;
 			$html.trigger(event);
 		}.bind(this));
 	};
