@@ -133,7 +133,6 @@ com.hiyoko.DodontoF.V2.ChatClient.SimpleDisplay.prototype.updateLogs = function(
 	
 	if(this.limit) {
 		var count = this.getElementsByClass(com.hiyoko.DodontoF.V2.ChatClient.SimpleDisplay.CLASS + '-log').length;
-		console.log(count - this.limit);
 		this.getElementsByClass('log:lt(' + (count - this.limit) + ')').remove();
 	}
 };
