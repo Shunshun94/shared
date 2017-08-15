@@ -65,7 +65,7 @@ com.hiyoko.BCDiceAPIClient.prototype.getSystemInfo = function(opt_system) {
 		return this.sendRequest('systeminfo', {system: opt_system});
 	} else {
 		var promise = new $.Deferred;
-		promise.resolve(this.system);
+		promise.resolve({ok: true, systeminfo: this.system});
 		return promise;
 	}
 };
