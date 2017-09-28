@@ -81,6 +81,7 @@ com.hiyoko.VampireBlood.SW2.prototype.parseMagics = function(json) {
 		'妖精魔法': json.maryoku8,
 		'魔動機術': json.maryoku9,
 		'召異魔法': json.maryoku17,
+		'秘奥魔法': json.maryoku21,
 	}, function(value) {
 		return Number(value);
 	}), function(value) {
@@ -108,7 +109,8 @@ com.hiyoko.VampireBlood.SW2.prototype.parseBaseStatus = function(json) {
 		'スカウト': json.V_GLv10, 'レンジャー': json.V_GLv11, 'セージ': json.V_GLv12,
 		'エンハンサー': json.V_GLv13 , 'バード': json.V_GLv14,
 		'ライダー': json.V_GLv16,
-		'アルケミスト': json.V_GLv15, 'ウォーリーダー': json.V_GLv18, 'ミスティック': json.V_GLv19, 'フィジカルマスター': json.V_GLv20
+		'アルケミスト': json.V_GLv15, 'ウォーリーダー': json.V_GLv18, 'ミスティック': json.V_GLv19, 'フィジカルマスター': json.V_GLv20,
+		'グリモワール': json.V_GLv21, 'アーティザン': json.V_GLv22, 'アリストクラシー': json.V_GLv23
 	}, function(value) {
 		return Number(value);
 	}), function(value) {
@@ -147,6 +149,12 @@ com.hiyoko.VampireBlood.SW2.prototype.parseSubSkills = function(json) {
 	this.subSkills.fortuneTelling = json.UR_name.map(function(name, i){
 		return {name: name, effect: json.UR_kouka[i], reference: json.UR_page[i], status: json.UR_type[i], action: json.UR_rank[i]}
 	});
+	this.subSkills.aristocratDignity = json.KK_name.map(function(name, i) {
+		return {name: name, effect: json.KK_kouka[i], reference: json.KK_page[i]};
+	});
+	this.subSkills.spellSeal = json.JI_name.map(function(name, i) {
+		return {name: name, effect: json.JI_kouka[i], reference: json.JI_page[i], type: json.JI_timing[i]};
+	});	
 };
 
 com.hiyoko.VampireBlood.SW2.prototype.parsePets = function(json) {
