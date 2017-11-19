@@ -149,10 +149,10 @@ com.hiyoko.VampireBlood.SW2.prototype.parseSubSkills = function(json) {
 	this.subSkills.fortuneTelling = json.UR_name.map(function(name, i){
 		return {name: name, effect: json.UR_kouka[i], reference: json.UR_page[i], status: json.UR_type[i], action: json.UR_rank[i]}
 	});
-	this.subSkills.aristocratDignity = json.KK_name.map(function(name, i) {
+	this.subSkills.aristocratDignity = (json.KK_name || []).map(function(name, i) {
 		return {name: name, effect: json.KK_kouka[i], reference: json.KK_page[i]};
 	});
-	this.subSkills.spellSeal = json.JI_name.map(function(name, i) {
+	this.subSkills.spellSeal = (json.JI_name || []).map(function(name, i) {
 		return {name: name, effect: json.JI_kouka[i], reference: json.JI_page[i], type: json.JI_timing[i]};
 	});	
 };
