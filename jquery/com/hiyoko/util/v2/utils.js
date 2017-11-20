@@ -75,7 +75,7 @@ com.hiyoko.util.format = function(formatString, var_args) {
 			formatString_splited[i - 1] += '%s';
 		}
 	}
-	return formatString_splited.join('').replace(doubleBackSlash, '\\').replace(escapedParcentS, '%s');
+	return formatString_splited.join('').replace(new RegExp(doubleBackSlash, 'g'), '\\').replace(new RegExp(escapedParcentS, 'g'), '%s');
 };
 
 /**
