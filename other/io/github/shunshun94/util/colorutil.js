@@ -5,8 +5,64 @@ io.github.shunshun94.util = io.github.shunshun94.util || {};
 
 io.github.shunshun94.util.Color = io.github.shunshun94.util.Color || {};
 io.github.shunshun94.util.Color.RateColor = function(opt_startColor, opt_endColor) {
-	this.startColor = opt_startColor || '#000000';
-	this.endColor = opt_endColor || '#FF0000';
+	this.colorList = io.github.shunshun94.util.Color.RateColor.evalArgument(opt_startColor, opt_endColor);
+};
+
+io.github.shunshun94.util.Color.RateColor.prototype.getColor = function(opt_rate) {
+	var rate = io.github.shunshun94.util.Color.fitNumber(Number(opt_rate) || 0, 0, 100);
+	var len = this.colorList.length;
+	var endColor = this.colorList[len - 1];
+	var startColor = this.colorList[len - 2];
+	for(var i = 1; i < len; i++) {
+		if(rate < this.colorList[i].point) {
+			endColor = this.colorList[i];
+			startColor = this.colorList[i - 1];
+			break;
+		}
+	}
+	
+	var diffRate = (rate - startColor.point) / (endColor.point - startColor.point);
+	var diff = io.github.shunshun94.util.Color.colorMinus(endColor, startColor);
+	
+	return io.github.shunshun94.util.Color.colorConvert(
+			io.github.shunshun94.util.Color.colorPlus(startColor, {
+				r: Math.floor(diff.r * diffRate),
+				g: Math.floor(diff.g * diffRate),
+				b: Math.floor(diff.b * diffRate)
+			})
+	);
+};
+
+io.github.shunshun94.util.Color.RateColor.evalArgument = function(opt_startColor, opt_endColor) {
+	var tmpColorList = {};
+	
+	if(typeof opt_startColor === 'object') {
+		for(var key in opt_startColor) {
+			tmpColorList[Number(key) || 0] = io.github.shunshun94.util.Color.colorConvert(opt_startColor[key]);
+		}
+		if(! tmpColorList[100]) {
+			tmpColorList[100] = io.github.shunshun94.util.Color.colorConvert('white');
+		}
+	} else {
+		tmpColorList[100] = io.github.shunshun94.util.Color.colorConvert(opt_startColor);
+	}
+	
+	if(! tmpColorList[0]) {
+		if(opt_endColor) {
+			tmpColorList[0] = io.github.shunshun94.util.Color.colorConvert(opt_endColor);
+		} else {
+			tmpColorList[0] = io.github.shunshun94.util.Color.getFromCode('red');
+		}
+	}
+	var result = [];
+	for(var key in tmpColorList) {
+		(function(k, v) {
+			v.point = Number(k);
+			result.push(v);
+		})(key, tmpColorList[key]);
+	}
+	
+	return result.sort(function(a, b){return a.point - b.point;});
 };
 
 io.github.shunshun94.util.Color.arrayToColorCode = function(array){
@@ -25,17 +81,66 @@ io.github.shunshun94.util.Color.RGBFormat = {
 	value: /rgb\((\d+),(\d+),(\d+)\)/
 };
 
+io.github.shunshun94.util.Color.colorMinus = function(a, b) {
+	return {
+		r: a.r - b.r,
+		g: a.g - b.g,
+		b: a.b - b.b
+	};
+};
+
+io.github.shunshun94.util.Color.colorPlus = function(a, b) {
+	return {
+		r: a.r + b.r,
+		g: a.g + b.g,
+		b: a.b + b.b
+	};	
+};
+
+io.github.shunshun94.util.Color.getFromCode = function(code) {
+	var base = io.github.shunshun94.util.Color.ColorList[code] ||  io.github.shunshun94.util.Color.ColorList.white;
+	var result = {};
+	for(var key in base) {
+		result[key] = base[key];
+	}
+	return result;
+};
+
+io.github.shunshun94.util.Color.fitNumber = function(val, opt_min, opt_max) {
+	var min = opt_min || 0;
+	var max = opt_max || 255;
+	if(val < min) {return min;}
+	if(val > max) {return max;}
+	return val;
+};
+
 io.github.shunshun94.util.Color.colorConvert = function(color){
 	if(! Boolean(color)) {
-		return io.github.shunshun94.util.Color.ColorList.white;
+		return io.github.shunshun94.util.Color.getFromCode('black');
 	}
-	if($.isArray(color)){
+	if( (Number(color.r) || color.r === 0) &&
+		(Number(color.g) || color.g === 0) &&
+		(Number(color.b) || color.b === 0)
+	) {
+		color = [color.r, color.g, color.b];
+	}
+	
+	if(Array.isArray(color)){
+		color = color.map(function(val){return io.github.shunshun94.util.Color.fitNumber(val);});
 		return {
 				r: color[0],
 				g: color[1],
 				b: color[2],
 				code: io.github.shunshun94.util.Color.arrayToColorCode(color)
 		};
+	}
+	
+	if(Number.isInteger(color)) {
+		color = color.toString(16);
+		while(color.length < 6) {
+			color = '0' + color;
+		}
+		color = '#' + color;
 	}
 	color = color.toLowerCase();
 	if(color.startsWith('#')){
@@ -72,9 +177,9 @@ io.github.shunshun94.util.Color.colorConvert = function(color){
 					])
 			};
 		}
-	}else{
-		return io.github.shunshun94.util.Color.ColorList[color] ||  io.github.shunshun94.util.Color.ColorList.white;
+		return io.github.shunshun94.util.Color.getFromCode('white');
 	}
+	return io.github.shunshun94.util.Color.getFromCode(color);
 };
 
 io.github.shunshun94.util.Color.ColorList = {
