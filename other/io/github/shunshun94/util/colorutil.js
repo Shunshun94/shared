@@ -77,8 +77,8 @@ io.github.shunshun94.util.Color.arrayToColorCode = function(array){
 };
 
 io.github.shunshun94.util.Color.RGBFormat = {
-	rate: /rgb\((\d+)%?,(\d+)%?,(\d+)%?\)/,
-	value: /rgb\((\d+),(\d+),(\d+)\)/
+	rate: /rgb\((\d+)%?\s*,\s*(\d+)%?\s*,\s*(\d+)%?\)/,
+	value: /rgb\((\d+)\s*,\s*(\d+)\s*,\s*(\d+)\)/
 };
 
 io.github.shunshun94.util.Color.colorMinus = function(a, b) {
@@ -94,7 +94,15 @@ io.github.shunshun94.util.Color.colorPlus = function(a, b) {
 		r: a.r + b.r,
 		g: a.g + b.g,
 		b: a.b + b.b
-	};	
+	};
+};
+
+io.github.shunshun94.util.Color.getComplementaryColor = function(color) {
+	var array = [color.r, color.g, color.b];
+	var base = Math.max.apply(null, array) + Math.min.apply(null, array);
+	return io.github.shunshun94.util.Color.colorConvert(array.map(function(v){
+		return base - v;
+	}));
 };
 
 io.github.shunshun94.util.Color.getFromCode = function(code) {
@@ -112,6 +120,47 @@ io.github.shunshun94.util.Color.fitNumber = function(val, opt_min, opt_max) {
 	if(val < min) {return min;}
 	if(val > max) {return max;}
 	return val;
+};
+
+io.github.shunshun94.util.Color.HslToRgb = function(h, s, l) {
+	// Copy from https://gist.github.com/mjackson/5311256
+	h = h / 360;
+	s = s / 100;
+	l = l / 100;
+	var r, g, b;
+	if (s == 0) {
+		r = g = b = l; // achromatic
+	} else {
+		function hue2rgb(p, q, t) {
+			if (t < 0)
+				t += 1;
+			if (t > 1)
+				t -= 1;
+			if (t < 1 / 6)
+				return p + (q - p) * 6 * t;
+			if (t < 1 / 2)
+				return q;
+			if (t < 2 / 3)
+				return p + (q - p) * (2 / 3 - t) * 6;
+			return p;
+		}
+
+		var q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+		var p = 2 * l - q;
+
+		r = hue2rgb(p, q, h + 1 / 3);
+		g = hue2rgb(p, q, h);
+		b = hue2rgb(p, q, h - 1 / 3);
+	}
+
+	var result = [
+	              Math.max(0, Math.min(Math.round(r * 256), 255)),
+	              Math.max(0, Math.min(Math.round(g * 256), 255)),
+	              Math.max(0, Math.min(Math.round(b * 256), 255)) ];
+	return {
+		r: result[0], g: result[1], b: result[2],
+		code: io.github.shunshun94.util.Color.arrayToColorCode(result)
+	}
 };
 
 io.github.shunshun94.util.Color.colorConvert = function(color){
@@ -143,8 +192,8 @@ io.github.shunshun94.util.Color.colorConvert = function(color){
 		color = '#' + color;
 	}
 	color = color.toLowerCase();
-	if(color.startsWith('#')){
-		if(color.length == 4){
+	if(color.startsWith('#')) {
+		if(color.length == 4) {
 			oldColor = color;
 			color = '#'+oldColor[1]+oldColor[1]+oldColor[2]+oldColor[2]+oldColor[3]+oldColor[3];
 		}
@@ -154,17 +203,17 @@ io.github.shunshun94.util.Color.colorConvert = function(color){
 			b:Number("0x"+color[5]+color[6]),
 			code: color
 		};
-	}else if(color.startsWith('rgb')){
+	}else if(color.startsWith('rgb')) {
 		var matched = color.match(io.github.shunshun94.util.Color.RGBFormat.value);
 		if(matched) {
 			return {
 				r: matched[1],
 				g: matched[2],
 				b: matched[3],
-				code: io.github.shunshun94.util.Color.arrayToColorCode([matched[1], matched[2], matched[3]])
+				code: io.github.shunshun94.util.Color.arrayToColorCode([Number(matched[1]), Number(matched[2]), Number(matched[3])])
 			};
 		}
-		var matched = color.match(io.github.shunshun94.util.Color.RGBFormat.rate);
+		matched = color.match(io.github.shunshun94.util.Color.RGBFormat.rate);
 		if(matched) {
 			return {
 				r: Math.floor(255 * matched[1] / 100),
@@ -176,6 +225,12 @@ io.github.shunshun94.util.Color.colorConvert = function(color){
 						Math.floor(255 * matched[3] / 100)
 					])
 			};
+		}
+		return io.github.shunshun94.util.Color.getFromCode('white');
+	}else if(color.startsWith('hsl')) {
+		var hslMatched = color.match(/hsl\((\d+)?\s*,\s*(\d+)%?\s*,\s*(\d+)%?\)/);
+		if(hslMatched) {
+			return io.github.shunshun94.util.Color.HslToRgb(hslMatched[1], hslMatched[2], hslMatched[3]);
 		}
 		return io.github.shunshun94.util.Color.getFromCode('white');
 	}
