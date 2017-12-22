@@ -98,7 +98,9 @@ com.hiyoko.VampireBlood.SW2.prototype.parseBaseStatus = function(json) {
 	this.race = json.shuzoku_name;
 	this.level = Number(json.lv);
 	this.hp = Number(json.HP);
+	this.mhp = Number(json.HP);
 	this.mp = Number(json.MP);
+	this.mmp = Number(json.MP);
 	this.status = [json.NB1, json.NB2,
 	               json.NB3, json.NB4,
 	               json.NB5, json.NB6].map(function(v){return Number(v)});
