@@ -16,6 +16,10 @@ io.github.shunshun94.trpg.CharacterManager = function($base, opt_eventHandlers) 
 	}
 };
 
+io.github.shunshun94.trpg.CharacterManager.prototype.getCharacters = function(characters){
+	return this.appendCharacters(characters);
+};
+
 io.github.shunshun94.trpg.CharacterManager.prototype.appendCharacters = function(characters){
 	var self = this;
 	if(! Array.isArray(characters)) {
@@ -137,7 +141,11 @@ io.github.shunshun94.trpg.sheetToPlatformConverter = function(basedData) {
 	return {
 		name:basedData.name,
 		HP: basedData.hp || basedData.HP,
+		最大HP: basedData.mhp,
+		MHP: basedData.mhp,
 		MP: basedData.mp || basedData.MP,
+		最大MP: basedData.mmp,
+		MMP: basedData.mmp,
  		info:io.github.shunshun94.trpg.SIGNATURE
 	};
 };
