@@ -17,7 +17,35 @@ io.github.shunshun94.trpg.CharacterManager = function($base, opt_eventHandlers) 
 };
 
 io.github.shunshun94.trpg.CharacterManager.prototype.getCharacters = function(characters){
-	return this.appendCharacters(characters);
+	var self = this;
+	if(! Array.isArray(characters)) {
+		characters = [characters];
+	}
+	return new Promise(function(resolve, reject) {
+		self.platformHandler.getCharacters(self.$dom).then(
+			function(characterListFromPlatform) {
+				var nameList = characterListFromPlatform.map(function(character) {
+					return character.name;
+				});
+				resolve(characters.map(function(characterData) {
+					var cursor = nameList.indexOf(characterData.name);
+					if(cursor !== -1) {
+						var dataInPlatform = characterListFromPlatform[cursor];
+						for(var key in dataInPlatform.counters) {
+							characterData[key] = dataInPlatform.counters[key];
+							characterData[key.toUpperCase()] = dataInPlatform.counters[key];
+							characterData[key.toLowerCase()] = dataInPlatform.counters[key];
+						}
+						return characterData;
+					} else {
+						characterData.isDeleted = true;
+						return characterData;
+					}
+				}));
+			}, function(failed) {
+				reject('Failed to get Character List in platform. Reason ' + JSON.stringify(failed));
+			});
+	});
 };
 
 io.github.shunshun94.trpg.CharacterManager.prototype.appendCharacters = function(characters){
@@ -31,7 +59,6 @@ io.github.shunshun94.trpg.CharacterManager.prototype.appendCharacters = function
 				var nameList = characterListFromPlatform.map(function(character) {
 					return character.name;
 				});
-				console.log(nameList);
 				Promise.all(characters.map(function(character) {
 					return new Promise(function(characterResolve, characterReject) {
 						self.sheetHandler.getSheet(self.$dom, character).then(
@@ -64,9 +91,6 @@ io.github.shunshun94.trpg.CharacterManager.prototype.appendCharacters = function
 				reject('Failed to get Character List in platform. Reason ' + JSON.stringify(failed));
 			});
 	});
-	
-	return Promise.all(characters.map(function(character) {
-	}));
 };
 
 io.github.shunshun94.trpg.redirectPromise = function(promise, event) {

@@ -6,7 +6,7 @@
 </head>
 <body id="io-github-shunshun94-trpg-characterManager">
 <div id="io-github-shunshun94-trpg-characterManager-base"></div>
-
+<button id="io-github-shunshun94-trpg-update">更新</button>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 <script src='../jquery/com/hiyoko/dodontof/v2/DodontoF-Client.js'></script>
 <script src='../other/io/github/shunshun94/trpg/characterManager.js'></script>
@@ -16,8 +16,13 @@
 
 
 <script>
+//From https://s8a.jp/jquery-text-with-lf
+(function(r){function l(a){return b(a,c,t,function(a){return u[a]})}function m(a){return b(a,f,v,function(a){return w[a]})}function b(a,b,d,e){return a&&d.test(a)?a.replace(b,e):a}function d(a){if(null==a)return"";if("string"==typeof a)return a;if(Array.isArray(a))return a.map(d)+"";var b=a+"";return"0"==b&&1/a==-(1/0)?"-0":b}var u={"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"},c=/[&<>"']/g,t=new RegExp(c.source),w={"&amp;":"&","&lt;":"<","&gt;":">","&quot;":'"',"&#39;":"'"},f=/&(?:amp|lt|gt|quot|#39);/g,
+	v=new RegExp(f.source),e=/<(?:.|\n)*?>/mg,n=new RegExp(e.source),g=/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g,p=new RegExp(g.source),h=/<br\s*\/?>/mg,q=new RegExp(h.source);r.fn.textWithLF=function(a){var c=typeof a;return"undefined"==c?m(b(b(this.html(),h,q,"\n"),e,n,"")):this.html("function"==c?function(c,f){var k=a.call(this,c,m(b(b(f,h,q,"\n"),e,n,"")));return"undefined"==typeof k?k:b(l(d(k)),g,p,"$1<br>")}:b(l(d(a)),g,p,"$1<br>"))}})(jQuery);
+
 var query = com.hiyoko.util.getQueries();
 var $base = $('#io-github-shunshun94-trpg-characterManager-base');
+var managedData;
 
 $base.on(io.github.shunshun94.trpg.HiyokoSheetHandler.EVENTS.REQUEST, function(e) {
 	console.log(e.type, e);
@@ -34,8 +39,19 @@ $base.on(io.github.shunshun94.trpg.TofHandler.EVENTS.ROOM, function(e) {
 	io.github.shunshun94.trpg.redirectPromise(client[e.method].apply(client, e.args), e)
 });
 
+function display(data) {
+	managedData = data;
+	$base.textWithLF(JSON.stringify(data, null, '\t'));
+	$('#io-github-shunshun94-trpg-update').show();
+}
+
+$('#io-github-shunshun94-trpg-update').hide();
 var cm = new io.github.shunshun94.trpg.CharacterManager($base);
-cm.appendCharacters([116063, 148330]).then(console.log,console.error)
+cm.appendCharacters([116063, 148330]).then(display,console.error);
+
+$('#io-github-shunshun94-trpg-update').click(function(e) {
+	cm.getCharacters(managedData).then(display,console.error);;
+});
 </script>
 </body>
 </html>
