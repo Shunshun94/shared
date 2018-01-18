@@ -18,6 +18,7 @@
 
 <button id="connect">接続</button>
 <button id="getPeersList">ユーザリスト</button>
+<button id="sendChat">チャット送信</button>
 
 <script>
 var client = {
@@ -51,6 +52,11 @@ $('#getPeersList').click(function(e) {
 	})
 })
 
+$('#sendChat').click(function(e) {
+	client.sendChat({
+		name: 'ひつじ', message: 'ひつじなのでした。'
+	})
+})
 </script>
 
 
