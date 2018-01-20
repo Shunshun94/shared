@@ -428,7 +428,7 @@ com.hiyoko.DodontoF.V2.Room = function(url, room, opt_pass) {
 			this.sendRequestPost_(formData).done(function(result) {
 				result.tofMethod = tofRoom.API_NAMES.UPLOAD_IMAGE_DATA;
 				result.sentData = {};
-				for(var key of formData.keys()) {
+				for(var key in formData.keys()) {
 					result.sentData[key] = formData.get(key);
 				}
 				promise.resolve(result);
@@ -437,7 +437,7 @@ com.hiyoko.DodontoF.V2.Room = function(url, room, opt_pass) {
 				result.result = 'OK';
 				result.tofMethod = tofRoom.API_NAMES.UPLOAD_IMAGE_DATA;
 				result.sentData = {};
-				for(var key of formData.keys()) {
+				for(var key in formData.keys()) {
 					result.sentData[key] = formData.get(key);
 				}
 				promise.reject(result);
