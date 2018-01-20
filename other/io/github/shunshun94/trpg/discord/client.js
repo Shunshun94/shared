@@ -49,8 +49,6 @@ io.github.shunshun94.trpg.discord.Server = class extends io.github.shunshun94.tr
 		const rooms = io.github.shunshun94.trpg.discord.generateRoomInfo(this.discord).playRoomStates.map((r) => {
 			return r.id;
 		});
-		
-		
 		return new io.github.shunshun94.trpg.discord.Room(this.token, rooms[room], opt_dicebot || dummy || false);
 	}
 	
@@ -68,25 +66,19 @@ io.github.shunshun94.trpg.discord.Room = class extends io.github.shunshun94.trpg
 		this.roomId = roomId;
 		this.dicebot = opt_dicebot || {rollDice: function(command) {
 			return new Promise(function(resolve, reject) {
-				resolve({
-					ok: false,
-					result: command,
-					secret: false
-				});
+				resolve({ok: false, result: '',secret: false});
 			});
 		}};
 	}
 	
 	sendChat (args) {
-		var promise = new Promise(function(resolve, reject) {
-			
+		return new Promise(function(resolve, reject) {
 			if(! Boolean(args.message)) {
 				reject({result:'Necessary infomration is lacked.'});
 				return;
 			}
-			
 			this.dicebot.rollDice(args.message).then(function(rollResult) {
-				var msg = rollResult.result;
+				var msg = rollResult.ok ? `${args.message}\n${rollResult.result.substr(2)}` : args.message;
 				if(args.name) {
 					msg = args.name + ': ' + msg;
 				}
@@ -94,13 +86,51 @@ io.github.shunshun94.trpg.discord.Room = class extends io.github.shunshun94.trpg
 					to: this.roomId, message: msg
 				}, function(err, response) {
 					if(err) {
+						console.error(err);
 						reject({result: err});
 					} else {
 						resolve({result: 'OK'});
 					}
 				});			
 
-			}.bind(this), function(failed){reject({result: failed})});
+			}.bind(this),
+			function(failed){
+				console.error(failed);
+				reject({result: failed});
+			});
+		}.bind(this));
+	}
+	
+	getChat (opt_from) {
+		return new Promise(function(resolve, reject) {
+			this.discord.getMessages({
+				channelID: this.roomId, after: (Number(opt_from) || 0) + 1
+			}, function(err, array) {
+				if(err) {
+					reject({result: err});
+				} else {
+					resolve({
+						result: 'OK',
+						chatMessageDataLog: array.reverse().map((raw) => {
+							return [
+							        	Number(new Date(raw.timestamp)),
+							        	{
+							        		color: '000000',
+							        		message: raw.content,
+							        		senderName: raw.author.username,
+							        		uniqueId: raw.id,
+							        		metadata: {
+							        			channel: raw.channel_id,
+							        			senderId: raw.author.id
+							        		}
+							        	}
+							        ]
+						})
+					});
+				}
+			});
+			
+			
 		}.bind(this));
 	}
 	

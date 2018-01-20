@@ -96,7 +96,10 @@ com.hiyoko.DodontoF.V2.ChatClient.SimpleDisplay = function($html, opt_options) {
 com.hiyoko.util.extend(com.hiyoko.component.ApplicationBase, com.hiyoko.DodontoF.V2.ChatClient.SimpleDisplay);
 
 com.hiyoko.DodontoF.V2.ChatClient.SimpleDisplay.prototype.update = function() {
-	var event = this.getAsyncEvent(this.id + '-getChatRequest', {time: this.lastUpdate}).done(this.receptData.bind(this)).fail(alert);
+	var event = this.getAsyncEvent(this.id + '-getChatRequest', {time: this.lastUpdate}).done(this.receptData.bind(this)).fail(function(err) {
+		console.warn(err);
+		alert(err.result || err);
+	});
 	this.fireEvent(event);	
 };
 
@@ -104,7 +107,8 @@ com.hiyoko.DodontoF.V2.ChatClient.SimpleDisplay.prototype.receptData = function(
 	var list = data.chatMessageDataLog.map(function(log){return com.hiyoko.DodontoF.V2.fixChatMsg(log);});
 	this.updateLogs(list);
 	if(list.length) {
-		this.updateLastUpdate(list[list.length - 1].time);		
+		var lastMsg = list[list.length - 1];
+		this.updateLastUpdate(Number(list[list.length - 1].id) || list[list.length - 1].time);
 	}
 };
 
