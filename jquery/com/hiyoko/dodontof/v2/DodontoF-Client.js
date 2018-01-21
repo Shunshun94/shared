@@ -128,7 +128,7 @@ com.hiyoko.DodontoF.V2.Room = function(url, room, opt_pass) {
 			param.name = opt_name;
 			param.uniqueId = opt_id;
 		}
-		return this.sendRequest_(tofRoom.API_NAMES.LOGIN_USER_INGO, param);
+		return this.sendRequest_(tofRoom.API_NAMES.LOGIN_USER_INFO, param);
 	};
 	
 	tofRoom.prototype.getChat = function(opt_from) {
