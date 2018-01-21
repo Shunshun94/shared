@@ -92,7 +92,6 @@ io.github.shunshun94.trpg.discord.Room = class extends io.github.shunshun94.trpg
 						resolve({result: 'OK'});
 					}
 				});			
-
 			}.bind(this),
 			function(failed){
 				console.error(failed);
@@ -129,8 +128,6 @@ io.github.shunshun94.trpg.discord.Room = class extends io.github.shunshun94.trpg
 					});
 				}
 			});
-			
-			
 		}.bind(this));
 	}
 	
