@@ -93,11 +93,6 @@ io.github.shunshun94.trpg.ClientInterface.Room = class {
 			reject({result: 'getCharacters is not supported'});
 		});
 	}
-	convertTofCharacterDataToForceUpdateCharacterArg () {
-		return new Promise(function(resolve, reject) {
-			reject({result: 'convertTofCharacterDataToForceUpdateCharacterArg is not supported'});
-		});
-	}
 	updateCharacter () {
 		return new Promise(function(resolve, reject) {
 			reject({result: 'updateCharacter is not supported'});
