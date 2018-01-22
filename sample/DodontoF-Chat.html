@@ -29,14 +29,19 @@
 </div>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<script src="../jquery/com/hiyoko/bcdice-api/BCDice-API.js"></script>
 <script src='../jquery/com/hiyoko/dodontof/v2/DodontoF-Client.js'></script>
 <script src='../jquery/com/hiyoko/dodontof/v2/DodontoF-chatUtil.js'></script>
 <script src='../jquery/com/hiyoko/util/v2/utils.js'></script>
+<script src="../other/io/github/shunshun94/trpg/clientSpec.js"></script>
+<script src="../external/discord.io/index.js"></script>
+<script src="../other/io/github/shunshun94/trpg/discord/client.js"></script>
 <script src="../jquery/com/hiyoko/components/v1/ApplicationBase.js"></script>
+<script src="../other/io/github/shunshun94/trpg/clientFactory.js"></script>
 <script src='../jquery/com/hiyoko/dodontof/v2/DodontoF-Chat.js'></script>
 <script>
 var query = com.hiyoko.util.getQueries();
-var client = (new com.hiyoko.DodontoF.V2.Room(query.url, query.room, query.pass));
+var client = io.github.shunshun94.trpg.RoomClientFactory(query);
 new com.hiyoko.DodontoF.V2.ChatClient($('#chat'), {displayLimit: 15});
 $('#chat').on('tofRoomRequest', function(event) {
 	client[event.method].apply(client, event.args).done(event.resolve).fail(event.reject);

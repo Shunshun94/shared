@@ -120,6 +120,7 @@ com.hiyoko.DodontoF.V2.fixChatMsg = function(chatMsg, opt_store){
 	
 	return ({
 		time:chatMsg[0],
+		id: chatMsg[1].uniqueId,
 		msg:message,
 		color:chatMsg[1].color,
 		name:name,

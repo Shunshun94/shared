@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Discord Client Sample</title>
+</head>
+<body>
+<p id="io-github-shunshun94-trpg-discord-entry">
+<input type="text" id="io-github-shunshun94-trpg-discord-entry-token" />
+<button id="io-github-shunshun94-trpg-discord-entry-start">起動</button>
+</p>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<script src="https://shunshun94.github.io/shared/jquery/com/hiyoko/util/v2/utils.js"></script>
+<script src="../other/io/github/shunshun94/trpg/clientSpec.js"></script>
+<script src="../external/discord.io/index.js"></script>
+<script src="../other/io/github/shunshun94/trpg/discord/client.js"></script>
+<script>
+var client;
+$('#io-github-shunshun94-trpg-discord-entry-token').val(localStorage.getItem('io-github-shunshun94-trpg-discord-entry-token') || '');
+$('#io-github-shunshun94-trpg-discord-entry-start').click(function(e) {
+	localStorage.setItem('io-github-shunshun94-trpg-discord-entry-token', $('#io-github-shunshun94-trpg-discord-entry-token').val());
+	client = new io.github.shunshun94.trpg.discord.Server($('#io-github-shunshun94-trpg-discord-entry-token').val());
+	$('#io-github-shunshun94-trpg-discord-entry').hide();
+});
+
+</script>
+
+
+
+
+</body>
+</html>
