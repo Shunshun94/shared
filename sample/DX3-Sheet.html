@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>DX3 Sheet parse run</title>
+</head>
+<body>
+
+<p>SheetURL<input list="list" id="input" type="text" /> <input id="exec" type="button" value="出力" /></p>
+<datalist id="list"></datalist>
+<pre id="output"></pre>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<script src='../jquery/com/hiyoko/util/v2/utils.js'></script>
+<script src="../jquery/io/github/shunshun94/trpg/characterSheetsMasashige/client.js"></script>
+<script src="../jquery/io/github/shunshun94/trpg/characterSheetsMasashige/dx3.js"></script>
+<script>
+//From https://s8a.jp/jquery-text-with-lf
+(function(r){function l(a){return b(a,c,t,function(a){return u[a]})}function m(a){return b(a,f,v,function(a){return w[a]})}function b(a,b,d,e){return a&&d.test(a)?a.replace(b,e):a}function d(a){if(null==a)return"";if("string"==typeof a)return a;if(Array.isArray(a))return a.map(d)+"";var b=a+"";return"0"==b&&1/a==-(1/0)?"-0":b}var u={"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"},c=/[&<>"']/g,t=new RegExp(c.source),w={"&amp;":"&","&lt;":"<","&gt;":">","&quot;":'"',"&#39;":"'"},f=/&(?:amp|lt|gt|quot|#39);/g,
+	v=new RegExp(f.source),e=/<(?:.|\n)*?>/mg,n=new RegExp(e.source),g=/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g,p=new RegExp(g.source),h=/<br\s*\/?>/mg,q=new RegExp(h.source);r.fn.textWithLF=function(a){var c=typeof a;return"undefined"==c?m(b(b(this.html(),h,q,"\n"),e,n,"")):this.html("function"==c?function(c,f){var k=a.call(this,c,m(b(b(f,h,q,"\n"),e,n,"")));return"undefined"==typeof k?k:b(l(d(k)),g,p,"$1<br>")}:b(l(d(a)),g,p,"$1<br>"))}})(jQuery);
+
+com.hiyoko.util.forEachMap(JSON.parse(localStorage.getItem('com-hiyoko-sample-dx3sheetparse-index') || '{}'), function(v, k) {
+	$('#list').append(com.hiyoko.util.format('<option value="%s">%s</option>', k, v));
+});
+$('#exec').click(function(e) {
+	io.github.shunshun94.trpg.characterSheetsMasashige.getSheet($('input').val()).done(function(instance) {
+		$('#output').textWithLF(JSON.stringify(instance, null, '\t'));
+		console.log($('input').val(), instance);
+		com.hiyoko.util.updateLocalStorage('com-hiyoko-sample-dx3sheetparse-index', $('input').val(), instance.name);
+	});	
+});
+</script>
+</body>
+</html>
