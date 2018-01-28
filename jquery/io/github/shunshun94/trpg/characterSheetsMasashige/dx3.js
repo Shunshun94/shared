@@ -4,15 +4,12 @@ io.github.shunshun94 = io.github.shunshun94 || {};
 io.github.shunshun94.trpg = io.github.shunshun94.trpg || {};
 io.github.shunshun94.trpg.characterSheetsMasashige = io.github.shunshun94.trpg.characterSheetsMasashige || {};
 
-io.github.shunshun94.trpg.characterSheetsMasashige.DX3 =  class extends io.github.shunshun94.trpg.characterSheetsMasashige.client {
+io.github.shunshun94.trpg.characterSheetsMasashige.DX3 = class extends io.github.shunshun94.trpg.characterSheetsMasashige.client {
 	constructor (id, opt_callback) {
 		super('dx3');
 		this.sendRequest(id).done((json) => {
 			this.basicParse(json);
 			this.leftSide(json);
-			
-			
-			
 			if(opt_callback) {
 				opt_callback(this);
 			} else {
@@ -71,8 +68,6 @@ io.github.shunshun94.trpg.characterSheetsMasashige.DX3 =  class extends io.githu
 				this.skills['情報:' + cols.name4] = {status: 'society', lv: Number(cols.lv4)};
 			}
 		});
-		
-		
 		this.subStatus = {
 			HP: subStatus.hp.current || subStatus.hp.total, hp: subStatus.hp.total || subStatus.hp.total,
 			MHP: subStatus.hp.total, mhp: subStatus.hp.total, 
