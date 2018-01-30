@@ -10,6 +10,7 @@ io.github.shunshun94.trpg.characterSheetsMasashige.DX3 = class extends io.github
 		this.sendRequest(id).done((json) => {
 			this.basicParse(json);
 			this.leftSide(json);
+			this.rightSide(json);
 			if(opt_callback) {
 				opt_callback(this);
 			} else {
@@ -79,6 +80,15 @@ io.github.shunshun94.trpg.characterSheetsMasashige.DX3 = class extends io.github
 		};
 		this.lois = json.lois;
 		this.memory = json.memory;
+	}
+
+	rightSide (json) {
+		const EFFECT_CHECK = ['', '自動', 'Dロイス等', 'イージー', '', 'エネミー'];
+		
+		this.effects = json.arts.map((effect) => {
+			effect.check = EFFECT_CHECK[Number(effect.check)];
+			return effect;
+		});
 	}
 };
 

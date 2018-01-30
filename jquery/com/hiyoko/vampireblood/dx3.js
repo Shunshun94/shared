@@ -8,6 +8,7 @@ com.hiyoko.VampireBlood.DX3 = class extends com.hiyoko.VampireBlood.Client {
 		this.sendRequest(id).done((data) => {
 			this.basicParse(data);
 			this.leftSide(data);
+			this.rightSide(data);
 			if(opt_callback) {
 				opt_callback(this);
 			} else {
@@ -102,6 +103,50 @@ com.hiyoko.VampireBlood.DX3 = class extends com.hiyoko.VampireBlood.Client {
 			});
 		});
 	}
+
+	rightSide (json) {
+		this.effects = json.effect_name.map((name, i) => {
+			return {
+				check: json.effect_shozoku[i],
+				cost: json.effect_cost[i],
+				judge: json.effect_hantei[i],
+				level: com.hiyoko.VampireBlood.DX3.convertEffectLevel(json.effect_lv[i]),
+				limit: json.effect_page[i],
+				name: name,
+				notes: json.effect_memo[i],
+				range: json.effect_range[i],
+				target: json.effect_taisho[i],
+				timing: json.effect_timing[i],
+				type: null
+			};
+		});
+		json.easyeffect_name.forEach((name, i) => {
+			this.effects.push({
+				check: 'イージー',
+				cost: json.easyeffect_cost[i],
+				judge: json.easyeffect_hantei[i],
+				level: com.hiyoko.VampireBlood.DX3.convertEffectLevel(json.easyeffect_lv[i]),
+				limit: json.easyeffect_page[i],
+				name: name,
+				notes: json.easyeffect_memo[i],
+				range: json.easyeffect_range[i],
+				target: json.easyeffect_taisho[i],
+				timing: json.easyeffect_timing[i],
+				type: null
+			})
+		});
+	}
+};
+
+com.hiyoko.VampireBlood.DX3.convertEffectLevel = (level) => {
+	const num = Number(level);
+	if(num > 9) {
+		return num - 10;
+	}
+	if(num > 5) {
+		return num - 5;
+	}
+	return num;
 };
 
 com.hiyoko.VampireBlood.DX3.getSheet = function(url) {
