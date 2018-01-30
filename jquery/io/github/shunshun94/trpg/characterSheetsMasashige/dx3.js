@@ -72,11 +72,11 @@ io.github.shunshun94.trpg.characterSheetsMasashige.DX3 = class extends io.github
 			HP: subStatus.hp.current || subStatus.hp.total, hp: subStatus.hp.total || subStatus.hp.total,
 			MHP: subStatus.hp.total, mhp: subStatus.hp.total, 
 			erotion: json.erotion.shock || subStatus.erotion.total, '侵蝕率': json.erotion.shock || subStatus.erotion.total,
-			erotion: subStatus.erotion.total, '侵蝕率基本値': subStatus.erotion.total,
+			initialErotion: subStatus.erotion.total, '侵蝕率基本値': subStatus.erotion.total,
 			speed: subStatus.action.total, '行動値':  subStatus.action.total,
 			standing: subStatus.standing.total, '常備化ポイント': subStatus.standing.total,
 			property: subStatus.property.total, '財産ポイント': subStatus.property.total
-		}
+		};
 		this.lois = json.lois;
 		this.memory = json.memory;
 	}
@@ -96,7 +96,7 @@ io.github.shunshun94.trpg.characterSheetsMasashige.DX3.syndromeFilter = (syndrom
 	return result;
 };
 
-io.github.shunshun94.trpg.characterSheetsMasashige.getSheet = function(url) {
+io.github.shunshun94.trpg.characterSheetsMasashige.DX3.getSheet = function(url) {
 	var promise = new $.Deferred;
 	new io.github.shunshun94.trpg.characterSheetsMasashige.DX3(/key=(.*)/.exec(url)[1], function(instance) {
 		promise.resolve(instance);
