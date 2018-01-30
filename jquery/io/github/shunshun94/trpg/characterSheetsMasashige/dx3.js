@@ -89,6 +89,67 @@ io.github.shunshun94.trpg.characterSheetsMasashige.DX3 = class extends io.github
 			effect.check = EFFECT_CHECK[Number(effect.check)];
 			return effect;
 		});
+		this.weapons = json.weapons.map((weapon) => {
+			return {
+				attack: Number(weapon.attack) || weapon.attack || 0,
+				guard: Number(weapon.guard) || weapon.guard || 0,
+				hit: Number(weapon.judge) || weapon.judge || 0,
+				critical: 10,
+				dice: this.skills[weapon.skill] ? this.status[(this.skills[weapon.skill]).status] : Math.max(this.status.body, this.status.sense),
+				cost: 0,
+				name: weapon.name,
+				notes: weapon.notes,
+				combination: '',
+				target: '',
+				range: weapon.range,
+				skill: weapon.skill,
+				exp: weapon.exp || 0,
+				standing: weapon.standing || 0,
+				type: '武器'
+			};
+		});
+		json.combo.forEach((combo) => {
+			const over = combo.over100;
+			const under = combo.under100;
+			this.weapons.push({
+				attack: Number(under.attack) || under.attack || 0,
+				guard: 0,
+				hit: Number(under.judge) || under.judge || 0,
+				critical: Number(under.critical) || under.ciritical || 10,
+				dice: Number(under.dice) || under.dice || Math.max(this.status.body, this.status.sense),
+				cost: Number(under.cost) || under.cost,
+				name: `${combo.name} (100% 未満)`,
+				notes: under.notes,
+				combination: under.combination,
+				target: under.target,
+				range: under.range,
+				skill: under.type,
+				judge: under.judge,
+				timing: under.timing,
+				exp: 0,
+				standing: 0,
+				type: 'コンボ'
+			});
+			this.weapons.push({
+				attack: Number(over.attack) || over.attack || 0,
+				guard: 0,
+				hit: Number(over.judge) || over.judge || 0,
+				critical: Number(over.critical) || over.ciritical || 10,
+				dice: Number(over.dice) || over.dice || Math.max(this.status.body, this.status.sense),
+				cost: Number(over.cost) || over.cost,
+				name: `${combo.name} (100% 以上)`,
+				notes: over.notes,
+				combination: over.combination,
+				target: over.target,
+				range: over.range,
+				skill: over.type,
+				judge: over.judge,
+				timing: over.timing,
+				exp: 0,
+				standing: 0,
+				type: 'コンボ'
+			});
+		});
 	}
 };
 

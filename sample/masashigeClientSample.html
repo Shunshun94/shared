@@ -25,8 +25,6 @@ const displaySheetInfo = (url) => {
 	const system = /appspot\.com\/(.*)\//.exec(url)[1];
 	const id = /key=(.*)/.exec(url)[1];
 		
-	$('#io-github-shunshun94-trpg-characterSheetsMasashige-client-exec').parent().hide();
-	
 	(new io.github.shunshun94.trpg.characterSheetsMasashige.client(system)).sendRequest(id).done((result) => {
 		$('#io-github-shunshun94-trpg-characterSheetsMasashige-client-display').textWithLF(JSON.stringify(result, null, '\t'));
 		console.log(result);
