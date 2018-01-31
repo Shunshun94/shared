@@ -75,7 +75,6 @@ com.hiyoko.VampireBlood.DX3 = class extends com.hiyoko.VampireBlood.Client {
 		
 		const skillTableName = ['エラー:', '運転:', '芸術:', '知識:', '情報:'];
 		const skillTableStatus = ['', 'body', 'sense', 'mind', 'society'];
-		console.log(json.skill_id);
 		(json.skill_id || []).forEach((strId, i) => {
 			const id = Number(strId) || 0;
 			this.skills[skillTableName[id] + json.skill_memo[12 + i]] = {
@@ -135,6 +134,36 @@ com.hiyoko.VampireBlood.DX3 = class extends com.hiyoko.VampireBlood.Client {
 				type: null
 			})
 		});
+		
+		const WEAPON_SKILL = ['', '白兵', '射撃', 'RC', '運転', '交渉'];
+		const REGEXP = {
+			COST: new RegExp("[侵浸コ][蝕食ス][率値ト]?([0-9]+\\+?[0-9]?D?)"),
+			CRIT: new RegExp("C値([0-9]+)|クリテ?ィ?カ?ル?値?([0-9]+)")
+		};
+		this.weapons = json.arms_name.map((name, i) => {
+			const cost = (REGEXP.COST.exec(json.arms_sonota[i]) || [0,0])[1];
+			const tmpCritical = (REGEXP.CRIT.exec(json.arms_sonota[i]) || [0,10]);
+			const critical = tmpCritical[1] || tmpCritical[2];
+			const diceAndHit = json.arms_hit[i].split(/r\+?-?/);
+			return {
+				attack: Number(json.arms_power[i]) || json.arms_power[i] || 0,
+				guard: Number(json.arms_guard_level[i]) || json.arms_guard_level[i] || 0,
+				hit: Number(diceAndHit[1]) || 0,
+				critical: Number(critical),
+				dice: Number(diceAndHit[0]) || 0,
+				cost: Number(cost) || cost,
+				name: name,
+				notes: json.arms_sonota[i],
+				combination: null,
+				target: null,
+				range: json.arms_range[i],
+				skill: WEAPON_SKILL[Number(json.arms_hit_param[i])],
+				exp: null,
+				standing: Number(json.arms_price[i]) || json.arms_price[i] || 0,
+				type: null
+			};
+		});
+		
 	}
 };
 
