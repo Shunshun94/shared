@@ -150,6 +150,14 @@ io.github.shunshun94.trpg.characterSheetsMasashige.DX3 = class extends io.github
 				type: 'コンボ'
 			});
 		});
+		this.items = json.items.filter((item)=>{
+			return item.name;
+		}).map((item) => {
+			item.count = 1;
+			item.standing = Number(item.standing) || 0;
+			return item;
+		});
+		this.armours = json.armours.filter((item)=>{return item.name;});
 	}
 };
 

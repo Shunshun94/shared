@@ -134,6 +134,7 @@ com.hiyoko.VampireBlood.DX3 = class extends com.hiyoko.VampireBlood.Client {
 				type: null
 			})
 		});
+		this.effects = this.effects.filter((effect) => {return effect.name});
 		
 		const WEAPON_SKILL = ['', '白兵', '射撃', 'RC', '運転', '交渉'];
 		const REGEXP = {
@@ -162,7 +163,42 @@ com.hiyoko.VampireBlood.DX3 = class extends com.hiyoko.VampireBlood.Client {
 				standing: Number(json.arms_price[i]) || json.arms_price[i] || 0,
 				type: null
 			};
+		}).filter((weapon) => {
+			return weapon.name + weapon.notes + weapon.skill;
 		});
+		this.items = json.item_name.map((name, i) => {
+			return {
+				name: name,
+				standing: Number(json.item_price[i]) || 0,
+				count: Number(json.item_num[i]) || 0,
+				skill: null, type: null, exp: null
+			};
+		}).filter((item) => {return item.name});
+		this.armours = [];
+		if(json.armer_name) {
+			this.armours.push({
+				action: Number(json.armer_move) || 0,
+				armour: Number(json.armer_def) || 0,
+				dodge: Number(json.armer_dodge) || 0,
+				exp : null,
+				name: json.armer_name,
+				notes: json.armer_sonota,
+				standing: Number(json.armer_price) || 0,
+				type: null
+			});
+		}
+		if(json.armer_name2) {
+			this.armours.push({
+				action: Number(json.armer_move2) || 0,
+				armour: Number(json.armer_def2) || 0,
+				dodge: Number(json.armer_dodge2) || 0,
+				exp : null,
+				name: json.armer_name2,
+				notes: json.armer_sonota2,
+				standing: Number(json.armer_price2) || 0,
+				type: null
+			});
+		}
 		
 	}
 };
