@@ -13,7 +13,7 @@ io.github.shunshun94.trpg.selectClient = (url) => {
 		return io.github.shunshun94.trpg.characterSheetsMasashige;
 	}
 	if(target.indexOf('charasheet.vampire-blood.net') > -1) {
-		if(/\d+$/.test(target)) {
+		if(/\/\d+$/.test(target)) {
 			return com.hiyoko.VampireBlood;
 		}
 		throw `charasheet.vampire-blood.net の末尾は数字である必要があります`;
