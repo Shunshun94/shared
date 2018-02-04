@@ -2,7 +2,6 @@ var com = com || {};
 com.hiyoko = com.hiyoko || {};
 com.hiyoko.component = com.hiyoko.component || {};
 com.hiyoko.component.ApplicationBase = function($html){
-	this.options = opt_options || {};
 	this.$html = $($html);
 	this.id = this.$html.attr('id');
 };
