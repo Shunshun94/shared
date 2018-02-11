@@ -67,7 +67,6 @@ com.hiyoko.DodontoF.V2.ChatClient.prototype.sendChat = function(e) {
 	} else if(! Boolean(args.message)) {
 		var rejectObject = {result: '送信するメッセージがありません', detail: 'args.message is required but, args.message is not found', args: args};
 		promise.reject(rejectObject);
-		return;
 	} else {
 		args.color = args.color || '000000';
 		args.channel = args.channel || 0;

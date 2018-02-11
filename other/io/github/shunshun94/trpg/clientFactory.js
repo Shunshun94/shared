@@ -23,6 +23,16 @@ io.github.shunshun94.trpg.SelectPlatform = (type, args) => {
 		throw 'The 1st argument is empty!';
 	}
 	
+	if((typeof url) === 'object') {
+		url = $(url); 
+		if(url.length === 1) {
+			return io.github.shunshun94.trpg.generateClient(io.github.shunshun94.trpg.dummy, type, url, args);
+		} else {
+			console.error('No HTML Element is found even url is inputed as object. Object is', url);
+			throw 'No HTML Element is found even url is inputed as object';
+		}
+	}
+	
 	if(/.{24}\..{6}\..{27}/.test(url)) {
 		return io.github.shunshun94.trpg.generateClient(io.github.shunshun94.trpg.discord, type,
 				url, args.room, args.dicebot ? new com.hiyoko.BCDiceAPIClient(args.dicebot, args.system) : false);
