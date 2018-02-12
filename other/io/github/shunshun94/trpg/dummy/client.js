@@ -208,8 +208,6 @@ io.github.shunshun94.trpg.dummy.Room = class extends io.github.shunshun94.trpg.C
 					dogTag: false,
 					draggable: false,
 					initiative: 0,
-					url: query.url || '',
-					info: query.info || '',
 					imageName: 'https://shunshun94.github.io/manaT/images/default.png',
 					counters: {}
 			};
