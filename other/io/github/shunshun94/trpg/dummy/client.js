@@ -230,6 +230,20 @@ io.github.shunshun94.trpg.dummy.Room = class extends io.github.shunshun94.trpg.C
 			resolve({result:'OK'});
 		});
 	}
+
+	getCharacters() {
+		return new Promise((resolve, reject) => {
+			var list = [];
+			for(var name in this.initiativeTable) {
+				list.push(this.initiativeTable[name]);
+			}
+			resolve({
+				result: 'OK',
+				characters: list,
+				graveyard: []
+			});
+		});
+	}
 };
 
 io.github.shunshun94.trpg.dummy.Room.CHARACTER_PARAMS = [
