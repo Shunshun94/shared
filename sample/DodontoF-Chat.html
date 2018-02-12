@@ -27,7 +27,7 @@
 		<button id="chat-input-exec">送信</button>
 	</div>
 </div>
-
+<div id="dummyClient"></div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 <script src="../jquery/com/hiyoko/bcdice-api/BCDice-API.js"></script>
 <script src='../jquery/com/hiyoko/dodontof/v2/DodontoF-Client.js'></script>
@@ -36,11 +36,13 @@
 <script src="../other/io/github/shunshun94/trpg/clientSpec.js"></script>
 <script src="../external/discord.io/index.js"></script>
 <script src="../other/io/github/shunshun94/trpg/discord/client.js"></script>
+<script src="../other/io/github/shunshun94/trpg/dummy/client.js"></script>
 <script src="../jquery/com/hiyoko/components/v1/ApplicationBase.js"></script>
 <script src="../other/io/github/shunshun94/trpg/clientFactory.js"></script>
 <script src='../jquery/com/hiyoko/dodontof/v2/DodontoF-Chat.js'></script>
 <script>
 var query = com.hiyoko.util.getQueries();
+if(! Boolean(query.url)) {query.url = $('#dummyClient');}
 var client = io.github.shunshun94.trpg.RoomClientFactory(query);
 new com.hiyoko.DodontoF.V2.ChatClient($('#chat'), {displayLimit: 15});
 $('#chat').on('tofRoomRequest', function(event) {
