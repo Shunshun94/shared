@@ -13,6 +13,7 @@ io.github.shunshun94.scheduler.Scheduler = class {
 			return a.prepare - b.prepare;
 		});
 		this.buildComponents();
+		this.drawEvents();
 		this.bindEvents();
 	}
 	
@@ -36,6 +37,13 @@ io.github.shunshun94.scheduler.Scheduler = class {
 		return line;
 	}
 	
+	drawHeader() {
+		var header = $(`<div class="${this.id}-date ${this.id}-date-header" id="${this.id}-date-header"></div>`);
+		var dateColumn = $(`<div class="${this.id}-date-dateColumn ${this.id}-date-dateColumnHeader"></div>`);
+		dateColumn.text('Date');
+		header.append(dateColumn);
+		return header;
+	}
 	
 	buildComponents() {
 		const startDate = new Date(this.initialSchedule[0].prepare) || new Date();
@@ -43,7 +51,7 @@ io.github.shunshun94.scheduler.Scheduler = class {
 		const baseMonth = startDate.getMonth();
 		const baseDay = startDate.getDate();
 		
-		
+		this.$html.append(this.drawHeader());
 		for(var i = 0; i < io.github.shunshun94.scheduler.Scheduler.ONE_WEEK_DAYS ; i++) {
 			this.$html.append(this.getDayLine(new Date(baseYear, baseMonth, baseDay + i)));
 		}
@@ -60,6 +68,7 @@ io.github.shunshun94.scheduler.Scheduler = class {
 
 
 io.github.shunshun94.scheduler.Scheduler.generateSchedule = (
+	id,
 	label,
 	startDate,
 	length = 540,
@@ -68,6 +77,7 @@ io.github.shunshun94.scheduler.Scheduler.generateSchedule = (
 ) => {
 	var result = {};
 	startDateNum = Number(startDate);
+	result.id = id;
 	result.label = label;
 	result.start = startDateNum;
 	result.end = startDateNum + length * 60 * 1000;
@@ -88,6 +98,7 @@ io.github.shunshun94.scheduler.Scheduler.INITIAL_SCHEDULE_BASEDATE.VALUES = {
 
 io.github.shunshun94.scheduler.Scheduler.INITIAL_SCHEDULE = [0,1,2,3,4,5,6].map((diff) => {
 	return io.github.shunshun94.scheduler.Scheduler.generateSchedule(
+			diff,
 			`Schedule - ${diff + 1}`,
 			new Date(
 			io.github.shunshun94.scheduler.Scheduler.INITIAL_SCHEDULE_BASEDATE.VALUES.YEAR,
