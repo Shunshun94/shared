@@ -13,8 +13,18 @@ io.github.shunshun94.scheduler.Scheduler = class {
 			return a.prepare - b.prepare;
 		});
 		this.buildComponents();
-		this.drawEvents();
+		this.drawSchedules();
 		this.bindEvents();
+	}
+	
+	drawSchedule() {
+		
+	}
+	
+	drawSchedules() {
+		this.initialSchedule.forEach((schedule) => {
+			this.drawSchedule(schedule);
+		});
 	}
 	
 	formatDate(date) {
@@ -33,7 +43,10 @@ io.github.shunshun94.scheduler.Scheduler = class {
 		var dateColumn = $(`<div class="${this.id}-date-dateColumn"></div>`);
 		dateColumn.text(this.formatDate(date));
 		
+		var schedule = $(`<div class="${this.id}-date-scheduleColumn"></div>`);
+		
 		line.append(dateColumn);
+		line.append(schedule);
 		return line;
 	}
 	
