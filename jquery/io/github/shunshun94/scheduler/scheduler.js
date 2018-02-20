@@ -9,20 +9,52 @@ io.github.shunshun94.scheduler.Scheduler = class {
 		this.timezone = opts.timezone ? (Number(opts.timezone) || 0) : 0;
 		this.appendable = opts.appendable ? Boolean(opts.appendable) : false;
 		this.dateFormat = opts.dateFormat || '%m/%d (%D)';
-		this.initialSchedule = (opts.initialSchedule || io.github.shunshun94.scheduler.Scheduler.INITIAL_SCHEDULE).sort((a, b) => {
+		this.schedules = {};
+		
+		const initialSchedule = (opts.initialSchedule || io.github.shunshun94.scheduler.Scheduler.INITIAL_SCHEDULE).sort((a, b) => {
 			return a.prepare - b.prepare;
 		});
-		this.buildComponents();
-		this.drawSchedules();
+		this.buildComponents(initialSchedule);
+		this.drawSchedules(initialSchedule);
 		this.bindEvents();
 	}
 	
-	drawSchedule() {
+	drawSchedule(schedule) {
+		const baseStyle = 'box-sizing:border-box;position:absolute;top:0px;bottom:0px;text-align:center;';
+		const minWidth = $(`.${this.id}-date-scheduleColumn`).width() / (24 * 60);
+		const startDate = new Date(schedule.prepare)
+		const startPoint = (startDate.getHours() * 60 + startDate.getMinutes()) * minWidth;
+		const width = schedule.length.total * minWidth;
 		
+		var $schedule = $('<div ' +
+				`class="${this.id}-date-scheduleColumn-schedule" ` +
+				`id="${this.id}-date-scheduleColumn-schedule-${schedule.id}" ` +
+				`style="width:${width}px;left:${startPoint}px;${baseStyle}" >` + '</div>');
+		$schedule.text(schedule.label);
+		
+		$schedule.append('<div ' +
+				`class="${this.id}-date-scheduleColumn-schedule-head" ` +
+				`style="width:${schedule.length.head * minWidth}px;${baseStyle}" ></div>`);
+		$schedule.append('<div ' +
+				`class="${this.id}-date-scheduleColumn-schedule-foot" ` +
+				`style="width:${schedule.length.foot * minWidth}px;${baseStyle}right:0px;" ></div>`);
+		
+		////////////////////////////////////
+		const $base = $(`#${this.id}-date-${startDate.getFullYear()}-${startDate.getMonth()}-${startDate.getDate()} > .${this.id}-date-scheduleColumn`);
+		
+		if($base.length) {
+			$base.append($schedule);
+		}		
+		
+		////////////////////////////////////
+		this.schedules[`${this.id}-date-scheduleColumn-schedule-${schedule.id}`] = schedule;
+		
+		
+		return $schedule;
 	}
 	
-	drawSchedules() {
-		this.initialSchedule.forEach((schedule) => {
+	drawSchedules(initialSchedule) {
+		initialSchedule.forEach((schedule) => {
 			this.drawSchedule(schedule);
 		});
 	}
@@ -58,8 +90,8 @@ io.github.shunshun94.scheduler.Scheduler = class {
 		return header;
 	}
 	
-	buildComponents() {
-		const startDate = new Date(this.initialSchedule[0].prepare) || new Date();
+	buildComponents(initialSchedule) {
+		const startDate = new Date(initialSchedule[0].prepare) || new Date();
 		const baseYear = startDate.getFullYear();
 		const baseMonth = startDate.getMonth();
 		const baseDay = startDate.getDate();
@@ -71,7 +103,17 @@ io.github.shunshun94.scheduler.Scheduler = class {
 	}
 	
 	bindEvents() {
-		
+		this.$html.click((e) => {
+			const $target = $(e.target);
+			if($target.hasClass(`${this.id}-date-scheduleColumn-schedule`)) {
+				this.$html.trigger({
+					type: io.github.shunshun94.scheduler.Scheduler.EVENTS.CLICK_EVENT,
+					schedule: this.schedules[$target.attr('id')]
+				});
+			}
+			
+			
+		});
 	}
 	
 	
@@ -96,11 +138,20 @@ io.github.shunshun94.scheduler.Scheduler.generateSchedule = (
 	result.end = startDateNum + length * 60 * 1000;
 	result.prepare =  startDateNum - prepare * 60 * 1000;
 	result.tidyUp = result.end + tidyUp * 60 * 1000;
+	result.length = {
+			head: prepare,
+			body: length,
+			foot: tidyUp,
+			total: prepare + length + tidyUp
+	};
 	return result;
 };
 
 io.github.shunshun94.scheduler.Scheduler.ONE_WEEK_DAYS = 7;
 io.github.shunshun94.scheduler.Scheduler.DAYS = ['Sun.', 'Mon', 'Tue.', 'Wed.', 'Thu.', 'Fri.', 'Sat.'];
+io.github.shunshun94.scheduler.Scheduler.EVENTS = {
+	CLICK_EVENT: 'io-github-shunshun94-scheduler-Scheduler-EVENTS-CLICK_EVENT'
+};
 io.github.shunshun94.scheduler.Scheduler.INITIAL_SCHEDULE_BASEDATE = new Date();
 io.github.shunshun94.scheduler.Scheduler.INITIAL_SCHEDULE_BASEDATE.VALUES = {
 	YEAR: io.github.shunshun94.scheduler.Scheduler.INITIAL_SCHEDULE_BASEDATE.getFullYear(),
