@@ -41,21 +41,22 @@ io.github.shunshun94.scheduler.Scheduler = class {
 		
 		////////////////////////////////////
 		const $base = $(`#${this.id}-date-${startDate.getFullYear()}-${startDate.getMonth()}-${startDate.getDate()} > .${this.id}-date-scheduleColumn`);
+		const staticHeight = $base.height();
 		
 		if($base.length) {
 			$base.append($schedule);
 			$(`#${this.id}-date-scheduleColumn-schedule-${schedule.id}`).resizable({
-			    helper: "helper",
-			    grid: minWidth * 10,
-			    ghost: true,
-			    containment: `.${this.id}-date-scheduleColumn`
-			  });
+				helper: "helper",
+				grid: minWidth * 10,
+				ghost: true,
+				minHeight: staticHeight,
+				maxHeight: staticHeight,
+				minWidth: Math.max((schedule.length.head + schedule.length.foot) * minWidth, minWidth * 10)
+			});
 		}		
 		
 		////////////////////////////////////
 		this.schedules[`${this.id}-date-scheduleColumn-schedule-${schedule.id}`] = schedule;
-		
-		
 		return $schedule;
 	}
 	
