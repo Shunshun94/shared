@@ -20,7 +20,7 @@ io.github.shunshun94.scheduler.Scheduler = class {
 	}
 	
 	drawSchedule(schedule) {
-		const baseStyle = 'box-sizing:border-box;position:absolute;top:0px;bottom:0px;text-align:center;';
+		const baseStyle = 'box-sizing:border-box;position:absolute;top:0px;bottom:0px;text-align:center;overflow:hidden;';
 		const minWidth = $(`.${this.id}-date-scheduleColumn`).width() / (24 * 60);
 		const startDate = new Date(schedule.prepare)
 		const startPoint = (startDate.getHours() * 60 + startDate.getMinutes()) * minWidth;
@@ -44,6 +44,12 @@ io.github.shunshun94.scheduler.Scheduler = class {
 		
 		if($base.length) {
 			$base.append($schedule);
+			$(`#${this.id}-date-scheduleColumn-schedule-${schedule.id}`).resizable({
+			    helper: "helper",
+			    grid: minWidth * 10,
+			    ghost: true,
+			    containment: `.${this.id}-date-scheduleColumn`
+			  });
 		}		
 		
 		////////////////////////////////////
