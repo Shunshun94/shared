@@ -49,9 +49,11 @@ io.github.shunshun94.scheduler.Scheduler = class {
 				helper: "helper",
 				grid: minWidth * 10,
 				ghost: true,
+				handles: 'all',
 				minHeight: staticHeight,
 				maxHeight: staticHeight,
-				minWidth: Math.max((schedule.length.head + schedule.length.foot) * minWidth, minWidth * 10)
+				minWidth: Math.max((schedule.length.head + schedule.length.foot) * minWidth, minWidth * 10),
+				stop: this.resized.bind(this)
 			});
 		}		
 		
@@ -64,6 +66,12 @@ io.github.shunshun94.scheduler.Scheduler = class {
 		initialSchedule.forEach((schedule) => {
 			this.drawSchedule(schedule);
 		});
+	}
+	
+	resized(e, movedSchedule) {
+		const minWidth = $(`.${this.id}-date-scheduleColumn`).width() / (24 * 60);
+		console.log('length:', movedSchedule.size.width / minWidth);
+		console.log(' start:', movedSchedule.position.left / minWidth)
 	}
 	
 	formatDate(date) {
