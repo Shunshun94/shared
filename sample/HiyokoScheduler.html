@@ -46,6 +46,7 @@
 		height: 31px;
 		display: inline-block;
 		position: relative;
+		overflow:hidden;
 	}
 	
 	.io-github-shunshun94-scheduler-Scheduler-date-scheduleColumn-schedule {
@@ -67,6 +68,10 @@
 <script>
 new io.github.shunshun94.scheduler.Scheduler($('#io-github-shunshun94-scheduler-Scheduler'));
 $('#io-github-shunshun94-scheduler-Scheduler').on(io.github.shunshun94.scheduler.Scheduler.EVENTS.CLICK_EVENT, (e) => {
+	const schedule = e.schedule;
+	$('#io-github-shunshun94-scheduler-Display').text(`"${schedule.label}" …… ${new Date(schedule.start)} ～ ${new Date(schedule.end)}`);
+});
+$('#io-github-shunshun94-scheduler-Scheduler').on(io.github.shunshun94.scheduler.Scheduler.EVENTS.RESIZE_EVENT, (e) => {
 	const schedule = e.schedule;
 	$('#io-github-shunshun94-scheduler-Display').text(`"${schedule.label}" …… ${new Date(schedule.start)} ～ ${new Date(schedule.end)}`);
 });

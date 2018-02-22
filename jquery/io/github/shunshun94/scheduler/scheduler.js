@@ -46,13 +46,11 @@ io.github.shunshun94.scheduler.Scheduler = class {
 		if($base.length) {
 			$base.append($schedule);
 			$(`#${this.id}-date-scheduleColumn-schedule-${schedule.id}`).resizable({
-				helper: "helper",
 				grid: minWidth * 10,
 				ghost: true,
-				handles: 'all',
-				minHeight: staticHeight,
-				maxHeight: staticHeight,
-				minWidth: Math.max((schedule.length.head + schedule.length.foot) * minWidth, minWidth * 10),
+				helper: 'helper',
+				handles: 'e, w',
+				minWidth: (schedule.length.head + schedule.length.foot + 10) * minWidth,
 				stop: this.resized.bind(this)
 			});
 		}		
@@ -70,8 +68,25 @@ io.github.shunshun94.scheduler.Scheduler = class {
 	
 	resized(e, movedSchedule) {
 		const minWidth = $(`.${this.id}-date-scheduleColumn`).width() / (24 * 60);
-		console.log('length:', movedSchedule.size.width / minWidth);
-		console.log(' start:', movedSchedule.position.left / minWidth)
+		const staticHeight = $(`.${this.id}-date-scheduleColumn`).height();
+		const id = $(e.target).attr('id');
+		$(e.target).css({
+			top: '0px', height: staticHeight + 'px'
+		});
+		const tmpDay = new Date(this.schedules[id].prepare);
+		const prepareStart = (movedSchedule.position.left - $(e.target).parent().position().left) / minWidth;
+		
+		this.schedules[id].length.body = movedSchedule.size.width / minWidth;
+		this.schedules[id].length.total = this.schedules[id].length.head + this.schedules[id].length.body + this.schedules[id].length.foot;
+		this.schedules[id].prepare = Number(new Date(tmpDay.getFullYear(), tmpDay.getMonth(), tmpDay.getDate(), Math.floor(prepareStart / 60), prepareStart % 60));
+		this.schedules[id].start = this.schedules[id].prepare + this.schedules[id].length.head * 60 * 1000;
+		this.schedules[id].end = this.schedules[id].start + this.schedules[id].length.body * 60 * 1000;
+		this.schedules[id].tidyUp = this.schedules[id].end + this.schedules[id].length.foot * 60 * 1000;
+		
+		this.$html.trigger({
+			type: io.github.shunshun94.scheduler.Scheduler.EVENTS.RESIZE_EVENT,
+			schedule: this.schedules[id]
+		});
 	}
 	
 	formatDate(date) {
@@ -126,14 +141,8 @@ io.github.shunshun94.scheduler.Scheduler = class {
 					schedule: this.schedules[$target.attr('id')]
 				});
 			}
-			
-			
 		});
 	}
-	
-	
-	
-	
 };
 
 
@@ -165,7 +174,8 @@ io.github.shunshun94.scheduler.Scheduler.generateSchedule = (
 io.github.shunshun94.scheduler.Scheduler.ONE_WEEK_DAYS = 7;
 io.github.shunshun94.scheduler.Scheduler.DAYS = ['Sun.', 'Mon', 'Tue.', 'Wed.', 'Thu.', 'Fri.', 'Sat.'];
 io.github.shunshun94.scheduler.Scheduler.EVENTS = {
-	CLICK_EVENT: 'io-github-shunshun94-scheduler-Scheduler-EVENTS-CLICK_EVENT'
+	CLICK_EVENT: 'io-github-shunshun94-scheduler-Scheduler-EVENTS-CLICK_EVENT',
+	RESIZE_EVENT: 'io-github-shunshun94-scheduler-Scheduler-EVENTS-RESIZE_EVENT'
 };
 io.github.shunshun94.scheduler.Scheduler.INITIAL_SCHEDULE_BASEDATE = new Date();
 io.github.shunshun94.scheduler.Scheduler.INITIAL_SCHEDULE_BASEDATE.VALUES = {
