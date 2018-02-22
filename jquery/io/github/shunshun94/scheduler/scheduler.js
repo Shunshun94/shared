@@ -28,7 +28,7 @@ io.github.shunshun94.scheduler.Scheduler = class {
 		
 		var $schedule = $('<div ' +
 				`class="${this.id}-date-scheduleColumn-schedule" ` +
-				`id="${this.id}-date-scheduleColumn-schedule-${schedule.id}" ` +
+				`id="${this.id}-date-scheduleColumn-schedule-${schedule.id}-0" ` +
 				`style="width:${width}px;left:${startPoint}px;${baseStyle}" >` + '</div>');
 		$schedule.text(schedule.label);
 		
@@ -45,7 +45,7 @@ io.github.shunshun94.scheduler.Scheduler = class {
 		
 		if($base.length) {
 			$base.append($schedule);
-			$(`#${this.id}-date-scheduleColumn-schedule-${schedule.id}`).resizable({
+			$(`#${this.id}-date-scheduleColumn-schedule-${schedule.id}-0`).resizable({
 				grid: minWidth * 10,
 				ghost: true,
 				helper: 'helper',
@@ -69,15 +69,15 @@ io.github.shunshun94.scheduler.Scheduler = class {
 	resized(e, movedSchedule) {
 		const minWidth = $(`.${this.id}-date-scheduleColumn`).width() / (24 * 60);
 		const staticHeight = $(`.${this.id}-date-scheduleColumn`).height();
-		const id = $(e.target).attr('id');
+		const id = $(e.target).attr('id').replace(/-\d+$/, '');
 		$(e.target).css({
 			top: '0px', height: staticHeight + 'px'
 		});
 		const tmpDay = new Date(this.schedules[id].prepare);
 		const prepareStart = (movedSchedule.position.left - $(e.target).parent().position().left) / minWidth;
 		
-		this.schedules[id].length.body = movedSchedule.size.width / minWidth;
-		this.schedules[id].length.total = this.schedules[id].length.head + this.schedules[id].length.body + this.schedules[id].length.foot;
+		this.schedules[id].length.total = movedSchedule.size.width / minWidth;
+		this.schedules[id].length.body = this.schedules[id].length.total - this.schedules[id].length.head - this.schedules[id].length.foot;
 		this.schedules[id].prepare = Number(new Date(tmpDay.getFullYear(), tmpDay.getMonth(), tmpDay.getDate(), Math.floor(prepareStart / 60), prepareStart % 60));
 		this.schedules[id].start = this.schedules[id].prepare + this.schedules[id].length.head * 60 * 1000;
 		this.schedules[id].end = this.schedules[id].start + this.schedules[id].length.body * 60 * 1000;
@@ -138,7 +138,7 @@ io.github.shunshun94.scheduler.Scheduler = class {
 			if($target.hasClass(`${this.id}-date-scheduleColumn-schedule`)) {
 				this.$html.trigger({
 					type: io.github.shunshun94.scheduler.Scheduler.EVENTS.CLICK_EVENT,
-					schedule: this.schedules[$target.attr('id')]
+					schedule: this.schedules[$target.attr('id').replace(/-\d+$/, '') ]
 				});
 			}
 		});
