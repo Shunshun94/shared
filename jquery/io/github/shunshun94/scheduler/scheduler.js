@@ -19,25 +19,29 @@ io.github.shunshun94.scheduler.Scheduler = class {
 		this.bindEvents();
 	}
 	
-	drawSchedule(schedule) {
+	drawScheduleDay_(schedule, i, isHead, isLast) {
 		const baseStyle = 'box-sizing:border-box;position:absolute;top:0px;bottom:0px;text-align:center;overflow:hidden;';
 		const minWidth = $(`.${this.id}-date-scheduleColumn`).width() / (24 * 60);
 		const startDate = new Date(schedule.prepare)
-		const startPoint = (startDate.getHours() * 60 + startDate.getMinutes()) * minWidth;
-		const width = schedule.length.total * minWidth;
+		const endDate = new Date(schedule.tidyUp);
+		const startPoint = isHead ? (startDate.getHours() * 60 + startDate.getMinutes()) * minWidth : 0;
+		const endPoint = isLast ? (60 * 24 - (endDate.getHours() * 60 + endDate.getMinutes())) * minWidth : 0;
 		
 		var $schedule = $('<div ' +
-				`class="${this.id}-date-scheduleColumn-schedule" ` +
-				`id="${this.id}-date-scheduleColumn-schedule-${schedule.id}-0" ` +
-				`style="width:${width}px;left:${startPoint}px;${baseStyle}" >` + '</div>');
+				`class="${this.id}-date-scheduleColumn-schedule ${this.id}-date-scheduleColumn-schedule-${schedule.id}" ` +
+				`id="${this.id}-date-scheduleColumn-schedule-${schedule.id}-${i}" ` +
+				`style="right:${endPoint}px;left:${startPoint}px;${baseStyle}" >` + '</div>');
 		$schedule.text(schedule.label);
-		
-		$schedule.append('<div ' +
-				`class="${this.id}-date-scheduleColumn-schedule-head" ` +
-				`style="width:${schedule.length.head * minWidth}px;${baseStyle}" ></div>`);
-		$schedule.append('<div ' +
-				`class="${this.id}-date-scheduleColumn-schedule-foot" ` +
-				`style="width:${schedule.length.foot * minWidth}px;${baseStyle}right:0px;" ></div>`);
+		if(isHead) {
+			$schedule.append('<div ' +
+					`class="${this.id}-date-scheduleColumn-schedule-head" ` +
+					`style="width:${schedule.length.head * minWidth}px;${baseStyle}" ></div>`);
+		}
+		if(isLast) {
+			$schedule.append('<div ' +
+					`class="${this.id}-date-scheduleColumn-schedule-foot" ` +
+					`style="width:${schedule.length.foot * minWidth}px;${baseStyle}right:0px;" ></div>`);
+		}
 		
 		////////////////////////////////////
 		const $base = $(`#${this.id}-date-${startDate.getFullYear()}-${startDate.getMonth()}-${startDate.getDate()} > .${this.id}-date-scheduleColumn`);
@@ -60,6 +64,14 @@ io.github.shunshun94.scheduler.Scheduler = class {
 		return $schedule;
 	}
 	
+	drawSchedule(schedule) {
+		const days = Math.ceil((schedule.tidyUp/(1000*60*60*24)) - Math.floor(schedule.prepare/(1000*60*60*24))) - 1;
+		for(var i = 0; i < days; i++) {
+			this.drawScheduleDay_(schedule, i, Boolean(i == 0), Boolean(i == days - 1));
+		}
+		return $(`.${this.id}-date-scheduleColumn-schedule-${schedule.id}`)
+	}
+
 	drawSchedules(initialSchedule) {
 		initialSchedule.forEach((schedule) => {
 			this.drawSchedule(schedule);
@@ -75,7 +87,6 @@ io.github.shunshun94.scheduler.Scheduler = class {
 		});
 		const tmpDay = new Date(this.schedules[id].prepare);
 		const prepareStart = (movedSchedule.position.left - $(e.target).parent().position().left) / minWidth;
-		
 		this.schedules[id].length.total = movedSchedule.size.width / minWidth;
 		this.schedules[id].length.body = this.schedules[id].length.total - this.schedules[id].length.head - this.schedules[id].length.foot;
 		this.schedules[id].prepare = Number(new Date(tmpDay.getFullYear(), tmpDay.getMonth(), tmpDay.getDate(), Math.floor(prepareStart / 60), prepareStart % 60));
