@@ -65,9 +65,17 @@ io.github.shunshun94.scheduler.Scheduler = class {
 		return $schedule;
 	}
 	
+	calcDayCounts(start, end) {
+		const timezoneDiff = ((new Date()).getTimezoneOffset() * 60 * 1000) - 1;
+		var endDay =  new Date(end);
+		var startDay = new Date(start);
+		startDay.setHours(0); startDay.setMinutes(0);
+		return Math.ceil((endDay - startDay) / (1000*60*60*24));
+	}
+
 	drawSchedule(schedule) {
 		$(`.${this.id}-date-scheduleColumn-schedule-${schedule.id}`).remove();
-		const days = Math.ceil((schedule.tidyUp/(1000*60*60*24)) - Math.floor(schedule.prepare/(1000*60*60*24))) - 1;
+		const days = this.calcDayCounts(schedule.prepare, schedule.tidyUp);
 		for(var i = 0; i < days; i++) {
 			this.drawScheduleDay_(schedule, i, Boolean(i == 0), Boolean(i == days - 1));
 		}
