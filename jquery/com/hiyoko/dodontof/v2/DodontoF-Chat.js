@@ -97,7 +97,7 @@ com.hiyoko.util.extend(com.hiyoko.component.ApplicationBase, com.hiyoko.DodontoF
 com.hiyoko.DodontoF.V2.ChatClient.SimpleDisplay.prototype.update = function() {
 	var event = this.getAsyncEvent(this.id + '-getChatRequest', {time: this.lastUpdate}).done(this.receptData.bind(this)).fail(function(err) {
 		console.warn(err);
-		alert(err.result || err);
+		alert(`チャットログの更新に失敗しました\n${err.result || err}`);
 	});
 	this.fireEvent(event);	
 };
