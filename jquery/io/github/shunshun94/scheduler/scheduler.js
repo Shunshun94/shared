@@ -4,7 +4,6 @@ io.github.shunshun94 = io.github.shunshun94 || {};
 io.github.shunshun94.scheduler = io.github.shunshun94.scheduler || {};
 io.github.shunshun94.scheduler.Scheduler = class {
 	constructor($dom, opts = {}) {
-		console.log(opts)
 		this.$html = $($dom);
 		this.id = this.$html.attr('id') || 'io-github-shunshun94-scheduler-Scheduler';
 		this.timezone = opts.timezone ? (Number(opts.timezone) || 0) : 0;
@@ -86,9 +85,11 @@ io.github.shunshun94.scheduler.Scheduler = class {
 	}
 
 	drawSchedules(initialSchedule) {
+		var list = [];
 		initialSchedule.forEach((schedule) => {
-			this.drawSchedule(schedule);
+			list.push(this.drawSchedule(schedule));
 		});
+		return list;
 	}
 	
 	resized(e, movedSchedule) {
