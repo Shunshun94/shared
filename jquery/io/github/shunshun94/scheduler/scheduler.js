@@ -10,10 +10,11 @@ io.github.shunshun94.scheduler.Scheduler = class {
 		this.extendable = opts.extendable;
 		this.dateFormat = opts.dateFormat || '%m/%d (%D)';
 		this.schedules = {};
-		
+		this.initialLength = Number(opts.initialLength) || io.github.shunshun94.scheduler.Scheduler.ONE_WEEK_DAYS;
 		const initialSchedule = (opts.initialSchedule || io.github.shunshun94.scheduler.Scheduler.INITIAL_SCHEDULE).sort((a, b) => {
 			return a.prepare - b.prepare;
 		});
+		this.startDate = opts.startDate || (initialSchedule[0] ? new Date(initialSchedule[0].prepare) : new Date());
 		this.buildComponents(initialSchedule);
 		this.drawSchedules(initialSchedule);
 		this.bindEvents();
@@ -84,9 +85,11 @@ io.github.shunshun94.scheduler.Scheduler = class {
 	}
 
 	drawSchedules(initialSchedule) {
+		var list = [];
 		initialSchedule.forEach((schedule) => {
-			this.drawSchedule(schedule);
+			list.push(this.drawSchedule(schedule));
 		});
+		return list;
 	}
 	
 	resized(e, movedSchedule) {
@@ -161,13 +164,13 @@ io.github.shunshun94.scheduler.Scheduler = class {
 	}
 	
 	buildComponents(initialSchedule) {
-		const startDate = new Date(initialSchedule[0].prepare) || new Date();
+		const startDate = this.startDate;
 		const baseYear = startDate.getFullYear();
 		const baseMonth = startDate.getMonth();
 		const baseDay = startDate.getDate();
 		
 		this.$html.append(this.drawHeader());
-		for(var i = 0; i < io.github.shunshun94.scheduler.Scheduler.ONE_WEEK_DAYS ; i++) {
+		for(var i = 0; i < this.initialLength ; i++) {
 			this.$html.append(this.getDayLine(new Date(baseYear, baseMonth, baseDay + i)));
 		}
 		if(this.extendable) {
