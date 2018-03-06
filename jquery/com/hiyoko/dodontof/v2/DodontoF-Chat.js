@@ -88,6 +88,7 @@ com.hiyoko.DodontoF.V2.ChatClient.SimpleDisplay = function($html, opt_options) {
 	this.id = this.$html.attr('id');
 	this.$html.addClass(com.hiyoko.DodontoF.V2.ChatClient.SimpleDisplay.CLASS);
 	
+	this.isSuspended = false;
 	this.lastUpdate = 0;
 	this.limit = this.options.displayLimit || 0;
 };
@@ -95,7 +96,16 @@ com.hiyoko.DodontoF.V2.ChatClient.SimpleDisplay = function($html, opt_options) {
 com.hiyoko.util.extend(com.hiyoko.component.ApplicationBase, com.hiyoko.DodontoF.V2.ChatClient.SimpleDisplay);
 
 com.hiyoko.DodontoF.V2.ChatClient.SimpleDisplay.prototype.update = function() {
-	var event = this.getAsyncEvent(this.id + '-getChatRequest', {time: this.lastUpdate}).done(this.receptData.bind(this)).fail(function(err) {
+	if(this.isSuspended) {
+		console.log('Chat update is suspended.');
+		return;
+	}
+	this.isSuspended = true;
+	var event = this.getAsyncEvent(this.id + '-getChatRequest', {time: this.lastUpdate}).done((result) => {
+		this.isSuspended = false;
+		this.receptData(result);
+	}).fail((err) => {
+		this.isSuspended = false;
 		console.warn(err);
 		alert(`チャットログの更新に失敗しました\n${err.result || err}`);
 	});
