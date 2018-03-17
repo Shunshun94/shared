@@ -46,7 +46,7 @@ com.hiyoko.DodontoF.V2.ChatClient.prototype.destract = function() {
 
 com.hiyoko.DodontoF.V2.ChatClient.prototype.buildComponents = function() {
 	this.display = this.options.display ?
-			new this.option.display(this.getElementById('display'), this.options) :
+			new this.options.display(this.getElementById('display'), this.options) :
 			new com.hiyoko.DodontoF.V2.ChatClient.SimpleDisplay(this.getElementById('display'), this.options);
 	this.input = this.options.input ?
 			new this.options.input(this.getElementById('input'), this.options) :
