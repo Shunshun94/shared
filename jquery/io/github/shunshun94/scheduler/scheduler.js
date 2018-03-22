@@ -15,6 +15,8 @@ io.github.shunshun94.scheduler.Scheduler = class {
 			return a.prepare - b.prepare;
 		});
 		this.startDate = opts.startDate || (initialSchedule[0] ? new Date(initialSchedule[0].prepare) : new Date());
+		this.separationIntervalAlgorithm = opts.separationIntervalAlgorithm || io.github.shunshun94.scheduler.Scheduler.SEPARATION_INTERVAL_ALGORITHM;
+		
 		this.buildComponents(initialSchedule);
 		this.drawSchedules(initialSchedule);
 		this.bindEvents();
@@ -90,6 +92,12 @@ io.github.shunshun94.scheduler.Scheduler = class {
 			list.push(this.drawSchedule(schedule));
 		});
 		return list;
+	}
+	
+	deleteSchedule(schedule) {
+		delete this.schedules[schedule.id];
+		$(`.${this.id}-date-scheduleColumn-schedule-${schedule.id}`).remove();
+		return schedule.id;
 	}
 	
 	resized(e, movedSchedule) {
@@ -178,33 +186,60 @@ io.github.shunshun94.scheduler.Scheduler = class {
 		}
 	}
 	
+	onClickFooter(e) {
+		const lastId = /(\d\d\d\d+)-(\d+)-(\d+)/.exec($(`.${this.id}-date`).last().attr('id'));
+		const baseDate = new Date(Number(lastId[1]), Number(lastId[2]), Number(lastId[3]) + 1);
+		const baseYear = baseDate.getFullYear();
+		const baseMonth = baseDate.getMonth();
+		const baseDay = baseDate.getDate();
+		for(var i = 0; i < io.github.shunshun94.scheduler.Scheduler.ONE_WEEK_DAYS ; i++) {
+			$(e.target).before(this.getDayLine(new Date(baseYear, baseMonth, baseDay + i)));
+		}
+		
+		var scheduleList = [];
+		for(var key in this.schedules) {
+			scheduleList.push(this.schedules[key]);
+		}
+		scheduleList.sort((a, b) => {
+			return a.prepare - b.prepare;
+		});
+		this.drawSchedules(scheduleList);
+	}
+	
+	onClickSchedule(e) {
+		const $target = $(e.target);
+		this.$html.trigger({
+			type: io.github.shunshun94.scheduler.Scheduler.EVENTS.CLICK_EVENT,
+			schedule: this.schedules[$target.attr('id').replace(/-\d+$/, '') ]
+		});
+	}
+	
+	onDoubleClickSchedule(e) {
+		const $target = $(e.target);
+		const targetSchedule = this.schedules[$target.attr('id').replace(/-\d+$/, '') ];
+		if(! window.confirm(`Do you want to separete "${targetSchedule.label}"?`)) {
+			return;
+		}
+		
+		this.drawSchedules(this.separationIntervalAlgorithm(targetSchedule));
+		this.deleteSchedule(targetSchedule);
+	}
+	
 	bindEvents() {
 		this.$html.click((e) => {
 			const $target = $(e.target);
 			if($target.hasClass(`${this.id}-date-scheduleColumn-schedule`)) {
-				this.$html.trigger({
-					type: io.github.shunshun94.scheduler.Scheduler.EVENTS.CLICK_EVENT,
-					schedule: this.schedules[$target.attr('id').replace(/-\d+$/, '') ]
-				});
+				this.onClickSchedule(e);
 			}
 			if($target.hasClass(`${this.id}-date-footer`)) {
-				const lastId = /(\d\d\d\d+)-(\d+)-(\d+)/.exec($(`.${this.id}-date`).last().attr('id'));
-				const baseDate = new Date(Number(lastId[1]), Number(lastId[2]), Number(lastId[3]) + 1);
-				const baseYear = baseDate.getFullYear();
-				const baseMonth = baseDate.getMonth();
-				const baseDay = baseDate.getDate();
-				for(var i = 0; i < io.github.shunshun94.scheduler.Scheduler.ONE_WEEK_DAYS ; i++) {
-					$(e.target).before(this.getDayLine(new Date(baseYear, baseMonth, baseDay + i)));
-				}
-				
-				var scheduleList = [];
-				for(var key in this.schedules) {
-					scheduleList.push(this.schedules[key]);
-				}
-				scheduleList.sort((a, b) => {
-					return a.prepare - b.prepare;
-				});
-				this.drawSchedules(scheduleList);
+				this.onClickFooter(e);
+			}
+		});
+		
+		this.$html.dblclick((e) => {
+			const $target = $(e.target);
+			if($target.hasClass(`${this.id}-date-scheduleColumn-schedule`)) {
+				this.onDoubleClickSchedule(e);
 			}
 		});
 	}
@@ -234,6 +269,54 @@ io.github.shunshun94.scheduler.Scheduler.generateSchedule = (
 			total: prepare + length + tidyUp
 	};
 	return result;
+};
+
+io.github.shunshun94.scheduler.Scheduler.SEPARATION_INTERVAL_ALGORITHM = (schedule) => {
+	var result = [{
+		id: `${schedule.id}_0`,
+		label: `${schedule.label}_0`,
+		start: schedule.start,
+		prepare: schedule.prepare,
+		length: {
+			head: schedule.length.head,
+			foot: schedule.length.foot
+		}
+	}, {
+		id: `${schedule.id}_1`,
+		label: `${schedule.label}_1`,
+		end: schedule.end,
+		tidyUp: schedule.tidyUp,
+		length: {
+			head: schedule.length.head,
+			foot: schedule.length.foot
+		}
+	}];
+	
+	if(schedule.length.body > 40) {
+		result[0].end = result[0].prepare + (schedule.length.total / 2 - 15 - schedule.length.foot) * 60 * 1000;
+		result[0].tidyUp = result[0].prepare + ((schedule.length.total / 2) - 15) * 60 * 1000;
+		
+		result[1].prepare = result[0].tidyUp + 30 * 60 * 1000;
+		result[1].start = result[0].tidyUp + (schedule.length.head - 30) * 60 * 1000;
+	} else {
+		result[0].end = result[0].prepare + (schedule.length.total / 2 - schedule.length.foot) * 60 * 1000;
+		result[0].tidyUp = result[0].prepare + (schedule.length.total / 2) * 60 * 1000;
+		
+		result[1].prepare = result[0].tidyUp * 60 * 1000;
+		result[1].start = result[0].tidyUp + (schedule.length.head) * 60 * 1000;
+	}
+	
+	result[0].length.body = (result[0].end - result[0].start) / (60 * 1000);
+	result[1].length.body = result[0].length.body;
+	result[0].length.total = (result[0].length.body + result[0].length.foot + result[0].length.head);
+	result[1].length.total = result[0].length.total;
+	
+	return result;
+};
+
+io.github.shunshun94.scheduler.Scheduler.toStringSchedule = (schedule) => {
+	return `"${schedule.label}" ${new Date(schedule.prepare)} ～ ${new Date(schedule.tidyUp)} ` +
+	`${schedule.length.total}分間 (含 準備：${schedule.length.head}分 / 片づけ:${schedule.length.foot}分)`
 };
 
 io.github.shunshun94.scheduler.Scheduler.ONE_WEEK_DAYS = 7;
