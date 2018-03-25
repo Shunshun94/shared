@@ -44,7 +44,7 @@ com.hiyoko.VampireBlood.DX3 = class extends com.hiyoko.VampireBlood.Client {
 				'調達': {status: 'society', lv: (Number(json.skill_tokugi[10]) || 0) + (Number(json.skill_sonota[10]) || 0)},
 				'運転': {status: 'body', lv: 0 },
 				'芸術': {status: 'sense', lv: 0},
-				'知識': {status: 'sense', lv: 0},
+				'知識': {status: 'mind', lv: 0},
 				'情報': {status: 'society', lv: 0}
 		};
 		
@@ -101,6 +101,7 @@ com.hiyoko.VampireBlood.DX3 = class extends com.hiyoko.VampireBlood.Client {
 				tet: json.roice_memo[i]
 			});
 		});
+		this.memory = [];
 	}
 
 	rightSide (json) {

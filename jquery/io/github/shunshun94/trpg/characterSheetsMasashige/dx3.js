@@ -52,7 +52,7 @@ io.github.shunshun94.trpg.characterSheetsMasashige.DX3 = class extends io.github
 				'調達': {status: 'society', lv: Number(skills.tyo.A.lv) || 0},
 				'運転': {status: 'body', lv: 0},
 				'芸術': {status: 'sense', lv: 0},
-				'知識': {status: 'sense', lv: 0},
+				'知識': {status: 'mind', lv: 0},
 				'情報': {status: 'society', lv: 0}
 		};
 		skills.B.forEach((cols) => {
