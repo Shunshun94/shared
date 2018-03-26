@@ -8,6 +8,7 @@ io.github.shunshun94.scheduler.Scheduler = class {
 		this.id = this.$html.attr('id') || 'io-github-shunshun94-scheduler-Scheduler';
 		this.timezone = opts.timezone ? (Number(opts.timezone) || 0) : 0;
 		this.extendable = opts.extendable;
+		this.appendable = (opts.appendable === undefined) ? io.github.shunshun94.scheduler.Scheduler.generateSchedule : opts.appendable;
 		this.dateFormat = opts.dateFormat || '%m/%d (%D)';
 		this.schedules = {};
 		this.initialLength = Number(opts.initialLength) || io.github.shunshun94.scheduler.Scheduler.ONE_WEEK_DAYS;
@@ -175,7 +176,28 @@ io.github.shunshun94.scheduler.Scheduler = class {
 		return header;
 	}
 	
-	addSchedule() {
+	addSchedule(date) {
+		const lastId = /(\d\d\d\d+)-(\d+)-(\d+)/.exec($(date).attr('id'));
+		const baseDateMorning = new Date(Number(lastId[1]), Number(lastId[2]), Number(lastId[3]));
+		const baseDateNight = new Date(Number(lastId[1]), Number(lastId[2]), Number(lastId[3]) + 1);
+		const baseYear = baseDateMorning.getFullYear();
+		const baseMonth = baseDateMorning.getMonth();
+		const baseDay = baseDateMorning.getDate();
+		const targetSchedules = io.github.shunshun94.scheduler.Scheduler.convertScheduleMapToArray(this.schedules).filter((schedule) => {
+			return	(baseDateMorning < schedule.prepare && baseDateNight > schedule.prepare) || 
+					(baseDateMorning < schedule.tidyUp && baseDateNight > schedule.tidyUp);
+		});
+		if(targetSchedules.length) {
+			alert(`In ${baseYear}/${baseMonth + 1}/${baseDay}, ${targetSchedules[0].label} is places. Use separation to add more schedules.`);
+			console.warn(`In ${baseYear}/${baseMonth + 1}/${baseDay}, ${targetSchedules[0].label} is places. Use separation to add more schedules.`, targetSchedules);
+			return;
+		}
+		this.drawSchedules([this.appendable(io.github.shunshun94.scheduler.Scheduler.rndString(),
+				`schedule - ${baseYear}/${baseMonth + 1}/${baseDay}`,
+				new Date(Number(lastId[1]), Number(lastId[2]), Number(lastId[3]), 9),
+				540,
+				120,
+				30)]);
 		
 	}
 	
@@ -265,7 +287,7 @@ io.github.shunshun94.scheduler.Scheduler = class {
 		const baseMonth = date.getMonth();
 		const baseDay = date.getDate();
 		var popupMenu = new PopupMenu();
-		popupMenu.add(`Append new schedule for ${this.formatDate(date)}`, (e) => {this.addSchedule()});
+		popupMenu.add(`Append new schedule for ${this.formatDate(date)}`, (e) => {this.addSchedule(e)});
 		popupMenu.bind(document.getElementById(`io-github-shunshun94-scheduler-Scheduler-date-${baseYear}-${baseMonth}-${baseDay}-scheduleColumn`));
 	}
 	
@@ -282,6 +304,25 @@ io.github.shunshun94.scheduler.Scheduler = class {
 	}
 };
 
+
+io.github.shunshun94.scheduler.Scheduler.rndString = (length=8, prefix='', suffix='') => {
+	const baseString ='0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+	var randomString = '';
+	for(var i=0; i<length; i++) {
+		randomString += baseString.charAt( Math.floor( Math.random() * baseString.length));
+	}
+	return prefix + randomString + suffix;
+};
+
+io.github.shunshun94.scheduler.Scheduler.convertScheduleMapToArray = (map) => {
+	var result = [];
+	for(var key in map) {
+		result.push(map[key]);
+	}
+	return result.sort((a, b) => {
+		return a.prepare - b.prepare;
+	});
+};
 
 io.github.shunshun94.scheduler.Scheduler.generateSchedule = (
 	id,
