@@ -79,16 +79,31 @@
 <script src="../external/spiritloose/popupmenu.js"></script>
 <script src="../jquery/io/github/shunshun94/scheduler/scheduler.js"></script>
 <script>
-new io.github.shunshun94.scheduler.Scheduler($('#io-github-shunshun94-scheduler-Scheduler'), {extendable:true});
+const scheduler = new io.github.shunshun94.scheduler.Scheduler($('#io-github-shunshun94-scheduler-Scheduler'), {extendable:true});
 $('#io-github-shunshun94-scheduler-Scheduler').on(io.github.shunshun94.scheduler.Scheduler.EVENTS.CLICK_EVENT, (e) => {
 	const schedule = e.schedule;
 	$('#io-github-shunshun94-scheduler-Display').html(`<p>"${schedule.label}"<br/>${new Date(schedule.start)} ～ ${new Date(schedule.end)}<br/>` +
 			`${schedule.length.body}分間 (準備：${schedule.length.head}分 / 片づけ:${schedule.length.foot}分)</p>`);
 });
 $('#io-github-shunshun94-scheduler-Scheduler').on(io.github.shunshun94.scheduler.Scheduler.EVENTS.RESIZE_EVENT, (e) => {
-	const schedule = e.schedule;
-	$('#io-github-shunshun94-scheduler-Display').html(`<p>"${schedule.label}"<br/>${new Date(schedule.start)} ～ ${new Date(schedule.end)}<br/>` +
+	var schedule = e.schedule;
+	const start = new Date(schedule.start);
+	const end = new Date(schedule.end);
+	$('#io-github-shunshun94-scheduler-Display').html(`<p>"${schedule.label}"<br/>${start} ～ ${end}<br/>` +
 			`${schedule.length.body}分間 (準備：${schedule.length.head}分 / 片づけ:${schedule.length.foot}分)</p>`);
+	schedule.label = `${start.getHours()}:${String(start.getMinutes()).padStart(2, '0')} ～ ${end.getHours()}:${String(end.getMinutes()).padStart(2, '0')}`
+	scheduler.drawSchedule(schedule);
+});
+$('#io-github-shunshun94-scheduler-Scheduler').on(io.github.shunshun94.scheduler.Scheduler.EVENTS.SEPARATE_EVENT, (e) => {
+	var schedules = e.schedules;
+	schedules.forEach((schedule) => {
+		const start = new Date(schedule.start);
+		const end = new Date(schedule.end);
+		$('#io-github-shunshun94-scheduler-Display').html(`<p>"${schedule.label}"<br/>${start} ～ ${end}<br/>` +
+				`${schedule.length.body}分間 (準備：${schedule.length.head}分 / 片づけ:${schedule.length.foot}分)</p>`);
+		schedule.label = `${start.getHours()}:${String(start.getMinutes()).padStart(2, '0')} ～ ${end.getHours()}:${String(end.getMinutes()).padStart(2, '0')}`
+		scheduler.drawSchedule(schedule);
+	});
 });
 </script>
 </body>

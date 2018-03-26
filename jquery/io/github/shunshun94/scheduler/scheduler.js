@@ -100,6 +100,9 @@ io.github.shunshun94.scheduler.Scheduler = class {
 		if(! window.confirm(`Do you want to delete "${schedule.label}"?`)) {
 			return;
 		}
+		this.$html.trigger({
+			type: io.github.shunshun94.scheduler.Scheduler.EVENTS.DELETE_EVENT, deleted: schedule
+		});
 		return this.deleteSchedule_(schedule);
 	}
 	
@@ -193,12 +196,11 @@ io.github.shunshun94.scheduler.Scheduler = class {
 			return;
 		}
 		this.drawSchedules([this.appendable(io.github.shunshun94.scheduler.Scheduler.rndString(),
-				`schedule - ${baseYear}/${baseMonth + 1}/${baseDay}`,
+				'9:00 ～ 18:00',
 				new Date(Number(lastId[1]), Number(lastId[2]), Number(lastId[3]), 9),
 				540,
 				120,
 				30)]);
-		
 	}
 	
 	drawFooter() {
@@ -239,13 +241,7 @@ io.github.shunshun94.scheduler.Scheduler = class {
 		const lastId = /(\d\d\d\d+)-(\d+)-(\d+)/.exec($(`.${this.id}-date`).last().attr('id'));
 		const baseDate = new Date(Number(lastId[1]), Number(lastId[2]), Number(lastId[3]) + 1);
 		this.appendDayLines(baseDate, io.github.shunshun94.scheduler.Scheduler.ONE_WEEK_DAYS);
-		var scheduleList = [];
-		for(var key in this.schedules) {
-			scheduleList.push(this.schedules[key]);
-		}
-		scheduleList.sort((a, b) => {
-			return a.prepare - b.prepare;
-		});
+		var scheduleList = io.github.shunshun94.scheduler.Scheduler.convertScheduleMapToArray(this.schedules);
 		this.drawSchedules(scheduleList);
 	}
 	
@@ -262,8 +258,13 @@ io.github.shunshun94.scheduler.Scheduler = class {
 			return;
 		}
 		try {
-			this.drawSchedules(this.separationIntervalAlgorithm(schedule));
-			this.deleteSchedule_(schedule);			
+			const newSchedules = this.separationIntervalAlgorithm(schedule);
+			this.drawSchedules(newSchedules);
+			this.deleteSchedule_(schedule);
+			this.$html.trigger({
+				type: io.github.shunshun94.scheduler.Scheduler.EVENTS.SEPARATE_EVENT,
+				schedules: newSchedules, deleted: schedule
+			});
 		} catch (err) {
 			alert(err);
 			console.warn(err);
@@ -378,7 +379,7 @@ io.github.shunshun94.scheduler.Scheduler.SEPARATION_INTERVAL_ALGORITHM = (schedu
 	result[0].tidyUp = result[0].prepare + ((schedule.length.total / 2) - 15) * 60 * 1000;
 	
 	result[1].prepare = result[0].tidyUp + 30 * 60 * 1000;
-	result[1].start = result[0].tidyUp + (schedule.length.head - 30) * 60 * 1000;
+	result[1].start = result[0].tidyUp + (schedule.length.head + 30) * 60 * 1000;
 	
 	result[0].length.body = (result[0].end - result[0].start) / (60 * 1000);
 	result[1].length.body = result[0].length.body;
@@ -397,7 +398,9 @@ io.github.shunshun94.scheduler.Scheduler.ONE_WEEK_DAYS = 7;
 io.github.shunshun94.scheduler.Scheduler.DAYS = ['Sun.', 'Mon', 'Tue.', 'Wed.', 'Thu.', 'Fri.', 'Sat.'];
 io.github.shunshun94.scheduler.Scheduler.EVENTS = {
 	CLICK_EVENT: 'io-github-shunshun94-scheduler-Scheduler-EVENTS-CLICK_EVENT',
-	RESIZE_EVENT: 'io-github-shunshun94-scheduler-Scheduler-EVENTS-RESIZE_EVENT'
+	RESIZE_EVENT: 'io-github-shunshun94-scheduler-Scheduler-EVENTS-RESIZE_EVENT',
+	SEPARATE_EVENT: 'io-github-shunshun94-scheduler-Scheduler-EVENTS-SEPARATE_EVENT',
+	DELETE_EVENT: 'io-github-shunshun94-scheduler-Scheduler-EVENTS-DELETE_EVENT'
 };
 io.github.shunshun94.scheduler.Scheduler.INITIAL_SCHEDULE_BASEDATE = new Date();
 io.github.shunshun94.scheduler.Scheduler.INITIAL_SCHEDULE_BASEDATE.VALUES = {
@@ -408,15 +411,19 @@ io.github.shunshun94.scheduler.Scheduler.INITIAL_SCHEDULE_BASEDATE.VALUES = {
 };
 
 io.github.shunshun94.scheduler.Scheduler.INITIAL_SCHEDULE = [0,1,3,7].map((diff, i) => {
-	return io.github.shunshun94.scheduler.Scheduler.generateSchedule(
-			diff,
-			`Schedule - ${i + 1}`,
-			new Date(
+	const startDate = new Date(
 			io.github.shunshun94.scheduler.Scheduler.INITIAL_SCHEDULE_BASEDATE.VALUES.YEAR,
 			io.github.shunshun94.scheduler.Scheduler.INITIAL_SCHEDULE_BASEDATE.VALUES.MONTH,
 			io.github.shunshun94.scheduler.Scheduler.INITIAL_SCHEDULE_BASEDATE.VALUES.DATE + diff,
 			io.github.shunshun94.scheduler.Scheduler.INITIAL_SCHEDULE_BASEDATE.VALUES.HOUR,
-			io.github.shunshun94.scheduler.Scheduler.INITIAL_SCHEDULE_BASEDATE.VALUES.MIN),
+			io.github.shunshun94.scheduler.Scheduler.INITIAL_SCHEDULE_BASEDATE.VALUES.MIN);
+	return io.github.shunshun94.scheduler.Scheduler.generateSchedule(
+			diff,
+			`${io.github.shunshun94.scheduler.Scheduler.INITIAL_SCHEDULE_BASEDATE.VALUES.HOUR}:` +
+			`${String(io.github.shunshun94.scheduler.Scheduler.INITIAL_SCHEDULE_BASEDATE.VALUES.MIN).padStart(2, '0')} ～ ` +
+			`${(io.github.shunshun94.scheduler.Scheduler.INITIAL_SCHEDULE_BASEDATE.VALUES.HOUR + 9 + (24 * i)) % 24}:` +
+			`${String((io.github.shunshun94.scheduler.Scheduler.INITIAL_SCHEDULE_BASEDATE.VALUES.MIN + 540 + 60 * 24 * i) % 60).padStart(2, '0')}`,
+			startDate,
 			540 + (60 * 24 * i), 120, 30
 	);
 });
