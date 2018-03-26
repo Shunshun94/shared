@@ -60,7 +60,7 @@ io.github.shunshun94.scheduler.Scheduler = class {
 					ghost: true,
 					helper: 'helper',
 					handles: handles.join(','),
-					minWidth: (schedule.length.head + schedule.length.foot + 10) * minWidth,
+					minWidth: (schedule.length.head + schedule.length.foot + 60) * minWidth,
 					stop: this.resized.bind(this)
 				});
 			}
