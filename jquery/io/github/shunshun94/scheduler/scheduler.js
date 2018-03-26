@@ -84,7 +84,7 @@ io.github.shunshun94.scheduler.Scheduler = class {
 		}
 		this.generatePopupMenu(schedule);
 		this.schedules[`${this.id}-date-scheduleColumn-schedule-${schedule.id}`] = schedule;
-		return $(`.${this.id}-date-scheduleColumn-schedule-${schedule.id}`)
+		return $(`.${this.id}-date-scheduleColumn-schedule-${schedule.id}`);
 	}
 
 	drawSchedules(initialSchedule) {
@@ -96,7 +96,14 @@ io.github.shunshun94.scheduler.Scheduler = class {
 	}
 	
 	deleteSchedule(schedule) {
-		delete this.schedules[`${this.id}-date-scheduleColumn-schedule-${schedule.id}`]
+		if(! window.confirm(`Do you want to delete "${schedule.label}"?`)) {
+			return;
+		}
+		return this.deleteSchedule_(schedule);
+	}
+	
+	deleteSchedule_(schedule) {
+		delete this.schedules[`${this.id}-date-scheduleColumn-schedule-${schedule.id}`];
 		$(`.${this.id}-date-scheduleColumn-schedule-${schedule.id}`).remove();
 		return schedule.id;
 	}
@@ -227,7 +234,7 @@ io.github.shunshun94.scheduler.Scheduler = class {
 		if(! window.confirm(`Do you want to DELETE "${targetSchedule.label}"?`)) {
 			return;
 		}
-		this.deleteSchedule(targetSchedule);
+		this.deleteSchedule_(targetSchedule);
 	}
 	
 	separateSchedule(schedule) {
@@ -235,16 +242,18 @@ io.github.shunshun94.scheduler.Scheduler = class {
 			return;
 		}
 		this.drawSchedules(this.separationIntervalAlgorithm(schedule));
-		this.deleteSchedule(schedule);
+		this.deleteSchedule_(schedule);
 	}
 	
-	generatePopupMenu(schedule) {
+	generatePopupMenu(schedule, num = 0) {
 		var popupMenu = new PopupMenu();
 		popupMenu.add(`Separating ${schedule.label}`, (e) => {this.separateSchedule(schedule)});
 		popupMenu.add(`Delete ${schedule.label}`, (e) => {this.deleteSchedule(schedule)});
-		popupMenu.setSize(140, 0);
-		popupMenu.bind(document.getElementsByClassName(`${this.id}-date-scheduleColumn-schedule-${schedule.id}`));
-		console.log(popupMenu);
+
+		const elems = document.getElementsByClassName(`${this.id}-date-scheduleColumn-schedule-${schedule.id}`);
+		for(var i = 0; i < elems.length; i++) {
+			popupMenu.bind(elems[i]);
+		}
 		return popupMenu;
 	}
 	
@@ -265,13 +274,6 @@ io.github.shunshun94.scheduler.Scheduler = class {
 				this.onDoubleClickSchedule(e);
 			}
 		});
-		/*
-		this.$html.on('contextmenu', (e) => {
-			const $target = $(e.target);
-			if($target.hasClass(`${this.id}-date-scheduleColumn-schedule`)) {
-				//this.onRightClickSchedule(e);
-			}
-		});*/
 	}
 };
 
