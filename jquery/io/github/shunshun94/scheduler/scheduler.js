@@ -82,6 +82,7 @@ io.github.shunshun94.scheduler.Scheduler = class {
 		for(var i = 0; i < days; i++) {
 			this.drawScheduleDay_(schedule, i, Boolean(i == 0), Boolean(i == days - 1));
 		}
+		this.generatePopupMenu(schedule);
 		this.schedules[`${this.id}-date-scheduleColumn-schedule-${schedule.id}`] = schedule;
 		return $(`.${this.id}-date-scheduleColumn-schedule-${schedule.id}`)
 	}
@@ -95,7 +96,7 @@ io.github.shunshun94.scheduler.Scheduler = class {
 	}
 	
 	deleteSchedule(schedule) {
-		delete this.schedules[schedule.id];
+		delete this.schedules[`${this.id}-date-scheduleColumn-schedule-${schedule.id}`]
 		$(`.${this.id}-date-scheduleColumn-schedule-${schedule.id}`).remove();
 		return schedule.id;
 	}
@@ -217,12 +218,34 @@ io.github.shunshun94.scheduler.Scheduler = class {
 	onDoubleClickSchedule(e) {
 		const $target = $(e.target);
 		const targetSchedule = this.schedules[$target.attr('id').replace(/-\d+$/, '') ];
-		if(! window.confirm(`Do you want to separete "${targetSchedule.label}"?`)) {
+		this.separateSchedule(targetSchedule);
+	}
+	
+	onRightClickSchedule(e) {
+		const $target = $(e.target);
+		const targetSchedule = this.schedules[$target.attr('id').replace(/-\d+$/, '') ];
+		if(! window.confirm(`Do you want to DELETE "${targetSchedule.label}"?`)) {
 			return;
 		}
-		
-		this.drawSchedules(this.separationIntervalAlgorithm(targetSchedule));
 		this.deleteSchedule(targetSchedule);
+	}
+	
+	separateSchedule(schedule) {
+		if(! window.confirm(`Do you want to separete "${schedule.label}"?`)) {
+			return;
+		}
+		this.drawSchedules(this.separationIntervalAlgorithm(schedule));
+		this.deleteSchedule(schedule);
+	}
+	
+	generatePopupMenu(schedule) {
+		var popupMenu = new PopupMenu();
+		popupMenu.add(`Separating ${schedule.label}`, (e) => {this.separateSchedule(schedule)});
+		popupMenu.add(`Delete ${schedule.label}`, (e) => {this.deleteSchedule(schedule)});
+		popupMenu.setSize(140, 0);
+		popupMenu.bind(document.getElementsByClassName(`${this.id}-date-scheduleColumn-schedule-${schedule.id}`));
+		console.log(popupMenu);
+		return popupMenu;
 	}
 	
 	bindEvents() {
@@ -242,6 +265,13 @@ io.github.shunshun94.scheduler.Scheduler = class {
 				this.onDoubleClickSchedule(e);
 			}
 		});
+		/*
+		this.$html.on('contextmenu', (e) => {
+			const $target = $(e.target);
+			if($target.hasClass(`${this.id}-date-scheduleColumn-schedule`)) {
+				//this.onRightClickSchedule(e);
+			}
+		});*/
 	}
 };
 
