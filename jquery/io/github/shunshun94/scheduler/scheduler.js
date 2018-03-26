@@ -82,7 +82,7 @@ io.github.shunshun94.scheduler.Scheduler = class {
 		for(var i = 0; i < days; i++) {
 			this.drawScheduleDay_(schedule, i, Boolean(i == 0), Boolean(i == days - 1));
 		}
-		this.generatePopupMenu(schedule);
+		this.generateEachSchedulePopupMenu(schedule);
 		this.schedules[`${this.id}-date-scheduleColumn-schedule-${schedule.id}`] = schedule;
 		return $(`.${this.id}-date-scheduleColumn-schedule-${schedule.id}`);
 	}
@@ -222,12 +222,6 @@ io.github.shunshun94.scheduler.Scheduler = class {
 		});
 	}
 	
-	onDoubleClickSchedule(e) {
-		const $target = $(e.target);
-		const targetSchedule = this.schedules[$target.attr('id').replace(/-\d+$/, '') ];
-		this.separateSchedule(targetSchedule);
-	}
-	
 	onRightClickSchedule(e) {
 		const $target = $(e.target);
 		const targetSchedule = this.schedules[$target.attr('id').replace(/-\d+$/, '') ];
@@ -245,7 +239,7 @@ io.github.shunshun94.scheduler.Scheduler = class {
 		this.deleteSchedule_(schedule);
 	}
 	
-	generatePopupMenu(schedule, num = 0) {
+	generateEachSchedulePopupMenu(schedule, num = 0) {
 		var popupMenu = new PopupMenu();
 		popupMenu.add(`Separating ${schedule.label}`, (e) => {this.separateSchedule(schedule)});
 		popupMenu.add(`Delete ${schedule.label}`, (e) => {this.deleteSchedule(schedule)});
@@ -265,13 +259,6 @@ io.github.shunshun94.scheduler.Scheduler = class {
 			}
 			if($target.hasClass(`${this.id}-date-footer`)) {
 				this.onClickFooter(e);
-			}
-		});
-		
-		this.$html.dblclick((e) => {
-			const $target = $(e.target);
-			if($target.hasClass(`${this.id}-date-scheduleColumn-schedule`)) {
-				this.onDoubleClickSchedule(e);
 			}
 		});
 	}
