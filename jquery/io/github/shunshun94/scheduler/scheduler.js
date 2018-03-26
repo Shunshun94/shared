@@ -28,7 +28,7 @@ io.github.shunshun94.scheduler.Scheduler = class {
 	}
 	
 	updateSchedule(schedule) {
-		return drawSchedule(schedule);
+		return this.drawSchedule(schedule);
 	}
 	
 	drawScheduleDay_(schedule, i, isHead, isLast) {
