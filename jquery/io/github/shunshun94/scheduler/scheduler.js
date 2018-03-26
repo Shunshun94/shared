@@ -18,8 +18,8 @@ io.github.shunshun94.scheduler.Scheduler = class {
 		this.separationIntervalAlgorithm = opts.separationIntervalAlgorithm || io.github.shunshun94.scheduler.Scheduler.SEPARATION_INTERVAL_ALGORITHM;
 		
 		this.buildComponents(initialSchedule);
-		this.drawSchedules(initialSchedule);
 		this.bindEvents();
+		this.drawSchedules(initialSchedule);
 	}
 	
 	drawScheduleDay_(schedule, i, isHead, isLast) {
@@ -155,11 +155,13 @@ io.github.shunshun94.scheduler.Scheduler = class {
 	getDayLine(date) {
 		var line = $(`<div class="${this.id}-date ${this.id}-date-${date.getDay()}" ` +
 				`id="${this.id}-date-${date.getFullYear()}-${date.getMonth()}-${date.getDate()}"></div>`);
-		var dateColumn = $(`<div class="${this.id}-date-dateColumn"></div>`);
+		var dateColumn = $(`<div class="${this.id}-date-dateColumn"` +
+				`id="${this.id}-date-${date.getFullYear()}-${date.getMonth()}-${date.getDate()}-dateColumn"></div>`);
 		dateColumn.text(this.formatDate(date));
 		
-		var schedule = $(`<div class="${this.id}-date-scheduleColumn"></div>`);
-		
+		var schedule = $(`<div class="${this.id}-date-scheduleColumn"` +
+				`id="${this.id}-date-${date.getFullYear()}-${date.getMonth()}-${date.getDate()}-scheduleColumn"></div>`);
+
 		line.append(dateColumn);
 		line.append(schedule);
 		return line;
@@ -173,22 +175,39 @@ io.github.shunshun94.scheduler.Scheduler = class {
 		return header;
 	}
 	
+	addSchedule() {
+		
+	}
+	
 	drawFooter() {
 		var footer = $(`<div class="${this.id}-date-footer" id="${this.id}-date-footer"></div>`);
 		footer.text('▼')
 		return footer;
 	}
 	
-	buildComponents(initialSchedule) {
-		const startDate = this.startDate;
+	appendDayLines(startDate, length) {
 		const baseYear = startDate.getFullYear();
 		const baseMonth = startDate.getMonth();
 		const baseDay = startDate.getDate();
 		
-		this.$html.append(this.drawHeader());
-		for(var i = 0; i < this.initialLength ; i++) {
-			this.$html.append(this.getDayLine(new Date(baseYear, baseMonth, baseDay + i)));
+		if($(`#${this.id}-date-footer`).length) {
+			for(var i = 0; i < length ; i++) {
+				$(`#${this.id}-date-footer`).before(this.getDayLine(new Date(baseYear, baseMonth, baseDay + i)));
+			}
+		} else {
+			for(var i = 0; i < length ; i++) {
+				this.$html.append(this.getDayLine(new Date(baseYear, baseMonth, baseDay + i)));
+			}
 		}
+		
+		for(var i = 0; i < length; i++) {
+			this.generateAddSchedulePopupMenu(new Date(baseYear, baseMonth, baseDay + i));
+		}
+	}
+	
+	buildComponents(initialSchedule) {
+		this.$html.append(this.drawHeader());
+		this.appendDayLines(this.startDate, this.initialLength);
 		if(this.extendable) {
 			this.$html.append(this.drawFooter());
 		}
@@ -197,13 +216,7 @@ io.github.shunshun94.scheduler.Scheduler = class {
 	onClickFooter(e) {
 		const lastId = /(\d\d\d\d+)-(\d+)-(\d+)/.exec($(`.${this.id}-date`).last().attr('id'));
 		const baseDate = new Date(Number(lastId[1]), Number(lastId[2]), Number(lastId[3]) + 1);
-		const baseYear = baseDate.getFullYear();
-		const baseMonth = baseDate.getMonth();
-		const baseDay = baseDate.getDate();
-		for(var i = 0; i < io.github.shunshun94.scheduler.Scheduler.ONE_WEEK_DAYS ; i++) {
-			$(e.target).before(this.getDayLine(new Date(baseYear, baseMonth, baseDay + i)));
-		}
-		
+		this.appendDayLines(baseDate, io.github.shunshun94.scheduler.Scheduler.ONE_WEEK_DAYS);
 		var scheduleList = [];
 		for(var key in this.schedules) {
 			scheduleList.push(this.schedules[key]);
@@ -222,21 +235,17 @@ io.github.shunshun94.scheduler.Scheduler = class {
 		});
 	}
 	
-	onRightClickSchedule(e) {
-		const $target = $(e.target);
-		const targetSchedule = this.schedules[$target.attr('id').replace(/-\d+$/, '') ];
-		if(! window.confirm(`Do you want to DELETE "${targetSchedule.label}"?`)) {
-			return;
-		}
-		this.deleteSchedule_(targetSchedule);
-	}
-	
 	separateSchedule(schedule) {
 		if(! window.confirm(`Do you want to separete "${schedule.label}"?`)) {
 			return;
 		}
-		this.drawSchedules(this.separationIntervalAlgorithm(schedule));
-		this.deleteSchedule_(schedule);
+		try {
+			this.drawSchedules(this.separationIntervalAlgorithm(schedule));
+			this.deleteSchedule_(schedule);			
+		} catch (err) {
+			alert(err);
+			console.warn(err);
+		}
 	}
 	
 	generateEachSchedulePopupMenu(schedule, num = 0) {
@@ -249,6 +258,15 @@ io.github.shunshun94.scheduler.Scheduler = class {
 			popupMenu.bind(elems[i]);
 		}
 		return popupMenu;
+	}
+	
+	generateAddSchedulePopupMenu(date) {
+		const baseYear = date.getFullYear();
+		const baseMonth = date.getMonth();
+		const baseDay = date.getDate();
+		var popupMenu = new PopupMenu();
+		popupMenu.add(`Append new schedule for ${this.formatDate(date)}`, (e) => {this.addSchedule()});
+		popupMenu.bind(document.getElementById(`io-github-shunshun94-scheduler-Scheduler-date-${baseYear}-${baseMonth}-${baseDay}-scheduleColumn`));
 	}
 	
 	bindEvents() {
@@ -291,6 +309,9 @@ io.github.shunshun94.scheduler.Scheduler.generateSchedule = (
 };
 
 io.github.shunshun94.scheduler.Scheduler.SEPARATION_INTERVAL_ALGORITHM = (schedule) => {
+	if(schedule.length.body < ((schedule.length.foot + schedule.length.head) * 2 + 120)) {
+		throw `Because ${schedule.label} dosen't have enough length, you can't separate this schedule.`
+	}
 	var result = [{
 		id: `${schedule.id}_0`,
 		label: `${schedule.label}_0`,
@@ -311,19 +332,12 @@ io.github.shunshun94.scheduler.Scheduler.SEPARATION_INTERVAL_ALGORITHM = (schedu
 		}
 	}];
 	
-	if(schedule.length.body > 40) {
-		result[0].end = result[0].prepare + (schedule.length.total / 2 - 15 - schedule.length.foot) * 60 * 1000;
-		result[0].tidyUp = result[0].prepare + ((schedule.length.total / 2) - 15) * 60 * 1000;
-		
-		result[1].prepare = result[0].tidyUp + 30 * 60 * 1000;
-		result[1].start = result[0].tidyUp + (schedule.length.head - 30) * 60 * 1000;
-	} else {
-		result[0].end = result[0].prepare + (schedule.length.total / 2 - schedule.length.foot) * 60 * 1000;
-		result[0].tidyUp = result[0].prepare + (schedule.length.total / 2) * 60 * 1000;
-		
-		result[1].prepare = result[0].tidyUp * 60 * 1000;
-		result[1].start = result[0].tidyUp + (schedule.length.head) * 60 * 1000;
-	}
+	
+	result[0].end = result[0].prepare + (schedule.length.total / 2 - 15 - schedule.length.foot) * 60 * 1000;
+	result[0].tidyUp = result[0].prepare + ((schedule.length.total / 2) - 15) * 60 * 1000;
+	
+	result[1].prepare = result[0].tidyUp + 30 * 60 * 1000;
+	result[1].start = result[0].tidyUp + (schedule.length.head - 30) * 60 * 1000;
 	
 	result[0].length.body = (result[0].end - result[0].start) / (60 * 1000);
 	result[1].length.body = result[0].length.body;
