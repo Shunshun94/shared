@@ -297,7 +297,7 @@ io.github.shunshun94.scheduler.Scheduler = class {
 		const baseDay = date.getDate();
 		var popupMenu = new PopupMenu();
 		popupMenu.add(`Append new schedule for ${this.formatDate(date)}`, (e) => {this.addSchedule(e)});
-		popupMenu.bind(document.getElementById(`io-github-shunshun94-scheduler-Scheduler-date-${baseYear}-${baseMonth}-${baseDay}-scheduleColumn`));
+		popupMenu.bind(document.getElementById(`${this.id}-date-${baseYear}-${baseMonth}-${baseDay}-scheduleColumn`));
 	}
 	
 	bindEvents() {
