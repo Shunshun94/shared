@@ -10,7 +10,7 @@
 	}
 	
 	#io-github-shunshun94-scheduler-Scheduler {
-		width: 712px;
+		width: 962px;
 	}
 	
 	.io-github-shunshun94-scheduler-Scheduler-date {
@@ -54,7 +54,7 @@
 	}
 	
 	.io-github-shunshun94-scheduler-Scheduler-date-scheduleColumn {
-		width: 600px;
+		width: 850px;
 		height: 31px;
 		display: inline-block;
 		position: relative;
@@ -76,18 +76,51 @@
 <div id="io-github-shunshun94-scheduler-Scheduler"></div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+<script src="../external/spiritloose/popupmenu.js"></script>
 <script src="../jquery/io/github/shunshun94/scheduler/scheduler.js"></script>
 <script>
-new io.github.shunshun94.scheduler.Scheduler($('#io-github-shunshun94-scheduler-Scheduler'), {extendable:true});
+const scheduler = new io.github.shunshun94.scheduler.Scheduler($('#io-github-shunshun94-scheduler-Scheduler'), {extendable:true});
 $('#io-github-shunshun94-scheduler-Scheduler').on(io.github.shunshun94.scheduler.Scheduler.EVENTS.CLICK_EVENT, (e) => {
 	const schedule = e.schedule;
 	$('#io-github-shunshun94-scheduler-Display').html(`<p>"${schedule.label}"<br/>${new Date(schedule.start)} ～ ${new Date(schedule.end)}<br/>` +
 			`${schedule.length.body}分間 (準備：${schedule.length.head}分 / 片づけ:${schedule.length.foot}分)</p>`);
 });
 $('#io-github-shunshun94-scheduler-Scheduler').on(io.github.shunshun94.scheduler.Scheduler.EVENTS.RESIZE_EVENT, (e) => {
-	const schedule = e.schedule;
-	$('#io-github-shunshun94-scheduler-Display').html(`<p>"${schedule.label}"<br/>${new Date(schedule.start)} ～ ${new Date(schedule.end)}<br/>` +
+	var schedule = e.schedule;
+	
+	const joined = scheduler.getSchedules().filter((schedule_) => {
+		return (schedule_.tidyUp >= schedule.prepare) && schedule_.prepare <= schedule.tidyUp;
+	});
+	if(joined.length) {
+		schedule.start = Math.min.apply(null, joined.map((schedule_) => {return schedule_.start}));
+		schedule.prepare = Math.min.apply(null, joined.map((schedule_) => {return schedule_.prepare}));
+		schedule.end = Math.max.apply(null, joined.map((schedule_) => {return schedule_.end}));
+		schedule.tidyUp = Math.max.apply(null, joined.map((schedule_) => {return schedule_.tidyUp}));
+		schedule.length.body = (schedule.end - schedule.start) / (1000 * 60);
+		schedule.length.total = schedule.length.body + schedule.length.head + schedule.length.foot;
+		joined.forEach((schedule_) => {
+			scheduler.deleteSchedule_(schedule_)
+		});
+	}
+	
+	const start = new Date(schedule.start);
+	const end = new Date(schedule.end);
+	$('#io-github-shunshun94-scheduler-Display').html(`<p>"${schedule.label}"<br/>${start} ～ ${end}<br/>` +
 			`${schedule.length.body}分間 (準備：${schedule.length.head}分 / 片づけ:${schedule.length.foot}分)</p>`);
+	schedule.label = `${start.getHours()}:${String(start.getMinutes()).padStart(2, '0')} ～ ${end.getHours()}:${String(end.getMinutes()).padStart(2, '0')}`
+	scheduler.updateSchedule(schedule);
+
+});
+$('#io-github-shunshun94-scheduler-Scheduler').on(io.github.shunshun94.scheduler.Scheduler.EVENTS.SEPARATE_EVENT, (e) => {
+	var schedules = e.schedules;
+	schedules.forEach((schedule) => {
+		const start = new Date(schedule.start);
+		const end = new Date(schedule.end);
+		$('#io-github-shunshun94-scheduler-Display').html(`<p>"${schedule.label}"<br/>${start} ～ ${end}<br/>` +
+				`${schedule.length.body}分間 (準備：${schedule.length.head}分 / 片づけ:${schedule.length.foot}分)</p>`);
+		schedule.label = `${start.getHours()}:${String(start.getMinutes()).padStart(2, '0')} ～ ${end.getHours()}:${String(end.getMinutes()).padStart(2, '0')}`
+		scheduler.updateSchedule(schedule);
+	});
 });
 </script>
 </body>
