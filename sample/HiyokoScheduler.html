@@ -99,7 +99,7 @@ $('#io-github-shunshun94-scheduler-Scheduler').on(io.github.shunshun94.scheduler
 		schedule.length.body = (schedule.end - schedule.start) / (1000 * 60);
 		schedule.length.total = schedule.length.body + schedule.length.head + schedule.length.foot;
 		joined.forEach((schedule_) => {
-			scheduler.deleteSchedule_(schedule_)
+			scheduler.deleteSchedule(schedule_)
 		});
 	}
 	

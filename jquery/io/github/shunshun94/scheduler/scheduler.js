@@ -31,6 +31,24 @@ io.github.shunshun94.scheduler.Scheduler = class {
 		return this.drawSchedule(schedule);
 	}
 	
+	separateSchedule(schedule) {
+		if(! window.confirm(`Do you want to separete "${schedule.label}"?`)) {
+			return;
+		}
+		try {
+			const newSchedules = this.separationIntervalAlgorithm(schedule);
+			this.drawSchedules(newSchedules);
+			this.deleteSchedule(schedule);
+			this.$html.trigger({
+				type: io.github.shunshun94.scheduler.Scheduler.EVENTS.SEPARATE_EVENT,
+				schedules: newSchedules, deleted: schedule
+			});
+		} catch (err) {
+			alert(err);
+			console.warn(err);
+		}
+	}
+	
 	drawScheduleDay_(schedule, i, isHead, isLast) {
 		const baseStyle = 'box-sizing:border-box;position:absolute;top:0px;bottom:0px;text-align:center;overflow:hidden;';
 		const minWidth = $(`.${this.id}-date-scheduleColumn`).width() / (24 * 60);
@@ -104,17 +122,17 @@ io.github.shunshun94.scheduler.Scheduler = class {
 		return list;
 	}
 	
-	deleteSchedule(schedule) {
+	deleteScheduleWithConfirm(schedule) {
 		if(! window.confirm(`Do you want to delete "${schedule.label}"?`)) {
 			return;
 		}
 		this.$html.trigger({
 			type: io.github.shunshun94.scheduler.Scheduler.EVENTS.DELETE_EVENT, deleted: schedule
 		});
-		return this.deleteSchedule_(schedule);
+		return this.deleteSchedule(schedule);
 	}
 	
-	deleteSchedule_(schedule) {
+	deleteSchedule(schedule) {
 		delete this.schedules[`${this.id}-date-scheduleColumn-schedule-${schedule.id}`];
 		$(`.${this.id}-date-scheduleColumn-schedule-${schedule.id}`).remove();
 		return schedule.id;
@@ -261,28 +279,10 @@ io.github.shunshun94.scheduler.Scheduler = class {
 		});
 	}
 	
-	separateSchedule(schedule) {
-		if(! window.confirm(`Do you want to separete "${schedule.label}"?`)) {
-			return;
-		}
-		try {
-			const newSchedules = this.separationIntervalAlgorithm(schedule);
-			this.drawSchedules(newSchedules);
-			this.deleteSchedule_(schedule);
-			this.$html.trigger({
-				type: io.github.shunshun94.scheduler.Scheduler.EVENTS.SEPARATE_EVENT,
-				schedules: newSchedules, deleted: schedule
-			});
-		} catch (err) {
-			alert(err);
-			console.warn(err);
-		}
-	}
-	
 	generateEachSchedulePopupMenu(schedule, num = 0) {
 		var popupMenu = new PopupMenu();
 		popupMenu.add(`Separating ${schedule.label}`, (e) => {this.separateSchedule(schedule)});
-		popupMenu.add(`Delete ${schedule.label}`, (e) => {this.deleteSchedule(schedule)});
+		popupMenu.add(`Delete ${schedule.label}`, (e) => {this.deleteScheduleWithConfirm(schedule)});
 
 		const elems = document.getElementsByClassName(`${this.id}-date-scheduleColumn-schedule-${schedule.id}`);
 		for(var i = 0; i < elems.length; i++) {
