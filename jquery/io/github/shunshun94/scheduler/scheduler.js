@@ -368,6 +368,10 @@ io.github.shunshun94.scheduler.Scheduler = class {
 				this.addScheduleByDate($target.parent());
 				$target.remove();
 			}
+			
+			if($target.hasClass(`${this.id}-date-scheduleColumn-schedule-separator`)) {
+				this.separateSchedule(this.schedules[$target.parent().attr('id').replace(/-\d+$/, '')]);
+			}
 		});
 	}
 };
