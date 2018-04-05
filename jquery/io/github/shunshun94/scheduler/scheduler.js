@@ -306,18 +306,16 @@ io.github.shunshun94.scheduler.Scheduler = class {
 			const $schedule = $(e.target);
 			const $targetSeparator = $schedule.find(`.${this.id}-date-scheduleColumn-schedule-separator`);
 			const $targetRemover = $schedule.find(`.${this.id}-date-scheduleColumn-schedule-remove`);
-			setTimeout(() => {
-				if($targetRemover.css('display') !== 'none') {
-					return;
-				}
-				$(`.${this.id}-date-scheduleColumn-schedule-separator`).fadeOut();
-				$(`.${this.id}-date-scheduleColumn-schedule-remove`).fadeOut();
-				$targetSeparator.fadeIn(200);
-				$targetRemover.fadeIn(200);
-			}, 500)
-		});
-		$(`.${this.id}-date-scheduleColumn-schedule-${schedule.id}`).mouseout((e) => {
-			const $schedule = $(e.target);
+			if($targetRemover.css('display') !== 'none') {
+				return;
+			}
+			$(`.${this.id}-date-scheduleColumn-schedule-separator`).hide();
+			$(`.${this.id}-date-scheduleColumn-schedule-remove`).hide();
+			$(`.${this.id}-date-scheduleColumn-schedule-hover`).removeClass(`${this.id}-date-scheduleColumn-schedule-hover`);
+			
+			$targetSeparator.show();
+			$targetRemover.show();
+			$(`.${this.id}-date-scheduleColumn-schedule-${schedule.id}`).addClass(`${this.id}-date-scheduleColumn-schedule-hover`);
 		});
 	}
 	
