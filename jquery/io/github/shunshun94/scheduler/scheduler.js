@@ -90,7 +90,11 @@ io.github.shunshun94.scheduler.Scheduler = class {
 	}
 	
 	drawScheduleDay_(schedule, i, isHead, isLast) {
-		const baseStyle = 'box-sizing:border-box;position:absolute;top:0px;bottom:0px;text-align:center;overflow:hidden;';
+		const baseStyle = 
+			'box-sizing:border-box;position:absolute;top:0px;bottom:0px;text-align:center;overflow:hidden;';
+		const separatorBaseStyle = 
+			'display:none;overflow:visible;width:40px;' +
+			'color:black;margin:auto;height:100%;top:-24px;position:relative;bottom:0px;';
 		const minWidth = $(`.${this.id}-date-scheduleColumn`).width() / (24 * 60);
 		const startDate = new Date(schedule.prepare + (1000 * 60 * 60 * 24 * i));
 		const endDate = new Date(schedule.tidyUp);
@@ -103,10 +107,18 @@ io.github.shunshun94.scheduler.Scheduler = class {
 				`style="right:${endPoint}px;left:${startPoint}px;${baseStyle}" >` + '</div>');
 		$schedule.text(schedule.label);
 		$schedule.append(`<button class="${this.id}-date-scheduleColumn-schedule-remove" style="display:none;">DELETE</button>`);
-		$schedule.append(
-				`<div class="${this.id}-date-scheduleColumn-schedule-separator" ` + 
-				`style="overflow:visible;width:5px;height:900%;margin:auto;display:none;opacity:0.3;background-color:black;position:relative;top:-300%;bottom:0px;"></div>`);
+		var $separator = $(`<div class="${this.id}-date-scheduleColumn-schedule-separator" ` + 
+				`style="${separatorBaseStyle}"></div>`);
+		$separator.append(`<div class="${this.id}-date-scheduleColumn-schedule-separator-left ${this.id}-date-scheduleColumn-schedule-separators"` + 
+				` style="background:linear-gradient(-135deg, white 4px, transparent 0) 0 4px;background-position: left top;`  +
+				`background-repeat:repeat-y;background-size:8px 8px;position:absolute;left:0px;top:0px;width:20%;height:100%;"></div>`);
+		$separator.append(`<div class="${this.id}-date-scheduleColumn-schedule-separator-center ${this.id}-date-scheduleColumn-schedule-separators"` +
+				` style="position:absolute;left:20%;top:0px;width:60%;height:100%;background-color:white;"></div>`);
+		$separator.append(`<div class="${this.id}-date-scheduleColumn-schedule-separator-right ${this.id}-date-scheduleColumn-schedule-separators"` +
+				` style="background:linear-gradient(135deg, white 4px, transparent 0) 0 4px;background-position: right top;` +
+				`background-repeat:repeat-y;background-size:8px 8px;position:absolute;right:0px;top:0px;width:20%;height:100%;"></div>`);
 
+		$schedule.append($separator);
 		if(isHead) {
 			$schedule.append('<div ' +
 					`class="${this.id}-date-scheduleColumn-schedule-head" ` +
@@ -367,8 +379,8 @@ io.github.shunshun94.scheduler.Scheduler = class {
 				$target.remove();
 			}
 			
-			if($target.hasClass(`${this.id}-date-scheduleColumn-schedule-separator`)) {
-				this.separateSchedule(this.schedules[$target.parent().attr('id').replace(/-\d+$/, '')]);
+			if($target.hasClass(`${this.id}-date-scheduleColumn-schedule-separators`)) {
+				this.separateSchedule(this.schedules[$target.parent().parent().attr('id').replace(/-\d+$/, '')]);
 			}
 		});
 	}
