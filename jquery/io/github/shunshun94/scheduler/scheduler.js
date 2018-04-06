@@ -93,7 +93,7 @@ io.github.shunshun94.scheduler.Scheduler = class {
 		const baseStyle = 
 			'box-sizing:border-box;position:absolute;top:0px;bottom:0px;text-align:center;overflow:hidden;';
 		const separatorBaseStyle = 
-			'display:none;overflow:visible;width:40px;' +
+			'display:none;overflow:visible;width:90px;' +
 			'color:black;margin:auto;height:100%;top:-24px;position:relative;bottom:0px;';
 		const minWidth = $(`.${this.id}-date-scheduleColumn`).width() / (24 * 60);
 		const startDate = new Date(schedule.prepare + (1000 * 60 * 60 * 24 * i));
@@ -106,17 +106,17 @@ io.github.shunshun94.scheduler.Scheduler = class {
 				`id="${this.id}-date-scheduleColumn-schedule-${schedule.id}-${i}" ` +
 				`style="right:${endPoint}px;left:${startPoint}px;${baseStyle}" >` + '</div>');
 		$schedule.text(schedule.label);
-		$schedule.append(`<button class="${this.id}-date-scheduleColumn-schedule-remove" style="display:none;">DELETE</button>`);
+		$schedule.append(`<button class="${this.id}-date-scheduleColumn-schedule-remove" style="position:absolute;display:none;right:8px;">DELETE</button>`);
 		var $separator = $(`<div class="${this.id}-date-scheduleColumn-schedule-separator" ` + 
 				`style="${separatorBaseStyle}"></div>`);
 		$separator.append(`<div class="${this.id}-date-scheduleColumn-schedule-separator-left ${this.id}-date-scheduleColumn-schedule-separators"` + 
 				` style="background:linear-gradient(-135deg, white 4px, transparent 0) 0 4px;background-position: left top;`  +
-				`background-repeat:repeat-y;background-size:8px 8px;position:absolute;left:0px;top:0px;width:20%;height:100%;"></div>`);
+				`background-repeat:repeat-y;background-size:8px 8px;position:absolute;left:0px;top:0px;width:8px;height:100%;"></div>`);
 		$separator.append(`<div class="${this.id}-date-scheduleColumn-schedule-separator-center ${this.id}-date-scheduleColumn-schedule-separators"` +
-				` style="position:absolute;left:20%;top:0px;width:60%;height:100%;background-color:white;"></div>`);
+				` style="position:absolute;left:8px;top:0px;width:74px;height:100%;background-color:white;">Separate</div>`);
 		$separator.append(`<div class="${this.id}-date-scheduleColumn-schedule-separator-right ${this.id}-date-scheduleColumn-schedule-separators"` +
 				` style="background:linear-gradient(135deg, white 4px, transparent 0) 0 4px;background-position: right top;` +
-				`background-repeat:repeat-y;background-size:8px 8px;position:absolute;right:0px;top:0px;width:20%;height:100%;"></div>`);
+				`background-repeat:repeat-y;background-size:8px 8px;position:absolute;right:0px;top:0px;width:8px;height:100%;"></div>`);
 
 		$schedule.append($separator);
 		if(isHead) {
