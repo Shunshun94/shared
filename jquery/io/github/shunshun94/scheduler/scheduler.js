@@ -60,12 +60,12 @@ io.github.shunshun94.scheduler.Scheduler = class {
 		return this.drawSchedule(schedule);
 	}
 	
-	separateSchedule(schedule) {
+	separateSchedule(schedule, clickedDay) {
 		if(! window.confirm(`Do you want to separete "${schedule.label}"?`)) {
 			return;
 		}
 		try {
-			const newSchedules = this.separationIntervalAlgorithm(schedule);
+			const newSchedules = this.separationIntervalAlgorithm(schedule, clickedDay);
 			this.drawSchedules(newSchedules);
 			this.deleteSchedule(schedule);
 			this.$html.trigger({
@@ -94,7 +94,7 @@ io.github.shunshun94.scheduler.Scheduler = class {
 			'box-sizing:border-box;position:absolute;top:0px;bottom:0px;text-align:center;overflow:hidden;';
 		const separatorBaseStyle = 
 			'display:none;overflow:visible;width:90px;' +
-			'color:black;margin:auto;height:100%;top:-24px;position:relative;bottom:0px;';
+			'color:black;height:100%;position:absolute;left:0px;bottom:0px;';
 		const minWidth = $(`.${this.id}-date-scheduleColumn`).width() / (24 * 60);
 		const startDate = new Date(schedule.prepare + (1000 * 60 * 60 * 24 * i));
 		const endDate = new Date(schedule.tidyUp);
@@ -384,7 +384,12 @@ io.github.shunshun94.scheduler.Scheduler = class {
 			}
 			
 			if($target.hasClass(`${this.id}-date-scheduleColumn-schedule-separators`)) {
-				this.separateSchedule(this.schedules[$target.parent().parent().attr('id').replace(/-\d+$/, '')]);
+				const $schedule = $target.parent().parent();
+				const scheduleDomId = $schedule.attr('id');
+				const clickedDayArray = /(\d+)-(\d+)-(\d+)/.exec($schedule.parent().attr('id'));
+				const clickedDay = new Date(clickedDayArray[1], clickedDayArray[2], clickedDayArray[3]);
+				this.separateSchedule(
+					this.schedules[scheduleDomId.replace(/-\d+$/, '')], clickedDay);
 			}
 		});
 	}
@@ -435,7 +440,69 @@ io.github.shunshun94.scheduler.Scheduler.generateSchedule = (
 	return result;
 };
 
-io.github.shunshun94.scheduler.Scheduler.SEPARATION_INTERVAL_ALGORITHM = (schedule) => {
+io.github.shunshun94.scheduler.Scheduler.SEPARATION_INTERVAL_ALGORITHM = (schedule, clickedDay) => {
+	if(schedule.length.total < 60 * 24) {
+		return io.github.shunshun94.scheduler.Scheduler.SEPARATION_INTERVAL_ALGORITHM_HALF(schedule);
+	}
+	
+	const nextOfClickedDayNum = Number(new Date(clickedDay.getFullYear(), clickedDay.getMonth(), clickedDay.getDate() + 1));
+	const clickedDayNum = Number(clickedDay);
+	
+	var result = [{
+		id: `${schedule.id}_0`,
+		label: `${schedule.label}_0`,
+		start: schedule.start,
+		prepare: schedule.prepare,
+		length: {
+			head: schedule.length.head,
+			foot: schedule.length.foot
+		}
+	}, {
+		id: `${schedule.id}_1`,
+		label: `${schedule.label}_1`,
+		end: schedule.end,
+		tidyUp: schedule.tidyUp,
+		length: {
+			head: schedule.length.head,
+			foot: schedule.length.foot
+		}
+	}];
+	
+	if(schedule.prepare > clickedDayNum) { // 初日
+		const dayLength = (nextOfClickedDayNum - schedule.prepare) / (60 * 1000);
+		// 開始2回、終了1回、1時間2回、前後空き時間30分が確保できないなら例外
+		if(dayLength < schedule.length.head * 2 + schedule.length.foot + 150) {
+			throw `Because ${schedule.label} dosen't have enough length, you can't separate this schedule.`
+		}
+		
+		result[0].tidyUp = result[0].prepare + 60 * 1000 * ((dayLength / 2) - 15);
+		result[1].prepare = result[0].tidyUp + 60 * 1000 * 30;
+		
+	} else if(schedule.tidyUp < nextOfClickedDayNum) { //最終日
+		const dayLength = (schedule.tidyUp - clickedDayNum) / (60 * 1000);
+		// 開始1回、終了2回、1時間2回、前後空き時間30分が確保できないなら例外
+		if(dayLength < schedule.length.head + schedule.length.foot * 2 + 150) {
+			throw `Because ${schedule.label} dosen't have enough length, you can't separate this schedule.`
+		}
+		
+		result[0].tidyUp = clickedDayNum + 60 * 1000 * ((dayLength / 2) - 15);
+		result[1].prepare = result[0].tidyUp + 60 * 1000 * 30;
+	} else {
+		result[0].tidyUp = clickedDayNum + 60 * 1000 * (11 * 60 + 45); // 11:45
+		result[1].prepare = clickedDayNum + 60 * 1000 * (12 * 60 + 15); // 12:15
+	}
+	result[0].end = result[0].tidyUp - 60 * 1000 * schedule.length.foot;
+	result[1].start = result[1].prepare + 60 * 1000 * schedule.length.head;
+	result[0].length.body = (result[0].end - result[0].start) / (60 * 1000);
+	result[1].length.body = (result[1].end - result[1].start) / (60 * 1000);
+	result[0].length.total = (result[0].length.body + result[0].length.foot + result[0].length.head);
+	result[1].length.total = (result[1].length.body + result[1].length.foot + result[1 ].length.head);
+
+	return result;
+};
+
+
+io.github.shunshun94.scheduler.Scheduler.SEPARATION_INTERVAL_ALGORITHM_HALF = (schedule) => {
 	if(schedule.length.body < ((schedule.length.foot + schedule.length.head) * 2 + 120)) {
 		throw `Because ${schedule.label} dosen't have enough length, you can't separate this schedule.`
 	}
@@ -462,7 +529,6 @@ io.github.shunshun94.scheduler.Scheduler.SEPARATION_INTERVAL_ALGORITHM = (schedu
 	
 	result[0].end = result[0].prepare + (schedule.length.total / 2 - 15 - schedule.length.foot) * 60 * 1000;
 	result[0].tidyUp = result[0].prepare + ((schedule.length.total / 2) - 15) * 60 * 1000;
-	
 	result[1].prepare = result[0].tidyUp + 30 * 60 * 1000;
 	result[1].start = result[0].tidyUp + (schedule.length.head + 30) * 60 * 1000;
 	
