@@ -333,7 +333,6 @@ io.github.shunshun94.scheduler.Scheduler = class {
 		const baseYear = date.getFullYear();
 		const baseMonth = date.getMonth();
 		const baseDay = date.getDate();
-		
 		$(`#${this.id}-date-${baseYear}-${baseMonth}-${baseDay}-scheduleColumn`).mouseover((e) => {
 			if($(`#${this.id}-date-${baseYear}-${baseMonth}-${baseDay}-scheduleColumn > .${this.id}-date-scheduleColumn-schedule-dummy`).length) {
 				return;
