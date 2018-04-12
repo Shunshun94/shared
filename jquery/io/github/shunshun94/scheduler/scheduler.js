@@ -40,12 +40,18 @@ io.github.shunshun94.scheduler.Scheduler = class {
 			console.warn(`In ${baseYear}/${baseMonth + 1}/${baseDay}, ${targetSchedules[0].label} is places. Use separation to add more schedules.`, targetSchedules);
 			return;
 		}
-		return this.drawSchedules([this.appendable(io.github.shunshun94.scheduler.Scheduler.rndString(),
+		
+		const schedule = this.appendable(io.github.shunshun94.scheduler.Scheduler.rndString(),
 				'10:00 ～ 14:00',
 				new Date(Number(lastId[1]), Number(lastId[2]), Number(lastId[3]), 10),
 				240,
 				120,
-				30)])[0];
+				30);
+		this.drawSchedules([schedule])[0];
+		this.$html.trigger({
+			type: io.github.shunshun94.scheduler.Scheduler.EVENTS.ADD_EVENT, added: schedule
+		});
+		return schedule
 	}
 	
 	addSchedule(schedule) {
