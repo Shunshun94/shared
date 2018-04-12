@@ -138,6 +138,8 @@ $('#io-github-shunshun94-scheduler-Scheduler').on(io.github.shunshun94.scheduler
 		scheduler.updateSchedule(schedule);
 	});
 });
+$('#io-github-shunshun94-scheduler-Scheduler').on(io.github.shunshun94.scheduler.Scheduler.EVENTS.ADD_EVENT, (e) => {console.log('ADDED', e.added)});
+$('#io-github-shunshun94-scheduler-Scheduler').on(io.github.shunshun94.scheduler.Scheduler.EVENTS.DELETE_EVENT, (e) => {console.log('DELETED', e.deleted)});
 </script>
 </body>
 </html>
