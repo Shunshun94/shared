@@ -40,15 +40,24 @@ io.github.shunshun94.scheduler.Scheduler = class {
 			console.warn(`In ${baseYear}/${baseMonth + 1}/${baseDay}, ${targetSchedules[0].label} is places. Use separation to add more schedules.`, targetSchedules);
 			return;
 		}
-		return this.drawSchedules([this.appendable(io.github.shunshun94.scheduler.Scheduler.rndString(),
+		
+		const schedule = this.appendable(io.github.shunshun94.scheduler.Scheduler.rndString(),
 				'10:00 ～ 14:00',
 				new Date(Number(lastId[1]), Number(lastId[2]), Number(lastId[3]), 10),
 				240,
 				120,
-				30)])[0];
+				30);
+		this.drawSchedules([schedule])[0];
+		this.$html.trigger({
+			type: io.github.shunshun94.scheduler.Scheduler.EVENTS.ADD_EVENT, added: schedule
+		});
+		return schedule
 	}
 	
 	addSchedule(schedule) {
+		this.$html.trigger({
+			type: io.github.shunshun94.scheduler.Scheduler.EVENTS.ADD_EVENT, added: schedule
+		});
 		return this.updateSchedule(schedule);
 	}
 	
@@ -182,15 +191,15 @@ io.github.shunshun94.scheduler.Scheduler = class {
 		if(! window.confirm(`Do you want to delete "${schedule.label}"?`)) {
 			return;
 		}
-		this.$html.trigger({
-			type: io.github.shunshun94.scheduler.Scheduler.EVENTS.DELETE_EVENT, deleted: schedule
-		});
 		return this.deleteSchedule(schedule);
 	}
 	
 	deleteSchedule(schedule) {
 		delete this.schedules[`${this.id}-date-scheduleColumn-schedule-${schedule.id}`];
 		$(`.${this.id}-date-scheduleColumn-schedule-${schedule.id}`).remove();
+		this.$html.trigger({
+			type: io.github.shunshun94.scheduler.Scheduler.EVENTS.DELETE_EVENT, deleted: schedule
+		});
 		return schedule.id;
 	}
 	
@@ -550,7 +559,8 @@ io.github.shunshun94.scheduler.Scheduler.EVENTS = {
 	CLICK_EVENT: 'io-github-shunshun94-scheduler-Scheduler-EVENTS-CLICK_EVENT',
 	RESIZE_EVENT: 'io-github-shunshun94-scheduler-Scheduler-EVENTS-RESIZE_EVENT',
 	SEPARATE_EVENT: 'io-github-shunshun94-scheduler-Scheduler-EVENTS-SEPARATE_EVENT',
-	DELETE_EVENT: 'io-github-shunshun94-scheduler-Scheduler-EVENTS-DELETE_EVENT'
+	DELETE_EVENT: 'io-github-shunshun94-scheduler-Scheduler-EVENTS-DELETE_EVENT',
+	ADD_EVENT: 'io-github-shunshun94-scheduler-Scheduler-EVENTS-ADD_EVENT'
 };
 io.github.shunshun94.scheduler.Scheduler.INITIAL_SCHEDULE_BASEDATE = new Date();
 io.github.shunshun94.scheduler.Scheduler.INITIAL_SCHEDULE_BASEDATE.VALUES = {
