@@ -65,6 +65,12 @@ io.github.shunshun94.scheduler.Scheduler = class {
 		return io.github.shunshun94.scheduler.Scheduler.convertScheduleMapToArray(this.schedules);
 	}
 	
+	getSchedule(schedule) {
+		const id = schedule.id || schedule;
+		return this.schedules[`${this.id}-date-scheduleColumn-schedule-${id}`];
+		
+	}
+	
 	updateSchedule(schedule) {
 		return this.drawSchedule(schedule);
 	}
@@ -195,12 +201,17 @@ io.github.shunshun94.scheduler.Scheduler = class {
 	}
 	
 	deleteSchedule(schedule) {
-		delete this.schedules[`${this.id}-date-scheduleColumn-schedule-${schedule.id}`];
-		$(`.${this.id}-date-scheduleColumn-schedule-${schedule.id}`).remove();
-		this.$html.trigger({
-			type: io.github.shunshun94.scheduler.Scheduler.EVENTS.DELETE_EVENT, deleted: schedule
-		});
-		return schedule.id;
+		if(this.schedules[`${this.id}-date-scheduleColumn-schedule-${schedule.id}`]) {
+			delete this.schedules[`${this.id}-date-scheduleColumn-schedule-${schedule.id}`];
+			$(`.${this.id}-date-scheduleColumn-schedule-${schedule.id}`).remove();
+			this.$html.trigger({
+				type: io.github.shunshun94.scheduler.Scheduler.EVENTS.DELETE_EVENT, deleted: schedule
+			});
+			return schedule.id;
+		} else {
+			return null;
+		}
+
 	}
 	
 	resized(e, movedSchedule) {
