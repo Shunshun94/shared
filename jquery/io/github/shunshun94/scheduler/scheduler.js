@@ -226,14 +226,14 @@ io.github.shunshun94.scheduler.Scheduler = class {
 
 		if(number === 0) {
 			const tmpDay = new Date(this.schedules[id].prepare);
-			const prepareStart = (movedSchedule.position.left - $(e.target).parent().position().left) / minWidth;
+			const prepareStart = ($(e.target).position().left / minWidth);
 			this.schedules[id].prepare = Number(new Date(tmpDay.getFullYear(), tmpDay.getMonth(), tmpDay.getDate(), Math.floor(prepareStart / 60), prepareStart % 60));
 			this.schedules[id].start = this.schedules[id].prepare + this.schedules[id].length.head * 60 * 1000;
 		}
 
 		if(number === count - 1) {
 			const tmpDay = new Date(this.schedules[id].tidyUp);
-			const finishTidyUp = (movedSchedule.position.left + movedSchedule.size.width - $(e.target).parent().position().left) / minWidth;
+			const finishTidyUp = ($(e.target).position().left + movedSchedule.size.width) / minWidth;
 			this.schedules[id].tidyUp = Number(new Date(tmpDay.getFullYear(), tmpDay.getMonth(), tmpDay.getDate(), Math.floor(finishTidyUp / 60), finishTidyUp % 60));
 			this.schedules[id].end = this.schedules[id].tidyUp - this.schedules[id].length.foot * 60 * 1000;
 		}
