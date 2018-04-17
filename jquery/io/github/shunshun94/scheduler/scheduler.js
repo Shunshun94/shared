@@ -226,14 +226,14 @@ io.github.shunshun94.scheduler.Scheduler = class {
 			top: '0px', height: staticHeight + 'px'
 		});
 
-		if($dom.addClass(`${this.id}-date-scheduleColumn-schedule-first`)) {
+		if($dom.hasClass(`${this.id}-date-scheduleColumn-schedule-first`)) {
 			const tmpDay = new Date(this.schedules[id].prepare);
 			const prepareStart = ($dom.position().left / minWidth);
 			this.schedules[id].prepare = Number(new Date(tmpDay.getFullYear(), tmpDay.getMonth(), tmpDay.getDate(), Math.floor(prepareStart / 60), prepareStart % 60));
 			this.schedules[id].start = this.schedules[id].prepare + this.schedules[id].length.head * 60 * 1000;
 		}
 
-		if($dom.addClass(`${this.id}-date-scheduleColumn-schedule-last`)) {
+		if($dom.hasClass(`${this.id}-date-scheduleColumn-schedule-last`)) {
 			const tmpDay = new Date(this.schedules[id].tidyUp);
 			const finishTidyUp = ($dom.position().left + $(e.target).width()) / minWidth;
 			this.schedules[id].tidyUp = Number(new Date(tmpDay.getFullYear(), tmpDay.getMonth(), tmpDay.getDate(), Math.floor(finishTidyUp / 60), finishTidyUp % 60));
@@ -241,7 +241,6 @@ io.github.shunshun94.scheduler.Scheduler = class {
 		}
 		this.schedules[id].length.total = (this.schedules[id].tidyUp -  this.schedules[id].prepare) / (1000 * 60)
 		this.schedules[id].length.body = this.schedules[id].length.total - this.schedules[id].length.head - this.schedules[id].length.foot;
-		console.log(`${new Date(this.schedules[id].start)} - ${new Date(this.schedules[id].end)}`)
 		this.drawSchedule(this.schedules[id]);
 		this.$html.trigger({
 			type: io.github.shunshun94.scheduler.Scheduler.EVENTS.RESIZE_EVENT,
