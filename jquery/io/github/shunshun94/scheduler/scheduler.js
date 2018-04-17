@@ -135,11 +135,13 @@ io.github.shunshun94.scheduler.Scheduler = class {
 
 		$schedule.append($separator);
 		if(isHead) {
+			$schedule.addClass(`${this.id}-date-scheduleColumn-schedule-first`);
 			$schedule.append('<div ' +
 					`class="${this.id}-date-scheduleColumn-schedule-head" ` +
 					`style="width:${schedule.length.head * minWidth}px;${baseStyle}" ></div>`);
 		}
 		if(isLast) {
+			$schedule.addClass(`${this.id}-date-scheduleColumn-schedule-last`);
 			$schedule.append('<div ' +
 					`class="${this.id}-date-scheduleColumn-schedule-foot" ` +
 					`style="width:${schedule.length.foot * minWidth}px;${baseStyle}right:0px;" ></div>`);
@@ -215,32 +217,30 @@ io.github.shunshun94.scheduler.Scheduler = class {
 	}
 	
 	resized(e, movedSchedule) {
+		const $dom = $(e.target)
 		const minWidth = $(`.${this.id}-date-scheduleColumn`).width() / (24 * 60);
 		const staticHeight = $(`.${this.id}-date-scheduleColumn`).height();
-		const id = $(e.target).attr('id').replace(/-\d+$/, '');
-		const number = Number($(e.target).attr('id').replace(`${id}-`, ''));
-		$(e.target).css({
+		const id = $dom.attr('id').replace(/-\d+$/, '');
+		const number = Number($dom.attr('id').replace(`${id}-`, ''));
+		$dom.css({
 			top: '0px', height: staticHeight + 'px'
 		});
-		const count = $(`.${id}`).length;
 
-		if(number === 0) {
+		if($dom.hasClass(`${this.id}-date-scheduleColumn-schedule-first`)) {
 			const tmpDay = new Date(this.schedules[id].prepare);
-			const prepareStart = ($(e.target).position().left / minWidth);
+			const prepareStart = ($dom.position().left / minWidth);
 			this.schedules[id].prepare = Number(new Date(tmpDay.getFullYear(), tmpDay.getMonth(), tmpDay.getDate(), Math.floor(prepareStart / 60), prepareStart % 60));
 			this.schedules[id].start = this.schedules[id].prepare + this.schedules[id].length.head * 60 * 1000;
 		}
 
-		if(number === count - 1) {
+		if($dom.hasClass(`${this.id}-date-scheduleColumn-schedule-last`)) {
 			const tmpDay = new Date(this.schedules[id].tidyUp);
-			const finishTidyUp = ($(e.target).position().left + movedSchedule.size.width) / minWidth;
+			const finishTidyUp = ($dom.position().left + $(e.target).width()) / minWidth;
 			this.schedules[id].tidyUp = Number(new Date(tmpDay.getFullYear(), tmpDay.getMonth(), tmpDay.getDate(), Math.floor(finishTidyUp / 60), finishTidyUp % 60));
 			this.schedules[id].end = this.schedules[id].tidyUp - this.schedules[id].length.foot * 60 * 1000;
 		}
-
 		this.schedules[id].length.total = (this.schedules[id].tidyUp -  this.schedules[id].prepare) / (1000 * 60)
 		this.schedules[id].length.body = this.schedules[id].length.total - this.schedules[id].length.head - this.schedules[id].length.foot;
-
 		this.drawSchedule(this.schedules[id]);
 		this.$html.trigger({
 			type: io.github.shunshun94.scheduler.Scheduler.EVENTS.RESIZE_EVENT,
