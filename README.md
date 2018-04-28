@@ -11,3 +11,7 @@ License Information: https://js.foundation/pdf/ip-policy.pdf
 ### discord.io
 
 License Information: https://github.com/izy521/discord.io/blob/master/LICENSE
+
+### popupmenu.js
+
+License Information: https://spiritloose.net/misc/popupmenu/

@@ -10,27 +10,33 @@
 	}
 	
 	#io-github-shunshun94-scheduler-Scheduler {
-		width: 712px;
+		width: 962px;
+		margin:auto;
+	}
+	
+	.io-github-shunshun94-scheduler-Scheduler-date,
+	.io-github-shunshun94-scheduler-Scheduler-date-header,
+	.io-github-shunshun94-scheduler-Scheduler-date-footer,
+	.io-github-shunshun94-scheduler-Scheduler-date-dateColumn,
+	.io-github-shunshun94-scheduler-Scheduler-date-scheduleColumn {
+		height: 30px;
 	}
 	
 	.io-github-shunshun94-scheduler-Scheduler-date {
 		border-bottom: 1px black solid;
 		border-left: 1px black solid;
 		border-right: 1px black solid;
-		height: 31px;
 	}
 	
 	.io-github-shunshun94-scheduler-Scheduler-date-header {
 		border-top: 1px black solid;
 		border-bottom: 3px black double;
-		height: 31px;
 	}
 	
 	.io-github-shunshun94-scheduler-Scheduler-date-footer {
 		border: 5px #999999 outset;
 		background-color: #CCCCCC;
 		text-align:center;
-		height: 31px;
 	}
 	.io-github-shunshun94-scheduler-Scheduler-date-footer:hover {
 		border: 5px #CCCCCC outset;
@@ -48,14 +54,12 @@
 	.io-github-shunshun94-scheduler-Scheduler-date-dateColumn {
 		border-right: 1px black solid;
 		width: 110px;
-		height: 31px;
 		overflow:hidden;
 		display: inline-block;
 	}
 	
 	.io-github-shunshun94-scheduler-Scheduler-date-scheduleColumn {
-		width: 600px;
-		height: 31px;
+		width: 850px;
 		display: inline-block;
 		position: relative;
 		overflow:hidden;
@@ -65,6 +69,18 @@
 		border: blue 1px double;
 		background-color: hsla(0, 100%, 50%, 0.2);
 	}
+	
+	.io-github-shunshun94-scheduler-Scheduler-date-scheduleColumn-schedule-hover {
+		border: hsla(0, 100%, 50%, 0.2) 1px double;
+		background-color: blue;
+		color:white;
+	}
+	
+	.io-github-shunshun94-scheduler-Scheduler-date-scheduleColumn-schedule-dummy {
+		border: blue 1px double;
+		background-color: hsla(0, 100%, 50%, 0.5);
+	}
+	
 	.io-github-shunshun94-scheduler-Scheduler-date-scheduleColumn-schedule-head,
 	.io-github-shunshun94-scheduler-Scheduler-date-scheduleColumn-schedule-foot {
 		background-color: hsla(180, 100%, 50%, 0.2);
@@ -76,19 +92,54 @@
 <div id="io-github-shunshun94-scheduler-Scheduler"></div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+<script src="../external/spiritloose/popupmenu.js"></script>
 <script src="../jquery/io/github/shunshun94/scheduler/scheduler.js"></script>
 <script>
-new io.github.shunshun94.scheduler.Scheduler($('#io-github-shunshun94-scheduler-Scheduler'), {extendable:true});
+const scheduler = new io.github.shunshun94.scheduler.Scheduler($('#io-github-shunshun94-scheduler-Scheduler'), {extendable:true});
 $('#io-github-shunshun94-scheduler-Scheduler').on(io.github.shunshun94.scheduler.Scheduler.EVENTS.CLICK_EVENT, (e) => {
 	const schedule = e.schedule;
 	$('#io-github-shunshun94-scheduler-Display').html(`<p>"${schedule.label}"<br/>${new Date(schedule.start)} ～ ${new Date(schedule.end)}<br/>` +
 			`${schedule.length.body}分間 (準備：${schedule.length.head}分 / 片づけ:${schedule.length.foot}分)</p>`);
 });
 $('#io-github-shunshun94-scheduler-Scheduler').on(io.github.shunshun94.scheduler.Scheduler.EVENTS.RESIZE_EVENT, (e) => {
-	const schedule = e.schedule;
-	$('#io-github-shunshun94-scheduler-Display').html(`<p>"${schedule.label}"<br/>${new Date(schedule.start)} ～ ${new Date(schedule.end)}<br/>` +
+	var schedule = e.schedule;
+	
+	const joined = scheduler.getSchedules().filter((schedule_) => {
+		return (schedule_.tidyUp >= schedule.prepare) && schedule_.prepare <= schedule.tidyUp;
+	});
+	if(joined.length) {
+		schedule.start = Math.min.apply(null, joined.map((schedule_) => {return schedule_.start}));
+		schedule.prepare = Math.min.apply(null, joined.map((schedule_) => {return schedule_.prepare}));
+		schedule.end = Math.max.apply(null, joined.map((schedule_) => {return schedule_.end}));
+		schedule.tidyUp = Math.max.apply(null, joined.map((schedule_) => {return schedule_.tidyUp}));
+		schedule.length.body = (schedule.end - schedule.start) / (1000 * 60);
+		schedule.length.total = schedule.length.body + schedule.length.head + schedule.length.foot;
+		joined.forEach((schedule_) => {
+			scheduler.deleteSchedule(schedule_)
+		});
+	}
+	
+	const start = new Date(schedule.start);
+	const end = new Date(schedule.end);
+	$('#io-github-shunshun94-scheduler-Display').html(`<p>"${schedule.label}"<br/>${start} ～ ${end}<br/>` +
 			`${schedule.length.body}分間 (準備：${schedule.length.head}分 / 片づけ:${schedule.length.foot}分)</p>`);
+	schedule.label = `${start.getHours()}:${String(start.getMinutes()).padStart(2, '0')} ～ ${end.getHours()}:${String(end.getMinutes()).padStart(2, '0')}`
+	scheduler.updateSchedule(schedule);
+
 });
+$('#io-github-shunshun94-scheduler-Scheduler').on(io.github.shunshun94.scheduler.Scheduler.EVENTS.SEPARATE_EVENT, (e) => {
+	var schedules = e.schedules;
+	schedules.forEach((schedule) => {
+		const start = new Date(schedule.start);
+		const end = new Date(schedule.end);
+		$('#io-github-shunshun94-scheduler-Display').html(`<p>"${schedule.label}"<br/>${start} ～ ${end}<br/>` +
+				`${schedule.length.body}分間 (準備：${schedule.length.head}分 / 片づけ:${schedule.length.foot}分)</p>`);
+		schedule.label = `${start.getHours()}:${String(start.getMinutes()).padStart(2, '0')} ～ ${end.getHours()}:${String(end.getMinutes()).padStart(2, '0')}`
+		scheduler.updateSchedule(schedule);
+	});
+});
+$('#io-github-shunshun94-scheduler-Scheduler').on(io.github.shunshun94.scheduler.Scheduler.EVENTS.ADD_EVENT, (e) => {console.log('ADDED', e.added)});
+$('#io-github-shunshun94-scheduler-Scheduler').on(io.github.shunshun94.scheduler.Scheduler.EVENTS.DELETE_EVENT, (e) => {console.log('DELETED', e.deleted)});
 </script>
 </body>
 </html>
