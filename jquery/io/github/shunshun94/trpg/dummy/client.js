@@ -6,7 +6,7 @@ io.github.shunshun94.trpg.dummy = io.github.shunshun94.trpg.dummy || {};
 
 
 io.github.shunshun94.trpg.dummy.Server = class extends io.github.shunshun94.trpg.ClientInterface.Server {
-	constructor($dom) {
+	constructor($dom, opts = {}) {
 		super();
 	}
 	
@@ -39,12 +39,23 @@ io.github.shunshun94.trpg.dummy.Server.SERVER_ROOM_DATA = [{
 }];
 
 io.github.shunshun94.trpg.dummy.Room = class extends io.github.shunshun94.trpg.ClientInterface.Room {
-	constructor($dom) {
+	constructor($dom, opts = {}) {
 		super();
 		this.$html = $($dom);
 		this.id = this.$html.attr('id') || this.generateRandomId();
 		this.initiativeTable = {};
 		this.tableColumn = []; 
+		if(opts.dice) {
+			if(typeof opts.dice === 'function') {
+				this.diceSystem = opts.dice;
+			} else if(this.isNumber_(opts.dice)) {
+				this.diceSystem = (msg) => {return `${msg}\n→ ${opts.dice}`};
+			} else {
+				this.diceSystem = this.dummyDiceSystem;
+			}
+		} else {
+			this.diceSystem = null;
+		}
 		this.$html.append(`<p class="${this.id}-chat" style="color:#000000">` +
 				`<span class="${this.id}-chat-name">System</span>: <span class="${this.id}-chat-message">オンセプラットフォームのモックです</span>` +
 				` (<span class="${this.id}-chat-time">${Number(new Date()) + 1}</span>)</p>`);
@@ -118,10 +129,21 @@ io.github.shunshun94.trpg.dummy.Room = class extends io.github.shunshun94.trpg.C
 				return;
 			}
 			
+			args.msg = this.diceSystem ? this.diceSystem(args.msg || args.message) : args.msg || args.message;
+			
 			this.appendChat(args);
 			resolve({result: 'OK'});
 		});
 	};
+	
+	dummyDiceSystem(msg) {
+		const value =  Math.floor(Math.random() * 43);
+		if(value % 5 === 0) {
+			return `${msg}\n→ ファンブル`;
+		} else {
+			return `${msg}\n→ ${value}`;
+		}
+	}
 	
 	isNumber_ (num_candidate) {
 		// http://aoking.hatenablog.jp/entry/20120217/1329452700
