@@ -137,11 +137,16 @@ io.github.shunshun94.trpg.dummy.Room = class extends io.github.shunshun94.trpg.C
 	};
 	
 	dummyDiceSystem(msg) {
-		const value =  Math.floor(Math.random() * 43);
-		if(value % 5 === 0) {
-			return `${msg}\n→ ファンブル`;
+		const calcRegExpResult = /C\((.*)\)/.exec(msg);
+		if(calcRegExpResult) {
+			return `${msg}\n→ ${eval(calcRegExpResult[1])}`;
 		} else {
-			return `${msg}\n→ ${value}`;
+			const value =  Math.floor(Math.random() * 43);
+			if(value % 5 === 0) {
+				return `${msg}\n→ ファンブル`;
+			} else {
+				return `${msg}\n→ ${value}`;
+			}
 		}
 	}
 	
