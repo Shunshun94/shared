@@ -21,41 +21,102 @@ new io.github.shunshun94.scheduler.Scheduler($('#my-Scheduler'), {extendable:tru
 
 ### 2nd Argument options
 
-- extendable (Boolean)   
+#### extendable (Boolean)   
+
 If it's `true`, the schedule table can be extendable.   
 Default Value: `false`
-- dataFormat (String)   
+
+#### appendable (function)
+
+How to generate new schedule. The arguments must like `io.github.shunshun94.scheduler.Scheduler.generateSchedule`.
+If `false` is inputed, user can't add new schedule.
+Default value: `io.github.shunshun94.scheduler.Scheduler.generateSchedule`
+
+#### separationIntervalAlgorithm (function)
+How to separate the schedules. 1st argument must be the separation target schedule. 2nd argument must be Date object where you'll separate the schedule.
+Default value: `io.github.shunshun94.scheduler.Scheduler.SEPARATION_INTERVAL_ALGORITHM`
+
+#### dataFormat (String)   
+
 How the day's will be formatted. Use `%y`, `%m`, `%d` (date) and `%D` (day).   
 Default Value: `%m/%d (%D)`
-- initialLength (Number)   
+
+#### initialLength (Number)   
+
 How many days will be displayed initially.   
 Default Value: `7`
-- initialSchedule (Object)   
+
+#### initialSchedule (Object)   
+
 The schedules data.   
 Default Value: `io.github.shunshun94.scheduler.Scheduler.INITIAL_SCHEDULE` (sample schedule)
-- startDate (Date)   
+
+#### startDate (Date)   
+
 The head day of the schedule table.   
 Default Value: `initialSchedule` head day. If `initialSchedule` is empty, it'll Today.
 
 ## Methods
 
-### drawSchedule
+### addScheduleByDate
 
-This method add a schedule.
+This method adds new schedule for scheduler.   
+This method gets one argument a Date which day will get new schedule.   
+This method returns added schedule.
 
-This method gets one argument the schedule.
 
+### addSchedule
+
+This method adds a new schedule.   
+This method gets one argument the schedule.   
 This method returns jQuery elements array of the added schedules.
 
-### drawSchedules
+### updateSchedule
 
-This method add some schedules.
+This method updates a schedule.
+This method gets one argument the updated schedule.   
+This method returns jQuery elements array of the added schedules.
 
-This method gets one argument the list of schedules.
+### getSchedules
 
-This method returns array of jQuery elements arrays of the added schedules.
+This method gets the schedules list.   
+This method gets no arguments.   
+This method returns the schedules array.
 
-Internally, this method calls `drawSchedule`.
+### getSchedule
+
+This method gets a schedule.   
+This method gets the schedule ID to get schedule.
+This method returns the indicated schedule or undefined.
+
+## Events
+
+### io.github.shunshun94.scheduler.Scheduler.EVENTS.CLICK_EVENT
+
+When user clicked a schedule, this event is fired.   
+This event has a property `schedule` which has the clicked schedule information.
+
+### io.github.shunshun94.scheduler.Scheduler.EVENTS.ADD_EVENT
+
+When user added a new schedule, this event is fired.   
+This event has a property `added` which has the added schedule information.
+
+### io.github.shunshun94.scheduler.Scheduler.EVENTS.DELETE_EVENT
+
+When user deleted a schedule, this event is fired.   
+This event has a property `deleted` which has the deleted schedule information.
+
+### io.github.shunshun94.scheduler.Scheduler.EVENTS.RESIZE_EVENT
+
+When user resized a schedule, this event is fired.   
+This event has a property `schedule` which has the resized schedule information.
+
+### io.github.shunshun94.scheduler.Scheduler.EVENTS.SEPARATE_EVENT
+
+When user separated a schedule, this event is fired.   
+This event has two properties.   
+First one is `schedules` which has new schedules information as array.   
+Second one is `deleted` which has the base schedule information.
 
 ## Schedule structure
 
