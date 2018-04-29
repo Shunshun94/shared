@@ -109,7 +109,7 @@ io.github.shunshun94.scheduler.Scheduler = class {
 			'box-sizing:border-box;position:absolute;top:0px;bottom:0px;text-align:center;overflow:hidden;';
 		const separatorBaseStyle = 
 			'display:none;overflow:visible;width:90px;' +
-			'color:black;height:100%;position:absolute;left:0px;bottom:0px;';
+			'color:black;height:100%;position:relative;margin:auto;top:-25px;background-color:white;';
 		const minWidth = $(`.${this.id}-date-scheduleColumn`).width() / (24 * 60);
 		const startDate = new Date(schedule.prepare + (1000 * 60 * 60 * 24 * i));
 		const endDate = new Date(schedule.tidyUp);
@@ -121,17 +121,8 @@ io.github.shunshun94.scheduler.Scheduler = class {
 				`id="${this.id}-date-scheduleColumn-schedule-${schedule.id}-${i}" ` +
 				`style="right:${endPoint}px;left:${startPoint}px;${baseStyle}" >` + '</div>');
 		$schedule.text(schedule.label);
-		$schedule.append(`<button class="${this.id}-date-scheduleColumn-schedule-remove" style="position:absolute;display:none;right:8px;">DELETE</button>`);
 		var $separator = $(`<div class="${this.id}-date-scheduleColumn-schedule-separator" ` + 
-				`style="${separatorBaseStyle}"></div>`);
-		$separator.append(`<div class="${this.id}-date-scheduleColumn-schedule-separator-left ${this.id}-date-scheduleColumn-schedule-separators"` + 
-				` style="background:linear-gradient(-135deg, white 4px, transparent 0) 0 4px;background-position: left top;`  +
-				`background-repeat:repeat-y;background-size:8px 8px;position:absolute;left:0px;top:0px;width:8px;height:100%;"></div>`);
-		$separator.append(`<div class="${this.id}-date-scheduleColumn-schedule-separator-center ${this.id}-date-scheduleColumn-schedule-separators"` +
-				` style="position:absolute;left:8px;top:0px;width:74px;height:100%;background-color:white;">Separate</div>`);
-		$separator.append(`<div class="${this.id}-date-scheduleColumn-schedule-separator-right ${this.id}-date-scheduleColumn-schedule-separators"` +
-				` style="background:linear-gradient(135deg, white 4px, transparent 0) 0 4px;background-position: right top;` +
-				`background-repeat:repeat-y;background-size:8px 8px;position:absolute;right:0px;top:0px;width:8px;height:100%;"></div>`);
+				`style="${separatorBaseStyle}">SEPARATE</div>`);
 
 		$schedule.append($separator);
 		if(isHead) {
@@ -181,6 +172,9 @@ io.github.shunshun94.scheduler.Scheduler = class {
 		const days = this.calcDayCounts(schedule.prepare, schedule.tidyUp);
 		for(var i = 0; i < days; i++) {
 			this.drawScheduleDay_(schedule, i, Boolean(i == 0), Boolean(i == days - 1));
+		}
+		if($(`.${this.id}-date-scheduleColumn-schedule-${schedule.id}`).length) {
+			$($(`.${this.id}-date-scheduleColumn-schedule-${schedule.id}`)[0]).append(`<button class="${this.id}-date-scheduleColumn-schedule-remove" style="position:absolute;display:none;top:4px;right:4px;">×</button>`);
 		}
 		this.generateEachSchedulePopupMenu(schedule);
 		this.schedules[`${this.id}-date-scheduleColumn-schedule-${schedule.id}`] = schedule;
@@ -337,8 +331,8 @@ io.github.shunshun94.scheduler.Scheduler = class {
 		$(`.${this.id}-date-scheduleColumn-schedule-${schedule.id}`).mouseover((e) => {
 			const $schedule = $(e.target);
 			const $targetSeparator = $schedule.find(`.${this.id}-date-scheduleColumn-schedule-separator`);
-			const $targetRemover = $schedule.find(`.${this.id}-date-scheduleColumn-schedule-remove`);
-			if($targetRemover.css('display') !== 'none') {
+			const $targetRemover = $(`.${this.id}-date-scheduleColumn-schedule-${schedule.id} > .${this.id}-date-scheduleColumn-schedule-remove`);
+			if($targetSeparator.css('display') !== 'none') {
 				return;
 			}
 			this.resetPopUpVisual();
@@ -402,8 +396,8 @@ io.github.shunshun94.scheduler.Scheduler = class {
 				$target.remove();
 			}
 			
-			if($target.hasClass(`${this.id}-date-scheduleColumn-schedule-separators`)) {
-				const $schedule = $target.parent().parent();
+			if($target.hasClass(`${this.id}-date-scheduleColumn-schedule-separator`)) {
+				const $schedule = $target.parent();
 				const scheduleDomId = $schedule.attr('id');
 				const clickedDayArray = /(\d+)-(\d+)-(\d+)/.exec($schedule.parent().attr('id'));
 				const clickedDay = new Date(clickedDayArray[1], clickedDayArray[2], clickedDayArray[3]);
