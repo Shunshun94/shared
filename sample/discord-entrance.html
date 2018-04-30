@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Discord Entry</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<style type="text/css">
+	#entrance > div {
+		height:800px;
+		position:relative;
+		padding:1em;
+		background-color:#F0FFF0;
+	}
+	#entrance　input {
+		width:100%;
+	}
+	
+	#entrance select {
+		width:100%;
+	}
+	.entrance-room-room {
+		margin-top:4px;
+		padding: 5px;
+		border-radius: 4px;
+		border:#50FF50 2px outset;
+		background-color:#D0FFD0;
+	}
+	#entrance-url-FreeInput {
+		display:none;
+	}
+</style>
+</head>
+<body>
+<div id="entrance"></div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<script src="../external/discord.io/index.js"></script>
+<script src="../jquery/com/hiyoko/util/v2/utils.js"></script>
+<script src="../jquery/com/hiyoko/components/v1/ApplicationBase.js"></script>
+<script src="../jquery/com/hiyoko/components/v1/InputFlow.js"></script>
+<script src="../other/io/github/shunshun94/trpg/clientSpec.js"></script>
+<script src="../jquery/io/github/shunshun94/trpg/discord/entrance.js"></script>
+<script src="../other/io/github/shunshun94/trpg/discord/client.js"></script>
+<script>
+	new io.github.shunshun94.trpg.discord.Entrance($('#entrance'), {visitable:true});
+	$('#entrance').on(com.hiyoko.component.InputFlow.Events.Finish, function(e){
+		const url = `./DodontoF-Chat.html?url=${e.value.url}&room=${e.value.room}&dicebot=${e.value.dicebot}`;
+		document.location = url;
+	});
+</script>
+</body>
+</html>
