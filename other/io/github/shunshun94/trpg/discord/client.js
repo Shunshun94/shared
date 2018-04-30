@@ -76,6 +76,25 @@ io.github.shunshun94.trpg.discord.Room = class extends io.github.shunshun94.trpg
 				resolve({ok: false, result: '',secret: false});
 			});
 		}};
+		this.lastMsgId = 0
+	}
+
+	convertRawMessage(raw) {
+		return raw.reverse().map((raw) => {
+			return [
+	        	Number(new Date(raw.timestamp)),
+	        	{
+	        		color: '000000',
+	        		message: raw.content,
+	        		senderName: raw.author.username,
+	        		uniqueId: raw.id,
+	        		metadata: {
+	        			channel: raw.channel_id,
+	        			senderId: raw.author.id
+	        		}
+	        	}
+	        ];
+		});
 	}
 	
 	sendChat (args) {
@@ -107,35 +126,41 @@ io.github.shunshun94.trpg.discord.Room = class extends io.github.shunshun94.trpg
 		}.bind(this));
 	}
 	
-	getChat (opt_from) {
-		return new Promise(function(resolve, reject) {
+	getChatBefore (opt_to) {
+		return new Promise((resolve, reject) => {
 			this.discord.getMessages({
-				channelID: this.roomId, after: (Number(opt_from) || 0) + 1
-			}, function(err, array) {
+				channelID: this.roomId, before: (Number(opt_to) || this.lastMsgId) + 1, limit: 100
+			}, (err, array) => {
 				if(err) {
 					reject({result: err});
 				} else {
 					resolve({
 						result: 'OK',
-						chatMessageDataLog: array.reverse().map((raw) => {
-							return [
-							        	Number(new Date(raw.timestamp)),
-							        	{
-							        		color: '000000',
-							        		message: raw.content,
-							        		senderName: raw.author.username,
-							        		uniqueId: raw.id,
-							        		metadata: {
-							        			channel: raw.channel_id,
-							        			senderId: raw.author.id
-							        		}
-							        	}
-							        ];
-						})
+						chatMessageDataLog: this.convertRawMessage(array)
 					});
 				}
 			});
-		}.bind(this));
+		});
+	}
+
+	getChat (opt_from) {
+		return new Promise((resolve, reject) => {
+			this.discord.getMessages({
+				channelID: this.roomId, after: (Number(opt_from) || 0) + 1, limit: 100
+			}, (err, array) => {
+				if(err) {
+					reject({result: err});
+				} else {
+					resolve({
+						result: 'OK',
+						chatMessageDataLog: this.convertRawMessage(array)
+					});
+					if(array.length) {
+						this.lastMsgId = array[0].id;
+					}
+				}
+			});
+		});
 	}
 	
 	getRoomInfo () {
@@ -162,5 +187,139 @@ io.github.shunshun94.trpg.discord.Room = class extends io.github.shunshun94.trpg
 			resolve(result);
 		});
 	}
+
+	addCharacter(args = {}) {
+		return new Promise((resolve, reject) => {
+			if(! Boolean(args.name)) {
+				reject({result:'addCharacter reuqires name as argument property.'});
+				return;
+			}
+			this.getCharacters().then((result) => {
+				if(result.result !== 'OK') {
+					reject({
+						result: `Failed to get current character list`, detail: result
+					});
+					return;
+				}
+				const isExist = result.characters.filter((c) => {return c.name === args.name});
+				if(isExist.length) {
+					reject({
+						result: `キャラクターの追加に失敗しました。同じ名前のキャラクターがすでに存在しないか確認してください。`,
+						detail: isExist
+					});
+					return;
+				}
+				let newCharacter = {counters:{}, type:'characterData'};
+				for(var key in args) {
+					if(key === 'targetName' || key==='counters'){ // SKIP
+					}else if(io.github.shunshun94.trpg.discord.Room.CHARACTER_PARAMS.includes(key)) {
+						newCharacter[key] = args[key];
+					} else {
+						newCharacter.counters[key] = args[key];
+					}
+				}
+				result.characters.push(newCharacter);
+				this.sendChat({message: 'Initiative Table\n```json\n' + JSON.stringify(result.characters) + '\n```'}).then(() => {
+					resolve({
+						result: 'OK',
+						characters: result.characters
+					});
+				}, (error) => {
+					reject({
+						result: error
+					});
+				});
+			}, (error) => {
+				reject({
+					result: `Failed to get current character list`, detail: error
+				})
+			});
+		});
+	}
 	
+	updateCharacter(args) {
+		return new Promise((resolve, reject) => {
+			if(! Boolean(args.targetName)) {
+				reject({result:'updateCharacter reuqires targetName as argument property.'});
+				return;
+			}
+			this.getCharacters().then((result) => {
+				if(result.result !== 'OK') {
+					reject({
+						result: `Failed to get current character list`, detail: result
+					});
+					return;
+				}
+				let index = -1;
+				result.characters.forEach((c, i) => {
+					if(c.name === args.targetName) {
+						index = i;
+					}
+				});
+				if(index === -1) {
+					reject({
+						result: `${args.targetName}は見つかりませんでした`
+					});
+					return;
+				}
+				for(var key in args) {
+					if(key === 'targetName' || key==='counters'){ // SKIP
+					}else if(io.github.shunshun94.trpg.discord.Room.CHARACTER_PARAMS.includes(key)) {
+						result.characters[index][key] = args[key];
+					} else {
+						result.characters[index].counters[key] = args[key];
+					}
+				}
+				this.sendChat({message: 'Initiative Table\n```json\n' + JSON.stringify(result.characters) + '\n```'}).then(() => {
+					resolve({
+						result: 'OK',
+						characters: result.characters
+					});
+				}, (error) => {
+					reject({
+						result: error
+					});
+				});
+			}, (error) => {
+				reject({
+					result: `Failed to get current character list`, detail: error
+				})
+			});
+		});
+	}
+
+	getCharacters() {
+		return new Promise((resolve, reject) => {
+			this.getChatBefore().then((getChatResult) => {
+				const rawList = getChatResult.chatMessageDataLog.filter((msgData) => {
+					return msgData[1].message.startsWith('Initiative Table\n```json');
+				}).reverse();
+				if(rawList.length === 0) {
+					resolve({
+						result: 'OK',
+						characters: []
+					});
+					return;
+				}
+				try {
+					const result = JSON.parse(/Initiative Table```json(.*)```/.exec(rawList[0][1].message.replace(/\n/gm, ''))[1]);
+					resolve({
+						result: 'OK',
+						characters: result
+					});
+				} catch(e) {
+					reject({
+						result: e
+					});
+				}
+			}, (error) => {reject({
+				result: error
+			})});
+		});
+	}
 };
+
+io.github.shunshun94.trpg.discord.Room.CHARACTER_PARAMS = [
+	'name', 'targetName', 'info','x', 'y',
+    'size', 'inisiative',
+    'rotation', 'image', 'dogTag', 'draggable', 'url'];
