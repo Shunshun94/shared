@@ -24,7 +24,8 @@ io.github.shunshun94.trpg.discord.generateRoomInfo = (rawData, memberList) => {
 		playRoomName: rawData.name,
 		loginUsers: users,
 		passwordLockState: false,
-		id: rawData.id
+		id: rawData.id,
+		index: rawData.id
 	};
 };
 

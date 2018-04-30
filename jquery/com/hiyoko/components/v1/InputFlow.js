@@ -1,7 +1,10 @@
 var com = com || {};
 com.hiyoko = com.hiyoko || {};
 com.hiyoko.component = com.hiyoko.component || {};
-com.hiyoko.component.InputFlow = function(){};
+com.hiyoko.component.InputFlow = function($html, opt_options){
+	this.$html = $($html);
+	this.id = this.$html.attr('id');
+};
 
 com.hiyoko.util.extend(com.hiyoko.component.ApplicationBase, com.hiyoko.component.InputFlow);
 com.hiyoko.component.InputFlow.Events = {
@@ -54,7 +57,10 @@ com.hiyoko.component.InputFlow.prototype.collectValues = function() {
 	return params;
 };
 
-com.hiyoko.component.InputFlow.Child = function(){};
+com.hiyoko.component.InputFlow.Child = function($html){
+	this.$html = $($html);
+	this.id = this.$html.attr('id');
+};
 com.hiyoko.util.extend(com.hiyoko.component.ApplicationBase, com.hiyoko.component.InputFlow.Child);
 com.hiyoko.component.InputFlow.Child.Events = {
 	GoNext: 'com-hiyoko-component-InputFlow-Child-GoNext',
