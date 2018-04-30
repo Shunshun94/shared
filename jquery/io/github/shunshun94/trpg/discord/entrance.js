@@ -15,7 +15,6 @@ io.github.shunshun94.trpg.discord.Entrance = class extends com.hiyoko.component.
 		this.buildComponents(components, opt_options);
 		this.bindEvents();
 		this.$html.on(com.hiyoko.component.InputFlow.Events.Finish, (e) => {
-			console.log(e.value);
 			let tokens = JSON.parse(localStorage.getItem(io.github.shunshun94.trpg.discord.Entrance.Token.TokenList) || '[]');
 			if(! tokens.includes(e.value.url)) {
 				tokens.push(e.value.url);
