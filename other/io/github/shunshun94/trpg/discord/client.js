@@ -197,7 +197,7 @@ io.github.shunshun94.trpg.discord.Room = class extends io.github.shunshun94.trpg
 			this.getCharacters().then((result) => {
 				if(result.result !== 'OK') {
 					reject({
-						result: `Failed to get current character list`, detail: result
+						result: `Failed to get current character list`, detail: result, args: args
 					});
 					return;
 				}
@@ -205,7 +205,7 @@ io.github.shunshun94.trpg.discord.Room = class extends io.github.shunshun94.trpg
 				if(isExist.length) {
 					reject({
 						result: `キャラクターの追加に失敗しました。同じ名前のキャラクターがすでに存在しないか確認してください。`,
-						detail: isExist
+						detail: isExist, args: args
 					});
 					return;
 				}
@@ -226,12 +226,12 @@ io.github.shunshun94.trpg.discord.Room = class extends io.github.shunshun94.trpg
 					});
 				}, (error) => {
 					reject({
-						result: error
+						result: error, args: args
 					});
 				});
 			}, (error) => {
 				reject({
-					result: `Failed to get current character list`, detail: error
+					result: `Failed to get current character list`, detail: error, args: args
 				})
 			});
 		});
@@ -246,7 +246,7 @@ io.github.shunshun94.trpg.discord.Room = class extends io.github.shunshun94.trpg
 			this.getCharacters().then((result) => {
 				if(result.result !== 'OK') {
 					reject({
-						result: `Failed to get current character list`, detail: result
+						result: `Failed to get current character list`, detail: result, args: args
 					});
 					return;
 				}
@@ -258,7 +258,7 @@ io.github.shunshun94.trpg.discord.Room = class extends io.github.shunshun94.trpg
 				});
 				if(index === -1) {
 					reject({
-						result: `${args.targetName}は見つかりませんでした`
+						result: `${args.targetName}は見つかりませんでした`, args: args
 					});
 					return;
 				}
@@ -282,7 +282,7 @@ io.github.shunshun94.trpg.discord.Room = class extends io.github.shunshun94.trpg
 				});
 			}, (error) => {
 				reject({
-					result: `Failed to get current character list`, detail: error
+					result: `Failed to get current character list`, detail: error, args: args
 				})
 			});
 		});
