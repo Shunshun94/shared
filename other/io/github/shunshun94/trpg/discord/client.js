@@ -300,7 +300,7 @@ io.github.shunshun94.trpg.discord.Room = class extends io.github.shunshun94.trpg
 						characters: [],
 						chatLogs: getChatResult.chatMessageDataLog
 					});
-					console.log('Could not find any initiative table data', chatLogs);
+					console.log('Could not find any initiative table data', getChatResult.chatMessageDataLog);
 					return;
 				}
 				try {
