@@ -102,7 +102,7 @@ com.hiyoko.DodontoF.V2.Entrance.Room.prototype.bindEvents = function() {
 
 com.hiyoko.DodontoF.V2.Entrance.Room.prototype.setComponent = function(params) {
 	this.getElementById('list').empty();
-	(new com.hiyoko.DodontoF.V2.Server(params .url)).getRoomList().done(function(r){
+	(new com.hiyoko.DodontoF.V2.Server(params.url)).getRoomList().done(function(r){
 		if(r.result !== 'OK') {
 			alert('どどんとふに接続はできましたが部屋一覧を取得できませんでした。\n理由：' + r.result);
 			this.goBack();
