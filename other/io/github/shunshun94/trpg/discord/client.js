@@ -126,10 +126,10 @@ io.github.shunshun94.trpg.discord.Room = class extends io.github.shunshun94.trpg
 		}.bind(this));
 	}
 	
-	getChatBefore (opt_to) {
+	getLatestChat (opt_to) {
 		return new Promise((resolve, reject) => {
 			this.discord.getMessages({
-				channelID: this.roomId, before: (Number(opt_to) || this.lastMsgId) + 1, limit: 100
+				channelID: this.roomId, limit: 100
 			}, (err, array) => {
 				if(err) {
 					reject({result: err});
@@ -290,7 +290,7 @@ io.github.shunshun94.trpg.discord.Room = class extends io.github.shunshun94.trpg
 
 	getCharacters() {
 		return new Promise((resolve, reject) => {
-			this.getChatBefore().then((getChatResult) => {
+			this.getLatestChat().then((getChatResult) => {
 				const rawList = getChatResult.chatMessageDataLog.filter((msgData) => {
 					return msgData[1].message.startsWith('Initiative Table\n```json');
 				}).reverse();
