@@ -113,11 +113,11 @@ com.hiyoko.DodontoF.V2.ChatClient.SimpleDisplay.prototype.update = function() {
 };
 
 com.hiyoko.DodontoF.V2.ChatClient.SimpleDisplay.prototype.receptData = function(data) {
-	var list = data.chatMessageDataLog.map(function(log){return com.hiyoko.DodontoF.V2.fixChatMsg(log);});
+	const list = data.chatMessageDataLog.map(function(log){return com.hiyoko.DodontoF.V2.fixChatMsg(log);});
 	this.updateLogs(list);
 	if(list.length) {
-		var lastMsg = list[list.length - 1];
-		this.updateLastUpdate(Number(list[list.length - 1].id) || list[list.length - 1].time);
+		const lastMsg = list[list.length - 1];
+		this.updateLastUpdate((lastMsg.id === '0') ? lastMsg.time : lastMsg.id);
 	}
 };
 
