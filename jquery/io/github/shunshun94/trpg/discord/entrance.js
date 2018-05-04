@@ -31,7 +31,7 @@ io.github.shunshun94.trpg.discord.Entrance = class extends com.hiyoko.component.
 	buildDom() {
 		this.$html.append(	`<div id="${this.id}-url"><p>Discord Bot のトークン：<input list="${this.id}-url-list" id="${this.id}-url-token" type="text" />` +
 							`<button id="${this.id}-url-next">チャンネル選択へ進む</button></p><datalist id="${this.id}-url-list"></datalist></div>`);
-		this.$html.append(	`<div id="${this.id}-room"><button id="${this.id}-room-back">Discord Bot のトークンに戻る</button></div>`);
+		this.$html.append(	`<div id="${this.id}-room"><button id="${this.id}-room-back">Discord Bot のトークンに戻る</button><p id="${this.id}-room-loading">⌛部屋情報読み込み中……</p></div>`);
 		this.$html.append(	`<div id="${this.id}-bcdice"><button id="${this.id}-bcdice-back">チャンネルの選択に戻る</button><p>BCDiceAPI の URL：` +
 							`<input list="${this.id}-bcdice-list" placeholder="https://www.example.com/bcdice-api" id="${this.id}-bcdice-url" type="text" />` +
 							`<button id="${this.id}-bcdice-next">入力完了</button></p><datalist id="${this.id}-bcdice-list"></datalist></div>`);
@@ -75,10 +75,15 @@ io.github.shunshun94.trpg.discord.Entrance.Room = class extends com.hiyoko.compo
 		});
 	}
 	setComponent(param) {
+		this.getElementById('back').hide();
+		this.getElementById('loading').show();
+		this.getElementsByClass('room').remove();
 		const client = new io.github.shunshun94.trpg.discord.Server(param.url);
 		setTimeout(()=>{
 			client.getRoomList().then((rooms) => {
 				if(rooms.playRoomStates.length) {
+					this.getElementById('back').show();
+					this.getElementById('loading').hide();
 					this.$html.append(this.generateRoomList(rooms.playRoomStates));
 				} else {
 					alert('チャンネルが見つかりませんでした。トークンが正しいが確認してみてください');
@@ -90,7 +95,6 @@ io.github.shunshun94.trpg.discord.Entrance.Room = class extends com.hiyoko.compo
 	generateRoomList(rooms) {
 		var $roomList = '';
 		return rooms.map((room, i) => {
-			console.log(room);
 			return	`<div class="${this.id}-room">` +
 					`Channel ID: <span class="${this.id}-room-index">${room.index}</span> - ` +
 					`<span class="${this.id}-room-name">${room.playRoomName}</span><br/>` +
