@@ -177,8 +177,15 @@ io.github.shunshun94.trpg.characterSheetsMasashige.DX3.syndromeFilter = (syndrom
 
 io.github.shunshun94.trpg.characterSheetsMasashige.DX3.getSheet = function(url) {
 	var promise = new $.Deferred;
-	new io.github.shunshun94.trpg.characterSheetsMasashige.DX3(/key=(.*)/.exec(url)[1], function(instance) {
-		promise.resolve(instance);
-	});
+	const execResult_1 = /key=(.*)/.exec(url);
+	if(execResult_1) {
+		new io.github.shunshun94.trpg.characterSheetsMasashige.DX3(execResult_1[1], function(instance) {
+			promise.resolve(instance);
+		});
+	} else {
+		new io.github.shunshun94.trpg.characterSheetsMasashige.DX3(/key%EQUAL%(.*)/.exec(url)[1], function(instance) {
+			promise.resolve(instance);
+		});
+	}
 	return promise;
 };
