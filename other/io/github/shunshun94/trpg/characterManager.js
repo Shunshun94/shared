@@ -78,16 +78,21 @@ io.github.shunshun94.trpg.CharacterManager.prototype.appendCharacters = function
 											characterResolve(characterData);
 										} ,
 										function(failed) {
+											console.warn('Failed to append Character to platform.', failed, self.sheetConverter(characterData));
+											console.warn('Current exist characters', nameList);
+											console.warn(`${characterData.name} is in ${nameList.indexOf(characterData.name)}`);
 											characterReject('Failed to append Character to platform. Reason ' + JSON.stringify(failed));
 										});
 								}
 							},
 							function(failed) {
-								characterReject('Failed to get Character from sheet. Reason ' + JSON.stringify(err));
+								console.warn('Failed to get Character from sheet.', failed, character);
+								characterReject('Failed to get Character from sheet. Reason ' + JSON.stringify(failed));
 							});
 					});
 				})).then(resolve, reject);
 			}, function(failed) {
+				console.warn('Failed to get Character List in platform.', failed);
 				reject('Failed to get Character List in platform. Reason ' + JSON.stringify(failed));
 			});
 	});
