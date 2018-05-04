@@ -25,17 +25,21 @@ io.github.shunshun94.trpg.dummy.Server.SERVER_ROOM_DATA = [{
 	gameType: 'unsupported',
 	lastUpdateTime: 'unsupported',
 	playRoomName: 'RoomA',
+	roomName: 'RoomA',
 	loginUsers: [],
 	passwordLockState: false,
-	id: 0
+	id: 0,
+	result: 'OK'
 },  {
 	canVisit: false,
 	gameType: 'unsupported',
 	lastUpdateTime: 'unsupported',
 	playRoomName: 'RoomB',
+	roomName: 'RoomB',
 	loginUsers: [],
 	passwordLockState: false,
-	id: 0
+	id: 0,
+	result: 'OK'
 }];
 
 io.github.shunshun94.trpg.dummy.Room = class extends io.github.shunshun94.trpg.ClientInterface.Room {
@@ -94,7 +98,11 @@ io.github.shunshun94.trpg.dummy.Room = class extends io.github.shunshun94.trpg.C
 				` (<span class="${this.id}-chat-time">${Number(new Date())}</span>)</p>` +
 				`<table border="1">${str}</table>`);
 	}
-	
+
+	getRoomInfo() {
+		return new Promise((resolve, reject) => {resolve(io.github.shunshun94.trpg.dummy.Server.SERVER_ROOM_DATA[0])})
+	}
+
 	getChat(opt_from) {
 		return new Promise((resolve, reject) => {
 			var list = [];

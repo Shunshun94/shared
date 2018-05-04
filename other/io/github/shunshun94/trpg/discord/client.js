@@ -22,10 +22,12 @@ io.github.shunshun94.trpg.discord.generateRoomInfo = (rawData, memberList) => {
 		gameType: 'unsupported',
 		lastUpdateTime: 'unsupported',
 		playRoomName: rawData.name,
+		roomName: rawData.name,
 		loginUsers: users,
 		passwordLockState: false,
 		id: rawData.id,
-		index: rawData.id
+		index: rawData.id,
+		result: 'OK'
 	};
 };
 
