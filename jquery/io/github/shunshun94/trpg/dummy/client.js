@@ -49,17 +49,39 @@ io.github.shunshun94.trpg.dummy.Room = class extends io.github.shunshun94.trpg.C
 		this.id = this.$html.attr('id') || this.generateRandomId();
 		this.initiativeTable = {};
 		this.tableColumn = []; 
-		if(opts.dice) {
-			if(typeof opts.dice === 'function') {
-				this.diceSystem = opts.dice;
-			} else if(this.isNumber_(opts.dice)) {
-				this.diceSystem = (msg) => {return `${msg}\n→ ${opts.dice}`};
+		if(opts.dicebot) {
+			if(opts.dicebot === true) {
+				this.diceSystem = new io.github.shunshun94.trpg.dummy.DummyDiceSystem();
+			} else if(this.isNumber_(opts.dicebot)) {
+				this.diceSystem = {rollDice: function(command) {
+					return new Promise(function(resolve, reject) {
+						resolve({ok: true, result: ` \n→ ${opts.dicebot}`,secret: false});
+					});
+				}};
 			} else {
-				this.diceSystem = this.dummyDiceSystem;
+				this.diceSystem = opts.dicebot;
+			}
+		}else if(opts.dice) {
+			if(opts.dice === true) {
+				this.diceSystem = new io.github.shunshun94.trpg.dummy.DummyDiceSystem();
+			} else if(this.isNumber_(opts.dice)) {
+				this.diceSystem = {rollDice: function(command) {
+					return new Promise(function(resolve, reject) {
+						resolve({ok: true, result: ` \n→ ${opts.dice}`,secret: false});
+					});
+				}};
+			} else {
+				this.diceSystem = opts.dice;
 			}
 		} else {
-			this.diceSystem = null;
+			this.diceSystem = {rollDice: function(command) {
+				return new Promise(function(resolve, reject) {
+					resolve({ok: false, result: '',secret: false});
+				});
+			}};
 		}
+		this.system = opts.system || false;
+		console.log(this.diceSystem)
 		this.$html.append(`<p class="${this.id}-chat" style="color:#000000">` +
 				`<span class="${this.id}-chat-name">System</span>: <span class="${this.id}-chat-message">オンセプラットフォームのモックです</span>` +
 				` (<span class="${this.id}-chat-time">${Number(new Date()) + 1}</span>)</p>`);
@@ -136,11 +158,11 @@ io.github.shunshun94.trpg.dummy.Room = class extends io.github.shunshun94.trpg.C
 				reject({result:'name と message は必須です', args: args});
 				return;
 			}
-			
-			args.msg = this.diceSystem ? this.diceSystem(args.msg || args.message) : args.msg || args.message;
-			
-			this.appendChat(args);
-			resolve({result: 'OK'});
+			this.diceSystem.rollDice(args.message, this.system).then((rollResult) => {
+				args.msg = rollResult.ok ? `${args.message}\n${rollResult.result.substr(2)}` : args.message;
+				this.appendChat(args);
+				resolve({result: 'OK'});
+			});
 		});
 	};
 	
@@ -284,3 +306,23 @@ io.github.shunshun94.trpg.dummy.Room.CHARACTER_PARAMS = [
 	'size', 'inisiative',
     'rotation', 'image', 'dogTag', 'draggable',
     'isHide', 'url'];
+
+io.github.shunshun94.trpg.dummy.DummyDiceSystem = class {
+	constructor() {}
+	
+	rollDice(msg) {
+		return new Promise(function(resolve, reject) {
+			const calcRegExpResult = /C\((.*)\)/.exec(msg);
+			if(calcRegExpResult) {
+				resolve({ok: true, result: `\n → ${eval(calcRegExpResult[1])}`,secret: false});
+			} else {
+				const value =  Math.floor(Math.random() * 43);
+				if(value % 5 === 0) {
+					resolve({ok: true, result: `\n → ファンブル`,secret: false});
+				} else {
+					resolve({ok: true, result: `\n → ${value}`,secret: false});
+				}
+			}
+		});
+	}
+};
