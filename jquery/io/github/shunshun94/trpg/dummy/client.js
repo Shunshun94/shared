@@ -158,7 +158,7 @@ io.github.shunshun94.trpg.dummy.Room = class extends io.github.shunshun94.trpg.C
 				reject({result:'name と message は必須です', args: args});
 				return;
 			}
-			this.diceSystem.rollDice(args.message, this.system).then((rollResult) => {
+			this.diceSystem.rollDice(args.message, args.bot || this.system).then((rollResult) => {
 				args.msg = rollResult.ok ? `${args.message}\n${rollResult.result.substr(2)}` : args.message;
 				this.appendChat(args);
 				resolve({result: 'OK'});
