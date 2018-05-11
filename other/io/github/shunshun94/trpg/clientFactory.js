@@ -18,7 +18,8 @@ io.github.shunshun94.trpg.RoomClientFactory = (args) => {
 
 io.github.shunshun94.trpg.SelectPlatform = (type, args) => {
 	var url = args.url || args.token;
-	
+	const dicebot = args.dicebot ? new com.hiyoko.BCDiceAPIClient(args.dicebot, args.system) : false;
+	args.dicebot = dicebot;
 	if(! Boolean(url)) {
 		throw 'The 1st argument is empty!';
 	}
@@ -34,8 +35,7 @@ io.github.shunshun94.trpg.SelectPlatform = (type, args) => {
 	}
 	
 	if(/.{24}\..{6}\..{27}/.test(url)) {
-		return io.github.shunshun94.trpg.generateClient(io.github.shunshun94.trpg.discord, type,
-				url, args.room, args.dicebot ? new com.hiyoko.BCDiceAPIClient(args.dicebot, args.system) : false);
+		return io.github.shunshun94.trpg.generateClient(io.github.shunshun94.trpg.discord, type, url, args.room, dicebot);
 	}
 	if(url.indexOf('DodontoF') > -1) {
 		return io.github.shunshun94.trpg.generateClient(com.hiyoko.DodontoF.V2, type, url, args.room, args.pass);

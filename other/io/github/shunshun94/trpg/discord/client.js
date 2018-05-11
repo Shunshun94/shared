@@ -105,7 +105,7 @@ io.github.shunshun94.trpg.discord.Room = class extends io.github.shunshun94.trpg
 				reject({result:'Necessary infomration is lacked.'});
 				return;
 			}
-			this.dicebot.rollDice(args.message).then(function(rollResult) {
+			this.dicebot.rollDice(args.message, args.bot).then(function(rollResult) {
 				var msg = rollResult.ok ? `${args.message}\n${rollResult.result.substr(2)}` : args.message;
 				if(args.name) {
 					msg = args.name + ': ' + msg;
