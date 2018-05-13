@@ -114,8 +114,7 @@ io.github.shunshun94.scheduler.Scheduler = class {
 		const startDate = new Date(schedule.prepare + (1000 * 60 * 60 * 24 * i));
 		const endDate = new Date(schedule.tidyUp);
 		const startPoint = isHead ? (startDate.getHours() * 60 + startDate.getMinutes()) * minWidth : 0;
-		const endPoint = isLast ? (60 * 24 - (endDate.getHours() * 60 + endDate.getMinutes())) * minWidth : 0;
-		
+		const endPoint = (isLast && startDate.getDate() === endDate.getDate()) ? (60 * 24 - (endDate.getHours() * 60 + endDate.getMinutes())) * minWidth : 0;
 		var $schedule = $('<div ' +
 				`class="${this.id}-date-scheduleColumn-schedule ${this.id}-date-scheduleColumn-schedule-${schedule.id}" ` +
 				`id="${this.id}-date-scheduleColumn-schedule-${schedule.id}-${i}" ` +
@@ -151,7 +150,7 @@ io.github.shunshun94.scheduler.Scheduler = class {
 					ghost: true,
 					helper: 'helper',
 					handles: handles.join(','),
-					minWidth: (schedule.length.head + schedule.length.foot + 60) * minWidth,
+					minWidth: 0,
 					stop: this.resized.bind(this)
 				});
 			}
@@ -228,18 +227,24 @@ io.github.shunshun94.scheduler.Scheduler = class {
 		}
 
 		if($dom.hasClass(`${this.id}-date-scheduleColumn-schedule-last`)) {
-			const tmpDay = new Date(this.schedules[id].tidyUp);
+			const tmpDayREExecResult = /(\d\d\d\d+)-(\d+)-(\d+)/.exec($dom.parent().attr('id'));
+			const tmpDay = new Date(tmpDayREExecResult[1], tmpDayREExecResult[2], tmpDayREExecResult[3]);
 			const finishTidyUp = ($dom.position().left + $(e.target).width()) / minWidth;
 			this.schedules[id].tidyUp = Number(new Date(tmpDay.getFullYear(), tmpDay.getMonth(), tmpDay.getDate(), Math.floor(finishTidyUp / 60), finishTidyUp % 60));
 			this.schedules[id].end = this.schedules[id].tidyUp - this.schedules[id].length.foot * 60 * 1000;
 		}
 		this.schedules[id].length.total = (this.schedules[id].tidyUp -  this.schedules[id].prepare) / (1000 * 60)
 		this.schedules[id].length.body = this.schedules[id].length.total - this.schedules[id].length.head - this.schedules[id].length.foot;
-		this.drawSchedule(this.schedules[id]);
-		this.$html.trigger({
-			type: io.github.shunshun94.scheduler.Scheduler.EVENTS.RESIZE_EVENT,
-			schedule: this.schedules[id]
-		});
+
+		if( this.schedules[id].length.body < 0) {
+			this.deleteSchedule(this.schedules[id]);
+		} else {
+			this.drawSchedule(this.schedules[id]);
+			this.$html.trigger({
+				type: io.github.shunshun94.scheduler.Scheduler.EVENTS.RESIZE_EVENT,
+				schedule: this.schedules[id]
+			});	
+		}
 	}
 	
 	formatDate(date) {
