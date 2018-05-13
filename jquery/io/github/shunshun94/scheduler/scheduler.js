@@ -115,6 +115,8 @@ io.github.shunshun94.scheduler.Scheduler = class {
 		const endDate = new Date(schedule.tidyUp);
 		const startPoint = isHead ? (startDate.getHours() * 60 + startDate.getMinutes()) * minWidth : 0;
 		const endPoint = (isLast && startDate.getDate() === endDate.getDate()) ? (60 * 24 - (endDate.getHours() * 60 + endDate.getMinutes())) * minWidth : 0;
+		const $base = $(`#${this.id}-date-${startDate.getFullYear()}-${startDate.getMonth()}-${startDate.getDate()} > .${this.id}-date-scheduleColumn`);
+
 		var $schedule = $('<div ' +
 				`class="${this.id}-date-scheduleColumn-schedule ${this.id}-date-scheduleColumn-schedule-${schedule.id}" ` +
 				`id="${this.id}-date-scheduleColumn-schedule-${schedule.id}-${i}" ` +
@@ -132,12 +134,32 @@ io.github.shunshun94.scheduler.Scheduler = class {
 		}
 		if(isLast) {
 			$schedule.addClass(`${this.id}-date-scheduleColumn-schedule-last`);
+
+		}
+		const scheduleEnd = new Date(schedule.end);
+		const isInEnd = (		startDate.getFullYear() === scheduleEnd.getFullYear() && 
+								startDate.getMonth() === scheduleEnd.getMonth() &&
+								startDate.getDate() === scheduleEnd.getDate());
+		const isInTidyUp = (	startDate.getFullYear() === endDate.getFullYear() && 
+								startDate.getMonth() === endDate.getMonth() &&
+								startDate.getDate() === endDate.getDate());
+		if(isInEnd && isInTidyUp){
+			console.log('isInEnd && isInTidyUp', i);
 			$schedule.append('<div ' +
 					`class="${this.id}-date-scheduleColumn-schedule-foot" ` +
-					`style="width:${schedule.length.foot * minWidth}px;${baseStyle}right:0px;" ></div>`);
+					`style="right:0px;width:${schedule.length.foot * minWidth}px;${baseStyle}" ></div>`);
+		} else if(isInEnd) {
+			console.log('isInEnd', i, (60 * 24 - (scheduleEnd.getHours() * 60 + scheduleEnd.getMinutes())));
+			$schedule.append('<div ' +
+					`class="${this.id}-date-scheduleColumn-schedule-foot" ` +
+					`style="right:0px;width:${(60 * 24 - (scheduleEnd.getHours() * 60 + scheduleEnd.getMinutes())) * minWidth}px;${baseStyle}" ></div>`);
+		} else if(isInTidyUp) {
+			console.log('isInTidyUp', i);
+			$schedule.append('<div ' +
+					`class="${this.id}-date-scheduleColumn-schedule-foot" ` +
+					`style="right:0px;width:100%;${baseStyle}" ></div>`);
 		}
 		////////////////////////////////////
-		const $base = $(`#${this.id}-date-${startDate.getFullYear()}-${startDate.getMonth()}-${startDate.getDate()} > .${this.id}-date-scheduleColumn`);
 		const staticHeight = $base.height();
 		if($base.length) {
 			$base.append($schedule);
@@ -206,7 +228,6 @@ io.github.shunshun94.scheduler.Scheduler = class {
 		} else {
 			return null;
 		}
-
 	}
 	
 	resized(e, movedSchedule) {
