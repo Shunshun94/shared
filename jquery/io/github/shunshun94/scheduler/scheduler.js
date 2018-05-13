@@ -128,36 +128,55 @@ io.github.shunshun94.scheduler.Scheduler = class {
 		$schedule.append($separator);
 		if(isHead) {
 			$schedule.addClass(`${this.id}-date-scheduleColumn-schedule-first`);
-			$schedule.append('<div ' +
-					`class="${this.id}-date-scheduleColumn-schedule-head" ` +
-					`style="width:${schedule.length.head * minWidth}px;${baseStyle}" ></div>`);
 		}
+		{
+			const scheduleStart = new Date(schedule.start);
+			const prepareStart = new Date(schedule.prepare);
+			const isInStart = (		startDate.getFullYear() === scheduleStart.getFullYear() && 
+									startDate.getMonth() === scheduleStart.getMonth() &&
+									startDate.getDate() === scheduleStart.getDate());
+			const isInPrepare = (	startDate.getFullYear() === prepareStart.getFullYear() && 
+									startDate.getMonth() === prepareStart.getMonth() &&
+									startDate.getDate() === prepareStart.getDate());
+			if(isInStart && isInPrepare){
+				$schedule.append('<div ' +
+						`class="${this.id}-date-scheduleColumn-schedule-head" ` +
+						`style="width:${schedule.length.head * minWidth}px;${baseStyle}" ></div>`);
+			} else if(isInStart) {
+				$schedule.append('<div ' +
+						`class="${this.id}-date-scheduleColumn-schedule-head" ` +
+						`style="width:${(scheduleStart.getHours() * 60 + scheduleStart.getMinutes()) * minWidth}px;${baseStyle}" ></div>`);
+			} else if(isInPrepare) {
+				$schedule.append('<div ' +
+						`class="${this.id}-date-scheduleColumn-schedule-head" ` +
+						`style="width:100%;${baseStyle}" ></div>`);
+			}
+		}
+
 		if(isLast) {
 			$schedule.addClass(`${this.id}-date-scheduleColumn-schedule-last`);
-
 		}
-		const scheduleEnd = new Date(schedule.end);
-		const isInEnd = (		startDate.getFullYear() === scheduleEnd.getFullYear() && 
-								startDate.getMonth() === scheduleEnd.getMonth() &&
-								startDate.getDate() === scheduleEnd.getDate());
-		const isInTidyUp = (	startDate.getFullYear() === endDate.getFullYear() && 
-								startDate.getMonth() === endDate.getMonth() &&
-								startDate.getDate() === endDate.getDate());
-		if(isInEnd && isInTidyUp){
-			console.log('isInEnd && isInTidyUp', i);
-			$schedule.append('<div ' +
-					`class="${this.id}-date-scheduleColumn-schedule-foot" ` +
-					`style="right:0px;width:${schedule.length.foot * minWidth}px;${baseStyle}" ></div>`);
-		} else if(isInEnd) {
-			console.log('isInEnd', i, (60 * 24 - (scheduleEnd.getHours() * 60 + scheduleEnd.getMinutes())));
-			$schedule.append('<div ' +
-					`class="${this.id}-date-scheduleColumn-schedule-foot" ` +
-					`style="right:0px;width:${(60 * 24 - (scheduleEnd.getHours() * 60 + scheduleEnd.getMinutes())) * minWidth}px;${baseStyle}" ></div>`);
-		} else if(isInTidyUp) {
-			console.log('isInTidyUp', i);
-			$schedule.append('<div ' +
-					`class="${this.id}-date-scheduleColumn-schedule-foot" ` +
-					`style="right:0px;width:100%;${baseStyle}" ></div>`);
+		{
+			const scheduleEnd = new Date(schedule.end);
+			const isInEnd = (		startDate.getFullYear() === scheduleEnd.getFullYear() && 
+									startDate.getMonth() === scheduleEnd.getMonth() &&
+									startDate.getDate() === scheduleEnd.getDate());
+			const isInTidyUp = (	startDate.getFullYear() === endDate.getFullYear() && 
+									startDate.getMonth() === endDate.getMonth() &&
+									startDate.getDate() === endDate.getDate());
+			if(isInEnd && isInTidyUp){
+				$schedule.append('<div ' +
+						`class="${this.id}-date-scheduleColumn-schedule-foot" ` +
+						`style="right:0px;width:${schedule.length.foot * minWidth}px;${baseStyle}" ></div>`);
+			} else if(isInEnd) {
+				$schedule.append('<div ' +
+						`class="${this.id}-date-scheduleColumn-schedule-foot" ` +
+						`style="right:0px;width:${(60 * 24 - (scheduleEnd.getHours() * 60 + scheduleEnd.getMinutes())) * minWidth}px;${baseStyle}" ></div>`);
+			} else if(isInTidyUp) {
+				$schedule.append('<div ' +
+						`class="${this.id}-date-scheduleColumn-schedule-foot" ` +
+						`style="right:0px;width:100%;${baseStyle}" ></div>`);
+			}
 		}
 		////////////////////////////////////
 		const staticHeight = $base.height();
