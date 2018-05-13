@@ -114,8 +114,9 @@ io.github.shunshun94.scheduler.Scheduler = class {
 		const startDate = new Date(schedule.prepare + (1000 * 60 * 60 * 24 * i));
 		const endDate = new Date(schedule.tidyUp);
 		const startPoint = isHead ? (startDate.getHours() * 60 + startDate.getMinutes()) * minWidth : 0;
-		const endPoint = isLast ? (60 * 24 - (endDate.getHours() * 60 + endDate.getMinutes())) * minWidth : 0;
-		
+		const endPoint = (isLast && startDate.getDate() === endDate.getDate()) ? (60 * 24 - (endDate.getHours() * 60 + endDate.getMinutes())) * minWidth : 0;
+		const $base = $(`#${this.id}-date-${startDate.getFullYear()}-${startDate.getMonth()}-${startDate.getDate()} > .${this.id}-date-scheduleColumn`);
+
 		var $schedule = $('<div ' +
 				`class="${this.id}-date-scheduleColumn-schedule ${this.id}-date-scheduleColumn-schedule-${schedule.id}" ` +
 				`id="${this.id}-date-scheduleColumn-schedule-${schedule.id}-${i}" ` +
@@ -127,18 +128,57 @@ io.github.shunshun94.scheduler.Scheduler = class {
 		$schedule.append($separator);
 		if(isHead) {
 			$schedule.addClass(`${this.id}-date-scheduleColumn-schedule-first`);
-			$schedule.append('<div ' +
-					`class="${this.id}-date-scheduleColumn-schedule-head" ` +
-					`style="width:${schedule.length.head * minWidth}px;${baseStyle}" ></div>`);
 		}
+		{
+			const scheduleStart = new Date(schedule.start);
+			const prepareStart = new Date(schedule.prepare);
+			const isInStart = (		startDate.getFullYear() === scheduleStart.getFullYear() && 
+									startDate.getMonth() === scheduleStart.getMonth() &&
+									startDate.getDate() === scheduleStart.getDate());
+			const isInPrepare = (	startDate.getFullYear() === prepareStart.getFullYear() && 
+									startDate.getMonth() === prepareStart.getMonth() &&
+									startDate.getDate() === prepareStart.getDate());
+			if(isInStart && isInPrepare){
+				$schedule.append('<div ' +
+						`class="${this.id}-date-scheduleColumn-schedule-head" ` +
+						`style="width:${schedule.length.head * minWidth}px;${baseStyle}" ></div>`);
+			} else if(isInStart) {
+				$schedule.append('<div ' +
+						`class="${this.id}-date-scheduleColumn-schedule-head" ` +
+						`style="width:${(scheduleStart.getHours() * 60 + scheduleStart.getMinutes()) * minWidth}px;${baseStyle}" ></div>`);
+			} else if(isInPrepare) {
+				$schedule.append('<div ' +
+						`class="${this.id}-date-scheduleColumn-schedule-head" ` +
+						`style="width:100%;${baseStyle}" ></div>`);
+			}
+		}
+
 		if(isLast) {
 			$schedule.addClass(`${this.id}-date-scheduleColumn-schedule-last`);
-			$schedule.append('<div ' +
-					`class="${this.id}-date-scheduleColumn-schedule-foot" ` +
-					`style="width:${schedule.length.foot * minWidth}px;${baseStyle}right:0px;" ></div>`);
+		}
+		{
+			const scheduleEnd = new Date(schedule.end);
+			const isInEnd = (		startDate.getFullYear() === scheduleEnd.getFullYear() && 
+									startDate.getMonth() === scheduleEnd.getMonth() &&
+									startDate.getDate() === scheduleEnd.getDate());
+			const isInTidyUp = (	startDate.getFullYear() === endDate.getFullYear() && 
+									startDate.getMonth() === endDate.getMonth() &&
+									startDate.getDate() === endDate.getDate());
+			if(isInEnd && isInTidyUp){
+				$schedule.append('<div ' +
+						`class="${this.id}-date-scheduleColumn-schedule-foot" ` +
+						`style="right:0px;width:${schedule.length.foot * minWidth}px;${baseStyle}" ></div>`);
+			} else if(isInEnd) {
+				$schedule.append('<div ' +
+						`class="${this.id}-date-scheduleColumn-schedule-foot" ` +
+						`style="right:0px;width:${(60 * 24 - (scheduleEnd.getHours() * 60 + scheduleEnd.getMinutes())) * minWidth}px;${baseStyle}" ></div>`);
+			} else if(isInTidyUp) {
+				$schedule.append('<div ' +
+						`class="${this.id}-date-scheduleColumn-schedule-foot" ` +
+						`style="right:0px;width:100%;${baseStyle}" ></div>`);
+			}
 		}
 		////////////////////////////////////
-		const $base = $(`#${this.id}-date-${startDate.getFullYear()}-${startDate.getMonth()}-${startDate.getDate()} > .${this.id}-date-scheduleColumn`);
 		const staticHeight = $base.height();
 		if($base.length) {
 			$base.append($schedule);
@@ -151,7 +191,7 @@ io.github.shunshun94.scheduler.Scheduler = class {
 					ghost: true,
 					helper: 'helper',
 					handles: handles.join(','),
-					minWidth: (schedule.length.head + schedule.length.foot + 60) * minWidth,
+					minWidth: 0,
 					stop: this.resized.bind(this)
 				});
 			}
@@ -207,7 +247,6 @@ io.github.shunshun94.scheduler.Scheduler = class {
 		} else {
 			return null;
 		}
-
 	}
 	
 	resized(e, movedSchedule) {
@@ -228,18 +267,24 @@ io.github.shunshun94.scheduler.Scheduler = class {
 		}
 
 		if($dom.hasClass(`${this.id}-date-scheduleColumn-schedule-last`)) {
-			const tmpDay = new Date(this.schedules[id].tidyUp);
+			const tmpDayREExecResult = /(\d\d\d\d+)-(\d+)-(\d+)/.exec($dom.parent().attr('id'));
+			const tmpDay = new Date(tmpDayREExecResult[1], tmpDayREExecResult[2], tmpDayREExecResult[3]);
 			const finishTidyUp = ($dom.position().left + $(e.target).width()) / minWidth;
 			this.schedules[id].tidyUp = Number(new Date(tmpDay.getFullYear(), tmpDay.getMonth(), tmpDay.getDate(), Math.floor(finishTidyUp / 60), finishTidyUp % 60));
 			this.schedules[id].end = this.schedules[id].tidyUp - this.schedules[id].length.foot * 60 * 1000;
 		}
 		this.schedules[id].length.total = (this.schedules[id].tidyUp -  this.schedules[id].prepare) / (1000 * 60)
 		this.schedules[id].length.body = this.schedules[id].length.total - this.schedules[id].length.head - this.schedules[id].length.foot;
-		this.drawSchedule(this.schedules[id]);
-		this.$html.trigger({
-			type: io.github.shunshun94.scheduler.Scheduler.EVENTS.RESIZE_EVENT,
-			schedule: this.schedules[id]
-		});
+
+		if( this.schedules[id].length.body < 0) {
+			this.deleteSchedule(this.schedules[id]);
+		} else {
+			this.drawSchedule(this.schedules[id]);
+			this.$html.trigger({
+				type: io.github.shunshun94.scheduler.Scheduler.EVENTS.RESIZE_EVENT,
+				schedule: this.schedules[id]
+			});	
+		}
 	}
 	
 	formatDate(date) {
