@@ -604,7 +604,7 @@ io.github.shunshun94.scheduler.Scheduler.toStringSchedule = (schedule) => {
 };
 
 io.github.shunshun94.scheduler.Scheduler.ONE_WEEK_DAYS = 7;
-io.github.shunshun94.scheduler.Scheduler.DAYS = ['Sun.', 'Mon', 'Tue.', 'Wed.', 'Thu.', 'Fri.', 'Sat.'];
+io.github.shunshun94.scheduler.Scheduler.DAYS = ['Sun.', 'Mon.', 'Tue.', 'Wed.', 'Thu.', 'Fri.', 'Sat.'];
 io.github.shunshun94.scheduler.Scheduler.EVENTS = {
 	CLICK_EVENT: 'io-github-shunshun94-scheduler-Scheduler-EVENTS-CLICK_EVENT',
 	RESIZE_EVENT: 'io-github-shunshun94-scheduler-Scheduler-EVENTS-RESIZE_EVENT',
