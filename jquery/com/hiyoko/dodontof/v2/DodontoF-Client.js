@@ -116,7 +116,7 @@ com.hiyoko.DodontoF.V2.Room = function(url, room, opt_pass) {
 	};
 	
 	tofRoom.CHARACTER_PARAMS = ['name', 'targetName', 'info','x', 'y',
-	                            'size', 'inisiative',
+	                            'size', 'initiative',
 	                            'rotation', 'image', 'dogTag', 'draggable',
 	                            'isHide', 'url'];
 	
@@ -313,7 +313,7 @@ com.hiyoko.DodontoF.V2.Room = function(url, room, opt_pass) {
 	tofRoom.prototype.convertTofCharacterDataToForceUpdateCharacterArg = function(target) {
 		var result = {
 			targetName: target.name, info: target.info, x: target.x, y: target.y,
-			size: target.size, inisiative: target.inisiative,
+			size: target.size, initiative: target.initiative,
 			rotation: target.rotation, image: target.imageName,
 			dogTag: target.dogTag, draggable: target.draggable,
 			isHide: target.isHide
