@@ -303,7 +303,7 @@ io.github.shunshun94.trpg.dummy.Room = class extends io.github.shunshun94.trpg.C
 
 io.github.shunshun94.trpg.dummy.Room.CHARACTER_PARAMS = [
 	'name', 'targetName', 'info','x', 'y', 
-	'size', 'inisiative',
+	'size', 'initiative',
     'rotation', 'image', 'dogTag', 'draggable',
     'isHide', 'url'];
 

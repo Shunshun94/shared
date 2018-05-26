@@ -330,5 +330,5 @@ io.github.shunshun94.trpg.discord.Room = class extends io.github.shunshun94.trpg
 
 io.github.shunshun94.trpg.discord.Room.CHARACTER_PARAMS = [
 	'name', 'targetName', 'info','x', 'y',
-    'size', 'inisiative',
+    'size', 'initiative',
     'rotation', 'image', 'dogTag', 'draggable', 'url'];
