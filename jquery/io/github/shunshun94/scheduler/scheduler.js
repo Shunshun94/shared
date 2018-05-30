@@ -214,7 +214,7 @@ io.github.shunshun94.scheduler.Scheduler = class {
 			this.drawScheduleDay_(schedule, i, Boolean(i == 0), Boolean(i == days - 1));
 		}
 		if($(`.${this.id}-date-scheduleColumn-schedule-${schedule.id}`).length) {
-			$($(`.${this.id}-date-scheduleColumn-schedule-${schedule.id}`)[0]).append(`<button class="${this.id}-date-scheduleColumn-schedule-remove" style="position:absolute;display:none;top:4px;right:4px;">×</button>`);
+			$($(`.${this.id}-date-scheduleColumn-schedule-${schedule.id}`)[0]).append(`<button class="${this.id}-date-scheduleColumn-schedule-remove" style="position:absolute;display:none;top:4px;right:16px;">×</button>`);
 		}
 		this.generateEachSchedulePopupMenu(schedule);
 		this.schedules[`${this.id}-date-scheduleColumn-schedule-${schedule.id}`] = schedule;
