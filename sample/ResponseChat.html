@@ -3,39 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <title>DodontoF Chat</title>
+<link rel="stylesheet" href="../jquery/io/github/shunshun94/trpg/ResponseChat/responseChat.css" type="text/css" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <style type="text/css">
-	#chat-display {
-		width: 800px;
-	}
-	.chat-display-log {
-		position: relative;
-		padding:4px;
-	}
-	.chat-display-log:nth-child(even) {
-		background-color: #EEEEEE;
-	}
-	.chat-display-log > span{
-		display: block;
-	}
-	.chat-display-log-message {
-		padding-left:12px;
-	}
-	.chat-display-log-name {
-		font-weight: bold;
-		vertical-align:top;
 
-	}
-	.chat-display-log-reply {
-		background-color: gray;
-		opacity: 0.2;
-		position:absolute;
-		right:4px;
-		top: 4px;
-	}
-	.chat-display-log-reply:hover {
-		opacity:1;
-	}
 </style>
 </head>
 <body>
@@ -52,14 +23,14 @@
 <script src="../jquery/io/github/shunshun94/trpg/dummy/client.js"></script>
 <script src="../jquery/com/hiyoko/components/v1/ApplicationBase.js"></script>
 <script src="../other/io/github/shunshun94/trpg/clientFactory.js"></script>
-<script src="../jquery/io/github/shunshun94/trpg/ResponseChat/responseChat.js"></script>
 <script src='../jquery/com/hiyoko/dodontof/v2/DodontoF-Chat.js'></script>
+<script src="../jquery/io/github/shunshun94/trpg/ResponseChat/responseChat.js"></script>
 <script>
 var query = com.hiyoko.util.getQueries();
 $('body').append(io.github.shunshun94.trpg.ResponseChat.generateDom('chat'));
 if(! Boolean(query.url)) {query.url = $('#dummyClient');}
 var client = io.github.shunshun94.trpg.RoomClientFactory(query);
-new com.hiyoko.DodontoF.V2.ChatClient($('#chat'), {
+new io.github.shunshun94.trpg.ResponseChat($('#chat'), {
 	displayLimit: 15,
 	display: io.github.shunshun94.trpg.ResponseChat.Display
 });

@@ -1,0 +1,73 @@
+.io-github-shunshun94-trpg-ResponseChat {
+	font-size:70%;
+	width: 800px;
+	border: 1px black solid;
+	display: flex;
+}
+.io-github-shunshun94-trpg-ResponseChat-child {
+	
+}
+
+.io-github-shunshun94-trpg-ResponseChat-namelist {
+	border: 1px black solid;
+	width:300px;
+	overflow:scroll;
+}
+
+.io-github-shunshun94-trpg-ResponseChat-display {
+	border: 1px black solid;
+	width: 500px;
+	height: 500px;
+	overflow:scroll;
+}
+.io-github-shunshun94-trpg-ResponseChat-display-log {
+	position: relative;
+	padding:4px;
+}
+.io-github-shunshun94-trpg-ResponseChat-display-log:nth-child(even) {
+	background-color: #EEEEEE;
+}
+.io-github-shunshun94-trpg-ResponseChat-display-log > span{
+	display: block;
+}
+.io-github-shunshun94-trpg-ResponseChat-display-log-message {
+	padding-left:12px;
+}
+.io-github-shunshun94-trpg-ResponseChat-display-log-name {
+	font-weight: bold;
+	vertical-align:top;
+
+}
+.io-github-shunshun94-trpg-ResponseChat-display-log-reply {
+	background-color: gray;
+	opacity: 0.2;
+	position:absolute;
+	right:4px;
+	top: 4px;
+}
+.io-github-shunshun94-trpg-ResponseChat-display-log-reply:hover {
+	opacity:1;
+}
+
+.io-github-shunshun94-trpg-ResponseChat-input {
+	border: 1px black solid;
+	padding:2px;
+}
+.io-github-shunshun94-trpg-ResponseChat-input-name {
+	border: 2px gray inset;
+}
+.io-github-shunshun94-trpg-ResponseChat-input-name:focus {
+	border: 2px blue inset;
+}
+.io-github-shunshun94-trpg-ResponseChat-input-text {
+	height: 80px;
+	border: 2px gray inset;
+	overflow:scroll;
+}
+.io-github-shunshun94-trpg-ResponseChat-input-text:focus {
+	border: 2px blue inset;
+}
+.io-github-shunshun94-trpg-ResponseChat-input-borderText {
+	text-align:right;
+	margin: 0px;
+}
