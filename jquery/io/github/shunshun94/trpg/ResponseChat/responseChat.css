@@ -17,7 +17,7 @@
 .io-github-shunshun94-trpg-ResponseChat-display {
 	border: 1px black solid;
 	width: 500px;
-	height: 500px;
+	height: 400px;
 	overflow:scroll;
 }
 .io-github-shunshun94-trpg-ResponseChat-display-log {
@@ -45,6 +45,10 @@
 	right:4px;
 	top: 4px;
 }
+.io-github-shunshun94-trpg-ResponseChat-display-log-reply-clicked {
+	background-color: green;
+	opacity: 0.5;
+}
 .io-github-shunshun94-trpg-ResponseChat-display-log-reply:hover {
 	opacity:1;
 }
@@ -60,7 +64,7 @@
 	border: 2px blue inset;
 }
 .io-github-shunshun94-trpg-ResponseChat-input-text {
-	height: 80px;
+	height: 160px;
 	border: 2px gray inset;
 	overflow:scroll;
 }

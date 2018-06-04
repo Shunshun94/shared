@@ -15,9 +15,7 @@ io.github.shunshun94.trpg.ResponseChat = class extends com.hiyoko.DodontoF.V2.Ch
 			this.sendChat(e).done(e.resolve).fail(e.reject);
 		});
 		this.$html.on(io.github.shunshun94.trpg.ResponseChat.Display.Events.REPLY, (e) => {
-			e.message = e.message.replace(/\n/gm, '\n> ');
-			
-			console.log(`@${e.name}\n> ${e.message}`);
+			this.input.insertReply(e);
 		});
 		this.autoUpdateTimer = setInterval(function(e) {this.display.update();}.bind(this), this.options.timer || 3000);
 	}
@@ -54,7 +52,6 @@ io.github.shunshun94.trpg.ResponseChat.Display = class extends com.hiyoko.compon
 	buildComponents() {}
 	bindEvents() {
 		this.$html.click((e) => {
-			console.log('hi')
 			const $dom = $(e.target);
 			if($dom.hasClass(`${io.github.shunshun94.trpg.ResponseChat.Display.CLASS}-log-reply`)) {
 				const name = $dom.parent().find(`.${io.github.shunshun94.trpg.ResponseChat.Display.CLASS}-log-name`).text();
@@ -63,6 +60,7 @@ io.github.shunshun94.trpg.ResponseChat.Display = class extends com.hiyoko.compon
 					type: io.github.shunshun94.trpg.ResponseChat.Display.Events.REPLY,
 					name: name, message: message
 				});
+				$dom.addClass(`${io.github.shunshun94.trpg.ResponseChat.Display.CLASS}-log-reply-clicked ${this.id}-log-reply-clicked`);
 			}
 		});
 		
@@ -124,24 +122,28 @@ io.github.shunshun94.trpg.ResponseChat.Display.Events = {
 io.github.shunshun94.trpg.ResponseChat.Input = class extends com.hiyoko.component.ApplicationBase {
 	constructor($html, options = {}) {
 		super($html, options);
-		this.bindEvents();
+		this.$name = this.getElementById('name');
+		this.$text = this.getElementById('text');
 
+		this.bindEvents();
 		this.defaultName = options.defaultName || 'GM';
 		this.GMColor = this.GMColor || this.defaultColor || this.color || '000000';
 		this.NPCColor = this.NPCColor || this.defaultColor || this.color || '222222';
-		this.getElementById('name').val(this.defaultName);
+		this.$name.val(this.defaultName);
+
+		
 	}
 	bindEvents() {
-		this.getElementById('text').keypress((event) => {
+		this.$text.keypress((event) => {
 			const e = event.originalEvent;
 			if(e.key === 'Enter' && (! e.shiftKey)) {
-				const name = this.getElementById('name').val();
+				const name = this.$name.val();
 				const msg = this.getAsyncEvent(`${this.id}-sendChatRequest`, {
 					args: {	name: name,
-							message: this.getElementById('text').textWithLF(),
+							message: this.$text.textWithLF(),
 							color: (name === this.defaultName) ? this.GMColor : this.NPCColor}
 				}).done(function(result) {
-					this.getElementById('text').text('');
+					this.$text.text('');
 				}.bind(this)).fail(function(result) {
 					alert(result.result);
 				});
@@ -149,6 +151,10 @@ io.github.shunshun94.trpg.ResponseChat.Input = class extends com.hiyoko.componen
 			}
 			event.stopPropagation();
 		});
+	}
+	insertReply(target) {
+		let text = this.$text.textWithLF();
+		this.$text.textWithLF(`@${target.name}\n> ${target.message.replace(/\n/gm, '\n> ')}\n\n${text}`);
 	}
 };
 
