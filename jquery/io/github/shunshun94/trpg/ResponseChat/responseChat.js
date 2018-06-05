@@ -12,25 +12,32 @@ io.github.shunshun94.trpg.ResponseChat = class extends com.hiyoko.DodontoF.V2.Ch
 			this.fireEvent(this.getChatLogs(e.time).done(e.resolve).fail(e.reject));
 		});
 		this.$html.on(this.input.id + '-sendChatRequest', (e) => {
-			this.sendChat(e).done(e.resolve).fail(e.reject);
+			this.sendChat(e).done((result) => {
+				e.resolve(result);
+				this.nameList.insertMember(e.args.name);
+			}).fail(e.reject);
 		});
 		this.$html.on(io.github.shunshun94.trpg.ResponseChat.Display.Events.REPLY, (e) => {
 			this.input.insertReply(e);
+		});
+		this.$html.on(io.github.shunshun94.trpg.ResponseChat.NameList.EVENTS.SELECT_NAME, (e) => {
+			this.input.insertName(e.name);
 		});
 		this.autoUpdateTimer = setInterval(function(e) {this.display.update();}.bind(this), this.options.timer || 3000);
 	}
 	buildComponents() {
 		this.display = new io.github.shunshun94.trpg.ResponseChat.Display(this.getElementById('display'), this.options);
 		this.input = new io.github.shunshun94.trpg.ResponseChat.Input(this.getElementById('input'), this.options);
+		this.nameList = new io.github.shunshun94.trpg.ResponseChat.NameList(this.getElementById('namelist'), this.options);
 	};
 };
 
 io.github.shunshun94.trpg.ResponseChat.generateDom = (id) => {
 	let dom = 	`<div id="${id}" class="${io.github.shunshun94.trpg.ResponseChat.CLASS}">
-					<div id="${id}-namelist" class="${io.github.shunshun94.trpg.ResponseChat.CLASS}-child ${io.github.shunshun94.trpg.ResponseChat.CLASS}-namelist"></div>
+					<div id="${id}-namelist" class="${io.github.shunshun94.trpg.ResponseChat.CLASS}-child ${io.github.shunshun94.trpg.ResponseChat.NameList.CLASS}"></div>
 					<div class="${io.github.shunshun94.trpg.ResponseChat.CLASS}-child">
 						${io.github.shunshun94.trpg.ResponseChat.Input.generateDom(id)}
-						<div id="${id}-display" class="${io.github.shunshun94.trpg.ResponseChat.CLASS}-display"></div>
+						<div id="${id}-display" class="${io.github.shunshun94.trpg.ResponseChat.Display.CLASS}"></div>
 					</div>
 				</div>`;
 	return $(dom);
@@ -40,9 +47,72 @@ io.github.shunshun94.trpg.ResponseChat.CLASS = 'io-github-shunshun94-trpg-Respon
 
 io.github.shunshun94.trpg.ResponseChat.NameList = class extends com.hiyoko.component.ApplicationBase {
 	constructor($html, options = {}) {
+		super($html, options);
+		this.options = options;
+		this.buildComponent(this.options.defaultNameList || []);
+		this.bindEvents();
+	}
+	bindEvents() {
+		this.$html.click((e) => {
+			const $target = $(e.target);
+			if($target.hasClass(`${this.id}-card`)) {
+				this.fireEvent({
+					type: io.github.shunshun94.trpg.ResponseChat.NameList.EVENTS.SELECT_NAME,
+					name: $target.text()
+				});
+			}
+		});
+	}
+	buildComponent(list) {
+		if(list.length === 0) {
+			list.push(this.options.defaultName || 'GM');
+		}
+		this.$html.append(
+			list.map((name) => {
+				const $dom = $(`<div class="${this.id}-card ${io.github.shunshun94.trpg.ResponseChat.NameList.CLASS}-card"></div>`);
+				$dom.text(name);
+				return $dom;
+			})
+		);
+	}
+	insertMember(name) {
+		const list = this.getElementsByClass('card');
+		const deleteTag = list.filter((i, dom) => {
+			console.log(`${$(dom).text()} === ${name} => ${$(dom).text() === name}`)
+			return $(dom).text() === name;
+		});
+		console.log(deleteTag)
+		
+		const $dom = $(`<div class="${this.id}-card ${io.github.shunshun94.trpg.ResponseChat.NameList.CLASS}-card"></div>`);
+		$dom.text(name);
+		this.getElementsByClass('card:first').before($dom);
+		$(deleteTag).remove();
+		this.fireEvent({
+			type: io.github.shunshun94.trpg.ResponseChat.NameList.EVENTS.UPDATE_LIST
+		});
+	}
+	
+};
+io.github.shunshun94.trpg.ResponseChat.NameList.CLASS = 'io-github-shunshun94-trpg-ResponseChat-namelist';
+io.github.shunshun94.trpg.ResponseChat.NameList.EVENTS = {
+	UPDATE_LIST: 'io-github-shunshun94-trpg-ResponseChat-namelist-EVENTS-UPDATE_LIST',
+	SELECT_NAME: 'io-github-shunshun94-trpg-ResponseChat-namelist-EVENTS-SELECT_NAME'
+};
+
+io.github.shunshun94.trpg.ResponseChat.QuickInput = class extends com.hiyoko.component.ApplicationBase {
+	constructor($html, options = {}) {
+		super($html, options);
 		
 	}
 };
+io.github.shunshun94.trpg.ResponseChat.QuickInput.CLASS = 'io-github-shunshun94-trpg-ResponseChat-quickinput';
+io.github.shunshun94.trpg.ResponseChat.QuickInput.DEFAULT_LIST = {
+		TEXT: [	'判定どうぞ', '判定、ちょっと待ってください',
+				'何を対象にとりますか?', '何に対してやりますか?',
+				'さて、どうしますか？', '状況の描写は以上です。どうしますか？',
+				'その通りです', 'それは明言できませんね。ご想像にお任せします', '明言してしまいますが、それは無いですね']
+	}
+
 
 io.github.shunshun94.trpg.ResponseChat.Display = class extends com.hiyoko.component.ApplicationBase {
 	constructor($html, opt_options) {
@@ -149,6 +219,9 @@ io.github.shunshun94.trpg.ResponseChat.Input = class extends com.hiyoko.componen
 	insertReply(target) {
 		let text = this.$text.textWithLF();
 		this.$text.textWithLF(`@${target.name}\n> ${target.message.replace(/\n/gm, '\n> ')}\n\n${text}`);
+	}
+	insertName(name) {
+		this.$name.val(name);
 	}
 	pasteText(event) {
 		const e = event.originalEvent;
