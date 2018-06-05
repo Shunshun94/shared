@@ -38,6 +38,12 @@ io.github.shunshun94.trpg.ResponseChat.generateDom = (id) => {
 
 io.github.shunshun94.trpg.ResponseChat.CLASS = 'io-github-shunshun94-trpg-ResponseChat';
 
+io.github.shunshun94.trpg.ResponseChat.NameList = class extends com.hiyoko.component.ApplicationBase {
+	constructor($html, options = {}) {
+		
+	}
+};
+
 io.github.shunshun94.trpg.ResponseChat.Display = class extends com.hiyoko.component.ApplicationBase {
 	constructor($html, opt_options) {
 		super($html, opt_options);
@@ -62,8 +68,7 @@ io.github.shunshun94.trpg.ResponseChat.Display = class extends com.hiyoko.compon
 				});
 				$dom.addClass(`${io.github.shunshun94.trpg.ResponseChat.Display.CLASS}-log-reply-clicked ${this.id}-log-reply-clicked`);
 			}
-		});
-		
+ 		});
 	}
 	update() {
 		if(this.isSuspended) {
@@ -134,27 +139,51 @@ io.github.shunshun94.trpg.ResponseChat.Input = class extends com.hiyoko.componen
 		
 	}
 	bindEvents() {
-		this.$text.keypress((event) => {
-			const e = event.originalEvent;
-			if(e.key === 'Enter' && (! e.shiftKey)) {
-				const name = this.$name.val();
-				const msg = this.getAsyncEvent(`${this.id}-sendChatRequest`, {
-					args: {	name: name,
-							message: this.$text.textWithLF(),
-							color: (name === this.defaultName) ? this.GMColor : this.NPCColor}
-				}).done(function(result) {
-					this.$text.text('');
-				}.bind(this)).fail(function(result) {
-					alert(result.result);
-				});
-				this.fireEvent(msg);
-			}
-			event.stopPropagation();
+		this.$text.on('paste', (e) => {
+			this.pasteText(e);
+		});
+		this.$text.keypress((e) => {
+			this.whenPushKey(e);
 		});
 	}
 	insertReply(target) {
 		let text = this.$text.textWithLF();
 		this.$text.textWithLF(`@${target.name}\n> ${target.message.replace(/\n/gm, '\n> ')}\n\n${text}`);
+	}
+	pasteText(event) {
+		const e = event.originalEvent;
+		const text = e.clipboardData.getData('text');
+		if(! Boolean(text)) {
+			return;
+		}
+		const regs = [
+			/(.+)[:：]?「([^「]*)」/,
+			/(.+)[:：]([^「]*)/
+		];
+		
+		const result = regs.map((re) => {return re.exec(text)}).filter((re) => {return re});
+		if(result.length) {
+			this.$name.val(result[0][1]);
+			this.$text.textWithLF(`「${result[0][2]}」`);
+			event.preventDefault();
+		}
+	}
+	whenPushKey(event) {
+		const e = event.originalEvent;
+		if(e.key === 'Enter' && (! e.shiftKey)) {
+			const name = this.$name.val();
+			const msg = this.getAsyncEvent(`${this.id}-sendChatRequest`, {
+				args: {	name: name,
+						message: this.$text.textWithLF(),
+						color: (name === this.defaultName) ? this.GMColor : this.NPCColor}
+			}).done(function(result) {
+				this.$text.text('');
+			}.bind(this)).fail(function(result) {
+				alert(result.result);
+			});
+			this.fireEvent(msg);
+			event.preventDefault();
+		}
 	}
 };
 
