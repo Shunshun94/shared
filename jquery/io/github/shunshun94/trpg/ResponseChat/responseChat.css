@@ -3,6 +3,7 @@
 	width: 800px;
 	border: 1px black solid;
 	display: flex;
+	position: relative;
 }
 .io-github-shunshun94-trpg-ResponseChat-child {
 	
@@ -10,7 +11,7 @@
 
 .io-github-shunshun94-trpg-ResponseChat-namelist {
 	border: 1px black solid;
-	width:300px;
+	width:200px;
 	overflow:scroll;
 }
 .io-github-shunshun94-trpg-ResponseChat-namelist-card {
@@ -24,7 +25,7 @@
 
 .io-github-shunshun94-trpg-ResponseChat-display {
 	border: 1px black solid;
-	width: 500px;
+	width: 600px;
 	height: 400px;
 	overflow:scroll;
 }
@@ -60,7 +61,57 @@
 .io-github-shunshun94-trpg-ResponseChat-display-log-reply:hover {
 	opacity:1;
 }
-
+.io-github-shunshun94-trpg-ResponseChat-quickinput {
+	display: none;
+	position: absolute;
+	bottom:0px;
+	height: 392px;
+	width: 792px;
+	border: 4px double black;
+	background-color: white;
+	opacity: 0.8;
+}
+.io-github-shunshun94-trpg-ResponseChat-quickinput-menu {
+	height: 28px;
+	border-bottom:1px black solid;
+}
+.io-github-shunshun94-trpg-ResponseChat-quickinput-menu-item {
+	padding:4px;
+}
+.io-github-shunshun94-trpg-ResponseChat-quickinput-list {
+	overflow:scroll;
+	height: 363px;
+	display: flex;
+	padding-top: 8px;
+	flex-wrap: wrap;
+}
+.io-github-shunshun94-trpg-ResponseChat-quickinput-list-item {
+	padding:4px;
+	border: 2px black solid;
+	width: 160px;
+	height: 30px;
+	border-radius: 4px;
+	margin-left:8px;
+}
+.io-github-shunshun94-trpg-ResponseChat-quickinput-list-item:hover {
+	padding:4px;
+	border: 2px blue solid;
+}
+.io-github-shunshun94-trpg-ResponseChat-quickinput-close {
+	position:absolute;
+	right: 2px;
+	top: 2px;
+	height:16px;
+	width: 16px;
+	text-align:center;
+	background-color: #FFD0D0;
+	border: #FFA0A0 solid 4px;
+	border-radius: 4px;
+}
+.io-github-shunshun94-trpg-ResponseChat-quickinput-close:hover {
+	background-color: #FFA0A0;
+	border: #FFD0D0 solid 4px;
+}
 .io-github-shunshun94-trpg-ResponseChat-input {
 	border: 1px black solid;
 	padding:2px;
@@ -71,9 +122,22 @@
 .io-github-shunshun94-trpg-ResponseChat-input-name:focus {
 	border: 2px blue inset;
 }
+.io-github-shunshun94-trpg-ResponseChat-input-quickmenu {
+	display: inline-block;
+	margin-left: 4px;
+	height: 20px;
+	width: 20px;
+	background-image: url("./quickInputMenu.png");
+	background-position: bottom center;
+	background-size:contain;
+	background-repeat: no-repeat;
+}
+.io-github-shunshun94-trpg-ResponseChat-input-quickmenu:hover {
+	background-color: #D0D0FF;
+}
 .io-github-shunshun94-trpg-ResponseChat-input-text {
 	height: 160px;
-	width: 492px;
+	width: 592px;
 	border: 2px gray inset;
 	overflow:scroll;
 }
