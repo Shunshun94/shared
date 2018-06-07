@@ -6,6 +6,45 @@ ResponseChat は、GM としてセッションテンポを向上させたいGM �
 ユーザーはテキセで高速な返答ができ、素のどどんとふとは違って、
 複数人へのレスポンス・複数人としてのアウトプットを高速化する機能が備わっている事が特徴です。
 
+## 設置方法
+
+``` html
+<head>
+	<link rel="stylesheet" href="https://shunshun94.github.io/shared/jquery/io/github/shunshun94/trpg/ResponseChat/responseChat.css" type="text/css" />
+</head>
+<body>
+	<div id="base"></div>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="https://shunshun94.github.io/shared/jquery/com/hiyoko/bcdice-api/BCDice-API.js"></script>
+	<script src='https://shunshun94.github.io/shared/jquery/com/hiyoko/dodontof/v2/DodontoF-Client.js'></script>
+	<script src='https://shunshun94.github.io/shared/jquery/com/hiyoko/dodontof/v2/DodontoF-chatUtil.js'></script>
+	<script src='https://shunshun94.github.io/shared/jquery/com/hiyoko/util/v2/utils.js'></script>
+	<script src="https://shunshun94.github.io/shared/other/io/github/shunshun94/trpg/clientSpec.js"></script>
+	<script src="https://shunshun94.github.io/shared/external/discord.io/index.js"></script>
+	<script src="https://shunshun94.github.io/shared/other/io/github/shunshun94/trpg/discord/client.js"></script>
+	<script src="https://shunshun94.github.io/shared/jquery/io/github/shunshun94/trpg/dummy/client.js"></script>
+	<script src="https://shunshun94.github.io/shared/jquery/com/hiyoko/components/v1/ApplicationBase.js"></script>
+	<script src="https://shunshun94.github.io/shared/other/io/github/shunshun94/trpg/clientFactory.js"></script>
+	<script src='https://shunshun94.github.io/shared/jquery/com/hiyoko/dodontof/v2/DodontoF-Chat.js'></script>
+	<script src="https://shunshun94.github.io/shared/jquery/io/github/shunshun94/trpg/ResponseChat/responseChat.js"></script>
+	<script>
+		const query = com.hiyoko.util.getQueries();
+		$('#base').append(io.github.shunshun94.trpg.ResponseChat.generateDom('base-chat'));
+		const client = io.github.shunshun94.trpg.RoomClientFactory(query);
+		new io.github.shunshun94.trpg.ResponseChat($('#base-chat'), {
+			displayLimit: 15
+		});
+		$('#chat').on('tofRoomRequest', (event) => {
+			client[event.method].apply(client, event.args).done(event.resolve).fail(event.reject);
+		});
+	</script>
+</body>
+```
+
+## 動作サンプル
+
+[サンプル](https://shunshun94.github.io/shared/sample/ResponseChat.html)
+
 ## どんな機能が要る
 
 ### 複数人へのレスポンス
