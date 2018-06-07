@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Response Chat</title>
+<link rel="stylesheet" href="../jquery/io/github/shunshun94/trpg/ResponseChat/responseChat.css" type="text/css" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+</head>
+<body>
+
+<div style="display:none;" id="dummyClient"></div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="../jquery/com/hiyoko/bcdice-api/BCDice-API.js"></script>
+<script src='../jquery/com/hiyoko/dodontof/v2/DodontoF-Client.js'></script>
+<script src='../jquery/com/hiyoko/dodontof/v2/DodontoF-chatUtil.js'></script>
+<script src='../jquery/com/hiyoko/util/v2/utils.js'></script>
+<script src="../other/io/github/shunshun94/trpg/clientSpec.js"></script>
+<script src="../external/discord.io/index.js"></script>
+<script src="../other/io/github/shunshun94/trpg/discord/client.js"></script>
+<script src="../jquery/io/github/shunshun94/trpg/dummy/client.js"></script>
+<script src="../jquery/com/hiyoko/components/v1/ApplicationBase.js"></script>
+<script src="../other/io/github/shunshun94/trpg/clientFactory.js"></script>
+<script src='../jquery/com/hiyoko/dodontof/v2/DodontoF-Chat.js'></script>
+<script src="../jquery/io/github/shunshun94/trpg/ResponseChat/responseChat.js"></script>
+<script>
+var query = com.hiyoko.util.getQueries();
+$('body').append(io.github.shunshun94.trpg.ResponseChat.generateDom('chat'));
+if(! Boolean(query.url)) {query.url = $('#dummyClient');}
+var client = io.github.shunshun94.trpg.RoomClientFactory(query);
+new io.github.shunshun94.trpg.ResponseChat($('#chat'), {
+	displayLimit: 15
+});
+$('#chat').on('tofRoomRequest', function(event) {
+	client[event.method].apply(client, event.args).done(event.resolve).fail(event.reject);
+});
+</script>
+<p><a href="https://shunshun94.github.io/shared/jquery/io/github/shunshun94/trpg/ResponseChat/">ガイド</a></p>
+</body>
+</html>
