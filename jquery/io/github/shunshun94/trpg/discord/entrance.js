@@ -74,11 +74,7 @@ io.github.shunshun94.trpg.discord.Entrance.Room = class extends com.hiyoko.compo
 			}
 		});
 	}
-	setComponent(param) {
-		this.getElementById('back').hide();
-		this.getElementById('loading').show();
-		this.getElementsByClass('room').remove();
-		const client = new io.github.shunshun94.trpg.discord.Server(param.url);
+	getRoomInfo(client, max, count = 0) {
 		setTimeout(()=>{
 			client.getRoomList().then((rooms) => {
 				if(rooms.playRoomStates.length) {
@@ -86,11 +82,23 @@ io.github.shunshun94.trpg.discord.Entrance.Room = class extends com.hiyoko.compo
 					this.getElementById('loading').hide();
 					this.$html.append(this.generateRoomList(rooms.playRoomStates));
 				} else {
-					alert('チャンネルが見つかりませんでした。トークンが正しいが確認してみてください');
-					this.fireEvent(new $.Event(com.hiyoko.component.InputFlow.Child.Events.GoBack));
+					console.warn(`Failed to get Discord room info: ${count + 1} / ${max}`)
+					if(count === max - 1) {
+						alert('チャンネルが見つかりませんでした。トークンが正しいが確認してみてください');
+						this.fireEvent(new $.Event(com.hiyoko.component.InputFlow.Child.Events.GoBack));
+					} else {
+						this.getRoomInfo(client, max, count + 1);
+					}
 				}
 			});			
-		}, 1500);
+		}, 1500 * (1 + count));
+	}
+	setComponent(param) {
+		this.getElementById('back').hide();
+		this.getElementById('loading').show();
+		this.getElementsByClass('room').remove();
+		const client = new io.github.shunshun94.trpg.discord.Server(param.url);
+		this.getRoomInfo(client, 4);
 	}
 	generateRoomList(rooms) {
 		var $roomList = '';
