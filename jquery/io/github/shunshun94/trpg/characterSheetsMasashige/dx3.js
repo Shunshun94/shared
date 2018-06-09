@@ -108,7 +108,6 @@ io.github.shunshun94.trpg.characterSheetsMasashige.DX3 = class extends io.github
 				type: '武器'
 			};
 		});
-		console.log(this.skills);
 		json.combo.forEach((combo) => {
 			const over = combo.over100;
 			const under = combo.under100;
