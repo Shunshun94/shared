@@ -45,6 +45,9 @@
 	position: relative;
 	padding:4px;
 }
+.io-github-shunshun94-trpg-ResponseChat-display-log-notMain {
+	background-color: #ffffe0;
+}
 .io-github-shunshun94-trpg-ResponseChat-display-log:nth-child(even) {
 	background-color: #EEEEEE;
 }
