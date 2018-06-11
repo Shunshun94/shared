@@ -4,8 +4,9 @@ io.github.shunshun94 = io.github.shunshun94 || {};
 io.github.shunshun94.trpg = io.github.shunshun94.trpg || {};
 
 io.github.shunshun94.trpg.ResponseChat = class extends com.hiyoko.DodontoF.V2.ChatClient {
-	constructor($html, opt_options) {
+	constructor($html, opt_options = {}) {
 		super($html, opt_options);
+		this.system = opt_options.system || '';
 	}
 	bindEvents() {
 		this.$html.on(this.display.id + '-getChatRequest', (e) => {
@@ -45,6 +46,31 @@ io.github.shunshun94.trpg.ResponseChat = class extends com.hiyoko.DodontoF.V2.Ch
 		this.nameList = new io.github.shunshun94.trpg.ResponseChat.NameList(this.getElementById('namelist'), this.options);
 		this.quickinput = new io.github.shunshun94.trpg.ResponseChat.QuickInput(this.getElementById('quickinput'), this.options);
 	};
+	sendChat(e) {
+		var promise = new $.Deferred;
+		var args = e.args || {};
+		
+		if(! Boolean(args.name)) {
+			var rejectObject = {result: '名前がありません', detail: 'args.name is required but, args.name is not found', args: args};
+			promise.reject(rejectObject);
+		} else if(! Boolean(args.message)) {
+			var rejectObject = {result: '送信するメッセージがありません', detail: 'args.message is required but, args.message is not found', args: args};
+			promise.reject(rejectObject);
+		} else {
+			args.color = args.color || '000000';
+			args.channel = args.channel || 0;
+			args.bot = this.system;
+			this.fireEvent(this.getAsyncEvent('tofRoomRequest', {method: 'sendChat', args: [args]}).done(function(result) {
+				result.args = args;
+				promise.resolve(result);
+			}).fail(function(result) {
+				result.args = args;
+				promise.reject(result);
+			}));
+		}
+		
+		return promise;
+	}
 };
 
 io.github.shunshun94.trpg.ResponseChat.generateDom = (id) => {
