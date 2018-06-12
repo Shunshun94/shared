@@ -28,7 +28,7 @@ $('body').append(io.github.shunshun94.trpg.ResponseChat.generateDom('chat'));
 if(! Boolean(query.url)) {query.url = $('#dummyClient');}
 var client = io.github.shunshun94.trpg.RoomClientFactory(query);
 new io.github.shunshun94.trpg.ResponseChat($('#chat'), {
-	displayLimit: 15, system: query.system.replace(/%20/gm, ' ') || ''
+	displayLimit: 15, system: (query.system || '').replace(/%20/gm, ' ') || ''
 });
 $('#chat').on('tofRoomRequest', function(event) {
 	client[event.method].apply(client, event.args).done(event.resolve).fail(event.reject);

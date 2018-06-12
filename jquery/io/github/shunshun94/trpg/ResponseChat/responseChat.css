@@ -45,11 +45,12 @@
 	position: relative;
 	padding:4px;
 }
-.io-github-shunshun94-trpg-ResponseChat-display-log-notMain {
-	background-color: #ffffe0;
-}
 .io-github-shunshun94-trpg-ResponseChat-display-log:nth-child(even) {
 	background-color: #EEEEEE;
+}
+.io-github-shunshun94-trpg-ResponseChat-display-log-notMain {
+	padding-left: 16px;
+	font-size: 70%;
 }
 .io-github-shunshun94-trpg-ResponseChat-display-log > span{
 	display: block;
@@ -154,6 +155,7 @@
 	height: 160px;
 	width: 592px;
 	border: 2px gray inset;
+	resize: none;
 	overflow:scroll;
 }
 .io-github-shunshun94-trpg-ResponseChat-input-text:focus {

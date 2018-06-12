@@ -326,8 +326,8 @@ io.github.shunshun94.trpg.ResponseChat.Input = class extends com.hiyoko.componen
 		});
 	}
 	insertReply(target) {
-		let text = this.$text.textWithLF();
-		this.$text.textWithLF(`@${target.name}\n> ${target.message.replace(/\n/gm, '\n> ')}\n\n${text}`);
+		let text = this.$text.val();
+		this.$text.val(`@${target.name}\n> ${target.message.replace(/\n/gm, '\n> ')}\n\n${text}`);
 	}
 	getColor() {
 		return (this.getName() === this.defaultName) ? this.GMColor : this.NPCColor;
@@ -339,10 +339,10 @@ io.github.shunshun94.trpg.ResponseChat.Input = class extends com.hiyoko.componen
 		this.$name.val(name);
 	}
 	getText() {
-		return this.$text.textWithLF();
+		return this.$text.val();
 	}
 	insertText(message) {
-		this.$text.textWithLF(`${this.getText()}\n${message}`);
+		this.$text.val(`${this.getText()}\n${message}`);
 	}
 	pasteText(event) {
 		const e = event.originalEvent;
@@ -351,14 +351,14 @@ io.github.shunshun94.trpg.ResponseChat.Input = class extends com.hiyoko.componen
 			return;
 		}
 		const regs = [
-			/(.+)[:：]?「([^「]*)」/,
-			/(.+)[:：]([^「]*)/
+			/^(.+)[:：]?「([^「]*)」/,
+			/^(.+)[:：]([^「]*)/
 		];
 		
 		const result = regs.map((re) => {return re.exec(text)}).filter((re) => {return re});
 		if(result.length) {
 			this.$name.val(result[0][1]);
-			this.$text.textWithLF(`「${result[0][2]}」`);
+			this.$text.val(`「${result[0][2]}」`);
 			event.preventDefault();
 		}
 	}
@@ -368,10 +368,10 @@ io.github.shunshun94.trpg.ResponseChat.Input = class extends com.hiyoko.componen
 			const name = this.$name.val();
 			const msg = this.getAsyncEvent(`${this.id}-sendChatRequest`, {
 				args: {	name: name,
-						message: this.$text.textWithLF(),
+						message: this.$text.val(),
 						color: (name === this.defaultName) ? this.GMColor : this.NPCColor}
 			}).done(function(result) {
-				this.$text.text('');
+				this.$text.val('');
 			}.bind(this)).fail(function(result) {
 				alert(result.result);
 			});
@@ -388,7 +388,7 @@ io.github.shunshun94.trpg.ResponseChat.Input.generateDom = (id) => {
 					<input id="${id}-input-name" class="${io.github.shunshun94.trpg.ResponseChat.Input.CLASS}-name" type="text"/>
 					<span id="${id}-input-quickmenu" class="${io.github.shunshun94.trpg.ResponseChat.Input.CLASS}-quickmenu"></span>
 				</div>
-				<div id="${id}-input-text" class="${io.github.shunshun94.trpg.ResponseChat.Input.CLASS}-text" contenteditable></div>
+				<textarea id="${id}-input-text" class="${io.github.shunshun94.trpg.ResponseChat.Input.CLASS}-text" contenteditable></textarea>
 				<p class="${io.github.shunshun94.trpg.ResponseChat.Input.CLASS}-borderText">${io.github.shunshun94.trpg.ResponseChat.Input.TEXT.ABOUT_RETURN}</p>
 			</div>`;
 };
