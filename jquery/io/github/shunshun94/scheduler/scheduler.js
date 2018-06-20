@@ -6,6 +6,7 @@ io.github.shunshun94.scheduler.Scheduler = class {
 	constructor($dom, opts = {}) {
 		this.$html = $($dom);
 		this.id = this.$html.attr('id') || 'io-github-shunshun94-scheduler-Scheduler';
+		this.$html.addClass(io.github.shunshun94.scheduler.Scheduler.CLASS);
 		this.timezone = opts.timezone ? (Number(opts.timezone) || 0) : 0;
 		this.extendable = opts.extendable;
 		this.appendable = (opts.appendable === undefined) ? io.github.shunshun94.scheduler.Scheduler.generateSchedule : opts.appendable;
@@ -214,7 +215,7 @@ io.github.shunshun94.scheduler.Scheduler = class {
 			this.drawScheduleDay_(schedule, i, Boolean(i == 0), Boolean(i == days - 1));
 		}
 		if($(`.${this.id}-date-scheduleColumn-schedule-${schedule.id}`).length) {
-			$($(`.${this.id}-date-scheduleColumn-schedule-${schedule.id}`)[0]).append(`<button class="${this.id}-date-scheduleColumn-schedule-remove" style="position:absolute;display:none;top:4px;right:16px;">×</button>`);
+			$($(`.${this.id}-date-scheduleColumn-schedule-${schedule.id}`)[0]).append(`<button class="${this.id}-date-scheduleColumn-schedule-remove ${io.github.shunshun94.scheduler.Scheduler.CLASS}-date-scheduleColumn-schedule-remove" style="position:absolute;display:none;top:4px;right:16px;">×</button>`);
 		}
 		this.generateEachSchedulePopupMenu(schedule);
 		this.schedules[`${this.id}-date-scheduleColumn-schedule-${schedule.id}`] = schedule;
