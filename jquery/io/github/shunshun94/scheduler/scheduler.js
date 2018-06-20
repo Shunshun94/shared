@@ -374,11 +374,19 @@ io.github.shunshun94.scheduler.Scheduler = class {
 			if($targetSeparator.css('display') !== 'none') {
 				return;
 			}
-			this.resetPopUpVisual();
 			
 			$targetSeparator.show();
 			$targetRemover.show();
 			$(`.${this.id}-date-scheduleColumn-schedule-${schedule.id}`).addClass(`${this.id}-date-scheduleColumn-schedule-hover`);
+		});
+		$(`.${this.id}-date-scheduleColumn-schedule-${schedule.id}`).mouseout((e) => {
+			if(! 	($(e.relatedTarget).hasClass(`${this.id}-date-scheduleColumn-schedule-head`) ||
+					 $(e.relatedTarget).hasClass(`${this.id}-date-scheduleColumn-schedule-tail`)||
+					 $(e.relatedTarget).hasClass(`${this.id}-date-scheduleColumn-schedule-remove`) ||
+					 $(e.relatedTarget).hasClass(`${this.id}-date-scheduleColumn-schedule-separator`)
+			)) {
+				this.resetPopUpVisual();
+			}
 		});
 	}
 	
@@ -404,8 +412,9 @@ io.github.shunshun94.scheduler.Scheduler = class {
 			}
 		});
 		$(`#${this.id}-date-${baseYear}-${baseMonth}-${baseDay}-scheduleColumn`).mouseout((e) => {
-			const $schedule = $(e.target);
-			
+			if(! $(e.relatedTarget).hasClass(`${this.id}-date-scheduleColumn-schedule-dummy`)) {
+				$(`.${this.id}-date-scheduleColumn-schedule-dummy`).remove();
+			}
 		});
 	}
 

@@ -112,3 +112,7 @@
 	top:4px;
 	right:16px;
 }
+
+.ui-resizable-handle {
+	width: 20px;
+}
