@@ -32,6 +32,16 @@ How to generate new schedule. The arguments must like `io.github.shunshun94.sche
 If `false` is inputed, user can't add new schedule.
 Default value: `io.github.shunshun94.scheduler.Scheduler.generateSchedule`
 
+#### deleteButtonGenerator (function)
+
+The function to generate delete button DOM of each schedules. 1st argument is schedule, 2nd argument is the id of scheduler.
+Default Value: `io.github.shunshun94.scheduler.Scheduler.defaultDeleteButtonGenerator`
+
+#### resizable (boolean)
+
+If it's `true`, the schedules are appendable, resizable and deletable.
+Default Value: `true`
+
 #### separationIntervalAlgorithm (function)
 How to separate the schedules. 1st argument must be the separation target schedule. 2nd argument must be Date object where you'll separate the schedule.
 Default value: `io.github.shunshun94.scheduler.Scheduler.SEPARATION_INTERVAL_ALGORITHM`
