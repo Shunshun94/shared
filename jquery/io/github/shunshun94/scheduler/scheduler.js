@@ -10,6 +10,7 @@ io.github.shunshun94.scheduler.Scheduler = class {
 		this.timezone = opts.timezone ? (Number(opts.timezone) || 0) : 0;
 		this.extendable = opts.extendable;
 		this.appendable = (opts.appendable === undefined) ? io.github.shunshun94.scheduler.Scheduler.generateSchedule : opts.appendable;
+		this.resizable = (opts.resizable === undefined) ? true : (opts.appendable || false); 
 		this.dateFormat = opts.dateFormat || '%m/%d (%D)';
 		this.schedules = {};
 		this.deleteButtonGenerator = opts.deleteButtonGenerator || io.github.shunshun94.scheduler.Scheduler.defaultDeleteButtonGenerator;
@@ -112,15 +113,16 @@ io.github.shunshun94.scheduler.Scheduler = class {
 		const startPoint = isHead ? (startDate.getHours() * 60 + startDate.getMinutes()) * minWidth : 0;
 		const endPoint = (isLast && startDate.getDate() === endDate.getDate()) ? (60 * 24 - (endDate.getHours() * 60 + endDate.getMinutes())) * minWidth : 0;
 		const $base = $(`#${this.id}-date-${startDate.getFullYear()}-${startDate.getMonth()}-${startDate.getDate()} > .${this.id}-date-scheduleColumn`);
-
 		var $schedule = $('<div ' +
 				`class="${this.id}-date-scheduleColumn-schedule ${this.id}-date-scheduleColumn-schedule-${schedule.id} ${io.github.shunshun94.scheduler.Scheduler.CLASS}-date-scheduleColumn-schedule" ` +
 				`id="${this.id}-date-scheduleColumn-schedule-${schedule.id}-${i}" ` +
 				`style="right:${endPoint}px;left:${startPoint}px;position:absolute;" >` + '</div>');
 		$schedule.text(schedule.label);
-		var $separator = $(`<div class="${this.id}-date-scheduleColumn-schedule-separator ${io.github.shunshun94.scheduler.Scheduler.CLASS}-date-scheduleColumn-schedule-separator">SEPARATE</div>`);
+		if(this.resizable) {
+			var $separator = $(`<div class="${this.id}-date-scheduleColumn-schedule-separator ${io.github.shunshun94.scheduler.Scheduler.CLASS}-date-scheduleColumn-schedule-separator">SEPARATE</div>`);
+			$schedule.append($separator);
+		}
 
-		$schedule.append($separator);
 		if(isHead) {
 			$schedule.addClass(`${this.id}-date-scheduleColumn-schedule-first`);
 		}
@@ -177,7 +179,7 @@ io.github.shunshun94.scheduler.Scheduler = class {
 		const staticHeight = $base.height();
 		if($base.length) {
 			$base.append($schedule);
-			if(isHead || isLast) {
+			if((isHead || isLast) && this.resizable) {
 				var handles = [];
 				if(isHead) {handles.push('w');}
 				if(isLast) {handles.push('e');}
@@ -208,10 +210,12 @@ io.github.shunshun94.scheduler.Scheduler = class {
 		for(var i = 0; i < days; i++) {
 			this.drawScheduleDay_(schedule, i, Boolean(i == 0), Boolean(i == days - 1));
 		}
-		if($(`.${this.id}-date-scheduleColumn-schedule-${schedule.id}`).length) {
+		if($(`.${this.id}-date-scheduleColumn-schedule-${schedule.id}`).length && this.resizable) {
 			$($(`.${this.id}-date-scheduleColumn-schedule-${schedule.id}`)[0]).append(this.deleteButtonGenerator(schedule, this.id));
 		}
-		this.generateEachSchedulePopupMenu(schedule);
+		if(this.resizable) {
+			this.generateEachSchedulePopupMenu(schedule);
+		}
 		this.schedules[`${this.id}-date-scheduleColumn-schedule-${schedule.id}`] = schedule;
 		return $(`.${this.id}-date-scheduleColumn-schedule-${schedule.id}`);
 	}
@@ -335,7 +339,9 @@ io.github.shunshun94.scheduler.Scheduler = class {
 				this.$html.append(this.getDayLine(new Date(baseYear, baseMonth, baseDay + i)));
 			}
 		}
-		
+		if(! this.resizable) {
+			return;
+		}
 		for(var i = 0; i < length; i++) {
 			this.generateAddSchedulePopupMenu(new Date(baseYear, baseMonth, baseDay + i));
 		}
