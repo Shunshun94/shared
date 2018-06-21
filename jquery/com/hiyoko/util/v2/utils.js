@@ -191,6 +191,11 @@ com.hiyoko.util.stringTimes = function(str, time){
 	return text;
 };
 
+/**
+ * 
+ * @param {number} int 16進数6桁で表現されるカラーコードを10進数に直したもの
+ * @returns {String} #RRGGBB の形で表現されるカラーコード
+ */
 com.hiyoko.util.intToColor = function(int){
 	if(int == -1){
 		return "transparent";
@@ -198,3 +203,13 @@ com.hiyoko.util.intToColor = function(int){
 	return "#" + com.hiyoko.util.addStuffRight(int.toString(16), 6, "0");
 };
 
+com.hiyoko.util.listMonthBeforeAfter = (base = new Date(), before = 12, after = before) => {
+	var target = base;
+	var result = [];
+	target.setMonth((base).getMonth() - (before + 1));
+	for(var i = 0; i < (before + after + 1); i++) {
+		target.setMonth(target.getMonth() + 1);
+		result.push(Number(new Date(target.getFullYear(), target.getMonth(), 1)))
+	}
+	return result;
+};
