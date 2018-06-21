@@ -12,6 +12,7 @@ io.github.shunshun94.scheduler.Scheduler = class {
 		this.appendable = (opts.appendable === undefined) ? io.github.shunshun94.scheduler.Scheduler.generateSchedule : opts.appendable;
 		this.dateFormat = opts.dateFormat || '%m/%d (%D)';
 		this.schedules = {};
+		this.deleteButtonGenerator = opts.deleteButtonGenerator || io.github.shunshun94.scheduler.Scheduler.defaultDeleteButtonGenerator;
 		this.dummyAppendSchedule;
 		this.initialLength = Number(opts.initialLength) || io.github.shunshun94.scheduler.Scheduler.ONE_WEEK_DAYS;
 		const initialSchedule = (opts.initialSchedule || io.github.shunshun94.scheduler.Scheduler.INITIAL_SCHEDULE).sort((a, b) => {
@@ -208,7 +209,7 @@ io.github.shunshun94.scheduler.Scheduler = class {
 			this.drawScheduleDay_(schedule, i, Boolean(i == 0), Boolean(i == days - 1));
 		}
 		if($(`.${this.id}-date-scheduleColumn-schedule-${schedule.id}`).length) {
-			$($(`.${this.id}-date-scheduleColumn-schedule-${schedule.id}`)[0]).append(`<button class="${this.id}-date-scheduleColumn-schedule-remove ${io.github.shunshun94.scheduler.Scheduler.CLASS}-date-scheduleColumn-schedule-remove">${io.github.shunshun94.scheduler.Scheduler.TEXTS.REMOVE}</button>`);
+			$($(`.${this.id}-date-scheduleColumn-schedule-${schedule.id}`)[0]).append(this.deleteButtonGenerator(schedule, this.id));
 		}
 		this.generateEachSchedulePopupMenu(schedule);
 		this.schedules[`${this.id}-date-scheduleColumn-schedule-${schedule.id}`] = schedule;
@@ -460,7 +461,10 @@ io.github.shunshun94.scheduler.Scheduler.CLASS = 'io-github-shunshun94-scheduler
 io.github.shunshun94.scheduler.Scheduler.TEXTS = {
 	ADD: 'スケジュールを追加する',
 	REMOVE: '×'
-}
+};
+io.github.shunshun94.scheduler.Scheduler.defaultDeleteButtonGenerator = (schedule, id) => {
+	return `<button class="${id}-date-scheduleColumn-schedule-remove ${io.github.shunshun94.scheduler.Scheduler.CLASS}-date-scheduleColumn-schedule-remove">${io.github.shunshun94.scheduler.Scheduler.TEXTS.REMOVE}</button>`;
+};
 
 io.github.shunshun94.scheduler.Scheduler.rndString = (length=8, prefix='', suffix='') => {
 	const baseString ='0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
