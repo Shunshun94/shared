@@ -10,7 +10,7 @@ io.github.shunshun94.scheduler.Scheduler = class {
 		this.timezone = opts.timezone ? (Number(opts.timezone) || 0) : 0;
 		this.extendable = opts.extendable;
 		this.appendable = (opts.appendable === undefined) ? io.github.shunshun94.scheduler.Scheduler.generateSchedule : opts.appendable;
-		this.resizable = (opts.resizable === undefined) ? true : (opts.appendable || false); 
+		this.resizable = (opts.resizable === undefined) ? true : (opts.resizable || false); 
 		this.dateFormat = opts.dateFormat || '%m/%d (%D)';
 		this.schedules = {};
 		this.deleteButtonGenerator = opts.deleteButtonGenerator || io.github.shunshun94.scheduler.Scheduler.defaultDeleteButtonGenerator;
