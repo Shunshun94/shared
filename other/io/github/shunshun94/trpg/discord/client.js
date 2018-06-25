@@ -27,6 +27,11 @@ io.github.shunshun94.trpg.discord.generateRoomInfo = (rawData, memberList) => {
 		passwordLockState: false,
 		id: rawData.id,
 		index: rawData.id,
+		chatTab: ['メイン'],
+		counter: [],
+		game: 'unsupported',
+		outerImage: true,
+		visit: false,
 		result: 'OK'
 	};
 };
