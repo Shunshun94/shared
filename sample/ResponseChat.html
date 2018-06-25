@@ -25,13 +25,14 @@
 <script>
 var query = com.hiyoko.util.getQueries();
 $('body').append(io.github.shunshun94.trpg.ResponseChat.generateDom('chat'));
+$('#chat').on('tofRoomRequest', function(event) {
+	console.log(event.method)
+	client[event.method].apply(client, event.args).done(event.resolve).fail(event.reject);
+});
 if(! Boolean(query.url)) {query.url = $('#dummyClient');}
 var client = io.github.shunshun94.trpg.RoomClientFactory(query);
 new io.github.shunshun94.trpg.ResponseChat($('#chat'), {
 	displayLimit: 15, system: (query.system || '').replace(/%20/gm, ' ') || ''
-});
-$('#chat').on('tofRoomRequest', function(event) {
-	client[event.method].apply(client, event.args).done(event.resolve).fail(event.reject);
 });
 </script>
 <p><a href="https://shunshun94.github.io/shared/jquery/io/github/shunshun94/trpg/ResponseChat/">ガイド</a></p>
