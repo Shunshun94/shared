@@ -13,7 +13,7 @@ io.github.shunshun94.trpg.ResponseChat = class extends com.hiyoko.DodontoF.V2.Ch
 			this.fireEvent(this.getChatLogs(e.time).done(e.resolve).fail(e.reject));
 		});
 		this.$html.on(this.input.id + '-sendChatRequest', (e) => {
-			this.sendChat(e).done((result) => {
+			this.sendChat(e).done((result) => { 
 				e.resolve(result);
 				this.nameList.insertMember(e.args.name);
 			}).fail(e.reject);
@@ -26,6 +26,12 @@ io.github.shunshun94.trpg.ResponseChat = class extends com.hiyoko.DodontoF.V2.Ch
 		});
 		this.$html.on(io.github.shunshun94.trpg.ResponseChat.Input.Events.QUICKINPUT, (e) => {
 			this.quickinput.enable(500);
+		});
+		this.$html.on(io.github.shunshun94.trpg.ResponseChat.Input.Events.GET_ROOM_INFO, (e) => {
+			console.log(e);
+			this.fireEvent(this.getAsyncEvent(
+				'tofRoomRequest', {method: 'getRoomInfo'}
+			).done(e.resolve).fail(e.reject));
 		});
 		this.$html.on(io.github.shunshun94.trpg.ResponseChat.QuickInput.EVENTS.SEND_MSG, (e) => {
 			if(this.input.getText()) {
@@ -311,6 +317,7 @@ io.github.shunshun94.trpg.ResponseChat.Input = class extends com.hiyoko.componen
 		this.GMColor = this.GMColor || this.defaultColor || this.color || '000000';
 		this.NPCColor = this.NPCColor || this.defaultColor || this.color || '222222';
 		this.$name.val(this.defaultName);
+		this.setChannelList();
 	}
 	bindEvents() {
 		this.$text.on('paste', (e) => {
@@ -324,6 +331,18 @@ io.github.shunshun94.trpg.ResponseChat.Input = class extends com.hiyoko.componen
 				type: io.github.shunshun94.trpg.ResponseChat.Input.Events.QUICKINPUT
 			});
 		});
+	}
+	setChannelList() {
+		const event = this.getAsyncEvent(io.github.shunshun94.trpg.ResponseChat.Input.Events.GET_ROOM_INFO,
+				{method: 'getRoomInfo', args: []}).done((result) => {
+			result.chatTab.forEach((name, i) => {
+				this.getElementById('channel').append(`<option value="${i}">${name}</option>`);
+			});
+		}).fail((result) => {
+			console.warn(result);
+			alert(`チャットタブ一覧の取得に失敗しました\n${err.result || err}`);
+		});
+		setTimeout(()=>{this.fireEvent(event)},50);
 	}
 	insertReply(target) {
 		let text = this.$text.val();
@@ -351,11 +370,11 @@ io.github.shunshun94.trpg.ResponseChat.Input = class extends com.hiyoko.componen
 			return;
 		}
 		const regs = [
-			/^(.+)[:：]?「([^「]*)」/,
-			/^(.+)[:：]([^「]*)/
+			/^([^:：]+)[:：]([^「]*)/,
+			/^([^:：]+)[:：]?「([^「]*)」/
 		];
 		
-		const result = regs.map((re) => {return re.exec(text)}).filter((re) => {return re});
+		const result = regs.map((re, i) => {console.log(re.exec(text), i);return re.exec(text)}).filter((re) => {return re});
 		if(result.length) {
 			this.$name.val(result[0][1]);
 			this.$text.val(`「${result[0][2]}」`);
@@ -387,6 +406,7 @@ io.github.shunshun94.trpg.ResponseChat.Input.generateDom = (id) => {
 					${io.github.shunshun94.trpg.ResponseChat.Input.TEXT.NAME}
 					<input id="${id}-input-name" class="${io.github.shunshun94.trpg.ResponseChat.Input.CLASS}-name" type="text"/>
 					<span id="${id}-input-quickmenu" class="${io.github.shunshun94.trpg.ResponseChat.Input.CLASS}-quickmenu"></span>
+					<select id="${id}-input-channel" class="${io.github.shunshun94.trpg.ResponseChat.Input.CLASS}-channel"></select>
 				</div>
 				<textarea id="${id}-input-text" class="${io.github.shunshun94.trpg.ResponseChat.Input.CLASS}-text" contenteditable></textarea>
 				<p class="${io.github.shunshun94.trpg.ResponseChat.Input.CLASS}-borderText">${io.github.shunshun94.trpg.ResponseChat.Input.TEXT.ABOUT_RETURN}</p>
@@ -399,5 +419,6 @@ io.github.shunshun94.trpg.ResponseChat.Input.TEXT = {
 };
 io.github.shunshun94.trpg.ResponseChat.Input.CLASS = 'io-github-shunshun94-trpg-ResponseChat-input'
 io.github.shunshun94.trpg.ResponseChat.Input.Events = {
-	QUICKINPUT: 'io-github-shunshun94-trpg-ResponseChat-input-EVENTS-QUICKINPUT'
+	QUICKINPUT: 'io-github-shunshun94-trpg-ResponseChat-input-EVENTS-QUICKINPUT',
+	GET_ROOM_INFO: 'io-github-shunshun94-trpg-ResponseChat-input-EVENTS-GET_ROOM_INFO'
 };
