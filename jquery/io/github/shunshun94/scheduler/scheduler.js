@@ -181,8 +181,8 @@ io.github.shunshun94.scheduler.Scheduler = class {
 			$base.append($schedule);
 			if((isHead || isLast) && this.resizable) {
 				var handles = [];
-				if(isHead) {handles.push('w');}
-				if(isLast) {handles.push('e');}
+				if(isHead) {handles.push('w');handles.push('n');}
+				if(isLast) {handles.push('e');handles.push('s');}
 				$(`#${this.id}-date-scheduleColumn-schedule-${schedule.id}-${i}`).resizable({
 					grid: [minWidth * 15, 0],
 					ghost: true,
@@ -249,29 +249,57 @@ io.github.shunshun94.scheduler.Scheduler = class {
 	}
 	
 	resized(e, movedSchedule) {
-		const $dom = $(e.target)
-		const minWidth = $(`.${this.id}-date-scheduleColumn`).width() / (24 * 60);
+		const $dom = $(e.target);
 		const staticHeight = $(`.${this.id}-date-scheduleColumn`).height();
 		const id = $dom.attr('id').replace(/-\d+$/, '');
 		const number = Number($dom.attr('id').replace(`${id}-`, ''));
+		const minWidth = $(`.${this.id}-date-scheduleColumn`).width() / (24 * 60);
 		$dom.css({
 			top: '0px', height: staticHeight + 'px'
 		});
+		if(movedSchedule.originalSize.width === movedSchedule.size.width) {
+			if(movedSchedule.originalPosition.top !== movedSchedule.position.top) {
+				const tmpDay = new Date(this.schedules[id].prepare);
+				if(movedSchedule.originalSize.height > movedSchedule.size.height) {
+					this.schedules[id].prepare = Number(new Date(tmpDay.getFullYear(), tmpDay.getMonth(), tmpDay.getDate() + 1, tmpDay.getHours(), tmpDay.getMinutes()));
+				} else {
+					const days = Math.ceil((movedSchedule.size.height - movedSchedule.originalSize.height) / staticHeight); 
+					this.schedules[id].prepare = Number(new Date(tmpDay.getFullYear(), tmpDay.getMonth(), tmpDay.getDate() - days, tmpDay.getHours(), tmpDay.getMinutes()));
+				}
+				this.schedules[id].start = this.schedules[id].prepare + this.schedules[id].length.head * 60 * 1000;
+			} else {
+				const tmpDay = new Date(this.schedules[id].tidyUp);
+				if(movedSchedule.originalSize.height > movedSchedule.size.height) {
+					this.schedules[id].tidyUp = Number(new Date(tmpDay.getFullYear(), tmpDay.getMonth(), tmpDay.getDate() - 1, tmpDay.getHours(), tmpDay.getMinutes()));
+				} else {
+					const days = Math.ceil((movedSchedule.size.height - movedSchedule.originalSize.height) / staticHeight); 
+					this.schedules[id].tidyUp = Number(new Date(tmpDay.getFullYear(), tmpDay.getMonth(), tmpDay.getDate() + days, tmpDay.getHours(), tmpDay.getMinutes()));
+				}
+				this.schedules[id].end = this.schedules[id].tidyUp - this.schedules[id].length.foot * 60 * 1000;
+			}
+		} else {
+			// 横幅
+			if($dom.hasClass(`${this.id}-date-scheduleColumn-schedule-first`)) {
+				const tmpDay = new Date(this.schedules[id].prepare);
+				if($dom.width() <= io.github.shunshun94.scheduler.Scheduler.MIN_SCHEDULE_PIXEL_LENGTH) {
+					this.schedules[id].prepare = Number(new Date(tmpDay.getFullYear(), tmpDay.getMonth(), tmpDay.getDate() + 1, 0, 0));
+					this.schedules[id].start = this.schedules[id].prepare + this.schedules[id].length.head * 60 * 1000;
+				} else {
+					const prepareStart = ($dom.position().left / minWidth);
+					this.schedules[id].prepare = Number(new Date(tmpDay.getFullYear(), tmpDay.getMonth(), tmpDay.getDate(), Math.floor(prepareStart / 60), prepareStart % 60));
+					this.schedules[id].start = this.schedules[id].prepare + this.schedules[id].length.head * 60 * 1000;
+				}
+			}
 
-		if($dom.hasClass(`${this.id}-date-scheduleColumn-schedule-first`)) {
-			const tmpDay = new Date(this.schedules[id].prepare);
-			const prepareStart = ($dom.position().left / minWidth);
-			this.schedules[id].prepare = Number(new Date(tmpDay.getFullYear(), tmpDay.getMonth(), tmpDay.getDate(), Math.floor(prepareStart / 60), prepareStart % 60));
-			this.schedules[id].start = this.schedules[id].prepare + this.schedules[id].length.head * 60 * 1000;
+			if($dom.hasClass(`${this.id}-date-scheduleColumn-schedule-last`)) {
+				const tmpDayREExecResult = /(\d\d\d\d+)-(\d+)-(\d+)/.exec($dom.parent().attr('id'));
+				const tmpDay = new Date(tmpDayREExecResult[1], tmpDayREExecResult[2], tmpDayREExecResult[3]);
+				const finishTidyUp = ($dom.position().left + $(e.target).width()) / minWidth;
+				this.schedules[id].tidyUp = Number(new Date(tmpDay.getFullYear(), tmpDay.getMonth(), tmpDay.getDate(), Math.floor(finishTidyUp / 60), finishTidyUp % 60));
+				this.schedules[id].end = this.schedules[id].tidyUp - this.schedules[id].length.foot * 60 * 1000;
+			}
 		}
 
-		if($dom.hasClass(`${this.id}-date-scheduleColumn-schedule-last`)) {
-			const tmpDayREExecResult = /(\d\d\d\d+)-(\d+)-(\d+)/.exec($dom.parent().attr('id'));
-			const tmpDay = new Date(tmpDayREExecResult[1], tmpDayREExecResult[2], tmpDayREExecResult[3]);
-			const finishTidyUp = ($dom.position().left + $(e.target).width()) / minWidth;
-			this.schedules[id].tidyUp = Number(new Date(tmpDay.getFullYear(), tmpDay.getMonth(), tmpDay.getDate(), Math.floor(finishTidyUp / 60), finishTidyUp % 60));
-			this.schedules[id].end = this.schedules[id].tidyUp - this.schedules[id].length.foot * 60 * 1000;
-		}
 		this.schedules[id].length.total = (this.schedules[id].tidyUp -  this.schedules[id].prepare) / (1000 * 60)
 		this.schedules[id].length.body = this.schedules[id].length.total - this.schedules[id].length.head - this.schedules[id].length.foot;
 
@@ -402,21 +430,12 @@ io.github.shunshun94.scheduler.Scheduler = class {
 		const baseMonth = date.getMonth();
 		const baseDay = date.getDate();
 		$(`#${this.id}-date-${baseYear}-${baseMonth}-${baseDay}-scheduleColumn`).mouseover((e) => {
-			if($(`#${this.id}-date-${baseYear}-${baseMonth}-${baseDay}-scheduleColumn > .${this.id}-date-scheduleColumn-schedule-dummy`).length) {
+			if(	$(`#${this.id}-date-${baseYear}-${baseMonth}-${baseDay}-scheduleColumn > .${this.id}-date-scheduleColumn-schedule-dummy`).length ||
+				$(`#${this.id}-date-${baseYear}-${baseMonth}-${baseDay}-scheduleColumn > .${this.id}-date-scheduleColumn-schedule`).length) {
 				return;
 			}
 			$(`.${this.id}-date-scheduleColumn-schedule-dummy`).remove();
-			const baseDateMorning = date;
-			const baseDateNight = new Date(baseYear, baseMonth, baseDay + 1);
-			const targetSchedules = this.getSchedules().filter((schedule) => {
-				return	(baseDateMorning < schedule.prepare && schedule.prepare < baseDateNight ) || 
-						(baseDateMorning < schedule.tidyUp && schedule.tidyUp < baseDateNight) ||
-						(schedule.prepare < baseDateMorning && baseDateMorning < schedule.tidyUp);
-			});
-			
-			if(targetSchedules.length === 0) {
-				$(e.target).append(this.dummyAppendSchedule);
-			}
+			$(e.target).append(this.dummyAppendSchedule);
 		});
 		$(`#${this.id}-date-${baseYear}-${baseMonth}-${baseDay}-scheduleColumn`).mouseout((e) => {
 			if(! $(e.relatedTarget).hasClass(`${this.id}-date-scheduleColumn-schedule-dummy`)) {
@@ -621,6 +640,7 @@ io.github.shunshun94.scheduler.Scheduler.toStringSchedule = (schedule) => {
 	`${schedule.length.total}分間 (含 準備：${schedule.length.head}分 / 片づけ:${schedule.length.foot}分)`
 };
 
+io.github.shunshun94.scheduler.Scheduler.MIN_SCHEDULE_PIXEL_LENGTH = 2.86;
 io.github.shunshun94.scheduler.Scheduler.ONE_WEEK_DAYS = 7;
 io.github.shunshun94.scheduler.Scheduler.DAYS = ['Sun.', 'Mon.', 'Tue.', 'Wed.', 'Thu.', 'Fri.', 'Sat.'];
 io.github.shunshun94.scheduler.Scheduler.EVENTS = {

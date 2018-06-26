@@ -29,6 +29,12 @@ io.github.shunshun94.trpg.dummy.Server.SERVER_ROOM_DATA = [{
 	loginUsers: [],
 	passwordLockState: false,
 	id: 0,
+	result: 'OK',
+	chatTab: ['メイン', '雑談', 'うちの子自慢'],
+	counter: [],
+	game: 'unsupported',
+	outerImage: true,
+	visit: false,
 	result: 'OK'
 },  {
 	canVisit: false,
@@ -39,6 +45,12 @@ io.github.shunshun94.trpg.dummy.Server.SERVER_ROOM_DATA = [{
 	loginUsers: [],
 	passwordLockState: false,
 	id: 0,
+	result: 'OK',
+	chatTab: ['メイン'],
+	counter: [],
+	game: 'unsupported',
+	outerImage: true,
+	visit: false,
 	result: 'OK'
 }];
 

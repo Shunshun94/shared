@@ -14,8 +14,12 @@ io.github.shunshun94.trpg.discord.generateClient = (token) => {
 
 io.github.shunshun94.trpg.discord.generateRoomInfo = (rawData, memberList) => {
 	var users = [];
-	for(var userId in rawData.members) {
-		users.push(memberList[userId].username);
+	try {
+		for(var userId in rawData.members) {
+			users.push(memberList[userId].username);
+		}
+	} catch(e) {
+		console.error(e, rawData, memberList);
 	}
 	return {
 		canVisit: false,
@@ -27,6 +31,11 @@ io.github.shunshun94.trpg.discord.generateRoomInfo = (rawData, memberList) => {
 		passwordLockState: false,
 		id: rawData.id,
 		index: rawData.id,
+		chatTab: ['メイン'],
+		counter: [],
+		game: 'unsupported',
+		outerImage: true,
+		visit: false,
 		result: 'OK'
 	};
 };

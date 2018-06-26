@@ -13,7 +13,7 @@ io.github.shunshun94.trpg.ResponseChat = class extends com.hiyoko.DodontoF.V2.Ch
 			this.fireEvent(this.getChatLogs(e.time).done(e.resolve).fail(e.reject));
 		});
 		this.$html.on(this.input.id + '-sendChatRequest', (e) => {
-			this.sendChat(e).done((result) => {
+			this.sendChat(e).done((result) => { 
 				e.resolve(result);
 				this.nameList.insertMember(e.args.name);
 			}).fail(e.reject);
@@ -26,6 +26,14 @@ io.github.shunshun94.trpg.ResponseChat = class extends com.hiyoko.DodontoF.V2.Ch
 		});
 		this.$html.on(io.github.shunshun94.trpg.ResponseChat.Input.Events.QUICKINPUT, (e) => {
 			this.quickinput.enable(500);
+		});
+		this.$html.on(io.github.shunshun94.trpg.ResponseChat.Input.Events.GET_ROOM_INFO, (e) => {
+			this.fireEvent(this.getAsyncEvent(
+				'tofRoomRequest', {method: 'getRoomInfo'}
+			).done((result) => {
+				e.resolve(result);
+				this.display.insertChannels(result);
+			}).fail(e.reject));
 		});
 		this.$html.on(io.github.shunshun94.trpg.ResponseChat.QuickInput.EVENTS.SEND_MSG, (e) => {
 			if(this.input.getText()) {
@@ -229,6 +237,7 @@ io.github.shunshun94.trpg.ResponseChat.Display = class extends com.hiyoko.compon
 		this.isSuspended = false;
 		this.lastUpdate = 0;
 		this.limit = this.options.displayLimit || 0;
+		this.channels = ['メイン'];
 		this.bindEvents();
 	}
 	
@@ -241,7 +250,7 @@ io.github.shunshun94.trpg.ResponseChat.Display = class extends com.hiyoko.compon
 				const message = $dom.parent().find(`.${io.github.shunshun94.trpg.ResponseChat.Display.CLASS}-log-message`).textWithLF();
 				this.fireEvent({
 					type: io.github.shunshun94.trpg.ResponseChat.Display.Events.REPLY,
-					name: name, message: message
+					name: name, message: message, channel: $dom.prop('title')
 				});
 				$dom.addClass(`${io.github.shunshun94.trpg.ResponseChat.Display.CLASS}-log-reply-clicked ${this.id}-log-reply-clicked`);
 			}
@@ -281,11 +290,15 @@ io.github.shunshun94.trpg.ResponseChat.Display = class extends com.hiyoko.compon
 
 			let $name = $(`<span class="${this.id}-log-name ${io.github.shunshun94.trpg.ResponseChat.Display.CLASS}-log-name"></span>`);
 			$name.text(log.name);
+
 			var $msg = $(`<span class="${this.id}-log-message ${io.github.shunshun94.trpg.ResponseChat.Display.CLASS}-log-message"></span>`);
 			$msg.textWithLF(log.msg);
 			$log.append($name);
+			if(log.tab) {
+				$log.append(`　[${this.channels[log.tab]}]`);
+			}
 			$log.append($msg);
-			$log.append(`<span class="${this.id}-log-reply ${io.github.shunshun94.trpg.ResponseChat.Display.CLASS}-log-reply">💬</span>`)
+			$log.append(`<span title="${log.tab}" class="${this.id}-log-reply ${io.github.shunshun94.trpg.ResponseChat.Display.CLASS}-log-reply">💬</span>`)
 			return $log;
 		}).reverse());
 		
@@ -293,6 +306,9 @@ io.github.shunshun94.trpg.ResponseChat.Display = class extends com.hiyoko.compon
 			var count = this.getElementsByClass(com.hiyoko.DodontoF.V2.ChatClient.SimpleDisplay.CLASS + '-log').length;
 			this.getElementsByClass(`log:gt(${this.limit + 1})`).remove();
 		}
+	}
+	insertChannels(channels) {
+		this.channels = channels.chatTab || channels;
 	}
 };
 io.github.shunshun94.trpg.ResponseChat.Display.CLASS = 'io-github-shunshun94-trpg-ResponseChat-display';
@@ -311,6 +327,7 @@ io.github.shunshun94.trpg.ResponseChat.Input = class extends com.hiyoko.componen
 		this.GMColor = this.GMColor || this.defaultColor || this.color || '000000';
 		this.NPCColor = this.NPCColor || this.defaultColor || this.color || '222222';
 		this.$name.val(this.defaultName);
+		this.setChannelList();
 	}
 	bindEvents() {
 		this.$text.on('paste', (e) => {
@@ -325,9 +342,25 @@ io.github.shunshun94.trpg.ResponseChat.Input = class extends com.hiyoko.componen
 			});
 		});
 	}
+	setChannelList() {
+		const event = this.getAsyncEvent(io.github.shunshun94.trpg.ResponseChat.Input.Events.GET_ROOM_INFO,
+				{method: 'getRoomInfo', args: []}).done((result) => {
+			result.chatTab.forEach((name, i) => {
+				this.getElementById('channel').append(`<option value="${i}">${name}</option>`);
+			});
+			if(result.chatTab.length <= 1) {
+				this.getElementById('channel').hide();
+			}
+		}).fail((result) => {
+			console.warn(result);
+			alert(`チャットタブ一覧の取得に失敗しました\n${err.result || err}`);
+		});
+		setTimeout(()=>{this.fireEvent(event)},50);
+	}
 	insertReply(target) {
 		let text = this.$text.val();
 		this.$text.val(`@${target.name}\n> ${target.message.replace(/\n/gm, '\n> ')}\n\n${text}`);
+		this.getElementById('channel').val(target.channel);
 	}
 	getColor() {
 		return (this.getName() === this.defaultName) ? this.GMColor : this.NPCColor;
@@ -351,11 +384,11 @@ io.github.shunshun94.trpg.ResponseChat.Input = class extends com.hiyoko.componen
 			return;
 		}
 		const regs = [
-			/^(.+)[:：]?「([^「]*)」/,
-			/^(.+)[:：]([^「]*)/
+			/^([^:：\n]+)[:：]?「([^「]*)」/,
+			/^([^:：\n]+)[:：]([^「]*)/
 		];
 		
-		const result = regs.map((re) => {return re.exec(text)}).filter((re) => {return re});
+		const result = regs.map((re, i) => {return re.exec(text)}).filter((re) => {return re});
 		if(result.length) {
 			this.$name.val(result[0][1]);
 			this.$text.val(`「${result[0][2]}」`);
@@ -369,7 +402,9 @@ io.github.shunshun94.trpg.ResponseChat.Input = class extends com.hiyoko.componen
 			const msg = this.getAsyncEvent(`${this.id}-sendChatRequest`, {
 				args: {	name: name,
 						message: this.$text.val(),
-						color: (name === this.defaultName) ? this.GMColor : this.NPCColor}
+						color: (name === this.defaultName) ? this.GMColor : this.NPCColor,
+						channel: this.getElementById('channel').val()
+				}
 			}).done(function(result) {
 				this.$text.val('');
 			}.bind(this)).fail(function(result) {
@@ -387,6 +422,7 @@ io.github.shunshun94.trpg.ResponseChat.Input.generateDom = (id) => {
 					${io.github.shunshun94.trpg.ResponseChat.Input.TEXT.NAME}
 					<input id="${id}-input-name" class="${io.github.shunshun94.trpg.ResponseChat.Input.CLASS}-name" type="text"/>
 					<span id="${id}-input-quickmenu" class="${io.github.shunshun94.trpg.ResponseChat.Input.CLASS}-quickmenu"></span>
+					<select id="${id}-input-channel" class="${io.github.shunshun94.trpg.ResponseChat.Input.CLASS}-channel"></select>
 				</div>
 				<textarea id="${id}-input-text" class="${io.github.shunshun94.trpg.ResponseChat.Input.CLASS}-text" contenteditable></textarea>
 				<p class="${io.github.shunshun94.trpg.ResponseChat.Input.CLASS}-borderText">${io.github.shunshun94.trpg.ResponseChat.Input.TEXT.ABOUT_RETURN}</p>
@@ -399,5 +435,6 @@ io.github.shunshun94.trpg.ResponseChat.Input.TEXT = {
 };
 io.github.shunshun94.trpg.ResponseChat.Input.CLASS = 'io-github-shunshun94-trpg-ResponseChat-input'
 io.github.shunshun94.trpg.ResponseChat.Input.Events = {
-	QUICKINPUT: 'io-github-shunshun94-trpg-ResponseChat-input-EVENTS-QUICKINPUT'
+	QUICKINPUT: 'io-github-shunshun94-trpg-ResponseChat-input-EVENTS-QUICKINPUT',
+	GET_ROOM_INFO: 'io-github-shunshun94-trpg-ResponseChat-input-EVENTS-GET_ROOM_INFO'
 };
