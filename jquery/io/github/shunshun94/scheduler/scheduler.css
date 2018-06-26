@@ -56,7 +56,7 @@
 }
 
 .io-github-shunshun94-scheduler-Scheduler-date-scheduleColumn-schedule {
-	border: blue 1px double;
+	border: blue 1px solid;
 	background-color: hsla(0, 100%, 50%, 0.2);
 	box-sizing:border-box;
 	top:0px;
@@ -113,6 +113,9 @@
 	right:16px;
 }
 
-.ui-resizable-handle {
+.ui-resizable-w, .ui-resizable-e {
 	width: 20px;
+}
+.ui-resizable-n, .ui-resizable-s {
+	height: 20px;
 }
