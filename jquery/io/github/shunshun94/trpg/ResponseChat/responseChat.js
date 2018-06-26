@@ -28,10 +28,12 @@ io.github.shunshun94.trpg.ResponseChat = class extends com.hiyoko.DodontoF.V2.Ch
 			this.quickinput.enable(500);
 		});
 		this.$html.on(io.github.shunshun94.trpg.ResponseChat.Input.Events.GET_ROOM_INFO, (e) => {
-			console.log(e);
 			this.fireEvent(this.getAsyncEvent(
 				'tofRoomRequest', {method: 'getRoomInfo'}
-			).done(e.resolve).fail(e.reject));
+			).done((result) => {
+				e.resolve(result);
+				this.display.insertChannels(result);
+			}).fail(e.reject));
 		});
 		this.$html.on(io.github.shunshun94.trpg.ResponseChat.QuickInput.EVENTS.SEND_MSG, (e) => {
 			if(this.input.getText()) {
@@ -235,6 +237,7 @@ io.github.shunshun94.trpg.ResponseChat.Display = class extends com.hiyoko.compon
 		this.isSuspended = false;
 		this.lastUpdate = 0;
 		this.limit = this.options.displayLimit || 0;
+		this.channels = ['メイン'];
 		this.bindEvents();
 	}
 	
@@ -247,7 +250,7 @@ io.github.shunshun94.trpg.ResponseChat.Display = class extends com.hiyoko.compon
 				const message = $dom.parent().find(`.${io.github.shunshun94.trpg.ResponseChat.Display.CLASS}-log-message`).textWithLF();
 				this.fireEvent({
 					type: io.github.shunshun94.trpg.ResponseChat.Display.Events.REPLY,
-					name: name, message: message
+					name: name, message: message, channel: $dom.prop('title')
 				});
 				$dom.addClass(`${io.github.shunshun94.trpg.ResponseChat.Display.CLASS}-log-reply-clicked ${this.id}-log-reply-clicked`);
 			}
@@ -286,12 +289,17 @@ io.github.shunshun94.trpg.ResponseChat.Display = class extends com.hiyoko.compon
 			}
 
 			let $name = $(`<span class="${this.id}-log-name ${io.github.shunshun94.trpg.ResponseChat.Display.CLASS}-log-name"></span>`);
-			$name.text(log.name);
+			
+			if(log.tab) {
+				$name.text(`${log.name} [${this.channels[log.tab]}]`);
+			} else {
+				$name.text(log.name);
+			}
 			var $msg = $(`<span class="${this.id}-log-message ${io.github.shunshun94.trpg.ResponseChat.Display.CLASS}-log-message"></span>`);
 			$msg.textWithLF(log.msg);
 			$log.append($name);
 			$log.append($msg);
-			$log.append(`<span class="${this.id}-log-reply ${io.github.shunshun94.trpg.ResponseChat.Display.CLASS}-log-reply">💬</span>`)
+			$log.append(`<span title="${log.tab}" class="${this.id}-log-reply ${io.github.shunshun94.trpg.ResponseChat.Display.CLASS}-log-reply">💬</span>`)
 			return $log;
 		}).reverse());
 		
@@ -299,6 +307,9 @@ io.github.shunshun94.trpg.ResponseChat.Display = class extends com.hiyoko.compon
 			var count = this.getElementsByClass(com.hiyoko.DodontoF.V2.ChatClient.SimpleDisplay.CLASS + '-log').length;
 			this.getElementsByClass(`log:gt(${this.limit + 1})`).remove();
 		}
+	}
+	insertChannels(channels) {
+		this.channels = channels.chatTab || channels;
 	}
 };
 io.github.shunshun94.trpg.ResponseChat.Display.CLASS = 'io-github-shunshun94-trpg-ResponseChat-display';
@@ -338,6 +349,9 @@ io.github.shunshun94.trpg.ResponseChat.Input = class extends com.hiyoko.componen
 			result.chatTab.forEach((name, i) => {
 				this.getElementById('channel').append(`<option value="${i}">${name}</option>`);
 			});
+			if(result.chatTab.length <= 1) {
+				this.getElementById('channel').hide();
+			}
 		}).fail((result) => {
 			console.warn(result);
 			alert(`チャットタブ一覧の取得に失敗しました\n${err.result || err}`);
@@ -347,6 +361,7 @@ io.github.shunshun94.trpg.ResponseChat.Input = class extends com.hiyoko.componen
 	insertReply(target) {
 		let text = this.$text.val();
 		this.$text.val(`@${target.name}\n> ${target.message.replace(/\n/gm, '\n> ')}\n\n${text}`);
+		this.getElementById('channel').val(target.channel);
 	}
 	getColor() {
 		return (this.getName() === this.defaultName) ? this.GMColor : this.NPCColor;
@@ -388,7 +403,9 @@ io.github.shunshun94.trpg.ResponseChat.Input = class extends com.hiyoko.componen
 			const msg = this.getAsyncEvent(`${this.id}-sendChatRequest`, {
 				args: {	name: name,
 						message: this.$text.val(),
-						color: (name === this.defaultName) ? this.GMColor : this.NPCColor}
+						color: (name === this.defaultName) ? this.GMColor : this.NPCColor,
+						channel: this.getElementById('channel').val()
+				}
 			}).done(function(result) {
 				this.$text.val('');
 			}.bind(this)).fail(function(result) {

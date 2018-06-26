@@ -26,7 +26,6 @@
 var query = com.hiyoko.util.getQueries();
 $('body').append(io.github.shunshun94.trpg.ResponseChat.generateDom('chat'));
 $('#chat').on('tofRoomRequest', function(event) {
-	console.log(event.method)
 	client[event.method].apply(client, event.args).done(event.resolve).fail(event.reject);
 });
 if(! Boolean(query.url)) {query.url = $('#dummyClient');}
