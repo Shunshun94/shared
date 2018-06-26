@@ -385,11 +385,11 @@ io.github.shunshun94.trpg.ResponseChat.Input = class extends com.hiyoko.componen
 			return;
 		}
 		const regs = [
-			/^([^:：]+)[:：]([^「]*)/,
-			/^([^:：]+)[:：]?「([^「]*)」/
+			/^([^:：]+)[:：]?「([^「]*)」/,
+			/^([^:：]+)[:：]([^「]*)/
 		];
 		
-		const result = regs.map((re, i) => {console.log(re.exec(text), i);return re.exec(text)}).filter((re) => {return re});
+		const result = regs.map((re, i) => {return re.exec(text)}).filter((re) => {return re});
 		if(result.length) {
 			this.$name.val(result[0][1]);
 			this.$text.val(`「${result[0][2]}」`);
