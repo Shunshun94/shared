@@ -289,15 +289,14 @@ io.github.shunshun94.trpg.ResponseChat.Display = class extends com.hiyoko.compon
 			}
 
 			let $name = $(`<span class="${this.id}-log-name ${io.github.shunshun94.trpg.ResponseChat.Display.CLASS}-log-name"></span>`);
+			$name.text(log.name);
 			
-			if(log.tab) {
-				$name.text(`${log.name} [${this.channels[log.tab]}]`);
-			} else {
-				$name.text(log.name);
-			}
 			var $msg = $(`<span class="${this.id}-log-message ${io.github.shunshun94.trpg.ResponseChat.Display.CLASS}-log-message"></span>`);
 			$msg.textWithLF(log.msg);
 			$log.append($name);
+			if(log.tab) {
+				$log.append(`　[${this.channels[log.tab]}]`);
+			}
 			$log.append($msg);
 			$log.append(`<span title="${log.tab}" class="${this.id}-log-reply ${io.github.shunshun94.trpg.ResponseChat.Display.CLASS}-log-reply">💬</span>`)
 			return $log;

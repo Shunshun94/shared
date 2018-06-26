@@ -52,11 +52,10 @@
 	padding-left: 16px;
 	font-size: 70%;
 }
-.io-github-shunshun94-trpg-ResponseChat-display-log > span{
-	display: block;
-}
+
 .io-github-shunshun94-trpg-ResponseChat-display-log-message {
 	padding-left:12px;
+	display: block;
 }
 .io-github-shunshun94-trpg-ResponseChat-display-log-name {
 	font-weight: bold;
