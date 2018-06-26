@@ -258,7 +258,7 @@ io.github.shunshun94.scheduler.Scheduler = class {
 			top: '0px', height: staticHeight + 'px'
 		});
 		if(movedSchedule.originalSize.width === movedSchedule.size.width) {
-			if($dom.hasClass(`${this.id}-date-scheduleColumn-schedule-first`)) {
+			if(movedSchedule.originalPosition.top !== movedSchedule.position.top) {
 				const tmpDay = new Date(this.schedules[id].prepare);
 				if(movedSchedule.originalSize.height > movedSchedule.size.height) {
 					this.schedules[id].prepare = Number(new Date(tmpDay.getFullYear(), tmpDay.getMonth(), tmpDay.getDate() + 1, tmpDay.getHours(), tmpDay.getMinutes()));
@@ -267,9 +267,7 @@ io.github.shunshun94.scheduler.Scheduler = class {
 					this.schedules[id].prepare = Number(new Date(tmpDay.getFullYear(), tmpDay.getMonth(), tmpDay.getDate() - days, tmpDay.getHours(), tmpDay.getMinutes()));
 				}
 				this.schedules[id].start = this.schedules[id].prepare + this.schedules[id].length.head * 60 * 1000;
-			}
-
-			if($dom.hasClass(`${this.id}-date-scheduleColumn-schedule-last`)) {
+			} else {
 				const tmpDay = new Date(this.schedules[id].tidyUp);
 				if(movedSchedule.originalSize.height > movedSchedule.size.height) {
 					this.schedules[id].tidyUp = Number(new Date(tmpDay.getFullYear(), tmpDay.getMonth(), tmpDay.getDate() - 1, tmpDay.getHours(), tmpDay.getMinutes()));
