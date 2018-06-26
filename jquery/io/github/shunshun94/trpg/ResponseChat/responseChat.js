@@ -290,7 +290,7 @@ io.github.shunshun94.trpg.ResponseChat.Display = class extends com.hiyoko.compon
 
 			let $name = $(`<span class="${this.id}-log-name ${io.github.shunshun94.trpg.ResponseChat.Display.CLASS}-log-name"></span>`);
 			$name.text(log.name);
-			
+
 			var $msg = $(`<span class="${this.id}-log-message ${io.github.shunshun94.trpg.ResponseChat.Display.CLASS}-log-message"></span>`);
 			$msg.textWithLF(log.msg);
 			$log.append($name);
@@ -384,8 +384,8 @@ io.github.shunshun94.trpg.ResponseChat.Input = class extends com.hiyoko.componen
 			return;
 		}
 		const regs = [
-			/^([^:：]+)[:：]?「([^「]*)」/,
-			/^([^:：]+)[:：]([^「]*)/
+			/^([^:：\n]+)[:：]?「([^「]*)」/,
+			/^([^:：\n]+)[:：]([^「]*)/
 		];
 		
 		const result = regs.map((re, i) => {return re.exec(text)}).filter((re) => {return re});
