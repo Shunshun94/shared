@@ -261,7 +261,6 @@ io.github.shunshun94.scheduler.Scheduler = class {
 
 		if($dom.hasClass(`${this.id}-date-scheduleColumn-schedule-first`)) {
 			const tmpDay = new Date(this.schedules[id].prepare);
-			console.log($dom.width());
 			if($dom.width() <= io.github.shunshun94.scheduler.Scheduler.MIN_SCHEDULE_PIXEL_LENGTH) {
 				this.schedules[id].prepare = Number(new Date(tmpDay.getFullYear(), tmpDay.getMonth(), tmpDay.getDate() + 1, 0, 0));
 				this.schedules[id].start = this.schedules[id].prepare + this.schedules[id].length.head * 60 * 1000;
