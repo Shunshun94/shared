@@ -1,0 +1,67 @@
+h1, h2, h3 {
+	width: 800px;
+	margin:auto;
+	margin-top: 12px;
+	padding-left: 12px;
+}
+h2, h3 {
+	border-bottom: black 3px double;
+	border-top: black 1px solid;
+}
+p {
+	margin-top:0px;
+	margin-bottom:0px;
+	margin:auto;
+	padding-top:4px;
+	padding-bottom:4px;
+	width: 800px;
+	text-indent: 1em;
+}
+sup {
+	color:blue;
+	font-weight: bold;
+	font-size: 80%;
+}
+sup:hover {
+	color:skyblue;
+}
+.tab0, .tab1 {
+	text-indent: 0;
+}
+
+.tab0:nth-child(even) {
+	background-color: #F5F5F5;
+}
+.tab1 {
+	background-color: #ffffe0;
+}
+.tab1:nth-child(even) {
+	background-color: #fffacd;
+}
+.name {
+	display:inline-block;
+	font-weight: bold;
+	width: 120px;
+	vertical-align:top;
+}
+.message {
+	display: inline-block;
+	width: 680px;
+}
+.note {
+	display:none;
+	position:absolute;
+	background-color: #001100;
+	color: #FFFFFF;
+	max-width: 400px;
+	padding: 4px;
+}
+.note a {
+	color: white;
+}
+header, footer {
+	font-size: 80;
+}
+footer {
+	text-align: right;
+}
