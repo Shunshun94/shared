@@ -38,6 +38,9 @@ sup:hover {
 .tab1:nth-child(even) {
 	background-color: #fffacd;
 }
+.tab9, .tab8 {
+	display:none;
+}
 .name {
 	display:inline-block;
 	font-weight: bold;
