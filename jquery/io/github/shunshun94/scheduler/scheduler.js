@@ -191,6 +191,8 @@ io.github.shunshun94.scheduler.Scheduler = class {
 					minWidth: 0,
 					stop: this.resized.bind(this)
 				});
+				$(`#${this.id}-date-scheduleColumn-schedule-${schedule.id}-${i} > .ui-resizable-n`).css('z-index', '89');
+				$(`#${this.id}-date-scheduleColumn-schedule-${schedule.id}-${i} > .ui-resizable-s`).css('z-index', '89');
 			}
 		}
 		return $schedule;
