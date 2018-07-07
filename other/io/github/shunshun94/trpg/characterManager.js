@@ -10,7 +10,7 @@ io.github.shunshun94.trpg.CharacterManager = function($base, opt_eventHandlers) 
 	this.platformHandler = handlers.platformHandler || io.github.shunshun94.trpg.TofHandler;
 	this.sheetHandler = handlers.sheetHandler || io.github.shunshun94.trpg.HiyokoSheetHandler;
 	this.sheetConverter = handlers.sheetConverter || io.github.shunshun94.trpg.sheetToPlatformConverter;
-	
+	this.sheetApplyer = handlers.sheetApplyer || io.github.shunshun94.trpg.sheetApplyer;
 	if(! Boolean(handlers.sheetConverter)) {
 		console.warn('In most systems, you should use your original sheetConverter.')
 	}
@@ -59,31 +59,11 @@ io.github.shunshun94.trpg.CharacterManager.prototype.appendCharacters = function
 				var nameList = characterListFromPlatform.map(function(character) {
 					return character.name;
 				});
-				Promise.all(characters.map(function(character) {
-					return new Promise(function(characterResolve, characterReject) {
+				Promise.all(characters.map((character) => {
+					return new Promise(function(characterResolve, characterReject) { 
 						self.sheetHandler.getSheet(self.$dom, character).then(
-							function(characterData) {
-								var cursor = nameList.indexOf(characterData.name);
-								if(cursor !== -1) {
-									var dataInPlatform = characterListFromPlatform[cursor];
-									for(var key in dataInPlatform.counters) {
-										characterData[key] = dataInPlatform.counters[key];
-										characterData[key.toUpperCase()] = dataInPlatform.counters[key];
-										characterData[key.toLowerCase()] = dataInPlatform.counters[key];
-									}
-									characterResolve(characterData);
-								} else {
-									self.platformHandler.appendCharacter(self.$dom, self.sheetConverter(characterData)).then(
-										function(result) {
-											characterResolve(characterData);
-										} ,
-										function(failed) {
-											console.warn('Failed to append Character to platform.', failed, self.sheetConverter(characterData));
-											console.warn('Current exist characters', nameList);
-											console.warn(`${characterData.name} is in ${nameList.indexOf(characterData.name)}`);
-											characterReject('Failed to append Character to platform. Reason ' + JSON.stringify(failed));
-										});
-								}
+							(characterData) => {
+								self.sheetApplyer(characterData, nameList, characterListFromPlatform, characterResolve, characterReject, self);
 							},
 							function(failed) {
 								console.warn('Failed to get Character from sheet.', failed, character);
@@ -177,6 +157,30 @@ io.github.shunshun94.trpg.sheetToPlatformConverter = function(basedData) {
 		MMP: basedData.mmp,
  		info:io.github.shunshun94.trpg.SIGNATURE
 	};
+};
+
+io.github.shunshun94.trpg.sheetApplyer = (characterData, nameList, characterListFromPlatform, resolve, reject, self) => {
+	var cursor = nameList.indexOf(characterData.name);
+	if(cursor !== -1) {
+		var dataInPlatform = characterListFromPlatform[cursor];
+		for(var key in dataInPlatform.counters) {
+			characterData[key] = dataInPlatform.counters[key];
+			characterData[key.toUpperCase()] = dataInPlatform.counters[key];
+			characterData[key.toLowerCase()] = dataInPlatform.counters[key];
+		}
+		resolve(characterData);
+	} else {
+		self.platformHandler.appendCharacter(self.$dom, self.sheetConverter(characterData)).then(
+			function(result) {
+				resolve(characterData);
+			},
+			function(failed) {
+				console.warn('Failed to append Character to platform.', failed, self.sheetConverter(characterData));
+				console.warn('Current exist characters', nameList);
+				console.warn(`${characterData.name} is in ${nameList.indexOf(characterData.name)}`);
+				reject('Failed to append Character to platform. Reason ' + JSON.stringify(failed));
+			});
+	}
 };
 
 io.github.shunshun94.trpg.SIGNATURE = 'io-github-shunshun94-trpg-resourcemanager';
