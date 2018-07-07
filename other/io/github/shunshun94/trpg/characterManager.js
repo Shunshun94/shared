@@ -60,7 +60,7 @@ io.github.shunshun94.trpg.CharacterManager.prototype.appendCharacters = function
 					return character.name;
 				});
 				Promise.all(characters.map((character) => {
-					return new Promise(function(characterResolve, characterReject) { 
+					return new Promise(function(characterResolve, characterReject) {
 						self.sheetHandler.getSheet(self.$dom, character).then(
 							(characterData) => {
 								self.sheetApplyer(characterData, nameList, characterListFromPlatform, characterResolve, characterReject, self);
