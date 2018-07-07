@@ -114,7 +114,7 @@ io.github.shunshun94.trpg.characterSheetsMasashige.DX3 = class extends io.github
 			this.weapons.push({
 				attack: Number(under.attack) || under.attack || 0,
 				guard: 0,
-				hit: Number(under.judge) || Number(under.type) || this.skills[under.type].lv || this.skills[under.judge].lv || 0,
+				hit: Number(under.judge) || Number(under.type) || (this.skills[under.type] || {}).lv || (this.skills[under.judge] || {}).lv || 0,
 				critical: Number(under.critical) || under.ciritical || 10,
 				dice: Number(under.dice) || under.dice || Math.max(this.status.body, this.status.sense),
 				cost: Number(under.cost) || under.cost,
@@ -133,7 +133,7 @@ io.github.shunshun94.trpg.characterSheetsMasashige.DX3 = class extends io.github
 			this.weapons.push({
 				attack: Number(over.attack) || over.attack || 0,
 				guard: 0,
-				hit: Number(under.judge) || Number(under.type) || this.skills[under.type].lv || this.skills[under.judge].lv || 0,
+				hit: Number(under.judge) || Number(under.type) || (this.skills[under.type] || {}).lv || (this.skills[under.judge] || {}).lv || 0,
 				critical: Number(over.critical) || over.ciritical || 10,
 				dice: Number(over.dice) || over.dice || Math.max(this.status.body, this.status.sense),
 				cost: Number(over.cost) || over.cost,
