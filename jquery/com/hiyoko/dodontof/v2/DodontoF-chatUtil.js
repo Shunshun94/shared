@@ -127,8 +127,35 @@ com.hiyoko.DodontoF.V2.fixChatMsg = function(chatMsg, opt_store){
 		status:status,
 		tab:tab,
 		vote: vote ? {ask: ask,ready: ready} : false,
-		cutIn: cutin
+		cutIn: cutin,
+		fixed: true
 	});
 };
 
+com.hiyoko.DodontoF.V2.getNameColorPairs = (rawMsgs = []) => {
+	let msgs;
+	if(rawMsgs.chatMessageDataLog) {
+		msgs = rawMsgs.chatMessageDataLog.map((msg) => {return com.hiyoko.DodontoF.V2.fixChatMsg(msg)});
+	} else if(! Array.isArray(rawMsgs)) {
+		return {};
+	} else if(rawMsgs.length === 0){
+		return {};
+	} else {
+		if(! rawMsgs[0].fixed) {
+			msgs = rawMsgs.map((msg) => {return com.hiyoko.DodontoF.V2.fixChatMsg(msg)}); 
+		} else {
+			msgs = rawMsgs;
+		}
+	}
+	let result = {};
+	msgs.forEach((m) => {
+		if(result[m.name] === undefined) {
+			result[m.name] = {};
+		}
+		if(result[m.name][m.color] === undefined) {
+			result[m.name][m.color] = true;
+		}
+	});
+	return result;
+};
 
