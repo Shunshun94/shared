@@ -87,7 +87,7 @@ io.github.shunshun94.trpg.characterSheetsMasashige.DX3 = class extends io.github
 		
 		this.effects = json.arts.map((effect) => {
 			effect.check = EFFECT_CHECK[Number(effect.check)];
-			effect.notes = effect.notes || ''; 
+			effect.notes = effect.notes || '';
 			return effect;
 		});
 		this.weapons = json.weapons.map((weapon) => {
