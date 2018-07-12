@@ -237,6 +237,21 @@ io.github.shunshun94.util.Color.colorConvert = function(color){
 	return io.github.shunshun94.util.Color.getFromCode(color);
 };
 
+io.github.shunshun94.util.Color.getColorFromSheed = (seed, s=100, l=15) => {
+	const numCand = Number(seed)
+	if(Number.isInteger(numCand)) {
+		return io.github.shunshun94.util.Color.HslToRgb(numCand % 360, s, l);
+	} else if((typeof seed) === 'string') {
+		let seedValue = 0;
+		for(var i = 0; i < seed.length; i++) {
+			seedValue += seed.charCodeAt(i);
+		}
+		return io.github.shunshun94.util.Color.HslToRgb(seedValue % 360, s, l);
+	} else {
+		return io.github.shunshun94.util.Color.HslToRgb(0, s, l);
+	}
+};
+
 io.github.shunshun94.util.Color.ColorList = {
 		"aliceblue": {
 			"r": 240,
