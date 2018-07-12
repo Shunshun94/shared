@@ -95,10 +95,10 @@ io.github.shunshun94.trpg.dummy.Room = class extends io.github.shunshun94.trpg.C
 		this.system = opts.system || false;
 		console.log(this.diceSystem)
 		this.$html.append(`<p class="${this.id}-chat" style="color:#000000">` +
-				`<span class="${this.id}-chat-name">System</span>: <span class="${this.id}-chat-message">オンセプラットフォームのモックです</span>` +
+				`<span class="${this.id}-chat-name">System</span>@channel<span class="${this.id}-chat-channel">0</span>: <span class="${this.id}-chat-message">オンセプラットフォームのモックです</span>` +
 				` (<span class="${this.id}-chat-time">${Number(new Date()) + 1}</span>)</p>`);
 		this.$html.append(`<p class="${this.id}-chat" style="color:#000000">` +
-				`<span class="${this.id}-chat-name">System</span>: <span class="${this.id}-chat-message">開始しました</span>` +
+				`<span class="${this.id}-chat-name">System</span>@channel<span class="${this.id}-chat-channel">0</span>: <span class="${this.id}-chat-message">開始しました</span>` +
 				` (<span class="${this.id}-chat-time">${Number(new Date())}</span>)</p>`);
 	}
 	
@@ -113,7 +113,7 @@ io.github.shunshun94.trpg.dummy.Room = class extends io.github.shunshun94.trpg.C
 	
 	appendChat(args) {
 		$(`.${this.id}-chat:first`).before(`<p class="${this.id}-chat" style="color:#${args.color || '000000'}">` +
-				`<span class="${this.id}-chat-name">${args.name}</span>: ` +
+				`<span class="${this.id}-chat-name">${args.name}</span>@channel<span class="${this.id}-chat-channel">${args.channel || 0}</span>: ` +
 				`<span class="${this.id}-chat-message">${args.msg || args.message}</span>` +
 				` (<span class="${this.id}-chat-time">${Number(new Date())}</span>)</p>`);
 	}
@@ -127,7 +127,7 @@ io.github.shunshun94.trpg.dummy.Room = class extends io.github.shunshun94.trpg.C
 			str += '</tr>';
 		}
 		$(`.${this.id}-chat:first`).before(`<p class="${this.id}-chat" style="color:#000000">` +
-				`<span class="${this.id}-chat-name">System</span>: ` +
+				`<span class="${this.id}-chat-name">System</span>@channel<span class="${this.id}-chat-channel">0</span>: ` +
 				`<span class="${this.id}-chat-message">イニシアティブ表が更新されました</span>` +
 				` (<span class="${this.id}-chat-time">${Number(new Date())}</span>)</p>` +
 				`<table border="1">${str}</table>`);
@@ -146,8 +146,9 @@ io.github.shunshun94.trpg.dummy.Room = class extends io.github.shunshun94.trpg.C
 				list.push([time, {
 			        		color: ($msg.css('color')).substr(1),
 			        		message: $msg.find(`.${this.id}-chat-message`).text(),
-			        		senderName: $msg.find(`.${this.id}-chat-name`). text(),
+			        		senderName: $msg.find(`.${this.id}-chat-name`).text(),
 			        		uniqueId: time,
+			        		channel: Number($msg.find(`.${this.id}-chat-channel`).text()),
 			        		metadata: {}
 			        	}]);
 			});
