@@ -144,7 +144,7 @@ io.github.shunshun94.trpg.dummy.Room = class extends io.github.shunshun94.trpg.C
 				const $msg = $(msg);
 				const time = Number($msg.find(`.${this.id}-chat-time`).text());
 				list.push([time, {
-			        		color: ($msg.css('color')).substr(1),
+			        		color: $msg.css('color'),
 			        		message: $msg.find(`.${this.id}-chat-message`).text(),
 			        		senderName: $msg.find(`.${this.id}-chat-name`).text(),
 			        		uniqueId: time,
