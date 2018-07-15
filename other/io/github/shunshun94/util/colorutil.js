@@ -237,7 +237,7 @@ io.github.shunshun94.util.Color.colorConvert = function(color){
 	return io.github.shunshun94.util.Color.getFromCode(color);
 };
 
-io.github.shunshun94.util.Color.getColorFromSheed = (seed, s=100, l=15) => {
+io.github.shunshun94.util.Color.getColorFromSeed = (seed, s=100, l=35) => {
 	const numCand = Number(seed)
 	if(Number.isInteger(numCand)) {
 		return io.github.shunshun94.util.Color.HslToRgb(numCand % 360, s, l);
@@ -251,6 +251,7 @@ io.github.shunshun94.util.Color.getColorFromSheed = (seed, s=100, l=15) => {
 		return io.github.shunshun94.util.Color.HslToRgb(0, s, l);
 	}
 };
+io.github.shunshun94.util.Color.getColorFromSheed = io.github.shunshun94.util.Color.getColorFromSeed;
 
 io.github.shunshun94.util.Color.ColorList = {
 		"aliceblue": {
