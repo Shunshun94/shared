@@ -54,31 +54,6 @@ io.github.shunshun94.trpg.ResponseChat = class extends com.hiyoko.DodontoF.V2.Ch
 		this.nameList = new io.github.shunshun94.trpg.ResponseChat.NameList(this.getElementById('namelist'), this.options);
 		this.quickinput = new io.github.shunshun94.trpg.ResponseChat.QuickInput(this.getElementById('quickinput'), this.options);
 	};
-	sendChat(e) {
-		var promise = new $.Deferred;
-		var args = e.args || {};
-		
-		if(! Boolean(args.name)) {
-			var rejectObject = {result: '名前がありません', detail: 'args.name is required but, args.name is not found', args: args};
-			promise.reject(rejectObject);
-		} else if(! Boolean(args.message)) {
-			var rejectObject = {result: '送信するメッセージがありません', detail: 'args.message is required but, args.message is not found', args: args};
-			promise.reject(rejectObject);
-		} else {
-			args.color = args.color || '000000';
-			args.channel = args.channel || 0;
-			args.bot = this.system;
-			this.fireEvent(this.getAsyncEvent('tofRoomRequest', {method: 'sendChat', args: [args]}).done(function(result) {
-				result.args = args;
-				promise.resolve(result);
-			}).fail(function(result) {
-				result.args = args;
-				promise.reject(result);
-			}));
-		}
-		
-		return promise;
-	}
 };
 
 io.github.shunshun94.trpg.ResponseChat.generateDom = (id) => {
@@ -321,7 +296,7 @@ io.github.shunshun94.trpg.ResponseChat.Input = class extends com.hiyoko.componen
 		super($html, options);
 		this.$name = this.getElementById('name');
 		this.$text = this.getElementById('text');
-
+		this.tabLength = 1;
 		this.bindEvents();
 		this.defaultName = options.defaultName || 'GM';
 		this.GMColor = this.GMColor || this.defaultColor || this.color || '000000';
@@ -341,10 +316,19 @@ io.github.shunshun94.trpg.ResponseChat.Input = class extends com.hiyoko.componen
 				type: io.github.shunshun94.trpg.ResponseChat.Input.Events.QUICKINPUT
 			});
 		});
+		this.getElementById('channel').change((e) => {
+			const tab = Number(this.getElementById('channel').val());
+			if(tab) {
+				this.$html.css('background-color', `hsl(${(360) * (tab / this.tabLength)}, 100%, 85%)`);
+			} else {
+				this.$html.css('background-color', 'white');
+			}
+		});
 	}
 	setChannelList() {
 		const event = this.getAsyncEvent(io.github.shunshun94.trpg.ResponseChat.Input.Events.GET_ROOM_INFO,
 				{method: 'getRoomInfo', args: []}).done((result) => {
+			this.tabLength = result.chatTab.length;
 			result.chatTab.forEach((name, i) => {
 				this.getElementById('channel').append(`<option value="${i}">${name}</option>`);
 			});
@@ -361,6 +345,7 @@ io.github.shunshun94.trpg.ResponseChat.Input = class extends com.hiyoko.componen
 		let text = this.$text.val();
 		this.$text.val(`@${target.name}\n> ${target.message.replace(/\n/gm, '\n> ')}\n\n${text}`);
 		this.getElementById('channel').val(target.channel);
+		this.getElementById('channel').change();
 	}
 	getColor() {
 		return (this.getName() === this.defaultName) ? this.GMColor : this.NPCColor;

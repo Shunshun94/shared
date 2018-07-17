@@ -7,6 +7,7 @@ com.hiyoko.DodontoF.V2.ChatClient = function($html, opt_options) {
 	this.options = opt_options || {};
 	this.$html = $($html);
 	this.id = this.$html.attr('id');
+	this.system = opt_options.system || '';
 	this.buildComponents();
 	
 	this.bindEvents();
@@ -70,6 +71,7 @@ com.hiyoko.DodontoF.V2.ChatClient.prototype.sendChat = function(e) {
 	} else {
 		args.color = args.color || '000000';
 		args.channel = args.channel || 0;
+		args.bot = this.system;
 		this.fireEvent(this.getAsyncEvent('tofRoomRequest', {method: 'sendChat', args: [args]}).done(function(result) {
 			result.args = args;
 			promise.resolve(result);
