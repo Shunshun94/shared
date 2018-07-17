@@ -7,6 +7,7 @@ com.hiyoko.DodontoF.V2.ChatClient = function($html, opt_options) {
 	this.options = opt_options || {};
 	this.$html = $($html);
 	this.id = this.$html.attr('id');
+	this.defaultColor = this.options.color || '000000';
 	this.system = opt_options.system || '';
 	this.buildComponents();
 	
@@ -69,7 +70,7 @@ com.hiyoko.DodontoF.V2.ChatClient.prototype.sendChat = function(e) {
 		var rejectObject = {result: '送信するメッセージがありません', detail: 'args.message is required but, args.message is not found', args: args};
 		promise.reject(rejectObject);
 	} else {
-		args.color = args.color || '000000';
+		args.color = args.color || this.defaultColor || '000000';
 		args.channel = args.channel || 0;
 		args.bot = this.system;
 		this.fireEvent(this.getAsyncEvent('tofRoomRequest', {method: 'sendChat', args: [args]}).done(function(result) {
@@ -129,8 +130,8 @@ com.hiyoko.DodontoF.V2.ChatClient.SimpleDisplay.prototype.updateLastUpdate = fun
 
 com.hiyoko.DodontoF.V2.ChatClient.SimpleDisplay.prototype.updateLogs = function(logs) {
 	this.$html.append(logs.map(function(log) {
-		var $log = $(com.hiyoko.util.format('<p style="color:#%s" class="%s-log %s-log"></p>',
-				log.color, this.id, com.hiyoko.DodontoF.V2.ChatClient.SimpleDisplay.CLASS));
+		var $log = $(com.hiyoko.util.format('<p style="color:%s" class="%s-log %s-log"></p>',
+				log.color.startsWith('rgb') ? log.color : `#log.color` , this.id, com.hiyoko.DodontoF.V2.ChatClient.SimpleDisplay.CLASS));
 		var $tab = $(com.hiyoko.util.format('<span class="%s-log-tab %s-log-tab"></span>',
 				this.id, com.hiyoko.DodontoF.V2.ChatClient.SimpleDisplay.CLASS));
 		$tab.text('');
