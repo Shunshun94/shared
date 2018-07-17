@@ -38,7 +38,7 @@ com.hiyoko.component.ApplicationBase.prototype.disable = function(opt_time) {
 };
 
 com.hiyoko.component.ApplicationBase.prototype.isEnabled = function() {
-	return this.$html.attr('display') !== 'none';
+	return this.$html.css('display') !== 'none';
 };
 
 com.hiyoko.component.ApplicationBase.prototype.fireEvent = function(event) {
