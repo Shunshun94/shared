@@ -244,7 +244,7 @@ io.github.shunshun94.trpg.discord.Room = class extends io.github.shunshun94.trpg
 						result: 'OK',
 						characters: result.characters
 					});
-					//this.showInitTable(JSON.stringify(result.characters));
+					this.showInitTable(JSON.stringify(result.characters));
 				}, (error) => {
 					reject({
 						result: error, args: args
@@ -296,7 +296,7 @@ io.github.shunshun94.trpg.discord.Room = class extends io.github.shunshun94.trpg
 						result: 'OK',
 						characters: result.characters
 					});
-					//this.showInitTable(JSON.stringify(result.characters));
+					this.showInitTable(JSON.stringify(result.characters));
 				}, (error) => {
 					reject({
 						result: error
