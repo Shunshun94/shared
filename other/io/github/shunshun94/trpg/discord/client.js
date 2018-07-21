@@ -204,6 +204,10 @@ io.github.shunshun94.trpg.discord.Room = class extends io.github.shunshun94.trpg
 		});
 	}
 
+	showInitTable(tableString) {
+		this.sendChat({message: `表形式で確認する\nhttps://shunshun94.github.io/shared/other/io/github/shunshun94/trpg/discord/initTable.html?${encodeURI(tableString)}`});
+	}
+
 	addCharacter(args = {}) {
 		return new Promise((resolve, reject) => {
 			if(! Boolean(args.name)) {
