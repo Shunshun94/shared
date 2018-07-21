@@ -205,7 +205,7 @@ io.github.shunshun94.trpg.discord.Room = class extends io.github.shunshun94.trpg
 	}
 
 	showInitTable(tableString) {
-		this.sendChat({message: `https://shunshun94.github.io/shared/other/io/github/shunshun94/trpg/discord/initTable.html?${tableString}`});
+		this.sendChat({message: `表形式で確認する\nhttps://shunshun94.github.io/shared/other/io/github/shunshun94/trpg/discord/initTable.html?${tableString}`});
 	}
 
 	addCharacter(args = {}) {
