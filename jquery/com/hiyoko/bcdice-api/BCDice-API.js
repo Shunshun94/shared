@@ -72,6 +72,11 @@ com.hiyoko.BCDiceAPIClient.prototype.getSystemInfo = function(opt_system) {
 
 com.hiyoko.BCDiceAPIClient.prototype.rollDice = function(command, opt_system) {
 	var promise = new $.Deferred;
+	const isCalcRequest = com.hiyoko.BCDiceAPIClient.REGEXP_IS_CALCULATION_REQUEST.exec(command);
+	if(isCalcRequest) {
+		command = command.replace(isCalcRequest[0], `${isCalcRequest[1]}+1d1-1`)
+	}
+
 	this.sendRequest('diceroll', {
 		system: opt_system || this.system.gameType,
 		command: command
@@ -87,3 +92,5 @@ com.hiyoko.BCDiceAPIClient.prototype.rollDice = function(command, opt_system) {
 	
 	return promise;
 };
+
+com.hiyoko.BCDiceAPIClient.REGEXP_IS_CALCULATION_REQUEST = /^C\((.*)\)/;
