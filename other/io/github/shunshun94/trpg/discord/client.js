@@ -204,10 +204,6 @@ io.github.shunshun94.trpg.discord.Room = class extends io.github.shunshun94.trpg
 		});
 	}
 
-	showInitTable(tableString) {
-		this.sendChat({message: `表形式で確認する\nhttps://shunshun94.github.io/shared/other/io/github/shunshun94/trpg/discord/initTable.html?${tableString}`});
-	}
-
 	addCharacter(args = {}) {
 		return new Promise((resolve, reject) => {
 			if(! Boolean(args.name)) {
@@ -244,7 +240,6 @@ io.github.shunshun94.trpg.discord.Room = class extends io.github.shunshun94.trpg
 						result: 'OK',
 						characters: result.characters
 					});
-					this.showInitTable(JSON.stringify(result.characters));
 				}, (error) => {
 					reject({
 						result: error, args: args
@@ -296,7 +291,6 @@ io.github.shunshun94.trpg.discord.Room = class extends io.github.shunshun94.trpg
 						result: 'OK',
 						characters: result.characters
 					});
-					this.showInitTable(JSON.stringify(result.characters));
 				}, (error) => {
 					reject({
 						result: error
