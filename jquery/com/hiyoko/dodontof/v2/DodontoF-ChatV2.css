@@ -1,0 +1,63 @@
+.com-hiyoko-dodontof-v2-chatclient {
+	font-size:70%;
+	width: 600px;
+	border: 1px black solid;
+	position: relative;
+}
+
+.com-hiyoko-dodontof-v2-chatclient ::-webkit-scrollbar {
+	width: 8px;
+	height: 8px;
+}
+
+.com-hiyoko-dodontof-v2-chatclient ::-webkit-scrollbar-track {
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	border-radius: 6px;
+}
+
+.com-hiyoko-dodontof-v2-chatclient ::-webkit-scrollbar-thumb {
+	border-radius: 6px;
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.8);
+}
+.com-hiyoko-dodontof-v2-chatclient-simpledisplay {
+	border: 1px black solid;
+	background-color: #F0F0F0;
+	width: 598px;
+	height: 400px;
+	overflow:scroll;
+}
+
+.com-hiyoko-dodontof-v2-chatclient-simpledisplay-log {
+	margin-top: 2px;
+	margin-bottom: 2px;
+}
+
+.com-hiyoko-dodontof-v2-chatclient-simpledisplay-log:nth-child(even) {
+	background-color: #FFFFFF;
+}
+
+.com-hiyoko-dodontof-v2-chatclient-simpledisplay-log-name,
+.com-hiyoko-dodontof-v2-chatclient-simpledisplay-log-tab {
+	font-weight: bold;
+}
+
+.com-hiyoko-dodontof-v2-chatclient-simpledisplay-log-tab::before {
+	content: " @ ";
+}
+
+.com-hiyoko-dodontof-v2-chatclient-simpledisplay-log-message {
+	display:block;
+	padding-left: 8px;
+}
+
+.com-hiyoko-dodontof-v2-chatclient-simpleinput {
+	border: 1px black solid;
+	padding:2px;
+	text-align:right;
+}
+.com-hiyoko-dodontof-v2-chatclient-simpleinput-text {
+	width: 590px;
+	resize: none;
+	overflow:scroll;
+	height: 80px;
+}

@@ -8,11 +8,23 @@ io.github.shunshun94.trpg.ResponseChat = class extends com.hiyoko.DodontoF.V2.Ch
 		super($html, opt_options);
 		this.system = opt_options.system || '';
 	}
+	preventUnexpectedMessage(message) {
+		if(io.github.shunshun94.trpg.ResponseChat.UNEXPECTED_MESSAGES.includes(message)) {
+			return true;
+		}
+		if(/\s+/.test(message)) {
+			return true;
+		}
+		return false;
+	}
 	bindEvents() {
 		this.$html.on(this.display.id + '-getChatRequest', (e) => {
 			this.fireEvent(this.getChatLogs(e.time).done(e.resolve).fail(e.reject));
 		});
 		this.$html.on(this.input.id + '-sendChatRequest', (e) => {
+			if(this.preventUnexpectedMessage(e.args.message) && (! window.confirm("誤送信な気がします。本当に送りますか?"))) {
+				return;
+			}
 			this.sendChat(e).done((result) => { 
 				e.resolve(result);
 				this.nameList.insertMember(e.args.name);
@@ -69,6 +81,7 @@ io.github.shunshun94.trpg.ResponseChat.generateDom = (id) => {
 };
 
 io.github.shunshun94.trpg.ResponseChat.CLASS = 'io-github-shunshun94-trpg-ResponseChat';
+io.github.shunshun94.trpg.ResponseChat.UNEXPECTED_MESSAGES = ['[]', '""', `""`, '「」', '()', '（）', '<>', '＜＞'];
 
 io.github.shunshun94.trpg.ResponseChat.NameList = class extends com.hiyoko.component.ApplicationBase {
 	constructor($html, options = {}) {

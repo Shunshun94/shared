@@ -131,7 +131,7 @@ com.hiyoko.DodontoF.V2.ChatClient.SimpleDisplay.prototype.updateLastUpdate = fun
 com.hiyoko.DodontoF.V2.ChatClient.SimpleDisplay.prototype.updateLogs = function(logs) {
 	this.$html.append(logs.map(function(log) {
 		var $log = $(com.hiyoko.util.format('<p style="color:%s" class="%s-log %s-log"></p>',
-				log.color.startsWith('rgb') ? log.color : `#log.color` , this.id, com.hiyoko.DodontoF.V2.ChatClient.SimpleDisplay.CLASS));
+				log.color.startsWith('rgb') ? log.color : `#${log.color}` , this.id, com.hiyoko.DodontoF.V2.ChatClient.SimpleDisplay.CLASS));
 		var $tab = $(com.hiyoko.util.format('<span class="%s-log-tab %s-log-tab"></span>',
 				this.id, com.hiyoko.DodontoF.V2.ChatClient.SimpleDisplay.CLASS));
 		$tab.text('');
