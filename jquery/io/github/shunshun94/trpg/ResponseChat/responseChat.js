@@ -66,6 +66,9 @@ io.github.shunshun94.trpg.ResponseChat = class extends com.hiyoko.DodontoF.V2.Ch
 		this.nameList = new io.github.shunshun94.trpg.ResponseChat.NameList(this.getElementById('namelist'), this.options);
 		this.quickinput = new io.github.shunshun94.trpg.ResponseChat.QuickInput(this.getElementById('quickinput'), this.options);
 	};
+	insertName(name) {
+		this.input.insertName(name);
+	}
 };
 
 io.github.shunshun94.trpg.ResponseChat.generateDom = (id) => {
