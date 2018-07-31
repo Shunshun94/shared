@@ -6,6 +6,7 @@ com.hiyoko.VampireBlood.SW2 = function(id, opt_callback) {
 	this.sendRequest(id).done(function(data) {
 		this.basicParse(data);
 		this.parseBaseStatus(data);
+		this.parseBattleSkills(data);
 		this.parseMagics(data);
 		this.parseWeapons(data);
 		this.parseGuards(data);
@@ -22,6 +23,17 @@ com.hiyoko.VampireBlood.SW2 = function(id, opt_callback) {
 };
 
 com.hiyoko.util.extend(com.hiyoko.VampireBlood.Client, com.hiyoko.VampireBlood.SW2);
+
+com.hiyoko.VampireBlood.SW2.prototype.parseBattleSkills = function(json) {
+	this.battleSkills = json.ST_kouka.filter((kouka) => {
+		return kouka;
+	}).map((kouka, i) => {
+		return {
+			name: json.ST_name[i],
+			note: kouka
+		}
+	});
+}
 
 com.hiyoko.VampireBlood.SW2.prototype.parseAccessories = function(json) {
 	this.accessories = [];
