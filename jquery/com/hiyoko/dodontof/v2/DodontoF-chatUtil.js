@@ -40,7 +40,7 @@ com.hiyoko.DodontoF.V2.fixChatMsg = function(chatMsg, opt_store){
 	var cutin = false;
 	var name;
 	var status = '通常';
-	var tab = chatMsg[1].channel;
+	var tab = chatMsg[1].channel || 0;
 
 	if(chatMsg[1].message.indexOf("###CutInCommand:rollVisualDice###") !== -1){
 		message = JSON.parse(chatMsg[1].message.replace("###CutInCommand:rollVisualDice###", "")).chatMessage;

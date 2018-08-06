@@ -8,8 +8,6 @@
 </head>
 <body>
 <div id="chat">
-	<div id="chat-input"></div>
-	<div id="chat-display"></div>
 </div>
 <div id="dummyClient"></div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
@@ -29,10 +27,12 @@ var query = com.hiyoko.util.getQueries();
 if(! Boolean(query.url)) {query.url = $('#dummyClient');}
 var client = io.github.shunshun94.trpg.RoomClientFactory(query);
 query.displayLimit = query.displayLimit || 15;
-new com.hiyoko.DodontoF.V2.ChatClient($('#chat'), query);
 $('#chat').on('tofRoomRequest', function(event) {
 	client[event.method].apply(client, event.args).done(event.resolve).fail(event.reject);
 });
+setTimeout(()=>{
+	new com.hiyoko.DodontoF.V2.ChatClient($('#chat'), query);
+}, query.wait || 1500);
 </script>
 </body>
 </html>
