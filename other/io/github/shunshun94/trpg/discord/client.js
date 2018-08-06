@@ -99,6 +99,7 @@ io.github.shunshun94.trpg.discord.Room = class extends io.github.shunshun94.trpg
 	        		message: raw.content,
 	        		senderName: raw.author.username,
 	        		uniqueId: raw.id,
+	        		channel: 0,
 	        		metadata: {
 	        			channel: raw.channel_id,
 	        			senderId: raw.author.id

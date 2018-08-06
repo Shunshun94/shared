@@ -40,7 +40,7 @@ com.hiyoko.DodontoF.V2.ChatClient = class extends com.hiyoko.component.Applicati
 			this.input.setChannelList(result.chatTab);
 		}).fail((result) => {
 			console.warn(result);
-			alert(`チャットタブ一覧の取得に失敗しました\n${err.result || err}`);
+			alert(`チャットタブ一覧の取得に失敗しました\n${result.result || result}`);
 		});
 		setTimeout(()=>{this.fireEvent(event)},50);
 	}
@@ -233,8 +233,6 @@ com.hiyoko.DodontoF.V2.ChatClient.SimpleInput = class extends com.hiyoko.compone
 				this.whenPushKey(e);
 			});
 		}
-		
-
 	}
 };
 com.hiyoko.DodontoF.V2.ChatClient.SimpleInput.CLASS = 'com-hiyoko-dodontof-v2-chatclient-simpleinput';
