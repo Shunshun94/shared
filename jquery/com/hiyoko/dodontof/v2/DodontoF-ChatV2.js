@@ -169,13 +169,15 @@ com.hiyoko.DodontoF.V2.ChatClient.SimpleInput = class extends com.hiyoko.compone
 		this.options = opt_options || {};
 		this.generateDom();
 		this.text = this.getElementById('text');
-		
+		this.tabLength = 1;
+
 		this.name = this.options.name || 'うめか';
 		this.color = this.options.color || false;
 		
 		this.bindEvents();
 	}
 	setChannelList(list) {
+		this.tabLength = list.length;
 		list.forEach((name, i) => {
 			this.getElementById('channel').append(`<option value="${i}">${name}</option>`);
 		});
@@ -233,6 +235,18 @@ com.hiyoko.DodontoF.V2.ChatClient.SimpleInput = class extends com.hiyoko.compone
 				this.whenPushKey(e);
 			});
 		}
+		this.getElementById('channel').change((e) => {
+			if(this.tabLength <= 1) {
+				return;
+			} 
+			const tab = Number(this.getElementById('channel').val());
+			console.log(tab);
+			if(tab) {
+				this.$html.css('background-color', `hsl(${(360) * (tab / this.tabLength)}, 100%, 85%)`);
+			} else {
+				this.$html.css('background-color', 'white');
+			}
+		});
 	}
 };
 com.hiyoko.DodontoF.V2.ChatClient.SimpleInput.CLASS = 'com-hiyoko-dodontof-v2-chatclient-simpleinput';
