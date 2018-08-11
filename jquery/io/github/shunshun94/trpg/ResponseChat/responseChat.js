@@ -12,7 +12,7 @@ io.github.shunshun94.trpg.ResponseChat = class extends com.hiyoko.DodontoF.V2.Ch
 		if(io.github.shunshun94.trpg.ResponseChat.UNEXPECTED_MESSAGES.includes(message)) {
 			return true;
 		}
-		if(/\s+/.test(message)) {
+		if(/^\s+$/.test(message)) {
 			return true;
 		}
 		return false;
