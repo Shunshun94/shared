@@ -102,12 +102,13 @@ io.github.shunshun94.trpg.ytsheet.ytsheetSW2_5 = class {
 			if(flag) {
 				this.weapons.push({
 					name: data[`weapon${i}Name`],
-					rank: '', hand: data[`weapon${i}Usage`], note: data[`weapon${i}Note`],
-					category: data[`weapon${i}Category`],
-					rate: Number(data[`weapon${i}Rate`]) || data[`weapon${i}Rate`],
+					rank: '', hand: data[`weapon${i}Usage`] || '-',
+					note: data[`weapon${i}Note`] || '-',
+					category: data[`weapon${i}Category`] || '-',
+					rate: Number(data[`weapon${i}Rate`]) || data[`weapon${i}Rate`] || 0,
 					crit: Number(data[`weapon${i}Crit`]) || data[`weapon${i}Crit`] || 10,
-					damage: Number(data[`weapon${i}DmgTotal`]) || data[`weapon${i}DmgTotal`],
-					hit: Number(data[`weapon${i}AccTotal`]) || data[`weapon${i}AccTotal`]
+					damage: Number(data[`weapon${i}DmgTotal`]) || data[`weapon${i}DmgTotal`] || 0,
+					hit: Number(data[`weapon${i}AccTotal`]) || data[`weapon${i}AccTotal`] || 0
 				});
 			}
 			i++;
