@@ -155,7 +155,7 @@ io.github.shunshun94.trpg.ytsheet.ytsheetSW2_5 = class {
 		this.subSkills.horsemanship = [];
 		this.subSkills.alchemicCard = [];
 		this.subSkills.leadersOrder = [];
-		this.subSkills.fortuneTelling = []:
+		this.subSkills.fortuneTelling = [];
 		this.subSkills.aristocratDignity = [];
 		this.subSkills.spellSeal = [];
 	}
