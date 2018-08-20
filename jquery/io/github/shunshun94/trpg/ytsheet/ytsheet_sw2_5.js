@@ -148,8 +148,22 @@ io.github.shunshun94.trpg.ytsheet.ytsheetSW2_5 = class {
 			};
 		}).filter((d) => {return d.name});
 	}
-	parseSubSkills(data) {}
-	parsePets(data) {}
+	parseSubSkills(data) {
+		this.subSkills = {};
+		this.subSkills.tempTech = [];
+		this.subSkills.spellSong = [];
+		this.subSkills.horsemanship = [];
+		this.subSkills.alchemicCard = [];
+		this.subSkills.leadersOrder = [];
+		this.subSkills.fortuneTelling = []:
+		this.subSkills.aristocratDignity = [];
+		this.subSkills.spellSeal = [];
+	}
+	parsePets(data) {
+		this.pets = {};
+		this.pets.character = [];
+		this.pets.parts = [];
+	}
 
 	sendRequest(url) {
 		url += "&mode=json";
