@@ -71,7 +71,7 @@ com.hiyoko.VampireBlood.SW2.prototype.parseWeapons = function(json) {
 	const crits = json.arms_critical;
 	const dams = json.arms_damage;
 	const hits = json.arms_hit;
-	const skills = (json.arms_hit_ginou || V_arms_hit_ginou || []).map((d)=>{return com.hiyoko.VampireBlood.SW2.WeaponSkillTable[d]});
+	const skills = (json.arms_hit_ginou || json.V_arms_hit_ginou || []).map((d)=>{return com.hiyoko.VampireBlood.SW2.WeaponSkillTable[d]});
 
 	this.weapons = names.map(function(v, i) {
 		return {
