@@ -57,6 +57,7 @@ io.github.shunshun94.trpg.ytsheet.ytsheetSW2_5 = class {
 			return value;
 		});
 		this.dodge = Number(data.DefenseTotalAllEva);
+		this.dodgeSkill = data.evasionClass || '';
 		this.guard = Number(data.DefenseTotalAllDef);
 		this.physical = Number(data.vitResistTotal)
 		this.mental = Number(data.mndResistTotal)
@@ -108,7 +109,8 @@ io.github.shunshun94.trpg.ytsheet.ytsheetSW2_5 = class {
 					rate: Number(data[`weapon${i}Rate`]) || data[`weapon${i}Rate`] || 0,
 					crit: Number(data[`weapon${i}Crit`]) || data[`weapon${i}Crit`] || 10,
 					damage: Number(data[`weapon${i}DmgTotal`]) || data[`weapon${i}DmgTotal`] || 0,
-					hit: Number(data[`weapon${i}AccTotal`]) || data[`weapon${i}AccTotal`] || 0
+					hit: Number(data[`weapon${i}AccTotal`]) || data[`weapon${i}AccTotal`] || 0,
+					skill: data[`weapon${i}Class`] || ''
 				});
 			}
 			i++;

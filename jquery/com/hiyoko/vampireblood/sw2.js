@@ -59,20 +59,19 @@ com.hiyoko.VampireBlood.SW2.prototype.parseGuards = function(json) {
 			note: json[v + '_memo']
 		};
 	}.bind(this));
-	
-	
 };
 
 com.hiyoko.VampireBlood.SW2.prototype.parseWeapons = function(json) {
-	var names = json.arms_name;
-	var ranks = json.arms_rank;
-	var hands = json.arms_yoho;
-	var notes = json.arms_memo;
-	var cates = json.arms_cate;
-	var rates = json.arms_iryoku;
-	var crits = json.arms_critical;
-	var dams = json.arms_damage;
-	var hits = json.arms_hit;
+	const names = json.arms_name;
+	const ranks = json.arms_rank;
+	const hands = json.arms_yoho;
+	const notes = json.arms_memo;
+	const cates = json.arms_cate;
+	const rates = json.arms_iryoku;
+	const crits = json.arms_critical;
+	const dams = json.arms_damage;
+	const hits = json.arms_hit;
+	const skills = json.arms_hit_ginou.map((d)=>{return com.hiyoko.VampireBlood.SW2.WeaponSkillTable[d]});
 	
 	this.weapons = names.map(function(v, i) {
 		return {
@@ -80,7 +79,8 @@ com.hiyoko.VampireBlood.SW2.prototype.parseWeapons = function(json) {
 			rank: ranks[i], hand: hands[i], note: notes[i],
 			category: cates[i],
 			rate: Number(rates[i]), crit: Number(crits[i]),
-			damage: Number(dams[i]), hit: Number(hits[i])
+			damage: Number(dams[i]), hit: Number(hits[i]),
+			skill: skills[i]
 		};
 	});
 };
@@ -132,6 +132,7 @@ com.hiyoko.VampireBlood.SW2.prototype.parseBaseStatus = function(json) {
 	});
 	
 	this.dodge = Number(json.kaihi);
+	this.dodgeSkill = json.kaihi_ginou_name;
 	this.guard = Number(json.bougo);
 	this.mental = Number(json.mental_resist);
 	this.physical = Number(json.life_resist);
@@ -251,3 +252,12 @@ com.hiyoko.VampireBlood.SW2.getSheet = function(id) {
 	return promise;
 };
 
+com.hiyoko.VampireBlood.SW2.WeaponSkillTable = {
+	'0': '',
+	'1': 'ファイター',
+	'2': 'グラップラー',
+	'3': 'フェンサー',
+	'4': 'シューター',
+	'13': 'エンハンサー',
+	'17': 'デーモンルーラー'
+};
