@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+<script src='../jquery/com/hiyoko/util/v2/utils.js'></script>
+<script src="../jquery/com/hiyoko/components/v1/ApplicationBase.js"></script>
+<script src="../jquery/com/hiyoko/components/v1/TableBase.js"></script>
+<table id="hiyo" border="1"></table>
+<script>
+$('#hiyo').on('getStorage', function(e){
+	e.callback(null);
+});
+this.table = new com.hiyoko.component.TableBase($('#hiyo'));
+this.table.unsortable = true;
+this.table.renderTable([
+	{title:'', type:'check'},
+	{title:'名称', type:'text'},
+  {title:'命中', type:'number'}]);
+
+</script>
+</body>
+</html>
