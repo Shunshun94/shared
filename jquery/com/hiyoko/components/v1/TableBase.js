@@ -1,7 +1,10 @@
 var com = com || {};
 com.hiyoko = com.hiyoko || {};
 com.hiyoko.component = com.hiyoko.component || {};
-com.hiyoko.component.TableBase = function(){};
+com.hiyoko.component.TableBase = function($html){
+	this.$html = $($html);
+	this.id = this.$html.attr('id');
+};
 
 com.hiyoko.util.extend(com.hiyoko.component.ApplicationBase, com.hiyoko.component.TableBase);
 
@@ -167,9 +170,9 @@ com.hiyoko.component.TableBase.prototype.bindSharedEvent = function() {
 		}.bind(this));
 	}.bind(this));
 	
-	this.getElementById('body').sortable();
-	
-	
+	if(! Boolean(this.unsortable)) {
+		this.getElementById('body').sortable();
+	}
 };
 
 com.hiyoko.component.TableBase.prototype.defaultInputTrigger = function(val, $tr, callback) {callback();};
