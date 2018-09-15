@@ -91,10 +91,17 @@ com.hiyoko.component.TableBase.prototype.setTotal = function(result) {
 com.hiyoko.component.TableBase.prototype.addMember = function() {
 	var $member = $('<tr></tr>')
 	$member.addClass(this.memberClass);
+	const trIndex = this.getElement(`.${this.memberClass}`).length;
+	if(Boolean(this.unsortable)) {
+		$member.addClass(`${this.memberClass}-tr-${trIndex}`);
+	}
 	
 	this.cols.forEach(function(col, i){
 		var $col = $('<td></td>');
 		$col.addClass(this.memberClass + '-' + i);
+		if(Boolean(this.unsortable)) {
+			$col.addClass(`${this.memberClass}-${trIndex}-${i}`);
+		}
 		var $input = false;
 		if(col.type === 'text') {
 			$input = $('<input value="" type="text" name="' + i + '" class="com-hiyoko-component-table-base-member-text" />');
