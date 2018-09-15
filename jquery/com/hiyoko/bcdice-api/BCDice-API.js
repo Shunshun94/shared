@@ -93,4 +93,4 @@ com.hiyoko.BCDiceAPIClient.prototype.rollDice = function(command, opt_system) {
 	return promise;
 };
 
-com.hiyoko.BCDiceAPIClient.REGEXP_IS_CALCULATION_REQUEST = /^C\((.*)\)/;
+com.hiyoko.BCDiceAPIClient.REGEXP_IS_CALCULATION_REQUEST = /^C\(([^)]*)\)/;
