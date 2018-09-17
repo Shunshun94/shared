@@ -11,7 +11,6 @@ $('body').click((e)=>{
 		}
 		$dom.off("click");
 		setTimeout(()=>{
-			console.log('add again')
 			events.forEach((e) => {
 				$dom.click(e);
 			});
