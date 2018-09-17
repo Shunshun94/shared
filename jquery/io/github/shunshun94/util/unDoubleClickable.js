@@ -14,7 +14,7 @@ $('body').click((e)=>{
 			events.forEach((e) => {
 				$dom.click(e);
 			});
-		}, 1000);
+		}, io.github.shunshun94.util.UnDoubleClickable.TIME_LENGTH);
 	}
 });
 
@@ -25,3 +25,4 @@ io.github.shunshun94.util = io.github.shunshun94.util || {};
 io.github.shunshun94.util.UnDoubleClickable = io.github.shunshun94.util.UnDoubleClickable || {};
 io.github.shunshun94.util.UnDoubleClickable.CLASS = 'io-github-shunshun94-util-UnDoubleClickable';
 io.github.shunshun94.util.UnDoubleClickable.DUMMY = {click:[]};
+io.github.shunshun94.util.UnDoubleClickable.TIME_LENGTH = 1000;
