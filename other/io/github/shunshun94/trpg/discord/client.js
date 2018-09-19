@@ -12,7 +12,7 @@ io.github.shunshun94.trpg.discord.generateClient = (token) => {
 	return discord;
 };
 
-io.github.shunshun94.trpg.discord.generateRoomInfo = (rawData, memberList) => {
+io.github.shunshun94.trpg.discord.generateRoomInfo = (rawData, memberList, serverName='') => {
 	var users = [];
 	try {
 		for(var userId in rawData.members) {
@@ -25,8 +25,8 @@ io.github.shunshun94.trpg.discord.generateRoomInfo = (rawData, memberList) => {
 		canVisit: false,
 		gameType: 'unsupported',
 		lastUpdateTime: 'unsupported',
-		playRoomName: rawData.name,
-		roomName: rawData.name,
+		playRoomName: `${rawData.name}${serverName ? ' @ ' : ''}${serverName}`,
+		roomName: `${rawData.name}${serverName ? ' @ ' : ''}${serverName}`,
 		loginUsers: users,
 		passwordLockState: false,
 		id: rawData.id,
@@ -45,12 +45,16 @@ io.github.shunshun94.trpg.discord.generateRoomsInfo = (client) => {
 		result: 'OK',
 		playRoomStates: []
 	};
-	for(var id in client.channels) {
-		var room = client.channels[id];
-		if(room.type === 0) {
-			result.playRoomStates.push(
-					io.github.shunshun94.trpg.discord.generateRoomInfo(room, client.users)
-			);
+	
+	for(var serverId in client.servers) {
+		const server = client.servers[serverId];
+		for( var channelId in server.channels) {
+			var room = client.channels[channelId];
+			if(room.type === 0) {
+				result.playRoomStates.push(
+						io.github.shunshun94.trpg.discord.generateRoomInfo(room, client.users, server.name)
+				);
+			}	
 		}
 	}
 	return result;
