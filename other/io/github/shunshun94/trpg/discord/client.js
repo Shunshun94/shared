@@ -12,11 +12,11 @@ io.github.shunshun94.trpg.discord.generateClient = (token) => {
 	return discord;
 };
 
-io.github.shunshun94.trpg.discord.generateRoomInfo = (rawData, memberList, serverName='') => {
+io.github.shunshun94.trpg.discord.generateRoomInfo = (rawData, memberList = {}, serverName='') => {
 	var users = [];
 	try {
 		for(var userId in rawData.members) {
-			users.push(memberList[userId].username);
+			users.push(memberList[userId].nick || memberList[userId].username);
 		}
 	} catch(e) {
 		console.error(e, rawData, memberList);
@@ -48,12 +48,26 @@ io.github.shunshun94.trpg.discord.generateRoomsInfo = (client) => {
 	
 	for(var serverId in client.servers) {
 		const server = client.servers[serverId];
-		for( var channelId in server.channels) {
-			var room = client.channels[channelId];
+		for(var channelId in server.channels) {
+			var room = server.channels[channelId];
 			if(room.type === 0) {
 				result.playRoomStates.push(
-						io.github.shunshun94.trpg.discord.generateRoomInfo(room, client.users, server.name)
+						io.github.shunshun94.trpg.discord.generateRoomInfo(room, server.members, server.name)
 				);
+			}	
+		}
+	}
+	return result;
+};
+
+io.github.shunshun94.trpg.discord.flattenRoomList = (client) => {
+	var result = {};
+	for(var serverId in client.servers) {
+		const server = client.servers[serverId];
+		for(var channelId in server.channels) {
+			var room = server.channels[channelId];
+			if(room.type === 0) {
+				result[channelId] = room;
 			}	
 		}
 	}
@@ -86,12 +100,18 @@ io.github.shunshun94.trpg.discord.Room = class extends io.github.shunshun94.trpg
 		super();
 		this.discord = io.github.shunshun94.trpg.discord.generateClient(token);
 		this.roomId = roomId;
+		
 		this.dicebot = opt_dicebot || {rollDice: function(command) {
 			return new Promise(function(resolve, reject) {
 				resolve({ok: false, result: '',secret: false});
 			});
 		}};
 		this.lastMsgId = 0
+	}
+	
+	_getRoomInfo() {
+		const list = io.github.shunshun94.trpg.discord.flattenRoomList(this.discord);
+		return io.github.shunshun94.trpg.discord.flattenRoomList(this.discord)[this.roomId];
 	}
 
 	convertRawMessage(raw) {
@@ -122,7 +142,7 @@ io.github.shunshun94.trpg.discord.Room = class extends io.github.shunshun94.trpg
 			this.dicebot.rollDice(args.message, args.bot).then(function(rollResult) {
 				var msg = rollResult.ok ? `${args.message}\n${rollResult.result.substr(2)}` : args.message;
 				if(args.name) {
-					msg = args.name + ': ' + msg;
+					msg = '**' + args.name + '**: ' + msg;
 				}
 				this.discord.sendMessage({
 					to: this.roomId, message: msg
@@ -186,7 +206,8 @@ io.github.shunshun94.trpg.discord.Room = class extends io.github.shunshun94.trpg
 	
 	getRoomInfo () {
 		return new Promise((resolve, reject) => {
-			resolve(io.github.shunshun94.trpg.discord.generateRoomInfo(this.discord.channels[this.roomId], this.discord.users));
+			const room = this._getRoomInfo();
+			resolve(io.github.shunshun94.trpg.discord.generateRoomInfo(room, this.discord.servers[room.guild_id].members));
 		});
 	}
 	
