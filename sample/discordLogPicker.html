@@ -73,8 +73,8 @@ const generateUrl = (data, donwloadText="DOWNLOAD") => {
 	$console.append('<br/>');
 }
 
-const htmlConverterHiyoAppRegExp = /^([^:]+): /;
-const htmlConverterParenthesisRegExp = /^([^「]+)「/;
+const htmlConverterHiyoAppRegExp = /^([^:\n]+): /;
+const htmlConverterParenthesisRegExp = /^([^「\n]+)「/;
 const convertMsgToHiyoHtml = (msg)=>{
 	const appRegExpResult = htmlConverterHiyoAppRegExp.exec(msg[1].message);
 	const preRegExpResult = htmlConverterParenthesisRegExp.exec(msg[1].message);
