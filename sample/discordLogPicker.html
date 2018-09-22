@@ -16,9 +16,9 @@
 <script>
 const query = com.hiyoko.util.getQueries();
 let tokenList = JSON.parse(localStorage.getItem('io-github-shunshun94-trpg-discord-Entrance-Token-TokenList') || '[null]');
-const token = query.token || query.url || prompt("Discord Bot の Token を入力してください", localStorage.getItem('io-github-shunshun94-trpg-discord-entry-token') || tokenList.reverse()[0] || '');
+const token = query.token || query.url || prompt("Discord bot の Token を入力してください\nまたは以下記事「Token をコピーする」の手法で得られる Token を入力してください\nhttps://tech.kunimaly.com/discord-how-to-export-message/", localStorage.getItem('io-github-shunshun94-trpg-discord-entry-token') || tokenList.reverse()[0] || '');
 const room = query.room || query.channel || prompt("Discord の channel ID を入力してください\nChannel の URL が https://discordapp.com/channels/000000000000000000/463088764508438539 なら最後の 463088764508438539");
-const fromId = query.fromId || prompt("Discord の発言 ID を入力してください。\n入力された ID より後の発言を取得します (入力された発言は取得されません)\nチャネルの発言を最初から取得する場合は 1 を入力してください", "1") || 1;
+const fromId = query.fromId || prompt("Discord の発言 ID を入力してください。\n入力された ID より後の発言を取得します (入力された発言は取得されません)\n発言 ID は各発言にカーソルを合わせるポップアップするメニューから取得できます。\nチャネルの発言を最初から取得する場合は 1 を入力してください", "1") || 1;
 const discordClient = new io.github.shunshun94.trpg.discord.Room(token, room);
 const $console = $('#console');
 
