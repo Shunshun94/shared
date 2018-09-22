@@ -73,7 +73,7 @@ const generateUrl = (data, donwloadText="DOWNLOAD") => {
 	$console.append('<br/>');
 }
 
-const htmlConverterHiyoAppRegExp = /^([^:\n]+): /;
+const htmlConverterHiyoAppRegExp = /^\*?\*?([^:\n\*]+)\*?\*?:\s?/;
 const htmlConverterParenthesisRegExp = /^([^「\n]+)「/;
 const convertMsgToHiyoHtml = (msg)=>{
 	const appRegExpResult = htmlConverterHiyoAppRegExp.exec(msg[1].message);
@@ -112,6 +112,7 @@ const convertMsgToHiyoHtml = (msg)=>{
 
 setTimeout(()=>{
 	getLogRecursive(discordClient, fromId).then((result)=>{
+		localStorage.setItem('io-github-shunshun94-trpg-discord-entry-token', token);
 		generateUrl(JSON.stringify(result), 'JSON ファイルとしてダウンロードする');
 		
 		const html = 	'<html><head><link rel="stylesheet" href="https://shunshun94.github.io/shared/jquery/io/github/shunshun94/trpg/replay/replay4.css" type="text/css" /></head>\n<body>\n' +
