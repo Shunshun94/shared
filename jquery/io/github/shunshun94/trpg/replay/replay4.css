@@ -15,7 +15,6 @@ p {
 	padding-top:4px;
 	padding-bottom:4px;
 	width: 800px;
-	text-indent: 1em;
 }
 sup {
 	color:blue;
@@ -25,15 +24,13 @@ sup {
 sup:hover {
 	color:skyblue;
 }
-.tab0, .tab1 {
-	text-indent: 0;
-}
 
 .tab0:nth-child(even) {
 	background-color: #F5F5F5;
 }
 .tab1 {
 	background-color: #ffffe0;
+	font-size:80%;
 }
 .tab1:nth-child(even) {
 	background-color: #fffacd;
@@ -54,7 +51,6 @@ sup:hover {
 .message {
 	display: block;
 	padding-left:1em;
-	width: 100%;
 }
 .note {
 	display:none;
