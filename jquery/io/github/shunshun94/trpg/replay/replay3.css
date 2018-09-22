@@ -41,6 +41,11 @@ sup:hover {
 .tab9, .tab8 {
 	display:none;
 }
+
+.time {
+	display:none;
+}
+
 .name {
 	display:inline-block;
 	font-weight: bold;
