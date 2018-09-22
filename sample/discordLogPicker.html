@@ -121,6 +121,7 @@ setTimeout(()=>{
 									}).join('\n') +
 									'\n</body></html>';
 		generateUrl(html, 'HTML ファイルとしてダウンロードする');
+		$console.append(`同じ内容でリクエストしたい場合の URL: ${location.protocol}//${location.host}${location.pathname}?token=${token}&room=${room}&fromId=${fromId}<br/>`);
 	}, (err, a, b, c, d, e) => {
 		$console.append(`<p>${JSON.stringify(err)}</p>`);
 		console.error(err, a, b, c, d, e);
