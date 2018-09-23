@@ -1,4 +1,4 @@
-h1, h2, h3 {
+h1, h2, h3, h4, h5 {
 	width: 800px;
 	margin:auto;
 	margin-top: 12px;
@@ -30,7 +30,8 @@ sup:hover {
 }
 .tab1 {
 	background-color: #ffffe0;
-	font-size:80%;
+	font-size:70%;
+	padding-left: 2em;
 }
 .tab1:nth-child(even) {
 	background-color: #fffacd;
