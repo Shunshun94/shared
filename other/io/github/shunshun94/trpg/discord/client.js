@@ -49,10 +49,10 @@ io.github.shunshun94.trpg.discord.generateRoomsInfo = (client) => {
 	for(var serverId in client.servers) {
 		const server = client.servers[serverId];
 		for(var channelId in server.channels) {
-			var room = client.channels[channelId];
+			var room = server.channels[channelId];
 			if(room.type === 0) {
 				result.playRoomStates.push(
-						io.github.shunshun94.trpg.discord.generateRoomInfo(room, client.members, server.name)
+						io.github.shunshun94.trpg.discord.generateRoomInfo(room, server.members, server.name)
 				);
 			}	
 		}
