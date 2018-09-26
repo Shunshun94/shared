@@ -49,10 +49,10 @@ io.github.shunshun94.trpg.discord.generateRoomsInfo = (client) => {
 	for(var serverId in client.servers) {
 		const server = client.servers[serverId];
 		for(var channelId in server.channels) {
-			var room = server.channels[channelId];
+			var room = client.channels[channelId];
 			if(room.type === 0) {
 				result.playRoomStates.push(
-						io.github.shunshun94.trpg.discord.generateRoomInfo(room, server.members, server.name)
+						io.github.shunshun94.trpg.discord.generateRoomInfo(room, client.members, server.name)
 				);
 			}	
 		}
@@ -79,6 +79,7 @@ io.github.shunshun94.trpg.discord.Server = class extends io.github.shunshun94.tr
 		super();
 		this.discord = io.github.shunshun94.trpg.discord.generateClient(token);
 		this.token = token;
+		this.platform = 'Discord';
 	}
 	
 	getRoom (room, dummy, opt_dicebot) {
@@ -100,7 +101,7 @@ io.github.shunshun94.trpg.discord.Room = class extends io.github.shunshun94.trpg
 		super();
 		this.discord = io.github.shunshun94.trpg.discord.generateClient(token);
 		this.roomId = roomId;
-		
+		this.platform = 'Discord';
 		this.dicebot = opt_dicebot || {rollDice: function(command) {
 			return new Promise(function(resolve, reject) {
 				resolve({ok: false, result: '',secret: false});

@@ -13,6 +13,7 @@ com.hiyoko.DodontoF.V2.versionName = 'あゆみ';
 
 com.hiyoko.DodontoF.V2.Server = function(url) {
 	this.url = com.hiyoko.DodontoF.V2.util.urlSuiter_(url);
+	this.platform = 'DodontoF';
 };
 
 com.hiyoko.DodontoF.V2.Room = function(url, room, opt_pass) {
@@ -21,6 +22,7 @@ com.hiyoko.DodontoF.V2.Room = function(url, room, opt_pass) {
 			room: room,
 			pass: opt_pass || ''
 	};
+	this.platform = 'DodontoF';
 };
 
 (function(tofServer){
