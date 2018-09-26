@@ -8,6 +8,7 @@ io.github.shunshun94.trpg.dummy = io.github.shunshun94.trpg.dummy || {};
 io.github.shunshun94.trpg.dummy.Server = class extends io.github.shunshun94.trpg.ClientInterface.Server {
 	constructor($dom, opts = {}) {
 		super();
+		this.platform = 'dummy';
 	}
 	
 	getRoomInfo(opt_requiredRoom = io.github.shunshun94.trpg.dummy.Server.SERVER_ROOM_DATA) {
@@ -59,6 +60,7 @@ io.github.shunshun94.trpg.dummy.Room = class extends io.github.shunshun94.trpg.C
 		super();
 		this.$html = $($dom);
 		this.id = this.$html.attr('id') || this.generateRandomId();
+		this.platform = 'dummy';
 		this.initiativeTable = {};
 		this.tableColumn = []; 
 		if(opts.dicebot) {
