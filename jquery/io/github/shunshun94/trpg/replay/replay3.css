@@ -1,3 +1,7 @@
+* {
+	box-sizing:border-box;
+}
+
 h1, h2, h3, h4, h5 {
 	width: 800px;
 	margin:auto;
@@ -34,6 +38,7 @@ sup:hover {
 }
 .tab1 {
 	background-color: #ffffe0;
+	font-size:70%;
 }
 .tab1:nth-child(even) {
 	background-color: #fffacd;
