@@ -1,3 +1,7 @@
+* {
+	box-sizing:border-box;
+}
+
 h1, h2, h3, h4, h5 {
 	width: 800px;
 	margin:auto;
@@ -8,6 +12,11 @@ h2, h3 {
 	border-bottom: black 3px double;
 	border-top: black 1px solid;
 }
+
+h4 {
+	border-bottom: black 3px double;
+}
+
 p {
 	margin-top:0px;
 	margin-bottom:0px;
