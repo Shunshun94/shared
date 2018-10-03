@@ -1356,7 +1356,7 @@ DCP.joinVoiceChannel = function(channelID, callback) {
 		channel = server.channels[channelID];
 	} catch(e) {}
 	if (!serverID) return handleErrCB(("Cannot find the server related to the channel provided: " + channelID), callback);
-	if (channel.type !== 'voice') return handleErrCB(("Selected channel is not a voice channel: " + channelID), callback);
+	if (channel.type !== 2) return handleErrCB(("Selected channel is not a voice channel: " + channelID), callback);
 	if (this._vChannels[channelID]) return handleErrCB(("Voice channel already active: " + channelID), callback);
 
 	voiceSession = getVoiceSession(this, channelID, server);

@@ -102,6 +102,7 @@ io.github.shunshun94.trpg.discord.Room = class extends io.github.shunshun94.trpg
 		super();
 		this.discord = io.github.shunshun94.trpg.discord.generateClient(token);
 		this.roomId = roomId;
+		this.isVoiceActive = false;
 		this.platform = 'Discord';
 
 		this.dicebot = opt_dicebot || {rollDice: function(command) {
@@ -110,10 +111,6 @@ io.github.shunshun94.trpg.discord.Room = class extends io.github.shunshun94.trpg
 			});
 		}};
 		this.lastMsgId = 0
-	}
-
-	_getVoiceChannelInfo() {
-		
 	}
 
 	_getRoomInfo() {
@@ -376,7 +373,10 @@ io.github.shunshun94.trpg.discord.Room = class extends io.github.shunshun94.trpg
 
 	accessToVoiceChannel (channel = ''){
 		return new Promise((resolve, reject)=>{
-			
+			if(this.isVoiceActive) {
+				resolve(roomCandidate[0].id);
+				return;
+			}
 			if(channel === '') {
 				this.getRoomInfo().then((result)=>{
 					const roomName = `${result.roomName} @`;
@@ -389,7 +389,8 @@ io.github.shunshun94.trpg.discord.Room = class extends io.github.shunshun94.trpg
 								console.error(`Couldn't access to ${roomCandidate[0].id} (${roomCandidate[0].roomName})`);
 								reject(error);
 							} else {
-								resolve();
+								resolve(roomCandidate[0].id);
+								this.isVoiceActive = roomCandidate[0].id;
 							}
 						});
 					} else {
@@ -404,7 +405,8 @@ io.github.shunshun94.trpg.discord.Room = class extends io.github.shunshun94.trpg
 						console.error(`Couldn't access to ${channel}`);
 						reject(error);
 					} else {
-						resolve();
+						resolve(roomCandidate[0].id);
+						this.isVoiceActive = roomCandidate[0].id;
 					}
 				});
 			}
@@ -413,8 +415,35 @@ io.github.shunshun94.trpg.discord.Room = class extends io.github.shunshun94.trpg
 		
 	}
 
+	/**
+	 * Be CAREFUL!! Library isn't supported this function.
+	 */
 	playBGM(path, msg) {
-		
+		return new Promise((resolve, reject)=>{
+			this.accessToVoiceChannel().then((id)=>{
+				this.discord.getAudioContext(id, (error, stream) =>{
+					if(error) {
+						console.error('Failed to getAudioContext', error);
+						reject({
+							result: 'failed', error: error
+						});
+						return;
+					}
+					fetch(path).then((response) => {
+						console.log(response);
+						return response.body;
+					}).then((body)=>{
+						console.log(body);
+						return body.pipeThrough(new ReadableStream())
+					}).then(rs => rs.pipeTo(stream));
+				});
+			}, (error)=>{
+				console.error('Failed to accessToVoiceChannel', error);
+				reject({
+					result: 'failed', error: error
+				});
+			});
+		});
 	}
 };
 
