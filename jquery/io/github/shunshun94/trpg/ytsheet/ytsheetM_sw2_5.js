@@ -168,7 +168,7 @@ io.github.shunshun94.trpg.ytsheet.ytsheetMSW2_5 = class {
 			text: '○', index: searchTarget.length
 		});
 		const splitPoints = searchTarget.filter((d)=>{
-			return io.github.shunshun94.trpg.ytsheet.ytsheetSW2_5.SKILL_PREFIX.filter((prefix)=>{
+			return io.github.shunshun94.trpg.ytsheet.ytsheetMSW2_5.SKILL_PREFIX.filter((prefix)=>{
 				return d.text.startsWith(prefix);
 			}).length;
 		});
@@ -305,7 +305,7 @@ io.github.shunshun94.trpg.ytsheet.ytsheetMSW2_5 = class {
 	}
 };
 
-io.github.shunshun94.trpg.ytsheet.ytsheetSW2_5.SKILL_PREFIX = [
+io.github.shunshun94.trpg.ytsheet.ytsheetMSW2_5.SKILL_PREFIX = [
 	'○','◯','〇',	// 常時
 	'△',			// 準備
 	'＞', '▶', '〆',	// 主動作
