@@ -13,7 +13,7 @@
 <script src='../jquery/com/hiyoko/util/v2/utils.js'></script>
 <script src="../jquery/io/github/shunshun94/trpg/ytsheet/ytsheetM_sw2_5.js"></script>
 <script>
-const client = new io.github.shunshun94.trpg.ytsheet.ytsheetSW2_5(true);
+const client = new io.github.shunshun94.trpg.ytsheet.ytsheetMSW2_5(true);
 const savedList = client.getSaveData();
 for(var key in savedList) {
 	$('#list').append(`<option value="${savedList[key]}">${key}</option>`);

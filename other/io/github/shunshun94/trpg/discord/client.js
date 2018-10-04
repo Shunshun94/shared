@@ -36,11 +36,12 @@ io.github.shunshun94.trpg.discord.generateRoomInfo = (rawData, memberList = {}, 
 		game: 'unsupported',
 		outerImage: true,
 		visit: false,
+		server: rawData.guild_id,
 		result: 'OK'
 	};
 };
 
-io.github.shunshun94.trpg.discord.generateRoomsInfo = (client) => {
+io.github.shunshun94.trpg.discord.generateRoomsInfo = (client, roomType = 0) => {
 	var result = {
 		result: 'OK',
 		playRoomStates: []
@@ -50,7 +51,7 @@ io.github.shunshun94.trpg.discord.generateRoomsInfo = (client) => {
 		const server = client.servers[serverId];
 		for(var channelId in server.channels) {
 			var room = server.channels[channelId];
-			if(room.type === 0) {
+			if(room.type === roomType) {
 				result.playRoomStates.push(
 						io.github.shunshun94.trpg.discord.generateRoomInfo(room, server.members, server.name)
 				);
@@ -60,13 +61,13 @@ io.github.shunshun94.trpg.discord.generateRoomsInfo = (client) => {
 	return result;
 };
 
-io.github.shunshun94.trpg.discord.flattenRoomList = (client) => {
+io.github.shunshun94.trpg.discord.flattenRoomList = (client, roomType = 0) => {
 	var result = {};
 	for(var serverId in client.servers) {
 		const server = client.servers[serverId];
 		for(var channelId in server.channels) {
 			var room = server.channels[channelId];
-			if(room.type === 0) {
+			if(room.type === roomType) {
 				result[channelId] = room;
 			}	
 		}
@@ -101,7 +102,9 @@ io.github.shunshun94.trpg.discord.Room = class extends io.github.shunshun94.trpg
 		super();
 		this.discord = io.github.shunshun94.trpg.discord.generateClient(token);
 		this.roomId = roomId;
+		this.isVoiceActive = false;
 		this.platform = 'Discord';
+
 		this.dicebot = opt_dicebot || {rollDice: function(command) {
 			return new Promise(function(resolve, reject) {
 				resolve({ok: false, result: '',secret: false});
@@ -109,7 +112,7 @@ io.github.shunshun94.trpg.discord.Room = class extends io.github.shunshun94.trpg
 		}};
 		this.lastMsgId = 0
 	}
-	
+
 	_getRoomInfo() {
 		const list = io.github.shunshun94.trpg.discord.flattenRoomList(this.discord);
 		return io.github.shunshun94.trpg.discord.flattenRoomList(this.discord)[this.roomId];
@@ -202,9 +205,8 @@ io.github.shunshun94.trpg.discord.Room = class extends io.github.shunshun94.trpg
 		} else {
 			return this.getLatestChat();
 		}
-
 	}
-	
+
 	getRoomInfo () {
 		return new Promise((resolve, reject) => {
 			const room = this._getRoomInfo();
@@ -366,6 +368,81 @@ io.github.shunshun94.trpg.discord.Room = class extends io.github.shunshun94.trpg
 			}, (error) => {reject({
 				result: error
 			})});
+		});
+	}
+
+	accessToVoiceChannel (channel = ''){
+		return new Promise((resolve, reject)=>{
+			if(this.isVoiceActive) {
+				resolve(roomCandidate[0].id);
+				return;
+			}
+			if(channel === '') {
+				this.getRoomInfo().then((result)=>{
+					const roomName = `${result.roomName} @`;
+					const roomCandidate = io.github.shunshun94.trpg.discord.generateRoomsInfo(this.discord, 2).playRoomStates.filter((room)=>{
+						return (result.server === room.server) && (room.roomName.startsWith(roomName)); 
+					});
+					if(roomCandidate.length) {
+						this.discord.joinVoiceChannel(roomCandidate[0].id ,(error, result)=>{
+							if(error) {
+								console.error(`Couldn't access to ${roomCandidate[0].id} (${roomCandidate[0].roomName})`);
+								reject(error);
+							} else {
+								resolve(roomCandidate[0].id);
+								this.isVoiceActive = roomCandidate[0].id;
+							}
+						});
+					} else {
+						reject(`The voice channel is not found. Is the voice channel named "${result.roomName}" is exist in server?`);
+					}
+				}, (error)=>{
+					reject(error);
+				});
+			} else {
+				this.discord.joinVoiceChannel(channel ,(error, result)=>{
+					if(error) {
+						console.error(`Couldn't access to ${channel}`);
+						reject(error);
+					} else {
+						resolve(roomCandidate[0].id);
+						this.isVoiceActive = roomCandidate[0].id;
+					}
+				});
+			}
+		});
+
+		
+	}
+
+	/**
+	 * Be CAREFUL!! Library isn't supported this function.
+	 */
+	playBGM(path, msg) {
+		return new Promise((resolve, reject)=>{
+			this.accessToVoiceChannel().then((id)=>{
+				this.discord.getAudioContext(id, (error, stream) =>{
+					if(error) {
+						console.error('Failed to getAudioContext', error);
+						reject({
+							result: 'failed', error: error
+						});
+						return;
+					}
+					fetch(path).then((response) => {
+						console.log(response);
+						return response.body;
+					}).then((body)=>{
+						console.log(body);
+						return body.pipeThrough(new ReadableStream())
+					}).then(rs => rs.pipeTo(stream));
+				});
+			}, (error)=>{
+				console.error('Failed to accessToVoiceChannel', error);
+				reject({
+					result: 'failed', error: error
+				});
+			});
 		});
 	}
 };

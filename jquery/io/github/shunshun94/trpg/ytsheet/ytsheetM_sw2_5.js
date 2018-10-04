@@ -3,7 +3,7 @@ io.github = io.github || {};
 io.github.shunshun94 = io.github.shunshun94 || {};
 io.github.shunshun94.trpg = io.github.shunshun94.trpg || {};
 io.github.shunshun94.trpg.ytsheet = io.github.shunshun94.trpg.ytsheet || {};
-io.github.shunshun94.trpg.ytsheet.ytsheetSW2_5 = class {
+io.github.shunshun94.trpg.ytsheet.ytsheetMSW2_5 = class {
 	constructor(autokeep = false) {
 		this.autoKeep = autokeep;
 	}
