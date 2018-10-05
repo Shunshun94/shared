@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Discord の Bot を作ろう！</title>
+<link rel="stylesheet" href="https://shunshun94.github.io/shared/jquery/io/github/shunshun94/trpg/replay/replay4.css" type="text/css" />
+<style>
+	p {
+		text-indent: 1em;
+	}
+	code {
+		background-color: black;
+		color: white;
+		padding: 8px;
+	}
+	table, img {
+		margin: auto;
+	}
+	ol, ul, blockquote {
+		width: 800px;
+		margin: auto;
+	}
+	table {
+		margin-top: 8px;
+		margin-bottom: 8px;
+	}
+	blockquote {
+		border: inset 4px gray;
+		padding: 8px;
+	}
+	em {
+		color: blue;
+	}
+</style>
+</head>
+<body>
+<header>
+<p>書いた人: <a href="https://twitter.com/Shunshun94">@Shunshun94</a></p>
+</header>
+<h1>Discord の Bot を作ろう！</h1>
+<h2>目次</h2>
+<h3>このページで説明すること</h3>
+<p><a href="#WhatIs">Discord の Bot アカウントとは何か、Token とは何か</a></p>
+<p><a href="#HowToCreate">Discord の Bot アカウントをどのようにして作成するのか</a></p>
+<p><a href="#HowToAdd">自分で作った Bot アカウントをサーバに招待してもらう方法</a></p>
+<p><a href="#HowToGet">Discord の Bot アカウントの Token の取得方法</a></p>
+<p><a href="#WhatRisk">Discord の Bot アカウントの Token を管理する際の注意点と対応</a></p>
+<p><a href="#cm">宣伝</a></p>
+<h3>このページで説明しないこと</h3>
+<p>Discord に自分のアカウントを作る方法</p>
+<p>Discord の Bot アカウントおよび Token を使ったアプリの作り方</p>
+
+<h2 id="WhatIs">Discord の Bot アカウントとは何か、Token とは何か</h2>
+
+<table border="1">
+<caption>普通のアカウントと Bot アカウント</caption>
+<tr>
+	<th>アカウントの種類</th>
+	<th>誰が使う</th>
+	<th>使うために必要な秘密の情報</th>
+</tr>
+<tr>
+	<td>普通のアカウント</td>
+	<td>人間</td>
+	<td>パスワード (と ID)</td>
+</tr>
+<tr>
+	<td>Bot アカウント</td>
+	<td>プログラム</td>
+	<td>Token</td>
+</tr>
+</table>
+
+<p>Discord を利用するにはアカウントを作ります。
+この作ったアカウントは一般には人間が ID とパスワードを入力し、ログインして利用します。</p>
+<p>しかし、人間ではなくプログラムも同様に Discord を利用することが可能です。この際に使うアカウントが Bot アカウントです。
+プログラムは Bot アカウントにログインするために Token を使います。</p>
+<p>これから説明する手順はこの Bot アカウントの作り方と Token の入手方法を説明するものです。</p>
+
+<h2 id="HowToCreate">Discord の Bot アカウントをどのようにして作成するのか</h2>
+<p>Bot アカウントを作るには以下の2ステップを踏みます。</p>
+<ol>
+	<li>アプリケーションを作る (とはいえ、プログラムを書く必要はありません！)</li>
+	<li>Bot を作る</li>
+</ol>
+<h3>アプリケーションを作る</h3>
+<p><a href="https://discordapp.com/developers/applications/">Discord の DEVELOPER PORTAL (リンク先は英語)</a> にまずはアクセスします。
+ログインしていなければログインを求められるのでログインしてください。
+ログイン後、英語のページが出てきますが、スパムサイトではないので進みます。<br/><img src="./img/discordBot_101_BotCreation01.png" width="400" height="240" /></p>
+<p>上手くいけば上のような画面が出てくるはずなので、My Application の下にある <strong>Create an Application</strong> をクリックしてください。以下の画面にジャンプするはずです。
+<br/><img src="./img/discordBot_101_BotCreation02.png" width="400" height="300" /></p>
+<p>これでアプリケーションが作成できました。
+これだけではさみしいので <strong>APP ICON</strong> の下に書かれた MA のマークをクリックし、画像をアップロードしてアプリケーションのアイコンとしてください。
+また、<strong>NAME</strong> の下に書かれた <q>My Application</q> も編集し、何か名前をつけてあげましょう。
+ただ、このアイコンは Bot アカウントのアイコンになるわけではなく、名前も Bot アカウントの名前になるわけではないので面倒ならスキップして大丈夫です。</p>
+<p><a href="https://discordapp.com/developers/applications/">Discord の DEVELOPER PORTAL</a> に再度アクセスすると、
+設定したアイコンと名前がページに追加されているはずです。アイコンと名前を設定したら確認してみましょう。
+ここで追加されたアプリケーションをクリックすることで再度設定画面にアクセスすることができます。</p>
+
+<h3>Bot アカウントを作る</h3>
+<p>いよいよ本丸です。先にアプリケーションを作った画面の左側に <strong>Bot</strong> と書かれている場所があります。これをクリックしてください。
+<br/><img src="./img/discordBot_101_BotCreation03.png" width="400" height="300" /><br/>
+次のような画面が出てきたはずです。画面右側に <strong>Add Bot</strong> と書かれたボタンがありますね。これをクリックします。
+<br/><img src="./img/discordBot_101_BotCreation04.png" width="400" height="220" /></p>
+<p>Add Bot を押すと以下のような警告が出てきます。ざっと訳すと以下のような意味になります。
+<br/><img src="./img/discordBot_101_BotCreation05.png" width="300" height="100" /></p>
+<blockquote>このアプリケーションに本当に Bot を追加しますか?<br/><br/>
+Bot を追加すればあなたのアプリケーションは Discord の中で生きて働くことができるようになります。
+でも、Bot の追加は取り消せません。よくよく考えて決めてください。</blockquote>
+<p><strong>Yes, do it!</strong> をクリックし、 Bot を作成します。
+<br/><img src="./img/discordBot_101_BotCreation06.png" width="500" height="284" /><br/>
+アプリケーションと同じ要領で <strong>ICON と USERNAME</strong> を設定しましょう。
+これらは実際に Bot アカウントのアイコンとユーザ名として使われるため、きちっと設定してください
+<span class="note">ただし、後から変えられるので難しかったら「(自分の名前)bot」とかにしてアイコンもデフォルトで構いません</span>。
+変更を行うと画面下部に <q>Careful — you have unsaved changes!</q>と表示されます。
+「まだ保存していない変更がありますよ」という意味であり、その右側にある <strong>Save Changes</strong>　をクリックすれば変更が保存されます。</p>
+<p>あとで Bot の設定を変更する場合は
+<a href="https://discordapp.com/developers/applications/">Discord の DEVELOPER PORTAL</a>
+からアプリケーションを開き、先と同じように画面左部のメニューより Bot を開いてください。</p>
+
+<h2 id="HowToAdd">自分で作った Bot アカウントをサーバに招待してもらう方法</h2>
+<p>Bot アカウントは通常のアカウントと同様にサーバに招待してもらわなければ利用できません。
+Bot アカウントを招待してもらうには <strong>アプリケーションの Client ID</strong> が必要です。
+この Client ID はアプリケーションを作った時点で発行されているため、新規で作る必要はありません。
+ただ、アプリケーションの管理画面でメモしてくる必要があります。</p>
+<p><a href="https://discordapp.com/developers/applications/">Discord の DEVELOPER PORTAL</a> から
+自分のアプリケーションの画面を開きましょう。
+<br/><img src="./img/discordBot_101_BotCreation02.png" width="400" height="300" /></p>
+<p><strong>CLIENT ID</strong> と書かれたところに何桁かの数字があるのが確認できるかと思います。
+この例示された画像では 497813618159779890 となっています。これが Client ID です。
+Client ID すぐ下の <strong>Copy</strong> をクリックすれば Client ID をコピーできますし、ドラッグしてコピーしてもかまいません。</p>
+<p>あなたの Bot をサーバに招待するための準備をしましょう。先ほど入手した Client ID を以下の入力欄に入力してください。<br/>
+<input id="clientId" type="text" /><br/>
+<code id="requestUrl"></code><br/>
+この URL にアクセスすればあなたの Bot をサーバに招待できます。あなたが管理しているサーバがあるのであれば、さっそく試してみてください。<br/>
+あなたがどこかのサーバにあなたの Bot を招待してほしいのであれば、この URL をそのサーバの管理者に共有してあげてください。</p>
+
+<h2 id="HowToGet">Discord の Bot アカウントの Token の取得方法</h2>
+<p>大体の Discord Bot アプリケーションは Bot アカウントの Token を必要とします。
+Token とはなんだったのでしょうか。Bot アカウントの秘密の鍵でしたね。</p>
+<p>Token を入手するには Bot の管理画面にアクセスします。
+<br/><img src="./img/discordBot_101_BotCreation06.png" width="500" height="284" /><br/>
+<strong>Token</strong> と書かれているのが見えるでしょうか。上のサンプル画像だと USERNAME の直下です。
+TOKEN 下の COPY をクリックすれば Token がコピーできます。
+また、<strong>Click to Reveal Token</strong> をクリックすることでも Token が確認できます。</p>
+
+<h2 id="WhatRisk">Discord の Bot アカウントの Token を管理する際の注意点と対応</h2>
+<p>あなたのアカウントの秘密の鍵がパスワードであるように Bot アカウントの秘密の鍵が Token です。
+Bot アカウントの <strong>Token はみだりに人に共有しない</strong>ようにしてください。
+あなたの Bot アカウントの Token を知ったクラッカー<span class="note">悪意を持ったハッカーのことをクラッカーと呼ぶ</span>は
+たちまちあなたの Bot アカウントを使って悪さをするでしょう。<em>Discord 強く推薦レイバンのサングラス！特化優遇2499円！</em></p>
+<p>Token が漏洩してしまった場合はどうすればよいでしょうか。Token を変更しましょう。
+Bot の管理画面を開き、 TOKEN 直下の <strong>Regenerate</strong>をクリックします。
+これで Token が変更されます。すでに漏洩している Token はもはや利用できません。
+<br/><img src="./img/discordBot_101_BotCreation06.png" width="500" height="284" /></p>
+
+<h2 id="cm">宣伝</h2>
+<p>以下は全て私の作った Discord の Bot アカウントと Token を使って動作するアプリです。作った Bot の試用にどうぞ。</p>
+<p><a href="https://shunshun94.github.io/shared/sample/discordLogPicker.html">Discord Log Picker</a>は 
+Discord のチャットログを収集してくれるツールです。</p>
+<p><a href="https://shunshun94.github.io/discord-bcdicebot/index.html">discord-bcdicebot</a> は
+Discord 上で BCDice (どどんとふのダイス Bot) を使えるようにするプログラムです。</p>
+<p>また、ソードワールド2.0/2.5 用ツール <a href="http://shunshun94.web.fc2.com/sweet/">SWEET</a> と
+<a href="http://shunshun94.web.fc2.com/sweet/player.html">そどわに判定てんぷれ～つ2</a>は
+同ゲームをスムーズに進めるために作られたアプリです。</p>
+<p>ダブルクロス The 3rd Edition 用に同じようにゲームの進行をスムーズにするために作られた
+<a href="http://shunshun94.web.fc2.com/dx3/main/">D.Crescent</a> というアプリもあります。</p>
+<p>いずれにしろとりあえず試してみることはできるので興味があれば使ってみていただければ。</p>
+
+<footer>
+<p>2018年10月06日掲載</p>
+</footer>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<script src="https://shunshun94.github.io/shared/jquery/io/github/shunshun94/trpg/replay/replayV3.js"></script>
+<script>
+new io.github.shunshun94.trpg.ReplayV3();
+$('#clientId').change((e)=>{
+	$('#requestUrl').text(`https://discordapp.com/oauth2/authorize?client_id=${$('#clientId').val()}&scope=bot&permissions=0`);
+});
+</script>
+</body>
+</html>
