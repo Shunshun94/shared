@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<div id="base" style="height:100%;"><p>ここにデータを drag &amp; drop<p>
+<p><a href="https://github.com/nodeca/js-yaml">js-yaml</a> と <a href="https://jquery.com/">jQuery</a>、<a href="https://github.com/polygonplanet/encoding.js">encoding.js</a> を使用。どれも MIt ライセンス。<br/>
+<a href="https://s8a.jp/jquery-text-with-lf">https://s8a.jp/jquery-text-with-lf</a> の textWithLF を使用。</p>
+<pre id="base-result"></pre>
+</div>
+<script src="http://shunshun94.web.fc2.com/lib/encoding.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/js-yaml/3.4.2/js-yaml.min.js'></script>  
+<script>
+//From https://s8a.jp/jquery-text-with-lf
+(function(r){function l(a){return b(a,c,t,function(a){return u[a]})}function m(a){return b(a,f,v,function(a){return w[a]})}function b(a,b,d,e){return a&&d.test(a)?a.replace(b,e):a}function d(a){if(null==a)return"";if("string"==typeof a)return a;if(Array.isArray(a))return a.map(d)+"";var b=a+"";return"0"==b&&1/a==-(1/0)?"-0":b}var u={"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"},c=/[&<>"']/g,t=new RegExp(c.source),w={"&amp;":"&","&lt;":"<","&gt;":">","&quot;":'"',"&#39;":"'"},f=/&(?:amp|lt|gt|quot|#39);/g,
+	v=new RegExp(f.source),e=/<(?:.|\n)*?>/mg,n=new RegExp(e.source),g=/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g,p=new RegExp(g.source),h=/<br\s*\/?>/mg,q=new RegExp(h.source);r.fn.textWithLF=function(a){var c=typeof a;return"undefined"==c?m(b(b(this.html(),h,q,"\n"),e,n,"")):this.html("function"==c?function(c,f){var k=a.call(this,c,m(b(b(f,h,q,"\n"),e,n,"")));return"undefined"==typeof k?k:b(l(d(k)),g,p,"$1<br>")}:b(l(d(a)),g,p,"$1<br>"))}})(jQuery);
+
+var fileReader = new FileReader();
+fileReader.onload = (e) => {
+	// http://polygonplanet.github.io/encoding.js/tests/detect-file-encoding.html
+	const codes = new Uint8Array(fileReader.result);
+	const rawString = Encoding.convert(codes, {
+		to: 'unicode',
+		from: Encoding.detect(codes),
+		type: 'string'
+	});
+	try {
+		const json = JSON.stringify(jsyaml.load(rawString), null, '  ');
+		$('#base-result').textWithLF(json);
+	} catch(err) {
+		console.error(err);
+	}
+};
+$('#base').on('drop', function(e) {
+	$('#base').css('background-color', 'white');
+	fileReader.readAsArrayBuffer(e.originalEvent.dataTransfer.files[0]);
+	e.preventDefault();
+});
+$('#base').on('dragleave', function(e) {
+	$('#base').css('background-color', 'white');
+});
+$('#base').on('dragover', function(e) {
+	$('#base').css('background-color', 'lightyellow');
+	e.preventDefault();
+});
+</script>
+</body>
+</html>
