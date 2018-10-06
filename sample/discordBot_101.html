@@ -51,7 +51,7 @@
 <p>Discord の Bot アカウントおよび Token を使ったアプリの作り方</p>
 
 <h2 id="WhatIs">Discord の Bot アカウントとは何か、Token とは何か</h2>
-
+<p>Bot アカウントはプログラムが使う Discord のアカウントであり、Token は Bot アカウントが使うパスワードです。</p>
 <table border="1">
 <caption>普通のアカウントと Bot アカウント</caption>
 <tr>
@@ -80,8 +80,8 @@
 <h2 id="HowToCreate">Discord の Bot アカウントをどのようにして作成するのか</h2>
 <p>Bot アカウントを作るには以下の2ステップを踏みます。</p>
 <ol>
-	<li>アプリケーションを作る (とはいえ、プログラムを書く必要はありません！)</li>
-	<li>Bot を作る</li>
+	<li><a href="https://discordapp.com/developers/applications/">Discord の DEVELOPER PORTAL</a> からアプリケーションを作る (とはいえ、プログラムを書く必要はありません！)</li>
+	<li>Bot アカウントを作る</li>
 </ol>
 <h3>アプリケーションを作る</h3>
 <p><a href="https://discordapp.com/developers/applications/">Discord の DEVELOPER PORTAL (リンク先は英語)</a> にまずはアクセスします。
@@ -130,7 +130,7 @@ Bot アカウントを招待してもらうには <strong>アプリケーショ�
 この例示された画像では 497813618159779890 となっています。これが Client ID です。
 Client ID すぐ下の <strong>Copy</strong> をクリックすれば Client ID をコピーできますし、ドラッグしてコピーしてもかまいません。</p>
 <p>あなたの Bot をサーバに招待するための準備をしましょう。先ほど入手した Client ID を以下の入力欄に入力してください。<br/>
-<input id="clientId" type="text" /><br/>
+<input placeholder="Client Id をここに入力" id="clientId" type="text" /><br/>
 <code id="requestUrl"></code><br/>
 この URL にアクセスすればあなたの Bot をサーバに招待できます。あなたが管理しているサーバがあるのであれば、さっそく試してみてください。<br/>
 あなたがどこかのサーバにあなたの Bot を招待してほしいのであれば、この URL をそのサーバの管理者に共有してあげてください。</p>
@@ -141,7 +141,7 @@ Token とはなんだったのでしょうか。Bot アカウントの秘密の�
 <p>Token を入手するには Bot の管理画面にアクセスします。
 <br/><img src="./img/discordBot_101_BotCreation06.png" width="500" height="284" /><br/>
 <strong>Token</strong> と書かれているのが見えるでしょうか。上のサンプル画像だと USERNAME の直下です。
-TOKEN 下の COPY をクリックすれば Token がコピーできます。
+TOKEN 下の <strong>COPY</strong> をクリックすれば Token がコピーできます。
 また、<strong>Click to Reveal Token</strong> をクリックすることでも Token が確認できます。</p>
 
 <h2 id="WhatRisk">Discord の Bot アカウントの Token を管理する際の注意点と対応</h2>
