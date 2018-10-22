@@ -16,7 +16,9 @@ Discord の部屋 ID: <input id="args-room" type="text" v-bind:value="room" /></
 	<div id="dicebots-list">
 		<ul>
 			<li><button id="dicebots-list" @click="addBot">ダイスボットを新規作成する</button></li>
-			<dicebot-item v-for="item in dicebots"  v-bind:dicebot="item"></dicebot-item>
+			<dicebot-item 
+				v-for="item in dicebots"  v-bind:dicebot="item"
+				v-on:dicebot-item-select="selectBot"></dicebot-item>
 		</ul>
 	</div>
 	<div id="dicebots-editor">
@@ -37,55 +39,10 @@ Discord の部屋 ID: <input id="args-room" type="text" v-bind:value="room" /></
 <script src="../../../../../../../other/io/github/shunshun94/trpg/clientSpec.js"></script>
 <script src="../../../../../../../other/io/github/shunshun94/trpg/discord/client.js"></script>
 <script src="./dicebotsUtil.js"></script>
+<script src="./dicebotEditor.js"></script>
 <script src="./dicebot.js"></script>
+<script src="./dicebots.js"></script>
 <script>
-const savedDiceBots = localStorage.getItem('io-github-shunshun94-trpg-sample-discord-dicebot-dicebots');
-const diceBots = new Vue({
-	el: '#dicebots-list',
-	data: {
-		dicebots: savedDiceBots ? JSON.parse(savedDiceBots) : [dicebotGenerator()]
-	},
-	components: {
-		dicebot_item
-	},
-	methods: {
-		selectBot: function(val) {
-			console.log(val);
-		},
-		addBot: function() {
-			this.dicebots.push({
-				title: '新しいダイスボット',
-				command: `newDiceBot_${com.hiyoko.util.rndString(6)}`,
-				dice: '2d6',
-				tableRaw: [2,3,4,5,6,7,8,9,10,11,12].map((d)=>{return `${d}:出目${d}の時の結果`}).join('\n')
-			});
-		}
-	}
-});
-
-const diceBotEditor = new Vue({
-	el: '#dicebots-editor',
-	data: {
-		title: '',
-		command: '',
-		dice: '',
-		tableRaw: ''
-	}
-});
-
-
-
-
-
-
-
-
-
-/**
- * 
-
- */
-
 
 const $console = $('#console');
 

@@ -24,6 +24,7 @@
 		<option>D</option>
 	</select>: {{selected}} is SELECTED.</p>
 	<p v-on:click="count+=1">クリックされた回数: {{count}}</p>
+	<p><button>event trial</button></p>
 	<p>message: {{ message }}</p>
 	<p v-bind:title="message">title 属性をふにゃふにゃしてる。カーソルを合わせて確認だ</p>
 	<p>次の何かは visible == true じゃないと不可視だ: <span v-if="visible">めぇ！</span></p>
@@ -35,7 +36,7 @@
 	<button v-on:click="onClick">クリックすると</button>
 	<p>message の内容：<input v-model="message" type="text" /></p>
 	<ol>
-		<hiyoko-list-item v-for="item in birds" v-bind:bird="item" :key="item.id"></hiyoko-list-item>
+		<hiyoko-list-item v-for="item in birds" v-bind:bird="item" :key="item.id" v-on:on-click-bird="message=$event"></hiyoko-list-item>
 	</ol>
 </div>
 <div id="profile1">name: {{name}}</div>
@@ -47,7 +48,7 @@
 <script>
 Vue.component('hiyoko-list-item', {
 	props: ['bird'],
-	template: `<li v-on:onClickBird="count++"><button v-on:click="$emit('onClickBird')">{{ bird.name }}</button></li>`
+	template: `<li><button v-on:click="$emit('on-click-bird', bird.name)">{{ bird.name }}</button></li>`
 });
 
 const app1 = new Vue({
@@ -74,6 +75,9 @@ const app1 = new Vue({
 	methods: {
 		onClick: function() {
 			this.message = prompt('message の内容を入力');
+		},
+		eventFire: function() {
+			const event = this.$emit('event-fire');
 		}
 	},
 	computed: {
