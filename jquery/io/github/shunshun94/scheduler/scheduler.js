@@ -29,21 +29,16 @@ io.github.shunshun94.scheduler.Scheduler = class {
 	
 	addScheduleByDate(date) {
 		const lastId = /(\d\d\d\d+)-(\d+)-(\d+)/.exec($(date).attr('id'));
-		const baseDateMorning = new Date(Number(lastId[1]), Number(lastId[2]), Number(lastId[3]));
-		const baseDateNight = new Date(Number(lastId[1]), Number(lastId[2]), Number(lastId[3]) + 1);
-		const baseYear = baseDateMorning.getFullYear();
-		const baseMonth = baseDateMorning.getMonth();
-		const baseDay = baseDateMorning.getDate();
-		const targetSchedules = this.getSchedules().filter((schedule) => {
-			return	(baseDateMorning < schedule.prepare && baseDateNight > schedule.prepare) || 
-					(baseDateMorning < schedule.tidyUp && baseDateNight > schedule.tidyUp);
-		});
-		if(targetSchedules.length) {
-			alert(`In ${baseYear}/${baseMonth + 1}/${baseDay}, ${targetSchedules[0].label} is places. Use separation to add more schedules.`);
-			console.warn(`In ${baseYear}/${baseMonth + 1}/${baseDay}, ${targetSchedules[0].label} is places. Use separation to add more schedules.`, targetSchedules);
+		const baseDate = new Date(Number(lastId[1]), Number(lastId[2]), Number(lastId[3]));
+		const baseHead = Number(new Date(Number(lastId[1]), Number(lastId[2]), Number(lastId[3]), 8));
+		const baseTail = Number(new Date(Number(lastId[1]), Number(lastId[2]), Number(lastId[3]), 14, 30));
+		const schedules = this.getSchedulesByDate(baseDate);
+		const coveredScheduels = this.getCovereredSchedules(schedules, baseHead, baseTail);
+		if(coveredScheduels.length) {
+			alert(`In ${baseYear}/${baseMonth + 1}/${baseDay}, ${coveredScheduels[0].label} is places. Use separation to add more schedules.`);
+			console.warn(`In ${baseYear}/${baseMonth + 1}/${baseDay}, ${coveredScheduels[0].label} is places. Use separation to add more schedules.`, targetSchedules);
 			return;
 		}
-		
 		const schedule = this.appendable(io.github.shunshun94.scheduler.Scheduler.rndString(),
 				'10:00 ～ 14:00',
 				new Date(Number(lastId[1]), Number(lastId[2]), Number(lastId[3]), 10),
@@ -427,14 +422,50 @@ io.github.shunshun94.scheduler.Scheduler = class {
 		});
 	}
 	
+	getSchedulesByDate(date) {
+		let result = [];
+		const baseYear = date.getFullYear();
+		const baseMonth = date.getMonth();
+		const baseDay = date.getDate();
+		const existSchedulesDom = $(`#${this.id}-date-${baseYear}-${baseMonth}-${baseDay}-scheduleColumn > .${this.id}-date-scheduleColumn-schedule`);
+		existSchedulesDom.each((i, v)=>{
+			result.push(this.schedules[$(v).attr('id').split('-').slice(0, -1).join('-')]);
+		});
+		return result;
+	}
+	
+	getCovereredSchedules(schedules, baseHead, baseTail) {
+		return schedules.filter((schedule, i)=>{
+			if(schedule.tidyUp > baseHead && schedule.tidyUp < baseTail) {
+				return true;
+			}
+			if(schedule.prepare > baseHead && schedule.prepare < baseTail) {
+				return true;
+			}
+			if(schedule.prepare < baseHead && schedule.tidyUp > baseTail) {
+				return true;
+			}
+			return false;
+		});
+	}
+	
 	generateAddSchedulePopupMenu(date) {
 		const baseYear = date.getFullYear();
 		const baseMonth = date.getMonth();
 		const baseDay = date.getDate();
 		$(`#${this.id}-date-${baseYear}-${baseMonth}-${baseDay}-scheduleColumn`).mouseover((e) => {
-			if(	$(`#${this.id}-date-${baseYear}-${baseMonth}-${baseDay}-scheduleColumn > .${this.id}-date-scheduleColumn-schedule-dummy`).length ||
-				$(`#${this.id}-date-${baseYear}-${baseMonth}-${baseDay}-scheduleColumn > .${this.id}-date-scheduleColumn-schedule`).length) {
+			if(	$(`#${this.id}-date-${baseYear}-${baseMonth}-${baseDay}-scheduleColumn > .${this.id}-date-scheduleColumn-schedule-dummy`).length ) {
 				return;
+			}
+			const existSchedules = $(`#${this.id}-date-${baseYear}-${baseMonth}-${baseDay}-scheduleColumn > .${this.id}-date-scheduleColumn-schedule`);
+			if( existSchedules.length ) {
+				const baseHead = Number(new Date(baseYear, baseMonth, baseDay, 8));
+				const baseTail = Number(new Date(baseYear, baseMonth, baseDay, 14, 30));
+				const schedules = this.getSchedulesByDate(date);
+				const coveredScheduels = this.getCovereredSchedules(schedules, baseHead, baseTail);
+				if(coveredScheduels.length) {
+					return;
+				}
 			}
 			$(`.${this.id}-date-scheduleColumn-schedule-dummy`).remove();
 			$(e.target).append(this.dummyAppendSchedule);
