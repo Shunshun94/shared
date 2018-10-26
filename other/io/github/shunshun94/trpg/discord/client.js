@@ -182,6 +182,30 @@ io.github.shunshun94.trpg.discord.Room = class extends io.github.shunshun94.trpg
 			});
 		});
 	}
+	
+	getChatBefore (opt_from) {
+		if(opt_from) {
+			return new Promise((resolve, reject) => {
+				this.discord.getMessages({
+					channelID: this.roomId, before: opt_from, limit: 100
+				}, (err, array) => {
+					if(err) {
+						reject({result: err});
+					} else {
+						resolve({
+							result: 'OK',
+							chatMessageDataLog: this.convertRawMessage(array)
+						});
+						if(array.length) {
+							this.lastMsgId = array[0].id;
+						}
+					}
+				});
+			});
+		} else {
+			return this.getLatestChat();
+		}
+	}
 
 	getChat (opt_from) {
 		if(opt_from) {
