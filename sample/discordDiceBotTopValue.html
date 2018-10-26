@@ -13,14 +13,14 @@
 }
 </style>
 <meta charset="UTF-8">
-<title>Discord Log Picker</title>
+<title>Discord 達成値取得/ランキング</title>
 </head>
 <body>
 <div id="args">
 Discord Bot の Token: <input id="args-token" type="text" /><br/>
 Discord の部屋 ID: <input id="args-room" type="text" value="" /><br/>
 対象日付: <input id="args-date" type="text" value="" /><br/>
-<button id="args-exec">ログ取得開始</button>
+<button id="args-exec">達成値取得開始</button>
 </div>
 <pre id="console"></pre>
 
@@ -92,7 +92,6 @@ const report = (result, date, client) => {
 };
 
 const getMessageRecursively = (discordClient, start, end, from = false, retry=4) => {
-	console.log(steps, stack.length);
 	discordClient.getChatBefore(from).then((result)=>{
 		if(result.result === 'OK') {
 			if(result.chatMessageDataLog.length) {
@@ -147,13 +146,8 @@ $('#args-exec').click((e)=>{
 	$('#args-exec').hide();
 	setTimeout(()=>{
 		getMessageRecursively(discordClient, fromDate, byDate);
-	}, 3000)
-
-	
+	}, 3000);	
 });
-
-/*
-*/
 </script>
 
 </body>
