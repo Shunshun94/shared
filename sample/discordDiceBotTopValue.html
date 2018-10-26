@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+.info {
+  width: 20px;
+  height: 20px;
+  border-radius: 8px;
+  background-color: blue;
+  color: white;
+  display:inline-block;
+  text-align:center;
+}
+</style>
+<meta charset="UTF-8">
+<title>Discord Log Picker</title>
+</head>
+<body>
+<div id="args">
+Discord Bot の Token: <input id="args-token" type="text" /><br/>
+Discord の部屋 ID: <input id="args-room" type="text" value="" /><br/>
+対象日付: <input id="args-date" type="text" value="" /><br/>
+<button id="args-exec">ログ取得開始</button>
+</div>
+<pre id="console"></pre>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<script src="https://shunshun94.github.io/shared/jquery/com/hiyoko/util/v2/utils.js"></script>
+<script src="../external/discord.io/index.js"></script>
+<script src="../other/io/github/shunshun94/trpg/clientSpec.js"></script>
+<script src="../other/io/github/shunshun94/trpg/discord/client.js"></script>
+<script>
+const query = com.hiyoko.util.getQueries();
+let tokenList = JSON.parse(localStorage.getItem('io-github-shunshun94-trpg-discord-Entrance-Token-TokenList') || '[null]');
+const $console = $('#console');
+const today = new Date();
+
+com.hiyoko.DiscordDiceBotTopValue = {};
+com.hiyoko.DiscordDiceBotTopValue.STEPS = {
+		FINISHED: 0, INTERNAL: 1, BEFORE: 2
+};
+
+let steps = 0;
+let stack = [];
+
+$('#args-token').val(query.token || query.url || localStorage.getItem('io-github-shunshun94-trpg-discord-entry-token') || tokenList.reverse()[0] || '');
+$("#args-room").val(query.room || query.channel || '465657256894136331');
+$("#args-date").val((query.date ? new Date(query.date) : new Date(today.getFullYear(), today.getMonth(), today.getDate(), today.getHours() - 6)).toLocaleDateString());
+
+const isInternal = (msg, start, end) => {
+	return (msg[0] >= start && msg[0] <= end);
+};
+
+const report = (result, date, client) => {
+	if(result.length) {
+		const targetDate = new Date(date);
+		const re = /＞ (\d+)$/;
+		let score = {};
+		result.map((d, i, array)=>{
+			const execResult = re.exec(d[1].message);
+			if(execResult) {
+				const value = Number(execResult[1]);
+				const user = array[i - 1][1];
+				return {
+					user: user.metadata.senderId,
+					value: value
+				};
+			} else {
+				return {value:0};
+			}
+		}).filter((d)=>{
+			return d.value;
+		}).forEach((d)=>{
+			if(! score[d.user]) {
+				score[d.user] = d;
+			}
+		});
+		
+		let ranks = [];
+		for(var user in score) {
+			ranks.push(score[user]);
+		}
+		const text = `${targetDate.toLocaleDateString()}の達成値上位3名\n` + ranks.sort((a,b)=>{return b.value - a.value;}).slice(0, 3).map((d, i)=>{
+			return `${i+1}位 <@${d.user}> 達成値: ${d.value}`
+		}).join('\n');
+		client.sendChat({message: text});
+	} else {
+		console.warn('NO RESULT');
+		return null;
+	}
+};
+
+const getMessageRecursively = (discordClient, start, end, from = false, retry=4) => {
+	console.log(steps, stack.length);
+	discordClient.getChatBefore(from).then((result)=>{
+		if(result.result === 'OK') {
+			if(result.chatMessageDataLog.length) {
+				const msgs = result.chatMessageDataLog.filter((msg)=>{return isInternal(msg, start, end)});
+				if(steps === com.hiyoko.DiscordDiceBotTopValue.STEPS.BEFORE && msgs.length) {
+					steps = com.hiyoko.DiscordDiceBotTopValue.STEPS.INTERNAL;
+				}
+				if(steps === com.hiyoko.DiscordDiceBotTopValue.STEPS.INTERNAL && msgs.length === 0) {
+					steps = com.hiyoko.DiscordDiceBotTopValue.STEPS.FINISHED;
+				}
+				if(steps) {
+					if(steps === com.hiyoko.DiscordDiceBotTopValue.STEPS.BEFORE && result.chatMessageDataLog[0][0] < start) {
+						report(stack, start, discordClient);
+						$('#args-exec').show();
+					} else {
+						stack = msgs.concat(stack);
+						getMessageRecursively(discordClient, start, end, result.chatMessageDataLog[0][1].uniqueId);
+					}
+				} else {
+					report(stack, start, discordClient);
+					$('#args-exec').show();
+				}
+			} else {
+				report(stack, start, discordClient);
+				$('#args-exec').show();
+			}
+		} else {
+			console.warn(`${5 - retry}/5 FAILED`, result);
+			getMessageRecursively(discordClient, start, end, from, retry - 1);
+		}
+	}, (error)=>{
+		if(retry) {
+			console.warn(`${5 - retry}/5 FAILED`, error);
+			getMessageRecursively(discordClient, start, end, from, retry - 1);
+		} else {
+			alert('ログ取得に失敗しました');
+			console.error(error);
+			$('#args-exec').show();
+		}
+		
+	});
+}
+
+$('#args-exec').click((e)=>{
+	const token = $('#args-token').val();
+	const room = $('#args-room').val();
+	const fromDate = Number(new Date($('#args-date').val()));
+	const byDate = fromDate + (1000 * 60 * 60 * 24);
+	const discordClient = new io.github.shunshun94.trpg.discord.Room(token, room);
+	steps = com.hiyoko.DiscordDiceBotTopValue.STEPS.BEFORE;
+	stack = [];
+	$('#args-exec').hide();
+	setTimeout(()=>{
+		getMessageRecursively(discordClient, fromDate, byDate);
+	}, 3000)
+
+	
+});
+
+/*
+*/
+</script>
+
+</body>
+</html>
