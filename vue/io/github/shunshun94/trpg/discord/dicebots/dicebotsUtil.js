@@ -15,25 +15,30 @@ const defaultDiceBotParam = {
 12:以上です。`
 };
 
-const dicebotGenerator = (params = defaultDiceBotParam) => {
-	let table = {};
+const generateDiceBotTable = (tableRaw) => {
+	let result = {};
 	let currentValue = 0;
-	(params.tableRaw || params.table).split('\n').forEach((v)=>{
-	  const reExecResult = /(\d+):(.+)/.exec(v);
+	tableRaw.split('\n').forEach((v)=>{
+	  const reExecResult = /^(\d+):(.+)/.exec(v);
 	  if(reExecResult) {
 	    currentValue = Number(reExecResult[1]);
-	    table[Number(reExecResult[1])] = reExecResult[2];
+	    result[Number(reExecResult[1])] = reExecResult[2];
 	  } else {
-	    if(table[currentValue]) {
-	      table[currentValue] += `\n${v}`;
+	    if(result[currentValue]) {
+	      result[currentValue] += `\n${v}`;
 	    }
 	  }
 	});
+	return result;
+};
+
+const dicebotGenerator = (params = defaultDiceBotParam, key=com.hiyoko.util.rndString(6)) => {
 	return {
+		key: key,
 		title: params.title,
 		command: params.command,
 		dice: params.dice,
-		table: table,
+		table: generateDiceBotTable(params.tableRaw || params.table),
 		tableRaw: params.tableRaw
 	};
 };
