@@ -20,16 +20,9 @@ Discord の部屋 ID: <input id="args-room" type="text" v-bind:value="room" /></
 				v-for="item in dicebots"  v-bind:dicebot="item"
 				v-on:dicebot-item-select="selectBot"></dicebot-item>
 		</ul>
+		<dicebot-editor v-bind:dicebot="dicebot" v-on:dicebot-edited="editBot"></dicebot-editor>
 	</div>
-	<div id="dicebots-editor">
-		<div id="dicebots-editor-header">
-			<span>ダイスボット名</span><input type="text" id="dicebots-editor-title" v-bind:value="title" />
-			<span>コマンド</span><input type="text" id="dicebots-editor-command" v-bind:value="command" />
-			<span>ダイス</span><input type="text" id="dicebots-editor-command" v-bind:value="dice" />
-		</div>
-		<textarea id="dicebots-editor-tableRaw" v-bind:value="tableRaw"></textarea>
-		<button id="dicebots-editor-save">保存</button>
-	</div>
+	
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/vue"></script>
