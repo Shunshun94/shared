@@ -20,9 +20,11 @@ const diceBots = new Vue({
 				alert(`「${val.title}」は今編集中なので消せません`);
 				return;
 			}
-			this.dicebots = this.dicebots.filter((bot, i)=>{
-				return bot.key !== val.key;
-			});
+			if(confirm(`「${val.title}」を削除しますか?`)) {
+				this.dicebots = this.dicebots.filter((bot, i)=>{
+					return bot.key !== val.key;
+				});
+			}
 		},
 		editBotTitle: function(val) {
 			this.dicebot.title = val;
