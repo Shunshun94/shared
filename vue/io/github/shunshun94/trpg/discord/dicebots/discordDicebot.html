@@ -4,13 +4,19 @@
 <meta charset="UTF-8">
 <title>Dicebot for Discord</title>
 <link rel="stylesheet" href="./discordDicebot.css" type="text/css" />
+<style>
+.hidden {
+	display:none;
+}
+</style>
 </head>
 <body>
 
 
 <div id="dicebots">
-	<h2>Discord へのアクセス情報</h2>
-	<discord-bot-info v-bind:discord_bot="discordBot"
+	<h2 v-bind:class="{hidden:discordBot.client}">Discord へのアクセス情報</h2>
+	<discord-bot-info v-bind:class="{hidden:discordBot.client}"
+		v-bind:discord_bot="discordBot"
 		v-on:dicebot-discord-update-token="editBotToken"
 		v-on:dicebot-discord-update-room="editBotRoom"
 		v-on:dicebot-discord-create-bot="createBot" ></discord-bot-info>
