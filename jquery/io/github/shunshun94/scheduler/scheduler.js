@@ -463,7 +463,6 @@ io.github.shunshun94.scheduler.Scheduler = class {
 				const baseTail = Number(new Date(baseYear, baseMonth, baseDay, 14, 30));
 				const schedules = this.getSchedulesByDate(date);
 				const coveredScheduels = this.getCovereredSchedules(schedules, baseHead, baseTail);
-				console.log(baseHead, baseTail, coveredScheduels);
 				if(coveredScheduels.length) {
 					return;
 				}
