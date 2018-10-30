@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style>
+.error {
+	color: red;
+}
+
+.large {
+	font-size: 150%;
+}
+</style>
+</head>
+<body>
+<div id="myApp1" v-bind:class="{ error: isError, large: isLarge }">
+	<p>Last updated: {{ new Date() }}</p>
+	<p>isError: <input type="checkbox" v-model="isError" /></p>
+	<p>selectBox: <select v-model="selected">
+		<option>A</option>
+		<option>B</option>
+		<option>C</option>
+		<option>D</option>
+	</select>: {{selected}} is SELECTED.</p>
+	<p v-on:click="count+=1">クリックされた回数: {{count}}</p>
+	<p><button>event trial</button></p>
+	<p>message: {{ message }}</p>
+	<p v-bind:title="message">title 属性をふにゃふにゃしてる。カーソルを合わせて確認だ</p>
+	<p>次の何かは visible == true じゃないと不可視だ: <span v-if="visible">めぇ！</span></p>
+	<p>RawHTML (XSS Danger): <span v-html="message"></span></p>
+	<p>強調: {{ addStrong }}</p>
+	<ul>
+		<li v-for="item in list">{{ item.label }}</li>
+	</ul>
+	<button v-on:click="onClick">クリックすると</button>
+	<p>message の内容：<input v-model="message" type="text" /></p>
+	<ol>
+		<hiyoko-list-item v-for="item in birds" v-bind:bird="item" :key="item.id" v-on:on-click-bird="message=$event"></hiyoko-list-item>
+	</ol>
+</div>
+<div id="profile1">name: {{name}}</div>
+<div id="profile2">おなまえ: {{name}}</div>
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<script src="https://shunshun94.github.io/shared/jquery/com/hiyoko/util/v2/utils.js"></script>
+<script>
+Vue.component('hiyoko-list-item', {
+	props: ['bird'],
+	template: `<li><button v-on:click="$emit('on-click-bird', bird.name)">{{ bird.name }}</button></li>`
+});
+
+const app1 = new Vue({
+	el: '#myApp1',
+	data: {
+		message: "ひよこ",
+		visible: false,
+		isError: false,
+		isLarge: false,
+		count: 0,
+		selected: 'B',
+		list: [
+			{label: 'こぶた'},
+			{label: 'たぬき'},
+			{label: 'きつね'},
+			{label: 'ねこ'}
+		],
+		birds: [
+			{id: 0, name: 'ひよこ', count_: 0},
+			{id: 1, name: 'すずめ', count_: 0},
+			{id: 2, name: 'ひばり', count_: 0}
+		]
+	},
+	methods: {
+		onClick: function() {
+			this.message = prompt('message の内容を入力');
+		},
+		eventFire: function() {
+			const event = this.$emit('event-fire');
+		}
+	},
+	computed: {
+		addStrong: function() {
+			return `**${this.message}**`
+		}
+	},
+	updated: function() {
+		console.log('updated!', this);
+	}
+});
+
+const profile = {
+		name: 'ひつじのめぇめぇ'
+};
+
+const app2_profile1 = new Vue({
+	el: '#profile1', data: profile
+});
+const app2_profile2 = new Vue({
+	el: '#profile2', data: profile
+});
+
+</script>
+</body>
+</html>
