@@ -436,13 +436,13 @@ io.github.shunshun94.scheduler.Scheduler = class {
 	
 	getCovereredSchedules(schedules, baseHead, baseTail) {
 		return schedules.filter((schedule, i)=>{
-			if(schedule.tidyUp > baseHead && schedule.tidyUp < baseTail) {
+			if(schedule.tidyUp >= baseHead && schedule.tidyUp <= baseTail) {
 				return true;
 			}
-			if(schedule.prepare > baseHead && schedule.prepare < baseTail) {
+			if(schedule.prepare >= baseHead && schedule.prepare <= baseTail) {
 				return true;
 			}
-			if(schedule.prepare < baseHead && schedule.tidyUp > baseTail) {
+			if(schedule.prepare <= baseHead && schedule.tidyUp >= baseTail) {
 				return true;
 			}
 			return false;
@@ -463,6 +463,7 @@ io.github.shunshun94.scheduler.Scheduler = class {
 				const baseTail = Number(new Date(baseYear, baseMonth, baseDay, 14, 30));
 				const schedules = this.getSchedulesByDate(date);
 				const coveredScheduels = this.getCovereredSchedules(schedules, baseHead, baseTail);
+				console.log(baseHead, baseTail, coveredScheduels);
 				if(coveredScheduels.length) {
 					return;
 				}
