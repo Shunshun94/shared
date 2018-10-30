@@ -1,14 +1,3 @@
-/*
-const diceBotEditor = new Vue({
-	el: '#dicebots-editor',
-	data: {
-		title: '',
-		command: '',
-		dice: '',
-		tableRaw: ''
-	}
-});*/
-
 const dicebot_editor = Vue.component('dicebot-editor', {
 	props: ['dicebot'],
 	template: `<div class="dicebots-editor">
