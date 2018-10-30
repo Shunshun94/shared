@@ -53,10 +53,11 @@ io.github.shunshun94.scheduler.Scheduler = class {
 	}
 	
 	addSchedule(schedule) {
+		const returnValue = this.updateSchedule(schedule);
 		this.$html.trigger({
 			type: io.github.shunshun94.scheduler.Scheduler.EVENTS.ADD_EVENT, added: schedule
 		});
-		return this.updateSchedule(schedule);
+		return returnValue;
 	}
 	
 	getSchedules() {
