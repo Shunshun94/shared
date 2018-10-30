@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Dicebot for Discord</title>
+<link rel="stylesheet" href="./discordDicebot.css" type="text/css" />
+<style>
+.hidden {
+	display:none;
+}
+</style>
+</head>
+<body>
+
+
+<div id="dicebots">
+	<h2 v-bind:class="{hidden:discordBot.client}">Discord へのアクセス情報</h2>
+	<discord-bot-info v-bind:class="{hidden:discordBot.client}"
+		v-bind:discord_bot="discordBot"
+		v-on:dicebot-discord-update-token="editBotToken"
+		v-on:dicebot-discord-update-room="editBotRoom"
+		v-on:dicebot-discord-create-bot="createBot" ></discord-bot-info>
+	<h2>ダイスボット</h2>
+	<div id="dicebots-list">
+		<ul>
+			<li><button @click="addBot">ダイスボットを新規作成する</button></li>
+			<dicebot-item 
+				v-for="item in dicebots"  v-bind:dicebot="item" v-bind:key="item.key"
+				v-on:dicebot-item-select="selectBot"
+				v-on:dicebot-item-delete="deleteBot"></dicebot-item>
+		</ul>
+	</div>
+	<dicebot-editor v-bind:dicebot="dicebot"
+				v-on:dicebots-editor-edited-title="editBotTitle"
+				v-on:dicebots-editor-edited-command="editBotCommand"
+				v-on:dicebots-editor-edited-dice="editBotDice"
+				v-on:dicebots-editor-edited-table-raw="editBotTableRaw"></dicebot-editor>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<script src="https://shunshun94.github.io/shared/jquery/com/hiyoko/util/v2/utils.js"></script>
+<script src="../../../../../../../external/discord.io/index.js"></script>
+<script src="../../../../../../../other/io/github/shunshun94/trpg/clientSpec.js"></script>
+<script src="../../../../../../../other/io/github/shunshun94/trpg/discord/client.js"></script>
+<script src="../../../../../../../jquery/com/hiyoko/bcdice-api/BCDice-API.js"></script>
+<script src="./discordBot.js"></script>
+<script src="./dicebotsUtil.js"></script>
+<script src="./dicebotEditor.js"></script>
+<script src="./dicebot.js"></script>
+<script src="./dicebots.js"></script>
+<script>
+
+const $console = $('#console');
+
+</script>
+</body>
+</html>
