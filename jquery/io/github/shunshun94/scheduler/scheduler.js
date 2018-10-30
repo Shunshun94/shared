@@ -436,13 +436,13 @@ io.github.shunshun94.scheduler.Scheduler = class {
 	
 	getCovereredSchedules(schedules, baseHead, baseTail) {
 		return schedules.filter((schedule, i)=>{
-			if(schedule.tidyUp > baseHead && schedule.tidyUp < baseTail) {
+			if(schedule.tidyUp >= baseHead && schedule.tidyUp <= baseTail) {
 				return true;
 			}
-			if(schedule.prepare > baseHead && schedule.prepare < baseTail) {
+			if(schedule.prepare >= baseHead && schedule.prepare <= baseTail) {
 				return true;
 			}
-			if(schedule.prepare < baseHead && schedule.tidyUp > baseTail) {
+			if(schedule.prepare <= baseHead && schedule.tidyUp >= baseTail) {
 				return true;
 			}
 			return false;
