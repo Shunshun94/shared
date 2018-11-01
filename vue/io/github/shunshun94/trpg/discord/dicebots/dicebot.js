@@ -1,6 +1,6 @@
 const dicebot_item = Vue.component('dicebot-item', { 
 	props: ['dicebot'],
-	template: `<li><span @click="fireSelectEvent">{{dicebot.title}}</span>
+	template: `<li class="dicebots-editor-list-item"><span @click="fireSelectEvent">{{dicebot.title}}</span>
 <button @click="fireDeleteEvent">×</button></li>`,
 	methods: {
 		fireSelectEvent: function(){

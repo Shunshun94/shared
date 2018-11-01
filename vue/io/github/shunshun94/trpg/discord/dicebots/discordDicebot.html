@@ -14,6 +14,7 @@
 
 
 <div id="dicebots">
+	<h1>Discord 上でカスタムダイスボットを動かすツール</h1>
 	<h2 v-bind:class="{hidden:discordBot.client}">Discord へのアクセス情報</h2>
 	<discord-bot-info v-bind:class="{hidden:discordBot.client}"
 		v-bind:discord_bot="discordBot"
@@ -21,20 +22,29 @@
 		v-on:dicebot-discord-update-room="editBotRoom"
 		v-on:dicebot-discord-create-bot="createBot" ></discord-bot-info>
 	<h2>ダイスボット</h2>
-	<div id="dicebots-list">
-		<ul>
-			<li><button @click="addBot">ダイスボットを新規作成する</button></li>
-			<dicebot-item 
-				v-for="item in dicebots"  v-bind:dicebot="item" v-bind:key="item.key"
-				v-on:dicebot-item-select="selectBot"
-				v-on:dicebot-item-delete="deleteBot"></dicebot-item>
-		</ul>
+	<div id="dicebots-editor">
+		<div id="dicebots-editor-list">
+			<ul>
+				<li class="dicebots-editor-list-new" @click="addBot">ダイスボットを新規作成する</li>
+				<dicebot-item 
+					v-for="item in dicebots"  v-bind:dicebot="item" v-bind:key="item.key"
+					v-on:dicebot-item-select="selectBot"
+					v-on:dicebot-item-delete="deleteBot"></dicebot-item>
+			</ul>
+		</div>
+		<dicebot-editor v-bind:dicebot="dicebot"
+					v-on:dicebots-editor-edited-title="editBotTitle"
+					v-on:dicebots-editor-edited-command="editBotCommand"
+					v-on:dicebots-editor-edited-dice="editBotDice"
+					v-on:dicebots-editor-edited-table-raw="editBotTableRaw"></dicebot-editor>
 	</div>
-	<dicebot-editor v-bind:dicebot="dicebot"
-				v-on:dicebots-editor-edited-title="editBotTitle"
-				v-on:dicebots-editor-edited-command="editBotCommand"
-				v-on:dicebots-editor-edited-dice="editBotDice"
-				v-on:dicebots-editor-edited-table-raw="editBotTableRaw"></dicebot-editor>
+	<h2>INFO</h2>
+	<div id="dicebots-info">
+	<p>デフォルトで登録されているダイスボットサンプルは<a href="https://github.com/torgtaitai/DodontoF" target="_blank">どどんとふ</a>のものをそのままお借りしています。原則としてどどんとふで使ったダイスボットをそのままコピペすればだいたい動きます</p>
+	<p>ライセンス情報とかは<a href="https://github.com/Shunshun94/shared">リポジトリ</a>を見てください。これ自体は GPLv3 です。無保障。ソースコードはリポジトリからか右クリックして直接見てください</p>
+	<p>ダイスボットは編集するたびに自動保存されています。</p>
+	<p>作った人: <a href="https://twitter.com/Shunshun94">@Shunshun94</a> / <a href="http://amzn.asia/8mNqdKy">ウィッシュリスト</a></p>
+	</div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>

@@ -1,14 +1,86 @@
-.dicebots-editor {
+h1, h2 {
+	margin-top: 0px;
+	margin-bottom: 0px;
+	width: 1090px;
+	background-color: #202020;
+	color: white;
+	padding: 6px;
+}
+
+.dicebots-discord-bot {
+	background-color: #F0F0F0;
+	padding: 4px;
+	width: 1092px;
+	border: 1px solid black;
+}
+
+.dicebots-discord-bot > button {
+	margin-top: 8px;
+}
+
+#dicebots-editor {
+	display: flex;
+}
+
+#dicebots-editor-list {
+	width: 298px;
+	background-color: #F0F0F0;
+	color: black;
+	border: 1px solid black;
+	height: 300px;
+	overflow: hidden scroll;
+}
+
+#dicebots-editor-list > ul {
+	list-style-type: none;
+	position: relative;
+}
+
+#dicebots-editor-list > ul > li {
+	position: relative;
+	left: -2em;
+	width: 280px;
+	padding:2px;
+	border-bottom: white solid 1px;
+}
+
+.dicebots-editor-list-item > span {
+	display: inline-block;
+	width: 100%;
+}
+
+.dicebots-editor-list-item:hover {
+	background-color: gray;
+	color: black;
+}
+
+.dicebots-editor-list-item > button {
+	position: absolute;
+	right: 12px;
+	top: 3px;
+}
+
+.dicebots-editor-list-new {
+	color: #308030;
+}
+
+.dicebots-editor-list-new:hover {
+	background-color: #D0FFD0;
+	color: black;
+}
+
+.dicebots-editor-editor {
 	border: 1px solid black;
 	position: relative;
 	width: 800px;
 	height: 300px;
+	background-color: #F0F0F0;
 }
-.dicebots-editor-header {
+.dicebots-editor-editor-header {
 	border-bottom: 1px solid black;
 	padding: 4px;
 }
-.dicebots-editor-tableRaw {
+.dicebots-editor-editor-tableRaw {
 	resize: none;
 	display: inline;
 	position:absolute;
@@ -17,8 +89,17 @@
 	left: 4px;
 	width: 98%;
 }
-.dicebots-editor-save {
-	position: absolute;
-	bottom: 4px;
-	right: 4px;
+
+#dicebots-info {
+	background-color: #F0F0F0;
+	width: 1092px;
+	border: 1px solid black;
+	padding: 4px;
+}
+
+#dicebots-info > p {
+	margin-top: 0px;
+	margin-bottom: 0px;
+	padding-left: 8px;
+	font-size: 60%;
 }

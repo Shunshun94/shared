@@ -2,11 +2,19 @@
 
 Shared Files
 
+## License
+
+[GPLv3](./LICENSE)
+
 ## Used Libs.
 
-### jQuery
+### jQuery and jQueryUI
 
 License Information: https://js.foundation/pdf/ip-policy.pdf
+
+### Vue.js
+
+License Information: https://jp.vuejs.org/
 
 ### discord.io
 
