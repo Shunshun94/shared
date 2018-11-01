@@ -62,6 +62,7 @@ const diceBots = new Vue({
 		},
 		createBot: function() {
 			this.discordBot.client = new io.github.shunshun94.trpg.discord.Room(this.discordBot.token, this.discordBot.room);
+			localStorage.setItem('io-github-shunshun94-trpg-discord-entry-token', this.discordBot.token);
 		},
 		updateStorage: function() {
 			localStorage.setItem(
@@ -84,47 +85,77 @@ const diceBots = new Vue({
 				return message.startsWith(bot.command);
 			});
 		},
+		getLog: function() {
+			return new Promise((resolve, reject)=>{
+				this.discordBot.client.getChat(this.lastMessage).then((result)=>{
+					if(result.chatMessageDataLog.length === 0) {
+						resolve(result);
+						return;
+					}
+					this.lastMessage = result.chatMessageDataLog.reverse()[0][1].uniqueId;
+					result.chatMessageDataLog = result.chatMessageDataLog.filter((msg)=>{
+						return msg[1].metadata.senderId !== this.discordBot.client.discord.id;
+					});
+					resolve(result);
+				}, (err)=>{
+					console.warn('Failed to get chat log', err);
+					reject(err);
+				});
+			});
+		},
+		rollDice: function(command, retry = 2) {
+			return new Promise((resolve, reject)=>{
+				this.discordBot.dice.rollDice(command).then((result)=>{
+					if(result.ok) {
+						resolve(result);
+					} else {
+						console.warn(`Failed to roll dice [${command}] (Failed ${3-retry}/3)`, result);
+						if(retry) {
+							this.rollDice(command, retry - 1);
+						} else {
+							reject(result);
+						}
+					}
+				}, (err)=>{
+					console.warn(`Failed to roll dice [${command}] (Failed ${3-retry}/3)`, err);
+					if(retry) {
+						this.rollDice(command, retry - 1);
+					} else {
+						reject(err);
+					}
+				});
+			});
+			
+		},
 		rollDiceBots: function(retry = 3) {
-			this.discordBot.client.getChat(this.lastMessage).then((result)=>{
-				if(result.chatMessageDataLog.length === 0) {
-					return;
-				}
-				this.lastMessage = result.chatMessageDataLog.reverse()[0][1].uniqueId;
-				result.chatMessageDataLog.filter((msg)=>{
-					return msg[1].metadata.senderId !== this.discordBot.client.discord.id;
-				}).forEach((msg)=>{
-					const bots = this.getBots(msg[1].message);
-					if(bots.length) {
-						bots.forEach((bot)=>{
-							this.discordBot.dice.rollDice(bot.dice).then((result)=>{
-								if(result.ok) {
+			const isNotFirst = Boolean(this.lastMessage);
+			this.getLog().then((result)=>{
+				if(isNotFirst) {
+					result.chatMessageDataLog.forEach((msg)=>{
+						const bots = this.getBots(msg[1].message);
+						if(bots.length) {
+							bots.forEach((bot)=>{
+								this.rollDice(bot.dice).then((result)=>{
 									const execResult = gettingDiceValueRE.exec(result.result);
 									const msg = `＞ ${bot.title} ${result.result}\n${bot.table[execResult[1]]}`;
 									this.discordBot.client.sendChat({
 										message: msg
 									});
-								} else {
-									if(retry) {
-										this.rollDiceBots(retry - 1);
-									} else {
-										console.error('取得に失敗', err);
-									}
-								}
-							}, (err)=>{
-								if(retry) {
-									this.rollDiceBots(retry - 1);
-								} else {
-									console.error('取得に失敗', err);
-								}
+								}, (err)=>{
+									this.discordBot.client.sendChat({
+										message: `[ERROR] Couldn't roll dice ${bot.title} (${bot.dice})`
+									});
+								});
 							});
-						});
-					}
-				});
+						}
+					});
+				}
 			}, (err)=>{
 				if(retry) {
-					this.rollDiceBots(retry - 1);
+					this.rollDiceBots(retry - 1)
 				} else {
-					console.error('取得に失敗', err);
+					alert(`[ERROR] ログの取得に失敗しました。詳細は F12 キーを押すと表示される開発者ツールからご確認ください`);
+					console.error(`[ERROR] Couldn't get chat log`, err);
 				}
 			});
 		}
