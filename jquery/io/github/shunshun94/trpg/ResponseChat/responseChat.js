@@ -384,6 +384,9 @@ io.github.shunshun94.trpg.ResponseChat.Input = class extends com.hiyoko.componen
 		if(! Boolean(text)) {
 			return;
 		}
+		if(text.startsWith('http')) {
+			return;
+		}
 		const regs = [
 			/^([^:：\n]+)[:：]?「([^「]*)」/,
 			/^([^:：\n]+)[:：]([^「]*)/
