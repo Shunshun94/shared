@@ -13,7 +13,7 @@ const diceBots = new Vue({
 			client: null,
 			token: query.token || query.url || localStorage.getItem('io-github-shunshun94-trpg-discord-entry-token') || tokenList.reverse()[0] || '',
 			room: query.room || query.channel || '',
-			dice: new com.hiyoko.BCDiceAPIClient('https://www2.taruki.com/bcdice-api/')
+			dice: new com.hiyoko.BCDiceAPIClient(query.dice || 'https://dodontof.onlinesession.app/bcdice-api/')
 		},
 		lastMessage: ''
 	},
