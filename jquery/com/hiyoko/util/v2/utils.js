@@ -213,3 +213,20 @@ com.hiyoko.util.listMonthBeforeAfter = (base = new Date(), before = 12, after = 
 	}
 	return result;
 };
+
+/**
+ * 数字にカンマを挿入して返却する。 1234567 -> 1,234,567
+ * @param {num} カンマを挿入したい数字
+ * @returns {String} カンマが挿入された数字の文字列
+ */
+com.hiyoko.util.insertCommaToNum = (num) => {
+	return String(num).split("").reverse().map((d, i)=>{
+		if(i && i%3===0) {
+			return `${d},`;
+		}
+			return d;
+		}).reverse().join('');
+};
+
+
+
