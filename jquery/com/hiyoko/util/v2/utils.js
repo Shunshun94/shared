@@ -217,15 +217,44 @@ com.hiyoko.util.listMonthBeforeAfter = (base = new Date(), before = 12, after = 
 /**
  * 数字にカンマを挿入して返却する。 1234567 -> 1,234,567
  * @param {num} カンマを挿入したい数字
+ * @param {separator} カンマ以外のものを桁の区切りに使いたい場合に指定する。与えなければカンマ
+ * @param {decimalPoint} ピリオド以外のものを桁の区切りに使いたい場合に指定する。与えなければピリオド
  * @returns {String} カンマが挿入された数字の文字列
  */
-com.hiyoko.util.insertCommaToNum = (num) => {
-	return String(num).split("").reverse().map((d, i)=>{
-		if(i && i%3===0) {
-			return `${d},`;
-		}
-			return d;
-		}).reverse().join('');
+com.hiyoko.util.insertCommaToNum = (num, separator = ',', decimalPoint = '.') => {
+	const strs = String(num).split('.');
+	let result = '';
+
+	if(num < 0) {
+		const chars = strs[0].split("").reverse();
+		const length = chars.length - 1;
+		result = chars.map((d, i)=>{
+			console.log(d, i, length)
+			if(i && i%3===0 && i!==length) {
+				return `${d}${separator}`;
+			}
+				return d;
+			}).reverse().join('');
+	} else {
+		result =  strs[0].split("").reverse().map((d, i)=>{
+			if(i && i%3===0) {
+				return `${d}${separator}`;
+			}
+				return d;
+			}).reverse().join('');
+	}
+
+	if(strs.length === 2) {
+		const length = strs[1].length - 1;
+		return `${result}${decimalPoint}` + strs[1].split("").map((d, i)=>{
+			if(i && i%3===2 && i!==length) {
+				return `${d}${separator}`;
+			}
+				return d;
+			}).join('');
+	} else {
+		return result;
+	}
 };
 
 
