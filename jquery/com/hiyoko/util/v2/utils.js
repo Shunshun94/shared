@@ -229,7 +229,6 @@ com.hiyoko.util.insertCommaToNum = (num, separator = ',', decimalPoint = '.') =>
 		const chars = strs[0].split("").reverse();
 		const length = chars.length - 1;
 		result = chars.map((d, i)=>{
-			console.log(d, i, length)
 			if(i && i%3===0 && i!==length) {
 				return `${d}${separator}`;
 			}
