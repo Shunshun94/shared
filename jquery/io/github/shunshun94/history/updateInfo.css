@@ -1,0 +1,32 @@
+.io-github-shunshun94-UpdateInfo-back {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	right: 0px;
+	bottom: 0px;
+	background-color: #D0D0D0;
+	opacity: 0.8;
+}
+
+.io-github-shunshun94-UpdateInfo-log {
+	position: absolute;
+	left: 40px;
+	right: 40px;
+	top: 40px;
+	bottom: 40px;
+	background-color:white;
+	padding: 8px;
+	overflow: scroll;
+}
+
+.io-github-shunshun94-UpdateInfo-log > * {
+	magrin-top: 0px;
+	margin-bottom: 0px;
+}
+
+.io-github-shunshun94-UpdateInfo-log-date {
+	margin-top: 4px;
+}
+.io-github-shunshun94-UpdateInfo-log-text {
+	display: block;
+}
