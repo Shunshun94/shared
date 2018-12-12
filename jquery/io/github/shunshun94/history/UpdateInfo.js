@@ -23,17 +23,19 @@ io.github.shunshun94.UpdateInfo = class {
 		}).join('');
 		$('body').append(`<div class="${io.github.shunshun94.UpdateInfo.CLASS.back}"></div>`);
 		$('body').append(`<div class="${io.github.shunshun94.UpdateInfo.CLASS.log}">
-		<h2>${io.github.shunshun94.UpdateInfo.TEXT.title}</h2>${logDom}</div>`)
+		<h2>${io.github.shunshun94.UpdateInfo.TEXT.title}</h2>${logDom}
+		<button class="btn btn-warning ${io.github.shunshun94.UpdateInfo.CLASS.log}-close">${io.github.shunshun94.UpdateInfo.TEXT.close}</button></div>`)
 		localStorage.setItem(key, shownHistory[0].date.toString());
 		
 		$(`.${io.github.shunshun94.UpdateInfo.CLASS.back}`).click((e)=>{
 			$(`.${io.github.shunshun94.UpdateInfo.CLASS.back}`).remove();
 			$(`.${io.github.shunshun94.UpdateInfo.CLASS.log}`).remove();
 		});
+		$(`.${io.github.shunshun94.UpdateInfo.CLASS.log}-close`).click((e)=>{
+			$(`.${io.github.shunshun94.UpdateInfo.CLASS.back}`).remove();
+			$(`.${io.github.shunshun94.UpdateInfo.CLASS.log}`).remove();
+		});
 	}
-	
-	
-	
 };
 
 io.github.shunshun94.UpdateInfo.STORAGE_KEY = 'io-github-shunshun94-UpdateInfo-STORAGE_KEY-';
@@ -42,7 +44,8 @@ io.github.shunshun94.UpdateInfo.CLASS = {
 	log: 'io-github-shunshun94-UpdateInfo-log'
 };
 io.github.shunshun94.UpdateInfo.TEXT = {
-	title: '最近の更新'
+	title: '最近の更新',
+	close: '閉じる'
 };
 io.github.shunshun94.UpdateInfo.METHODS = {
 	dateToString: (date)=>{

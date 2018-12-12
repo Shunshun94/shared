@@ -30,3 +30,9 @@
 .io-github-shunshun94-UpdateInfo-log-text {
 	display: block;
 }
+
+.io-github-shunshun94-UpdateInfo-log-close {
+	position: absolute;
+	top: 20px;
+	right: 20px;
+}
