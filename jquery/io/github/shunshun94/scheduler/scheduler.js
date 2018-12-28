@@ -326,7 +326,6 @@ io.github.shunshun94.scheduler.Scheduler = class {
 	
 	getDayLine(date) {
 		const simpleDate = io.github.shunshun94.scheduler.Scheduler.convertDateToSimpleString(date);
-		console.log(simpleDate);
 		var line = $(`<div class="${this.id}-date ${this.id}-date-${date.getDay()} 
 				${io.github.shunshun94.scheduler.Scheduler.CLASS}-date 
 				${io.github.shunshun94.scheduler.Scheduler.CLASS}-date-${date.getDay()}  
