@@ -12,7 +12,9 @@ io.github.shunshun94.scheduler.Scheduler = class {
 		this.appendable = (opts.appendable === undefined) ? io.github.shunshun94.scheduler.Scheduler.generateSchedule : opts.appendable;
 		this.resizable = (opts.resizable === undefined) ? true : (opts.resizable || false); 
 		this.dateFormat = opts.dateFormat || '%m/%d (%D)';
+		this.holidays = opts.holidays || {};
 		this.schedules = {};
+
 		this.deleteButtonGenerator = opts.deleteButtonGenerator || io.github.shunshun94.scheduler.Scheduler.defaultDeleteButtonGenerator;
 		this.dummyAppendSchedule;
 		this.initialLength = Number(opts.initialLength) || io.github.shunshun94.scheduler.Scheduler.ONE_WEEK_DAYS;
@@ -323,7 +325,12 @@ io.github.shunshun94.scheduler.Scheduler = class {
 	}
 	
 	getDayLine(date) {
-		var line = $(`<div class="${this.id}-date ${this.id}-date-${date.getDay()} ${io.github.shunshun94.scheduler.Scheduler.CLASS}-date ${io.github.shunshun94.scheduler.Scheduler.CLASS}-date-${date.getDay()}" ` +
+		const simpleDate = io.github.shunshun94.scheduler.Scheduler.convertDateToSimpleString(date);
+		console.log(simpleDate);
+		var line = $(`<div class="${this.id}-date ${this.id}-date-${date.getDay()} 
+				${io.github.shunshun94.scheduler.Scheduler.CLASS}-date 
+				${io.github.shunshun94.scheduler.Scheduler.CLASS}-date-${date.getDay()}  
+				${this.holidays[simpleDate] ? this.id + '-date-holiday ' + io.github.shunshun94.scheduler.Scheduler.CLASS + '-date-holiday' : ''}"` +
 				`id="${this.id}-date-${date.getFullYear()}-${date.getMonth()}-${date.getDate()}"></div>`);
 		var dateColumn = $(`<div class="${this.id}-date-dateColumn ${io.github.shunshun94.scheduler.Scheduler.CLASS}-date-dateColumn"` +
 				`id="${this.id}-date-${date.getFullYear()}-${date.getMonth()}-${date.getDate()}-dateColumn"></div>`);
@@ -523,6 +530,10 @@ io.github.shunshun94.scheduler.Scheduler.TEXTS = {
 };
 io.github.shunshun94.scheduler.Scheduler.defaultDeleteButtonGenerator = (schedule, id) => {
 	return `<button class="${id}-date-scheduleColumn-schedule-remove ${io.github.shunshun94.scheduler.Scheduler.CLASS}-date-scheduleColumn-schedule-remove">${io.github.shunshun94.scheduler.Scheduler.TEXTS.REMOVE}</button>`;
+};
+
+io.github.shunshun94.scheduler.Scheduler.convertDateToSimpleString = (date) => {
+	return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
 };
 
 io.github.shunshun94.scheduler.Scheduler.rndString = (length=8, prefix='', suffix='') => {
