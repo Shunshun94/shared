@@ -207,9 +207,6 @@ io.github.shunshun94.trpg.discord.Room = class extends io.github.shunshun94.trpg
 							result: 'OK',
 							chatMessageDataLog: this.convertRawMessage(array, channel)
 						});
-						if(array.length) {
-							this.lastMsgId = array[0].id;
-						}
 					}
 				});
 			});
