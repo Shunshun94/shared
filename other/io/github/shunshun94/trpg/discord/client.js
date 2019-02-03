@@ -12,7 +12,7 @@ io.github.shunshun94.trpg.discord.generateClient = (token) => {
 	return discord;
 };
 
-io.github.shunshun94.trpg.discord.generateRoomInfo = (rawData, memberList = {}, serverName='') => {
+io.github.shunshun94.trpg.discord.generateRoomInfo = (rawData, memberList = {}, serverName='', tabNames = ['メイン']) => {
 	var users = [];
 	try {
 		for(var userId in rawData.members) {
@@ -31,7 +31,7 @@ io.github.shunshun94.trpg.discord.generateRoomInfo = (rawData, memberList = {}, 
 		passwordLockState: false,
 		id: rawData.id,
 		index: rawData.id,
-		chatTab: ['メイン'],
+		chatTab: tabNames,
 		counter: [],
 		game: 'unsupported',
 		outerImage: true,
@@ -124,7 +124,9 @@ io.github.shunshun94.trpg.discord.Room = class extends io.github.shunshun94.trpg
 
 	_getRoomInfo() {
 		const list = io.github.shunshun94.trpg.discord.flattenRoomList(this.discord);
-		return io.github.shunshun94.trpg.discord.flattenRoomList(this.discord)[this.roomId[0]];
+		let roomInfo = list[this.roomId[0]];
+		roomInfo.chatTab = this.roomId.map((id)=>{return list[id].name});
+		return roomInfo;
 	}
 
 	convertRawMessage(raw, channel = 0) {
@@ -203,7 +205,7 @@ io.github.shunshun94.trpg.discord.Room = class extends io.github.shunshun94.trpg
 					} else {
 						resolve({
 							result: 'OK',
-							chatMessageDataLog: this.convertRawMessage(array)
+							chatMessageDataLog: this.convertRawMessage(array, channel)
 						});
 						if(array.length) {
 							this.lastMsgId = array[0].id;
@@ -250,7 +252,7 @@ io.github.shunshun94.trpg.discord.Room = class extends io.github.shunshun94.trpg
 					} else {
 						resolve({
 							result: 'OK',
-							chatMessageDataLog: this.convertRawMessage(array)
+							chatMessageDataLog: this.convertRawMessage(array, channel)
 						});
 					}
 				});
@@ -263,7 +265,7 @@ io.github.shunshun94.trpg.discord.Room = class extends io.github.shunshun94.trpg
 	getRoomInfo () {
 		return new Promise((resolve, reject) => {
 			const room = this._getRoomInfo();
-			resolve(io.github.shunshun94.trpg.discord.generateRoomInfo(room, this.discord.servers[room.guild_id].members));
+			resolve(io.github.shunshun94.trpg.discord.generateRoomInfo(room, this.discord.servers[room.guild_id].members, '', room.chatTab));
 		});
 	}
 	
