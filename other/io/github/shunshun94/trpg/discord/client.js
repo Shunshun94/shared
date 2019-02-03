@@ -12,7 +12,7 @@ io.github.shunshun94.trpg.discord.generateClient = (token) => {
 	return discord;
 };
 
-io.github.shunshun94.trpg.discord.generateRoomInfo = (rawData, memberList = {}, serverName='') => {
+io.github.shunshun94.trpg.discord.generateRoomInfo = (rawData, memberList = {}, serverName='', tabNames = ['メイン']) => {
 	var users = [];
 	try {
 		for(var userId in rawData.members) {
@@ -31,7 +31,7 @@ io.github.shunshun94.trpg.discord.generateRoomInfo = (rawData, memberList = {}, 
 		passwordLockState: false,
 		id: rawData.id,
 		index: rawData.id,
-		chatTab: ['メイン'],
+		chatTab: tabNames,
 		counter: [],
 		game: 'unsupported',
 		outerImage: true,
@@ -98,10 +98,19 @@ io.github.shunshun94.trpg.discord.Server = class extends io.github.shunshun94.tr
 };
 
 io.github.shunshun94.trpg.discord.Room = class extends io.github.shunshun94.trpg.ClientInterface.Room {
-	constructor (token, roomId, opt_dicebot) {
+	constructor (token, roomIds, opt_dicebot) {
 		super();
 		this.discord = io.github.shunshun94.trpg.discord.generateClient(token);
-		this.roomId = roomId;
+		
+		if(Array.isArray(roomIds)) {
+			this.roomId = roomIds;
+		} else {
+			let roomIdList = [];
+			roomIdList.push(roomIds);
+			this.roomId = roomIdList;
+		}
+		this.lastMsgId = 0;
+
 		this.isVoiceActive = false;
 		this.platform = 'Discord';
 
@@ -110,15 +119,17 @@ io.github.shunshun94.trpg.discord.Room = class extends io.github.shunshun94.trpg
 				resolve({ok: false, result: '',secret: false});
 			});
 		}};
-		this.lastMsgId = 0
+		
 	}
 
 	_getRoomInfo() {
 		const list = io.github.shunshun94.trpg.discord.flattenRoomList(this.discord);
-		return io.github.shunshun94.trpg.discord.flattenRoomList(this.discord)[this.roomId];
+		let roomInfo = list[this.roomId[0]];
+		roomInfo.chatTab = this.roomId.map((id)=>{return list[id].name});
+		return roomInfo;
 	}
 
-	convertRawMessage(raw) {
+	convertRawMessage(raw, channel = 0) {
 		return raw.reverse().map((raw) => {
 			return [
 	        	Number(new Date(raw.timestamp)),
@@ -127,7 +138,7 @@ io.github.shunshun94.trpg.discord.Room = class extends io.github.shunshun94.trpg
 	        		message: raw.content,
 	        		senderName: raw.author.username,
 	        		uniqueId: raw.id,
-	        		channel: 0,
+	        		channel: channel,
 	        		metadata: {
 	        			channel: raw.channel_id,
 	        			senderId: raw.author.id
@@ -149,7 +160,7 @@ io.github.shunshun94.trpg.discord.Room = class extends io.github.shunshun94.trpg
 					msg = '**' + args.name + '**: ' + msg;
 				}
 				this.discord.sendMessage({
-					to: this.roomId, message: msg
+					to: this.roomId[args.channel || 0], message: msg
 				}, function(err, response) {
 					if(err) {
 						console.error(err);
@@ -166,75 +177,92 @@ io.github.shunshun94.trpg.discord.Room = class extends io.github.shunshun94.trpg
 		}.bind(this));
 	}
 	
-	getLatestChat (opt_to) {
+	getLatestChat (channel = 0) {
 		return new Promise((resolve, reject) => {
 			this.discord.getMessages({
-				channelID: this.roomId, limit: 100
+				channelID: this.roomId[channel], limit: 100
 			}, (err, array) => {
 				if(err) {
 					reject({result: err});
 				} else {
 					resolve({
 						result: 'OK',
-						chatMessageDataLog: this.convertRawMessage(array)
+						chatMessageDataLog: this.convertRawMessage(array, channel)
 					});
 				}
 			});
 		});
 	}
 	
-	getChatBefore (opt_from) {
+	getChatBefore (opt_from, channel = 0) {
 		if(opt_from) {
 			return new Promise((resolve, reject) => {
 				this.discord.getMessages({
-					channelID: this.roomId, before: opt_from, limit: 100
+					channelID: this.roomId[channel], before: opt_from, limit: 100
 				}, (err, array) => {
 					if(err) {
 						reject({result: err});
 					} else {
 						resolve({
 							result: 'OK',
-							chatMessageDataLog: this.convertRawMessage(array)
+							chatMessageDataLog: this.convertRawMessage(array, channel)
 						});
-						if(array.length) {
-							this.lastMsgId = array[0].id;
-						}
 					}
 				});
 			});
 		} else {
-			return this.getLatestChat();
+			return this.getLatestChat(channel);
 		}
 	}
+	
+	getChat(opt_from = 0) {
+		return new Promise((resolve, reject) => {
+			Promise.all(this.roomId.map((id, i)=>{
+				return this.getChatWithChannel(opt_from, i);
+			})).then((messagesArray)=>{
+				let messages = [];	
+				messagesArray.map((messages)=>{return messages.chatMessageDataLog}).forEach((array)=>{
+					messages = messages.concat(array);
+				});
+				messages = messages.sort((a, b)=>{ return a[0] - b[0]});
+				resolve({
+					result: 'OK',
+					chatMessageDataLog: messages
+				});
+				if(messages.length) {
+					this.lastMsgId = messages[0].id;
+				}
+			}, (error)=>{
+				reject(error);
+			});
+		});
+	}
 
-	getChat (opt_from) {
+	getChatWithChannel (opt_from, channel = 0) {
 		if(opt_from) {
 			return new Promise((resolve, reject) => {
 				this.discord.getMessages({
-					channelID: this.roomId, after: opt_from, limit: 100
+					channelID: this.roomId[channel], after: opt_from, limit: 100
 				}, (err, array) => {
 					if(err) {
-						reject({result: err});
+						reject({result: err, channel: this.roomId[channel]});
 					} else {
 						resolve({
 							result: 'OK',
-							chatMessageDataLog: this.convertRawMessage(array)
+							chatMessageDataLog: this.convertRawMessage(array, channel)
 						});
-						if(array.length) {
-							this.lastMsgId = array[0].id;
-						}
 					}
 				});
 			});
 		} else {
-			return this.getLatestChat();
+			return this.getLatestChat(channel);
 		}
 	}
 
 	getRoomInfo () {
 		return new Promise((resolve, reject) => {
 			const room = this._getRoomInfo();
-			resolve(io.github.shunshun94.trpg.discord.generateRoomInfo(room, this.discord.servers[room.guild_id].members));
+			resolve(io.github.shunshun94.trpg.discord.generateRoomInfo(room, this.discord.servers[room.guild_id].members, '', room.chatTab));
 		});
 	}
 	
@@ -244,10 +272,10 @@ io.github.shunshun94.trpg.discord.Room = class extends io.github.shunshun94.trpg
 		});
 	}
 	
-	getUserList () {
+	getUserList (channel=0) {
 		return new Promise((resolve, reject) => {
 			var result = [];
-			for(var id in this.discord.channels[this.roomId].members) {
+			for(var id in this.discord.channels[this.roomId[channel]].members) {
 				result.push({
 					userId: id,
 					userName: this.discord.users[id]
@@ -363,9 +391,9 @@ io.github.shunshun94.trpg.discord.Room = class extends io.github.shunshun94.trpg
 		});
 	}
 
-	getCharacters() {
+	getCharacters(channel=0) {
 		return new Promise((resolve, reject) => {
-			this.getLatestChat().then((getChatResult) => {
+			this.getLatestChat(channel).then((getChatResult) => {
 				const rawList = getChatResult.chatMessageDataLog.filter((msgData) => {
 					return msgData[1].message.startsWith('Initiative Table\n```json');
 				}).reverse();

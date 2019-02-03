@@ -137,6 +137,10 @@ com.hiyoko.DodontoF.V2.ChatClient.SimpleDisplay = class extends com.hiyoko.compo
 		this.$html.prepend(logs.map((log) => {
 			var $log = $(com.hiyoko.util.format('<p style="color:%s" class="%s-log %s-log"></p>',
 					log.color.startsWith('rgb') ? log.color : `#${log.color}` , this.id, com.hiyoko.DodontoF.V2.ChatClient.SimpleDisplay.CLASS));
+			if(log.tab) {
+				$log.addClass(`${this.id}-log-notMain`);
+				$log.addClass(`${com.hiyoko.DodontoF.V2.ChatClient.SimpleDisplay.CLASS}-log-notMain`);
+			}
 			var $name = $(com.hiyoko.util.format('<span class="%s-log-name %s-log-name"></span>',
 					this.id, com.hiyoko.DodontoF.V2.ChatClient.SimpleDisplay.CLASS));
 			$name.text(log.name);
