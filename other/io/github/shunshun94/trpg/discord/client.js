@@ -98,10 +98,19 @@ io.github.shunshun94.trpg.discord.Server = class extends io.github.shunshun94.tr
 };
 
 io.github.shunshun94.trpg.discord.Room = class extends io.github.shunshun94.trpg.ClientInterface.Room {
-	constructor (token, roomId, opt_dicebot) {
+	constructor (token, roomIds, opt_dicebot) {
 		super();
 		this.discord = io.github.shunshun94.trpg.discord.generateClient(token);
-		this.roomId = roomId;
+		
+		if(Array.isArray(roomIds)) {
+			this.roomId = roomIds;
+		} else {
+			let roomIdList = [];
+			roomIdList.push(roomIds);
+			this.roomId = roomIdList;
+		}
+		this.lastMsgId = 0;
+
 		this.isVoiceActive = false;
 		this.platform = 'Discord';
 
@@ -110,12 +119,12 @@ io.github.shunshun94.trpg.discord.Room = class extends io.github.shunshun94.trpg
 				resolve({ok: false, result: '',secret: false});
 			});
 		}};
-		this.lastMsgId = 0
+		
 	}
 
 	_getRoomInfo() {
 		const list = io.github.shunshun94.trpg.discord.flattenRoomList(this.discord);
-		return io.github.shunshun94.trpg.discord.flattenRoomList(this.discord)[this.roomId];
+		return io.github.shunshun94.trpg.discord.flattenRoomList(this.discord)[this.roomId[0]];
 	}
 
 	convertRawMessage(raw) {
@@ -149,7 +158,7 @@ io.github.shunshun94.trpg.discord.Room = class extends io.github.shunshun94.trpg
 					msg = '**' + args.name + '**: ' + msg;
 				}
 				this.discord.sendMessage({
-					to: this.roomId, message: msg
+					to: this.roomId[args.channel || 0], message: msg
 				}, function(err, response) {
 					if(err) {
 						console.error(err);
@@ -166,10 +175,10 @@ io.github.shunshun94.trpg.discord.Room = class extends io.github.shunshun94.trpg
 		}.bind(this));
 	}
 	
-	getLatestChat (opt_to) {
+	getLatestChat (channel = 0) {
 		return new Promise((resolve, reject) => {
 			this.discord.getMessages({
-				channelID: this.roomId, limit: 100
+				channelID: this.roomId[channel], limit: 100
 			}, (err, array) => {
 				if(err) {
 					reject({result: err});
@@ -183,11 +192,11 @@ io.github.shunshun94.trpg.discord.Room = class extends io.github.shunshun94.trpg
 		});
 	}
 	
-	getChatBefore (opt_from) {
+	getChatBefore (opt_from, channel = 0) {
 		if(opt_from) {
 			return new Promise((resolve, reject) => {
 				this.discord.getMessages({
-					channelID: this.roomId, before: opt_from, limit: 100
+					channelID: this.roomId[channel], before: opt_from, limit: 100
 				}, (err, array) => {
 					if(err) {
 						reject({result: err});
@@ -203,15 +212,15 @@ io.github.shunshun94.trpg.discord.Room = class extends io.github.shunshun94.trpg
 				});
 			});
 		} else {
-			return this.getLatestChat();
+			return this.getLatestChat(channel);
 		}
 	}
 
-	getChat (opt_from) {
+	getChat (opt_from, channel = 0) {
 		if(opt_from) {
 			return new Promise((resolve, reject) => {
 				this.discord.getMessages({
-					channelID: this.roomId, after: opt_from, limit: 100
+					channelID: this.roomId[channel], after: opt_from, limit: 100
 				}, (err, array) => {
 					if(err) {
 						reject({result: err});
@@ -227,7 +236,7 @@ io.github.shunshun94.trpg.discord.Room = class extends io.github.shunshun94.trpg
 				});
 			});
 		} else {
-			return this.getLatestChat();
+			return this.getLatestChat(channel);
 		}
 	}
 
@@ -244,10 +253,10 @@ io.github.shunshun94.trpg.discord.Room = class extends io.github.shunshun94.trpg
 		});
 	}
 	
-	getUserList () {
+	getUserList (channel=0) {
 		return new Promise((resolve, reject) => {
 			var result = [];
-			for(var id in this.discord.channels[this.roomId].members) {
+			for(var id in this.discord.channels[this.roomId[channel]].members) {
 				result.push({
 					userId: id,
 					userName: this.discord.users[id]
@@ -363,9 +372,9 @@ io.github.shunshun94.trpg.discord.Room = class extends io.github.shunshun94.trpg
 		});
 	}
 
-	getCharacters() {
+	getCharacters(channel=0) {
 		return new Promise((resolve, reject) => {
-			this.getLatestChat().then((getChatResult) => {
+			this.getLatestChat(channel).then((getChatResult) => {
 				const rawList = getChatResult.chatMessageDataLog.filter((msgData) => {
 					return msgData[1].message.startsWith('Initiative Table\n```json');
 				}).reverse();
