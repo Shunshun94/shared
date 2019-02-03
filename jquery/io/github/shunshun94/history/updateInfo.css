@@ -1,5 +1,5 @@
 .io-github-shunshun94-UpdateInfo-back {
-	position: absolute;
+	position: fixed;
 	top: 0px;
 	left: 0px;
 	right: 0px;
@@ -9,7 +9,7 @@
 }
 
 .io-github-shunshun94-UpdateInfo-log {
-	position: absolute;
+	position: fixed;
 	left: 40px;
 	right: 40px;
 	top: 40px;
@@ -29,4 +29,10 @@
 }
 .io-github-shunshun94-UpdateInfo-log-text {
 	display: block;
+}
+
+.io-github-shunshun94-UpdateInfo-log-close {
+	position: absolute;
+	top: 20px;
+	right: 20px;
 }
