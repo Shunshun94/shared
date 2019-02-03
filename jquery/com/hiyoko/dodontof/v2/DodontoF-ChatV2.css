@@ -36,6 +36,11 @@
 	background-color: #FFFFFF;
 }
 
+.com-hiyoko-dodontof-v2-chatclient-simpledisplay-log-notMain {
+	padding-left: 16px;
+	font-size: 70%;
+}
+
 .com-hiyoko-dodontof-v2-chatclient-simpledisplay-log-name,
 .com-hiyoko-dodontof-v2-chatclient-simpledisplay-log-tab {
 	font-weight: bold;
