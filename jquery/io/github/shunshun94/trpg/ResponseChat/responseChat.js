@@ -353,7 +353,7 @@ io.github.shunshun94.trpg.ResponseChat.Input = class extends com.hiyoko.componen
 			}
 		}).fail((result) => {
 			console.warn(result);
-			alert(`チャットタブ一覧の取得に失敗しました\n${err.result || err}`);
+			alert(`チャットタブ一覧の取得に失敗しました\n${result.result || result}`);
 		});
 		setTimeout(()=>{this.fireEvent(event)},50);
 	}
