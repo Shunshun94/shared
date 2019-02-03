@@ -127,7 +127,7 @@ io.github.shunshun94.trpg.discord.Room = class extends io.github.shunshun94.trpg
 		return io.github.shunshun94.trpg.discord.flattenRoomList(this.discord)[this.roomId[0]];
 	}
 
-	convertRawMessage(raw) {
+	convertRawMessage(raw, channel = 0) {
 		return raw.reverse().map((raw) => {
 			return [
 	        	Number(new Date(raw.timestamp)),
@@ -136,7 +136,7 @@ io.github.shunshun94.trpg.discord.Room = class extends io.github.shunshun94.trpg
 	        		message: raw.content,
 	        		senderName: raw.author.username,
 	        		uniqueId: raw.id,
-	        		channel: 0,
+	        		channel: channel,
 	        		metadata: {
 	        			channel: raw.channel_id,
 	        			senderId: raw.author.id
@@ -185,7 +185,7 @@ io.github.shunshun94.trpg.discord.Room = class extends io.github.shunshun94.trpg
 				} else {
 					resolve({
 						result: 'OK',
-						chatMessageDataLog: this.convertRawMessage(array)
+						chatMessageDataLog: this.convertRawMessage(array, channel)
 					});
 				}
 			});
@@ -215,23 +215,43 @@ io.github.shunshun94.trpg.discord.Room = class extends io.github.shunshun94.trpg
 			return this.getLatestChat(channel);
 		}
 	}
+	
+	getChat(opt_from = 0) {
+		return new Promise((resolve, reject) => {
+			Promise.all(this.roomId.map((id, i)=>{
+				return this.getChatWithChannel(opt_from, i);
+			})).then((messagesArray)=>{
+				let messages = [];	
+				messagesArray.map((messages)=>{return messages.chatMessageDataLog}).forEach((array)=>{
+					messages = messages.concat(array);
+				});
+				messages = messages.sort((a, b)=>{ return a[0] - b[0]});
+				resolve({
+					result: 'OK',
+					chatMessageDataLog: messages
+				});
+				if(messages.length) {
+					this.lastMsgId = messages[0].id;
+				}
+			}, (error)=>{
+				reject(error);
+			});
+		});
+	}
 
-	getChat (opt_from, channel = 0) {
+	getChatWithChannel (opt_from, channel = 0) {
 		if(opt_from) {
 			return new Promise((resolve, reject) => {
 				this.discord.getMessages({
 					channelID: this.roomId[channel], after: opt_from, limit: 100
 				}, (err, array) => {
 					if(err) {
-						reject({result: err});
+						reject({result: err, channel: this.roomId[channel]});
 					} else {
 						resolve({
 							result: 'OK',
 							chatMessageDataLog: this.convertRawMessage(array)
 						});
-						if(array.length) {
-							this.lastMsgId = array[0].id;
-						}
 					}
 				});
 			});

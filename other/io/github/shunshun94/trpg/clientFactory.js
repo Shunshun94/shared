@@ -35,7 +35,7 @@ io.github.shunshun94.trpg.SelectPlatform = (type, args) => {
 	}
 	
 	if(/.{24}\..{6}\..{27}/.test(url)) {
-		return io.github.shunshun94.trpg.generateClient(io.github.shunshun94.trpg.discord, type, url, args.room, dicebot);
+		return io.github.shunshun94.trpg.generateClient(io.github.shunshun94.trpg.discord, type, url, args.room.split(','), dicebot);
 	}
 	if(url.indexOf('DodontoF') > -1) {
 		return io.github.shunshun94.trpg.generateClient(com.hiyoko.DodontoF.V2, type, url, args.room, args.pass);
