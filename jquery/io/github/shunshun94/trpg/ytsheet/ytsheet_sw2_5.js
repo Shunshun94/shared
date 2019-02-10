@@ -56,6 +56,14 @@ io.github.shunshun94.trpg.ytsheet.ytsheetSW2_5 = class {
 		}), function(value) {
 			return value;
 		});
+		
+		let commonSkillCursor = 1;
+		while (data[`commonClass${commonSkillCursor}`] && data[`lvCommon${commonSkillCursor}`]) {
+			this.skills[data[`commonClass${commonSkillCursor}`]] = Number(data[`lvCommon${commonSkillCursor}`]);
+			commonSkillCursor++;
+		}
+		
+		
 		this.dodge = Number(data.DefenseTotalAllEva);
 		this.dodgeSkill = data.evasionClass || '';
 		this.guard = Number(data.DefenseTotalAllDef);
