@@ -151,11 +151,26 @@ io.github.shunshun94.trpg.ytsheet.ytsheetSW2_5 = class {
 		}).filter((d) => {return d.name});
 	}
 	parseSubSkills(data) {
+		const getSkills = (name, template={}) => {
+			let cursor = 1;
+			let skills = [];
+			while(data[`${name}${cursor}`]) {
+				const skill = Object.assign({name: data[`${name}${cursor}`]}, template);
+				skills.push(skill);
+				cursor++;
+			}
+			return skills;
+		};
+		
+		
 		this.subSkills = {};
-		this.subSkills.tempTech = [];
-		this.subSkills.spellSong = [];
-		this.subSkills.horsemanship = [];
-		this.subSkills.alchemicCard = [];
+		this.subSkills.tempTech = getSkills('craftEnhance', {time: '', effect: '', reference: ''});
+		this.subSkills.spellSong = getSkills('craftSong', {prepare: '', effect: '', singer: '', reference: ''});
+		this.subSkills.horsemanship = getSkills('craftRiding', {timing: '', effect: '', prepare: '', reference: '',
+																type: {animal: '', machine: '', fantasy: ''}});
+		this.subSkills.alchemicCard = getSkills('craftAlchemy', {color:'', color: '', effect:'', reference: '',
+																size: {B:'', A:'', S:'', SS:''}});
+		
 		this.subSkills.leadersOrder = [];
 		this.subSkills.fortuneTelling = [];
 		this.subSkills.aristocratDignity = [];
