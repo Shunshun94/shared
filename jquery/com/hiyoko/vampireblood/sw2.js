@@ -33,6 +33,39 @@ com.hiyoko.VampireBlood.SW2.prototype.parseBattleSkills = function(json) {
 			note: kouka
 		}
 	});
+
+	const zenteiParseLv = /(.+)Lv\.?(\d+)/;
+	const zenteiParseLearned = /(.+)習得/;
+	const exceptional = {
+		'ﾌｧｲﾀｰorｸﾞﾗｯﾌﾟﾗｰ': ['ファイター', 'グラップラー'],
+		'魔法技能１つの': ['ソーサラー', 'コンジャラー', 'プリースト', 'フェアリーテイマー', 'マギテック', 'デーモンルーラー']
+	};
+
+	for(var key in json) {
+		if(key.startsWith('ST_zentei_')) {
+			let isLearnable = false;
+			const resultParseLv = zenteiParseLv.exec(json[key]);
+			const resultParseLearn = zenteiParseLearned.exec(json[key]);
+			if (resultParseLv) {
+				if(this.skills[resultParseLv[1]]) {
+					isLearnable = this.skills[resultParseLv[1]] >= Number(resultParseLv[2]);
+				} else {
+					isLearnable = (exceptional[resultParseLv[1]] || []).filter((skillName)=>{
+						return this.skills[skillName] >= Number(resultParseLv[2]);
+					}).length;
+				}
+			} else if (resultParseLearn) {
+				isLearnable = this.skills[resultParseLearn[1]];
+			}
+			
+			if (isLearnable) {
+				this.battleSkills.push({
+					name: json[key.replace('zentei', 'name')],
+					note: json[key.replace('zentei', 'kouka')]
+				});					
+			}
+		}
+	}
 }
 
 com.hiyoko.VampireBlood.SW2.prototype.parseAccessories = function(json) {
