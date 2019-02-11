@@ -33,6 +33,9 @@ $('#chat').on('tofRoomRequest', function(event) {
 });
 setTimeout(()=>{
 	new com.hiyoko.DodontoF.V2.ChatClient($('#chat'), query);
+	if(query.readOnly) {
+		$('#chat-input').hide();
+	}
 }, query.wait || 1500);
 </script>
 </body>
