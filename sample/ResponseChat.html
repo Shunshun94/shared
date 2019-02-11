@@ -31,10 +31,10 @@ $('#chat').on('tofRoomRequest', function(event) {
 if(! Boolean(query.url)) {query.url = $('#dummyClient');}
 var client = io.github.shunshun94.trpg.RoomClientFactory(query);
 var chat;
+query.displayLimit = query.displayLimit || 15;
+query.system = (query.system || '') .replace(/%20/gm, ' ');
 setTimeout(()=>{
-	chat = new io.github.shunshun94.trpg.ResponseChat($('#chat'), {
-		displayLimit: 15, system: (query.system || '').replace(/%20/gm, ' ') || ''
-	});
+	chat = new io.github.shunshun94.trpg.ResponseChat($('#chat'), query);
 }, query.wait || 1500);
 </script>
 <p><a href="https://shunshun94.github.io/shared/jquery/io/github/shunshun94/trpg/ResponseChat/">ガイド</a></p>
