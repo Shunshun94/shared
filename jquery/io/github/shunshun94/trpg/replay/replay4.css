@@ -1,5 +1,6 @@
 * {
 	box-sizing:border-box;
+	font-family: "UD Shin Go NT Light JIS2004","UD ƒfƒWƒ^ƒ‹ ‹³‰È‘‘Ì N-R", Verdana, Roboto, "Droid Sans", "ŸàƒSƒVƒbƒN", YuGothic, "ƒƒCƒŠƒI", Meiryo, "ƒqƒ‰ƒMƒmŠpƒS ProN W3", "Hiragino Kaku Gothic ProN", "‚l‚r ‚oƒSƒVƒbƒN", sans-serif;
 }
 
 h1, h2, h3, h4, h5 {
@@ -25,6 +26,11 @@ p {
 	padding-bottom:4px;
 	width: 800px;
 }
+
+hr {
+	width: 800px;
+}
+
 sup {
 	color:blue;
 	font-weight: bold;
