@@ -27,6 +27,7 @@ var query = com.hiyoko.util.getQueries();
 if(! Boolean(query.url)) {query.url = $('#dummyClient');}
 var client = io.github.shunshun94.trpg.RoomClientFactory(query);
 query.displayLimit = query.displayLimit || 15;
+query.name = query.name ? decodeURI(query.name) : '';
 $('#chat').on('tofRoomRequest', function(event) {
 	client[event.method].apply(client, event.args).done(event.resolve).fail(event.reject);
 });
