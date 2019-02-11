@@ -54,7 +54,7 @@ io.github.shunshun94.trpg.ResponseChat = class extends com.hiyoko.DodontoF.V2.Ch
 				this.sendChat({args: {
 					name: this.input.getName(), message: e.message
 				}}).fail((result) => {
-					alert(result.result);
+					alert(`チャットの送信に失敗しました\n理由：${result.result}`);
 				});
 			}
 		});
@@ -259,7 +259,19 @@ io.github.shunshun94.trpg.ResponseChat.Display = class extends com.hiyoko.compon
 		}).fail((err) => {
 			this.isSuspended = false;
 			console.warn(err);
-			alert(`チャットログの更新に失敗しました\n${err.result || err}`);
+			const time = Number(new Date()) / 100;
+			this.updateLogs([{
+				time: Number(new Date()) / 100,
+				id: '0',
+				msg: 'チャットログの取得に失敗しました',
+				color: 'FF0000',
+				name: 'システムメッセージ',
+				status: 'ERROR',
+				tab: 0,
+				vote: false,
+				fixed: true,
+				cutIn: false
+			}]);
 		});
 		this.fireEvent(event);
 	}
@@ -403,19 +415,22 @@ io.github.shunshun94.trpg.ResponseChat.Input = class extends com.hiyoko.componen
 		const e = event.originalEvent;
 		if(e.key === 'Enter' && (! e.shiftKey)) {
 			const name = this.$name.val();
+			const text = this.$text.val();
 			const msg = this.getAsyncEvent(`${this.id}-sendChatRequest`, {
 				args: {	name: name,
-						message: this.$text.val(),
+						message: text,
 						color: (name === this.defaultName) ? this.GMColor : this.NPCColor,
 						channel: this.getElementById('channel').val()
 				}
 			}).done(function(result) {
-				this.$text.val('');
-			}.bind(this)).fail(function(result) {
-				alert(result.result);
+				// no action
+			}.bind(this)).fail((result) => {
+				this.$text.val(text);
+				alert(`チャットの送信に失敗しました\n理由：${result.result}`);
 			});
 			this.fireEvent(msg);
 			event.preventDefault();
+			this.$text.val('');
 		}
 	}
 };
