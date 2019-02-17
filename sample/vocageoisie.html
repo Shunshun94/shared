@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>語彙大富豪 札ツール</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<style>
+	#cards, #display {
+		position: absolute;
+		top: 0px;
+		left: 0px;
+		right: 0px;
+		bottom: 0px;
+	}
+	.card {
+		padding: 4px;
+	}
+	.card-word {
+		width: 78%;
+	}
+	.card-select {
+		width: 18%;
+	}
+	#reset, #display-buttons {
+		position: absolute;
+		bottom: 4px;
+		left: 4px;
+		right: 4px;
+		display: block;
+	}
+	
+	#reset-button {
+		display: block;
+		width: 100%;
+		background-color: #FFB0B0;
+	}
+
+	#display {
+		display:none;
+	}
+	#display-word {
+		transform:rotateZ(180deg);
+		font-size: 180%;
+		padding: 8px;
+	}
+	#display-buttons > button {
+		width: 48%;
+		height: 36px;
+	}
+	#display-buttons-none {
+		background-color: #FFB0B0;
+	}
+	#display-buttons-pass {
+		background-color: #B0FFB0;
+	}
+</style>　
+</head>
+<body>
+<div id="cards">
+	<div class="card">
+		<input class="card-word" type="text" />
+		<button class="card-select">出す</button>
+	</div>
+	<div class="card">
+		<input class="card-word" type="text" />
+		<button class="card-select">出す</button>
+	</div>
+	<div class="card">
+		<input class="card-word" type="text" />
+		<button class="card-select">出す</button>
+	</div>
+	<div class="card">
+		<input class="card-word" type="text" />
+		<button class="card-select">出す</button>
+	</div>
+	<div class="card">
+		<input class="card-word" type="text" />
+		<button class="card-select">出す</button>
+	</div>
+	<div id="reset">
+		<button id="reset-button">リセット</button>
+	</div>
+	
+</div>
+
+<div id="display">
+	<div id="display-word"></div>
+	<div id="display-buttons">
+		<button id="display-buttons-none">NG</button>
+		<button id="display-buttons-pass">OK</button>
+	</div>
+</div>
+
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+const toggle = (e)=>{
+	$('#cards').toggle(100);
+	$('#display').toggle(100);
+};
+let cursor;
+
+$('.card-select').click((e)=>{
+	cursor = $(e.target).parent();
+	const text = cursor.find('.card-word').val();
+	toggle(e);
+	$('#display-word').text(text);
+});
+$('#display-buttons-none').click(toggle);
+$('#display-buttons-pass').click((e)=>{
+	cursor.remove();
+	toggle(e);
+});
+$('#reset').click((e)=>{
+	if(window.confirm('リセットしますがよろしいですか?')) {
+		location.href = location.href;
+	} 
+});
+
+</script>
+</body>
+</html>
