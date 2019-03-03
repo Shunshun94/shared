@@ -36,10 +36,10 @@ io.github.shunshun94.trpg.characterSheetsMasashige.DX3 = class extends io.github
 		this.works = base.works; this.cover = base.cover;
 		this.syndromes = io.github.shunshun94.trpg.characterSheetsMasashige.DX3.syndromeFilter(base.syndromes);
 		this.status =  {
-			body: status.body.subtotal,　'肉体': status.body.subtotal,
-			mind: status.mind.subtotal,　'精神': status.mind.subtotal,
-			sense: status.sense.subtotal,　'感覚': status.sense.subtotal,
-			society: status.society.subtotal,　'社会': status.society.subtotal
+			body: Number(status.body.subtotal),　'肉体': status.body.subtotal,
+			mind: Number(status.mind.subtotal),　'精神': status.mind.subtotal,
+			sense: Number(status.sense.subtotal),　'感覚': status.sense.subtotal,
+			society: Number(status.society.subtotal),　'社会': status.society.subtotal
 		};
 		this.skills = {
 				'白兵': {status: 'body', lv: Number(skills.hak.A.lv) || 0},
