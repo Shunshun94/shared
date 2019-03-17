@@ -30,6 +30,7 @@ Discord 発言 ID<span id="args-fromId-info" class="info">i</span>: <input id="a
 <script src="../external/discord.io/index.js"></script>
 <script src="../other/io/github/shunshun94/trpg/clientSpec.js"></script>
 <script src="../other/io/github/shunshun94/trpg/discord/client.js"></script>
+<script src="../other/io/github/shunshun94/consts.js"></script>
 <script>
 const query = com.hiyoko.util.getQueries();
 let tokenList = JSON.parse(localStorage.getItem('io-github-shunshun94-trpg-discord-Entrance-Token-TokenList') || '[null]');
@@ -103,34 +104,53 @@ const convertMsgToHiyoHtml = (msg)=>{
 	const appRegExpResult = htmlConverterHiyoAppRegExp.exec(msg[1].message);
 	const preRegExpResult = htmlConverterParenthesisRegExp.exec(msg[1].message);
 	const time = new Date(msg[0]);
-	if(appRegExpResult) {
+
+	const attachements = msg[1].metadata.attachments.map((item)=>{
+		const isPic = io.github.shunshun94.CONSTS.PIC_SUFFIX.filter((suffix)=>{
+			return item.filename.endsWith(suffix);
+		}).length;
+		if(isPic) {
+			if(item.width > 800) {
+				item.height *= 800 / item.width;
+				item.width = 800;
+			}
+			return `<img alt="${item.filename}" src="${item.url}" height="${item.height}" width="${item.width}" />`;
+		} else {
+			return `<a href="${item.url}" target="_blank">${item.filename}</a>`;
+		}
+	}).join('<br/>');
+
+	if(appRegExpResult && (! msg[1].message.startsWith('http'))) {
 		const name = appRegExpResult[1];
 		let clazz = '_';
 		for(var i = 0; i < name.length; i++) {
 			clazz += String(name.charCodeAt(i));
 		}
-		return `<p class="tab0 _${msg[1].metadata.senderId} ${clazz}">
+		return `<p class="tab0 _${msg[1].metadata.senderId} ${clazz}" id="msgId_${msg[1].uniqueId}">
 		<span class="time"><span class="unixTime">${msg[0]}</span>
-		<span class="redableTime">${String(time.getHours()).padStart(2, '0')}:${String(time.getMinutes()).padStart(2, '0')}:${String(time.getSeconds()).padStart(2, '0')}</span></span>
+		<span class="readbleTime redableTime">${String(time.getHours()).padStart(2, '0')}:${String(time.getMinutes()).padStart(2, '0')}:${String(time.getSeconds()).padStart(2, '0')}</span></span>
 		<span class="name">${name}<!-- ${msg[1].senderName} --></span>
-		<span class="message">${msg[1].message.replace(appRegExpResult[0], '').replace(/\n/gm, '<br/>\n')}</span></p>`
-	} else if(preRegExpResult) {
+		<span class="message">${msg[1].message.replace(appRegExpResult[0], '').replace(/\n/gm, '<br/>\n')}</span>
+		${attachements}</p>`
+	} else if(preRegExpResult && (! msg[1].message.startsWith('http'))) {
 		const name = preRegExpResult[1];
 		let clazz = '_';
 		for(var i = 0; i < name.length; i++) {
 			clazz += String(name.charCodeAt(i));
 		}
-		return `<p class="tab0 _${msg[1].metadata.senderId} ${clazz}">
+		return `<p class="tab0 _${msg[1].metadata.senderId} ${clazz}" id="msgId_${msg[1].uniqueId}">
 		<span class="time"><span class="unixTime">${msg[0]}</span>
-		<span class="redableTime">${String(time.getHours()).padStart(2, '0')}:${String(time.getMinutes()).padStart(2, '0')}:${String(time.getSeconds()).padStart(2, '0')}</span></span>
+		<span class="readbleTime redableTime">${String(time.getHours()).padStart(2, '0')}:${String(time.getMinutes()).padStart(2, '0')}:${String(time.getSeconds()).padStart(2, '0')}</span></span>
 		<span class="name">${name}<!-- ${msg[1].senderName} --></span>
-		<span class="message">「${msg[1].message.replace(preRegExpResult[0], '').replace(/\n/gm, '<br/>\n')}</span></p>`
+		<span class="message">「${msg[1].message.replace(preRegExpResult[0], '').replace(/\n/gm, '<br/>\n')}</span>
+		${attachements}</p>`
 	} else {
-		return `<p class="tab0 _${msg[1].metadata.senderId}">
+		return `<p class="tab0 _${msg[1].metadata.senderId}" id="msgId_${msg[1].uniqueId}">
 		<span class="time"><span class="unixTime">${msg[0]}</span>
-		<span class="redableTime">${String(time.getHours()).padStart(2, '0')}:${String(time.getMinutes()).padStart(2, '0')}:${String(time.getSeconds()).padStart(2, '0')}</span></span>
+		<span class="readbleTime redableTime">${String(time.getHours()).padStart(2, '0')}:${String(time.getMinutes()).padStart(2, '0')}:${String(time.getSeconds()).padStart(2, '0')}</span></span>
 		<span class="name">${msg[1].senderName}</span>
-		<span class="message">${msg[1].message.replace(/\n/gm, '<br/>\n')}</span></p>`
+		<span class="message">${msg[1].message.replace(/\n/gm, '<br/>\n')}</span>
+		${attachements}</p>`
 	}
 };
 
