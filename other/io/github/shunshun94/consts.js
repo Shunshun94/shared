@@ -11,3 +11,5 @@ io.github.shunshun94.CONSTS.DAY_OF_WEEK = {
 	JPN: ['日', '月', '火', '水', '木', '金', '土'],
 	ENG: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
 };
+
+io.github.shunshun94.CONSTS.PIC_SUFFIX = ['.jpg','.jpeg','.JPG','.JPEG','.jpe','.jfif','.pjpeg','.pjp','.png','.PNG','.gif','.GIF','.bmp','.dib','.BMP','.DIB'];
