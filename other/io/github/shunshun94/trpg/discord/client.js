@@ -141,7 +141,8 @@ io.github.shunshun94.trpg.discord.Room = class extends io.github.shunshun94.trpg
 	        		channel: channel,
 	        		metadata: {
 	        			channel: raw.channel_id,
-	        			senderId: raw.author.id
+	        			senderId: raw.author.id,
+	        			attachments: raw.attachments 
 	        		}
 	        	}
 	        ];
