@@ -69,7 +69,7 @@ io.github.shunshun94.trpg.discord.flattenRoomList = (client, roomType = 0) => {
 			var room = server.channels[channelId];
 			if(room.type === roomType) {
 				result[channelId] = room;
-			}	
+			}
 		}
 	}
 	return result;
@@ -82,14 +82,14 @@ io.github.shunshun94.trpg.discord.Server = class extends io.github.shunshun94.tr
 		this.token = token;
 		this.platform = 'Discord';
 	}
-	
+
 	getRoom (room, dummy, opt_dicebot) {
 		const rooms = io.github.shunshun94.trpg.discord.generateRoomsInfo(this.discord).playRoomStates.map((r) => {
 			return r.id;
 		});
 		return new io.github.shunshun94.trpg.discord.Room(this.token, rooms[room], opt_dicebot || dummy || false);
 	}
-	
+
 	getRoomList () {
 		return new Promise(function(resolve, reject){
 			resolve(io.github.shunshun94.trpg.discord.generateRoomsInfo(this.discord));
@@ -101,7 +101,7 @@ io.github.shunshun94.trpg.discord.Room = class extends io.github.shunshun94.trpg
 	constructor (token, roomIds, opt_dicebot) {
 		super();
 		this.discord = io.github.shunshun94.trpg.discord.generateClient(token);
-		
+
 		if(Array.isArray(roomIds)) {
 			this.roomId = roomIds;
 		} else {
@@ -113,17 +113,17 @@ io.github.shunshun94.trpg.discord.Room = class extends io.github.shunshun94.trpg
 
 		this.isVoiceActive = false;
 		this.platform = 'Discord';
+		this.rooms = false;
 
 		this.dicebot = opt_dicebot || {rollDice: function(command) {
 			return new Promise(function(resolve, reject) {
 				resolve({ok: false, result: '',secret: false});
 			});
 		}};
-		
 	}
 
 	_getRoomInfo() {
-		const list = io.github.shunshun94.trpg.discord.flattenRoomList(this.discord);
+		this.rooms = this.rooms || io.github.shunshun94.trpg.discord.flattenRoomList(this.discord);
 		let roomInfo = list[this.roomId[0]];
 		roomInfo.chatTab = this.roomId.map((id)=>{return list[id].name});
 		return roomInfo;
@@ -136,7 +136,7 @@ io.github.shunshun94.trpg.discord.Room = class extends io.github.shunshun94.trpg
 	        	{
 	        		color: '000000',
 	        		message: raw.content,
-	        		senderName: raw.author.username,
+	        		senderName: this.discord.servers[this.rooms[raw.channel_id].guild_id].members[raw.author.id].nick || raw.author.username,
 	        		uniqueId: raw.id,
 	        		channel: channel,
 	        		metadata: {
@@ -150,6 +150,7 @@ io.github.shunshun94.trpg.discord.Room = class extends io.github.shunshun94.trpg
 	}
 	
 	sendChat (args) {
+		this.rooms = this.rooms || io.github.shunshun94.trpg.discord.flattenRoomList(this.discord);
 		return new Promise(function(resolve, reject) {
 			if(! Boolean(args.message)) {
 				reject({result:'Necessary infomration is lacked.'});
@@ -179,6 +180,7 @@ io.github.shunshun94.trpg.discord.Room = class extends io.github.shunshun94.trpg
 	}
 	
 	getLatestChat (channel = 0) {
+		this.rooms = this.rooms || io.github.shunshun94.trpg.discord.flattenRoomList(this.discord);
 		return new Promise((resolve, reject) => {
 			this.discord.getMessages({
 				channelID: this.roomId[channel], limit: 100
@@ -196,6 +198,7 @@ io.github.shunshun94.trpg.discord.Room = class extends io.github.shunshun94.trpg
 	}
 	
 	getChatBefore (opt_from, channel = 0) {
+		this.rooms = this.rooms || io.github.shunshun94.trpg.discord.flattenRoomList(this.discord);
 		if(opt_from) {
 			return new Promise((resolve, reject) => {
 				this.discord.getMessages({
@@ -217,6 +220,7 @@ io.github.shunshun94.trpg.discord.Room = class extends io.github.shunshun94.trpg
 	}
 	
 	getChat(opt_from = 0) {
+		this.rooms = this.rooms || io.github.shunshun94.trpg.discord.flattenRoomList(this.discord);
 		return new Promise((resolve, reject) => {
 			Promise.all(this.roomId.map((id, i)=>{
 				return this.getChatWithChannel(opt_from, i);
@@ -240,6 +244,7 @@ io.github.shunshun94.trpg.discord.Room = class extends io.github.shunshun94.trpg
 	}
 
 	getChatWithChannel (opt_from, channel = 0) {
+		this.rooms = this.rooms || io.github.shunshun94.trpg.discord.flattenRoomList(this.discord);
 		if(opt_from) {
 			return new Promise((resolve, reject) => {
 				this.discord.getMessages({
@@ -274,6 +279,7 @@ io.github.shunshun94.trpg.discord.Room = class extends io.github.shunshun94.trpg
 	}
 	
 	getUserList (channel=0) {
+		this.rooms = this.rooms || io.github.shunshun94.trpg.discord.flattenRoomList(this.discord);
 		return new Promise((resolve, reject) => {
 			var result = [];
 			for(var id in this.discord.channels[this.roomId[channel]].members) {
@@ -291,6 +297,7 @@ io.github.shunshun94.trpg.discord.Room = class extends io.github.shunshun94.trpg
 	}
 
 	addCharacter(args = {}) {
+		this.rooms = this.rooms || io.github.shunshun94.trpg.discord.flattenRoomList(this.discord);
 		return new Promise((resolve, reject) => {
 			if(! Boolean(args.name)) {
 				reject({result:'addCharacter reuqires name as argument property.'});
@@ -341,6 +348,7 @@ io.github.shunshun94.trpg.discord.Room = class extends io.github.shunshun94.trpg
 	}
 	
 	updateCharacter(args) {
+		this.rooms = this.rooms || io.github.shunshun94.trpg.discord.flattenRoomList(this.discord);
 		return new Promise((resolve, reject) => {
 			if(! Boolean(args.targetName)) {
 				reject({result:'updateCharacter reuqires targetName as argument property.'});
@@ -393,6 +401,7 @@ io.github.shunshun94.trpg.discord.Room = class extends io.github.shunshun94.trpg
 	}
 
 	getCharacters(channel=0) {
+		this.rooms = this.rooms || io.github.shunshun94.trpg.discord.flattenRoomList(this.discord);
 		return new Promise((resolve, reject) => {
 			this.getLatestChat(channel).then((getChatResult) => {
 				const rawList = getChatResult.chatMessageDataLog.filter((msgData) => {
@@ -425,6 +434,7 @@ io.github.shunshun94.trpg.discord.Room = class extends io.github.shunshun94.trpg
 	}
 
 	accessToVoiceChannel (channel = ''){
+		this.rooms = this.rooms || io.github.shunshun94.trpg.discord.flattenRoomList(this.discord);
 		return new Promise((resolve, reject)=>{
 			if(this.isVoiceActive) {
 				resolve(roomCandidate[0].id);
@@ -472,6 +482,7 @@ io.github.shunshun94.trpg.discord.Room = class extends io.github.shunshun94.trpg
 	 * Be CAREFUL!! Library isn't supported this function.
 	 */
 	playBGM(path, msg) {
+		this.rooms = this.rooms || io.github.shunshun94.trpg.discord.flattenRoomList(this.discord);
 		return new Promise((resolve, reject)=>{
 			this.accessToVoiceChannel().then((id)=>{
 				this.discord.getAudioContext(id, (error, stream) =>{
