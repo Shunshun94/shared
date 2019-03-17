@@ -5,10 +5,12 @@ io.github.shunshun94.trpg = io.github.shunshun94.trpg || {};
 io.github.shunshun94.trpg.ReplayV3 = class {
 	constructor ($dom = $('body'), opt = {}) {
 		const $notes = $dom.find('.note');
+		const button = opt.button || '※';
+		const clazz = opt.class || '';
 		$notes.each((i, v) => {
 			const $tag = $(v);
 			$tag.prop('id', `note-${i}`);
-			$tag.before(`<sup class="note-sup" title="${i}">※</sup>`);
+			$tag.before(`<sup class="note-sup ${clazz}" title="${i}">${button}</sup>`);
 		});
 		$dom.find('sup').click((e) => {
 			
