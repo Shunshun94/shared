@@ -132,8 +132,8 @@ io.github.shunshun94.trpg.discord.Room = class extends io.github.shunshun94.trpg
 	_getRoomInfo() {
 		this.rooms = this.rooms || io.github.shunshun94.trpg.discord.flattenRoomList(this.discord);
 		if(this.rooms) {
-			let roomInfo = list[this.roomId[0]];
-			roomInfo.chatTab = this.roomId.map((id)=>{return list[id].name});
+			let roomInfo = this.rooms[this.roomId[0]];
+			roomInfo.chatTab = this.roomId.map((id)=>{return this.rooms[id].name});
 			return roomInfo;
 		} else {
 			return false;
