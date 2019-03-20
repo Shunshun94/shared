@@ -63,16 +63,23 @@ io.github.shunshun94.trpg.discord.generateRoomsInfo = (client, roomType = 0) => 
 
 io.github.shunshun94.trpg.discord.flattenRoomList = (client, roomType = 0) => {
 	var result = {};
+	let roomCount = 0;
 	for(var serverId in client.servers) {
 		const server = client.servers[serverId];
 		for(var channelId in server.channels) {
 			var room = server.channels[channelId];
 			if(room.type === roomType) {
 				result[channelId] = room;
+				roomCount++;
 			}
 		}
 	}
-	return result;
+	if(roomCount) {
+		return result;
+	} else {
+		return false;
+	}
+	
 };
 
 io.github.shunshun94.trpg.discord.Server = class extends io.github.shunshun94.trpg.ClientInterface.Server{
@@ -124,9 +131,13 @@ io.github.shunshun94.trpg.discord.Room = class extends io.github.shunshun94.trpg
 
 	_getRoomInfo() {
 		this.rooms = this.rooms || io.github.shunshun94.trpg.discord.flattenRoomList(this.discord);
-		let roomInfo = list[this.roomId[0]];
-		roomInfo.chatTab = this.roomId.map((id)=>{return list[id].name});
-		return roomInfo;
+		if(this.rooms) {
+			let roomInfo = list[this.roomId[0]];
+			roomInfo.chatTab = this.roomId.map((id)=>{return list[id].name});
+			return roomInfo;
+		} else {
+			return false;
+		}
 	}
 
 	convertRawMessage(raw, channel = 0) {
@@ -136,7 +147,7 @@ io.github.shunshun94.trpg.discord.Room = class extends io.github.shunshun94.trpg
 	        	{
 	        		color: '000000',
 	        		message: raw.content,
-	        		senderName: this.discord.servers[this.rooms[raw.channel_id].guild_id].members[raw.author.id].nick || raw.author.username,
+	        		senderName: (this.rooms[raw.channel_id] && this.discord.servers[this.rooms[raw.channel_id].guild_id].members[raw.author.id].nick) || raw.author.username,
 	        		uniqueId: raw.id,
 	        		channel: channel,
 	        		metadata: {
@@ -266,10 +277,23 @@ io.github.shunshun94.trpg.discord.Room = class extends io.github.shunshun94.trpg
 	}
 
 	getRoomInfo () {
-		return new Promise((resolve, reject) => {
-			const room = this._getRoomInfo();
-			resolve(io.github.shunshun94.trpg.discord.generateRoomInfo(room, this.discord.servers[room.guild_id].members, '', room.chatTab));
-		});
+		const requestRecursive = (resolve, reject, count = 5) => {
+			setTimeout(()=>{
+				const room = this._getRoomInfo();
+				if(room) {
+					resolve(io.github.shunshun94.trpg.discord.generateRoomInfo(room, this.discord.servers[room.guild_id].members, '', room.chatTab));
+				} else {
+					if(count) {
+						requestRecursive(count - 1, resolve, reject);
+					} else {
+						reject('Failed to get room list');
+					}
+					
+				}
+			}, (count-5)*1000);
+		};
+		
+		return new Promise(requestRecursive);
 	}
 	
 	getId () {

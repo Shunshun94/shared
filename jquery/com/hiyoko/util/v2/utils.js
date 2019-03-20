@@ -35,6 +35,23 @@ com.hiyoko.util.getQueries = function(opt_query) {
 	return result;
 };
 
+com.hiyoko.util.setQueries = ()=>{
+	const queries = com.hiyoko.util.getQueries();
+	for(var key in queries) {
+		const elementById = document.getElementById(key);
+		if(elementById) {
+			elementById.value = queries[key].replace(/\\n/gm, '\n');
+		}
+		const elementsByClass = document.getElementsByClassName(key);
+		const elementsByClassLength = elementsByClass.length;
+		if(elementsByClassLength) {
+			for(var i = 0; i < elementsByClassLength; i++) {
+				elementsByClass[i].value = queries[key].replace(/\\n/gm, '\n');
+			}
+		}
+	}
+};
+
 /** 
   * ランダムな文字列を作成する関数です。
   * @param {number} opt_length 生成される文字列の長さです。接頭語・接尾語の長さは含まれません
