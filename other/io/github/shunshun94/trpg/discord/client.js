@@ -284,7 +284,7 @@ io.github.shunshun94.trpg.discord.Room = class extends io.github.shunshun94.trpg
 					resolve(io.github.shunshun94.trpg.discord.generateRoomInfo(room, this.discord.servers[room.guild_id].members, '', room.chatTab));
 				} else {
 					if(count) {
-						requestRecursive(count - 1, resolve, reject);
+						requestRecursive(resolve, reject, count - 1);
 					} else {
 						reject('Failed to get room list');
 					}
@@ -293,7 +293,7 @@ io.github.shunshun94.trpg.discord.Room = class extends io.github.shunshun94.trpg
 			}, (count-5)*1000);
 		};
 		
-		return new Promise(requestRecursive);
+		return new Promise((resolve, reject)=>{requestRecursive(resolve, reject)});
 	}
 	
 	getId () {
