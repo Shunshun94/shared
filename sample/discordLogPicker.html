@@ -84,12 +84,14 @@ const getLogRecursive = (client, lastId=1, currentArray=[], retryCount=0, maxRet
 	});
 };
 
-const generateUrl = (data, donwloadText="DOWNLOAD") => {
-	const blob = new Blob([ data ], { "type" : "text/plain" });
+const generateUrl = (data, donwloadText="DOWNLOAD", filename="data.txt", type="text/plain;charset=utf-8;") => {
+	const blob = new Blob([ data ], { "type" : type });
 	const url = window.URL.createObjectURL(blob);
 	const $a = $('<a></a>');
 	$a.text(donwloadText);
 	$a.attr('href', url);
+	$a.attr('target', '_blank');
+	$a.attr('download', filename);
 	$console.append($a);
 	$console.append('<br/>');
 }
@@ -163,14 +165,14 @@ $('#args-exec').click((e)=>{
 		$console.html(`${$console.html()}取得開始<br/>`);
 		getLogRecursive(discordClient, fromId).then((result)=>{
 			localStorage.setItem('io-github-shunshun94-trpg-discord-entry-token', token);
-			generateUrl(JSON.stringify(result), 'JSON ファイルとしてダウンロードする (右クリックで保存)');
+			generateUrl(JSON.stringify(result), 'JSON ファイルとしてダウンロードする', `${room}.json`, 'text/json;charset=utf-8;');
 			
 			const html = 	'<html><head><link rel="stylesheet" href="https://shunshun94.github.io/shared/jquery/io/github/shunshun94/trpg/replay/replay4.css" type="text/css" /></head>\n<body>\n' +
 										result.map((d)=>{
 											return convertMsgToHiyoHtml(d, isColored);
 										}).join('\n') +
 										'\n</body></html>';
-			generateUrl(html, 'HTML ファイルとしてダウンロードする (右クリックで保存)');
+			generateUrl(html, 'HTML ファイルとしてダウンロードする', `${room}.html`, 'text/html;charset=utf-8;');
 			$console.append(`同じ内容でリクエストしたい場合の URL: ${location.protocol}//${location.host}${location.pathname}?token=${token}&room=${room}&fromId=${fromId}<br/>`);
 		}, (err, a, b, c, d, e) => {
 			$console.append(`<p>${JSON.stringify(err)}</p>`);
