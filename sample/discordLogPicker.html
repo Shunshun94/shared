@@ -156,7 +156,7 @@ const convertMsgToHiyoHtml = (msg, isColored)=>{
 $('#args-exec').click((e)=>{
 	const token = $('#args-token').val();
 	const room = $('#args-room').val();
-	const fromId = Number($('#args-fromId').val()) - 1;
+	const fromId = (Number($('#args-fromId').val()) - 1) || 1;
 	const isColored = $('#args-isColored').prop('checked');
 	const discordClient = new io.github.shunshun94.trpg.discord.Room(token, room);
 	$('#args').hide();
