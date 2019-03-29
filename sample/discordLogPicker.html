@@ -167,7 +167,7 @@ $('#args-exec').click((e)=>{
 			localStorage.setItem('io-github-shunshun94-trpg-discord-entry-token', token);
 			generateUrl(JSON.stringify(result), 'JSON ファイルとしてダウンロードする', `${room}.json`, 'text/json;charset=utf-8;');
 			
-			const html = 	'<html><head><link rel="stylesheet" href="https://shunshun94.github.io/shared/jquery/io/github/shunshun94/trpg/replay/replay4.css" type="text/css" /></head>\n<body>\n' +
+			const html = 	'<html><head><meta charset="UTF-8">\n<link rel="stylesheet" href="https://shunshun94.github.io/shared/jquery/io/github/shunshun94/trpg/replay/replay4.css" type="text/css" />\n</head>\n<body>\n' +
 										result.map((d)=>{
 											return convertMsgToHiyoHtml(d, isColored);
 										}).join('\n') +
