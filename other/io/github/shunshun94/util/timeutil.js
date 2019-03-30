@@ -4,6 +4,12 @@ io.github.shunshun94 = io.github.shunshun94 || {};
 io.github.shunshun94.util = io.github.shunshun94.util || {};
 io.github.shunshun94.util.Time = io.github.shunshun94.util.Time || {};
 
+io.github.shunshun94.util.Time.getDayHead = (tmpDate) => {
+	const date = (typeof tmpDate === 'number') ? new Date(tmpDate) : tmpDate;
+	console.log(date)
+	return new Date(date.getFullYear(), date.getMonth(), date.getDate());
+};
+
 io.github.shunshun94.util.Time.getMonthDays = (param1, param2) => {
 	if(param2) {
 		const base = Number(new Date(`${param1}-${param2}`));
@@ -64,7 +70,40 @@ io.github.shunshun94.util.Time.getWeekendsInTerm = (tmpStart, tmpEnd) => {
 		weekend.tailDate = new Date(weekend.tail);
 		return weekend;
 	});
-}
+};
+
+io.github.shunshun94.util.Time.getDaytimeTermInTerm = (tmpStart, tmpEnd, tmpDayHead='09:00', tmpDayTail='18:00', exceptionalDay = []) => {
+	if( ! /\d\d:\d\d/.test(tmpDayHead) || ! /\d\d:\d\d/.test(tmpDayTail) ) {
+		throw '3rd and 4th argument must be \d\d:\d\d (for example, 09:00)';
+	}
+	const start = (typeof tmpStart === 'number') ? tmpStart : Number(tmpStart);
+	const end = (typeof tmpEnd === 'number') ? tmpEnd : Number(tmpEnd);
+	const dayHead = tmpDayHead.split(':');
+	const dayTail = tmpDayTail.split(':');
+	let cursor = Number(io.github.shunshun94.util.Time.getDayHead(start));
+	let list = [];
+	while( cursor < end ) {
+		const target = new Date(cursor);
+		if(! exceptionalDay.includes(target.getDay())) {
+			list.push({
+				head: Number(new Date(target.getFullYear(), target.getMonth(), target.getDate(), dayHead[0], dayHead[1])),
+				tail: Number(new Date(target.getFullYear(), target.getMonth(), target.getDate(), dayTail[0], dayTail[1]))
+			});
+		}
+		cursor += io.github.shunshun94.util.Time.CONSTS.DAY;
+	}
+	return list.map((weekend)=>{
+		return {
+			head: Math.max(weekend.head, start),
+			tail: Math.min(weekend.tail, end)
+		};
+	}).map((weekend)=>{
+		weekend.headDate = new Date(weekend.head);
+		weekend.tailDate = new Date(weekend.tail);
+		return weekend;
+	});
+};
+
 
 
 
