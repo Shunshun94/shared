@@ -1,5 +1,11 @@
 <script src="./timeutil.js"></script>
 <script>
+console.log(`今日は${io.github.shunshun94.util.Time.getDayHead(new Date())}です (date オブジェクト)`);
+console.log(`今日は${io.github.shunshun94.util.Time.getDayHead(Number(new Date()))}です (number)`);
+/////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
+console.log('2019年2月は何日ある')
 console.log(1, io.github.shunshun94.util.Time.getMonthDays('2019/2') );
 console.log(2, io.github.shunshun94.util.Time.getMonthDays('2019/02') );
 console.log(3, io.github.shunshun94.util.Time.getMonthDays('2019-2') );
@@ -8,10 +14,51 @@ console.log(5, io.github.shunshun94.util.Time.getMonthDays(2019, 2) );
 console.log(6, io.github.shunshun94.util.Time.getMonthDays('2019', '2') );
 console.log(7, io.github.shunshun94.util.Time.getMonthDays('2019', '02') );
 console.log(8, io.github.shunshun94.util.Time.getMonthDays(new Date('2019/02/14')) );
-console.log(9, io.github.shunshun94.util.Time.getMonthDays(2) ); // THIS YEAR
+console.log(9, io.github.shunshun94.util.Time.getMonthDays(2), '(これだけ今年)'); // THIS YEAR
+/////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
+// https://qiita.com/yaju/items/a58a78f41ee41258a5fe
+console.log('重複区間の取得');
+const base_getConflictedTerm = {
+		head: Number(new Date('2016/8/5')),
+		tail: Number(new Date('2016/9/16'))
+};
+const list_getConflictedTerm = [
+	{
+		head: Number(new Date('2016/7/1')),
+		tail: Number(new Date('2016/9/1'))
+	},{
+		head: Number(new Date('2016/8/10')),
+		tail: Number(new Date('2016/9/21'))
+	},{
+		head: Number(new Date('2016/9/15')),
+		tail: Number(new Date('2016/10/11'))
+	},{
+		head: Number(new Date('2016/8/1')),
+		tail: Number(new Date('2016/10/1'))
+	},{
+		head: Number(new Date('2016/7/1')),
+		tail: Number(new Date('2016/8/5'))
+	},{
+		head: Number(new Date('2016/7/1')),
+		tail: Number(new Date('2016/8/3'))
+	},{
+		head: Number(new Date('2016/9/16')),
+		tail: Number(new Date('2016/10/1'))
+	},{
+		head: Number(new Date('2016/9/18')),
+		tail: Number(new Date('2016/10/1'))
+	}
+];
 
+list_getConflictedTerm.forEach((term, i)=>{
+	console.log(i + 1, io.github.shunshun94.util.Time.getConflictedTerm(base_getConflictedTerm, term));
+});
 
+const dayTimeTerms = io.github.shunshun94.util.Time.getDaytimeTermInTerm(new Date('2019/2/1'), new Date('2019/5/1'));
+const weekendTerms = io.github.shunshun94.util.Time.getWeekendsInTerm(new Date('2019/2/1'), new Date('2019/5/1'));
+console.log(io.github.shunshun94.util.Time.getConflictedTerms(dayTimeTerms, weekendTerms));
 
+console.log('io.github.shunshun94.util.Time.CONSTS', io.github.shunshun94.util.Time.CONSTS);
 </script>
-
-

@@ -6,7 +6,6 @@ io.github.shunshun94.util.Time = io.github.shunshun94.util.Time || {};
 
 io.github.shunshun94.util.Time.getDayHead = (tmpDate) => {
 	const date = (typeof tmpDate === 'number') ? new Date(tmpDate) : tmpDate;
-	console.log(date)
 	return new Date(date.getFullYear(), date.getMonth(), date.getDate());
 };
 
@@ -45,7 +44,6 @@ io.github.shunshun94.util.Time.getWeekendsInTerm = (tmpStart, tmpEnd) => {
 			if( currentDate.getDay() === 6 ) {
 				return Number(new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate()));
 			}
-			console.log(currentDate);
 			_cursor = _cursor + io.github.shunshun94.util.Time.CONSTS.DAY;
 		}
 		return 0;
@@ -104,7 +102,70 @@ io.github.shunshun94.util.Time.getDaytimeTermInTerm = (tmpStart, tmpEnd, tmpDayH
 	});
 };
 
+io.github.shunshun94.util.Time.getConflictedTerm = (base, term) => {
+	// REF https://qiita.com/yaju/items/a58a78f41ee41258a5fe
+	if( base.head >= term.head ) {
+		if ( term.tail >= base.head) {
+			if ( term.tail <= base.tail ) {
+				return { // 1
+					head: base.head,
+					tail: term.tail,
+					headDate: new Date(base.head),
+					tailDate: new Date(term.tail),
+					length: term.tail - base.head
+				};
+			}
+			if (term.tail > base.tail) {
+				return { // 4
+					head: base.head,
+					tail: base.tail,
+					headDate: new Date(base.head),
+					tailDate: new Date(base.tail),
+					length: base.tail - base.head
+				};
+			}
+		}
+	} else {
+		if ( base.tail <= term.tail ) {
+			if ( base.tail >= term.head ) {
+				// 2
+				// 3
+				return {
+					head: term.head,
+					tail: base.tail,
+					headDate: new Date(term.head),
+					tailDate: new Date(base.tail),
+					length: base.tail - term.head
+				};				
+			}
+		}
+	}
+	// 5, 6
+	return {
+		length: 0,
+		head: null, tail: null,
+		headDate: null, tailDate: null
+	};
+};
 
+io.github.shunshun94.util.Time.getConflictedTerms = (listA, listB) => {
+	let resultCand = [];
+	listA.forEach((termA)=>{
+		listB.forEach((termB)=>{
+			resultCand.push(io.github.shunshun94.util.Time.getConflictedTerm(termA, termB));
+		});
+	});
+	let calcMap = {};
+	return resultCand.filter((d)=>{
+		const key = `${d.head}-${d.tail}`;
+		if(calcMap[key]) {
+			return false;
+		} else {
+			calcMap[key] = true;
+			return d.length;
+		}
+	});
+};
 
 
 io.github.shunshun94.util.Time.CONSTS = io.github.shunshun94.util.Time.CONSTS || {};
