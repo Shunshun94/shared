@@ -27,6 +27,7 @@ p {
 	padding-bottom:4px;
 	width: 800px;
 	line-height: 130%;
+	position: relative;
 }
 
 hr {
@@ -49,7 +50,6 @@ sup:hover {
 .tab1 {
 	background-color: #F5F5F5;
 	font-size:70%;
-	
 }
 
 .tab1 .name:before{
@@ -73,6 +73,14 @@ sup:hover {
 	display: block;
 	padding-left:1em;
 }
+
+header, footer {
+	font-size: 80%;
+}
+footer {
+	text-align: right;
+}
+
 .note {
 	display:none;
 	position:absolute;
@@ -84,9 +92,12 @@ sup:hover {
 .note a {
 	color: white;
 }
-header, footer {
-	font-size: 80%;
+
+.io-github-shunshun94-trpg-ReplayV3-removetab1 {
+	position: absolute;
+	right:4px;
+	top: 4px;
 }
-footer {
-	text-align: right;
-}
+
+
+
