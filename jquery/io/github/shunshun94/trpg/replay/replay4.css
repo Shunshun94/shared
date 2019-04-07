@@ -26,6 +26,7 @@ p {
 	padding-top:4px;
 	padding-bottom:4px;
 	width: 800px;
+	line-height: 130%;
 }
 
 hr {
@@ -42,16 +43,19 @@ sup:hover {
 }
 
 .tab0:nth-child(even) {
-	background-color: #F5F5F5;
+	background-color: #F5F5FF;
 }
+
 .tab1 {
-	background-color: #ffffe0;
+	background-color: #F5F5F5;
 	font-size:70%;
-	padding-left: 2em;
+	
 }
-.tab1:nth-child(even) {
-	background-color: #fffacd;
+
+.tab1 .name:before{
+	content:"【雑談】"
 }
+
 .tab9, .tab8 {
 	display:none;
 }
