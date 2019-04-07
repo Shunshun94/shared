@@ -25,7 +25,7 @@ io.github.shunshun94.trpg.ReplayV3 = class {
 			$('.tab1:first').append(`<span class="io-github-shunshun94-trpg-ReplayV3-removetab1">×</span>`);
 			$('.io-github-shunshun94-trpg-ReplayV3-removetab1').click((e)=>{
 				if(confirm('雑談をすべて消しますか？')) {
-					$('.tab1').hide();
+					$('.tab1').remove();
 				}
 			});
 		}
