@@ -26,6 +26,8 @@ p {
 	padding-top:4px;
 	padding-bottom:4px;
 	width: 800px;
+	line-height: 130%;
+	position: relative;
 }
 
 hr {
@@ -42,16 +44,18 @@ sup:hover {
 }
 
 .tab0:nth-child(even) {
-	background-color: #F5F5F5;
+	background-color: #F5F5FF;
 }
+
 .tab1 {
-	background-color: #ffffe0;
+	background-color: #F5F5F5;
 	font-size:70%;
-	padding-left: 2em;
 }
-.tab1:nth-child(even) {
-	background-color: #fffacd;
+
+.tab1 .name:before{
+	content:"【雑談】"
 }
+
 .tab9, .tab8 {
 	display:none;
 }
@@ -69,6 +73,14 @@ sup:hover {
 	display: block;
 	padding-left:1em;
 }
+
+header, footer {
+	font-size: 80%;
+}
+footer {
+	text-align: right;
+}
+
 .note {
 	display:none;
 	position:absolute;
@@ -80,9 +92,12 @@ sup:hover {
 .note a {
 	color: white;
 }
-header, footer {
-	font-size: 80%;
+
+.io-github-shunshun94-trpg-ReplayV3-removetab1 {
+	position: absolute;
+	right:4px;
+	top: 4px;
 }
-footer {
-	text-align: right;
-}
+
+
+
