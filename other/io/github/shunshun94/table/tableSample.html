@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>table の上端と左端を固定にする</title>
+<style>
+	* {
+		box-sizing: border-box
+	}
+	.base {
+		overflow-x:scroll;
+		overflow-y:visible;
+		width:400px;
+		height:200px;
+	}
+	table.columnFixedTable {
+		table-layout:fixed;
+	}
+	.columnFixedTable > tbody > tr,
+	.columnFixedTable > thead {
+		position: relative;
+	}
+	.columnFixedTable > tbody > tr > td:nth-child(1) {
+		width:100px;
+		background-color: gray;
+		position:absolute;
+		left:0px;
+	}
+	.columnFixedTable > thead > tr {
+		height:60px;
+		width:100px;
+		background-color: gray;
+	}
+	
+	
+
+
+</style>
+</head>
+<body>
+<div class="base">
+	<table class="columnFixedTable" border="1">
+		<thead>
+			<tr>
+				<td></td><td></td><td></td><td></td><td></td>
+				<td></td><td></td><td></td><td></td><td></td>
+				<td></td><td></td><td></td><td></td><td></td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td></td><td></td><td></td><td></td><td></td>
+				<td></td><td></td><td></td><td></td><td></td>
+				<td></td><td></td><td></td><td></td><td></td>
+			</tr>
+			<tr>
+				<td></td><td></td><td></td><td></td><td></td>
+				<td></td><td></td><td></td><td></td><td></td>
+				<td></td><td></td><td></td><td></td><td></td>
+			</tr>
+			<tr>
+				<td></td><td></td><td></td><td></td><td></td>
+				<td></td><td></td><td></td><td></td><td></td>
+				<td></td><td></td><td></td><td></td><td></td>
+			</tr>
+			<tr>
+				<td></td><td></td><td></td><td></td><td></td>
+				<td></td><td></td><td></td><td></td><td></td>
+				<td></td><td></td><td></td><td></td><td></td>
+			</tr>
+			<tr>
+				<td></td><td></td><td></td><td></td><td></td>
+				<td></td><td></td><td></td><td></td><td></td>
+				<td></td><td></td><td></td><td></td><td></td>
+			</tr>
+			<tr>
+				<td></td><td></td><td></td><td></td><td></td>
+				<td></td><td></td><td></td><td></td><td></td>
+				<td></td><td></td><td></td><td></td><td></td>
+			</tr>
+			<tr>
+				<td></td><td></td><td></td><td></td><td></td>
+				<td></td><td></td><td></td><td></td><td></td>
+				<td></td><td></td><td></td><td></td><td></td>
+			</tr>
+			<tr>
+				<td></td><td></td><td></td><td></td><td></td>
+				<td></td><td></td><td></td><td></td><td></td>
+				<td></td><td></td><td></td><td></td><td></td>
+			</tr>
+			<tr>
+				<td></td><td></td><td></td><td></td><td></td>
+				<td></td><td></td><td></td><td></td><td></td>
+				<td></td><td></td><td></td><td></td><td></td>
+			</tr>
+			<tr>
+				<td></td><td></td><td></td><td></td><td></td>
+				<td></td><td></td><td></td><td></td><td></td>
+				<td></td><td></td><td></td><td></td><td></td>
+			</tr>
+			<tr>
+				<td></td><td></td><td></td><td></td><td></td>
+				<td></td><td></td><td></td><td></td><td></td>
+				<td></td><td></td><td></td><td></td><td></td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<script>
+	$('thead>tr>td').each((i, v)=>{$(v).text(`column-${i}`)});
+	$('tbody>tr').each((i, tr)=>{
+		$(tr).find('td').each((j, td)=>{
+			$(td).text(`cell-${i}-${j}`);
+		});
+	});
+</script>
+</body>
+</html>
