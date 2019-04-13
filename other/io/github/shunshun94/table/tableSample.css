@@ -20,34 +20,40 @@
 	table.columnFixedTable > thead {
 		left:auto;
 		top:auto;
-		background-color:red;
 	}
 
 	table.columnFixedTable > tbody {
 		display:block;
-		top: 60px;
-		background-color:yellow;
+		top: 62px;
 		overflow:scroll;
 		height:240px;
 	}
 
 	table.columnFixedTable tr {
 		display:block;
-		width:1511px;
+		width:1522px;
+		position: relative;
 	}
 
 	table.columnFixedTable td {
+		vertical-align: top;
 		width: 100px;
 		height: 60px;
 		left: 100px;
 		margin-left:0px;
-		display:inline-block;
+		display:table-cell;
 		background-color: #EEEEEE;
 		position: relative;
 	}
+	
+	table.columnFixedTable > thead > tr > td {
+		background-color: #BBFFFF;
+	}
 
 	table.columnFixedTable td:nth-child(1) {
+		background-color: #BBFFFF;
 		position: absolute;
 		left:0;
+		top:2px;
 		z-index:1;
 	}
