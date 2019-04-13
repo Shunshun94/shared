@@ -1,0 +1,53 @@
+	* {
+		box-sizing: border-box;
+	}
+	
+	table.columnFixedTable {
+		position:absolute;
+		overflow:scroll;
+		top: 20px;
+		left: 20px;
+		width: 500px;
+		height: 315px;
+		display:block;
+	}
+
+	table.columnFixedTable > * {
+		position:absolute;
+		display:block;
+	}
+
+	table.columnFixedTable > thead {
+		left:auto;
+		top:auto;
+		background-color:red;
+	}
+
+	table.columnFixedTable > tbody {
+		display:block;
+		top: 60px;
+		background-color:yellow;
+		overflow:scroll;
+		height:240px;
+	}
+
+	table.columnFixedTable tr {
+		display:block;
+		width:1511px;
+	}
+
+	table.columnFixedTable td {
+		width: 100px;
+		height: 60px;
+		left: 100px;
+		margin-left:0px;
+		display:inline-block;
+		background-color: #EEEEEE;
+		position: relative;
+	}
+
+	table.columnFixedTable td:nth-child(1) {
+		position: absolute;
+		left:0;
+		z-index:1;
+	}
