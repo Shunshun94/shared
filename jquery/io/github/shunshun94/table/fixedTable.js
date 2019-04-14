@@ -18,7 +18,7 @@ io.github.shunshun94.table.FixedTable = class {
 				console.error('table element is %o', this.table);
 				throw "In io.github.shunshun94.table.FixedTable, table element must includes thead and tbody";
 			}
-			this.colColumns = opt.colColumns || opt.col || 1;
+			this.colColumns = Number(opt.colColumns) || Number(opt.col) || 1;
 			this.originalWidth = this.table.width();
 			this.width = Number(opt.width) || false;
 
