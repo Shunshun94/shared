@@ -25,8 +25,8 @@ io.github.shunshun94.table.FixedTable = class {
 			this.cellsWidth = opt.cellsWidth || opt.cellWidth || this.table.find('thead>tr:nth-child(1)>*').map((i,v)=>{return $(v).width()}).get();
 			this.cellsHeight = opt.cellsHeight || opt.cellsHeight || this.table.find('tr>*:first-child').map((i,v)=>{return $(v).height()}).get();
 
-			this.headHeight = opt.headHeight || this.table.find('thead').height();
-			this.bodyHeight = opt.bodyHeight || this.table.find('tbody').height();
+			this.headHeight = Number(opt.headHeight) || this.table.find('thead').height();
+			this.bodyHeight = Number(opt.bodyHeight) || this.table.find('tbody').height();
 			this.totalHeight = this.headHeight + this.bodyHeight + 20;
 			this.setCss();
 			this.bindEvents();
