@@ -7,14 +7,14 @@
 		overflow:scroll;
 		top: 20px;
 		left: 20px;
-		width: 500px;
+		width: 400px;
 		height: 315px;
 		display:block;
 	}
 
 	table.columnFixedTable > * {
-		position:absolute;
 		display:block;
+		position:absolute;
 	}
 
 	table.columnFixedTable > thead {
@@ -23,7 +23,6 @@
 	}
 
 	table.columnFixedTable > tbody {
-		display:block;
 		top: 62px;
 		overflow:scroll;
 		height:240px;
@@ -40,8 +39,6 @@
 		width: 100px;
 		height: 60px;
 		left: 100px;
-		margin-left:0px;
-		display:table-cell;
 		background-color: #EEEEEE;
 		position: relative;
 	}
