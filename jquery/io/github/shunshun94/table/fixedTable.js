@@ -18,15 +18,15 @@ io.github.shunshun94.table.FixedTable = class {
 				console.error('table element is %o', this.table);
 				throw "In io.github.shunshun94.table.FixedTable, table element must includes thead and tbody";
 			}
-			this.colColumns = opt.colColumns || opt.col || 1;
+			this.colColumns = Number(opt.colColumns) || Number(opt.col) || 1;
 			this.originalWidth = this.table.width();
 			this.width = Number(opt.width) || false;
 
 			this.cellsWidth = opt.cellsWidth || opt.cellWidth || this.table.find('thead>tr:nth-child(1)>*').map((i,v)=>{return $(v).width()}).get();
 			this.cellsHeight = opt.cellsHeight || opt.cellsHeight || this.table.find('tr>*:first-child').map((i,v)=>{return $(v).height()}).get();
 
-			this.headHeight = opt.headHeight || this.table.find('thead').height();
-			this.bodyHeight = opt.bodyHeight || this.table.find('tbody').height();
+			this.headHeight = Number(opt.headHeight) || this.table.find('thead').height();
+			this.bodyHeight = Number(opt.bodyHeight) || this.table.find('tbody').height();
 			this.totalHeight = this.headHeight + this.bodyHeight + 20;
 			this.setCss();
 			this.bindEvents();
