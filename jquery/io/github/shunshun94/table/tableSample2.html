@@ -5,6 +5,8 @@
 <title>table の上端と左端を固定にする</title>
 </head>
 <body>
+	<h1>table の上端と左端を固定にする</h1>
+	<h2>結果</h2>
 	<table class="columnFixedTable" border="1">
 		<thead>
 			<tr>
@@ -71,9 +73,11 @@
 			</tr>
 		</tbody>
 	</table>
+	<hr/>
+	<h2>今回のパラメータ</h2>
+	<pre id="params"></pre>
 
-
-
+<script src='../../../../com/hiyoko/util/v2/utils.js'></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 <script src="./fixedTable.js"></script>
 <script>
@@ -83,9 +87,9 @@
 			$(td).text(`cell-${i}-${j}`);
 		});
 	});
-	new io.github.shunshun94.table.FixedTable({
-		bodyHeight: 300
-	}, $('.columnFixedTable'));
+	const params = com.hiyoko.util.getQueries();
+	new io.github.shunshun94.table.FixedTable(params, $('.columnFixedTable'));
+	$('#params').html(JSON.stringify(params, null, '  '))
 </script>
 </body>
 </html>
