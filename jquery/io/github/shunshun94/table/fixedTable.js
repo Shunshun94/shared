@@ -46,8 +46,12 @@ io.github.shunshun94.table.FixedTable = class {
 		this.table.find('thead').css({
 			'position': 'absolute',
 			'left': 'auto',
-			'top': 'auto'
+			'top': 'auto',
+			'z-index':2
 		});
+		if(this.table.find('thead').css('background-color') === 'rgba(0, 0, 0, 0)') {
+			this.table.find('thead').css('background-color', 'white');
+		} 
 		this.table.find('tbody').css({
 			'position': 'absolute',
 			'top': `${this.headHeight}px`,
