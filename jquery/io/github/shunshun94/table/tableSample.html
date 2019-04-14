@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>table の上端と左端を固定にする</title>
+<link rel="stylesheet" href="tableSample.css" type="text/css" />
+<style>
+</style>
+</head>
+<body>
+	<table class="columnFixedTable" border="1">
+		<thead>
+			<tr>
+				<td></td><td></td><td></td><td></td><td></td>
+				<td></td><td></td><td></td><td></td><td></td>
+				<td></td><td></td><td></td><td></td><td></td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td></td><td></td><td></td><td></td><td></td>
+				<td></td><td></td><td></td><td></td><td></td>
+				<td></td><td></td><td></td><td></td><td></td>
+			</tr>
+			<tr>
+				<td></td><td></td><td></td><td></td><td></td>
+				<td></td><td></td><td></td><td></td><td></td>
+				<td></td><td></td><td></td><td></td><td></td>
+			</tr>
+			<tr>
+				<td></td><td></td><td></td><td></td><td></td>
+				<td></td><td></td><td></td><td></td><td></td>
+				<td></td><td></td><td></td><td></td><td></td>
+			</tr>
+			<tr>
+				<td></td><td></td><td></td><td></td><td></td>
+				<td></td><td></td><td></td><td></td><td></td>
+				<td></td><td></td><td></td><td></td><td></td>
+			</tr>
+			<tr>
+				<td></td><td></td><td></td><td></td><td></td>
+				<td></td><td></td><td></td><td></td><td></td>
+				<td></td><td></td><td></td><td></td><td></td>
+			</tr>
+			<tr>
+				<td></td><td></td><td></td><td></td><td></td>
+				<td></td><td></td><td></td><td></td><td></td>
+				<td></td><td></td><td></td><td></td><td></td>
+			</tr>
+			<tr>
+				<td></td><td></td><td></td><td></td><td></td>
+				<td></td><td></td><td></td><td></td><td></td>
+				<td></td><td></td><td></td><td></td><td></td>
+			</tr>
+			<tr>
+				<td></td><td></td><td></td><td></td><td></td>
+				<td></td><td></td><td></td><td></td><td></td>
+				<td></td><td></td><td></td><td></td><td></td>
+			</tr>
+			<tr>
+				<td></td><td></td><td></td><td></td><td></td>
+				<td></td><td></td><td></td><td></td><td></td>
+				<td></td><td></td><td></td><td></td><td></td>
+			</tr>
+			<tr>
+				<td></td><td></td><td></td><td></td><td></td>
+				<td></td><td></td><td></td><td></td><td></td>
+				<td></td><td></td><td></td><td></td><td></td>
+			</tr>
+			<tr>
+				<td></td><td></td><td></td><td></td><td></td>
+				<td></td><td></td><td></td><td></td><td></td>
+				<td></td><td></td><td></td><td></td><td></td>
+			</tr>
+		</tbody>
+	</table>
+
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<script>
+	$('thead>tr>td').each((i, v)=>{$(v).text(`column-${i}`)});
+	$('tbody>tr').each((i, tr)=>{
+		$(tr).find('td').each((j, td)=>{
+			$(td).text(`cell-${i}-${j}`);
+		});
+	});
+	const scrollReaction = (e) => {
+		const $table = $(e.target);
+		const rightLength = $table.scrollLeft();
+		$table.find('td:first-child').css('left', `${rightLength}px`);
+	};
+	
+	$('.columnFixedTable').scroll((e)=>{
+		scrollReaction(e);
+	});
+	
+
+</script>
+</body>
+</html>
