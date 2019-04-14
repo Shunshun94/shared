@@ -37,7 +37,6 @@
 		vertical-align: top;
 		width: 100px;
 		height: 60px;
-		left: 100px;
 		background-color: #EEEEEE;
 		position: relative;
 	}
@@ -48,8 +47,5 @@
 
 	table.columnFixedTable td:nth-child(1) {
 		background-color: #BBFFFF;
-		position: absolute;
-		left:0;
-		top:2px;
 		z-index:1;
 	}
