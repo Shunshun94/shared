@@ -185,7 +185,8 @@ com.hiyoko.VampireBlood.DX3 = class extends com.hiyoko.VampireBlood.Client {
 				name: name,
 				standing: Number(json.item_price[i]) || 0,
 				count: Number(json.item_num[i]) || 0,
-				skill: null, type: null, exp: null
+				skill: null, type: null, exp: null,
+				notes: json.item_memo[i] || ''
 			};
 		}).filter((item) => {return item.name});
 		this.armours = [];
