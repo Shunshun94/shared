@@ -47,22 +47,70 @@ io.github.shunshun94.trpg.scenarioTools.ViceCity = class {
 		});
 		const list = this.buildPlaceList();
 		$('.paragraph-select').append(list);
+
+		if(this.decided[io.github.shunshun94.trpg.scenarioTools.ViceCity.CONSTS.KEYS.CURRENT_PARAGRAPH]) {
+			if(/\d+/.test(this.decided[io.github.shunshun94.trpg.scenarioTools.ViceCity.CONSTS.KEYS.CURRENT_PARAGRAPH])) {
+				$(`#paragraph-${this.decided[io.github.shunshun94.trpg.scenarioTools.ViceCity.CONSTS.KEYS.CURRENT_PARAGRAPH]}`).addClass('paragraph-current-exist');
+			} else {
+				$(`.${this.decided[io.github.shunshun94.trpg.scenarioTools.ViceCity.CONSTS.KEYS.CURRENT_PARAGRAPH]}`).addClass('paragraph-current-exist');
+			}
+		}
 	};
+
+	updatePage(key, val) {
+		if(location.search) {
+			if(location.search.indexOf(key) > -1) {
+				const re = RegExp(`(${key}=[^&]*)`);
+				location.href = location.href.replace(re, `${key}=${val}`);
+			} else {
+				location.href += `&${key}=${val}`;
+			}
+		} else {
+			location.href += `?${key}=${val}`;
+		}
+	}
+
+	moveToParagraph(e) {
+		if(typeof e === 'string') {
+			this.updatePage(io.github.shunshun94.trpg.scenarioTools.ViceCity.CONSTS.KEYS.CURRENT_PARAGRAPH, e);
+			return;
+		} else {
+			let tag = $(e.target);
+			if(tag.hasClass('paragraph-select')) {
+				return;
+			}
+			if(tag.hasClass('paragraph-code')) {
+				tag = tag.parent();
+				console.log(tag)
+			}
+			const domIdRE = /\d+/;
+			this.updatePage(io.github.shunshun94.trpg.scenarioTools.ViceCity.CONSTS.KEYS.CURRENT_PARAGRAPH, domIdRE.exec(tag.attr('id'))[0]);
+		}
+	}
+
+	decideParagraph(e) {
+		const key = $(e.target).attr('id').replace('paragraph-select-', '');
+		const val = $(e.target).val();
+		if(location.search) {
+			location.href += `&${key}=${val}`;
+		} else {
+			location.href += `?${key}=${val}`;
+		}
+	}
 	
 	bindEvents() {
-		$('.paragraph-select').change((e)=>{
-			const key = $(e.target).attr('id').replace('paragraph-select-', '');
-			const val = $(e.target).val();
-			if(location.search) {
-				location.href += `&${key}=${val}`;
-			} else {
-				location.href += `?${key}=${val}`;
-			}
-		});
+		$('.paragraph-select').change((e)=>{this.decideParagraph(e)});
+		$('.paragraph').click((e)=>{this.moveToParagraph(e)});
+		$('.westtown').click((e)=>{this.moveToParagraph('westtown')});
+		$('.oldtown').click((e)=>{this.moveToParagraph('oldtown')});
+		$('.newtown').click((e)=>{this.moveToParagraph('newtown')});
 	}
 };
 
 io.github.shunshun94.trpg.scenarioTools.ViceCity.CONSTS = {
+		KEYS: {
+			CURRENT_PARAGRAPH: '_currentParagraph'
+		},
 		ID: 'io-github-shunshun94-trpg-scenarioTools-ViceCity',
 		AREAS: {
 			"11": "11 宿屋 ドワーフの火祭り亭",

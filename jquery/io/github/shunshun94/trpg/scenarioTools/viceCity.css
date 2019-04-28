@@ -3,12 +3,29 @@
 	box-sizing: border-box;
 	font-family: "BIZ UDゴシック","UD Shin Go NT Light JIS2004","UD デジタル 教科書体 N-R", Verdana, Roboto, "Droid Sans", "游ゴシック", YuGothic, "メイリオ", Meiryo, "ヒラギノ角ゴ ProN W3", "Hiragino Kaku Gothic ProN", "ＭＳ Ｐゴシック", sans-serif;
 }
-table {
-	border: 1px solid black;
+body {
+	width:1100px;
 }
- .dangerous_a {background-color:#FFDDDD;}
- .dangerous_b {background-color:#FFEEEE;}
- .dangerous_c {background-color:#FFFFFF;}
+#io-github-shunshun94-trpg-scenarioTools-ViceCity {
+	border: 1px solid black;
+	display:inline-block;
+}
+
+#how_to_use {
+	display:inline-block;
+	width:340px;
+	vertical-align:top;
+}
+#how_to_use > h2 {
+	margin-bottom:2px;
+}
+#how_to_use > p {
+	margin-top:2px;
+}
+
+.dangerous_a {background-color:#FFDDDD;}
+.dangerous_b {background-color:#FFEEEE;}
+.dangerous_c {background-color:#FFFFFF;}
 td {
 	height:90px;
 	width:90px;
@@ -17,7 +34,7 @@ td {
 	position:relative;
 }
 td.static {
-	background-color:white;
+	background-color: white;
 }
 td.empty {
 	background-color: black;
@@ -42,9 +59,15 @@ td.paragraph,
 	width:100%;
 }
 
+td.paragraph-current-exist {
+	background-color:blue;
+	color:white;
+}
+
 .label,.object {
 	border:1px black solid;
 	display:block;
+	color:black;
 	padding:4px;
 	position:absolute;
 	z-index:1;
@@ -52,6 +75,7 @@ td.paragraph,
 }
 .object{
 	background-color:#FFFFFF;
+	color:black;
 	text-align:center;
 }
 #label_a {
@@ -79,3 +103,12 @@ td.paragraph,
 	top:10px;
 }
 
+footer{
+	border-top: solid 3px #D0C0C0;
+	background-color:#F0E0E0;
+	padding:2px;
+	font-size:70%;
+}
+footer>p {
+	margin:4px;
+}
