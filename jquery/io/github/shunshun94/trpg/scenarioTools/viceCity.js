@@ -72,8 +72,11 @@ io.github.shunshun94.trpg.scenarioTools.ViceCity = class {
 
 	moveToParagraph(e) {
 		if(typeof e === 'string') {
-			this.updatePage(io.github.shunshun94.trpg.scenarioTools.ViceCity.CONSTS.KEYS.CURRENT_PARAGRAPH, e);
-			return;
+			if(this.decided[io.github.shunshun94.trpg.scenarioTools.ViceCity.CONSTS.KEYS.CURRENT_PARAGRAPH] === e) {
+				this.updatePage(io.github.shunshun94.trpg.scenarioTools.ViceCity.CONSTS.KEYS.CURRENT_PARAGRAPH, '');
+			} else {
+				this.updatePage(io.github.shunshun94.trpg.scenarioTools.ViceCity.CONSTS.KEYS.CURRENT_PARAGRAPH, e);
+			}
 		} else {
 			let tag = $(e.target);
 			if(tag.hasClass('paragraph-select')) {
@@ -81,10 +84,14 @@ io.github.shunshun94.trpg.scenarioTools.ViceCity = class {
 			}
 			if(tag.hasClass('paragraph-code')) {
 				tag = tag.parent();
-				console.log(tag)
 			}
 			const domIdRE = /\d+/;
-			this.updatePage(io.github.shunshun94.trpg.scenarioTools.ViceCity.CONSTS.KEYS.CURRENT_PARAGRAPH, domIdRE.exec(tag.attr('id'))[0]);
+			const newPlaceId = domIdRE.exec(tag.attr('id'))[0];
+			if(this.decided[io.github.shunshun94.trpg.scenarioTools.ViceCity.CONSTS.KEYS.CURRENT_PARAGRAPH] === newPlaceId) {
+				this.updatePage(io.github.shunshun94.trpg.scenarioTools.ViceCity.CONSTS.KEYS.CURRENT_PARAGRAPH, '');
+			} else {
+				this.updatePage(io.github.shunshun94.trpg.scenarioTools.ViceCity.CONSTS.KEYS.CURRENT_PARAGRAPH, newPlaceId);
+			}
 		}
 	}
 
