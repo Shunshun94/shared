@@ -1,0 +1,36 @@
+@charset "utf-8";
+* {
+	box-sizing: border-box;
+	font-family: "BIZ UDゴシック","UD Shin Go NT Light JIS2004","UD デジタル 教科書体 N-R", Verdana, Roboto, "Droid Sans", "游ゴシック", YuGothic, "メイリオ", Meiryo, "ヒラギノ角ゴ ProN W3", "Hiragino Kaku Gothic ProN", "ＭＳ Ｐゴシック", sans-serif;
+}
+
+/* Calendar */
+
+.vcm-calendar-table-day-tr-td {
+	padding:4px;
+}
+.vcm-calendar-table-day-tr-td:hover{
+	border: red 1px solid;
+	background-color: #FFCCCC;
+}
+.vcm-calendar-table-day-tr-td-done {
+	background-color: #CCCCCC;
+}
+.vcm-calendar-table-day-tr-td-done:hover {
+	border: #CCCCCC 1px solid;
+	background-color: #AAAAAA;
+}
+.vcm-calendar-table-day-tr-td-slept {
+	background-color: #CCFFFF;
+}
+.vcm-calendar-table-day-tr-td-lunch:hover {
+	border: #CCFFFF 1px solid;
+	background-color: #AACCCC;
+}
+.vcm-calendar-table-day-tr-td-lunch {
+	background-color: #FFFFCC;
+}
+.vcm-calendar-table-day-tr-td-lunch:hover {
+	border: #FFFFCC 1px solid;
+	background-color: #CCCCAA;
+}
