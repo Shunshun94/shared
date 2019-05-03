@@ -106,7 +106,7 @@ io.github.shunshun94.trpg.scenarioTools.ViceCityCheck.Calendar = class {
 	}
 	
 	drawTable() {
-		for(var i = 0; i < this.currentTime; i++) {
+		for(var i = 0; i < this.currentTime + 1; i++) {
 			$(`#${this.tdClass}-${i}`).addClass(`${this.tdClass}-done`);
 			$(`#${this.tdClass}-${i}`).text('済');
 		}
