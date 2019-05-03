@@ -34,3 +34,17 @@
 	border: #FFFFCC 1px solid;
 	background-color: #CCCCAA;
 }
+
+/* rndevents */
+
+.vcm-rndevents-table-rndevent-td:hover {
+	border: red 1px solid;
+	background-color: #FFCCCC;
+}
+.vcm-rndevents-table-rndevent-td-done {
+	background-color: #CCCCCC;
+}
+.vcm-rndevents-table-rndevent-td-done:hover {
+	border: #CCCCCC 1px solid;
+	background-color: #AAAAAA;
+}

@@ -8,7 +8,11 @@ io.github.shunshun94.trpg.scenarioTools.ViceCityCheck = class {
 		const id = $dom.attr('id');
 		const query = this.getQuery();
 		this.components = [
-			new io.github.shunshun94.trpg.scenarioTools.ViceCityCheck.Calendar($dom.find(`#${id}-calendar`), query)
+			new io.github.shunshun94.trpg.scenarioTools.ViceCityCheck.Calendar($dom.find(`#${id}-calendar`), query),
+			new io.github.shunshun94.trpg.scenarioTools.ViceCityCheck.RndEvents($dom.find(`#${id}-rndevents`), query),
+			new io.github.shunshun94.trpg.scenarioTools.ViceCityCheck.Trump30Table($dom.find(`#${id}-trump30table`), query),
+			new io.github.shunshun94.trpg.scenarioTools.ViceCityCheck.Missions($dom.find(`#${id}-missions`), query),
+			new io.github.shunshun94.trpg.scenarioTools.ViceCityCheck.Counters($dom.find(`#${id}-counters`), query)
 		];
 		$dom.find(`#${id}-generate`).click((e)=>{
 			const url = `${location.href.replace(location.search, '')}?${this.components.map((c)=>{return c.generateUrl()}).join('&')}`;
@@ -107,6 +111,7 @@ io.github.shunshun94.trpg.scenarioTools.ViceCityCheck.Calendar = class {
 		let $table = $(
 				`<table id="${this.id}-table" border="1">
 					<thead>
+						<caption>カレンダー</caption>
 						<tr>
 							<th>日</th>
 							<th colspan="6">朝</th>
@@ -147,17 +152,82 @@ io.github.shunshun94.trpg.scenarioTools.ViceCityCheck.Calendar.CONSTS = {
 };
 
 io.github.shunshun94.trpg.scenarioTools.ViceCityCheck.RndEvents = class {
-	
+	constructor($dom, status={}) {
+		this.$dom = $dom;
+		this.id = $dom.attr('id');
+		this.clazz = `${this.id}-table-rndevent-td`;
+
+		$dom.append(this.generateTable());
+		$dom.append(`<br/><button id="${this.id}-reset">ランダムイベントをリセット</button>`);
+
+		const rndEvents = (status.rndEvents || '').split(',');
+		rndEvents.forEach((v)=>{
+			this.toggleEvent($(`#${this.clazz}-${v}`));
+		});
+
+		this.bindEvents();
+	}
+
+	bindEvents() {
+		$(`.${this.clazz}`).click((e)=>{ this.toggleEvent($(e.target)) });
+		$(`#${this.id}-reset`).click((e)=>{
+			this.$dom.empty();
+			this.$dom.append(this.generateTable());
+			this.$dom.append(`<br/><button id="${this.id}-reset">ランダムイベントをリセット</button>`);
+		});
+	}
+
+	generateTable() {
+		let $table = $(`<table id="${this.id}-table" border="1"><caption>ランダムイベント</caption></table>`);
+		for(var i = 0; i < 5; i++) {
+			let $tr = $(`<tr></tr>`);
+			for(var j = 0; j < 6; j++) {
+				$tr.append(`<td
+					class="${this.clazz}"
+					id="${this.clazz}-${i*6+j}">${i*6+j+1}
+				</td>`);
+			}
+			$table.append($tr);
+		}
+		return $table;
+	}
+	getId($dom) {
+		return Number($dom.attr('id').replace(`${this.clazz}-`, ''));
+	}
+	toggleEvent($dom) {
+		if($dom.hasClass(`${this.clazz}-done`)) {
+			$dom.text(this.getId($dom)+1);
+			$dom.removeClass(`${this.clazz}-done`);
+		} else {
+			$dom.text('済');
+			$dom.addClass(`${this.clazz}-done`);
+		}
+	}
+	generateUrl() {
+		const doneList = $(`.${this.clazz}-done`);
+		let vals = [];
+		doneList.each((i, v)=>{
+			vals.push(this.getId($(v)));
+		})
+		return `rndEvents=${vals.join(',')}`;
+	}
 };
 
 io.github.shunshun94.trpg.scenarioTools.ViceCityCheck.Trump30Table = class {
-	
+	constructor($dom, status={}) {}
+	generateUrl() {return '';}
 };
 
 io.github.shunshun94.trpg.scenarioTools.ViceCityCheck.Missions = class {
-	
+	constructor($dom, status={}) {}
+	generateUrl() {return '';}
 };
 
 io.github.shunshun94.trpg.scenarioTools.ViceCityCheck.Counters = class {
-	
+	constructor($dom, status={}) {}
+	generateUrl() {return '';}
+	// かけら奉納数
+	// シャード奉納数
+	// 貢献度
+	// ★
 };
