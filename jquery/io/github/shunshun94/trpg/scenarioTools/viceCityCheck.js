@@ -18,7 +18,22 @@ io.github.shunshun94.trpg.scenarioTools.ViceCityCheck = class {
 			const url = `${location.href.replace(location.search, '')}?${this.components.map((c)=>{return c.generateUrl()}).join('&')}`;
 			$dom.find(`#${id}-url`).html(`<a href="${url}">${url}</a>`)
 		});
+		$dom.find(`#${id}-tabs > button`).click((e)=>{
+			$dom.find(`#${id}-tabs > button`).removeClass('active');
+			const dom = $(e.target);
+			dom.addClass('active');
+			this.changeTab(dom.attr('value'));
+		});
+		this.changeTab(0);
 	}
+
+	changeTab(num=-1) {
+		this.components.forEach((c)=>{ c.$dom.hide();});
+		if(num > -1) {
+			this.components[num].$dom.show();
+		}
+	}
+
 	getQuery(text = '') {
 		var params = (text || location.search.slice(1)).split('&');
 		var paramLength = params.length;
@@ -378,6 +393,7 @@ io.github.shunshun94.trpg.scenarioTools.ViceCityCheck.Missions.MISSION_LIST = [
 io.github.shunshun94.trpg.scenarioTools.ViceCityCheck.Counters = class {
 	constructor($dom, status={}) {
 		this.id = $dom.attr('id');
+		this.$dom = $dom;
 		$dom.append(`
 			<span>冒険者の店への剣のかけら納品数:<input id="${this.id}-shopPiece" type="number" value="${status.shopPiece || 0}" /></span><br/>
 			<span>冒険者の店へのアビスシャード納品数:<input id="${this.id}-shopAbyss" type="number" value="${status.shopAbyss || 0}" /></span><br/>

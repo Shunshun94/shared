@@ -4,6 +4,66 @@
 	font-family: "BIZ UDゴシック","UD Shin Go NT Light JIS2004","UD デジタル 教科書体 N-R", Verdana, Roboto, "Droid Sans", "游ゴシック", YuGothic, "メイリオ", Meiryo, "ヒラギノ角ゴ ProN W3", "Hiragino Kaku Gothic ProN", "ＭＳ Ｐゴシック", sans-serif;
 }
 
+#vcm > div {
+	margin:auto;
+	min-width:812px;
+	border-left:1px solid black;
+	border-right:1px solid black;
+	border-bottom:1px solid black;
+	padding:8px;
+}
+
+#vcm > p {
+	min-width:812px;
+	padding:3em;
+	margin:auto;
+}
+
+#vcm > p#vcm-tabs {
+	position:relative;
+	padding:0px;
+	padding-top:8px;
+	border-bottom:1px black solid;
+}
+
+#vcm-tabs > button {
+	position:relative;
+	top:2px;
+	background-color:white;
+	border:1px black solid;
+	border-top-left-radius:20px;
+	border-top-right-radius:20px;
+	height:40px;
+	padding:8px;
+}
+
+#vcm-tabs > button.active {
+	border-top:1px black solid;
+	border-left:1px black solid;
+	border-right:1px black solid;
+	border-bottom:1px black none;
+}
+
+#vcm-tabs > button:focus {
+	   outline-style:none;
+}
+
+#vcm-tabs > a {
+	position: absolute;
+	right:8px;
+	top:4px;
+}
+
+footer{
+	border-top: solid 3px #D0C0C0;
+	background-color:#F0E0E0;
+	padding:2px;
+	font-size:70%;
+}
+footer>p {
+	margin:4px;
+}
+
 /* Calendar */
 
 .vcm-calendar-table-day-tr-td {
@@ -12,6 +72,7 @@
 .vcm-calendar-table-day-tr-td:hover{
 	border: red 1px solid;
 	background-color: #FFCCCC;
+	cursor: grab;
 }
 .vcm-calendar-table-day-tr-td-done {
 	background-color: #CCCCCC;
@@ -40,6 +101,7 @@
 .vcm-rndevents-table-rndevent-td:hover {
 	border: red 1px solid;
 	background-color: #FFCCCC;
+	cursor: grab;
 }
 .vcm-rndevents-table-rndevent-td-done {
 	background-color: #CCCCCC;
@@ -53,6 +115,7 @@
 
 .vcm-trump30table-table-td {
 	text-align:right;
+	cursor: grab;
 }
 
 .vcm-trump30table-table-td-0,
