@@ -51,7 +51,7 @@ io.github.shunshun94.trpg.scenarioTools.ViceCityCheck.Calendar = class {
 		this.$dom = $dom;
 		this.id = $dom.attr('id');
 		this.tdClass = `${this.id}-table-day-tr-td`;
-		this.currentTime = status.currentTime || 6;
+		this.currentTime = Number(status.currentTime)+1 || 6;
 		this.sleptTime = (status.sleptTime || '').split(',');
 		this.lunchTime = (status.lunchTime || '').split(',');
 		this.generateDom();
@@ -106,7 +106,7 @@ io.github.shunshun94.trpg.scenarioTools.ViceCityCheck.Calendar = class {
 	}
 	
 	drawTable() {
-		for(var i = 0; i < this.currentTime + 1; i++) {
+		for(var i = 0; i < this.currentTime; i++) {
 			$(`#${this.tdClass}-${i}`).addClass(`${this.tdClass}-done`);
 			$(`#${this.tdClass}-${i}`).text('済');
 		}
