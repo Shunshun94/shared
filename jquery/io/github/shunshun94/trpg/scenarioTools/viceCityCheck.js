@@ -293,7 +293,7 @@ io.github.shunshun94.trpg.scenarioTools.ViceCityCheck.Trump30Table = class {
 	}
 };
 io.github.shunshun94.trpg.scenarioTools.ViceCityCheck.Trump30Table.LENGTH = 30;
-io.github.shunshun94.trpg.scenarioTools.ViceCityCheck.Trump30Table.TYPES = ['♠','♥','♦','♣'];
+io.github.shunshun94.trpg.scenarioTools.ViceCityCheck.Trump30Table.TYPES = ['♠','♥','♣','♦'];
 
 io.github.shunshun94.trpg.scenarioTools.ViceCityCheck.Missions = class {
 	constructor($dom, status={}) {
