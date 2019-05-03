@@ -214,9 +214,72 @@ io.github.shunshun94.trpg.scenarioTools.ViceCityCheck.RndEvents = class {
 };
 
 io.github.shunshun94.trpg.scenarioTools.ViceCityCheck.Trump30Table = class {
-	constructor($dom, status={}) {}
-	generateUrl() {return '';}
+	constructor($dom, status={}) {
+		this.$dom = $dom;
+		this.id = $dom.attr('id');
+		this.clazz = `${this.id}-table-td`;
+		this.$dom.append(this.generateDom());
+		(status.trump30 || '').split(',').forEach((id)=>{
+			console.log($(`#${this.clazz}-${id}`), `#${this.clazz}-${id}`)
+			this.toggleEvent($(`#${this.clazz}-${id}`));
+		});
+		this.bindEvents();
+	}
+	getNum($dom) {
+		return Number(/\d-(\d+)/.exec($dom.attr('id'))[1]);
+	}
+	getId($dom) {
+		return /\d-\d+/.exec($dom.attr('id'))[0];
+	}
+	toggleEvent($dom) {
+		if($dom.hasClass(`${this.clazz}-done`)) {
+			$dom.text(this.getNum($dom)+1);
+			$dom.removeClass(`${this.clazz}-done`);
+		} else {
+			$dom.text('済');
+			$dom.addClass(`${this.clazz}-done`);
+		}
+	}
+	bindEvents() {
+		$(`.${this.id}-table-td`).click((e)=>{
+			this.toggleEvent($(e.target));
+		});
+	}
+	generateDom() {
+		let $table = $(`<table border="1" id="${this.id}-table">
+			<thead>
+			<caption>チェックリスト</caption>
+			<tr>
+			${io.github.shunshun94.trpg.scenarioTools.ViceCityCheck.Trump30Table.TYPES.map((m)=>{
+				return '<th colspan="3">' + m + '</th>\n'
+			}).join('')}
+			</tr></thead>
+		</table>`);
+		let $body = $('<tbody></tbody>');
+		const clazz = this.clazz;
+		const marks = io.github.shunshun94.trpg.scenarioTools.ViceCityCheck.Trump30Table.TYPES.length;
+		for(var i = 0; i < (io.github.shunshun94.trpg.scenarioTools.ViceCityCheck.Trump30Table.LENGTH / 3); i++) {
+			let $tr = $('<tr></tr>');
+			for(var j = 0; j < marks; j++) {
+				for(var k = 0; k < 3; k++) {
+					$tr.append(`<td class="${clazz} ${clazz}-${j}" id="${clazz}-${j}-${i+k*10}">${i+k*10+1}</td>`)
+				}			
+			}
+			$body.append($tr);
+		}
+		$table.append($body);
+		return $table;
+	}
+	generateUrl() {
+		let list = [];
+		$(`.${this.clazz}-done`).each((i, v)=>{
+			list.push(this.getId($(v)));
+		});
+		return `trump30=${list.join(',')}`;
+	}
 };
+io.github.shunshun94.trpg.scenarioTools.ViceCityCheck.Trump30Table.LENGTH = 30;
+io.github.shunshun94.trpg.scenarioTools.ViceCityCheck.Trump30Table.TYPES = ['♠','♥','♦','♣'];
 
 io.github.shunshun94.trpg.scenarioTools.ViceCityCheck.Missions = class {
 	constructor($dom, status={}) {}
