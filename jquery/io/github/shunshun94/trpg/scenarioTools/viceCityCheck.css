@@ -176,3 +176,6 @@ footer>p {
 #vcm-counters input {
 	width:36px;
 }
+#vcm-counters input#vcm-counters-expBattle {
+	width:60px;
+}
