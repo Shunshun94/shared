@@ -1,0 +1,178 @@
+@charset "utf-8";
+* {
+	box-sizing: border-box;
+	font-family: "BIZ UDゴシック","UD Shin Go NT Light JIS2004","UD デジタル 教科書体 N-R", Verdana, Roboto, "Droid Sans", "游ゴシック", YuGothic, "メイリオ", Meiryo, "ヒラギノ角ゴ ProN W3", "Hiragino Kaku Gothic ProN", "ＭＳ Ｐゴシック", sans-serif;
+}
+
+#vcm > div {
+	margin:auto;
+	min-width:812px;
+	border-left:1px solid black;
+	border-right:1px solid black;
+	border-bottom:1px solid black;
+	padding:8px;
+}
+
+#vcm > p {
+	min-width:812px;
+	padding:3em;
+	margin:auto;
+}
+
+#vcm > p#vcm-tabs {
+	position:relative;
+	padding:0px;
+	padding-top:8px;
+	border-bottom:1px black solid;
+}
+
+#vcm-tabs > button {
+	position:relative;
+	top:2px;
+	background-color:white;
+	border:1px black solid;
+	border-top-left-radius:20px;
+	border-top-right-radius:20px;
+	height:40px;
+	padding:8px;
+}
+
+#vcm-tabs > button.active {
+	border-top:1px black solid;
+	border-left:1px black solid;
+	border-right:1px black solid;
+	border-bottom:1px black none;
+}
+
+#vcm-tabs > button:focus {
+	   outline-style:none;
+}
+
+#vcm-tabs > a {
+	position: absolute;
+	right:8px;
+	top:4px;
+}
+
+footer{
+	border-top: solid 3px #D0C0C0;
+	background-color:#F0E0E0;
+	padding:2px;
+	font-size:70%;
+}
+footer>p {
+	margin:4px;
+}
+
+/* Calendar */
+
+.vcm-calendar-table-day-tr-td {
+	padding:4px;
+}
+.vcm-calendar-table-day-tr-td:hover{
+	border: red 1px solid;
+	background-color: #FFCCCC;
+	cursor: grab;
+}
+.vcm-calendar-table-day-tr-td-done {
+	background-color: #CCCCCC;
+}
+.vcm-calendar-table-day-tr-td-done:hover {
+	border: #CCCCCC 1px solid;
+	background-color: #AAAAAA;
+}
+.vcm-calendar-table-day-tr-td-slept {
+	background-color: #CCFFFF;
+}
+.vcm-calendar-table-day-tr-td-lunch:hover {
+	border: #CCFFFF 1px solid;
+	background-color: #AACCCC;
+}
+.vcm-calendar-table-day-tr-td-lunch {
+	background-color: #FFFFCC;
+}
+.vcm-calendar-table-day-tr-td-lunch:hover {
+	border: #FFFFCC 1px solid;
+	background-color: #CCCCAA;
+}
+
+/* rndevents */
+
+.vcm-rndevents-table-rndevent-td:hover {
+	border: red 1px solid;
+	background-color: #FFCCCC;
+	cursor: grab;
+}
+.vcm-rndevents-table-rndevent-td-done {
+	background-color: #CCCCCC;
+}
+.vcm-rndevents-table-rndevent-td-done:hover {
+	border: #CCCCCC 1px solid;
+	background-color: #AAAAAA;
+}
+
+/* checkList */
+
+.vcm-trump30table-table-td {
+	text-align:right;
+	cursor: grab;
+}
+
+.vcm-trump30table-table-td-0,
+.vcm-trump30table-table-td-2 {
+	background-color: #F0F0FF;
+}
+
+#vcm-trump30table-table tr:nth-child(odd) td.vcm-trump30table-table-td-0:nth-child(even),
+#vcm-trump30table-table tr:nth-child(odd) td.vcm-trump30table-table-td-2:nth-child(even),
+#vcm-trump30table-table tr:nth-child(even) td.vcm-trump30table-table-td-0:nth-child(odd),
+#vcm-trump30table-table tr:nth-child(even) td.vcm-trump30table-table-td-2:nth-child(odd) {
+	background-color: #D0D0FF;
+}
+
+.vcm-trump30table-table-td-0:hover,
+.vcm-trump30table-table-td-2:hover,
+#vcm-trump30table-table tr:nth-child(odd) td.vcm-trump30table-table-td-0:nth-child(even):hover,
+#vcm-trump30table-table tr:nth-child(odd) td.vcm-trump30table-table-td-2:nth-child(even):hover,
+#vcm-trump30table-table tr:nth-child(even) td.vcm-trump30table-table-td-0:nth-child(odd):hover,
+#vcm-trump30table-table tr:nth-child(even) td.vcm-trump30table-table-td-2:nth-child(odd):hover {
+	border: #F0F0FF 1px solid;
+	background-color: #5050FF;
+}
+
+.vcm-trump30table-table-td-1,
+.vcm-trump30table-table-td-3 {
+	background-color: #FFF0F0;
+}
+
+#vcm-trump30table-table tr:nth-child(odd) td.vcm-trump30table-table-td-1:nth-child(even),
+#vcm-trump30table-table tr:nth-child(odd) td.vcm-trump30table-table-td-3:nth-child(even),
+#vcm-trump30table-table tr:nth-child(even) td.vcm-trump30table-table-td-1:nth-child(odd),
+#vcm-trump30table-table tr:nth-child(even) td.vcm-trump30table-table-td-3:nth-child(odd) {
+	background-color: #FFD0D0;
+}
+
+.vcm-trump30table-table-td-1:hover,
+.vcm-trump30table-table-td-3:hover,
+#vcm-trump30table-table tr:nth-child(odd) td.vcm-trump30table-table-td-1:nth-child(even):hover,
+#vcm-trump30table-table tr:nth-child(odd) td.vcm-trump30table-table-td-3:nth-child(even):hover,
+#vcm-trump30table-table tr:nth-child(even) td.vcm-trump30table-table-td-1:nth-child(odd):hover,
+#vcm-trump30table-table tr:nth-child(even) td.vcm-trump30table-table-td-3:nth-child(odd):hover {
+	border: #FFF0F0 1px solid;
+	background-color: #FF5050;
+}
+
+#vcm-trump30table-table > tbody > tr > .vcm-trump30table-table-td-done {
+	background-color: #CCCCCC !important;
+}
+
+#vcm-trump30table-table > tbody > tr > .vcm-trump30table-table-td-done:hover {
+	border: #CCCCCC 1px solid !important;
+	background-color: #AAAAAA !important;
+}
+
+/* counter*/
+
+#vcm-counters input {
+	width:36px;
+}
