@@ -395,13 +395,19 @@ io.github.shunshun94.trpg.scenarioTools.ViceCityCheck.Counters = class {
 		this.$dom = $dom;
 		$dom.append(`
 			<span>冒険者の店への剣のかけら納品数:<input id="${this.id}-shopPiece" type="number" value="${status.shopPiece || 0}" /></span><br/>
-			<span>冒険者の店へのアビスシャード納品数:<input id="${this.id}-shopAbyss" type="number" value="${status.shopAbyss || 0}" /></span><br/>
-			<span>黒剣騎士団への貢献度:<input id="${this.id}-blackSword" type="number" value="${status.blackSword || 0}" /></span><br/>
-		`)
+			<span>冒険者の店へのアビスシャード納品数:<input id="${this.id}-shopAbyss" type="number" value="${status.shopAbyss || 0}" /></span><br/><br/>
+			<span>♠27　地下格闘場での勝利数:<input id="${this.id}-underFight" type="number" value="${status.underFight || 0}" /></span><br/>
+			<span>♠30　黒剣騎士団への貢献度:<input id="${this.id}-blackSword" type="number" value="${status.blackSword || 0}" /></span><br/><br/>
+			<span>現在の★所持数:<input id="${this.id}-expStars" type="number" value="${status.expStars || 0}" /></span><br/>
+			<span>現在の討伐経験点:<input id="${this.id}-expBattle" type="number" value="${status.expBattle || 0}" /></span>
+		`);
 	}
 	generateUrl() {
 		return 'shopPiece=' + $(`#${this.id}-shopPiece`).val() +
 		'&shopAbyss=' + $(`#${this.id}-shopAbyss`).val() +
-		'&blackSword=' + $(`#${this.id}-blackSword`).val();
+		'&blackSword=' + $(`#${this.id}-blackSword`).val() +
+		'&underFight=' + $(`#${this.id}-underFight`).val() +
+		'&expStars=' + $(`#${this.id}-expStars`).val() +
+		'&expBattle=' + $(`#${this.id}-expBattle`).val();
 	}
 };
