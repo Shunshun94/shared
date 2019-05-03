@@ -107,3 +107,9 @@
 	border: #CCCCCC 1px solid !important;
 	background-color: #AAAAAA !important;
 }
+
+/* counter*/
+
+#vcm-counters input {
+	width:36px;
+}

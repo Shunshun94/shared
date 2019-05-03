@@ -157,23 +157,26 @@ io.github.shunshun94.trpg.scenarioTools.ViceCityCheck.RndEvents = class {
 		this.id = $dom.attr('id');
 		this.clazz = `${this.id}-table-rndevent-td`;
 
-		$dom.append(this.generateTable());
-		$dom.append(`<br/><button id="${this.id}-reset">ランダムイベントをリセット</button>`);
+		this.generateDom();
+		this.bindEvents();
 
 		const rndEvents = (status.rndEvents || '').split(',');
 		rndEvents.forEach((v)=>{
 			this.toggleEvent($(`#${this.clazz}-${v}`));
-		});
+		});		
+	}
 
-		this.bindEvents();
+	generateDom() {
+		this.$dom.empty();
+		this.$dom.append(this.generateTable());
+		this.$dom.append(`<br/><button id="${this.id}-reset">ランダムイベントをリセット</button>`);
 	}
 
 	bindEvents() {
 		$(`.${this.clazz}`).click((e)=>{ this.toggleEvent($(e.target)) });
 		$(`#${this.id}-reset`).click((e)=>{
-			this.$dom.empty();
-			this.$dom.append(this.generateTable());
-			this.$dom.append(`<br/><button id="${this.id}-reset">ランダムイベントをリセット</button>`);
+			this.generateDom();
+			this.bindEvents();
 		});
 	}
 
@@ -220,7 +223,6 @@ io.github.shunshun94.trpg.scenarioTools.ViceCityCheck.Trump30Table = class {
 		this.clazz = `${this.id}-table-td`;
 		this.$dom.append(this.generateDom());
 		(status.trump30 || '').split(',').forEach((id)=>{
-			console.log($(`#${this.clazz}-${id}`), `#${this.clazz}-${id}`)
 			this.toggleEvent($(`#${this.clazz}-${id}`));
 		});
 		this.bindEvents();
@@ -233,10 +235,8 @@ io.github.shunshun94.trpg.scenarioTools.ViceCityCheck.Trump30Table = class {
 	}
 	toggleEvent($dom) {
 		if($dom.hasClass(`${this.clazz}-done`)) {
-			$dom.text(this.getNum($dom)+1);
 			$dom.removeClass(`${this.clazz}-done`);
 		} else {
-			$dom.text('済');
 			$dom.addClass(`${this.clazz}-done`);
 		}
 	}
@@ -282,15 +282,111 @@ io.github.shunshun94.trpg.scenarioTools.ViceCityCheck.Trump30Table.LENGTH = 30;
 io.github.shunshun94.trpg.scenarioTools.ViceCityCheck.Trump30Table.TYPES = ['♠','♥','♦','♣'];
 
 io.github.shunshun94.trpg.scenarioTools.ViceCityCheck.Missions = class {
-	constructor($dom, status={}) {}
-	generateUrl() {return '';}
+	constructor($dom, status={}) {
+		this.$dom = $dom;
+		this.id = $dom.attr('id');
+		this.trClass = `${this.id}-tr`;
+		this.clazz = `${this.id}-tr-select`;
+		this.$select = `<select class="${this.clazz}"><option></option>` +
+		io.github.shunshun94.trpg.scenarioTools.ViceCityCheck.Missions.MISSION_LIST.map((m, i)=>{
+			return `<option value="${i}">${m}</option>`
+		}).join('\n') + '</select>';
+		this.acceptedMissons = (status.acceptedMissons || '').split(',').filter((d)=>{return d}).map((d)=>{return Number(d)}).sort((a,b)=>{return a-b});
+		this.doneMissions = (status.doneMissions || '').split(',').filter((d)=>{return d}).map((d)=>{return Number(d)}).sort((a,b)=>{return a-b});
+		this.$dom.append(this.generateDom());
+		$(`#${this.id}-add`).click((e)=>{
+			$(e.target).parent().parent().after(this.generateTr());
+		});
+	}
+
+	generateTr(id = false, finished = false) {
+		if(finished) {
+			return `<tr class="${this.trClass}"><td>` + this.$select.replace(`value="${id}">`, `value="${id}" selected>`) + '</td><td><input type="checkbox" checked /></td></tr>';
+		} else {
+			if(id) {
+				return `<tr class="${this.trClass}"><td>` + this.$select.replace(`value="${id}">`, `value="${id}" selected>`) + '</td><td><input type="checkbox" /></td></tr>';
+			} else {
+				return `<tr class="${this.trClass}"><td>` + this.$select + '</td><td><input type="checkbox" /></td></tr>';
+			}
+		}
+	}
+
+	generateDom() {
+		let $table = $(`<table border="1"><thead><caption>ミッション一覧</caption></thead></table>`);
+		let $tbody = $(`<tbody><tr><th>ミッション名</th><th>完了確認</th></tr></tbody>`);
+		$tbody.append(`<tr><td colspan="2"><button id="${this.id}-add">新規ミッション</button></td></tr>`);
+		$tbody.append(this.generateTr());
+		this.acceptedMissons.forEach((m)=>{
+			$tbody.append(this.generateTr(m, false));
+		});
+		this.doneMissions.forEach((m)=>{
+			$tbody.append(this.generateTr(m, true));
+		});
+		$table.append($tbody);
+		return $table;
+	}
+
+	generateUrl() {
+		const trs = $(`.${this.trClass}`);
+		let acceptedMissons = [];
+		let doneMissions = [];
+		
+		trs.each((i, v)=>{
+			const $tr = $(v);
+			const isDone = $tr.find('input').prop('checked');
+			const value = $tr.find('select').val();
+			if(isDone) {
+				doneMissions.push(value);
+			} else {
+				acceptedMissons.push(value);
+			}
+		});
+		return `acceptedMissons=${acceptedMissons.join(',')}&doneMissions=${doneMissions.join(',')}`;
+	}
 };
 
+io.github.shunshun94.trpg.scenarioTools.ViceCityCheck.Missions.MISSION_LIST = [
+	"1: カリンの消息",
+	"2: トリシアを訪ねて",
+	"3: ミルタバル神殿の盗賊ギルド",
+	"4: ティエラの困り事",
+	"5: 観測地点巡回",
+	"6: コロッサスの探索",
+	"7: リーリャの護衛",
+	"8: レイチェンを呼んできて",
+	"9: エミーを救え",
+	"10: 死体の買い付け",
+	"11: 女給募集",
+	"12: トリシアの救出",
+	"13: 炎獣の洞窟を抜けて",
+	"14: 救援",
+	"15: 3人の奴隷",
+	"16: 侍女の護衛",
+	"17: ラビュサリスとともに",
+	"18: 大祭への潜入",
+	"19: チェザーリの使い",
+	"20: ラビュサリスの奪還",
+	"21: 北部への遠征",
+	"22: 治安活動",
+	"23: 行方不明者の捜索",
+	"24: 死体捜索巡回",
+	"25: 荷物の運搬",
+	"26: 犯罪者の追跡"
+];
+
+
 io.github.shunshun94.trpg.scenarioTools.ViceCityCheck.Counters = class {
-	constructor($dom, status={}) {}
-	generateUrl() {return '';}
-	// かけら奉納数
-	// シャード奉納数
-	// 貢献度
-	// ★
+	constructor($dom, status={}) {
+		this.id = $dom.attr('id');
+		$dom.append(`
+			<span>冒険者の店への剣のかけら納品数:<input id="${this.id}-shopPiece" type="number" value="${status.shopPiece || 0}" /></span><br/>
+			<span>冒険者の店へのアビスシャード納品数:<input id="${this.id}-shopAbyss" type="number" value="${status.shopAbyss || 0}" /></span><br/>
+			<span>黒剣騎士団への貢献度:<input id="${this.id}-blackSword" type="number" value="${status.blackSword || 0}" /></span><br/>
+		`)
+	}
+	generateUrl() {
+		return 'shopPiece=' + $(`#${this.id}-shopPiece`).val() +
+		'&shopAbyss=' + $(`#${this.id}-shopAbyss`).val() +
+		'&blackSword=' + $(`#${this.id}-blackSword`).val();
+	}
 };
