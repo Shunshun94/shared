@@ -63,7 +63,6 @@ io.github.shunshun94.trpg.scenarioTools.ViceCityCheck.Calendar = class {
 		const currentTime = `currentTime=${currentTimesList.length ? this.getTimeId(currentTimesList.last()) : 0}`;
 
 		const sleptTimesList = $.makeArray($(`.${this.tdClass}-slept`));
-		console.log(sleptTimesList[2])
 		const sleptTime = `sleptTime=${sleptTimesList.map((d)=>{return this.getTimeId($(d))}).join(',')}`;
 
 		const lunchTimesList = $.makeArray($(`.${this.tdClass}-lunch`));
