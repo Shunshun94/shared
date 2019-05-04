@@ -125,7 +125,6 @@ io.github.shunshun94.trpg.scenarioTools.ViceCityCheck.Calendar = class {
 		let $table = $(
 				`<table id="${this.id}-table" border="1">
 					<thead>
-						<caption>カレンダー</caption>
 						<tr>
 							<th>日</th>
 							<th colspan="6">朝</th>
@@ -195,7 +194,7 @@ io.github.shunshun94.trpg.scenarioTools.ViceCityCheck.RndEvents = class {
 	}
 
 	generateTable() {
-		let $table = $(`<table id="${this.id}-table" border="1"><caption>ランダムイベント</caption></table>`);
+		let $table = $(`<table id="${this.id}-table" border="1"></table>`);
 		for(var i = 0; i < 5; i++) {
 			let $tr = $(`<tr></tr>`);
 			for(var j = 0; j < 6; j++) {
@@ -262,7 +261,6 @@ io.github.shunshun94.trpg.scenarioTools.ViceCityCheck.Trump30Table = class {
 	generateDom() {
 		let $table = $(`<table border="1" id="${this.id}-table">
 			<thead>
-			<caption>チェックリスト</caption>
 			<tr>
 			${io.github.shunshun94.trpg.scenarioTools.ViceCityCheck.Trump30Table.TYPES.map((m)=>{
 				return '<th colspan="3">' + m + '</th>\n'
@@ -326,7 +324,7 @@ io.github.shunshun94.trpg.scenarioTools.ViceCityCheck.Missions = class {
 	}
 
 	generateDom() {
-		let $table = $(`<table border="1"><thead><caption>ミッション一覧</caption></thead></table>`);
+		let $table = $(`<table border="1"><thead></thead></table>`);
 		let $tbody = $(`<tbody><tr><th>ミッション名</th><th>完了確認</th></tr></tbody>`);
 		$tbody.append(`<tr><td colspan="2"><button id="${this.id}-add">新規ミッション</button></td></tr>`);
 		$tbody.append(this.generateTr());
