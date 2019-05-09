@@ -1,0 +1,52 @@
+@charset "utf-8";
+* {
+	box-sizing: border-box;
+	font-family: "BIZ UDゴシック","UD Shin Go NT Light JIS2004","UD デジタル 教科書体 N-R", Verdana, Roboto, "Droid Sans", "游ゴシック", YuGothic, "メイリオ", Meiryo, "ヒラギノ角ゴ ProN W3", "Hiragino Kaku Gothic ProN", "ＭＳ Ｐゴシック", sans-serif;
+}
+
+#status {
+	resize: none;
+	height:80px;
+	width:480px;
+}
+
+.cards {
+	display:inline-block;
+	position:relative;
+}
+
+.card {
+	width:120px;
+	height:180px;
+	border:1px black solid;
+	border-radius:15px;
+	background-color: white;
+	text-align: center;
+	padding-top:2em;
+}
+
+.stackedCards {
+	position:relative;
+	text-align:center;
+	padding:4px;
+}
+
+.actions {
+	position:relative;
+}
+
+.actions > button {
+	display: block;
+	width:80%;
+	margin:auto;
+	margin-bottom:4px;
+	padding:4px;
+}
+
+#hands > .cards {
+	display:inline-block;
+	margin-right:4px;
+}
+#hands .actions {
+	margin-top: 4px;
+}

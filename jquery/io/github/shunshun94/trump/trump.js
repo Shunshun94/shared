@@ -84,6 +84,12 @@ io.github.shunshun94.trump.Deck.SUIT = {
 	H: '♥',
 	D: '♦'
 };
+io.github.shunshun94.trump.Deck.NUM = [
+	'DUMMY',
+	'1', '2', '3', '4', '5',
+	'6', '7', '8', '9', '10',
+	'J', 'Q', 'K'
+];
 io.github.shunshun94.trump.Deck.FULL = [
 	{
 		"suit": "S",
