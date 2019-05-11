@@ -5,9 +5,17 @@
 }
 
 #status {
+	position:absolute;
+	top:-400px;
 	resize: none;
-	height:80px;
-	width:480px;
+	height:20px;
+	width:80px;
+}
+
+#status-copy {
+	height:20px;
+	position:relative;
+	top:-5px;
 }
 
 .cards {
@@ -73,9 +81,10 @@
 
 #cardsList > .cardsList-card {
 	display:inline-block;
-	width:100px;
-	height:36px;
+	width:120px;
+	height:40px;
 	margin:4px;
+	vertical-align:top;
 	border:1px black solid;
 	border-radius:5px;
 	text-align:center;
