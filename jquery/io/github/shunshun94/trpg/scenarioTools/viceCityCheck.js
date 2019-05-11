@@ -52,6 +52,7 @@ io.github.shunshun94.trpg.scenarioTools.ViceCityCheck.Calendar = class {
 		this.id = $dom.attr('id');
 		this.tdClass = `${this.id}-table-day-tr-td`;
 		this.currentTime = Number(status.currentTime)+1 || 6;
+		this.calendarLength = Number(status.calendarLength) || io.github.shunshun94.trpg.scenarioTools.ViceCityCheck.Calendar.CONSTS.SUPPORTED_DAY;
 		this.sleptTime = (status.sleptTime || '').split(',');
 		this.lunchTime = (status.lunchTime || '').split(',');
 		this.generateDom();
@@ -68,7 +69,7 @@ io.github.shunshun94.trpg.scenarioTools.ViceCityCheck.Calendar = class {
 		const lunchTimesList = $.makeArray($(`.${this.tdClass}-lunch`));
 		const lunchTime = `lunchTime=${lunchTimesList.map((d)=>{return this.getTimeId($(d))}).join(',')}`;
 
-		return `${currentTime}&${sleptTime}&${lunchTime}`;
+		return `${currentTime}&${sleptTime}&${lunchTime}&calendarLength=${this.calendarLength}`;
 	}
 
 	getTimeId($dom) {
@@ -136,7 +137,7 @@ io.github.shunshun94.trpg.scenarioTools.ViceCityCheck.Calendar = class {
 					</thead>
 				</table>`);
 		let $tbody = $('<tbody></tbody>');
-		for(var i = 0; i < io.github.shunshun94.trpg.scenarioTools.ViceCityCheck.Calendar.CONSTS.SUPPORTED_DAY; i++) {
+		for(var i = 0; i < this.calendarLength; i++) {
 			let $dayTr = $(`<tr 
 						id="${this.id}-table-day-tr-${i}"
 						class="${this.id}-table-day-tr">
