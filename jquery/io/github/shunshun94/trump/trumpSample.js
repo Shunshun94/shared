@@ -98,7 +98,15 @@ io.github.shunshun94.trump.TrumpSample = class {
 				closeList();
 				this.draw();
 			}
-			
+		});
+		$('#status-copy').click((e)=>{
+			this.$status.select();
+			const result = document.execCommand('copy');
+			if(result) {
+				alertify.success('コピーしました');
+			} else {
+				alertify.error('コピーできませんでした');
+			}
 		});
 	}
 	
