@@ -49,6 +49,16 @@ io.github.shunshun94.trump.TrumpSample = class {
 		this.hands[idx].isOpen = ! this.hands[idx].isOpen;
 	}
 
+	pickOneCardFromMountain(mountainIndex, cardIndex) {
+		let movedCard = Object.assign({}, this.mountains[mountainIndex].cards[cardIndex]);
+		movedCard.isOpen = true;
+		this.mountains[mountainIndex].cards = this.mountains[mountainIndex].cards.filter((dummy, i)=>{
+			return i !== cardIndex;
+		}).map((card)=>{card.isOpen = false; return card});
+		this.mountains[mountainIndex].shuffle();
+		this.mountains[mountainIndex].cards.unshift(movedCard);
+	}
+
 	bindEvents() {
 		this.$mountains.click((e)=>{
 			const tag = $(e.target);
@@ -84,17 +94,17 @@ io.github.shunshun94.trump.TrumpSample = class {
 			};
 			const tag = $(e.target);
 			if(tag.attr('id') === 'backgroundScreen') {
+				const mountainIndex = Number(/\d+/.exec($('#cardsList').attr('title'))[0]) - 1;
+				if(this.mountains[mountainIndex].cards[0].isOpen) {
+					this.pickOneCardFromMountain(mountainIndex, 0);
+				} else {
+					this.mountains[mountainIndex].shuffle();
+				}
 				closeList();
+				this.draw();
 			} else if(tag.hasClass('cardsList-card')) {
 				const mountainIndex = Number(/\d+/.exec($('#cardsList').attr('title'))[0]) - 1;
-				const cardIndex = Number(tag.val());
-				let movedCard = Object.assign({}, this.mountains[mountainIndex].cards[cardIndex]);
-				movedCard.isOpen = true;
-				this.mountains[mountainIndex].cards = this.mountains[mountainIndex].cards.filter((dummy, i)=>{
-					return i !== cardIndex;
-				}).map((card)=>{card.isOpen = false; return card});
-				this.mountains[mountainIndex].shuffle();
-				this.mountains[mountainIndex].cards.unshift(movedCard);
+				this.pickOneCardFromMountain(mountainIndex, Number(tag.val()));
 				closeList();
 				this.draw();
 			}
