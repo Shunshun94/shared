@@ -28,11 +28,22 @@ io.github.shunshun94.trump.TrumpSample = class {
 		drawnCards[0].isOpen = true;
 		this.hands = this.hands.concat(drawnCards);
 	}
+	getMountainUnderCard(idx) {
+		const drawnCards = this.mountains[idx].reverseDraw();
+		this.hands = this.hands.concat(drawnCards);		
+	}
 	separateMountainCards(idx) {
-		this.mountains.push(new io.github.shunshun94.trump.Deck({cards:this.mountains[idx].draw(Math.floor(this.mountains[idx].cards.length / 2))}));
+		this.mountains.push(new io.github.shunshun94.trump.Deck(this.mountains[idx].draw(Math.floor(this.mountains[idx].cards.length / 2))));
 	}
 	openMountainCardsList(idx) {
-		
+		$('body').append(`<div id="backgroundScreen"></div>`);
+		$('body').append(
+				`<div id="cardsList" title="${Number(idx)+1}番目の山札カード一覧">
+				${this.mountains[idx].cards.map((card, i)=>{
+					const name = this.drawCard(card, true);
+					return '<button class="cardsList-card" title="' + name + '" value="' + i + '">'+ name + '</button>'}).join('')
+				}
+				</div>`);
 	}
 	toggleHandCard(idx) {
 		this.hands[idx].isOpen = ! this.hands[idx].isOpen;
@@ -51,7 +62,10 @@ io.github.shunshun94.trump.TrumpSample = class {
 			} else if(tag.hasClass('separate')) {
 				this.separateMountainCards(idx);
 				this.draw();
-			} else if(tag.hasClass('separate')) {
+			} else if(tag.hasClass('reverseDraw')) {
+				this.getMountainUnderCard(idx);
+				this.draw();
+			} else if(tag.hasClass('list')) {
 				this.openMountainCardsList(idx);
 			}
 		});
@@ -63,10 +77,33 @@ io.github.shunshun94.trump.TrumpSample = class {
 				this.draw();
 			}
 		});
+		$('body').click((e)=>{
+			const closeList = () =>{
+				$('#backgroundScreen').remove();
+				$('#cardsList').remove();
+			};
+			const tag = $(e.target);
+			if(tag.attr('id') === 'backgroundScreen') {
+				closeList();
+			} else if(tag.hasClass('cardsList-card')) {
+				const mountainIndex = Number(/\d+/.exec($('#cardsList').attr('title'))[0]) - 1;
+				const cardIndex = Number(tag.val());
+				let movedCard = Object.assign({}, this.mountains[mountainIndex].cards[cardIndex]);
+				movedCard.isOpen = true;
+				this.mountains[mountainIndex].cards = this.mountains[mountainIndex].cards.filter((dummy, i)=>{
+					return i !== cardIndex;
+				}).map((card)=>{card.isOpen = false; return card});
+				this.mountains[mountainIndex].shuffle();
+				this.mountains[mountainIndex].cards.unshift(movedCard);
+				closeList();
+				this.draw();
+			}
+			
+		});
 	}
 	
-	drawCard(card) {
-		if(card.isOpen) {
+	drawCard(card, forceOpen=false) {
+		if(card.isOpen || forceOpen) {
 			if(io.github.shunshun94.trump.Deck.SUIT[card.suit]) {
 				return `${io.github.shunshun94.trump.Deck.SUIT[card.suit]}${io.github.shunshun94.trump.Deck.NUM[card.num]}`;
 			} else {
@@ -88,6 +125,7 @@ io.github.shunshun94.trump.TrumpSample = class {
 					<div class="actions">
 						<button value="${i}" class="toggle">裏返す</button>
 						<button value="${i}" class="draw">手札に加える</button>
+						<button value="${i}" class="reverseDraw">下の1枚取る</button>
 						<button value="${i}" class="list">1枚選ぶ</button>
 						<button value="${i}" class="separate">山札を分ける</button>
 					</div>
@@ -97,11 +135,6 @@ io.github.shunshun94.trump.TrumpSample = class {
 		this.hands.forEach((c, i)=>{
 			this.$hands.append(`<div class="cards"><div class="card">${ this.drawCard(c) }</div><div class="actions"><button value="${i}" class="toggle">裏返す</button></div></div>`);
 		});
-		
 		this.$status.val(`**山札**\n${this.mountains.map((m)=>{return this.drawCard(m.cards[0])+'(残'+m.cards.length+'枚)'}).join('/')}\n\n**手札**\n${this.hands.map((c)=>{return this.drawCard(c)}).join('/')}`);
-		
-		
-		
-		
 	}
 };

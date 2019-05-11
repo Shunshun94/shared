@@ -4,7 +4,11 @@ io.github.shunshun94 = io.github.shunshun94 || {};
 io.github.shunshun94.trump = io.github.shunshun94.trump || {};
 io.github.shunshun94.trump.Deck = class {
 	constructor(opt={}) {
-		this.cards = opt.cards || opt.set || io.github.shunshun94.trump.Deck.FULL;
+		if(Array.isArray(opt)) {
+			this.cards = opt;
+		} else {
+			this.cards = opt.cards || opt.set || io.github.shunshun94.trump.Deck.FULL;
+		}
 		this.cards = this.cards.map((v)=>{
 			if(v.isOpen === undefined) {
 				v.isOpen = false;
@@ -74,6 +78,14 @@ io.github.shunshun94.trump.Deck = class {
 		const count = Math.min(rawCount, this.cards.length);
 		for(var i = 0; i < count; i++) {
 			result.push(this.cards.shift());
+		}
+		return result;
+	}
+	reverseDraw(rawCount = 1) {
+		let result = []
+		const count = Math.min(rawCount, this.cards.length);
+		for(var i = 0; i < count; i++) {
+			result.push(this.cards.pop());
 		}
 		return result;
 	}
