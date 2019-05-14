@@ -61,13 +61,18 @@ io.github.shunshun94.trpg.scenarioTools.ViceCityCheck.Calendar = class {
 	}
 	generateUrl() {
 		const currentTimesList = $(`.${this.tdClass}-done`);
-		const currentTime = `currentTime=${currentTimesList.length ? this.getTimeId(currentTimesList.last()) : 0}`;
+		const currentTimeNum = currentTimesList.length ? this.getTimeId(currentTimesList.last()) : 0;
+		const currentTime = `currentTime=${currentTimeNum}`;
 
 		const sleptTimesList = $.makeArray($(`.${this.tdClass}-slept`));
 		const sleptTime = `sleptTime=${sleptTimesList.map((d)=>{return this.getTimeId($(d))}).join(',')}`;
 
 		const lunchTimesList = $.makeArray($(`.${this.tdClass}-lunch`));
 		const lunchTime = `lunchTime=${lunchTimesList.map((d)=>{return this.getTimeId($(d))}).join(',')}`;
+
+		if((this.calendarLength - 5) * io.github.shunshun94.trpg.scenarioTools.ViceCityCheck.Calendar.CONSTS.HOURS - Number(currentTimeNum) < 0) {
+			this.calendarLength += 5;
+		} 
 
 		return `${currentTime}&${sleptTime}&${lunchTime}&calendarLength=${this.calendarLength}`;
 	}
@@ -316,11 +321,7 @@ io.github.shunshun94.trpg.scenarioTools.ViceCityCheck.Missions = class {
 		if(finished) {
 			return `<tr class="${this.trClass}"><td>` + this.$select.replace(`value="${id}">`, `value="${id}" selected>`) + '</td><td><input type="checkbox" checked /></td></tr>';
 		} else {
-			if(id) {
-				return `<tr class="${this.trClass}"><td>` + this.$select.replace(`value="${id}">`, `value="${id}" selected>`) + '</td><td><input type="checkbox" /></td></tr>';
-			} else {
-				return `<tr class="${this.trClass}"><td>` + this.$select + '</td><td><input type="checkbox" /></td></tr>';
-			}
+			return `<tr class="${this.trClass}"><td>` + this.$select.replace(`value="${id}">`, `value="${id}" selected>`) + '</td><td><input type="checkbox" /></td></tr>';
 		}
 	}
 
