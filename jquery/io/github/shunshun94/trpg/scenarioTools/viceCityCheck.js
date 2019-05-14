@@ -310,7 +310,6 @@ io.github.shunshun94.trpg.scenarioTools.ViceCityCheck.Missions = class {
 			return `<option value="${i}">${m}</option>`
 		}).join('\n') + '</select>';
 		this.acceptedMissons = (status.acceptedMissons || '').split(',').filter((d)=>{return d}).map((d)=>{return Number(d)}).sort((a,b)=>{return a-b});
-		console.log(this.acceptedMissons)
 		this.doneMissions = (status.doneMissions || '').split(',').filter((d)=>{return d}).map((d)=>{return Number(d)}).sort((a,b)=>{return a-b});
 		this.$dom.append(this.generateDom());
 		$(`#${this.id}-add`).click((e)=>{
