@@ -56,7 +56,7 @@ io.github.shunshun94.trpg.scenarioTools.ViceCity = class {
 			}
 		}
 		if(this.decided[io.github.shunshun94.trpg.scenarioTools.ViceCity.CONSTS.KEYS.SPLITTER]) {
-			const spliters = this.decided[io.github.shunshun94.trpg.scenarioTools.ViceCity.CONSTS.KEYS.SPLITTER].split('|');
+			const spliters = this.decided[io.github.shunshun94.trpg.scenarioTools.ViceCity.CONSTS.KEYS.SPLITTER].split('%7C');
 			spliters[0].split(',').filter((d)=>{return d}).forEach((v)=>{
 				$(`#paragraph-${v}`).addClass('paragraph-lefttop2rightbottom');
 			});
