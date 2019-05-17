@@ -56,7 +56,7 @@ io.github.shunshun94.trpg.scenarioTools.ViceCity = class {
 			}
 		}
 		if(this.decided[io.github.shunshun94.trpg.scenarioTools.ViceCity.CONSTS.KEYS.SPLITTER]) {
-			const spliters = this.decided[io.github.shunshun94.trpg.scenarioTools.ViceCity.CONSTS.KEYS.SPLITTER].split('%7C');
+			const spliters = this.decided[io.github.shunshun94.trpg.scenarioTools.ViceCity.CONSTS.KEYS.SPLITTER].split('s');
 			spliters[0].split(',').filter((d)=>{return d}).forEach((v)=>{
 				$(`#paragraph-${v}`).addClass('paragraph-lefttop2rightbottom');
 			});
@@ -123,7 +123,7 @@ io.github.shunshun94.trpg.scenarioTools.ViceCity = class {
 		}
 		const paragraphNum = /\d+/.exec($(clicked).attr('id'))[0];
 		const tag = $(`#paragraph-${paragraphNum}`);
-		const dividedParagraphs = (this.decided[io.github.shunshun94.trpg.scenarioTools.ViceCity.CONSTS.KEYS.SPLITTER] || '%7C').split('%7C').map((list)=>{
+		const dividedParagraphs = (this.decided[io.github.shunshun94.trpg.scenarioTools.ViceCity.CONSTS.KEYS.SPLITTER] || 's').split('s').map((list)=>{
 			return list.split(',');
 		});
 		if(tag.hasClass('paragraph-lefttop2rightbottom')) {
@@ -134,7 +134,7 @@ io.github.shunshun94.trpg.scenarioTools.ViceCity = class {
 		} else {
 			dividedParagraphs[0].push(paragraphNum);
 		}
-		this.updatePage(io.github.shunshun94.trpg.scenarioTools.ViceCity.CONSTS.KEYS.SPLITTER, dividedParagraphs.map((list)=>{return list.join(',')}).join('|'));
+		this.updatePage(io.github.shunshun94.trpg.scenarioTools.ViceCity.CONSTS.KEYS.SPLITTER, dividedParagraphs.map((list)=>{return list.join(',')}).join('s'));
 	}
 	
 	bindEvents() {
