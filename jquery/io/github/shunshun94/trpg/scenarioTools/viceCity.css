@@ -59,6 +59,14 @@ td.paragraph,
 	width:100%;
 }
 
+td.paragraph-lefttop2rightbottom {
+	background-image: linear-gradient(45deg, transparent 49%, #A0A0A0 49%, #A0A0A0 51%, transparent 51%, transparent);
+}
+
+td.paragraph-righttop2leftbottom {
+	background-image: linear-gradient(-45deg, transparent 49%, #A0A0A0 49%, #A0A0A0 51%, transparent 51%, transparent);
+}
+
 td.paragraph-current-exist {
 	background-color:blue;
 	color:white;
