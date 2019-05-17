@@ -128,14 +128,13 @@ io.github.shunshun94.trpg.scenarioTools.ViceCity = class {
 			return list.split(',');
 		});
 		if(tag.hasClass('paragraph-lefttop2rightbottom')) {
-			dividedParagraphs[0] = dividedParagraphs[0].filter((v)=>{console.log(v, paragraphNum, v !== paragraphNum);return v !== paragraphNum});
+			dividedParagraphs[0] = dividedParagraphs[0].filter((v)=>{return v !== paragraphNum});
 			dividedParagraphs[1].push(paragraphNum);
 		} else if(tag.hasClass('paragraph-righttop2leftbottom')) {
-			dividedParagraphs[1] = dividedParagraphs[1].filter((v)=>{console.log(v, paragraphNum, v !== paragraphNum);return v !== paragraphNum});
+			dividedParagraphs[1] = dividedParagraphs[1].filter((v)=>{return v !== paragraphNum});
 		} else {
 			dividedParagraphs[0].push(paragraphNum);
 		}
-		console.log(dividedParagraphs, dividedParagraphs.map((list)=>{return list.join(',')}).join('|'), paragraphNum)
 		this.updatePage(io.github.shunshun94.trpg.scenarioTools.ViceCity.CONSTS.KEYS.SPLITTER, dividedParagraphs.map((list)=>{return list.join(',')}).join('|'));
 	}
 	
