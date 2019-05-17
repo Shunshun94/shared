@@ -55,6 +55,15 @@ io.github.shunshun94.trpg.scenarioTools.ViceCity = class {
 				$(`.${this.decided[io.github.shunshun94.trpg.scenarioTools.ViceCity.CONSTS.KEYS.CURRENT_PARAGRAPH]}`).addClass('paragraph-current-exist');
 			}
 		}
+		if(this.decided[io.github.shunshun94.trpg.scenarioTools.ViceCity.CONSTS.KEYS.SPLITTER]) {
+			const spliters = this.decided[io.github.shunshun94.trpg.scenarioTools.ViceCity.CONSTS.KEYS.SPLITTER].split('|');
+			spliters[0].split(',').filter((d)=>{return d}).forEach((v)=>{
+				$(`#paragraph-${v}`).addClass('paragraph-lefttop2rightbottom');
+			});
+			spliters[1].split(',').filter((d)=>{return d}).forEach((v)=>{
+				$(`#paragraph-${v}`).addClass('paragraph-righttop2leftbottom');
+			});
+		}
 	};
 
 	updatePage(key, val) {
@@ -104,6 +113,29 @@ io.github.shunshun94.trpg.scenarioTools.ViceCity = class {
 			location.href += `?${key}=${val}`;
 		}
 	}
+
+	changeParagraphDivider(e) {
+		e.preventDefault();
+		const clicked = $(e.target);
+		if(clicked.hasClass('paragraph-code')) {
+			this.changeParagraphDivider({target: clicked.parent(), preventDefault:()=>{}});
+			return;
+		}
+		const paragraphNum = /\d+/.exec($(clicked).attr('id'))[0];
+		const tag = $(`#paragraph-${paragraphNum}`);
+		const dividedParagraphs = (this.decided[io.github.shunshun94.trpg.scenarioTools.ViceCity.CONSTS.KEYS.SPLITTER] || '|').split('|').map((list)=>{
+			return list.split(',');
+		});
+		if(tag.hasClass('paragraph-lefttop2rightbottom')) {
+			dividedParagraphs[0] = dividedParagraphs[0].filter((v)=>{return v !== paragraphNum});
+			dividedParagraphs[1].push(paragraphNum);
+		} else if(tag.hasClass('paragraph-righttop2leftbottom')) {
+			dividedParagraphs[1] = dividedParagraphs[1].filter((v)=>{return v !== paragraphNum});
+		} else {
+			dividedParagraphs[0].push(paragraphNum);
+		}
+		this.updatePage(io.github.shunshun94.trpg.scenarioTools.ViceCity.CONSTS.KEYS.SPLITTER, dividedParagraphs.map((list)=>{return list.join(',')}).join('|'));
+	}
 	
 	bindEvents() {
 		$('.paragraph-select').change((e)=>{this.decideParagraph(e)});
@@ -111,12 +143,14 @@ io.github.shunshun94.trpg.scenarioTools.ViceCity = class {
 		$('.westtown').click((e)=>{this.moveToParagraph('westtown')});
 		$('.oldtown').click((e)=>{this.moveToParagraph('oldtown')});
 		$('.newtown').click((e)=>{this.moveToParagraph('newtown')});
+		$('.paragraph').contextmenu((e)=>{this.changeParagraphDivider(e)});
 	}
 };
 
 io.github.shunshun94.trpg.scenarioTools.ViceCity.CONSTS = {
 		KEYS: {
-			CURRENT_PARAGRAPH: '_currentParagraph'
+			CURRENT_PARAGRAPH: '_currentParagraph',
+			SPLITTER: '_splitter'
 		},
 		ID: 'io-github-shunshun94-trpg-scenarioTools-ViceCity',
 		AREAS: {
