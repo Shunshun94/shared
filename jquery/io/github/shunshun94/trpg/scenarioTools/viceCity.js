@@ -123,7 +123,7 @@ io.github.shunshun94.trpg.scenarioTools.ViceCity = class {
 		}
 		const paragraphNum = /\d+/.exec($(clicked).attr('id'))[0];
 		const tag = $(`#paragraph-${paragraphNum}`);
-		const dividedParagraphs = (this.decided[io.github.shunshun94.trpg.scenarioTools.ViceCity.CONSTS.KEYS.SPLITTER] || '|').split('|').map((list)=>{
+		const dividedParagraphs = (this.decided[io.github.shunshun94.trpg.scenarioTools.ViceCity.CONSTS.KEYS.SPLITTER] || '%7C').split('%7C').map((list)=>{
 			return list.split(',');
 		});
 		if(tag.hasClass('paragraph-lefttop2rightbottom')) {
