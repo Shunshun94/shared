@@ -115,7 +115,6 @@ io.github.shunshun94.trpg.scenarioTools.ViceCity = class {
 	}
 
 	changeParagraphDivider(e) {
-		console.log(e);
 		e.preventDefault();
 		const clicked = $(e.target);
 		if(clicked.hasClass('paragraph-code')) {
