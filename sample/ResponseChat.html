@@ -33,6 +33,7 @@ var client = io.github.shunshun94.trpg.RoomClientFactory(query);
 var chat;
 query.displayLimit = query.displayLimit || 15;
 query.system = (query.system || '') .replace(/%20/gm, ' ');
+query.msgConverte = query.msgConverte ? com.hiyoko.DodontoF.V2.converteLog : false;
 setTimeout(()=>{
 	chat = new io.github.shunshun94.trpg.ResponseChat($('#chat'), query);
 }, query.wait || 1500);

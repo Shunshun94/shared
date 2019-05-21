@@ -159,3 +159,20 @@ com.hiyoko.DodontoF.V2.getNameColorPairs = (rawMsgs = []) => {
 	return result;
 };
 
+com.hiyoko.DodontoF.V2.converteLog = (log, opt={}) => {
+	const appRegExpResult = /^\*?\*?([^:\n\*]+)\*?\*?:\s?/.exec(log.msg);
+	const preRegExpResult = /^([^「\n]+)「/.exec(log.msg);
+
+	for(var key in opt) {
+		log[key] = opt[key];
+	}
+
+	if(appRegExpResult && (! log.msg.startsWith('http'))) {
+		log.name = appRegExpResult[1];
+		log.msg = log.msg.replace(appRegExpResult[0], '')
+	} else if(preRegExpResult && (! log.msg.startsWith('http'))) {
+		log.name = preRegExpResult[1];
+		log.msg = log.msg.replace(preRegExpResult[0], '')
+	}
+	return log;
+};

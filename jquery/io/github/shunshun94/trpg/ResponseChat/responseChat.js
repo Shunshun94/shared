@@ -229,6 +229,7 @@ io.github.shunshun94.trpg.ResponseChat.Display = class extends com.hiyoko.compon
 		this.lastUpdate = 0;
 		this.limit = this.options.displayLimit || 0;
 		this.channels = ['メイン'];
+		this.msgConverte = this.options.msgConverte || this.options.msgConverter;
 		this.bindEvents();
 	}
 	
@@ -285,6 +286,9 @@ io.github.shunshun94.trpg.ResponseChat.Display = class extends com.hiyoko.compon
 	}
 	updateLogs(logs) {
 		this.$html.prepend(logs.map((log) => {
+			if(this.msgConverte) {
+				log = this.msgConverte(log);
+			}
 			let $log = $(`<div style="color:#${log.color}" class="${this.id}-log ${io.github.shunshun94.trpg.ResponseChat.Display.CLASS}-log"></div>`);
 			if(log.tab) {
 				$log.addClass(`${this.id}-log-notMain`);
