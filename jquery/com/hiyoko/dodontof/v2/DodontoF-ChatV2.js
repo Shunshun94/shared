@@ -102,6 +102,7 @@ com.hiyoko.DodontoF.V2.ChatClient.SimpleDisplay = class extends com.hiyoko.compo
 		this.lastUpdate = 0;
 		this.channels = ['メイン'];
 		this.limit = this.options.displayLimit || 0;
+		this.msgConverte = this.options.msgConverte || this.options.msgConverter;
 	}
 	generateDom() {
 		// empty method
@@ -146,6 +147,9 @@ com.hiyoko.DodontoF.V2.ChatClient.SimpleDisplay = class extends com.hiyoko.compo
 	}
 	updateLogs(logs) {
 		this.$html.prepend(logs.map((log) => {
+			if(this.msgConverte) {
+				log = this.msgConverte(log);
+			}
 			var $log = $(com.hiyoko.util.format('<p style="color:%s" class="%s-log %s-log"></p>',
 					log.color.startsWith('rgb') ? log.color : `#${log.color}` , this.id, com.hiyoko.DodontoF.V2.ChatClient.SimpleDisplay.CLASS));
 			if(log.tab) {
