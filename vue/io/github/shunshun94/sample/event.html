@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<div id="list">
+  <p>{{ clickedTarget }}</p>
+  <ul>
+    <list-item v-on:item-clicked-event="apply" v-for="targetItem in targetList" :target="targetItem" :key="targetItem.id"></list-item>
+  </ul>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script>
+const list_item = Vue.component('list-item', {
+  props: ['target'],
+  template: `<li v-on:click="fireClickedEvent">{{target.text}}</li>`,
+  methods: {
+    fireClickedEvent: function(){  this.$emit('item-clicked-event', this.target.text);}
+  }
+});
+
+const myList = new Vue({
+  el: '#list',
+  data: {
+    clickedTarget: 'ひよこ',
+    targetList: [
+    	{id:0, text:'ひよこ'},
+    	{id:1, text:'ひつじ'},
+    	{id:2, text:'こねこ'}
+    ]
+  },
+  methods: {
+    apply: function(name) { this.clickedTarget = name; }
+  }
+});
+
+
+</script>
+</body>
+</html>
