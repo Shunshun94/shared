@@ -29,9 +29,11 @@ io.github.shunshun94.trpg.discord.Entrance = class extends com.hiyoko.component.
 	}
 
 	buildDom() {
-		this.$html.append(	`<div id="${this.id}-url"><p>Discord Bot のトークン：<input list="${this.id}-url-list" id="${this.id}-url-token" type="text" />` +
+		this.$html.append(	`<div id="${this.id}-url"><p><a target="_blank" href="https://shunshun94.github.io/shared/sample/discordBot_101">Discord の Bot を作ろう！</a>記載の手順でサーバに登録した Bot の Token または、<br/>`+
+							`<a target="_blank" href="https://shunshun94.github.io/shared/sample/discordAccountToken">Discord の自分のアカウントの Token を取得しよう！</a>記載の手順で取得したアカウントの Token を入力してください<br/>` +
+							`<br/>Token：<input list="${this.id}-url-list" id="${this.id}-url-token" type="text" />` +
 							`<button id="${this.id}-url-next">チャンネル選択へ進む</button></p><datalist id="${this.id}-url-list"></datalist></div>`);
-		this.$html.append(	`<div id="${this.id}-room"><button id="${this.id}-room-back">Discord Bot のトークンに戻る</button><p id="${this.id}-room-loading">⌛部屋情報読み込み中……</p></div>`);
+		this.$html.append(	`<div id="${this.id}-room"><button id="${this.id}-room-back">Token の入力に戻る</button><p id="${this.id}-room-loading">⌛部屋情報読み込み中……</p></div>`);
 		this.$html.append(	`<div id="${this.id}-bcdice"><button id="${this.id}-bcdice-back">チャンネルの選択に戻る</button><p>BCDiceAPI の URL：` +
 							`<input list="${this.id}-bcdice-list" placeholder="https://www.example.com/bcdice-api" id="${this.id}-bcdice-url" type="text" />` +
 							`<button id="${this.id}-bcdice-next">入力完了</button></p><datalist id="${this.id}-bcdice-list"></datalist></div>`);
