@@ -13,6 +13,7 @@ com.hiyoko.VampireBlood.SW2 = function(id, opt_callback) {
 		this.parseAccessories(data);
 		this.parseSubSkills(data);
 		this.parsePets(data);
+		this.parsePhysicalMaster(data);
 		if(opt_callback) {
 			opt_callback(this);
 		} else {
@@ -271,6 +272,35 @@ com.hiyoko.VampireBlood.SW2.prototype.parsePets = function(json) {
 			dodge: Number(json.horsedatas_evd[i])
 		});
 	}.bind(this));
+};
+
+com.hiyoko.VampireBlood.SW2.prototype.parsePhysicalMaster = function(data) {
+	this.parts = [];
+	if(! Boolean(this.skills['フィジカルマスター'])) {return;}
+	const mainWeapon = (this.weapons.length ? this.weapons[0].skill : '');
+	this.parts = data.phy_bui_name.map((name, i)=>{
+		if(data.phy_bui_attack[i]) {
+			this.weapons.push({
+				name: data.phy_bui_attack[i],
+				rank: data.phy_bui_rank[i], hand: data.phy_bui_yoho[i], note: '',
+				category: '格闘',
+				rate: Number(data.phy_bui_iryoku[i]), crit: Number(data.phy_bui_critical[i]),
+				damage: Number(data.phy_bui_damage[i]), hit: Number(data.phy_bui_hit[i]),
+				skill: ( i === 0 ? mainWeapon : 'フィジカルマスター')
+			});
+		}
+
+		return {
+			name: name,
+			mentality: this.mental,
+			vitality: this.physical,
+			armor: Number(data.phy_bui_bougo[i]),
+			hp: Number(data.phy_bui_hp[i]),
+			mp: Number(data.phy_bui_mp[i]),
+			attackWays: [{damage: 0, isMagic: false, name: '武器欄参照', value: 0}],
+			dodge: Number(data.phy_bui_kaihi[i])
+		};
+	});
 };
 
 com.hiyoko.VampireBlood.SW2.Status = ['器用', '敏捷',
