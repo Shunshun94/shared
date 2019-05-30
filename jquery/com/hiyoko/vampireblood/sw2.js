@@ -297,7 +297,7 @@ com.hiyoko.VampireBlood.SW2.prototype.parsePhysicalMaster = function(data) {
 			armor: Number(data.phy_bui_bougo[i]),
 			hp: Number(data.phy_bui_hp[i]),
 			mp: Number(data.phy_bui_mp[i]),
-			attackWays: [{damage: 0, isMagic: false, name: '武器欄参照', value: 0}],
+			attackWays: [],
 			dodge: Number(data.phy_bui_kaihi[i])
 		};
 	});
