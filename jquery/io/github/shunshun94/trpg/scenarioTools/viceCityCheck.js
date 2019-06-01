@@ -394,8 +394,8 @@ io.github.shunshun94.trpg.scenarioTools.ViceCityCheck.Counters = class {
 		this.id = $dom.attr('id');
 		this.$dom = $dom;
 		$dom.append(`
-			<span>冒険者の店への剣のかけら納品数:<input id="${this.id}-shopPiece" type="number" value="${status.shopPiece || 0}" /></span><br/>
-			<span>冒険者の店へのアビスシャード納品数:<input id="${this.id}-shopAbyss" type="number" value="${status.shopAbyss || 0}" /></span><br/>
+			<span>冒険者ギルドへの剣のかけら納品数:<input id="${this.id}-shopPiece" type="number" value="${status.shopPiece || 0}" /></span><br/>
+			<span>冒険者ギルドへのアビスシャード納品数:<input id="${this.id}-shopAbyss" type="number" value="${status.shopAbyss || 0}" /></span><br/>
 			<span>黒剣騎士団への剣のかけら納品数:<input id="${this.id}-blackPiece" type="number" value="${status.blackPiece || 0}" /></span><br/><br/>
 			<span>♠27　地下格闘場での勝利数:<input id="${this.id}-underFight" type="number" value="${status.underFight || 0}" /></span><br/>
 			<span>♠30　黒剣騎士団への貢献度:<input id="${this.id}-blackSword" type="number" value="${status.blackSword || 0}" /></span><br/><br/>
