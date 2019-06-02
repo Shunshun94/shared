@@ -107,7 +107,12 @@ io.github.shunshun94.trpg.scenarioTools.ViceCityCheck.Calendar = class {
 				$clicked.removeClass(`${this.tdClass}-done`);
 				$clicked.removeClass(`${this.tdClass}-lunch`);
 			}
-			
+		});
+		$(`#${this.id}-addOneHour`).click((e)=>{
+			const currentTimesList = $(`.${this.tdClass}-done`);
+			const currentTimeNum = (currentTimesList.length ? this.getTimeId(currentTimesList.last()) : 0) +1;
+			$(`#${this.tdClass}-${currentTimeNum}`).addClass(`${this.tdClass}-done`);
+			$(`#${this.tdClass}-${currentTimeNum}`).text('済');
 		});
 	}
 	
@@ -163,6 +168,7 @@ io.github.shunshun94.trpg.scenarioTools.ViceCityCheck.Calendar = class {
 		}
 		$table.append($tbody);
 		this.$dom.append($table);
+		this.$dom.append(`<button id="${this.id}-addOneHour">1時間経過させる</button>`);
 	}
 };
 io.github.shunshun94.trpg.scenarioTools.ViceCityCheck.Calendar.CONSTS = {
