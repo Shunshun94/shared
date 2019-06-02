@@ -96,6 +96,12 @@ footer>p {
 	background-color: #CCCCAA;
 }
 
+#vcm-calendar-addOneHour {
+	top:200px;
+	left:812px;
+	position:fixed;
+}
+
 /* rndevents */
 
 .vcm-rndevents-table-rndevent-td:hover {
