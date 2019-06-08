@@ -29,5 +29,3 @@ io.github.shunshun94.trpg.characterSheetsMasashige.client = class  {
 		return promise;
 	}
 };
-	
-	
