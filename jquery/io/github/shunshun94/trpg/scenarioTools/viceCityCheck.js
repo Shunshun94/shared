@@ -114,6 +114,31 @@ io.github.shunshun94.trpg.scenarioTools.ViceCityCheck.Calendar = class {
 			$(`#${this.tdClass}-${currentTimeNum}`).addClass(`${this.tdClass}-done`);
 			$(`#${this.tdClass}-${currentTimeNum}`).text('済');
 		});
+		$(`#${this.id}-eat`).click((e)=>{
+			const currentTimesList = $(`.${this.tdClass}-done`);
+			const currentTimeNum = (currentTimesList.length ? this.getTimeId(currentTimesList.last()) : 0) +1;
+			$(`#${this.tdClass}-${currentTimeNum}`).addClass(`${this.tdClass}-done`);
+			$(`#${this.tdClass}-${currentTimeNum}`).addClass(`${this.tdClass}-lunch`);
+			$(`#${this.tdClass}-${currentTimeNum}`).text('食');
+		});
+		$(`#${this.id}-sleepThreeHour`).click((e)=>{
+			const currentTimesList = $(`.${this.tdClass}-done`);
+			const currentTimeNum = (currentTimesList.length ? this.getTimeId(currentTimesList.last()) : 0);
+			for(var i = currentTimeNum + 1; i < currentTimeNum + 4; i++ ) {
+				$(`#${this.tdClass}-${i}`).addClass(`${this.tdClass}-done`);
+				$(`#${this.tdClass}-${i}`).addClass(`${this.tdClass}-slept`);
+				$(`#${this.tdClass}-${i}`).text('寝');
+			}
+		});
+		$(`#${this.id}-sleepSixHour`).click((e)=>{
+			const currentTimesList = $(`.${this.tdClass}-done`);
+			const currentTimeNum = (currentTimesList.length ? this.getTimeId(currentTimesList.last()) : 0);
+			for(var i = currentTimeNum + 1; i < currentTimeNum + 7; i++ ) {
+				$(`#${this.tdClass}-${i}`).addClass(`${this.tdClass}-done`);
+				$(`#${this.tdClass}-${i}`).addClass(`${this.tdClass}-slept`);
+				$(`#${this.tdClass}-${i}`).text('寝');
+			}
+		});
 	}
 	
 	drawTable() {
@@ -169,6 +194,9 @@ io.github.shunshun94.trpg.scenarioTools.ViceCityCheck.Calendar = class {
 		$table.append($tbody);
 		this.$dom.append($table);
 		this.$dom.append(`<button id="${this.id}-addOneHour">1時間経過させる</button>`);
+		this.$dom.append(`<button id="${this.id}-sleepThreeHour">3時間睡眠をとる</button>`);
+		this.$dom.append(`<button id="${this.id}-sleepSixHour">6時間睡眠をとる</button>`);
+		this.$dom.append(`<button id="${this.id}-eat">食事をとる</button>`);
 	}
 };
 io.github.shunshun94.trpg.scenarioTools.ViceCityCheck.Calendar.CONSTS = {
