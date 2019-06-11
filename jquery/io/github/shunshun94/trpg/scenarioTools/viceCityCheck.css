@@ -102,6 +102,24 @@ footer>p {
 	position:fixed;
 }
 
+#vcm-calendar-sleepThreeHour {
+	top:224px;
+	left:812px;
+	position:fixed;
+}
+
+#vcm-calendar-sleepSixHour {
+	top:248px;
+	left:812px;
+	position:fixed;
+}
+
+#vcm-calendar-eat {
+	top:272px;
+	left:812px;
+	position:fixed;
+}
+
 /* rndevents */
 
 .vcm-rndevents-table-rndevent-td:hover {
