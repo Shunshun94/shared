@@ -19,10 +19,12 @@
 <body>
 <div id="args">
 Discord Bot の Token<span id="args-token-info" class="note" style="max-width:800px">Discord bot の Token を入力してください<br/>
-または以下記事の手法で得られる Token を入力してください<br/><a target="_blank" href="https://shunshun94.github.io/shared/sample/discordAccountToken">Discord の自分のアカウントの Token を取得しよう！</a></span>: <input id="args-token" type="text" /><br/>
+または以下記事の手法で得られる Token を入力してください<br/><a target="_blank" href="./discordAccountToken">Discord の自分のアカウントの Token を取得しよう！</a></span>: <input id="args-token" type="text" /><br/>
 Discord の部屋 ID<span id="args-room-info" class="note" style="max-width:800px">Discord の channel ID を入力してください<br/>Channel の URL が https://discordapp.com/channels/000000000000000000/463088764508438539 なら末尾の 463088764508438539 となります</span>: <input id="args-room" type="text" value="" /><br/>
 Discord 発言 ID<span id="args-fromId-info" class="note" style="max-width:800px">Discord の発言 ID を入力してください。<br/>入力された ID より後の発言を取得します<br/>発言 ID は各発言にカーソルを合わせるポップアップするメニューから取得できます。<br/>チャネルの発言を最初から取得する場合は 1 を入力してください</span>: <input id="args-fromId" type="text" value="1" /><br/>
 発言への自動彩色をする<span class="note" style="max-width:800px">チェックを入れた場合、発言にアプリが色を付けます。チェックを入れなかった場合は色は付きません</span>: <input id="args-isColored" type="checkbox" /><br/>
+発言者の自動補完を無効にする<span class="note" style="max-width:800px">チェックを入れた場合、本アプリの発言者自動補完機能を無効化します。
+自動補完機能は<code>発言者:発言内容</code>や<code>発言者「発言内容」</code>といった発言がされた場合に Discord 上のニックネームではなく発言から発言者を取得し発言したかのように HTML を出力する機能です</span>: <input id="args-isCommonHtml" type="checkbox" /><br/>
 <button id="args-exec">ログ取得開始</button>
 </div>
 <pre id="console"></pre>
@@ -97,7 +99,32 @@ const generateUrl = (data, donwloadText="DOWNLOAD", filename="data.txt", type="t
 	$console.append('<br/>');
 }
 
-const htmlConverterHiyoAppRegExp = /^\*?\*?([^:\n\*]+)\*?\*?:\s?/;
+const convertMsgToCommonHtml = (msg, isColored)=>{
+	const style = isColored ? `style="color:hsl(${Number(msg[1].metadata.senderId) % 360}, 100%, 25%);"` : '';
+	const time = new Date(msg[0]);
+	const attachements = msg[1].metadata.attachments.map((item)=>{
+		const isPic = io.github.shunshun94.CONSTS.PIC_SUFFIX.filter((suffix)=>{
+			return item.filename.endsWith(suffix);
+		}).length;
+		if(isPic) {
+			if(item.width > 800) {
+				item.height *= 800 / item.width;
+				item.width = 800;
+			}
+			return `<img alt="${item.filename}" src="${item.url}" height="${item.height}" width="${item.width}" />`;
+		} else {
+			return `<a href="${item.url}" target="_blank">${item.filename}</a>`;
+		}
+	}).join('<br/>');
+	return `<p class="tab0 _${msg[1].metadata.senderId}" ${style} id="msgId_${msg[1].uniqueId}">
+	<span class="time"><span class="unixTime">${msg[0]}</span>
+	<span class="readbleTime redableTime">${String(time.getHours()).padStart(2, '0')}:${String(time.getMinutes()).padStart(2, '0')}:${String(time.getSeconds()).padStart(2, '0')}</span></span>
+	<span class="name">${msg[1].senderName}</span>
+	<span class="message">${msg[1].message.replace(/\n/gm, '<br/>\n')}</span>
+	${attachements}</p>`
+};
+
+const htmlConverterHiyoAppRegExp = /^\*?\*?([^「:：\n\*]+)\*?\*?[:：]\s?/;
 const htmlConverterParenthesisRegExp = /^([^「\n]+)「/;
 const convertMsgToHiyoHtml = (msg, isColored)=>{
 	const appRegExpResult = htmlConverterHiyoAppRegExp.exec(msg[1].message);
@@ -159,6 +186,7 @@ $('#args-exec').click((e)=>{
 	const room = $('#args-room').val();
 	const fromId = (Number($('#args-fromId').val()) - 1) || 1;
 	const isColored = $('#args-isColored').prop('checked');
+	const isCommonHtml = $('#args-isCommonHtml').prop('checked');
 	const discordClient = new io.github.shunshun94.trpg.discord.Room(token, room);
 	$('#args').hide();
 	$console.html(`ログ取得準備中…… (3秒位かかります)<br/>`);
@@ -167,14 +195,14 @@ $('#args-exec').click((e)=>{
 		getLogRecursive(discordClient, fromId).then((result)=>{
 			localStorage.setItem('io-github-shunshun94-trpg-discord-entry-token', token);
 			generateUrl(JSON.stringify(result), 'JSON ファイルとしてダウンロードする', `${room}.json`, 'text/json;charset=utf-8;');
-			
+			const htmlConverter = isCommonHtml ? convertMsgToCommonHtml : convertMsgToHiyoHtml; 
 			const html = 	'<html><head><meta charset="UTF-8">\n<link rel="stylesheet" href="https://shunshun94.github.io/shared/jquery/io/github/shunshun94/trpg/replay/replay4.css" type="text/css" />\n</head>\n<body>\n' +
 										result.map((d)=>{
-											return convertMsgToHiyoHtml(d, isColored);
+											return htmlConverter(d, isColored);
 										}).join('\n') +
 										'\n</body></html>';
 			generateUrl(html, 'HTML ファイルとしてダウンロードする', `${room}.html`, 'text/html;charset=utf-8;');
-			$console.append(`同じ内容でリクエストしたい場合の URL: ${location.protocol}//${location.host}${location.pathname}?token=${token}&room=${room}&fromId=${fromId}<br/>`);
+			$console.append(`同じ内容でリクエストしたい場合の URL: <a href="${location.protocol}//${location.host}${location.pathname}?token=${token}&room=${room}&fromId=${fromId}">${location.protocol}//${location.host}${location.pathname}?token=${token}&room=${room}&fromId=${fromId}</a><br/>`);
 		}, (err, a, b, c, d, e) => {
 			$console.append(`<p>${JSON.stringify(err)}</p>`);
 			console.error(err, a, b, c, d, e);
