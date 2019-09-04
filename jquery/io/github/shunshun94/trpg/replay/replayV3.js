@@ -48,3 +48,39 @@ io.github.shunshun94.trpg.ReplayV3.calcDeme = (name, expectWord='') => {
   });
   console.log((list.reduce((a,b)=>{return a+b}, 0) / list.length), list.length);
 };
+
+io.github.shunshun94.trpg.ReplayV3.getNameList = () => {
+	let names = {};
+	$('.name').each((i,v)=>{
+		const name = $(v).text();
+		if(names[name]) {
+			names[name]++;
+		} else {
+			names[name] = 1;  
+		}
+	});
+	return names;
+};
+
+io.github.shunshun94.trpg.ReplayV3.readTextWithVoice = (elem, pitchMap={}) => {
+	const ssu = new SpeechSynthesisUtterance();
+	ssu.lang = 'ja-JP';
+
+	const $elem = $(elem);
+	$elem.find('.note').remove();
+	$elem.find('sup').remove();
+	const $name = $elem.find('.name');
+	const talker = $name.length ? $name.text() : '';
+	if(talker && pitchMap[talker]) {
+		ssu.pitch = pitchMap[talker];
+	}
+	const message = talker ? $elem.find('.message').text() : $elem.text();
+	ssu.text = message;
+	speechSynthesis.speak(ssu);
+};
+
+io.github.shunshun94.trpg.ReplayV3.readTextsWithVoice = (elems, pitchMap={}) => {
+	elems.each((i,v)=>{
+		io.github.shunshun94.trpg.ReplayV3.readTextWithVoice(v, pitchMap);
+	});
+};
