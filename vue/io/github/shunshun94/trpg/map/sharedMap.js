@@ -49,7 +49,7 @@ new Vue({
 			for(var key in query) {
 				params.push(`${key}=${query[key]}`);
 			}
-			location.href = `${location.protocol}//${location.host}/${location.pathname}?${params.join('&')}`;
+			location.href = `${location.protocol}//${location.host}${location.pathname}?${params.join('&')}`;
 		},
 		onDoubleClickCharacter: function(e) {
 			this.range.x = e.x;
