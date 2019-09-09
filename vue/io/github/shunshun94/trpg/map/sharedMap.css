@@ -1,0 +1,42 @@
+@charset "utf-8";
+* {
+	box-sizing: border-box;
+	font-family: "BIZ UDゴシック","UD Shin Go NT Light JIS2004","UD デジタル 教科書体 N-R", Verdana, Roboto, "Droid Sans", "游ゴシック", YuGothic, "メイリオ", Meiryo, "ヒラギノ角ゴ ProN W3", "Hiragino Kaku Gothic ProN", "ＭＳ Ｐゴシック", sans-serif;
+	position:relative;
+}
+
+#sharedMap {
+	padding:32px;
+}
+
+#sharedMap-menu {
+	position:absolute;
+	top:4px;
+	right:32px;
+	border:2px gray solid;
+}
+
+#sharedMap-map {
+	border:2px black solid;
+	height: 5000px;
+	width: 5000px;
+	overflow:hidden;
+}
+
+.sharedMap-map-character {
+	position:absolute;
+	height:40px;
+	width:40px;
+	border:1px solid black;
+	border-radius:20px;
+	text-align:center;
+	font-size:50%;
+}
+
+#sharedMap-map-range,
+.sharedMap-map-range-internal {
+	position:absolute;
+	border:1px solid red;
+	text-align:center;
+	font-size:50%;
+}
