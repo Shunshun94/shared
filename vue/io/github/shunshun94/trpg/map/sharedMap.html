@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>マップツール</title>
+<link rel="stylesheet" href="./sharedMap.css" type="text/css" />
+</head>
+<body>
+<div id="sharedMap">
+	<div id="sharedMap-menu">めにゅー</div>
+	<div id="sharedMap-map">
+		<shared-map-range
+			:x="range.x"
+			:y="range.y"
+		></shared-map-range>
+		<shared-map-character
+			v-for="character in characters"
+			:key="character.id"
+			:character="character"
+			v-on:shared-map-map-character-move-character="onMoveCharacter"
+			v-on:shared-map-map-character-dblclick-character="onDoubleClickCharacter"
+		></shared-map-character>
+
+	</div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+<script src="./consts.js"></script>
+
+<script src="./sharedMapRange.js"></script>
+<script src="./sharedMapCharacter.js"></script>
+<script src="./sharedMap.js"></script>
+</body>
+</html>
