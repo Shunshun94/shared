@@ -13,7 +13,30 @@
 	position:absolute;
 	top:4px;
 	right:32px;
-	border:2px gray solid;
+	
+}
+
+#sharedMap-menu-toggle {
+	position:absolute;
+	top:0px;
+	right:0px;
+	border:2px gray outset;
+}
+
+#sharedMap-menu-body {
+	position:absolute;
+	top:18px;
+	right:0px;
+	width:320px;
+	border:2px black solid;
+	background-color:rgba(100,100,100,0.9);
+	padding:16px;
+	color:white;
+}
+
+#sharedMap-menu-toggle:hover {
+	border:2px gray inset;
+	background-color: #E0E0E0;
 }
 
 #sharedMap-map {
