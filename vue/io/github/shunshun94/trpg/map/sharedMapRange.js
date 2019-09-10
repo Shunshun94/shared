@@ -22,7 +22,7 @@ Vue.component('shared-map-range', {
 				height:${width * config.scale}px;
 				width:${width * config.scale}px;
 				border-radius:${(width/2) * config.scale}px;
-				transform:translate(-${(width/2) * config.scale - 13}px, -${(width/2) * config.scale - 13}px);`;
+				transform:translate(-${(width/2) * config.scale - 15}px, -${(width/2) * config.scale - 15}px);`;
 		},
 		getStyleInternal: function(width, outsideWidth) {
 			return `

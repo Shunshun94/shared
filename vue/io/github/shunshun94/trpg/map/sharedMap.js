@@ -1,5 +1,9 @@
 const getQueries = () => {
-	const query = decodeURI(location.search.slice(1)).split('&');
+	const rawQuery = location.search.slice(1);
+	if(rawQuery === '') {
+		return {};
+	}
+	const query = decodeURI(rawQuery).split('&');
 	const paramLength = query.length;
 	let result = {};
 	for(var i = 0; i < paramLength; i++) {
