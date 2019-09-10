@@ -27,6 +27,7 @@ Vue.component('shared-map-character', {
 		},
 		onDblClick: function(e) {
 			this.$emit(`shared-map-map-character-dblclick-character`, this.character);
+			e.stopPropagation();
 		}
 	}
 });

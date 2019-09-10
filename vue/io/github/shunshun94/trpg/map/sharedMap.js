@@ -3,7 +3,10 @@ Vue.component('shared-map', {
 	template: `
 	<div>
 		<div id="sharedMap-menu">めにゅー</div>
-		<div id="sharedMap-map">
+		<div id="sharedMap-map"
+			@dblclick="onDoubleClickCharacter({x:-200, y:0})"
+		
+		>
 			<shared-map-range
 				:x="data.range.x"
 				:y="data.range.y"
