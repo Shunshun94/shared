@@ -5,7 +5,7 @@
 	position:relative;
 }
 
-#sharedMap {
+#sharedMap > div {
 	padding:32px;
 }
 
