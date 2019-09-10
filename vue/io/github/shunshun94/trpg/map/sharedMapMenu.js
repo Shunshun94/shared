@@ -11,10 +11,18 @@ Vue.component('shared-map-menu', {
 			@click="onToggleClick"
 		>≡</div>
 		<div id="sharedMap-menu-body"
-			v-show="isMenuActivated"
-		>縮尺 <input
+			v-show="isMenuActivated">
+		縮尺 <input
 			type="range" min="1" max="100" :value="config.scale"
-			@change="updateScale"></div>
+			@change="updateScale">
+		<hr/>
+		<a
+			href="https://github.com/Shunshun94/shared/tree/master/vue/io/github/shunshun94/trpg/map"
+			target="_blank"
+		>ソースコード</a>
+		
+		
+		</div>
 	</div>`,
 	methods: {
 		onToggleClick: function() {
