@@ -13,7 +13,7 @@ Vue.component('shared-map-context-menu-character', {
 		class="shared-map-context-menu-character"
 		:style="generateContextMenuStyle()">
 		<div @click="onUpdateCharacter('name')">名前を変える</div>
-		<div @click="onUpdateCharacter('color')">背景色を変える</div>
+		<div @click="onUpdateCharacter('color')">色を変える</div>
 		<div @click="onDeleteCharacter">削除する</div>
 	</div>`,
 	methods: {
