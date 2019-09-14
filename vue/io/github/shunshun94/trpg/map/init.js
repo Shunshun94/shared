@@ -22,7 +22,8 @@ const data = {
 			y:0
 		},
 		config: {
-			scale: 25
+			scale: 25,
+			backgroundImage: '-'
 		}
 };
 

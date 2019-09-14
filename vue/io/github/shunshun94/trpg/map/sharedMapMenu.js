@@ -14,7 +14,14 @@ Vue.component('shared-map-menu', {
 			v-show="isMenuActivated">
 		縮尺 <input
 			type="range" min="1" max="100" :value="config.scale"
-			@change="updateScale">
+			title="scale"
+			@change="updateConfig" />
+		<hr/>
+		背景画像 <input
+			type="text"
+			title="backgroundImage"
+			:value="config.backgroundImage"
+		 	@change="updateConfig" />
 		<hr/>
 		<a
 			href="https://github.com/Shunshun94/shared/tree/master/vue/io/github/shunshun94/trpg/map"
@@ -28,10 +35,10 @@ Vue.component('shared-map-menu', {
 		onToggleClick: function() {
 			this.isMenuActivated = ! this.isMenuActivated;
 		},
-		updateScale: function(e) {
+		updateConfig: function(e) {
 			this.$emit(`shared-map-menu-update`, {
-				key: 'scale',
-				value: Number(e.target.value)
+				key: e.target.title,
+				value: e.target.value
 			});
 		}
 	}
