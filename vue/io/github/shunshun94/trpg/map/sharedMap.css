@@ -16,6 +16,19 @@
 	color:white;
 }
 
+.shared-map-character-append-window {
+	left:50px;
+	top:50px;
+	padding:8px;
+	position:fixed;
+	background-color:rgba(100,100,100,0.9);
+	color:white;
+}
+
+.shared-map-character-append-window > button {
+	margin-top:4px;
+}
+
 .shared-map-context-menu-character > div,
 .shared-map-context-menu-map > div {
 	border-bottom: 1px solid black;

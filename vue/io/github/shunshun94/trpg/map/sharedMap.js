@@ -9,8 +9,9 @@ Vue.component('shared-map', {
 				name: 'dummy', x:-50, y:-50, color: 'white'
 			},
 			mapContextMenu: {
-				x: -500, y: -500
-			}
+				x: -500, y: -500,
+			},
+			characterAppendWindow: false
 		}
 	},
 	template: `
@@ -46,12 +47,18 @@ Vue.component('shared-map', {
 				:y="mapContextMenu.y"
 				:config="data.config"
 				v-on:shared-map-context-menu-map-updateConfig="updateFromMenu"
+				v-on:shared-map-context-menu-map-add-character="toggleCharacterAppendWindow(true)"
 			></shared-map-context-menu-map>
 		</div>
 		<shared-map-menu
 			:config="data.config"
 			@shared-map-menu-update="updateFromMenu"
 		></shared-map-menu>
+		<shared-map-character-append-window
+			v-show="characterAppendWindow"
+			v-on:shared-map-character-append-window-cancel="toggleCharacterAppendWindow(false)"
+			v-on:shared-map-character-append-window-append-character="onAppendCharacter"
+		></shared-map-character-append-window>
 	</div>	
 	`,
 	methods: {
@@ -75,6 +82,10 @@ Vue.component('shared-map', {
 			};
 			this.onReload(e);
 
+		},
+		onAppendCharacter: function(e) {
+			this.data.characters.push(e);
+			this.onReload(e);
 		},
 		onDeleteCharacter: function(e) {
 			this.data.characters[Number(e.id)] = {};
@@ -107,6 +118,10 @@ Vue.component('shared-map', {
 			this.resetContextMenu();
 			this.mapContextMenu.x = e.pageX;
 			this.mapContextMenu.y = e.pageY;
+		},
+		toggleCharacterAppendWindow: function(value) {
+			this.characterAppendWindow = value;
+			this.resetContextMenu();
 		}
 	}
 });

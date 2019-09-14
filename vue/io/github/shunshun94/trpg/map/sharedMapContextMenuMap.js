@@ -14,12 +14,13 @@ Vue.component('shared-map-context-menu-map', {
 	<div
 		class="shared-map-context-menu-map"
 		:style="generateContextMenuStyle()">
-			
+			<div @click="addCharacter">キャラクターを追加する</div>
 			<div @click="updateBackgroundImage('backgroundImage')">背景画像を変更する</div>
 	</div>`,
 	methods: {
-		addCharacter: function() {
-			this.$emit(`shared-map-context-menu-map-addCharacter`, this.character);
+		addCharacter: function(e) {
+			this.$emit(`shared-map-context-menu-map-add-character`);
+			e.stopPropagation();
 		},
 		updateBackgroundImage: function(colomn) {
 			const newValue = prompt(this.consts[colomn], this.config[colomn]);
