@@ -9,6 +9,22 @@
 	padding:32px;
 }
 
+.shared-map-context-menu-character {
+	position:absolute;
+	background-color:rgba(100,100,100,0.9);
+	color:white;
+}
+
+.shared-map-context-menu-character > div {
+	border-bottom: 1px solid black;
+	padding:4px;
+}
+
+.shared-map-context-menu-character > div:hover {
+	background-color:rgba(200,200,200,0.9);
+	color:black;
+}
+
 #sharedMap-menu {
 	position:absolute;
 	top:4px;
