@@ -9,18 +9,34 @@
 	padding:32px;
 }
 
-.shared-map-context-menu-character {
+.shared-map-context-menu-character,
+.shared-map-context-menu-map {
 	position:absolute;
 	background-color:rgba(100,100,100,0.9);
 	color:white;
 }
 
-.shared-map-context-menu-character > div {
+.shared-map-character-append-window {
+	left:50px;
+	top:50px;
+	padding:8px;
+	position:fixed;
+	background-color:rgba(100,100,100,0.9);
+	color:white;
+}
+
+.shared-map-character-append-window > button {
+	margin-top:4px;
+}
+
+.shared-map-context-menu-character > div,
+.shared-map-context-menu-map > div {
 	border-bottom: 1px solid black;
 	padding:4px;
 }
 
-.shared-map-context-menu-character > div:hover {
+.shared-map-context-menu-character > div:hover,
+.shared-map-context-menu-map > div:hover {
 	background-color:rgba(200,200,200,0.9);
 	color:black;
 }
@@ -46,8 +62,17 @@
 	width:320px;
 	border:2px black solid;
 	background-color:rgba(100,100,100,0.9);
-	padding:16px;
 	color:white;
+}
+
+.sharedMap-menu-body-button,
+.sharedMap-menu-body-notButton {
+	padding:4px;
+}
+
+.sharedMap-menu-body-button:hover {
+	background-color:rgba(200,200,200,0.9);
+	color:black;
 }
 
 #sharedMap-menu-toggle:hover {
