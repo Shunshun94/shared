@@ -7,6 +7,9 @@ Vue.component('shared-map', {
 			},
 			dummyCharacter: {
 				name: 'dummy', x:-50, y:-50, color: 'white'
+			},
+			mapContextMenu: {
+				x: -500, y: -500
 			}
 		}
 	},
@@ -15,6 +18,7 @@ Vue.component('shared-map', {
 		<div id="sharedMap-map"
 			@dblclick="onDoubleClickCharacter({x:-200, y:0})"
 			@click="resetContextMenu()"
+			@click.right.prevent="onRightClick"
 			:style="generateBackground()"
 		>
 			<shared-map-range
@@ -37,6 +41,12 @@ Vue.component('shared-map', {
 				v-on:shared-map-context-menu-character-characterDelete="onDeleteCharacter"
 				v-on:shared-map-context-menu-character-characterUpdate="onMoveCharacter"
 			></shared-map-context-menu-character>
+			<shared-map-context-menu-map
+				:x="mapContextMenu.x"
+				:y="mapContextMenu.y"
+				:config="data.config"
+				v-on:shared-map-context-menu-map-updateConfig="updateFromMenu"
+			></shared-map-context-menu-map>
 		</div>
 		<shared-map-menu
 			:config="data.config"
@@ -71,6 +81,7 @@ Vue.component('shared-map', {
 			this.onReload(e);
 		},
 		onRightClickCharacter: function(e) {
+			this.resetContextMenu();
 			this.contextMenuCharacter = this.data.characters[Number(e.id)]; 
 		},
 		onDoubleClickCharacter: function(e) {
@@ -79,6 +90,8 @@ Vue.component('shared-map', {
 		},
 		resetContextMenu: function(e) {
 			this.contextMenuCharacter = this.dummyCharacter;
+			this.mapContextMenu.x = -500;
+			this.mapContextMenu.y = -500;
 		},
 		updateFromMenu: function(e) {
 			this.data.config[e.key] = e.value;
@@ -89,6 +102,11 @@ Vue.component('shared-map', {
 			} else {
 				return '';
 			}
+		},
+		onRightClick: function(e) {
+			this.resetContextMenu();
+			this.mapContextMenu.x = e.pageX;
+			this.mapContextMenu.y = e.pageY;
 		}
 	}
 });

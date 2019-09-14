@@ -9,18 +9,21 @@
 	padding:32px;
 }
 
-.shared-map-context-menu-character {
+.shared-map-context-menu-character,
+.shared-map-context-menu-map {
 	position:absolute;
 	background-color:rgba(100,100,100,0.9);
 	color:white;
 }
 
-.shared-map-context-menu-character > div {
+.shared-map-context-menu-character > div,
+.shared-map-context-menu-map > div {
 	border-bottom: 1px solid black;
 	padding:4px;
 }
 
-.shared-map-context-menu-character > div:hover {
+.shared-map-context-menu-character > div:hover,
+.shared-map-context-menu-map > div:hover {
 	background-color:rgba(200,200,200,0.9);
 	color:black;
 }
