@@ -4,7 +4,7 @@ Vue.component('shared-map', {
 	<div>
 		<div id="sharedMap-map"
 			@dblclick="onDoubleClickCharacter({x:-200, y:0})"
-		
+			:style="generateBackground()"
 		>
 			<shared-map-range
 				:x="data.range.x"
@@ -47,7 +47,17 @@ Vue.component('shared-map', {
 			this.data.range.y = e.y;
 		},
 		updateFromMenu: function(e) {
+			console.log(e.key, e.value);
 			this.data.config[e.key] = e.value;
+		},
+		generateBackground: function(e) {
+			console.log(this.data.config.backgroundImage, this.data.config.backgroundImage !== '-');
+			if(this.data.config.backgroundImage !== '-') {
+				console.log(`background-image:url("${this.data.config.backgroundImage}");background-repeat:no-repeat;`);
+				return `background-image:url("${this.data.config.backgroundImage}");background-repeat:no-repeat;`;
+			} else {
+				return '';
+			}
 		}
 	}
 });
