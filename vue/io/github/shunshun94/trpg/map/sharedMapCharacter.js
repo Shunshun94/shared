@@ -6,6 +6,7 @@ Vue.component('shared-map-character', {
 		draggable="true"
 		@dragend="onDrop"
 		@dblclick="onDblClick"
+		@click.right.prevent="onRightClick"
 	><br/>{{character.name}}</span>`,
 	computed: {
 		style: function() {
@@ -28,6 +29,10 @@ Vue.component('shared-map-character', {
 		},
 		onDblClick: function(e) {
 			this.$emit(`shared-map-map-character-dblclick-character`, this.character);
+			e.stopPropagation();
+		},
+		onRightClick: function(e) {
+			this.$emit(`shared-map-map-character-rightclick-character`, this.character);
 			e.stopPropagation();
 		}
 	}
