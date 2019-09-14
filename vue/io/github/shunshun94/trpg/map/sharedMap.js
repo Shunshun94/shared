@@ -53,6 +53,7 @@ Vue.component('shared-map', {
 		<shared-map-menu
 			:config="data.config"
 			@shared-map-menu-update="updateFromMenu"
+			@shared-map-menu-append-character="toggleCharacterAppendWindow(true)"
 		></shared-map-menu>
 		<shared-map-character-append-window
 			v-show="characterAppendWindow"

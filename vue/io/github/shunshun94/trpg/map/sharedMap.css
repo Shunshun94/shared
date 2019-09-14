@@ -62,8 +62,17 @@
 	width:320px;
 	border:2px black solid;
 	background-color:rgba(100,100,100,0.9);
-	padding:16px;
 	color:white;
+}
+
+.sharedMap-menu-body-button,
+.sharedMap-menu-body-notButton {
+	padding:4px;
+}
+
+.sharedMap-menu-body-button:hover {
+	background-color:rgba(200,200,200,0.9);
+	color:black;
 }
 
 #sharedMap-menu-toggle:hover {
