@@ -23,7 +23,7 @@ Vue.component('shared-map-context-menu-map', {
 			e.stopPropagation();
 		},
 		updateBackgroundImage: function(colomn) {
-			const newValue = prompt(this.consts[colomn], this.config[colomn]);
+			let newValue = prompt(this.consts[colomn], this.config[colomn]);
 			if(newValue !== null) {
 				if(newValue === '') {
 					newValue = this.defaultValue[colomn];
