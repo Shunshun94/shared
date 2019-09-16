@@ -111,6 +111,8 @@ Vue.component('shared-map', {
 		resetContextMenu: function(e) {
 			this.contextMenuCharacter = this.dummyCharacter;
 			this.isVisibleRanges = false;
+			this.mapContextMenu.x = -5000;
+			this.mapContextMenu.y = -5000;
 		},
 		updateFromMenu: function(e) {
 			this.data.config[e.key] = e.value;
