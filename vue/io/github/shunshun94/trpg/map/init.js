@@ -18,10 +18,11 @@ const query = getQueries();
 const data = {
 		characters:[],
 		range: {
-			x:-200,
+			x:0,
 			y:0
 		},
 		config: {
+			circledRanges: '100,50,30,20,10,5,3',
 			scale: 25,
 			backgroundImage: '-'
 		}

@@ -11,22 +11,19 @@ Vue.component('shared-map', {
 			mapContextMenu: {
 				x: -500, y: -500,
 			},
-			characterAppendWindow: false
+			characterAppendWindow: false,
+			isVisibleRanges: false,
+			
 		}
 	},
 	template: `
 	<div>
 		<div id="sharedMap-map"
-			@dblclick="onDoubleClickCharacter({x:-200, y:0})"
+			@dblclick="onDoubleClickCharacter(false)"
 			@click="resetContextMenu()"
 			@click.right.prevent="onRightClick"
 			:style="generateBackground()"
 		>
-			<shared-map-range
-				:x="data.range.x"
-				:y="data.range.y"
-				:config="data.config"
-			></shared-map-range>
 			<shared-map-character
 				v-for="character in data.characters"
 				:key="character.id"
@@ -36,6 +33,12 @@ Vue.component('shared-map', {
 				v-on:shared-map-map-character-dblclick-character="onDoubleClickCharacter"
 				v-on:shared-map-map-character-rightclick-character="onRightClickCharacter"
 			></shared-map-character>
+			<shared-map-range
+				:x="data.range.x"
+				:y="data.range.y"
+				:config="data.config"
+				v-show="isVisibleRanges"
+			></shared-map-range>
 			<shared-map-context-menu-character
 				:character="contextMenuCharacter"
 				:config="data.config"
@@ -97,13 +100,17 @@ Vue.component('shared-map', {
 			this.contextMenuCharacter = this.data.characters[Number(e.id)]; 
 		},
 		onDoubleClickCharacter: function(e) {
-			this.data.range.x = e.x;
-			this.data.range.y = e.y;
+			if(e) {
+				this.data.range.x = e.x;
+				this.data.range.y = e.y;
+				this.isVisibleRanges = true;
+			} else {
+				this.isVisibleRanges = false;
+			}
 		},
 		resetContextMenu: function(e) {
 			this.contextMenuCharacter = this.dummyCharacter;
-			this.mapContextMenu.x = -500;
-			this.mapContextMenu.y = -500;
+			this.isVisibleRanges = false;
 		},
 		updateFromMenu: function(e) {
 			this.data.config[e.key] = e.value;
