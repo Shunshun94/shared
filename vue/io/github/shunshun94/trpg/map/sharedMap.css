@@ -97,8 +97,12 @@
 	font-size:50%;
 }
 
-#sharedMap-map-range,
-.sharedMap-map-range-internal {
+#sharedMap-map-range {
+	position:absolute;
+}
+
+
+.sharedMap-map-range-circle {
 	position:absolute;
 	border:1px solid red;
 	text-align:center;

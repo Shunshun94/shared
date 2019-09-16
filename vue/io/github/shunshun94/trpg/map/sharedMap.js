@@ -11,7 +11,9 @@ Vue.component('shared-map', {
 			mapContextMenu: {
 				x: -500, y: -500,
 			},
-			characterAppendWindow: false
+			characterAppendWindow: false,
+			rangeLineScale: false,
+			
 		}
 	},
 	template: `
