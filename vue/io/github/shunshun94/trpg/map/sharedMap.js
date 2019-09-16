@@ -19,7 +19,7 @@ Vue.component('shared-map', {
 	template: `
 	<div>
 		<div id="sharedMap-map"
-			@dblclick="onDoubleClickCharacter({x:-200, y:0})"
+			@dblclick="onDoubleClickCharacter(false)"
 			@click="resetContextMenu()"
 			@click.right.prevent="onRightClick"
 			:style="generateBackground()"
@@ -100,9 +100,13 @@ Vue.component('shared-map', {
 			this.contextMenuCharacter = this.data.characters[Number(e.id)]; 
 		},
 		onDoubleClickCharacter: function(e) {
-			this.data.range.x = e.x;
-			this.data.range.y = e.y;
-			this.isVisibleRanges = true;
+			if(e) {
+				this.data.range.x = e.x;
+				this.data.range.y = e.y;
+				this.isVisibleRanges = true;
+			} else {
+				this.isVisibleRanges = false;
+			}
 		},
 		resetContextMenu: function(e) {
 			this.contextMenuCharacter = this.dummyCharacter;
