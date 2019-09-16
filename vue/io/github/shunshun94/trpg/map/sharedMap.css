@@ -106,7 +106,6 @@
 	position:absolute;
 	border:1px solid red;
 	text-align:center;
-	font-size:50%;
 }
 
 .sharedMap-map-range-circle > span {
@@ -120,4 +119,8 @@
 	position: absolute;
 	width:20000px;
 	transform-origin:left top;
+}
+
+.sharedMap-map-range-circle {
+	position: absolute;
 }
