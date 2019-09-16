@@ -6,9 +6,7 @@ Vue.component('shared-map-range', {
 			:range="Number(range)" :config="config"
 			v-for="range in config.circledRanges.split(',')"		
 		></shared-map-range-circle>
-		
-		
-
+		<hr class="sharedMap-map-range-line"/>
 	</div>`,
 	methods: {
 		getPosition: function() {
@@ -40,7 +38,9 @@ Vue.component('shared-map-range', {
 Vue.component('shared-map-range-circle', {
 	props:['range', 'config'],
 	template: `
-		<div :style="getStyle(range)" class="sharedMap-map-range-circle"></div>
+		<div :style="getStyle(range)" class="sharedMap-map-range-circle">
+			<span :style="getScaleStyle(range)">{{range}}m</span>
+		</div>
 	`,
 	methods: {
 		getStyle: function(range) {
@@ -49,7 +49,12 @@ Vue.component('shared-map-range-circle', {
 				height:${this.config.scale * range * 2}px;
 				border-radius:${this.config.scale * range}px;
 				transform:translate(-${this.config.scale * range}px, -${this.config.scale * range}px);
-			`
+			`;
+		},
+		getScaleStyle: function(range) {
+			return `
+				top:${this.config.scale * range}px;
+			`;
 		}
 	}
 });

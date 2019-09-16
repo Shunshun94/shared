@@ -18,7 +18,7 @@ const query = getQueries();
 const data = {
 		characters:[],
 		range: {
-			x:-200,
+			x:0,
 			y:0
 		},
 		config: {

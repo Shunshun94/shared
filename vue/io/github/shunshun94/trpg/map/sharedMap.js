@@ -12,7 +12,7 @@ Vue.component('shared-map', {
 				x: -500, y: -500,
 			},
 			characterAppendWindow: false,
-			rangeLineScale: false,
+			isVisibleRanges: false,
 			
 		}
 	},
@@ -28,6 +28,7 @@ Vue.component('shared-map', {
 				:x="data.range.x"
 				:y="data.range.y"
 				:config="data.config"
+				v-show="isVisibleRanges"
 			></shared-map-range>
 			<shared-map-character
 				v-for="character in data.characters"
@@ -101,11 +102,11 @@ Vue.component('shared-map', {
 		onDoubleClickCharacter: function(e) {
 			this.data.range.x = e.x;
 			this.data.range.y = e.y;
+			this.isVisibleRanges = true;
 		},
 		resetContextMenu: function(e) {
 			this.contextMenuCharacter = this.dummyCharacter;
-			this.mapContextMenu.x = -500;
-			this.mapContextMenu.y = -500;
+			this.isVisibleRanges = false;
 		},
 		updateFromMenu: function(e) {
 			this.data.config[e.key] = e.value;
