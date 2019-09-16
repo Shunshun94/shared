@@ -62,7 +62,7 @@ Vue.component('shared-map-range-marker', {
 	props:['x', 'y', 'config'],
 	template: `
 	<span
-		class="sharedMap-map-range-circle"
+		class="sharedMap-map-range-text"
 		:style="position"
 	>{{ distance }}m</span>`,
 	computed: {
@@ -74,7 +74,7 @@ Vue.component('shared-map-range-marker', {
 		position: function() {
 			return `
 				left: ${this.x}px;
-				top: ${this.y}px;
+				top: ${this.y - 20}px;
 			`;
 		}
 	}

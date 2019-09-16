@@ -24,12 +24,6 @@ Vue.component('shared-map', {
 			@click.right.prevent="onRightClick"
 			:style="generateBackground()"
 		>
-			<shared-map-range
-				:x="data.range.x"
-				:y="data.range.y"
-				:config="data.config"
-				v-show="isVisibleRanges"
-			></shared-map-range>
 			<shared-map-character
 				v-for="character in data.characters"
 				:key="character.id"
@@ -39,6 +33,12 @@ Vue.component('shared-map', {
 				v-on:shared-map-map-character-dblclick-character="onDoubleClickCharacter"
 				v-on:shared-map-map-character-rightclick-character="onRightClickCharacter"
 			></shared-map-character>
+			<shared-map-range
+				:x="data.range.x"
+				:y="data.range.y"
+				:config="data.config"
+				v-show="isVisibleRanges"
+			></shared-map-range>
 			<shared-map-context-menu-character
 				:character="contextMenuCharacter"
 				:config="data.config"
