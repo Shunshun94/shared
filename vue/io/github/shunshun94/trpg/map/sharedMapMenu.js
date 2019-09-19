@@ -21,6 +21,11 @@ Vue.component('shared-map-menu', {
 			title="backgroundImage"
 			:value="config.backgroundImage"
 		 	@change="updateConfig" /></div>
+		 <div class="sharedMap-menu-body-notButton">距離の目安 <input
+			type="text"
+			title="circledRanges"
+			:value="config.circledRanges"
+		 	@change="updateConfig" /></div>
 		<hr/>
 		<div class="sharedMap-menu-body-button" @click="addCharacter">キャラクターを追加する</div>
 		<hr/>

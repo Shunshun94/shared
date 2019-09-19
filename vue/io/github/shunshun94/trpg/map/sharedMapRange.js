@@ -13,7 +13,7 @@ Vue.component('shared-map-range', {
 		@mousemove="onMouseMove">
 		<shared-map-range-circle
 			:range="Number(range)" :config="config"
-			v-for="range in config.circledRanges.split(',')"		
+			v-for="range in config.circledRanges.split(',').sort((a,b)=>{return b-a;})"		
 		></shared-map-range-circle>
 
 		<hr style="transform: rotate(0deg);"
