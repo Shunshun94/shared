@@ -34,6 +34,16 @@ Vue.component('shared-map-menu', {
 			href="https://github.com/Shunshun94/shared/tree/master/vue/io/github/shunshun94/trpg/map"
 			target="_blank"
 		>ソースコード</a></div>
+		<div class="sharedMap-menu-body-notButton">
+		<a
+			href="http://amzn.asia/8mNqdKy"
+			target="_blank"
+		>作者欲しいものリスト</a></div>
+		<div class="sharedMap-menu-body-notButton">
+		<a
+			href="https://twitter.com/Shunshun94"
+			target="_blank"
+		>作者連絡先</a></div>
 		
 		
 		</div>
