@@ -140,8 +140,19 @@ io.github.shunshun94.trpg.discord.Room = class extends io.github.shunshun94.trpg
 		}
 	}
 
-	convertRawMessage(raw, channel = 0) {
-		return raw.reverse().map((raw) => {
+	isNickNameActive() {
+		this.rooms = this.rooms || io.github.shunshun94.trpg.discord.flattenRoomList(this.discord);
+		return Boolean(this.rooms[this.roomId[0]]) &&
+			Boolean(this.rooms[this.roomId[0]].guild_id) &&
+			Boolean(this.discord.servers[this.rooms[this.roomId[0]].guild_id]) && 
+			Boolean(this.discord.servers[this.rooms[this.roomId[0]].guild_id].members);
+	}
+
+	convertRawMessage(rawData, channel = 0) {
+		return rawData.reverse().map((raw) => {
+			if(! Boolean(raw.author)) {
+				throw raw.message;
+			}
 			return [
 	        	Number(new Date(raw.timestamp)),
 	        	{
@@ -264,10 +275,15 @@ io.github.shunshun94.trpg.discord.Room = class extends io.github.shunshun94.trpg
 					if(err) {
 						reject({result: err, channel: this.roomId[channel]});
 					} else {
-						resolve({
-							result: 'OK',
-							chatMessageDataLog: this.convertRawMessage(array, channel)
-						});
+						try {
+							resolve({
+								result: 'OK',
+								chatMessageDataLog: this.convertRawMessage(array, channel)
+							});
+						} catch (e) {
+							reject({result: e, channel: this.roomId[channel]});
+						}
+
 					}
 				});
 			});

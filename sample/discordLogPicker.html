@@ -3,6 +3,20 @@
 <head>
 <link rel="stylesheet" href="../jquery/io/github/shunshun94/trpg/replay/replay4.css"/>
 <style>
+#contact {
+	position: absolute;
+	right:4px;
+	top: 4px;
+	border: 3px double black;
+	padding: 4px;
+}
+
+#contact > h1 {
+	width: 320px;
+	margin-top: 0px;
+	font-size:1em;
+}
+
 .info {
   width: 20px;
   height: 20px;
@@ -12,11 +26,20 @@
   display:inline-block;
   text-align:center;
 }
+
+.warn {
+	color: goldenrod;
+}
+.error {
+	color: red;
+}
+
 </style>
 <meta charset="UTF-8">
 <title>Discord Log Picker</title>
 </head>
 <body>
+<div id="contact"><h1>Discord Log Picker</h1><br/>作者連絡先：<a href="https://twitter.com/Shunshun94" target="_blank">Twitter @Shunshun94</a><br/><a href="http://amzn.asia/8mNqdKy" target="_blank">作者の欲しいものリスト</a></div>
 <div id="args">
 Discord Bot の Token<span id="args-token-info" class="note" style="max-width:800px">Discord bot の Token を入力してください<br/>
 または以下記事の手法で得られる Token を入力してください<br/><a target="_blank" href="./discordAccountToken">Discord の自分のアカウントの Token を取得しよう！</a></span>: <input id="args-token" type="text" /><br/>
@@ -27,6 +50,7 @@ Discord 発言 ID<span id="args-fromId-info" class="note" style="max-width:800px
 自動補完機能は<code>発言者:発言内容</code>や<code>発言者「発言内容」</code>といった発言がされた場合に Discord 上のニックネームではなく発言から発言者を取得し発言したかのように HTML を出力する機能です</span>: <input id="args-isCommonHtml" type="checkbox" /><br/>
 <button id="args-exec">ログ取得開始</button>
 </div>
+
 <pre id="console"></pre>
 
 
@@ -57,8 +81,8 @@ const getLogRecursive = (client, lastId=1, currentArray=[], retryCount=0, maxRet
 					const nextLastId = result.chatMessageDataLog.reverse()[0][1].uniqueId;
 					getLogRecursive(client, nextLastId, currentArray.concat(result.chatMessageDataLog.reverse()), 0, maxRetry).then((result)=>{
 						resolve(result);
-					}, (err, a, b, c, d, e)=>{
-						reject(err, a, b, c, d, e);
+					}, (err)=>{
+						reject(err);
 					});
 				} else {
 					$console.html(`${$console.html()}取得完了! (全${currentArray.length}件)<br/>`);
@@ -67,22 +91,28 @@ const getLogRecursive = (client, lastId=1, currentArray=[], retryCount=0, maxRet
 			} else {
 				if(nextRetryCount >= maxRetry) {
 					reject(err, client, lastId, currentArray, retryCount, maxRetry);
-				}				
+				}
 				getLogRecursive(client, lastId, currentArray, retryCount + 1, maxRetry).then((result)=>{
 					resolve(result);
-				}, (err, a, b, c, d, e)=>{
-					reject(err, a, b, c, d, e);
+				}, (err)=>{
+					reject(err);
 				});
 			}
 		}, (err)=>{
+			console.error(`FAILED getLogRecursive: lastId = ${lastId}, retryCount = ${retryCount}`, err);
 			if(nextRetryCount >= maxRetry) {
-				reject(err, client, lastId, currentArray, retryCount, maxRetry);
+				console.error(`FAILED getLogRecursive: もうむりぽ`);
+				reject(err);
+			} else {
+				$console.html(`${$console.html()}<span class="warn">ログの取得に失敗しました。${(retryCount + 1)}秒後に再取得します</span><br/>`);
+				setTimeout(()=>{
+					getLogRecursive(client, lastId, currentArray, retryCount + 1, maxRetry).then((result)=>{
+						resolve(result);
+					}, (err)=>{
+						reject(err);
+					});
+				}, (retryCount + 1) * 1000);
 			}
-			getLogRecursive(client, lastId, currentArray, retryCount + 1, maxRetry).then((result)=>{
-				resolve(result);
-			}, (err, a, b, c, d, e)=>{
-				reject(err, a, b, c, d, e);
-			});			
 		});
 	});
 };
@@ -192,6 +222,9 @@ $('#args-exec').click((e)=>{
 	$console.html(`ログ取得準備中…… (3秒位かかります)<br/>`);
 	setTimeout(()=>{
 		$console.html(`${$console.html()}取得開始<br/>`);
+		if(! discordClient.isNickNameActive()) {
+			$console.html(`${$console.html()}<span class="warn">ニックネームの取得に失敗しました。ニックネームではなくユーザ名を名前欄に用います<br/>ただし、後で上手くいったらニックネームを使うかもしれません</span><br/>`);
+		}
 		getLogRecursive(discordClient, fromId).then((result)=>{
 			localStorage.setItem('io-github-shunshun94-trpg-discord-entry-token', token);
 			generateUrl(JSON.stringify(result), 'JSON ファイルとしてダウンロードする', `${room}.json`, 'text/json;charset=utf-8;');
@@ -203,9 +236,10 @@ $('#args-exec').click((e)=>{
 										'\n</body></html>';
 			generateUrl(html, 'HTML ファイルとしてダウンロードする', `${room}.html`, 'text/html;charset=utf-8;');
 			$console.append(`同じ内容でリクエストしたい場合の URL: <a href="${location.protocol}//${location.host}${location.pathname}?token=${token}&room=${room}&fromId=${fromId}">${location.protocol}//${location.host}${location.pathname}?token=${token}&room=${room}&fromId=${fromId}</a><br/>`);
-		}, (err, a, b, c, d, e) => {
-			$console.append(`<p>${JSON.stringify(err)}</p>`);
-			console.error(err, a, b, c, d, e);
+		}, (err) => {
+			console.log(err);
+			$console.html(`${$console.html()}<span class="error">ログの取得に失敗しました<br/>原因が分からない場合は以下の内容を作者連絡先に共有してください<br/><pre>${err.result.stack || err.result.message || JSON.stringify(err.result, null, 2)}</pre></span><br/>`);
+			$console.html(`${$console.html()}同じ内容でリクエストしたい場合の URL: <a href="${location.protocol}//${location.host}${location.pathname}?token=${token}&room=${room}&fromId=${fromId}">${location.protocol}//${location.host}${location.pathname}?token=${token}&room=${room}&fromId=${fromId}<br/>`);
 		});
 	}, 3000);	
 });
