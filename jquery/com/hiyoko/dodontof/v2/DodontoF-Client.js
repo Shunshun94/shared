@@ -234,7 +234,7 @@ com.hiyoko.DodontoF.V2.Room = function(url, room, opt_pass) {
 			return this.sendChat({
 				name: url.name || com.hiyoko.DodontoF.V2.versionName,
 				message: '###CutInMovie###{' +
-						`"source":"${ url.source || url.pic || url.picture || com.hiyoko.DodontoF.V2.STATIC_PICS}",` +
+						`"source":"${ url.source || url.pic || url.picture || com.hiyoko.DodontoF.V2.STATIC_PICS.BGM}",` +
 						`"volume":${ url.volume || url.vol || 0.5 },"message":"${ url.message || url.msg || 'BGM' }",` +
 						`"cutInTag":"${ url.tag || 'BGM' }","displaySeconds":0,"height":0,"isSoundLoop":${ this._getDefinedValue(url, ['isSoundLoop', 'isLoop', 'loop'], true) },` +
 						`"soundSource":"${ url.soundSource || url.url || '' }",` +
