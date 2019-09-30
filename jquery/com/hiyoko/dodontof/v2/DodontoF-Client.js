@@ -216,18 +216,43 @@ com.hiyoko.DodontoF.V2.Room = function(url, room, opt_pass) {
 		return promise;
 	};
 	
-	tofRoom.prototype.playBGM = function(url, msg, opt_volume, opt_name) {
-		var volume = opt_volume || '0.5';
-		return this.sendChat({
-			name: opt_name || com.hiyoko.DodontoF.V2.versionName,
-			message: com.hiyoko.util.format('###CutInMovie###{' +
-					'"source":"./image/defaultImageSet/pawn/pawnBlack.png",' +
-					'"volume":%s,"message":"%s",' +
-					'"cutInTag":"BGM","displaySeconds":0,"height":0,"isSoundLoop":true,' +
-					'"soundSource":"%s",' +
-					'"width":0,"position":"up,right","isTail":false}',
-					volume, msg, url)
+	tofRoom.prototype._getDefinedValue = function(object, keies, defaultValue) {
+		const values = keies.map((k)=>{
+			return object[k];
+		}).filter((v)=>{
+			return v !== undefined;
 		});
+		if(values.length) {
+			return values[0];
+		} else {
+			return defaultValue;
+		}
+	};
+
+	tofRoom.prototype.playBGM = function(url, msg, opt_volume, opt_name) {
+		if( url instanceof Object ) {
+			return this.sendChat({
+				name: url.name || com.hiyoko.DodontoF.V2.versionName,
+				message: '###CutInMovie###{' +
+						`"source":"${ url.source || url.pic || url.picture || com.hiyoko.DodontoF.V2.STATIC_PICS}",` +
+						`"volume":${ url.volume || url.vol || 0.5 },"message":"${ url.message || url.msg || 'BGM' }",` +
+						`"cutInTag":"${ url.tag || 'BGM' }","displaySeconds":0,"height":0,"isSoundLoop":${ this._getDefinedValue(url, ['isSoundLoop', 'isLoop', 'loop'], true) },` +
+						`"soundSource":"${ url.soundSource || url.url || '' }",` +
+						'"width":0,"position":"up,right","isTail":false}'
+			});
+		} else {
+			const volume = opt_volume || '0.5';
+			return this.sendChat({
+				name: opt_name || com.hiyoko.DodontoF.V2.versionName,
+				message: com.hiyoko.util.format('###CutInMovie###{' +
+						'"source":"./image/defaultImageSet/pawn/pawnBlack.png",' +
+						'"volume":%s,"message":"%s",' +
+						'"cutInTag":"BGM","displaySeconds":0,"height":0,"isSoundLoop":true,' +
+						'"soundSource":"%s",' +
+						'"width":0,"position":"up,right","isTail":false}',
+						volume, msg, url)
+			});
+		}
 	};
 	
 	tofRoom.prototype.addMemo = function(msg) {
@@ -556,6 +581,10 @@ com.hiyoko.DodontoF.V2.util.getImageUrl = function(picUrl, urlBase){
 	}
 	return urlBase.replace("DodontoFServer.rb?", "/" + picUrl);
 };
+
+com.hiyoko.DodontoF.V2.STATIC_PICS = {
+	BGM: 'https://shunshun94.github.io/shared/jquery/com/hiyoko/dodontof/v2/bgm.png'
+}
 
 com.hiyoko.DodontoF.V2.HTTP_STATUS_CODES = {
 	"100": "100 Continue",
