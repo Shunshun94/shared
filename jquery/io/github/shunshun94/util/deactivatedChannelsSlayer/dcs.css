@@ -1,0 +1,82 @@
+@charset "utf-8";
+* {
+	box-sizing: border-box;
+	font-family: "BIZ UDゴシック","UD Shin Go NT Light JIS2004","UD デジタル 教科書体 N-R", Verdana, Roboto, "Droid Sans", "游ゴシック", YuGothic, "メイリオ", Meiryo, "ヒラギノ角ゴ ProN W3", "Hiragino Kaku Gothic ProN", "ＭＳ Ｐゴシック", sans-serif;
+	position:relative;
+}
+
+#console {
+	display:none;
+}
+
+#console-config {
+	position: absolute;
+	right:8px;
+	top:8px;
+	z-index:3;
+}
+
+.console-category {
+	padding:8px;
+}
+
+.console-category-channel {
+	padding-left:2em;	
+}
+
+.console-category-channel-kept {
+	border: 1px black solid;
+	padding:4px;
+}
+
+.console-category-channel-warn {
+	background-color: #FFE0E0;
+}
+
+.console-category-channle-operation {
+	position: absolute;
+	right: 4px;
+	top: 4px;
+}
+
+.console-category-channel-megs {
+	padding-left:2em;
+	padding-top: 4px;
+}
+
+.console-category-channel-megs-msg {
+	border:3px double black;
+	padding:4px;
+}
+
+.console-category-channel-megs-msg-header {
+	border-bottom:1px solid black;
+	padding:4px;
+}
+
+.console-category-channel-megs-msg-name {
+	font-weight: bold;
+}
+
+.console-category-channel-megs-msg-body {
+	padding:4px;
+}
+
+.console-category-channel-megs-msg-text {
+	white-space: pre-wrap;
+}
+
+#entrance > div > * {
+	display:block;
+}
+
+#entrance > div > .annotation {
+	font-size:70%;
+	padding-left:2em;
+	padding-top:4px;
+	padding-bottom:4px;
+}
+
+#entrance_servers_base {
+	display:none;
+}
