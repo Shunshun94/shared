@@ -1,6 +1,16 @@
 <!DOCTYPE html>
 <html>
-<head>
+<head
+	　prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# article: http://ogp.me/ns/article#">
+<meta property="og:title" content="Deactivated Channels Slayer" />
+<meta property="og:type" content="website" />
+<meta property="og:image" content="https://shunshun94.github.io/shared/hiyoko.jpg" />
+<meta property="og:site_name" content="Deactivated Channels Slayer" />
+<meta property="og:description"
+	content="Discord で非アクティブなチャネルをリストアップするためのツール" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:site" content="@Shunshun94" />
+<meta name="twitter:text:title" content="Deactivated Channels Slayer" />
 <meta charset="UTF-8">
 <link rel="stylesheet" href="./dcs.css" type="text/css" />
 <title>Deactivated Channels Slayer</title>
@@ -18,7 +28,7 @@
 			<a target="_blank" href="https://shunshun94.github.io/shared/sample/discordAccountToken">自分のアカウントの Token の入手法</a>
 		</span>
 		<div>
-			<input id="entrance_token" type="text"  />
+			<input id="entrance_token" type="password"  />
 			<button id="entrance_getServers">この Token でアクセスできるサーバ一覧を取得する（3秒ほどかかります）</button>
 		</div>
 	</div>
@@ -91,16 +101,12 @@ const server = class {
 			dom.parent().parent().find('console-category-channel-name').text(`${title}`);
 			channelIds.push(dom.val());
 		});
-		$('.console-category-name > button').hide(300);
+		$('.console-category > button').hide(300);
 		$('.console-category-channel').hide(300);
 		$('.console-category-channel-kept').show(300);
 		channelIds.forEach((v)=>{
 			const $channel = $(`#console-category-channel-${v}`);
 			this.getLastTalkInChannel(v).then((result)=>{
-				$channel.append(`<div class="console-category-channle-operation">
-						<button class="console-category-channle-operation-sendWarn">チャンネルにてメッセージ送信</button>
-						<button class="console-category-channle-operation-delete">チャンネルの削除</button>
-				</div>`);
 				const $msgs = $(`<div class="console-category-channel-megs"></div>`);
 				if(result.length) {
 					if( Number(new Date(result[0].timestamp)) < threshold ) {
@@ -139,10 +145,10 @@ const server = class {
 
 	bindInitEvents() {
 		$('.console-category-selectAll').click((e)=>{
-			$(e.target).parent().parent().find('input').attr('checked', true);
+			$(e.target).parent().find('input').attr('checked', true);
 		});
 		$('.console-category-unselectAll').click((e)=>{
-			$(e.target).parent().parent().find('input').attr('checked', false);
+			$(e.target).parent().find('input').attr('checked', false);
 		});
 		$('#console-config-execution').click((e)=>{
 			this.getLastTalk();
@@ -153,6 +159,9 @@ const server = class {
 		for(var categoryId in this.categories) {
 			const category = this.categories[categoryId];
 			let $category = $(`<div class="console-category" id="console-category-${categoryId}"></div>`);
+			$category.append(`<button class="console-category-selectAll">全選択</button>`)
+			$category.append(`<button class="console-category-unselectAll">全選択解除</button>`)
+			$category.append(`<span class="console-category-name">　${category.name}</span>`);
 			category.children.forEach((v,i)=>{
 				$category.append(`<div class="console-category-channel" id="console-category-channel-${v.id}">
 					<span class="console-category-channel-element console-category-channel-check">チェック対象にする：<input value="${v.id}" type="checkbox" /></span>
@@ -187,7 +196,6 @@ const server = class {
 				} else {
 					console.warn(channel);
 				}
-
 			}
 		}
 		return categories;
@@ -207,8 +215,13 @@ const entrance = class {
 				  token: $(`#entrance_token`).val(),
 				  autorun: true
 			});
+			$(`#entrance_token_base`).hide(100);
 			setTimeout(()=>{
-				$(`#entrance_token_base`).hide(500);
+				if(! Boolean(this.client.username)) {
+					alert("Token の読み込みに失敗しました。再試行してみてください。\nそれでもダメなようならば Token を再確認してください");
+					$(`#entrance_token_base`).show(100);
+					return;
+				}
 				$(`#entrance_username`).text(`${this.client.username}としてログイン`);
 				const serverList = $(`#entrance_servers_select`); 
 				for(var id in this.client.servers) {
