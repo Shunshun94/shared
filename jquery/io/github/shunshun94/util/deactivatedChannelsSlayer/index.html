@@ -205,8 +205,13 @@ const entrance = class {
 				  token: $(`#entrance_token`).val(),
 				  autorun: true
 			});
+			$(`#entrance_token_base`).hide(100);
 			setTimeout(()=>{
-				$(`#entrance_token_base`).hide(500);
+				if(! Boolean(this.client.username)) {
+					alert("Token の読み込みに失敗しました。再試行してみてください。\nそれでもダメなようならば Token を再確認してください");
+					$(`#entrance_token_base`).show(100);
+					return;
+				}
 				$(`#entrance_username`).text(`${this.client.username}としてログイン`);
 				const serverList = $(`#entrance_servers_select`); 
 				for(var id in this.client.servers) {
