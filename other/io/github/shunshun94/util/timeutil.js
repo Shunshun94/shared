@@ -126,17 +126,23 @@ io.github.shunshun94.util.Time.getConflictedTerm = (base, term) => {
 			}
 		}
 	} else {
-		if ( base.tail <= term.tail ) {
-			if ( base.tail >= term.head ) {
-				// 2
-				// 3
+		if ( base.tail >= term.head ) {
+			if ( base.tail <= term.tail ) {
 				return {
 					head: term.head,
 					tail: base.tail,
 					headDate: new Date(term.head),
 					tailDate: new Date(base.tail),
 					length: base.tail - term.head
-				};				
+				};
+			} else {
+				return {
+					head: term.head,
+					tail: term.tail,
+					headDate: new Date(term.head),
+					tailDate: new Date(term.tail),
+					length: term.tail - term.head
+				};
 			}
 		}
 	}
