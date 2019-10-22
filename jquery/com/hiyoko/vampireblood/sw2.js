@@ -4,6 +4,11 @@ com.hiyoko.VampireBlood = com.hiyoko.VampireBlood || {};
 
 com.hiyoko.VampireBlood.SW2 = function(id, opt_callback) {
 	this.sendRequest(id).done(function(data) {
+		if(['4', '5'].includes(data.tokugi_mode)) {
+			this.system = '2.5';
+		} else {
+			this.system = '2.0';
+		}
 		this.basicParse(data);
 		this.parseBaseStatus(data);
 		this.parseBattleSkills(data);
@@ -14,6 +19,7 @@ com.hiyoko.VampireBlood.SW2 = function(id, opt_callback) {
 		this.parseSubSkills(data);
 		this.parsePets(data);
 		this.parsePhysicalMaster(data);
+		
 		if(opt_callback) {
 			opt_callback(this);
 		} else {
