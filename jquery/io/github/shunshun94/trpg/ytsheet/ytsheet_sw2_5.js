@@ -6,6 +6,7 @@ io.github.shunshun94.trpg.ytsheet = io.github.shunshun94.trpg.ytsheet || {};
 io.github.shunshun94.trpg.ytsheet.ytsheetSW2_5 = class {
 	constructor(url, callback = io.github.shunshun94.trpg.ytsheet.ytsheetSW2_5.defaultCallback) {
 		this.sendRequest(url).done((data) => {
+			this.system = '2.5';
 			this.basicParse(data);
 			this.parseBaseStatus(data);
 			this.parseBattleSkills(data);
