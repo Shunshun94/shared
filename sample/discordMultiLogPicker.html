@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" href="../jquery/io/github/shunshun94/trpg/replay/replay4.css"/>
+<link rel="stylesheet" href="../jquery/io/github/shunshun94/util/deactivatedChannelsSlayer/dcs.css" />
+<style>
+#contact {
+	position: absolute;
+	right:4px;
+	top: 4px;
+	border: 3px double black;
+	padding: 4px;
+}
+
+#contact > h1 {
+	width: 320px;
+	margin-top: 0px;
+	font-size:1em;
+}
+
+.info {
+  width: 20px;
+  height: 20px;
+  border-radius: 8px;
+  background-color: blue;
+  color: white;
+  display:inline-block;
+  text-align:center;
+}
+
+.console-category-channel-log {
+	text-align:right;
+	margin-right:360px;
+}
+
+.console-category-channel-kept:nth-child(even) {
+	background-color: #EEFFEE;
+}
+
+.console-category-channel-kept {
+	background-color: #FFFFFF;
+}
+
+.warn {
+	color: goldenrod;
+}
+.error {
+	color: red;
+}
+</style>
+<meta charset="UTF-8">
+<title>Discord Log Picker - Multi-Channels</title>
+</head>
+<body>
+<div id="contact"><h1>Discord Log Picker - Multi-Channels</h1><br/>作者連絡先：<a href="https://twitter.com/Shunshun94" target="_blank">Twitter @Shunshun94</a><br/><a href="http://amzn.asia/8mNqdKy" target="_blank">作者の欲しいものリスト</a></div>
+
+
+<div id="entrance">
+	<div id="entrance_token_base">
+		<label>アカウントないしは Bot の Token を入力し、"この Token でアクセスできるサーバ一覧を取得する" をクリックしてください</label>
+		<span class="annotation">
+			<a target="_blank" href="https://shunshun94.github.io/shared/sample/discordBot_101">Bot の Token の入手法</a><br/>
+			<a target="_blank" href="https://shunshun94.github.io/shared/sample/discordAccountToken">自分のアカウントの Token の入手法</a>
+		</span>
+		<div>
+			<input id="entrance_token" type="password"  />
+			<button id="entrance_getServers">この Token でアクセスできるサーバ一覧を取得する（3秒ほどかかります）</button>
+		</div>
+	</div>
+	<div id="entrance_servers_base">
+		<div id="entrance_username"></div>
+		<div id="entrance_servers">
+			<select id="entrance_servers_select"></select>
+			<button id="entrance_servers_decide">このサーバについて確認する</button>
+		</div>
+	</div>
+</div>
+
+<div id="console">
+	<button id="console-config-execution">チェックされたチャンネルについてログを HTML 出力</button>
+</div>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<script src="https://shunshun94.github.io/shared/jquery/com/hiyoko/util/v2/utils.js"></script>
+<script src="../external/discord.io/index.js"></script>
+<script src="../other/io/github/shunshun94/trpg/clientSpec.js"></script>
+<script src="../other/io/github/shunshun94/trpg/discord/client.js"></script>
+<script src="../other/io/github/shunshun94/trpg/discord/logPicker.js"></script>
+<script src="../other/io/github/shunshun94/consts.js"></script>
+<script src="../jquery/io/github/shunshun94/trpg/replay/replayV3.js"></script>
+<script>
+new io.github.shunshun94.trpg.ReplayV3($('body'), {button: 'i', class:'info'});
+const $console = $('#console');
+
+
+
+const server = class {
+	constructor(client, channels, server) {
+		this.html = $(`#console`);
+		this.client = client;
+		this.categories = this.categorizeChannels(channels);
+		this.generateChannelList(server);
+		this.bindInitEvents(server);
+	}
+
+	beRedableDate(timestamp) {
+		const time = new Date(timestamp);
+		return `${time.getFullYear()}/${String(time.getMonth() + 1).padStart(2, "0")}/${String(time.getDate()).padStart(2, "0")} ${String(time.getHours()).padStart(2, "0")}:${String(time.getMinutes()).padStart(2, "0")}`;
+	}
+
+	async getLastTalk() {
+		// here
+		$('#console-config-execution').hide();
+		const checked = $('.console-category').find('input:checked');
+		const threshold = Number(new Date()) - Number($('#console-config-length').val());
+		let channelIds = [];
+		checked.each((i, raw)=>{
+			const dom = $(raw);
+			dom.parent().hide(200);
+			dom.parent().parent().addClass('console-category-channel-kept');
+			const title = dom.parent().parent().find('console-category-channel-name').text();
+			dom.parent().parent().find('console-category-channel-name').text(`${title}`);
+			channelIds.push(dom.val());
+		});
+		$('.console-category > button').hide(300);
+		$('.console-category-channel').hide(300);
+		$('.console-category-channel-kept').show(300);
+
+		const length = channelIds.length;
+		for(var i = 0; i < length; i++) {
+			const v = channelIds[i];
+			const discordClient = new io.github.shunshun94.trpg.discord.Room(this.client, v);
+			const $channel = $(`#console-category-channel-${v}`);
+			$channel.append(`<div class="console-category-channel-log" id="console-category-channel-${v}-log"></div>`);
+			const $console = $(`#console-category-channel-${v}-log`);
+			$console.on(io.github.shunshun94.trpg.discord.LogPicker.EVENTS.ConsoleUpdate, (e)=>{
+				if(e.level === 'WARN') {
+					$console.html(`<span class="warn">${e.msg}</span>`);
+				} else if (e.level === 'ERROR') {
+					$console.html(`<span class="error">${e.msg}</span>`);
+				} else {
+					$console.html(`<span class="information">${e.msg}</span>`);
+				}
+			});
+			$console.html(`<span class="information">ログ取得準備中</span>`);
+			try {
+				const log = await io.github.shunshun94.trpg.discord.LogPicker.getLogRecursive($console, discordClient, 1);
+				const html = 	'<html><head><meta charset="UTF-8">\n<link rel="stylesheet" href="https://shunshun94.github.io/shared/jquery/io/github/shunshun94/trpg/replay/replay4.css" type="text/css" />\n</head>\n<body>\n' +
+											log.map((d)=>{
+												return io.github.shunshun94.trpg.discord.LogPicker.convertMsgToCommonHtml(d, true);
+											}).join('\n') +
+											'\n</body></html>';
+				const htmlUrl = io.github.shunshun94.trpg.discord.LogPicker.generateUrl(html, 'text/html;charset=utf-8;');
+				const roomTitle = $(`#console-category-channel-${v}`).find('.console-category-channel-name').text();
+				io.github.shunshun94.trpg.discord.LogPicker.appendDLLink($console, htmlUrl, 'HTML ファイルとしてダウンロードする', `${roomTitle}-${v}.html`);
+			} catch (e) {
+				console.error(discordClient, discordClient.rooms[0]);
+				console.error(e);
+			}
+		}
+	}
+
+	wait() {
+		return new Promise((resolve, reject)=>{
+			setTimeout(()=>{resolve(1)}, 8000);
+		});
+	}
+
+	bindInitEvents() {
+		$('.console-category-selectAll').click((e)=>{
+			$(e.target).parent().find('input').attr('checked', true);
+		});
+		$('.console-category-unselectAll').click((e)=>{
+			$(e.target).parent().find('input').attr('checked', false);
+		});
+		$('#console-config-execution').click((e)=>{
+			this.getLastTalk();
+		});
+		$('#console').click((e)=>{
+			const target = $(e.target);
+			if(target.hasClass(io.github.shunshun94.trpg.discord.LogPicker.CLASSES.DLLINK)) {
+				target.text(`${target.text()} (多分ダウンロード済)`);
+			}
+		});
+	}
+
+	generateChannelList(server) {
+		for(var categoryId in this.categories) {
+			const category = this.categories[categoryId];
+			let $category = $(`<div class="console-category" id="console-category-${categoryId}"></div>`);
+			$category.append(`<button class="console-category-selectAll">全選択</button>`)
+			$category.append(`<button class="console-category-unselectAll">全選択解除</button>`)
+			$category.append(`<span class="console-category-name">　${category.name}</span>`);
+			category.children.forEach((v,i)=>{
+				$category.append(`<div class="console-category-channel" id="console-category-channel-${v.id}">
+					<span class="console-category-channel-element console-category-channel-check">チェック対象にする：<input value="${v.id}" type="checkbox" /></span>
+					<a target="_blank" class="console-category-channel-element console-category-channel-name" href="https://discordapp.com/channels/${server}/${v.id}">${v.name}</a>
+				</div>`);
+			});
+			this.html.append($category);
+		}
+	}
+
+	categorizeChannels(channels) {
+		const categories = {};
+		for(var id in channels) {
+			const channel = channels[id];
+			if(channel.type === 4) {
+				categories[id] = {
+						name: channel.name,
+						children: []
+				};
+			}
+		}
+		for(var id in channels) {
+			const channel = channels[id];
+			if(channel.type === 0) {
+				if(channel.parent_id) {
+					categories[channel.parent_id].children.push({
+						id: id,
+						name: channel.name,
+						nsfw: channel.nsfw,
+						lastMessageId: channel.last_message_id
+					});
+				} else {
+					console.warn(channel);
+				}
+			}
+		}
+		return categories;
+	}
+};
+
+
+
+
+const entrance = class {
+	constructor() {
+		this.html = $(`#entrance`);
+		const query = com.hiyoko.util.getQueries();
+		let tokenList = JSON.parse(localStorage.getItem('io-github-shunshun94-trpg-discord-Entrance-Token-TokenList') || '[null]');
+		$('#entrance_token').val(query.token || query.url || localStorage.getItem('io-github-shunshun94-trpg-discord-entry-token') || tokenList.reverse()[0] || '');
+		this.client = null;
+		$(`#entrance_getServers`).click((e)=>{
+			this.client = new Discord.Client({
+				  token: $(`#entrance_token`).val(),
+				  autorun: true
+			});
+			$(`#entrance_token_base`).hide(100);
+			setTimeout(()=>{
+				if(! Boolean(this.client.username)) {
+					alert("Token の読み込みに失敗しました。再試行してみてください。\nそれでもダメなようならば Token を再確認してください");
+					location.reload();
+					return;
+				}
+				$(`#entrance_username`).text(`${this.client.username}としてログイン`);
+				const serverList = $(`#entrance_servers_select`); 
+				for(var id in this.client.servers) {
+					const server = this.client.servers[id];
+					serverList.append(`<option value="${id}">${server.name}</option>`)
+				}
+				$(`#entrance_servers_base`).show(500);
+			}, 3000);
+		});
+		$(`#entrance_servers_decide`).click((e)=>{
+			this.html.trigger({
+				type: 'entnrace-server-decision',
+				client: this.client,
+				channels: this.client.servers[$(`#entrance_servers_select`).val()].channels,
+				server: $(`#entrance_servers_select`).val()
+			});
+		});
+	}
+};
+const entranceInstance = new entrance();
+
+
+$('body').on('entnrace-server-decision', (e)=>{
+	$(`#entrance`).hide(300);
+	console.log(e.client);
+	const serverInstance = new server(e.client, e.channels, e.server);
+	$(`#console`).show(300);
+});
+
+</script>
+
+</body>
+</html>
