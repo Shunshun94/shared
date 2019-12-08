@@ -85,8 +85,11 @@ io.github.shunshun94.trpg.discord.flattenRoomList = (client, roomType = 0) => {
 io.github.shunshun94.trpg.discord.Server = class extends io.github.shunshun94.trpg.ClientInterface.Server{
 	constructor(token) {
 		super();
-		this.discord = io.github.shunshun94.trpg.discord.generateClient(token);
-		this.token = token;
+		if(typeof token === 'string') {
+			this.discord = io.github.shunshun94.trpg.discord.generateClient(token);
+		} else {
+			this.discord = token;
+		}
 		this.platform = 'Discord';
 	}
 
@@ -94,7 +97,7 @@ io.github.shunshun94.trpg.discord.Server = class extends io.github.shunshun94.tr
 		const rooms = io.github.shunshun94.trpg.discord.generateRoomsInfo(this.discord).playRoomStates.map((r) => {
 			return r.id;
 		});
-		return new io.github.shunshun94.trpg.discord.Room(this.token, rooms[room], opt_dicebot || dummy || false);
+		return new io.github.shunshun94.trpg.discord.Room(this.discord, rooms[room], opt_dicebot || dummy || false);
 	}
 
 	getRoomList () {
@@ -107,7 +110,11 @@ io.github.shunshun94.trpg.discord.Server = class extends io.github.shunshun94.tr
 io.github.shunshun94.trpg.discord.Room = class extends io.github.shunshun94.trpg.ClientInterface.Room {
 	constructor (token, roomIds, opt_dicebot) {
 		super();
-		this.discord = io.github.shunshun94.trpg.discord.generateClient(token);
+		if(typeof token === 'string') {
+			this.discord = io.github.shunshun94.trpg.discord.generateClient(token);
+		} else {
+			this.discord = token;
+		}
 
 		if(Array.isArray(roomIds)) {
 			this.roomId = roomIds;
@@ -158,7 +165,7 @@ io.github.shunshun94.trpg.discord.Room = class extends io.github.shunshun94.trpg
 	        	{
 	        		color: '000000',
 	        		message: raw.content,
-	        		senderName: (this.rooms[raw.channel_id] && this.discord.servers[this.rooms[raw.channel_id].guild_id].members[raw.author.id].nick) || raw.author.username,
+	        		senderName: (this.rooms[raw.channel_id] && this.discord.servers[this.rooms[raw.channel_id].guild_id].members[raw.author.id] && this.discord.servers[this.rooms[raw.channel_id].guild_id].members[raw.author.id].nick) || raw.author.username,
 	        		uniqueId: raw.id,
 	        		channel: channel,
 	        		metadata: {
