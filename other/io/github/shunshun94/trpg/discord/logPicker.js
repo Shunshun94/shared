@@ -10,6 +10,9 @@ var jQuery = jQuery || {};
 io.github.shunshun94.trpg.discord.LogPicker.EVENTS = {
 	ConsoleUpdate: 'io-github-shunshun94-trpg-discord-LogPicker-console'
 };
+io.github.shunshun94.trpg.discord.LogPicker.CLASSES = {
+	DLLINK: 'io-github-shunshun94-trpg-discord-LogPicker-DownloadLink'
+};
 
 io.github.shunshun94.trpg.discord.LogPicker.fireEvent = (element, eventObject) => {
 	eventObject.level = eventObject.level || eventObject.LEVEL || eventObject.Level || 'INFO';
@@ -29,7 +32,7 @@ io.github.shunshun94.trpg.discord.LogPicker.fireEvent = (element, eventObject) =
 	}
 };
 
-io.github.shunshun94.trpg.discord.LogPicker.getLogRecursive = ($console, client, lastId=1, currentArray=[], retryCount=0, maxRetry=5)=>{
+io.github.shunshun94.trpg.discord.LogPicker.getLogRecursive = ($console, client, lastId=1, tab=0, currentArray=[], retryCount=0, maxRetry=5)=>{
 	const nextRetryCount = retryCount + 1;
 	io.github.shunshun94.trpg.discord.LogPicker.fireEvent($console, {
 		msg: `MSGID ${lastId} から100件のメッセージを取得中 (${nextRetryCount}回目の取得試行)`
@@ -40,7 +43,7 @@ io.github.shunshun94.trpg.discord.LogPicker.getLogRecursive = ($console, client,
 			if(result.result === 'OK') {
 				if(result.chatMessageDataLog.length) {
 					const nextLastId = result.chatMessageDataLog.reverse()[0][1].uniqueId;
-					io.github.shunshun94.trpg.discord.LogPicker.getLogRecursive($console, client, nextLastId, currentArray.concat(result.chatMessageDataLog.reverse()), 0, maxRetry).then((result)=>{
+					io.github.shunshun94.trpg.discord.LogPicker.getLogRecursive($console, client, nextLastId, tab, currentArray.concat(result.chatMessageDataLog.reverse()), 0, maxRetry).then((result)=>{
 						resolve(result);
 					}, (err)=>{
 						reject(err);
@@ -55,7 +58,7 @@ io.github.shunshun94.trpg.discord.LogPicker.getLogRecursive = ($console, client,
 				if(nextRetryCount >= maxRetry) {
 					reject(err, client, lastId, currentArray, retryCount, maxRetry);
 				}
-				io.github.shunshun94.trpg.discord.LogPicker.getLogRecursive($console, client, lastId, currentArray, retryCount + 1, maxRetry).then((result)=>{
+				io.github.shunshun94.trpg.discord.LogPicker.getLogRecursive($console, client, lastId, tab, currentArray, retryCount + 1, maxRetry).then((result)=>{
 					resolve(result);
 				}, (err)=>{
 					reject(err);
@@ -65,6 +68,10 @@ io.github.shunshun94.trpg.discord.LogPicker.getLogRecursive = ($console, client,
 			console.error(`FAILED getLogRecursive: lastId = ${lastId}, retryCount = ${retryCount}`, err);
 			if(nextRetryCount >= maxRetry) {
 				console.error(`FAILED getLogRecursive: もうむりぽ`);
+				io.github.shunshun94.trpg.discord.LogPicker.fireEvent($console, {
+					msg: `ログの取得に失敗しました。 理由: ${err.result}`,
+					level: 'ERROR'
+				});
 				reject(err);
 			} else {
 				io.github.shunshun94.trpg.discord.LogPicker.fireEvent($console, {
@@ -72,7 +79,7 @@ io.github.shunshun94.trpg.discord.LogPicker.getLogRecursive = ($console, client,
 					level: 'WARN'
 				});
 				setTimeout(()=>{
-					io.github.shunshun94.trpg.discord.LogPicker.getLogRecursive($console, client, lastId, currentArray, retryCount + 1, maxRetry).then((result)=>{
+					io.github.shunshun94.trpg.discord.LogPicker.getLogRecursive($console, client, lastId, tab, currentArray, retryCount + 1, maxRetry).then((result)=>{
 						resolve(result);
 					}, (err)=>{
 						reject(err);
@@ -97,6 +104,7 @@ io.github.shunshun94.trpg.discord.LogPicker.appendDLLink = ($console, url, donwl
 	$a.attr('href', url);
 	$a.attr('target', '_blank');
 	$a.attr('download', downloadFileName);
+	$a.addClass(io.github.shunshun94.trpg.discord.LogPicker.CLASSES.DLLINK);
 	dummy.append($a);
 	io.github.shunshun94.trpg.discord.LogPicker.fireEvent($console, {
 		msg: dummy.html()
