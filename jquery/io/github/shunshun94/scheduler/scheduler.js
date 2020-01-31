@@ -22,6 +22,7 @@ io.github.shunshun94.scheduler.Scheduler = class {
 			return a.prepare - b.prepare;
 		});
 		this.startDate = opts.startDate || (initialSchedule[0] ? new Date(initialSchedule[0].prepare) : new Date());
+		this.expireDate = opts.expireDate || io.github.shunshun94.scheduler.Scheduler.INITIAL_EXPIRE_DATE;
 		this.separationIntervalAlgorithm = opts.separationIntervalAlgorithm || io.github.shunshun94.scheduler.Scheduler.SEPARATION_INTERVAL_ALGORITHM;
 		
 		this.buildComponents(initialSchedule);
@@ -335,8 +336,14 @@ io.github.shunshun94.scheduler.Scheduler = class {
 				`id="${this.id}-date-${date.getFullYear()}-${date.getMonth()}-${date.getDate()}-dateColumn"></div>`);
 		dateColumn.text(this.formatDate(date));
 		
-		var schedule = $(`<div class="${this.id}-date-scheduleColumn ${io.github.shunshun94.scheduler.Scheduler.CLASS}-date-scheduleColumn"` +
+		if (this.expireDate - date < 0) {
+			var schedule = $(`<div class="${this.id}-date-scheduleColumn-expire ${io.github.shunshun94.scheduler.Scheduler.CLASS}-date-scheduleColumn-expire"` +
 				`id="${this.id}-date-${date.getFullYear()}-${date.getMonth()}-${date.getDate()}-scheduleColumn"></div>`);
+			schedule.text("This environment has expired. Environment cannot be started")
+		} else {
+			var schedule = $(`<div class="${this.id}-date-scheduleColumn ${io.github.shunshun94.scheduler.Scheduler.CLASS}-date-scheduleColumn"` +
+					`id="${this.id}-date-${date.getFullYear()}-${date.getMonth()}-${date.getDate()}-scheduleColumn"></div>`);
+		}
 
 		line.append(dateColumn);
 		line.append(schedule);
@@ -461,6 +468,10 @@ io.github.shunshun94.scheduler.Scheduler = class {
 		const baseMonth = date.getMonth();
 		const baseDay = date.getDate();
 		$(`#${this.id}-date-${baseYear}-${baseMonth}-${baseDay}-scheduleColumn`).mouseover((e) => {
+			if (this.expireDate - date < 0) {
+				return;
+			}
+				
 			if(	$(`#${this.id}-date-${baseYear}-${baseMonth}-${baseDay}-scheduleColumn > .${this.id}-date-scheduleColumn-schedule-dummy`).length ) {
 				return;
 			}
@@ -699,6 +710,14 @@ io.github.shunshun94.scheduler.Scheduler.INITIAL_SCHEDULE_BASEDATE.VALUES = {
 	YEAR: io.github.shunshun94.scheduler.Scheduler.INITIAL_SCHEDULE_BASEDATE.getFullYear(),
 	MONTH: io.github.shunshun94.scheduler.Scheduler.INITIAL_SCHEDULE_BASEDATE.getMonth(),
 	DATE: io.github.shunshun94.scheduler.Scheduler.INITIAL_SCHEDULE_BASEDATE.getDate(),
+	HOUR: 9, MIN: 0
+};
+
+io.github.shunshun94.scheduler.Scheduler.INITIAL_EXPIRE_DATE = new Date("9999/12/31");
+io.github.shunshun94.scheduler.Scheduler.INITIAL_EXPIRE_DATE.VALUES = {
+	YEAR: io.github.shunshun94.scheduler.Scheduler.INITIAL_EXPIRE_DATE.getFullYear(),
+	MONTH: io.github.shunshun94.scheduler.Scheduler.INITIAL_EXPIRE_DATE.getMonth(),
+	DATE: io.github.shunshun94.scheduler.Scheduler.INITIAL_EXPIRE_DATE.getDate(),
 	HOUR: 9, MIN: 0
 };
 
