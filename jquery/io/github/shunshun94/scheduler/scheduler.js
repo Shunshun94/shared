@@ -339,7 +339,7 @@ io.github.shunshun94.scheduler.Scheduler = class {
 		if (this.expireDate - date < 0) {
 			var schedule = $(`<div class="${this.id}-date-scheduleColumn-expire ${io.github.shunshun94.scheduler.Scheduler.CLASS}-date-scheduleColumn-expire"` +
 				`id="${this.id}-date-${date.getFullYear()}-${date.getMonth()}-${date.getDate()}-scheduleColumn"></div>`);
-			schedule.text("This environment has expired. Environment cannot be started")
+			schedule.text(io.github.shunshun94.scheduler.Scheduler.MESSAGE)
 		} else {
 			var schedule = $(`<div class="${this.id}-date-scheduleColumn ${io.github.shunshun94.scheduler.Scheduler.CLASS}-date-scheduleColumn"` +
 					`id="${this.id}-date-${date.getFullYear()}-${date.getMonth()}-${date.getDate()}-scheduleColumn"></div>`);
@@ -738,3 +738,7 @@ io.github.shunshun94.scheduler.Scheduler.INITIAL_SCHEDULE = [0,1,3,7].map((diff,
 			540 + (60 * 24 * i), 120, 30
 	);
 });
+
+io.github.shunshun94.scheduler.Scheduler.MESSAGE = {
+	EXPIRED: 'This environment has expired. Environment cannot be started'
+};
