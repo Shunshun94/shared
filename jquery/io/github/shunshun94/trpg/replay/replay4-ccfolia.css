@@ -90,10 +90,11 @@ p > span:nth-child(3) {
 
 header, footer {
 	font-size: 80%;
+	width: 800px;
+	margin:auto;
 }
 footer {
 	text-align: right;
-	width: 800px;
 }
 
 .note {
