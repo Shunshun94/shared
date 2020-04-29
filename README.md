@@ -23,3 +23,7 @@ License Information: https://github.com/izy521/discord.io/blob/master/LICENSE
 ### popupmenu.js
 
 License Information: https://spiritloose.net/misc/popupmenu/
+
+### html2canvas
+
+License Information: https://html2canvas.hertzen.com/ 

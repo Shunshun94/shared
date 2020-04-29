@@ -1,7 +1,17 @@
 <!DOCTYPE html>
 <html>
-<head>
-<meta charset="UTF-8">
+<head
+	　prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# article: http://ogp.me/ns/article#">
+<meta property="og:title" content="Call of Cthulhu 探索者カード" />
+<meta property="og:type" content="website" />
+<meta property="og:image"
+	content="https://shunshun94.web.fc2.com/replies/terms/ogp.jpg" />
+<meta property="og:site_name" content="https://github.com/Shunshun94/shared/" />
+<meta property="og:description" content="Call of Cthulhu の探索者の自己紹介カードを簡単に生成するツール" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:site" content="@Shunshun94" />
+<meta name="twitter:text:title" content="Call of Cthulhu 探索者カード" />
+<meta charset="UTF-8" />
 <title>CoC Character Sheet Viewer</title>
 <style>
 * {
@@ -10,6 +20,10 @@
 		"UD デジタル 教科書体 N-R", Verdana, Roboto, "Droid Sans", "游ゴシック", YuGothic,
 		"メイリオ", Meiryo, "ヒラギノ角ゴ ProN W3", "Hiragino Kaku Gothic ProN",
 		"ＭＳ Ｐゴシック", sans-serif;
+}
+
+body > div {
+	width:700px;
 }
 
 #pic {
@@ -58,27 +72,71 @@
 
 .skill {
 	width:92px;
+	height:44px;
 	display:inline-block;
 }
+
 .value {
 	font-size:150%;
-	width:24px;
-	margin-left:0px;
+	width:28px;
+	margin-left:-8px;
+	display:inline-block;
+	padding-right:4px;
 }
 
 .name {
 	width:60px;
 	display:inline-block;
 }
+
+#self-introduction {
+	white-space: pre-wrap;
+	padding:4px;
+}
+
+#input {
+	display:none;
+}
+
+#input > p {
+	margin-top:4px;
+	margin-bottom:4px;
+}
+
+#input > p > span {
+	width:192px;
+	display:inline-block;
+}
+
+#help {
+	position:fixed;
+	top: 4px;
+	left:60px;
+}
+
+#help-call {
+	position:absolute;
+	top:4px;
+	right:4px;
+	font-size:140%;
+	border-radius:10px;
+}
+
+#help-message {
+	padding:8px;
+	display:none;
+	background-color:white;
+	border:2px solid black;
+}
 </style>
 </head>
 <body>
-	<div>
-		<h1>Call of Cthulhu 探索者カード</h1>
+	<h1>Call of Cthulhu 探索者カード</h1>
+	<div id="outputHtml">
 		<div style="display: flex;">
-			<div id="pic"></div>
+			<canvas id="pic"></canvas>
 			<div id="outline">
-				<span id="outline-name"></span>
+				<span contenteditable="true" id="outline-name"></span>
 				<span id="outline-info">
 					<span id="outline-info-age"></span> /
 					<span id="outline-info-sex"></span> /
@@ -105,34 +163,53 @@
 					</div>
 					<div>
 						<div class="skill" id="skill-0">
-							<span class="name"></span>
-							<span class="value"></span>
+							<span contenteditable="true" class="name"></span>
+							<span contenteditable="true" class="value"></span>
 						</div>
 						<div class="skill" id="skill-1">
-							<span class="name"></span>
-							<span class="value"></span>
+							<span contenteditable="true" class="name"></span>
+							<span contenteditable="true" class="value"></span>
 						</div>
 						<div class="skill" id="skill-2">
-							<span class="name"></span>
-							<span class="value"></span>
+							<span contenteditable="true" class="name"></span>
+							<span contenteditable="true" class="value"></span>
 						</div>
 						<div class="skill" id="skill-3">
-							<span class="name"></span>
-							<span class="value"></span>
+							<span contenteditable="true" class="name"></span>
+							<span contenteditable="true" class="value"></span>
 						</div>
 					</div>
 				</div>
 			</div>
-
 		</div>
-
-
-
+		<div contenteditable="true" id="self-introduction"></div>
 	</div>
-
+	<div id="input">
+		<p><span>キャラクターシート URL:</span><input type="text" id="input-url" size="60" /></p>
+		<p><span>キャラクター画像 URL:</span><input type="text" id="input-pic" size="60" /></p>
+		<button id="input-exec">カード生成</button>
+		<hr/>
+		<button id="input-sample1">キャラ画像に Picrew を使う場合</button>
+		<button id="input-sample2">キャラ画像を直接指定する場合</button>
+	</div>
+	<div id="help">
+		<button id="help-call">？</button>
+		<div id="help-message">
+			<h2>使い方</h2>
+			<p><a href="./cocCharacterSheetViewer.html">ツールのトップページ</a>からキャラクターシートURL に<a href="https://charasheet.vampire-blood.net/">キャラクター保管所</a>で作成したキャラクターシートの URL を入力、
+			キャラクター画像 URL に <a target="_blank" href="https://picrew.me/">Picrew</a> の画像共有用 URL か任意の画像ファイルの URL を入力して「カード生成」をクリックしてください。
+			入力例は「キャラ画像に Picrew を使う場合」「キャラ画像を直接指定する場合」から確認できます。</p>
+			<p>カードのキャラクター名欄、能力値欄とその他メモ欄は任意に編集できるので必要に応じて編集します。デフォルトだとキャラクター保管所から取得したものをそのまま出力しています。
+			デフォルトの能力値欄は目星、図書館、聞き耳、母国語を除く技能の中から最も高いものを4つ表示しています。</p>
+			<p>画像として出力する機能はまだ付けていないのでスクリーンショットを使って保存してください。Windows10　を使っているならば Windows キー、Shift キー、S を同時押しすると簡単にスクリーンショットが取れます。</p>
+			<hr/>
+			<p>このツールは GPLv3 で公開しています。ソースコードは <a href="https://github.com/Shunshun94/shared/tree/master/jquery/com/hiyoko/vampireblood/cocCharacterSheetViewer.html">GitHub</a>からご確認いただけます。</p>
+			<p>サンプル画像は妙子様の<a target="_blank" href="https://picrew.me/image_maker/196270">妙子式おんなのこ</a>を使用しています。</p>
+			<p>「クトゥルフ神話TRPG」は<a target="_blank" href="http://www.chaosium.com/">ケイオシアム社</a>の著作物です。</p>
+		</div>
+	</div>
 	<script src="../util/v2/utils.js"></script>
-	<script
-		src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script>
 const sheetHandling = async (url) => {
 	const rawSheetData = await sheetGetting(url);
@@ -145,7 +222,7 @@ const sheetHandling = async (url) => {
 	$('#skill-spotHidden').text(rawSheetData.TFAP[11]);
 	$('#skill-library').text(rawSheetData.TFAP[10]);
 	$('#skill-listen').text(rawSheetData.TFAP[4]);
-
+	$('#self-introduction').text(rawSheetData.pc_making_memo);
 	const BAT = 'battle';
 	const SEA = 'search';
 	const ACT = 'action';
@@ -178,6 +255,7 @@ const sheetHandling = async (url) => {
 
 const picrewRegExp = new RegExp('https://picrew\.me/share\\?cd=[a-zA-Z0-9]+');
 const params = com.hiyoko.util.getQueriesV3();
+
 const pictureHandling = (pic) =>{
 	if(picrewRegExp.test(pic)) {
 		$.ajax({
@@ -206,21 +284,36 @@ const sheetGetting = (url) =>{
 	});
 };
 
-
-
-if(params.pic) {
+if(params.pic && params.url) {
 	pictureHandling(params.pic);
-} else {
-	
-}
-if(params.url) {
 	sheetHandling(params.url);
 } else {
-	
+	$('#outputHtml').hide();
+	$('#output-html-exec').hide();
+	$('#input').show();
+	$('#input-url').val(params.url || '');
+	$('#input-pic').val(params.pic || '');
+	$('#input-exec').click((e)=>{location.href = `${location.href.split('?')[0]}?url=${$('#input-url').val()}&pic=${$('#input-pic').val()}`;});
 }
 
-
-
+$('#help-call').click((e)=>{
+	$('#help-message').toggle();
+	if($('#help-call').text() === '×') {
+		$('#help-call').text('？');
+	} else {
+		$('#help-call').text('×');
+	}
+	
+});
+$('#input-sample1').click((e)=>{
+	$('#input-url').val('https://charasheet.vampire-blood.net/3082844');
+	$('#input-pic').val('https://picrew.me/share?cd=9KYBmOGlRE');
+});
+$('#input-sample2').click((e)=>{
+	$('#input-url').val('https://charasheet.vampire-blood.net/3082844');
+	$('#input-pic').val('https://shunshun94.github.io/shared/pics/picrew_196270_animated_01.gif');
+});
+// 
 </script>
 
 </body>
