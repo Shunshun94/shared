@@ -35,6 +35,17 @@ com.hiyoko.util.getQueries = function(opt_query) {
 	return result;
 };
 
+com.hiyoko.util.getQueriesV3 = (opt_query) => {
+	const query = opt_query ? '?' + opt_query : location.search;
+	const params = (query.slice(1)).split('&');
+	var result = {};
+	params.forEach((param)=>{
+		let pair = param.split('=');
+		result[pair[0]] = pair.slice(1).join('=');
+	});
+	return result;
+};
+
 com.hiyoko.util.setQueries = ()=>{
 	const queries = com.hiyoko.util.getQueries();
 	for(var key in queries) {
