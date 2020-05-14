@@ -8,6 +8,7 @@
 .io-github-shunshun94-scheduler-Scheduler-date-header,
 .io-github-shunshun94-scheduler-Scheduler-date-footer,
 .io-github-shunshun94-scheduler-Scheduler-date-dateColumn,
+.io-github-shunshun94-scheduler-Scheduler-date-scheduleColumn-expire,
 .io-github-shunshun94-scheduler-Scheduler-date-scheduleColumn {
 	height: 40px;
 }
@@ -53,11 +54,20 @@
 	display: inline-block;
 }
 
+.io-github-shunshun94-scheduler-Scheduler-date-scheduleColumn-expire {
+    text-align-last: center;
+}
+
+.io-github-shunshun94-scheduler-Scheduler-date-scheduleColumn-expire,
 .io-github-shunshun94-scheduler-Scheduler-date-scheduleColumn {
 	width: 850px;
 	display: inline-block;
 	position: relative;
 	overflow: hidden;
+}
+
+.io-github-shunshun94-scheduler-Scheduler-date-scheduleColumn-expire {
+	background-color: grey;
 }
 
 .io-github-shunshun94-scheduler-Scheduler-date-scheduleColumn-schedule {
