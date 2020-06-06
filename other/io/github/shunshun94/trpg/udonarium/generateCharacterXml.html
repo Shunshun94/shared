@@ -21,7 +21,7 @@ $('#execute').click((e)=>{
 		async:true,
 		dataType:'jsonp'
 	}).done((result)=>{
-		const data = io.github.shunshun94.trpg.udonarium.generateCharacterXmlFromYtSheet2SwordWorldPC(result);
+		const data = io.github.shunshun94.trpg.udonarium.generateCharacterXmlFromYtSheet2SwordWorldPC(result, $('#url').val());
 		$('#result').val(data);
 		const url = io.github.shunshun94.trpg.discord.LogPicker.generateUrl(data, 'text/xml;charset=utf-8;');
 		$('#download').html(`<a href="${url}" target="_blank" download="data_${result.characterName}.xml">ダウンロード</a>`);

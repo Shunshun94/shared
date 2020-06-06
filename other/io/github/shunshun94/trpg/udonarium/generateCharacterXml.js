@@ -3,7 +3,7 @@ io.github = io.github || {};
 io.github.shunshun94 = io.github.shunshun94 || {};
 io.github.shunshun94.trpg = io.github.shunshun94.trpg || {};
 io.github.shunshun94.trpg.udonarium = io.github.shunshun94.trpg.udonarium || {};
-io.github.shunshun94.trpg.udonarium.generateCharacterXmlFromYtSheet2SwordWorldPC = (json)=>{
+io.github.shunshun94.trpg.udonarium.generateCharacterXmlFromYtSheet2SwordWorldPC = (json, opt_url='')=>{
 	const data_character = {};
 
 	data_character.image = `
@@ -32,6 +32,7 @@ io.github.shunshun94.trpg.udonarium.generateCharacterXmlFromYtSheet2SwordWorldPC
         `        <data name="種族">${json.race}</data>`,
         `        <data type="note" name="説明">${json.freeNote.replace(/&lt;br&gt;/g, '\n')}</data>`
 	];
+	if(opt_url) { data_character_detail['情報'].push(`        <data name="URL">${opt_url}</data>`);}
 
 	const addToStr = (val)=>{
 		if(val) {
@@ -126,7 +127,8 @@ io.github.shunshun94.trpg.udonarium.generateCharacterXmlFromYtSheet2SwordWorldPC
 	}
 	data_character.detail += `    </data>`;
 	const palette_detail = {};
-	palette_detail['情報共有'] = `現在の状態　　HP:{HP} / MP:{MP}\n`;
+	palette_detail['情報共有'] = `現在の状態　HP:{HP} / MP:{MP}\n`;
+	if(opt_url) { palette_detail['情報共有'] += `キャラクターシート　{URL}\n`;}
 	palette_detail['戦闘前'] = ``;
 	if(json.lvSco) {
 		palette_detail['戦闘前'] += `2d6+{スカウト}+(({敏捷度})/6) 先制判定 (スカウト)\n`;
