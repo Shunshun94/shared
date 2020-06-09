@@ -22,26 +22,37 @@ io.github.shunshun94.trpg.udonarium.generateCharacterXmlFromYtSheet2SwordWorldEn
 	if(statusLenght.length === 1) {
 		data_character_detail['リソース'].push(
 			`        <data type="numberResource" currentValue="${json.status1Hp}" name="HP">${json.status1Hp}</data>`,
-			`        <data type="numberResource" currentValue="${json.status1Mp}" name="MP">${json.status1Mp}</data>`,
-			`        <data type="numberResource" currentValue="${json.status1Defense}" name="防護点">${json.status1Defense}</data>`,
-			`        <data currentValue="${json.status1Accuracy}" name="命中">${json.status1Accuracy}</data>`,
-			`        <data currentValue="${json.status1Damage}" name="打撃点">${json.status1Damage}</data>`,
-			`        <data currentValue="${json.status1Evasion}" name="回避力">${json.status1Evasion}</data>`
+			`        <data type="numberResource" currentValue="${json.status1Mp}" name="MP">${json.status1Mp}</data>`
 		);
 	} else {
 		for(let i = 0; i < statusLenght; i++) {
 			const cursor = i + 1;
 			data_character_detail['リソース'].push(
 					`        <data type="numberResource" currentValue="${json['status' + cursor + 'Hp']}" name="HP${cursor}">${json['status' + cursor + 'Hp']}</data>`,
-					`        <data type="numberResource" currentValue="${json['status' + cursor + 'Mp']}" name="MP${cursor}">${json['status' + cursor + 'Mp']}</data>`,
-					`        <data type="numberResource" currentValue="${json['status' + cursor + 'Defense']}" name="防護点${cursor}">${json['status' + cursor + 'Defense']}</data>`,
-					`        <data currentValue="${json['status' + cursor + 'Accuracy']}" name="命中${cursor}">${json['status' + cursor + 'Accuracy']}</data>`,
-					`        <data currentValue="${json['status' + cursor + 'Damage']}" name="打撃点${cursor}">${json['status' + cursor + 'Damage']}</data>`,
-					`        <data currentValue="${json['status' + cursor + 'Evasion']}" name="回避力${cursor}">${json['status' + cursor + 'Evasion']}</data>`
+					`        <data type="numberResource" currentValue="${json['status' + cursor + 'Mp']}" name="MP${cursor}">${json['status' + cursor + 'Mp']}</data>`
 			);
 		}
 	}
-	data_character_detail['リソース'].push(`        <data type="numberResource" currentValue="${json.sin}" name="穢れ度">5</data>`);
+	data_character_detail['能力値'] = [];
+	if(statusLenght.length === 1) {
+		data_character_detail['能力値'].push(
+			`        <data currentValue="${json.status1Accuracy}" name="命中">${json.status1Accuracy}</data>`,
+			`        <data currentValue="${json.status1Damage}" name="打撃点">${json.status1Damage}</data>`,
+			`        <data currentValue="${json.status1Evasion}" name="回避力">${json.status1Evasion}</data>`,
+			`        <data type="numberResource" currentValue="${json.status1Defense}" name="防護点">${json.status1Defense}</data>`
+		);
+	} else {
+		for(let i = 0; i < statusLenght; i++) {
+			const cursor = i + 1;
+			data_character_detail['能力値'].push(
+					`        <data currentValue="${json['status' + cursor + 'Accuracy']}" name="命中${cursor}">${json['status' + cursor + 'Accuracy']}</data>`,
+					`        <data currentValue="${json['status' + cursor + 'Damage']}" name="打撃点${cursor}">${json['status' + cursor + 'Damage']}</data>`,
+					`        <data currentValue="${json['status' + cursor + 'Evasion']}" name="回避力${cursor}">${json['status' + cursor + 'Evasion']}</data>`,
+					`        <data type="numberResource" currentValue="${json['status' + cursor + 'Defense']}" name="防護点${cursor}">${json['status' + cursor + 'Defense']}</data>`,
+			);
+		}
+	}
+	data_character_detail['能力値'].push(`        <data type="numberResource" currentValue="${json.sin || 0}" name="穢れ度">5</data>`);
 	if(opt_url) { data_character_detail['情報'] = [`        <data name="URL">${opt_url}</data>`];}
 	data_character.detail = `  <data name="detail">\n`;
 	for(const key in data_character_detail) {
@@ -77,8 +88,7 @@ io.github.shunshun94.trpg.udonarium.generateCharacterXmlFromYtSheet2SwordWorldEn
 		palette += `// ${key}\n${palette_detail[key]}\n`;
 	}
 	palette += `  </chat-palette>`;
-	return `
-<?xml version="1.0" encoding="UTF-8"?>
+	return `<?xml version="1.0" encoding="UTF-8"?>
 <character location.name="table" location.x="0" location.y="0" posZ="0" rotate="0" roll="0">
   <data name="character">
   ${data_character.image}
@@ -266,8 +276,7 @@ io.github.shunshun94.trpg.udonarium.generateCharacterXmlFromYtSheet2SwordWorldPC
 		palette += `// ${key}\n${palette_detail[key]}\n`;
 	}
 	palette += `  </chat-palette>`;
-	return `
-<?xml version="1.0" encoding="UTF-8"?>
+	return `<?xml version="1.0" encoding="UTF-8"?>
 <character location.name="table" location.x="0" location.y="0" posZ="0" rotate="0" roll="0">
   <data name="character">
   ${data_character.image}
