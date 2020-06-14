@@ -4,6 +4,23 @@ io.github.shunshun94 = io.github.shunshun94 || {};
 io.github.shunshun94.trpg = io.github.shunshun94.trpg || {};
 io.github.shunshun94.trpg.udonarium = io.github.shunshun94.trpg.udonarium || {};
 
+io.github.shunshun94.trpg.udonarium.getPicture = (src)=>{
+	return new Promise((resolve, reject) => {
+		let xhr = new XMLHttpRequest();
+		xhr.open('GET', src, true);
+		xhr.responseType = "blob";
+		xhr.onload = (e) => {
+			const fileName = src.slice(src.lastIndexOf("/") + 1);
+			resolve({ event:e, data: e.currentTarget.response, fileName: fileName });
+			return;
+		};
+		xhr.onerror = () => resolve({ data: null });
+		xhr.onabort = () => resolve({ data: null });
+		xhr.ontimeout = () => resolve({ data: null });
+		xhr.send();
+	});
+};
+
 io.github.shunshun94.trpg.udonarium.generateCharacterXmlFromYtSheet2SwordWorldEnemy = (json, opt_url='')=>{
 	const data_character = {};
 	data_character.image = `
@@ -120,7 +137,7 @@ io.github.shunshun94.trpg.udonarium.generateCharacterXmlFromYtSheet2SwordWorldPC
 		`        <data type="numberResource" currentValue="${json.mpTotal}" name="MP">${json.mpTotal}</data>`,
         `        <data type="numberResource" currentValue="${json.defenseTotalAllDef}" name="防護点">${json.defenseTotalAllDef}</data>`,
         `        <data type="numberResource" currentValue="0" name="1ゾロ">10</data>`,
-        `        <data type="numberResource" currentValue="${json.sin}" name="穢れ度">5</data>`,
+        `        <data type="numberResource" currentValue="${json.sin || 0}" name="穢れ度">5</data>`,
         `        <data name="所持金">${json.moneyTotal}</data>`,
         `        <data name="残名誉点">${json.honor}</data>`
 	];
