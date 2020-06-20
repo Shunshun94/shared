@@ -4,21 +4,30 @@ io.github.shunshun94 = io.github.shunshun94 || {};
 io.github.shunshun94.trpg = io.github.shunshun94.trpg || {};
 io.github.shunshun94.trpg.udonarium = io.github.shunshun94.trpg.udonarium || {};
 
-io.github.shunshun94.trpg.udonarium.getPicture = (src)=>{
+io.github.shunshun94.trpg.udonarium.getPicture = (src) => {
 	return new Promise((resolve, reject) => {
 		let xhr = new XMLHttpRequest();
 		xhr.open('GET', src, true);
 		xhr.responseType = "blob";
 		xhr.onload = (e) => {
 			const fileName = src.slice(src.lastIndexOf("/") + 1);
-			resolve({ event:e, data: e.currentTarget.response, fileName: fileName });
-			return;
+			if(! Boolean(jsSHA)) {
+				resolve({ event:e, data: e.currentTarget.response, fileName: fileName });
+				return;
+			}
+			e.currentTarget.response.arrayBuffer().then((arraybuffer)=>{
+				const sha = new jsSHA("SHA-256", 'ARRAYBUFFER');
+				sha.update(arraybuffer);
+				const hash = sha.getHash("HEX");
+				resolve({ event:e, data: e.currentTarget.response, fileName: fileName, hash: hash });
+				return;
+			});
 		};
 		xhr.onerror = () => resolve({ data: null });
 		xhr.onabort = () => resolve({ data: null });
 		xhr.ontimeout = () => resolve({ data: null });
 		xhr.send();
-	});
+	});	
 };
 
 io.github.shunshun94.trpg.udonarium.generateCharacterXmlFromYtSheet2SwordWorldEnemy = (json, opt_url='')=>{
@@ -117,12 +126,12 @@ io.github.shunshun94.trpg.udonarium.generateCharacterXmlFromYtSheet2SwordWorldEn
 `;
 };
 
-io.github.shunshun94.trpg.udonarium.generateCharacterXmlFromYtSheet2SwordWorldPC = (json, opt_url='')=>{
+io.github.shunshun94.trpg.udonarium.generateCharacterXmlFromYtSheet2SwordWorldPC = (json, opt_url='', opt_imageHash='')=>{
 	const data_character = {};
 
 	data_character.image = `
     <data name="image">
-      <data type="image" name="imageIdentifier"></data>
+      <data type="image" name="imageIdentifier">${opt_imageHash}</data>
     </data>`;
 
 	data_character.common = `
