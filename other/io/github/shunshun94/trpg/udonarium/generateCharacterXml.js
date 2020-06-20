@@ -12,7 +12,8 @@ io.github.shunshun94.trpg.udonarium.getPicture = (src) => {
 		xhr.onload = (e) => {
 			const fileName = src.slice(src.lastIndexOf("/") + 1);
 			if(! Boolean(jsSHA)) {
-				resolve({ event:e, data: e.currentTarget.response, fileName: fileName });
+				console.warn('To calculate SHA256 value of the picture, jsSHA is required: https://github.com/Caligatio/jsSHA');
+				resolve({ event:e, data: e.currentTarget.response, fileName: fileName, hash: '' });
 				return;
 			}
 			e.currentTarget.response.arrayBuffer().then((arraybuffer)=>{
@@ -27,7 +28,7 @@ io.github.shunshun94.trpg.udonarium.getPicture = (src) => {
 		xhr.onabort = () => resolve({ data: null });
 		xhr.ontimeout = () => resolve({ data: null });
 		xhr.send();
-	});	
+	});
 };
 
 io.github.shunshun94.trpg.udonarium.generateCharacterXmlFromYtSheet2SwordWorldEnemy = (json, opt_url='')=>{
