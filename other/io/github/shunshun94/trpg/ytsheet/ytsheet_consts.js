@@ -42,7 +42,6 @@ io.github.shunshun94.trpg.ytsheet.consts.skills = {
 	lvAri : 'アリストクラシー',
 	lvArt : 'アーティザン'
 };
-
 io.github.shunshun94.trpg.ytsheet.consts.card = {};
 io.github.shunshun94.trpg.ytsheet.consts.card.color = {
 	'Red': '赤',
@@ -66,7 +65,7 @@ io.github.shunshun94.trpg.ytsheet.consts.accessory.part = {
 	Other:'他',
 	Other2:'他',
 	Other3:'他',
-	Other4:'他'
+	Other4:'他',
 };
 io.github.shunshun94.trpg.ytsheet.consts.magic = {
 	magicPowerSor:'真語魔法',
