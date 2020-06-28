@@ -217,7 +217,7 @@ io.github.shunshun94.trpg.ytsheet.generateCharacterTextFromYtSheet2SwordWorldPC 
 	const honorLength = Number(json.honorItemsNum || '0');
 	const dishonorLength = Number(json.dishonorItemsNum || '0')
 	result.push(`　- 名誉`);
-	result.push(`${honorPrefix}名誉点残高：${json.honor}`);
+	result.push(`${honorPrefix}${honorPrefix}名誉点残高：${json.honor}`);
 	for(let i = 0; i < historyLength + 1; i++) {
 		totalHonor += Number(json[`history${i}Honor`] || '0');
 	}
@@ -233,7 +233,7 @@ io.github.shunshun94.trpg.ytsheet.generateCharacterTextFromYtSheet2SwordWorldPC 
 	result.push(`　- 不名誉`);
 	for(let i = 0; i < dishonorLength; i++) {
 		if(json[`dishonorItem${i+1}`]) {
-			result.push(`${honorPrefix}${honorPrefix}${json[`dishonorItem${i+1}`]}：-${json[`dishonorItem${i+1}Pt`] || 0}`);
+			result.push(`${honorPrefix}${honorPrefix}${json[`dishonorItem${i+1}`]}：${json[`dishonorItem${i+1}Pt`] || 0}`);
 		}
 	}
 	result.push(`${honorPrefix}${honorPrefix}合計：${json.dishonor}`);
