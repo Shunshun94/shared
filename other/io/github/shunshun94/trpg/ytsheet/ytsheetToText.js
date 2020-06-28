@@ -36,7 +36,7 @@ io.github.shunshun94.trpg.ytsheet.generateCharacterTextFromYtSheet2SwordWorldPC 
 	const doubleColumnLength = singleColumnLength * 2;
 	const baseValuesPrefixSpaces = ''.padStart(leftThLength, ' '); 
 	result.push(`${baseValuesPrefixSpaces}${'技'.padStart(singleColumnLength - 1, ' ')}${'体'.padStart(doubleColumnLength - 1, ' ')}${'心'.padStart(doubleColumnLength  - 1, ' ')}`);
-	result.push(`${baseValuesPrefixSpaces}${json.sttBaseTec.padStart(singleColumnLength, ' ')}${json.sttBasePhy.padStart(doubleColumnLength, ' ')}${json.sttBaseSpi.padStart(doubleColumnLength, ' ')}`);
+	result.push(`${baseValuesPrefixSpaces}${(json.sttBaseTec || '').padStart(singleColumnLength, ' ')}${(json.sttBasePhy || '').padStart(doubleColumnLength, ' ')}${(json.sttBaseSpi || '').padStart(doubleColumnLength, ' ')}`);
 	result.push(`${baseValuesPrefixSpaces}${'器用'.padStart(halfColumnLength - 2, ' ')}${'敏捷'.padStart(singleColumnLength - 2, ' ')}${'筋力'.padStart(singleColumnLength - 2, ' ')}${'生命'.padStart(singleColumnLength - 2, ' ')}${'知力'.padStart(singleColumnLength - 2, ' ')}${'精神'.padStart(singleColumnLength - 2, ' ')}`);
 	result.push(`${'ダイス'.padEnd(leftThLength - 3, ' ')}${json.sttBaseA.padStart(halfColumnLength, ' ')}${json.sttBaseB.padStart(singleColumnLength, ' ')}${json.sttBaseC.padStart(singleColumnLength, ' ')}${json.sttBaseD.padStart(singleColumnLength, ' ')}${json.sttBaseE.padStart(singleColumnLength, ' ')}${json.sttBaseF.padStart(singleColumnLength, ' ')}`);
 	result.push(`${'成長'.padEnd(leftThLength - 2, ' ')}${json.sttGrowA.padStart(halfColumnLength, ' ')}${json.sttGrowB.padStart(singleColumnLength, ' ')}${json.sttGrowC.padStart(singleColumnLength, ' ')}${json.sttGrowD.padStart(singleColumnLength, ' ')}${json.sttGrowE.padStart(singleColumnLength, ' ')}${json.sttGrowF.padStart(singleColumnLength, ' ')}`);
@@ -216,27 +216,27 @@ io.github.shunshun94.trpg.ytsheet.generateCharacterTextFromYtSheet2SwordWorldPC 
 	const honorPrefix = '  ';
 	const honorLength = Number(json.honorItemsNum || '0');
 	const dishonorLength = Number(json.dishonorItemsNum || '0')
-	result.push(`${honorPrefix}未使用名誉点：${json.honor}`);
+	result.push(`　- 名誉`);
+	result.push(`${honorPrefix}名誉点残高：${json.honor}`);
 	for(let i = 0; i < historyLength + 1; i++) {
 		totalHonor += Number(json[`history${i}Honor`] || '0');
 	}
 	for(let i = 0; i < honorLength; i++) {
 		if(json[`honorItem${i+1}`]) {
-			result.push(`${honorPrefix}${json[`honorItem${i+1}`]}：${json[`honorItem${i+1}Pt`] || 0}`);
+			result.push(`${honorPrefix}${honorPrefix}${json[`honorItem${i+1}`]}：${json[`honorItem${i+1}Pt`] || 0}`);
 			honorDiffCandidate += Number(json[`honorItem${i+1}Pt`] || '0');
 		}
 	}
+	if(totalHonor !== honorDiffCandidate) {
+		result.push(`${honorPrefix}${honorPrefix}冒険者ランク(${json.rank})：${totalHonor - honorDiffCandidate}`);
+	}
+	result.push(`　- 不名誉`);
 	for(let i = 0; i < dishonorLength; i++) {
 		if(json[`dishonorItem${i+1}`]) {
-			result.push(`${honorPrefix}${json[`dishonorItem${i+1}`]}：-${json[`dishonorItem${i+1}Pt`] || 0}`);
-			totalHonor -= Number(json[`dishonorItem${i+1}Pt`] || '0');
-			honorDiffCandidate -= Number(json[`dishonorItem${i+1}Pt`] || '0');
+			result.push(`${honorPrefix}${honorPrefix}${json[`dishonorItem${i+1}`]}：-${json[`dishonorItem${i+1}Pt`] || 0}`);
 		}
 	}
-	if(totalHonor !== honorDiffCandidate) {
-		result.push(`${honorPrefix}冒険者ランク(${json.rank})：${totalHonor - honorDiffCandidate}`);
-	}
-	result.push(`${honorPrefix}合計名誉点：${totalHonor}`);
+	result.push(`${honorPrefix}${honorPrefix}合計：${json.dishonor}`);
 	result.push('');
 
 	if(historyLength) {
