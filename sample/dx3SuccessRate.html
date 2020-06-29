@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>DX3 判定成功率計算</title>
+<style type="text/css">
+body {
+	font-family: "UD Shin Go NT Light JIS2004","UD デジタル 教科書体 N-R", Verdana, Roboto, "Droid Sans", "游ゴシック", YuGothic, "メイリオ", Meiryo, "ヒラギノ角ゴ ProN W3", "Hiragino Kaku Gothic ProN", "ＭＳ Ｐゴシック", sans-serif;
+}
+
+.crit {
+	background-color: #FFE0E0;
+}
+
+.dice {
+	background-color: #E0E0FF;
+}
+
+th {
+	background-color: gray;
+}
+
+td {
+	padding: 4px;
+	text-align: right;
+}
+
+#fixed {
+	width:32px;
+}
+
+#expected{
+	width:40px;
+}
+
+.covered {
+	background-color: wheat;
+}
+
+.targeted {
+	background-color: sandybrown;
+}
+</style>
+</head>
+<body>
+<h1 id="title">ダブルクロス</h1>
+<table id="result" border="1"></table>
+<hr/>
+<p>固定値<input size="5" id="fixed" type="number" />の時に達成値<input id="expected" type="number" />に届く確率<br/>
+<button id="exec">計算する！</button></p>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<script src='../jquery/com/hiyoko/util/v2/utils.js'></script>
+<script src='../other/io/github/shunshun94/trpg/dx3_successRate.js'></script>
+<script>
+
+
+const query = com.hiyoko.util.getQueries();
+const fixed = Number(query.fixed) || 0;
+const expected = Number(query.expected) || 30;
+$('#title').text(`ダブルクロス 固定値${fixed}の際に達成値${expected}に届く確率`);
+$('#fixed').val(fixed);
+$('#expected').val(expected);
+const target = expected - fixed;
+$('#exec').click((e)=>{
+	location.href = `${location.protocol}//${location.hostname}${location.pathname}?fixed=${$('#fixed').val()}&expected=${$('#expected').val()}`
+});
+const table = $('#result');
+const header = `<tr>
+	<th></th>
+	<th class="crit crit_10">C10</th>
+	<th class="crit crit_9">C9</th>
+	<th class="crit crit_8">C8</th>
+	<th class="crit crit_7">C7</th>
+	<th class="crit crit_6">C6</th>
+	<th class="crit crit_5">C5</th>
+	<th class="crit crit_4">C4</th>
+	<th class="crit crit_3">C3</th>
+	<th class="crit crit_2">C2</th>
+
+	<th></th>
+</tr>`;
+
+const fixRate = (rate) => {
+	const tmpRate = String(Math.floor(rate * 10000) / 100);
+	if(tmpRate.length === 5) { return tmpRate; }
+	if(tmpRate.length === 4) { 
+		if(rate < 10) {
+			return tmpRate;
+		} else {
+			return `${tmpRate}0`;
+		}
+		
+	}
+	if(tmpRate.length === 3) {
+		if(tmpRate === '100') {
+			return '99.99';
+		} else {
+			return `${tmpRate}0`;
+		}
+	}
+	if(tmpRate.length === 2) { return `${tmpRate}.00`; }
+	if(tmpRate.length === 1) { return `${tmpRate}.00`; }
+	throw `なんかおかしい 引数:${rate} / String(Math.floor(引数 * 10000) / 100) = ${tmpRate}`;
+};
+
+for(let dice = 1; dice <= 50; dice++) {
+	if(dice % 10 === 1) {
+		table.append(header);
+	}
+	const $line = $(`<tr></tr>`);
+	$line.append(`<th class="dice dice_${dice}">${dice}D</th>`);
+	for(let critical = 10; critical > 1; critical--) {
+		const rate = io.github.shunshun94.trpg.calcDx3SuccessRate(target, dice, critical);
+		const fixedRate = fixRate(rate);
+		$line.append(`<td class="dice_${dice} crit_${critical}">${fixedRate}%</td>`);
+	}
+	$line.append(`<th class="dice dice_${dice}">${dice}D</th>`);
+	table.append($line);
+}
+table.append(header);
+$('td').mousemove((e)=>{
+	const $target = $(e.target);
+	const classes = $target.attr('class').split(' ');
+	classes.forEach((clazz)=>{
+		$(`.${clazz}`).addClass('covered');
+	});
+	$target.addClass('targeted')
+});
+$('td').mouseout((e)=>{
+	$('.covered').removeClass('covered');
+	$('.targeted').removeClass('targeted');
+});
+</script>
+</body>
+</html>
