@@ -28,6 +28,7 @@ io.github.shunshun94.trpg.calcDx3SuccessRate = (expected = 30, dice = 10, critic
 };
 
 io.github.shunshun94.trpg.getDx3BasicSuccessRate = (expected, dice, critical) => {
+	if(critical < 2) {throw "クリティカル値は2以上である必要があります";}
 	const key = `${expected}_${dice}_${critical}`;
 	if(io.github.shunshun94.trpg.calDx3SuccessRateCache.BasicSuccessRate[key]) {return io.github.shunshun94.trpg.calDx3SuccessRateCache.BasicSuccessRate[key];}
 	if(expected > critical) {
@@ -42,6 +43,7 @@ io.github.shunshun94.trpg.getDx3BasicSuccessRate = (expected, dice, critical) =>
 };
 
 io.github.shunshun94.trpg.getDx3CriticalDicesRate = (expected, dice, critical) => {
+	if(critical < 2) {throw "クリティカル値は2以上である必要があります";}
 	const key = `${expected}_${dice}_${critical}`;
 	if(io.github.shunshun94.trpg.calDx3SuccessRateCache.CriticalRate[key]) {return io.github.shunshun94.trpg.calDx3SuccessRateCache.CriticalRate[key];}
 	const singlecriticalRate = ((io.github.shunshun94.trpg.calDx3SuccessRateDiceMax + 1) - critical) / io.github.shunshun94.trpg.calDx3SuccessRateDiceMax;
