@@ -95,7 +95,7 @@ const fixRate = (rate) => {
 	const tmpRate = String(Math.floor(rate * 10000) / 100);
 	if(tmpRate.length === 5) { return tmpRate; }
 	if(tmpRate.length === 4) { 
-		if(rate < 10) {
+		if(rate < 0.1) {
 			return tmpRate;
 		} else {
 			return `${tmpRate}0`;
