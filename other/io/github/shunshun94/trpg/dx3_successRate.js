@@ -9,9 +9,13 @@ io.github.shunshun94.trpg.calDx3SuccessRateCache.CriticalRate = {};
 io.github.shunshun94.trpg.calDx3SuccessRateCache.BasicSuccessRate = {};
 io.github.shunshun94.trpg.calDx3SuccessRateCache.SuccessRate = {};
 
-io.github.shunshun94.trpg.calcDx3SuccessRate = (expected = 30, dice = 10, critical = 10, fixed = 0) => {
+io.github.shunshun94.trpg.calcDx3SuccessRate = (expected = 30, dice = 10, critical = 10, fixed = 0, isFirstDice = true) => {
 	if(critical < 2) {throw "クリティカル値は2以上である必要があります";}
-	const target = expected - fixed;
+	if(dice < 1) { return 0; }
+	const target = isFirstDice ? ((expected - fixed > 1) ? expected - fixed : 2) : expected - fixed;
+	if(isFirstDice && (target < 3)) { // ファンブルじゃなければ成功
+		return 1 - Math.pow(0.1, dice);
+	}
 	if( target <= io.github.shunshun94.trpg.calDx3SuccessRateDiceMax ) {
 		return io.github.shunshun94.trpg.getDx3BasicSuccessRate(target, dice, critical);
 	} else {
@@ -20,7 +24,7 @@ io.github.shunshun94.trpg.calcDx3SuccessRate = (expected = 30, dice = 10, critic
 		let result = 0;
 		for(let i = 0; i < dice; i++ ) {
 			const criticalRate = io.github.shunshun94.trpg.getDx3CriticalDicesRate(dice-i,dice,critical);
-			result += criticalRate * io.github.shunshun94.trpg.calcDx3SuccessRate(target - io.github.shunshun94.trpg.calDx3SuccessRateDiceMax, dice-i, critical);
+			result += criticalRate * io.github.shunshun94.trpg.calcDx3SuccessRate(target - io.github.shunshun94.trpg.calDx3SuccessRateDiceMax, dice-i, critical, 0, false);
 		}
 		io.github.shunshun94.trpg.calDx3SuccessRateCache.SuccessRate[key] = result;
 		return result;
