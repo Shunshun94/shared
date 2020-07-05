@@ -35,6 +35,7 @@ td {
 </head>
 <body>
 <h1 id="title">ダブルクロス</h1>
+<p style="font-size:80%;">小数点第三位以下は切捨て。1/10000 以上の確率で発生するもののみ表示</p>
 <table id="result" border="1"></table>
 <hr/>
 <p>固定値<input size="5" id="fixed" type="number" /> ダイス<input id="dice" type="number" /> クリティカル値<input id="critical" type="number" /><br/>
@@ -50,8 +51,8 @@ td {
 const query = com.hiyoko.util.getQueries();
 const dice = Number(query.dice) || 10;
 const critical = Number(query.critical) || 7;
-const fixed = Number(query.fixed) || 4;
-$('#title').text(`ダブルクロス 固定値${fixed} ダイス${dice} クリティカル値 ${critical} の際に各達成値がでる確率`);
+const fixed = (query.fixed === '0') ? 0 : Number(query.fixed) || 4;
+$('#title').text(`ダブルクロス 固定値${fixed} ダイス${dice} クリティカル値 ${critical} の際に各達成値に達する確率`);
 $('#fixed').val(fixed);
 $('#dice').val(dice);
 $('#critical').val(critical)
@@ -83,14 +84,13 @@ const fixRate = (rate) => {
 	throw `なんかおかしい 引数:${rate} / String(Math.floor(引数 * 10000) / 100) = ${tmpRate}`;
 };
 
-const maxValue = Number(query.max) || 350;
-for(let i = 1; i <= maxValue; i++) {
-	const rate = io.github.shunshun94.trpg.calcDx3SuccessRate(i, dice, critical, fixed);
-	const fixedRate = fixRate(rate);
-	table.append(`<tr><th>${i}</th><td>${fixedRate}%</th></tr>`);
-	if(fixedRate === '0.00') {
-		i = maxValue + 1;
-	}
+let expected = 1;
+let fixedRate = '';
+while(fixedRate !== '0.00') {
+	const rate = io.github.shunshun94.trpg.calcDx3SuccessRate(expected, dice, critical, fixed);
+	fixedRate = fixRate(rate);
+	table.append(`<tr><th>${expected}</th><td>${fixedRate}%</th></tr>`);
+	expected++
 }
 
 </script>
