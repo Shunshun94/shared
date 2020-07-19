@@ -2856,7 +2856,7 @@ function Websocket(url, opts) {
 /* Endpoints */
 (function () {
 	var API = "https://discord.com/api";
-	var CDN = "http://cdn.discord.com";
+	var CDN = "http://cdn.discordapp.com";
 	var ME  = API + "/users/@me";
 	Endpoints = Discord.Endpoints = {
 		API: 		API,
