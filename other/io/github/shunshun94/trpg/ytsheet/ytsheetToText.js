@@ -197,7 +197,7 @@ io.github.shunshun94.trpg.ytsheet.generateCharacterTextFromYtSheet2SwordWorldPC 
 	}
 	result.push('');
 
-	result.push('●習得言語');
+	result.push('●習得言語（初期習得の言語は除く）');
 	const languageLength = Number(json.languageNum);
 	const languageNameColumnLength = 24;
 	const languageColumnLength = 5;
@@ -228,7 +228,7 @@ io.github.shunshun94.trpg.ytsheet.generateCharacterTextFromYtSheet2SwordWorldPC 
 		}
 	}
 	if(totalHonor !== honorDiffCandidate) {
-		result.push(`${honorPrefix}${honorPrefix}冒険者ランク(${json.rank})：${totalHonor - honorDiffCandidate}`);
+		result.push(`${honorPrefix}${honorPrefix}冒険者ランク(${json.rank || '？？？'})：${totalHonor - honorDiffCandidate}`);
 	}
 	result.push(`　- 不名誉`);
 	for(let i = 0; i < dishonorLength; i++) {
