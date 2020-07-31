@@ -161,7 +161,7 @@ io.github.shunshun94.trpg.ytsheet.generateCharacterTextFromYtSheet2SwordWorldPC 
 
 	result.push('●所持品');
 	const itemListPrefix = '  ';
-	result.push(itemListPrefix + json.items.replace(/&lt;br&gt;&lt;br&gt;/gm, '&lt;br&gt;').replace(/&lt;br&gt;/gm, '\n').replace(/\n/gm, '\n  '));
+	result.push(itemListPrefix + (json.items || '').replace(/&lt;br&gt;&lt;br&gt;/gm, '&lt;br&gt;').replace(/&lt;br&gt;/gm, '\n').replace(/\n/gm, '\n  '));
 	if(json.lvAlc) {
 		result.push('');
 		const cardColumnLength = 5;
@@ -182,9 +182,9 @@ io.github.shunshun94.trpg.ytsheet.generateCharacterTextFromYtSheet2SwordWorldPC 
 	result.push('');
 
 	result.push('●資金');
-	result.push('  所持金：' + (json.moneyTotal　|| json.money));
-	result.push('  　預金：' + json.depositTotal);
-	result.push('  　借金：' + json.debtTotal);
+	result.push('  所持金：' + (json.moneyTotal　|| json.money || 0));
+	result.push('  　預金：' + (json.depositTotal || 0));
+	result.push('  　借金：' + (json.debtTotal || 0));
 	result.push('');
 
 	result.push('●魔力');
