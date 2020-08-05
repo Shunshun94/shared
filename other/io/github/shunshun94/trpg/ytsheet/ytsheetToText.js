@@ -206,8 +206,11 @@ io.github.shunshun94.trpg.ytsheet.generateCharacterTextFromYtSheet2SwordWorldPC 
 		const name = json[`language${i+1}`] || '？？？';
 		const talk = json[`language${i+1}Talk`] ? '〇' : '　';
 		const read = json[`language${i+1}Read`] ? '〇' : '　';
-		result.push(`  ${name.padStart(languageNameColumnLength - name.length, ' ')}${talk.padStart(languageColumnLength - 1, ' ')}${read.padStart(languageColumnLength - 1, ' ')}`);
+		if(json[`language${i+1}`] || json[`language${i+1}Talk`] || json[`language${i+1}Read`]) {
+			result.push(`  ${name.padStart(languageNameColumnLength - name.length, ' ')}${talk.padStart(languageColumnLength - 1, ' ')}${read.padStart(languageColumnLength - 1, ' ')}`);
+		}
 	}
+	result.push('');
 
 	result.push('●名誉点');
 	const historyLength = Number(json.historyNum || '0'); 

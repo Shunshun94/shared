@@ -169,7 +169,7 @@ io.github.shunshun94.trpg.udonarium.generateCharacterXmlFromYtSheet2SwordWorldPC
 	data_character_detail['情報'] = [
         `        <data name="PL">${json.playerName}</data>`,
         `        <data name="種族">${json.race}</data>`,
-        `        <data type="note" name="説明">${json.freeNote.replace(/&lt;br&gt;/g, '\n')}</data>`
+        `        <data type="note" name="説明">${(json.freeNote || '').replace(/&lt;br&gt;/g, '\n')}</data>`
 	];
 	if(opt_url) { data_character_detail['情報'].push(`        <data name="URL">${opt_url}</data>`);}
 
