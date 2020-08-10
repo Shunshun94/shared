@@ -90,10 +90,17 @@ io.github.shunshun94.trpg.discord.LogPicker.getLogRecursive = ($console, client,
 	});
 };
 
+io.github.shunshun94.trpg.discord.LogPicker.generateBlob = (data, type="text/plain;charset=utf-8;") => {
+	return new Blob([ data ], { "type" : type });
+};
+
+io.github.shunshun94.trpg.discord.LogPicker.generateUrlFromBlob = (blob) => {
+	return window.URL.createObjectURL(blob);
+};
+
 io.github.shunshun94.trpg.discord.LogPicker.generateUrl = (data, type="text/plain;charset=utf-8;") => {
-	const blob = new Blob([ data ], { "type" : type });
-	const url = window.URL.createObjectURL(blob);
-	return url;
+	const blob = io.github.shunshun94.trpg.discord.LogPicker.generateBlob(data, type);
+	return io.github.shunshun94.trpg.discord.LogPicker.generateUrlFromBlob(blob);
 };
 
 io.github.shunshun94.trpg.discord.LogPicker.appendDLLink = ($console, url, donwloadText, filename) => {
