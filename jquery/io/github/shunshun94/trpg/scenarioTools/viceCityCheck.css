@@ -120,6 +120,13 @@ footer>p {
 	position:fixed;
 }
 
+#vcm-calendar-howToUse {
+	top:296px;
+	left:812px;
+	position:fixed;
+	padding:0.5em;
+}
+
 /* rndevents */
 
 .vcm-rndevents-table-rndevent-td:hover {
