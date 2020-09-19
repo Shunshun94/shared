@@ -81,6 +81,19 @@ io.github.shunshun94.trpg.scenarioTools.ViceCityCheck.Calendar = class {
 		return Number($dom.attr('id').replace(`${this.tdClass}-`, ''));
 	}
 	bindEvents() {
+		$(`.${this.id}-table-day-tr-td`).bind('contextmenu', (e)=>{
+			e.preventDefault();
+			let $currentTarget = $(e.target);
+			while($currentTarget.text() !== '未') {
+				$currentTarget.text('未');
+				$currentTarget.removeClass(`${this.tdClass}-done`);
+				$currentTarget.removeClass(`${this.tdClass}-lunch`);
+				$currentTarget.removeClass(`${this.tdClass}-slept`);
+
+				const id = this.getTimeId($currentTarget);
+				$currentTarget = $(`#${this.tdClass}-${id + 1}`);
+			}
+		});
 		$(`.${this.id}-table-day-tr-td`).click((e)=>{
 			const $clicked = $(e.target);
 			const timeId = this.getTimeId($clicked);
@@ -197,6 +210,7 @@ io.github.shunshun94.trpg.scenarioTools.ViceCityCheck.Calendar = class {
 		this.$dom.append(`<button id="${this.id}-sleepThreeHour">3時間睡眠をとる</button>`);
 		this.$dom.append(`<button id="${this.id}-sleepSixHour">6時間睡眠をとる</button>`);
 		this.$dom.append(`<button id="${this.id}-eat">食事をとる</button>`);
+		this.$dom.append(`<p id="${this.id}-howToUse">左クリックでクリックした時間の行動を未行動・行動済・食事・睡眠の順番に切り替えます<br/>右クリックでクリックした時間<strong>以降</strong>の行動を全て未行動にします</p>`);
 	}
 };
 io.github.shunshun94.trpg.scenarioTools.ViceCityCheck.Calendar.CONSTS = {
