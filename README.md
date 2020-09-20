@@ -20,6 +20,10 @@ License Information: https://jp.vuejs.org/
 
 License Information: https://github.com/izy521/discord.io/blob/master/LICENSE
 
+### discord.js
+
+License Information: https://github.com/discordjs/discord.js/blob/master/LICENSE
+
 ### popupmenu.js
 
 License Information: https://spiritloose.net/misc/popupmenu/
