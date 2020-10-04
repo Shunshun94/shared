@@ -50,6 +50,7 @@ io.github.shunshun94.trpg.ytsheet.ytsheetSW2_5 = class {
 			'ライダー': data.lvRid,
 			'アルケミスト': data.lvAlc,
 			'ウォーリーダー': data.lvWar, 'ミスティック': data.lvMys, 'デーモンルーラー': data.lvDem,
+			'ドルイド':data.lvDru,
 			'フィジカルマスター': data.lvPhy,
 			'グリモワール': data.lvGri, 'アーティザン': data.lvArt, 'アリストクラシー': data.lvAri
 		}, function(value) {
@@ -85,13 +86,14 @@ io.github.shunshun94.trpg.ytsheet.ytsheetSW2_5 = class {
 	parseMagics(data) {
 		const bonus = Number(data.magicPowerAdd) || 0;
 		this.magic = com.hiyoko.util.filterMap(com.hiyoko.util.mapMap({
-			'真語魔法': this.skills['ソーサラー'] + this.status[4] + bonus,
-			'操霊魔法': this.skills['コンジャラー'] + this.status[4] + bonus, 
-			'神聖魔法': this.skills['プリースト'] + this.status[4] + bonus,
-			'妖精魔法': this.skills['フェアリーテイマー'] + this.status[4] + bonus,
-			'魔動機術': this.skills['マギテック'] + this.status[4] + bonus,
-			'召異魔法': this.skills['デーモンルーラー'] + this.status[4] + bonus,
-			'秘奥魔法': this.skills['グリモワール'] + this.status[4] + bonus
+			'真語魔法': data.magicPowerSor ? Number(data.magicPowerSor) : this.skills['ソーサラー'] + this.status[4] + bonus,
+			'操霊魔法': data.magicPowerCon ? Number(data.magicPowerCon) : this.skills['コンジャラー'] + this.status[4] + bonus, 
+			'神聖魔法': data.magicPowerPri ? Number(data.magicPowerPri) : this.skills['プリースト'] + this.status[4] + bonus,
+			'妖精魔法': data.magicPowerFai ? Number(data.magicPowerFai) : this.skills['フェアリーテイマー'] + this.status[4] + bonus,
+			'魔動機術': data.magicPowerMag ? Number(data.magicPowerMag) : this.skills['マギテック'] + this.status[4] + bonus,
+			'召異魔法': data.magicPowerDem ? Number(data.magicPowerDem) : this.skills['デーモンルーラー'] + this.status[4] + bonus,
+			'森羅魔法': data.magicPowerDru ? Number(data.magicPowerDru) : this.skills['ドルイド'] + this.status[4] + bonus,
+			'秘奥魔法': data.magicPowerGri ? Number(data.magicPowerGri) : this.skills['グリモワール'] + this.status[4] + bonus
 		}, function(value) {
 			return Number(value);
 		}), function(value) {
