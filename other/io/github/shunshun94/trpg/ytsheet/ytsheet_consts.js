@@ -75,7 +75,7 @@ io.github.shunshun94.trpg.ytsheet.consts.magic = {
 	magicPowerMag:'魔動機術',
 	magicPowerFai:'妖精魔法',
 	magicPowerDem:'召異魔法',
-	magicPowerDru:'召異魔法',
+	magicPowerDru:'森羅魔法',
 	magicPowerGri:'秘奥魔法',
 	magicPowerBar:'呪歌',
 	magicPowerAlc:'賦術',
