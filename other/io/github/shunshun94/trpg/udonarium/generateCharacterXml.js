@@ -129,6 +129,9 @@ io.github.shunshun94.trpg.udonarium.generateCharacterXmlFromYtSheet2SwordWorldEn
 	for(const key in palette_detail) {
 		palette += `// ${key}\n${palette_detail[key]}\n`;
 	}
+	if(json.chatPalette) {
+		palette += json.chatPalette.replace(/&lt;br&gt;/gm, '\n');
+	}
 	palette += `  </chat-palette>`;
 	return `<?xml version="1.0" encoding="UTF-8"?>
 <character location.name="table" location.x="0" location.y="0" posZ="0" rotate="0" roll="0">
@@ -327,6 +330,9 @@ io.github.shunshun94.trpg.udonarium.generateCharacterXmlFromYtSheet2SwordWorldPC
 	let palette = `<chat-palette dicebot="SwordWorld2_5">\n`;
 	for(const key in palette_detail) {
 		palette += `// ${key}\n${palette_detail[key]}\n`;
+	}
+	if(json.chatPalette) {
+		palette += json.chatPalette.replace(/&lt;br&gt;/gm, '\n');
 	}
 	palette += `  </chat-palette>`;
 	return `<?xml version="1.0" encoding="UTF-8"?>
