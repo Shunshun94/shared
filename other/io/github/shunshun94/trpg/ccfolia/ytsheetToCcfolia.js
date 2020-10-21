@@ -20,7 +20,8 @@ io.github.shunshun94.trpg = io.github.shunshun94.trpg || {};
 io.github.shunshun94.trpg.ccfolia = io.github.shunshun94.trpg.ccfolia || {};
 
 io.github.shunshun94.trpg.ccfolia.CONSTS = {};
-io.github.shunshun94.trpg.ccfolia.CONSTS.DEFAULT_PICTURE = 'https://shunshun94.github.io/shared/hiyoko.jpg';
+io.github.shunshun94.trpg.ccfolia.CONSTS.DEFAULT_PC_PICTURE = 'https://shunshun94.github.io/shared/hiyoko.jpg';
+io.github.shunshun94.trpg.ccfolia.CONSTS.DEFAULT_ENEMY_PICTURE = 'https://shunshun94.github.io/shared/pics/default_enemy.png';
 
 io.github.shunshun94.trpg.ccfolia.getCharacterSeed = ()=>{
 	return {
@@ -53,7 +54,7 @@ for(var i=0; i<length; i++) {
 	randomString += baseString.charAt( Math.floor( Math.random() * baseString.length));
 }
 
-io.github.shunshun94.trpg.ccfolia.generateCharacterJsonFromYtSheet2SwordWorldPC = (json, opt_sheetUrl = '', opt_defaultPictureUrl = io.github.shunshun94.trpg.ccfolia.CONSTS.DEFAULT_PICTURE) => {
+io.github.shunshun94.trpg.ccfolia.generateCharacterJsonFromYtSheet2SwordWorldPC = (json, opt_sheetUrl = '', opt_defaultPictureUrl = io.github.shunshun94.trpg.ccfolia.CONSTS.DEFAULT_PC_PICTURE) => {
 	const result = io.github.shunshun94.trpg.ccfolia.getCharacterSeed();
 	const character = {
 			name: json.characterName,
@@ -201,7 +202,7 @@ io.github.shunshun94.trpg.ccfolia.getPartsFromYtSheetEnemyWithPartsNum = (json, 
 	return result;
 };
 
-io.github.shunshun94.trpg.ccfolia.generateCharacterJsonFromYtSheet2SwordWorldEnemies = (count, json, opt_sheetUrl = '', opt_defaultPictureUrl = io.github.shunshun94.trpg.ccfolia.CONSTS.DEFAULT_PICTURE) => {
+io.github.shunshun94.trpg.ccfolia.generateCharacterJsonFromYtSheet2SwordWorldEnemies = (count, json, opt_sheetUrl = '', opt_defaultPictureUrl = io.github.shunshun94.trpg.ccfolia.CONSTS.DEFAULT_ENEMY_PICTURE) => {
 	if(count > 26) {
 		throw "26体までしか一度に生成できません";
 	}
@@ -221,7 +222,7 @@ io.github.shunshun94.trpg.ccfolia.generateCharacterJsonFromYtSheet2SwordWorldEne
 	}
 };
 
-io.github.shunshun94.trpg.ccfolia.generateCharacterJsonFromYtSheet2SwordWorldEnemy = (json, opt_sheetUrl = '', opt_defaultPictureUrl = io.github.shunshun94.trpg.ccfolia.CONSTS.DEFAULT_PICTURE) => {
+io.github.shunshun94.trpg.ccfolia.generateCharacterJsonFromYtSheet2SwordWorldEnemy = (json, opt_sheetUrl = '', opt_defaultPictureUrl = io.github.shunshun94.trpg.ccfolia.CONSTS.DEFAULT_ENEMY_PICTURE) => {
 	const result = io.github.shunshun94.trpg.ccfolia.getCharacterSeed();
 	const character = {
 			name: json.monsterName,
