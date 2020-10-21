@@ -32,11 +32,12 @@ footer {
 <button id="executeAsCharacter">生成</button></p>
 <p id="characterDownload">　</p>
 <img id="characterPic" />
-<!--  
+
 <h2>魔物データ</h2>
 <p>URL: <input id="enemyUrl" size="40" type="text" value="https://yutorize.2-d.jp/ytsheet/sw2.5/?id=sw9uJA" />
+　数： <input id="enemyCount" size="2" type="number" value="1" min="1" max="26" />
 <button id="executeAsEnemy">生成</button></p>
-<p id="enemyDownload">　</p>-->
+<p id="enemyDownload">　</p>
 </div>
 <textarea style="width:600px;height:360px;display:none;" id="result"></textarea>
 
@@ -74,14 +75,16 @@ const exec = (mode, id) => {
 			linkToZip(result.id, id, json);
 		}
 		if(mode === 'enemy') {
-			//
+			const count = Number($('#enemyCount').val());
+			const json = io.github.shunshun94.trpg.ccfolia.generateCharacterJsonFromYtSheet2SwordWorldEnemies(count, result, sheetUrl);
+			linkToZip(result.id, id, json);
 		}
-	});	
+	});	 
 };
 
 
 $('#executeAsCharacter').click((e)=>{exec('pc', 'character')});
-//$('#executeAsEnemy').click((e)=>{exec('enemy', 'enemy')});
+$('#executeAsEnemy').click((e)=>{exec('enemy', 'enemy')});
 
 
 </script>
