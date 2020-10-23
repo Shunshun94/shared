@@ -60,7 +60,7 @@ const linkToZip = (title, id, data, image)=>{
 		if(image) {
 			folder.file(image.fileName, image.data);
 		}
-		folder.file(`${title}.xml`, data);
+		folder.file(`${title}.xml`, data, {binary: false});
 		zip.generateAsync({ type: "blob" }).then(blob => {
 			const dataUrl = URL.createObjectURL(blob);
 			$(`#${id}Download`).html(`<a href="${dataUrl}" target="_blank" download="data_${title}.zip">ダウンロード data_${title}.zip</a>`);
