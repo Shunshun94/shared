@@ -311,7 +311,7 @@ io.github.shunshun94.trpg.ytsheet.generateCharacterTextFromYtSheet2DoubleCrossPc
 	result.push('');
 
 	result.push('■その他■');
-	result.push(json.freeNote.replace(/&lt;br&gt;/gm, '\n').replace(/&quot;/gm, '"'));
+	result.push((json.freeNote || '').replace(/&lt;br&gt;/gm, '\n').replace(/&quot;/gm, '"'));
 	
 	return result.join('\n');
 };
