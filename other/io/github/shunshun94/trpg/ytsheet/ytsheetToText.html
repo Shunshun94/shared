@@ -15,8 +15,9 @@
 <title>ゆとシートの内容をテキスト形式で出力</title>
 </head>
 <body>
-<p>URL: <input id="characterUrl" size="40" type="text" value="https://yutorize.2-d.jp/ytsheet/sw2.5/?id=wiORZs" />
+<p style="margin:0px;">URL: <input id="characterUrl" size="40" type="text" value="https://yutorize.2-d.jp/ytsheet/sw2.5/?id=wiORZs" />
 <button id="executePc">SW2.5 PC</button><button id="executeEnemy">SW2.5 Enemy</button>　<button id="executeDX3">DX3</button></p>
+<p style="margin:0px;">　<span id="notify" style="display:none;">内容をクリップボードにコピーしました</span></p>
 <textarea style="width:800px;height:360px;" id="result"></textarea>
 <script src="./ytsheet_sw25_consts.js"></script>
 <script src="./ytsheet_dx3_consts.js"></script>
@@ -24,7 +25,6 @@
 <script src="./ytsheetToTextDX3.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 <script>
-//https://yutorize.2-d.jp/ytsheet/sw2.5/?id=wiORZs
 const execPc = () => {
 	const sheetUrl = $(`#characterUrl`).val();
 	$.ajax({
@@ -55,13 +55,19 @@ const execDX3 = () => {
 		async:true,
 		dataType:'jsonp'
 	}).done((result)=>{
-		console.log(result);
 		$('#result').val(io.github.shunshun94.trpg.ytsheet.generateCharacterTextFromYtSheet2DoubleCrossPc(result));
 	});
 };
+const copy = () => {
+	$('#result').select();
+	$('#result').focus().get(0).setSelectionRange(0, $('#result').val().length);
+	document.execCommand('copy');
+	$('#notify').fadeIn(300).fadeOut(1700);
+};
 $('#executePc').click((e)=>{execPc();});
 $('#executeEnemy').click((e)=>{execEnemy();});
-$('#executeDX3').click((e)=>{execDX3();})
+$('#executeDX3').click((e)=>{execDX3();});
+$('#result').click((e)=>{copy();});
 </script>
 </body>
 </html>

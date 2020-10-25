@@ -52,6 +52,49 @@ io.github.shunshun94.trpg.ytsheet.consts.COMBO_COLUMNS = {
 	note: '効果'
 };
 
+io.github.shunshun94.trpg.ytsheet.consts.LOISES_COLUMNS = {
+	name: '名前',
+	relation: '関係',
+	positive: 'ポジティブ',
+	negative: 'ネガティブ',
+	color: '属性',
+	condition: '状態',
+	note: 'メモ'
+};
+
+io.github.shunshun94.trpg.ytsheet.consts.WEAPON_COLUMNS = {
+	name: '名前',
+	cost: '常備化',
+	experience: '経験点',
+	type: '種別',
+	skill: '技能',
+	hit: '命中',
+	attack: '攻撃力',
+	guard: 'ガード値',
+	range: '射程',
+	note: '解説'
+};
+
+io.github.shunshun94.trpg.ytsheet.consts.ARMOR_COLUMNS = {
+	name: '名前',
+	cost: '常備化',
+	experience: '経験点',
+	type: '種別',
+	value: '装甲値',
+	move: '行動値',
+	dodge: 'ドッジ',
+	note: '解説'
+};
+
+io.github.shunshun94.trpg.ytsheet.consts.ITEM_COLUMNS = {
+	name: '名前',
+	cost: '常備化',
+	experience: '経験点',
+	type: '種別',
+	skill: '技能',
+	note: '解説'
+};
+
 io.github.shunshun94.trpg.ytsheet.consts.MEMORIES_COLUMNS = {
 	name: '名前',
 	relation: '関係',

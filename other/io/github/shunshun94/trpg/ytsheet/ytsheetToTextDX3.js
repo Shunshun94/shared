@@ -100,14 +100,14 @@ io.github.shunshun94.trpg.ytsheet._getDoubleCrossEffects = (json) => {
 	while(json[`effect${cursor}Name`]) {
 		effectData.push({
 			name: '《' + json[`effect${cursor}Name`] + '》',
-			level: json[`effect${cursor}Lv`],
-			timing: json[`effect${cursor}Timing`],
-			difficulty: json[`effect${cursor}Dfclty`],
-			target: json[`effect${cursor}Target`],
-			range: json[`effect${cursor}Range`],
-			cost: json[`effect${cursor}Encroach`],
-			limitation: json[`effect${cursor}Restrict`],
-			note: json[`effect${cursor}Note`]
+			level: json[`effect${cursor}Lv`] || '1',
+			timing: json[`effect${cursor}Timing`] || '',
+			difficulty: json[`effect${cursor}Dfclty`] || '',
+			target: json[`effect${cursor}Target`] || '',
+			range: json[`effect${cursor}Range`] || '',
+			cost: json[`effect${cursor}Encroach`] || '',
+			limitation: json[`effect${cursor}Restrict`] || '',
+			note: json[`effect${cursor}Note`] || ''
 		});
 		cursor++;
 	}
@@ -121,10 +121,10 @@ io.github.shunshun94.trpg.ytsheet._getDoubleCrossCombos = (json) => {
 		let limitationCursor = 1;
 		while(json[`combo${cursor}Condition${limitationCursor}`]) {
 			comboData.push({
-				name: json[`combo${cursor}Name`],
+				name: json[`combo${cursor}Name`] || '',
 				combination: json[`combo${cursor}Combo`] || '',
 				skill: json[`combo${cursor}Skill`] || '',
-				hit: (`combo${cursor}Dice${limitationCursor}`) ? '(' + json[`combo${cursor}Dice${limitationCursor}`] + ')dx' +  ('+(' + json[`combo${cursor}Fixed${limitationCursor}`] + ')' || '+0') + '@' + (json[`combo${cursor}Crit${limitationCursor}`] || 10) : '',
+				hit: (json[`combo${cursor}Dice${limitationCursor}`]) ? '(' + json[`combo${cursor}Dice${limitationCursor}`] + ')dx' +  ('+(' + json[`combo${cursor}Fixed${limitationCursor}`] + ')' || '+0') + '@' + (json[`combo${cursor}Crit${limitationCursor}`] || 10) : '',
 				attack: json[`combo${cursor}Atk${limitationCursor}`] || '',
 				target: json[`combo${cursor}Target`] || '',
 				range: json[`combo${cursor}Range`] || '',
@@ -137,6 +137,96 @@ io.github.shunshun94.trpg.ytsheet._getDoubleCrossCombos = (json) => {
 		cursor++;
 	}
 	return comboData;
+};
+
+io.github.shunshun94.trpg.ytsheet._getDoubleCrossLoises = (json) => {
+	let cursor = 1;
+	const data = [];
+	while(json[`lois${cursor}Name`]) {
+		data.push({
+			name: json[`lois${cursor}Name`],
+			relation: json[`lois${cursor}Relation`] || '',
+			positive: json[`lois${cursor}EmoPosi`] || '', 
+			negative: json[`lois${cursor}EmoNega`] || '',
+			color: json[`lois${cursor}Color`] || '',
+			condition: json[`lois${cursor}State`],
+			note: json[`lois${cursor}Note`] || ''
+		});
+		cursor++;
+	}
+	return data;
+};
+
+io.github.shunshun94.trpg.ytsheet._getDoubleCrossMemories = (json) => {
+	let cursor = 1;
+	const data = [];
+	while(json[`memory${cursor}Gain`]) {
+		data.push({
+			name: json[`memory${cursor}Name`],
+			relation: json[`memory${cursor}Relation`],
+			emotion: json[`memory${cursor}Emo`],
+			note: json[`memory${cursor}Note`]
+		});
+		cursor++;
+	}
+	return data;
+};
+
+io.github.shunshun94.trpg.ytsheet._getDoubleCrossWeapons = (json) => {
+	let cursor = 1;
+	const data = [];
+	while(json[`weapon${cursor}Name`]) {
+		data.push({
+			name: json[`weapon${cursor}Name`] || '',
+			cost: json[`weapon${cursor}Stock`] || '',
+			experience: json[`weapon${cursor}Exp`] || '',
+			type: json[`weapon${cursor}Type`] || '',
+			skill: json[`weapon${cursor}Skill`] || '',
+			hit: json[`weapon${cursor}Acc`] || '',
+			attack: json[`weapon${cursor}Atk`] || '',
+			guard: json[`weapon${cursor}Guard`] || '',
+			range: json[`weapon${cursor}Range`] || '',
+			note: json[`weapon${cursor}Note`] || ''
+		});
+		cursor++;
+	}
+	return data;
+};
+
+io.github.shunshun94.trpg.ytsheet._getDoubleCrossArmors = (json) => {
+	let cursor = 1;
+	const data = [];
+	while(json[`armor${cursor}Name`]) {
+		data.push({
+			name: json[`armor${cursor}Name`] || '',
+			cost: json[`armor${cursor}Stock`] || '',
+			experience: json[`armor${cursor}Exp`] || '',
+			type: json[`armor${cursor}Type`] || '',
+			value: json[`armor${cursor}Armor`] || '',
+			move: json[`armor${cursor}Initiative`] || '',
+			dodge: json[`armor${cursor}Dodge`] || '',
+			note: json[`armor${cursor}Note`] || ''
+		});
+		cursor++;
+	}
+	return data;
+};
+
+io.github.shunshun94.trpg.ytsheet._getDoubleCrossItems = (json) => {
+	let cursor = 1;
+	const data = [];
+	while(json[`item${cursor}Name`]) {
+		data.push({
+			name: json[`item${cursor}Name`] || '',
+			cost: json[`item${cursor}Stock`] || '',
+			experience: json[`item${cursor}Exp`] || '',
+			type: json[`item${cursor}Type`] || '',
+			skill: json[`item${cursor}Skill`] || '',
+			note: json[`item${cursor}Note`] || ''
+		});
+		cursor++;
+	}
+	return data;
 };
 
 io.github.shunshun94.trpg.ytsheet.generateCharacterTextFromYtSheet2DoubleCrossPc = (json) => {
@@ -185,17 +275,40 @@ io.github.shunshun94.trpg.ytsheet.generateCharacterTextFromYtSheet2DoubleCrossPc
 	result.push('');
 	result.push('');
 
-	
 	result.push('■アイテム■');
+	result.push('');
+
 	result.push('・武器');
-	
+	const weaponData = io.github.shunshun94.trpg.ytsheet._getDoubleCrossWeapons(json);
+	result.push(io.github.shunshun94.trpg.ytsheet._convertList(weaponData, io.github.shunshun94.trpg.ytsheet.consts.WEAPON_COLUMNS));
+	result.push('');
+
 	result.push('・防具');
+	const armorData = io.github.shunshun94.trpg.ytsheet._getDoubleCrossArmors(json);
+	result.push(io.github.shunshun94.trpg.ytsheet._convertList(armorData, io.github.shunshun94.trpg.ytsheet.consts.ARMOR_COLUMNS));
+	result.push('');
 
 	result.push('・その他');
+	const itemData = io.github.shunshun94.trpg.ytsheet._getDoubleCrossItems(json);
+	result.push(io.github.shunshun94.trpg.ytsheet._convertList(itemData, io.github.shunshun94.trpg.ytsheet.consts.ITEM_COLUMNS));
+	result.push('');
 
-	result.push('■アイテム■');
+	result.push(`【常備化ポイント】${(String(json.stockTotal || 2)).padStart(4, ' ')} pt`);
+	result.push(`【財産ポイント】　${(String(json.savingTotal || 2)).padStart(4, ' ')} pt`);
+	result.push('');
+	result.push('');
+
+	result.push('■ロイス■');
+	const loisData = io.github.shunshun94.trpg.ytsheet._getDoubleCrossLoises(json);
+	result.push(io.github.shunshun94.trpg.ytsheet._convertList(loisData, io.github.shunshun94.trpg.ytsheet.consts.LOISES_COLUMNS));
+	result.push('');
+	result.push('');
 
 	result.push('■メモリー■');
+	const memoryData = io.github.shunshun94.trpg.ytsheet._getDoubleCrossMemories(json);
+	result.push(io.github.shunshun94.trpg.ytsheet._convertList(memoryData, io.github.shunshun94.trpg.ytsheet.consts.MEMORIES_COLUMNS));
+	result.push('');
+	result.push('');
 
 	result.push('■その他■');
 	result.push(json.freeNote.replace(/&lt;br&gt;/gm, '\n').replace(/&quot;/gm, '"'));
