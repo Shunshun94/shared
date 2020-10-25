@@ -49,7 +49,7 @@ io.github.shunshun94.trpg.ytsheet._convertDoubleCrossStatus = (json, s) => {
 	let cursor = 1;
 	if(json[`skill${s.extendableSkill.column}${cursor}`]) {
 		while(json[`skill${s.extendableSkill.column}${cursor}Name`]) {
-			result.push('〈' + json[`skill${s.extendableSkill.column}${cursor}Name`] +`〉：SL${json[`skill${s.extendableSkill.column}${cursor}`]} / 判定 ${json['sttTotal' + s.column]}r+${json[`skill${s.extendableSkill.column}${cursor}`]}`);
+			result.push('〈' + json[`skill${s.extendableSkill.column}${cursor}Name`] +`〉：SL${json[`skill${s.extendableSkill.column}${cursor}`] || 0} / 判定 ${json['sttTotal' + s.column]}r+${json[`skill${s.extendableSkill.column}${cursor}`] || 0}`);
 			cursor++;
 		}
 	} else {
@@ -122,14 +122,14 @@ io.github.shunshun94.trpg.ytsheet._getDoubleCrossCombos = (json) => {
 		while(json[`combo${cursor}Condition${limitationCursor}`]) {
 			comboData.push({
 				name: json[`combo${cursor}Name`] || '',
-				combination: json[`combo${cursor}Combo`] || '',
-				skill: json[`combo${cursor}Skill`] || '',
-				hit: (json[`combo${cursor}Dice${limitationCursor}`]) ? '(' + json[`combo${cursor}Dice${limitationCursor}`] + ')dx' +  ('+(' + json[`combo${cursor}Fixed${limitationCursor}`] + ')' || '+0') + '@' + (json[`combo${cursor}Crit${limitationCursor}`] || 10) : '',
+				combination: (json[`combo${cursor}Combo`] || '').trim(),
+				skill: (json[`combo${cursor}Skill`] || '').trim(),
+				hit: (json[`combo${cursor}Dice${limitationCursor}`]) ? '(' + json[`combo${cursor}Dice${limitationCursor}`] + ')dx' + '+(' + (json[`combo${cursor}Fixed${limitationCursor}`] || '0') + ')' + '@' + (json[`combo${cursor}Crit${limitationCursor}`] || 10) : '',
 				attack: json[`combo${cursor}Atk${limitationCursor}`] || '',
-				target: json[`combo${cursor}Target`] || '',
-				range: json[`combo${cursor}Range`] || '',
+				target: (json[`combo${cursor}Target`] || '').trim(),
+				range: (json[`combo${cursor}Range`] || '').trim(),
 				cost: json[`combo${cursor}Encroach`] || '0',
-				limitation: json[`combo${cursor}Condition${limitationCursor}`] || '',
+				limitation: (json[`combo${cursor}Condition${limitationCursor}`] || '').trim(),
 				note: json[`combo${cursor}Note`] || ''
 			});			
 			limitationCursor++;
