@@ -2,27 +2,29 @@
 <html>
 <head
 	　prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# article: http://ogp.me/ns/article#">
-<meta property="og:title" content="ゆとシート2のデータをテキストファイル形式で書き出すツール for SW2.5" />
+<meta property="og:title" content="ゆとシート2のデータをテキストファイル形式で書き出すツール for SW2.5 / DX3" />
 <meta property="og:type" content="website" />
 <meta property="og:image"
 	content="https://shunshun94.web.fc2.com/replies/terms/ogp.jpg" />
 <meta property="og:site_name" content="https://shunshun94.web.fc2.com/" />
-<meta property="og:description" content="ゆとシート2のソードワールド2.5のキャラクターシートをテキストファイル形式に書き出すツール" />
+<meta property="og:description" content="ゆとシート2のソードワールド2.5 / ダブルクロス 3rd のキャラクターシートをテキストファイル形式に書き出すツール" />
 <meta name="twitter:card" content="summary" />
 <meta name="twitter:site" content="@Shunshun94" />
-<meta name="twitter:text:title" content="ゆとシート2のデータをテキストファイル形式で書き出すツール for SW2.5" />
+<meta name="twitter:text:title" content="ゆとシート2のデータをテキストファイル形式で書き出すツール for SW2.5 / DX3" />
 <meta charset="UTF-8">
 <title>ゆとシートの内容をテキスト形式で出力</title>
 </head>
 <body>
-<p>URL: <input id="characterUrl" size="40" type="text" value="https://yutorize.2-d.jp/ytsheet/sw2.5/?id=wiORZs" />
-<button id="executePc">PC</button><button id="executeEnemy">Enemy</button></p>
+<p style="margin:0px;">URL: <input id="characterUrl" size="40" type="text" value="https://yutorize.2-d.jp/ytsheet/sw2.5/?id=wiORZs" />
+<button id="executePc">SW2.5 PC</button><button id="executeEnemy">SW2.5 Enemy</button>　<button id="executeDX3">DX3</button></p>
+<p style="margin:0px;">　<span id="notify" style="display:none;">内容をクリップボードにコピーしました</span></p>
 <textarea style="width:800px;height:360px;" id="result"></textarea>
-<script src="./ytsheet_consts.js"></script>
-<script src="./ytsheetToText.js"></script>
+<script src="./ytsheet_sw25_consts.js"></script>
+<script src="./ytsheet_dx3_consts.js"></script>
+<script src="./ytsheetToTextSW25.js"></script>
+<script src="./ytsheetToTextDX3.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 <script>
-//https://yutorize.2-d.jp/ytsheet/sw2.5/?id=wiORZs
 const execPc = () => {
 	const sheetUrl = $(`#characterUrl`).val();
 	$.ajax({
@@ -45,8 +47,27 @@ const execEnemy = () => {
 		$('#result').val(io.github.shunshun94.trpg.ytsheet.generateCharacterTextFromYtSheet2SwordWorldEnemy(result));
 	});
 };
-$('#executePc').click((e)=>{execPc()});
-$('#executeEnemy').click((e)=>{execEnemy()});
+const execDX3 = () => {
+	const sheetUrl = $(`#characterUrl`).val();
+	$.ajax({
+		type:'get',
+		url: `${sheetUrl}&mode=json`,
+		async:true,
+		dataType:'jsonp'
+	}).done((result)=>{
+		$('#result').val(io.github.shunshun94.trpg.ytsheet.generateCharacterTextFromYtSheet2DoubleCrossPc(result));
+	});
+};
+const copy = () => {
+	$('#result').select();
+	$('#result').focus().get(0).setSelectionRange(0, $('#result').val().length);
+	document.execCommand('copy');
+	$('#notify').fadeIn(300).fadeOut(1700);
+};
+$('#executePc').click((e)=>{execPc();});
+$('#executeEnemy').click((e)=>{execEnemy();});
+$('#executeDX3').click((e)=>{execDX3();});
+$('#result').click((e)=>{copy();});
 </script>
 </body>
 </html>
