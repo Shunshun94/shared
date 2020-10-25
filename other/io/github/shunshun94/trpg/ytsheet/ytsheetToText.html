@@ -15,9 +15,14 @@
 <title>ゆとシートの内容をテキスト形式で出力</title>
 </head>
 <body>
-<p style="margin:0px;">URL: <input id="characterUrl" size="40" type="text" value="https://yutorize.2-d.jp/ytsheet/sw2.5/?id=wiORZs" />
+<p style="margin:0px;">URL: <input list="sampleCharacterSheetList" id="characterUrl" size="40" type="text" value="" />
 <button id="execute">テキスト化する</button></p>
-<p style="margin:0px;">　<span id="notify" style="display:none;">内容をクリップボードにコピーしました</span></p>
+<datalist id="sampleCharacterSheetList">
+	<option value="https://yutorize.2-d.jp/ytsheet/sw2.5/?id=wiORZs">ソードワールド2.5 の PC データの例</option>
+	<option value="https://yutorize.2-d.jp/ytsheet/sw2.5/?id=sw9uJA">ソードワールド2.5 のエネミーデータの例</option>
+	<option value="https://yutorize.2-d.jp/ytsheet/dx3rd/?id=Xj4C8A">ダブルクロス 3rd の PC データの例</option>
+</datalist>
+<p style="margin:0px;">　<span id="notify" style="display:none;background-color:#00B19D;color:#FFFFFF;padding-left:8px;padding-right:8px;">内容をクリップボードにコピーしました</span></p>
 <textarea style="width:800px;height:360px;" id="result"></textarea>
 <script src="./ytsheet_sw25_consts.js"></script>
 <script src="./ytsheet_dx3_consts.js"></script>
@@ -46,7 +51,7 @@ const copy = () => {
 	$('#result').select();
 	$('#result').focus().get(0).setSelectionRange(0, $('#result').val().length);
 	document.execCommand('copy');
-	$('#notify').fadeIn(300).fadeOut(1700);
+	$('#notify').fadeIn(300).fadeOut(2700);
 };
 $('#execute').click((e)=>{exec();});
 $('#result').click((e)=>{copy();});
