@@ -162,10 +162,10 @@ io.github.shunshun94.trpg.ytsheet._getDoubleCrossMemories = (json) => {
 	const data = [];
 	while(json[`memory${cursor}Gain`]) {
 		data.push({
-			name: json[`memory${cursor}Name`],
-			relation: json[`memory${cursor}Relation`],
-			emotion: json[`memory${cursor}Emo`],
-			note: json[`memory${cursor}Note`]
+			name: json[`memory${cursor}Name`] || '',
+			relation: json[`memory${cursor}Relation`] || '',
+			emotion: json[`memory${cursor}Emo`] || '',
+			note: json[`memory${cursor}Note`] || ''
 		});
 		cursor++;
 	}

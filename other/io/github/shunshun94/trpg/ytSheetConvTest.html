@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>ゆとシートにゃんにゃんのテスト</title>
+</head>
+<body>
+<textarea id="seed" style="width:400px;height:100px;"></textarea>
+<br/><input id="exec" value="実行" type="button"/>
+<pre style="position:absolute;right:4px; top:4px;">
+// PC データの URL を引っ張る
+const list = document.querySelectorAll('tbody .name a')
+var urls = [];
+for(let i = 0; i &lt; list.length; i++ ) {
+  urls.push(list[i].href);
+}
+console.log(urls.join('\n'));
+
+// SW エネミーデータの URL を引っ張る
+const list = document.querySelectorAll('.list-monster ul li a')
+var urls = [];
+for(let i = 0; i &lt; list.length; i++ ) {
+  urls.push(list[i].href);
+}
+console.log(urls.join('\n'));
+</pre>
+<table border="1" id="result" style="color:white;"></table>
+<script src="./ytsheet/ytsheetConstsSW25.js"></script>
+<script src="./ytsheet/ytsheetConstsDX3.js"></script>
+<script src="./ytsheet/ytsheetToTextSW25.js"></script>
+<script src="./ytsheet/ytsheetToTextDX3.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<script>
+const INVALID = '<td style="background-color:#E91E63"><a target="_blank" href="URL">×</a></td>';
+const WARNING = '<td style="background-color:#F4B142"><a target="_blank" href="URL">△</a></td>';
+const SUCCESS = '<td style="background-color:#4285F4">○</td>';
+const isWarned = (text) => {
+	return (text.includes('undefined')) || (text.includes('null')) || (text.includes('NaN'));
+};
+const tryUrl = (url, id) => {
+	return new Promise((resolve, dummy)=>{
+		const dom = $('<tr></tr>');
+		dom.append(`<th><a href="${url}" target="_blank">${id}</a></th>`);
+		$.ajax({
+			type:'get',
+			url: `${url}&mode=json`,
+			async:true,
+			dataType:'jsonp'
+		}).done((result)=>{
+			if(result.type) {
+				try {
+					const text = io.github.shunshun94.trpg.ytsheet.generateCharacterTextFromYtSheet2SwordWorldEnemy(result);
+					dom.append(isWarned(text) ? WARNING.replace('URL', `./ytsheet/ytsheetToText.html?${url}`) : SUCCESS);
+				} catch(e) {
+					dom.append(INVALID.replace('URL', `./ytsheet/ytsheetToText.html?${url}`));
+				}
+			} else if(result.effect1Name) {
+				try {
+					const text = io.github.shunshun94.trpg.ytsheet.generateCharacterTextFromYtSheet2DoubleCrossPc(result);
+					dom.append(isWarned(text) ? WARNING.replace('URL', `./ytsheet/ytsheetToText.html?${url}`) : SUCCESS);
+				} catch(e) {
+					dom.append(INVALID.replace('URL', `./ytsheet/ytsheetToText.html?${url}`));
+				}
+			} else {
+				try {
+					const text = io.github.shunshun94.trpg.ytsheet.generateCharacterTextFromYtSheet2SwordWorldPC(result);
+					dom.append(isWarned(text) ? WARNING.replace('URL', `./ytsheet/ytsheetToText.html?${url}`) : SUCCESS);
+				} catch(e) {
+					dom.append(INVALID.replace('URL', `./ytsheet/ytsheetToText.html?${url}`));
+				}
+			}
+			resolve(dom);
+		});
+	});
+};
+
+const exec = async () => {
+	const sheetUrls = $(`#seed`).val().split('\n');
+	const base = $('#result');
+	for(let i = 0; i < sheetUrls.length; i++) {
+		const url = sheetUrls[i].trim();
+		if(url) {
+			const dom = await tryUrl(sheetUrls[i], i + 1);
+			base.append(dom);
+		}
+	}
+};
+$('#exec').click((e)=>{exec();});
+</script>
+</body>
+</html>
