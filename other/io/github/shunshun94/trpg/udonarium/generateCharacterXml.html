@@ -53,6 +53,11 @@ footer {
 	<p>作成するにあたり<a href="https://twitter.com/trpg_yoshi">よっしー@trpg_yoshi</a>さんの<a href="https://yoshis-island.net/udonarium/#/charazip">ユドナリウムのキャラコマを作るやつ</a>の出力を参考にしました</p>
 </footer>
 <script>
+if(location.search) {
+	$(`#characterUrl`).val(location.search.slice(1));
+	$(`#enemyUrl`).val(location.search.slice(1));
+}
+
 const linkToZip = (title, id, data, image)=>{
 	return new Promise((resolve, dummy)=>{
 		let zip = new JSZip();
