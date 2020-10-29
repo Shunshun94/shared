@@ -77,7 +77,7 @@ io.github.shunshun94.trpg.ccfolia.generateCharacterJsonFromYtSheet2SwordWorldPC 
 	const character = {
 			name: json.characterName,
 			playerName: json.playerName,
-			memo: `PL: ${json.playerName}\n${json.race}\n\n${json.imageURL ? '立ち絵：' + json.imageCopyright : ''}`,
+			memo: `PL: ${json.playerName || 'PL情報無し'}\n${json.race || '種族不明'}\n\n${json.imageURL ? '立ち絵：' + (json.imageCopyright || '権利情報なし') : ''}`,
 			initiative: '2',
 			externalUrl: opt_sheetUrl,
 			status: [
@@ -156,8 +156,10 @@ io.github.shunshun94.trpg.ccfolia.generateCharacterJsonFromYtSheet2SwordWorldPC 
 		}
 		const weaponLength = Number(json.weaponNum);
 		for(let i = 0; i < weaponLength; i++) {
-			palette.push(`2d6+${json['weapon' + (i + 1) + 'AccTotal']}+0 命中判定 (${json['weapon' + (i + 1) + 'Name']})`);
-			palette.push(`k${json['weapon' + (i + 1) + 'Rate']}+${json['weapon' + (i + 1) + 'DmgTotal']}+0@(${json['weapon' + (i + 1) + 'Crit']}-0)$+0   ダメージ (${json['weapon' + (i + 1) + 'Name']})`);
+			if(json['weapon' + (i + 1) + 'Name']) {
+				palette.push(`2d6+${json['weapon' + (i + 1) + 'AccTotal'] || '0'}+0 命中判定 (${json['weapon' + (i + 1) + 'Name']})`);
+				palette.push(`k${json['weapon' + (i + 1) + 'Rate'] || '0'}+${json['weapon' + (i + 1) + 'DmgTotal'] || '0'}+0@(${json['weapon' + (i + 1) + 'Crit'] || '10'}-0)$+0   ダメージ (${json['weapon' + (i + 1) + 'Name']})`);				
+			}
 		}
 		[[json.lvSor, json.magicPowerSor, '真語魔法'],
 		 [json.lvCon, json.magicPowerCon, '操霊魔法'],
@@ -174,9 +176,9 @@ io.github.shunshun94.trpg.ccfolia.generateCharacterJsonFromYtSheet2SwordWorldPC 
 				palette.push(`k${i*10}+${v[1]}+0@(10-0) ${v[2]}ダメージ (威力 ${i*10})`);
 			}
 		});
-		palette.push(`2d6+${json.defenseTotalAllEva}+0 回避判定`);
-		palette.push(`2d6+${json.vitResistTotal}+0 生命抵抗判定`);
-		palette.push(`2d6+${json.mndResistTotal}+0 精神抵抗判定`);
+		palette.push(`2d6+${json.defenseTotalAllEva || '0'}+0 回避判定`);
+		palette.push(`2d6+${json.vitResistTotal || '0'}+0 生命抵抗判定`);
+		palette.push(`2d6+${json.mndResistTotal || '0'}+0 精神抵抗判定`);
 	
 		skills.forEach((s)=>{
 			['器用度B', '敏捷度B', '知力B'].forEach((v)=>{
@@ -198,7 +200,7 @@ io.github.shunshun94.trpg.ccfolia.getPartsFromYtSheetEnemyWithPartsNum = (json, 
 			status: [],
 			commands: ''
 	};
-	const name = opt_num ? json[`status${opt_num}Style`] : '';	
+	const name = opt_num ? (json[`status${opt_num}Style`] || `? (${opt_num})`) : '';	
 	result.status.push({
 		label: `${name}HP`,
 		value: Number(json[`status${opt_num || '1'}Hp`]) || 0,
@@ -219,7 +221,7 @@ io.github.shunshun94.trpg.ccfolia.getPartsFromYtSheetEnemyWithPartsNum = (json, 
 	}).map((d)=>{
 		return `2d6+${json[d.column]}+0 ${name} ${d.name}`;
 	}).join('\n');
-	result.commands += `\n${json[`status${opt_num || '1'}Damage`]} ${name} ダメージ`;
+	result.commands += `\n${json[`status${opt_num || '1'}Damage`] || '0'} ${name} ダメージ`;
 	return result;
 };
 
@@ -266,7 +268,7 @@ io.github.shunshun94.trpg.ccfolia.generateCharacterJsonFromYtSheet2SwordWorldEne
 			speaking: true
 	};
 	const partsLenght = Number(json.statusNum);
-	character.commands += (defaultPallet === '') ? `2d6+${json.vitResist}+0 生命抵抗\n2d6+${json.mndResist}+0 精神抵抗\n` : '';
+	character.commands += (defaultPallet === '') ? `2d6+${json.vitResist || '0'}+0 生命抵抗\n2d6+${json.mndResist || '0'}+0 精神抵抗\n` : '';
 	if(partsLenght === 1) {
 		const partsInfo = io.github.shunshun94.trpg.ccfolia.getPartsFromYtSheetEnemyWithPartsNum(json);
 		character.status = character.status.concat(partsInfo.status);
