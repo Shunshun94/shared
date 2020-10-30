@@ -33,6 +33,7 @@ console.log(urls.join('\n'));
 <script src="./udonarium/ytsheetToUdonariumSW25.js"></script>
 <script src="./udonarium/ytsheetToUdonariumDX3.js"></script>
 <script src="./ccfolia/ytsheetToCcfoliaSW25.js"></script>
+<script src="./ccfolia/ytsheetToCcfoliaDX3.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 <script>
 const INVALID = '<td class="invalid" style="background-color:#E91E63"><a target="_blank" href="URL">×</a></td>';
@@ -129,9 +130,9 @@ const tryUrl = (url, id) => {
 					).then((result2)=>{
 						dom.append(result2);
 						asyncCall(
-								'',
+								io.github.shunshun94.trpg.ccfolia.generateCharacterJsonFromYtSheet2DoubleCrossPC,
 								[result],
-								'',
+								'ccfolia/generateCharacterJson.html',
 								url
 						).then((result3)=>{
 							dom.append(result3);

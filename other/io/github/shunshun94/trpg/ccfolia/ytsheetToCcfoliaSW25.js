@@ -57,6 +57,7 @@ io.github.shunshun94.trpg.ccfolia.generateRndStr = () => {
 
 io.github.shunshun94.trpg.ccfolia.getChatPallet = (sheetUrl) => {
 	return new Promise((resolve, reject)=>{
+		if(sheetUrl === '' || ! sheetUrl.startsWith(location.origin)) {resolve('');return;}
 		let xhr = new XMLHttpRequest();
 		xhr.open('GET', `${sheetUrl}&tool=bcdice&mode=palette`, true);
 		xhr.responseType = "text";

@@ -55,6 +55,7 @@ io.github.shunshun94.trpg.udonarium.getPicture = (src) => {
 
 io.github.shunshun94.trpg.udonarium.getChatPallet = (sheetUrl) => {
 	return new Promise((resolve, reject)=>{
+		if(sheetUrl === '' || ! sheetUrl.startsWith(location.origin)) {resolve('');return;}
 		let xhr = new XMLHttpRequest();
 		xhr.open('GET', `${sheetUrl}&tool=bcdice&mode=palette`, true);
 		xhr.responseType = "text";
@@ -116,7 +117,7 @@ io.github.shunshun94.trpg.udonarium.generateCharacterXmlFromYtSheet2DoubleCross3
 	data_character_detail['技能'] = io.github.shunshun94.trpg.udonarium.consts.DX3_STATUS.map((s)=>{
 		const result = [];
 		result.push(s.skills.map((skill)=>{
-			return `        <data name="${skill.name}">${json['skill' + s.column] || '0'}</data>`;
+			return `        <data name="${skill.name}">${json['skill' + skill.column] || '0'}</data>`;
 		}).join('\n'));
 		let cursor = 1;
 		while(json[`skill${s.extendableSkill.column}${cursor}Name`]) {
@@ -153,7 +154,7 @@ io.github.shunshun94.trpg.udonarium.generateCharacterXmlFromYtSheet2DoubleCross3
 		io.github.shunshun94.trpg.udonarium.consts.DX3_STATUS.forEach((s)=>{
 			const base = json['sttTotal' + s.column];
 			s.skills.forEach((skill)=>{
-				tmp_palette.push(`(${base}+{侵蝕率によるダイスボーナス}+{ダイス})DX+(${json['skill' + s.column] || 0}+{達成値})@(10-{クリティカル値減少}) ${skill.name}`);
+				tmp_palette.push(`(${base}+{侵蝕率によるダイスボーナス}+{ダイス})DX+(${json['skill' + skill.column] || 0}+{達成値})@(10-{クリティカル値減少}) ${skill.name}`);
 			});
 			let cursor = 1;
 			while(json[`skill${s.extendableSkill.column}${cursor}Name`]) {
