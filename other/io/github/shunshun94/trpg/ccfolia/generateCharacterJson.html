@@ -12,10 +12,11 @@
 <meta name="twitter:site" content="@Shunshun94" />
 <meta name="twitter:text:title" content="ゆとシートからココフォリアの駒を作るツール for SW2.5" />
 <meta charset="UTF-8">
-<title>ココフォリアの駒を作るための XML を生成する</title>
+<title>ココフォリアの駒を作るための Json を生成する</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jszip@3.2.1/dist/jszip.js"></script>
 <script src="./ytsheetToCcfoliaSW25.js"></script>
+<script src="./ytsheetToCcfoliaDX3.js"></script>
 <style>
 footer {
 	border-top:1px solid black;
@@ -28,14 +29,14 @@ footer {
 
 <div id="contents" style="padding:4px;">
 <h2>PC データ</h2>
-<p>URL: <input id="characterUrl" size="40" type="text" value="https://yutorize.2-d.jp/ytsheet/sw2.5/?id=wiORZs" />
+<p>URL: <input class="sheetUrl" id="characterUrl" size="40" type="text" value="https://yutorize.2-d.jp/ytsheet/sw2.5/?id=wiORZs" />
 <button id="executeAsCharacter">生成</button></p>
 <p id="characterDownload">　</p>
 <img id="characterPic" />
 
 <h2>魔物データ</h2>
-<p>URL: <input id="enemyUrl" size="40" type="text" value="https://yutorize.2-d.jp/ytsheet/sw2.5/?id=sw9uJA" />
-　数： <input id="enemyCount" size="2" type="number" value="1" min="1" max="26" />
+<p>URL: <input class="sheetUrl" id="enemyUrl" size="40" type="text" value="https://yutorize.2-d.jp/ytsheet/sw2.5/?id=sw9uJA" />
+<input id="enemyCount" size="2" type="number" value="1" min="1" max="26" style="display:none;" />
 <button id="executeAsEnemy">生成</button></p>
 <p id="enemyDownload">　</p>
 </div>
@@ -52,6 +53,11 @@ footer {
 	<p><a href="https://fujimi-trpg-online.jp/info/entry-2587.html">【ソード・ワールド】二次創作ガイドライン</a><br>本ツールは、「グループＳＮＥ」及び「株式会社ＫＡＤＯＫＡＷＡ」が権利を有する『ソード・ワールド2.5』のために作られたツールです。<br>(C)GroupSNE<br>(C)KADOKAWA</p>
 </footer>
 <script>
+if(location.search) {
+	$(`.sheetUrl`).val(location.search.slice(1));
+	$(`#result`).show();
+}
+
 const linkToZip = (title, id, data)=>{
 	const zip = new JSZip();
 	zip.file(`__data.json`, data, {binary: false});
@@ -62,24 +68,37 @@ const linkToZip = (title, id, data)=>{
 	});
 };
 
-const exec = (mode, id) => {
-	const sheetUrl = $(`#${id}Url`).val();
-	$.ajax({
-		type:'get',
-		url: `${sheetUrl}&mode=json`,
-		async:true,
-		dataType:'jsonp'
-	}).done((result)=>{
-		if(mode === 'pc') {
-			const json = io.github.shunshun94.trpg.ccfolia.generateCharacterJsonFromYtSheet2SwordWorldPC(result, sheetUrl);
-			linkToZip(result.id, id, json);
-		}
-		if(mode === 'enemy') {
-			const count = Number($('#enemyCount').val());
-			const json = io.github.shunshun94.trpg.ccfolia.generateCharacterJsonFromYtSheet2SwordWorldEnemies(count, result, sheetUrl);
-			linkToZip(result.id, id, json);
-		}
+const getSheet = (url) => {
+	return new Promise((resolve, dummy)=>{
+		$.ajax({
+			type:'get',
+			url: `${url}&mode=json`,
+			async:true,
+			dataType:'jsonp'
+		}).done(resolve);
 	});
+};
+
+const exec = async (mode, id) => {
+	const sheetUrl = $(`#${id}Url`).val();
+	const result = await getSheet(sheetUrl);
+	if(mode === 'pc') {
+		if(result.effect1Name) {
+			const json = await io.github.shunshun94.trpg.ccfolia.generateCharacterJsonFromYtSheet2DoubleCrossPC(result, sheetUrl);
+			$(`#result`).val(json);
+			linkToZip(result.id, id, json);
+		} else {
+			const json = await io.github.shunshun94.trpg.ccfolia.generateCharacterJsonFromYtSheet2SwordWorldPC(result, sheetUrl);
+			$(`#result`).val(json);
+			linkToZip(result.id, id, json);
+		}
+	}
+	if(mode === 'enemy') {
+		const count = Number($('#enemyCount').val());
+		const json = io.github.shunshun94.trpg.ccfolia.generateCharacterJsonFromYtSheet2SwordWorldEnemies(count, result, sheetUrl);
+		$(`#result`).val(json);
+		linkToZip(result.id, id, json);
+	}
 };
 $('#executeAsCharacter').click((e)=>{exec('pc', 'character')});
 $('#executeAsEnemy').click((e)=>{exec('enemy', 'enemy')});

@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>ゆとシートにゃんにゃんのテスト</title>
+</head>
+<body>
+<textarea id="seed" style="width:600px;height:100px;"></textarea>
+<br/><input id="exec" value="実行" type="button"/>
+<pre style="position:absolute;right:4px; top:4px;">
+// PC データの URL を引っ張る
+const list = document.querySelectorAll('tbody .name a')
+var urls = [];
+for(let i = 0; i &lt; list.length; i++ ) {
+  urls.push(list[i].href);
+}
+console.log(urls.join('\n'));
+
+// SW エネミーデータの URL を引っ張る
+const list = document.querySelectorAll('.list-monster ul li a')
+var urls = [];
+for(let i = 0; i &lt; list.length; i++ ) {
+  urls.push(list[i].href);
+}
+console.log(urls.join('\n'));
+</pre>
+<table border="1" id="result" style="color:white;"></table>
+<textarea id="next" style="width:600px;height:100px;display:none;">今回失敗した URL 一覧</textarea>
+<script src="./ytsheet/ytsheetConstsSW25.js"></script>
+<script src="./ytsheet/ytsheetConstsDX3.js"></script>
+<script src="./ytsheet/ytsheetToTextSW25.js"></script>
+<script src="./ytsheet/ytsheetToTextDX3.js"></script>
+<script src="./udonarium/ytsheetToUdonariumSW25.js"></script>
+<script src="./udonarium/ytsheetToUdonariumDX3.js"></script>
+<script src="./ccfolia/ytsheetToCcfoliaSW25.js"></script>
+<script src="./ccfolia/ytsheetToCcfoliaDX3.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<script>
+const INVALID = '<td class="invalid" style="background-color:#E91E63"><a target="_blank" href="URL">×</a></td>';
+const WARNING = '<td class="warning" style="background-color:#F4B142"><a target="_blank" href="URL">△</a></td>';
+const SUCCESS = '<td style="background-color:#4285F4">○</td>';
+const EMPTY = '<td style="background-color:#777777">-</td>';
+const isWarned = (tmp_text) => {
+	const text = tmp_text.replace("\"roomId\":null,", '');
+	const result = (text.includes('undefined')) || (text.includes('null')) || (text.includes('NaN'));
+	if(result){console.warn(text);}
+	return result;
+};
+
+const simpleCall = (func, params, path, url) => {
+	return new Promise((resolve, dummy)=>{
+		try {
+			const text = func.apply(this, params);
+			resolve(isWarned(text) ? WARNING.replace('URL', `./${path}?${url}`) : SUCCESS);
+		} catch(e) {
+			console.error(url, e);
+			resolve(INVALID.replace('URL', `./${path}?${url}`));
+		}
+	});
+};
+
+const asyncCall = (func, params, path, url) => {
+	return new Promise((resolve, dummy)=>{
+		if(func === '') {
+			resolve(EMPTY);
+			return;
+		}
+		try {
+			func.apply(this, params).then((text)=>{
+				resolve(isWarned(text) ? WARNING.replace('URL', `./${path}?${url}`) : SUCCESS);
+			}, (text)=>{
+				resolve(INVALID.replace('URL', `./${path}?${url}`));
+			});
+		} catch(e) {
+			console.error(url, e);
+			resolve(INVALID.replace('URL', `./${path}?${url}`));
+		}
+	});
+};
+
+const tryUrl = (url, id) => {
+	return new Promise((resolve, dummy)=>{
+		const dom = $('<tr></tr>');
+		dom.append(`<th><a href="${url}" target="_blank">${id}</a></th>`);
+		$.ajax({
+			type:'get',
+			url: `${url}&mode=json`,
+			async:true,
+			dataType:'jsonp'
+		}).done((result)=>{
+			if(result.type) {
+				simpleCall(
+						io.github.shunshun94.trpg.ytsheet.generateCharacterTextFromYtSheet2SwordWorldEnemy,
+						[result],
+						'ytsheet/ytsheetToText.html',
+						url
+				).then((result1)=>{
+					dom.append(result1);
+					asyncCall(
+							io.github.shunshun94.trpg.udonarium.generateCharacterXmlFromYtSheet2SwordWorldEnemy,
+							[result],
+							'udonarium/generateCharacterXml.html',
+							url
+					).then((result2)=>{
+						dom.append(result2);
+						asyncCall(
+								io.github.shunshun94.trpg.ccfolia.generateCharacterJsonFromYtSheet2SwordWorldEnemy,
+								[result],
+								'ccfolia/generateCharacterJson.html',
+								url
+						).then((result3)=>{
+							dom.append(result3);
+							resolve(dom);
+						});
+					});
+				});
+			} else if(result.effect1Name) {
+				simpleCall(
+						io.github.shunshun94.trpg.ytsheet.generateCharacterTextFromYtSheet2DoubleCrossPc,
+						[result],
+						'ytsheet/ytsheetToText.html',
+						url
+				).then((result1)=>{
+					dom.append(result1);
+					asyncCall(
+							io.github.shunshun94.trpg.udonarium.generateCharacterXmlFromYtSheet2DoubleCross3PC,
+							[result],
+							'udonarium/generateCharacterXml.html',
+							url
+					).then((result2)=>{
+						dom.append(result2);
+						asyncCall(
+								io.github.shunshun94.trpg.ccfolia.generateCharacterJsonFromYtSheet2DoubleCrossPC,
+								[result],
+								'ccfolia/generateCharacterJson.html',
+								url
+						).then((result3)=>{
+							dom.append(result3);
+							resolve(dom);
+						});
+						
+					});
+				});
+			} else {
+				simpleCall(
+						io.github.shunshun94.trpg.ytsheet.generateCharacterTextFromYtSheet2SwordWorldPC,
+						[result],
+						'ytsheet/ytsheetToText.html',
+						url
+				).then((result1)=>{
+					dom.append(result1);
+					asyncCall(
+							io.github.shunshun94.trpg.udonarium.generateCharacterXmlFromYtSheet2SwordWorldPC,
+							[result],
+							'udonarium/generateCharacterXml.html',
+							url
+					).then((result2)=>{
+						dom.append(result2);
+						asyncCall(
+								io.github.shunshun94.trpg.ccfolia.generateCharacterJsonFromYtSheet2SwordWorldPC,
+								[result],
+								'ccfolia/generateCharacterJson.html',
+								url
+						).then((result3)=>{
+							dom.append(result3);
+							resolve(dom);
+						});
+					});
+				});
+			}
+		});
+	});
+};
+
+const exec = async () => {
+	const sheetUrls = $(`#seed`).val().split('\n');
+	const base = $('#result');
+	const failedList = [];
+	for(let i = 0; i < sheetUrls.length; i++) {
+		const url = sheetUrls[i].trim();
+		if(url) {
+			const dom = await tryUrl(sheetUrls[i], i + 1);
+			if(dom.find('.invalid').length || dom.find('.warning').length) {
+				failedList.push(url);
+			}
+			base.append(dom);
+		}
+	}
+	if(failedList.length) {
+		$(`#next`).val(failedList.join('\n'));
+		$(`#next`).show();
+	}
+};
+$('#exec').click((e)=>{exec();});
+</script>
+</body>
+</html>

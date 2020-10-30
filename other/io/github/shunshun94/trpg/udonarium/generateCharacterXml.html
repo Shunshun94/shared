@@ -2,21 +2,22 @@
 <html lang="ja">
 <head
 	　prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# article: http://ogp.me/ns/article#">
-<meta property="og:title" content="ゆとシート2からユドナリウムの駒を作るツール for SW2.5" />
+<meta property="og:title" content="ゆとシート2からユドナリウムの駒を作るツール" />
 <meta property="og:type" content="website" />
 <meta property="og:image"
 	content="https://shunshun94.web.fc2.com/replies/terms/ogp.jpg" />
 <meta property="og:site_name" content="https://shunshun94.web.fc2.com/" />
-<meta property="og:description" content="ゆとシート2のソードワールド2.5のキャラクターシート・魔物シートからユドナリウムの駒を作るツール" />
+<meta property="og:description" content="ゆとシート2のソードワールド2.5のキャラクターシート・魔物シート / ダブルクロス 3rd のキャラクターシートからユドナリウムの駒を作るツール" />
 <meta name="twitter:card" content="summary" />
 <meta name="twitter:site" content="@Shunshun94" />
-<meta name="twitter:text:title" content="ゆとシート2からユドナリウムの駒を作るツール for SW2.5" />
+<meta name="twitter:text:title" content="ゆとシート2からユドナリウムの駒を作るツール" />
 <meta charset="UTF-8">
 <title>ユドナリウムの駒を作るための XML を生成する</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jszip@3.2.1/dist/jszip.js"></script>
 <script src="../../../../../../external/jsSHA/sha256.js"></script>
 <script src="./ytsheetToUdonariumSW25.js"></script>
+<script src="./ytsheetToUdonariumDX3.js"></script>
 <style>
 footer {
 	border-top:1px solid black;
@@ -28,16 +29,10 @@ footer {
 <h1>ゆとシート2からユドナリウムの駒を作るツール for SW2.5</h1>
 
 <div id="contents" style="padding:4px;">
-<h2>PC データ</h2>
 <p>URL: <input id="characterUrl" size="40" type="text" value="https://yutorize.2-d.jp/ytsheet/sw2.5/?id=wiORZs" />
-<button id="executeAsCharacter">生成</button></p>
+<button id="execute">生成</button></p>
 <p id="characterDownload">　</p>
 <img id="characterPic" />
-
-<h2>魔物データ</h2>
-<p>URL: <input id="enemyUrl" size="40" type="text" value="https://yutorize.2-d.jp/ytsheet/sw2.5/?id=sw9uJA" />
-<button id="executeAsEnemy">生成</button></p>
-<p id="enemyDownload">　</p>
 </div>
 <textarea style="width:600px;height:360px;display:none;" id="result"></textarea>
 
@@ -49,11 +44,17 @@ footer {
 	<li>保存されたファイルをユドナリウムにドラッグ &amp; ドロップする</li>
 </ol>
 <footer>
-	<p><a href="https://fujimi-trpg-online.jp/info/entry-2587.html">【ソード・ワールド】二次創作ガイドライン</a><br>本ツールは、「グループＳＮＥ」及び「株式会社ＫＡＤＯＫＡＷＡ」が権利を有する『ソード・ワールド2.5』のために作られたツールです。<br>(C)GroupSNE<br>(C)KADOKAWA</p>
+	<p>本ツールは、「グループＳＮＥ」及び「株式会社ＫＡＤＯＫＡＷＡ」が権利を有する『ソード・ワールド2.5』のために作られたツールです。<br>(C)GroupSNE<br>(C)KADOKAWA</p>
+	<p>『ダブルクロスThe 3rd Edition』は、「矢野俊策」及び「有限会社F.E.A.R.」の著作物です。</p>
 	<p>作成するにあたり<a href="https://twitter.com/trpg_yoshi">よっしー@trpg_yoshi</a>さんの<a href="https://yoshis-island.net/udonarium/#/charazip">ユドナリウムのキャラコマを作るやつ</a>の出力を参考にしました</p>
 </footer>
 <script>
-const linkToZip = (title, id, data, image)=>{
+if(location.search) {
+	$(`#characterUrl`).val(location.search.slice(1));
+	$(`#result`).show();
+}
+
+const linkToZip = (title, data, image)=>{
 	return new Promise((resolve, dummy)=>{
 		let zip = new JSZip();
 		let folder = zip.folder(title);
@@ -63,44 +64,68 @@ const linkToZip = (title, id, data, image)=>{
 		folder.file(`${title}.xml`, data, {binary: false});
 		zip.generateAsync({ type: "blob" }).then(blob => {
 			const dataUrl = URL.createObjectURL(blob);
-			$(`#${id}Download`).html(`<a href="${dataUrl}" target="_blank" download="data_${title}.zip">ダウンロード data_${title}.zip</a>`);
+			$(`#characterDownload`).html(`<a href="${dataUrl}" target="_blank" download="data_${title}.zip">ダウンロード data_${title}.zip</a>`);
 		});		
 	});
 };
 
-const exec = (mode, id) => {
-	const sheetUrl = $(`#${id}Url`).val();
+const getAsDX3PC = async (result, sheetUrl) => {
+	if(result.imageURL && result.imageURL.startsWith(location.origin)) {
+		const image = await io.github.shunshun94.trpg.udonarium.getPicture(result.imageURL);
+		const data = io.github.shunshun94.trpg.udonarium.generateCharacterXmlFromYtSheet2DoubleCross3PC(result, sheetUrl, image.hash);
+		$('#result').val(data);
+		linkToZip(result.characterName, data, image);
+	} else {
+		const data = await io.github.shunshun94.trpg.udonarium.generateCharacterXmlFromYtSheet2DoubleCross3PC(result, sheetUrl);
+		const url = window.URL.createObjectURL(new Blob([ data ], { "type" : 'text/xml;charset=utf-8;' }));
+		$(`#characterDownload`).html(`<a href="${url}" target="_blank" download="data_${result.characterName}.xml">ダウンロード data_${result.characterName}.xml</a>`);
+		$('#result').val(data);
+	}
+};
+
+const getAsSW2PC = async (result, sheetUrl) => {
+	if(result.imageURL && result.imageURL.startsWith(location.origin)) {
+		const image = await io.github.shunshun94.trpg.udonarium.getPicture(result.imageURL);
+		const data = await io.github.shunshun94.trpg.udonarium.generateCharacterXmlFromYtSheet2SwordWorldPC(result, sheetUrl, image.hash);
+		$('#result').val(data);
+		linkToZip(result.characterName, data, image);
+	} else {
+		const data = await io.github.shunshun94.trpg.udonarium.generateCharacterXmlFromYtSheet2SwordWorldPC(result, sheetUrl);
+		const url = window.URL.createObjectURL(new Blob([ data ], { "type" : 'text/xml;charset=utf-8;' }));
+		$(`#characterDownload`).html(`<a href="${url}" target="_blank" download="data_${result.characterName}.xml">ダウンロード data_${result.characterName}.xml</a>`);
+		$('#result').val(data);
+	}
+};
+
+const getAsSW2Enemy = async (result, sheetUrl) => {
+	const data = await io.github.shunshun94.trpg.udonarium.generateCharacterXmlFromYtSheet2SwordWorldEnemy(result, sheetUrl);
+	$('#result').val(data);
+	const url = window.URL.createObjectURL(new Blob([ data ], { "type" : 'text/xml;charset=utf-8;' }));
+	$(`#characterDownload`).html(`<a href="${url}" target="_blank" download="data_${result.monsterName}.xml">ダウンロード data_${result.monsterName}.xml</a>`);
+};
+
+const exec = () => {
+	const sheetUrl = $(`#characterUrl`).val();
+	console.log(sheetUrl);
 	$.ajax({
 		type:'get',
 		url: `${sheetUrl}&mode=json`,
 		async:true,
 		dataType:'jsonp'
 	}).done((result)=>{
-		if(mode === 'pc') {
-			if(result.imageURL && result.imageURL.startsWith(location.origin)) {
-				io.github.shunshun94.trpg.udonarium.getPicture(result.imageURL).then((image)=>{
-					const data = io.github.shunshun94.trpg.udonarium.generateCharacterXmlFromYtSheet2SwordWorldPC(result, sheetUrl, image.hash);
-					$('#result').val(data);
-					linkToZip(result.characterName, id, data, image);
-				});
-			} else {
-				const data = io.github.shunshun94.trpg.udonarium.generateCharacterXmlFromYtSheet2SwordWorldPC(result, sheetUrl);
-				const url = window.URL.createObjectURL(new Blob([ data ], { "type" : 'text/xml;charset=utf-8;' }));
-				$(`#${id}Download`).html(`<a href="${url}" target="_blank" download="data_${result.characterName}.xml">ダウンロード data_${result.characterName}.xml</a>`);
-			}
-		}
-		if(mode === 'enemy') {
-			const data = io.github.shunshun94.trpg.udonarium.generateCharacterXmlFromYtSheet2SwordWorldEnemy(result, sheetUrl);
-			$('#result').val(data);
-			const url = window.URL.createObjectURL(new Blob([ data ], { "type" : 'text/xml;charset=utf-8;' }));
-			$(`#${id}Download`).html(`<a href="${url}" target="_blank" download="data_${result.monsterName}.xml">ダウンロード data_${result.monsterName}.xml</a>`);			
+		console.log(sheetUrl);
+		if(result.type) {
+			getAsSW2Enemy(result, sheetUrl);
+		} else if(result.effect1Name) {
+			getAsDX3PC(result, sheetUrl);
+		} else {
+			getAsSW2PC(result, sheetUrl);
 		}
 	});	
 };
 
 
-$('#executeAsCharacter').click((e)=>{exec('pc', 'character')});
-$('#executeAsEnemy').click((e)=>{exec('enemy', 'enemy')});
+$('#execute').click((e)=>{exec()});
 
 
 </script>
