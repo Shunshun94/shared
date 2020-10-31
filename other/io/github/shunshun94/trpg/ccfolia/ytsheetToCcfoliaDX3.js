@@ -83,8 +83,8 @@ io.github.shunshun94.trpg.ccfolia.generateCharacterJsonFromYtSheet2DoubleCrossPC
 			status: [
 				{
 					label: 'HP',
-					value: json.hpTotal,
-					max: json.hpTotal
+					value: json.maxHpTotal,
+					max: json.maxHpTotal
 				}, {
 					label: '侵蝕率',
 					value: json.baseEncroach || 0,
