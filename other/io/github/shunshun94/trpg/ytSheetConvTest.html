@@ -89,7 +89,7 @@ const tryUrl = (url, id) => {
 			dataType:'jsonp'
 		}).done((result)=>{
 			if(result.type) {
-				dom.append('<td>SW2 敵</td>');
+				dom.append('<td style="color:black;">SW2 敵</td>');
 				simpleCall(
 						io.github.shunshun94.trpg.ytsheet.generateCharacterTextFromYtSheet2SwordWorldEnemy,
 						[result],
@@ -116,7 +116,7 @@ const tryUrl = (url, id) => {
 					});
 				});
 			} else if(result.effect1Name) {
-				dom.append('<td>DX3 PC</td>');
+				dom.append('<td style="color:black;">DX3 PC</td>');
 				simpleCall(
 						io.github.shunshun94.trpg.ytsheet.generateCharacterTextFromYtSheet2DoubleCrossPc,
 						[result],
@@ -144,7 +144,7 @@ const tryUrl = (url, id) => {
 					});
 				});
 			} else {
-				dom.append('<td>SW2 PC</td>');
+				dom.append('<td style="color:black;">SW2 PC</td>');
 				simpleCall(
 						io.github.shunshun94.trpg.ytsheet.generateCharacterTextFromYtSheet2SwordWorldPC,
 						[result],
