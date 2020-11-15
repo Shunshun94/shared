@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+<head
+	　prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# article: http://ogp.me/ns/article#">
+<meta property="og:title" content="SW2.X の成長を計算するツール" />
+<meta property="og:type" content="website" />
+<meta property="og:image" content="https://shunshun94.web.fc2.com/replies/terms/ogp.jpg" />
+<meta property="og:site_name" content="SW2.X の成長を計算するツール" />
+<meta property="og:description" content="SW2.X の成長を計算するツール" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:site" content="@Shunshun94" />
+<meta name="twitter:text:title" content="SW2.X の成長を計算するツール" />
+<meta charset="UTF-8" />
+<title>SW2.X の成長を計算するツール</title>
+<style>
+table {display:none;}
+#growResult, #sheetUrl {position:absolute;left:120px;}
+.exec {height:21px;top:2px;position:relative;}
+#growUpSelect {position:absolute;left:300px;}
+#calculation {position:fixed;}
+.current, .growUp { width:50px; }
+.enabled{background-color:#00B19D;color:#FFFFFF;}
+</style>
+</head>
+<body>
+<div id="inputArea">
+GRの結果：<input type="text" placeholder="gr の結果" list="growSample" id="growResult" /><br/>
+キャラシURL：<input type="text" placeholder="ゆとシート2の URL" list="characterSheetList" id="sheetUrl" /><br/>
+<button id="exec" class="exec">データ取込</button>
+<datalist id="growSample"><option value="SwordWorld2.5: [4,5]->(生命力 or 知力) | [6,4]->(精神力 or 生命力) | [6,2]->(精神力 or 敏捷度) | [5,5]->(知力) | [3,5]->(筋力 or 知力) | [1,6]->(器用度 or 精神力) | [1,5]->(器用度 or 知力) | [3,3]->(筋力)">入力サンプル</option></datalist>
+<datalist id="characterSheetList"></datalist>
+</div>
+<table id="growUpSelect" border="1">
+	<tr><th>ID</th><th>選択</th></tr>
+</table>
+
+<table id="calculation" border="1">
+<tr>
+	<th>能力</th><th>現在値</th><th>成長</th><th>合計</th><th>ボーナス</th>
+</tr>
+<tr>
+	<th>器用</th>
+	<td><input type="number" min="0" class="current" value="0" /></td>
+	<td class="growUp"></td>
+	<td class="total"></td>
+	<td class="bonus"></td>
+</tr>
+
+<tr>
+	<th>敏捷</th>
+	<td><input type="number" min="0" class="current" value="0" /></td>
+	<td class="growUp"></td>
+	<td class="total"></td>
+	<td class="bonus"></td>
+</tr>
+
+<tr>
+	<th>筋力</th>
+	<td><input type="number" min="0" class="current" value="0" /></td>
+	<td class="growUp"></td>
+	<td class="total"></td>
+	<td class="bonus"></td>
+</tr>
+
+<tr>
+	<th>生命</th>
+	<td><input type="number" min="0" class="current" value="0" /></td>
+	<td class="growUp"></td>
+	<td class="total"></td>
+	<td class="bonus"></td>
+</tr>
+
+<tr>
+	<th>知力</th>
+	<td><input type="number" min="0" class="current" value="0" /></td>
+	<td class="growUp"></td>
+	<td class="total"></td>
+	<td class="bonus"></td>
+</tr>
+
+<tr>
+	<th>精神</th>
+	<td><input type="number" min="0" class="current" value="0" /></td>
+	<td class="growUp"></td>
+	<td class="total"></td>
+	<td class="bonus"></td>
+</tr>
+</table>
+<script src="../../../../../com/hiyoko/util/v2/utils.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<script>
+const params = ['dummy', '器用', '敏捷', '筋力', '生命', '知力', '精神'];
+const generateGrowUpList = (text)=>{
+	const parseResult = [...text.matchAll(/\[(\d)\s?,\s?(\d)\]/g)];
+	const table = $('#growUpSelect');
+	parseResult.forEach((param, id)=>{
+		if(param[1] === param[2]) {
+			table.append(`<tr><th>${id + 1}</th><td><button value="${param[1]}" class="enabled growId_${id}">${params[Number(param[1])]}</button></td></tr>`);
+		} else {
+			table.append(`<tr><th>${id + 1}</th><td><button value="${param[1]}" class="enabled growId_${id}">${params[Number(param[1])]}</button><button value="${param[2]}" class="growId_${id}">${params[Number(param[2])]}</button></td></tr>`);
+		}		
+	});
+};
+
+const tableInit = (sheet) => {
+	const list = $('.current');
+	$(list[0]).val(sheet.sttDex || 0);
+	$(list[1]).val(sheet.sttAgi || 0);
+	$(list[2]).val(sheet.sttStr || 0);
+	$(list[3]).val(sheet.sttVit || 0);
+	$(list[4]).val(sheet.sttInt || 0);
+	$(list[5]).val(sheet.sttMnd || 0);
+};
+
+const calcResult = () => {
+	let growTotal = [0,0,0,0,0,0,0];
+	$('.enabled').each((i, v)=>{
+		growTotal[Number($(v).val())]++;
+	});
+	const currentDom = $('.current');
+	const totalDom = $('.total');
+	const bonusDom = $('.bonus');
+	$('.growUp').each((i,v)=>{
+		$(v).text(growTotal[i+1]);
+		const calcResult = Number($(currentDom[i]).val()) + growTotal[i+1];
+		$(totalDom[i]).text(calcResult);
+		$(bonusDom[i]).text(Math.floor(calcResult / 6));
+	});
+};
+
+const handleSelectGrow = (e) => {
+	const growId = /growId_\d+/.exec($(e.target).attr('class'))[0];
+	$(`.${growId}`).removeClass('enabled');
+	$(e.target).addClass('enabled');
+	calcResult();
+};
+
+$('#exec').click((e)=>{
+	const handleResult = (sheet)=>{
+		tableInit(sheet);
+		com.hiyoko.util.updateLocalStorage('com-hiyoko-sample-sw2sheetparse-index', sheetUrl, sheet.characterName);
+		$('#inputArea').hide();
+		generateGrowUpList($('#growResult').val());
+		calcResult();
+		$('table').show();
+		$('#growUpSelect button').click(handleSelectGrow);
+		$('.current').bind('input', calcResult);
+	};
+	const sheetUrl = $(`#sheetUrl`).val();
+	if(sheetUrl) {
+		$.ajax({
+			type:'get',
+			url: `${sheetUrl}&mode=json`,
+			async:true,
+			dataType:'jsonp'
+		}).done(handleResult);
+	} else {
+		handleResult({});
+	}
+});
+
+
+com.hiyoko.util.forEachMap(JSON.parse(localStorage.getItem('com-hiyoko-sample-sw2sheetparse-index') || '{}'), function(v, k) {
+	// ゆとシートしか対応する気はない
+	if(! /^\d+/.test(k)) { $('#characterSheetList').append(`<option value="${k}">${v}</option>`); }
+});
+// 
+</script>
+</body>
+</html>
