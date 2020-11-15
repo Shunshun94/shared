@@ -38,7 +38,7 @@ console.log(urls.join('\n'));
 <script>
 const INVALID = '<td class="invalid" style="background-color:#E91E63"><a target="_blank" href="URL">×</a></td>';
 const WARNING = '<td class="warning" style="background-color:#F4B142"><a target="_blank" href="URL">△</a></td>';
-const SUCCESS = '<td style="background-color:#4285F4">○</td>';
+const SUCCESS = '<td style="background-color:#4285F4"><a target="_blank" href="URL">○</a></td>';
 const EMPTY = '<td style="background-color:#777777">-</td>';
 const isWarned = (tmp_text) => {
 	const text = tmp_text.replace("\"roomId\":null,", '');
@@ -51,7 +51,7 @@ const simpleCall = (func, params, path, url) => {
 	return new Promise((resolve, dummy)=>{
 		try {
 			const text = func.apply(this, params);
-			resolve(isWarned(text) ? WARNING.replace('URL', `./${path}?${url}`) : SUCCESS);
+			resolve((isWarned(text) ? WARNING : SUCCESS).replace('URL', `./${path}?${url}`));
 		} catch(e) {
 			console.error(url, e);
 			resolve(INVALID.replace('URL', `./${path}?${url}`));
@@ -67,7 +67,7 @@ const asyncCall = (func, params, path, url) => {
 		}
 		try {
 			func.apply(this, params).then((text)=>{
-				resolve(isWarned(text) ? WARNING.replace('URL', `./${path}?${url}`) : SUCCESS);
+				resolve((isWarned(text) ? WARNING : SUCCESS).replace('URL', `./${path}?${url}`));
 			}, (text)=>{
 				resolve(INVALID.replace('URL', `./${path}?${url}`));
 			});
