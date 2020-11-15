@@ -53,48 +53,8 @@ io.github.shunshun94.trpg.udonarium.getPicture = (src) => {
 	});
 };
 
-io.github.shunshun94.trpg.udonarium.separateParametersFromChatPalette = (chatPalette) => {
-	const result = {
-		palette: '',
-		parameters: []
-	};
-	const palette = [];
-	const parameterRegExp = /\/\/(.+)=(\d+)/;
-	chatPalette.split('\n').forEach((line)=>{
-		if(line.startsWith('//')) {
-			const parameterExecResult = parameterRegExp.exec(line);
-			if(parameterExecResult) {
-				result.parameters.push({
-					label:parameterExecResult[1],
-					value:Number(parameterExecResult[2])
-				});
-			}
-		} else {
-			palette.push(line);
-		}
-	});
-	result.palette = palette.join('\n');
-	return result;
-};
-
-io.github.shunshun94.trpg.udonarium.getChatPalette = (sheetUrl) => {
-	return new Promise((resolve, reject)=>{
-		if(sheetUrl === '' || ! sheetUrl.startsWith(location.origin)) {resolve('');return;}
-		let xhr = new XMLHttpRequest();
-		xhr.open('GET', `${sheetUrl}&tool=bcdice&mode=palette`, true);
-		xhr.responseType = "text";
-		xhr.onload = (e) => {
-			resolve(io.github.shunshun94.trpg.udonarium.separateParametersFromChatPalette(e.currentTarget.response));
-		};
-		xhr.onerror = () => resolve('');
-		xhr.onabort = () => resolve('');
-		xhr.ontimeout = () => resolve('');
-		xhr.send();
-  });
-};
-
 io.github.shunshun94.trpg.udonarium.generateCharacterXmlFromYtSheet2DoubleCross3PC = async (json, opt_url='', opt_imageHash='')=>{
-	const defaultPalette = await io.github.shunshun94.trpg.udonarium.getChatPalette(opt_url);
+	const defaultPalette = await io.github.shunshun94.trpg.ytsheet.getChatPalette(opt_url);
 	const data_character = {};
 
 	data_character.image = `
@@ -133,28 +93,27 @@ io.github.shunshun94.trpg.udonarium.generateCharacterXmlFromYtSheet2DoubleCross3
 			return '';
 		}
 	};
-	data_character_detail['能力値'] = io.github.shunshun94.trpg.udonarium.consts.DX3_STATUS.map((s)=>{
-		return `        <data name="${s.name}">${json['sttTotal' + s.column]}</data>`
-	});
-
-	data_character_detail['技能'] = io.github.shunshun94.trpg.udonarium.consts.DX3_STATUS.map((s)=>{
-		const result = [];
-		result.push(s.skills.map((skill)=>{
-			return `        <data name="${skill.name}">${json['skill' + skill.column] || '0'}</data>`;
-		}).join('\n'));
-		let cursor = 1;
-		while(json[`skill${s.extendableSkill.column}${cursor}Name`]) {
-			result.push(`        <data name="${json[`skill${s.extendableSkill.column}${cursor}Name`]}">${json[`skill${s.extendableSkill.column}${cursor}`] || 0}</data>`);
-			cursor++;
-		}
-		return result.join('\n');
-	});
-
 	if(defaultPalette) {
 		data_character_detail['バフ・デバフ'] = defaultPalette.parameters.map((param)=>{
 			return `        <data type="numberResource" currentValue="${param.value}" name="${param.label}">${param.value < 10 ? 10 : param.value}</data>`; 
 		});
 	} else {
+		data_character_detail['能力値'] = io.github.shunshun94.trpg.udonarium.consts.DX3_STATUS.map((s)=>{
+			return `        <data name="${s.name}">${json['sttTotal' + s.column]}</data>`
+		});
+
+		data_character_detail['技能'] = io.github.shunshun94.trpg.udonarium.consts.DX3_STATUS.map((s)=>{
+			const result = [];
+			result.push(s.skills.map((skill)=>{
+				return `        <data name="${skill.name}">${json['skill' + skill.column] || '0'}</data>`;
+			}).join('\n'));
+			let cursor = 1;
+			while(json[`skill${s.extendableSkill.column}${cursor}Name`]) {
+				result.push(`        <data name="${json[`skill${s.extendableSkill.column}${cursor}Name`]}">${json[`skill${s.extendableSkill.column}${cursor}`] || 0}</data>`);
+				cursor++;
+			}
+			return result.join('\n');
+		});
 		data_character_detail['バフ・デバフ'] = [
 			`        <data type="numberResource" currentValue="0" name="侵蝕率によるダイスボーナス">10</data>`,
 			`        <data type="numberResource" currentValue="0" name="ダイス">50</data>`,
