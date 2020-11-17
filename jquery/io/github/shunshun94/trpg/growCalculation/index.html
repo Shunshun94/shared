@@ -16,13 +16,19 @@
 table {display:none;}
 #growResult, #sheetUrl {position:absolute;left:120px;}
 .exec {height:21px;top:2px;position:relative;}
-#growUpSelect {position:absolute;left:300px;}
+#growUpSelect {position:absolute;left:340px;}
+#growUpSelect td {position: relative;}
+#growUpSelect select {position:absolute; top:0px; left:0px; bottom:0px;}
 #calculation {position:fixed;}
+#calculation td{text-align:right;}
 .current, .growUp { width:50px; }
 .enabled{background-color:#00B19D;color:#FFFFFF;}
+#request{position:absolute;left:540px;font-size:60%;background-color:#F4F4F4;padding:4px;}
+footer {font-size:60%;position:fixed;left:0px;right:0px;bottom:0px;padding:4px;background-color:#F4F4F4;width:100%;}
 </style>
 </head>
 <body>
+<span id="request">作者 <a href="https://twitter.com/Shunshun94" target="_blank">Shunshun94</a><br/><a href="https://amzn.asia/8mNqdKy" target="_blank">欲しいものリスト</a><br/><a href="https://github.com/Shunshun94/shared/tree/master/jquery/io/github/shunshun94/trpg/growCalculation" target="_blnak">リポジトリ</a></span>
 <div id="inputArea">
 GRの結果：<input type="text" placeholder="gr の結果" list="growSample" id="growResult" /><br/>
 キャラシURL：<input type="text" placeholder="ゆとシート2の URL" list="characterSheetList" id="sheetUrl" /><br/>
@@ -31,12 +37,12 @@ GRの結果：<input type="text" placeholder="gr の結果" list="growSample" id
 <datalist id="characterSheetList"></datalist>
 </div>
 <table id="growUpSelect" border="1">
-	<tr><th>ID</th><th>選択</th></tr>
+	<tr><th>ID</th><th>選択</th><th>勇者の証</th></tr>
 </table>
 
 <table id="calculation" border="1">
 <tr>
-	<th>能力</th><th>現在値</th><th>成長</th><th>合計</th><th>ボーナス</th>
+	<th>能力</th><th>現在値</th><th>成長</th><th>合計</th><th>ボーナス</th><th>全振</th>
 </tr>
 <tr>
 	<th>器用</th>
@@ -44,6 +50,7 @@ GRの結果：<input type="text" placeholder="gr の結果" list="growSample" id
 	<td class="growUp"></td>
 	<td class="total"></td>
 	<td class="bonus"></td>
+	<td><button value="1" class="beMax">全振</button></td>
 </tr>
 
 <tr>
@@ -52,6 +59,7 @@ GRの結果：<input type="text" placeholder="gr の結果" list="growSample" id
 	<td class="growUp"></td>
 	<td class="total"></td>
 	<td class="bonus"></td>
+	<td><button value="2" class="beMax">全振</button></td>
 </tr>
 
 <tr>
@@ -60,6 +68,7 @@ GRの結果：<input type="text" placeholder="gr の結果" list="growSample" id
 	<td class="growUp"></td>
 	<td class="total"></td>
 	<td class="bonus"></td>
+	<td><button value="3" class="beMax">全振</button></td>
 </tr>
 
 <tr>
@@ -68,6 +77,7 @@ GRの結果：<input type="text" placeholder="gr の結果" list="growSample" id
 	<td class="growUp"></td>
 	<td class="total"></td>
 	<td class="bonus"></td>
+	<td><button value="4" class="beMax">全振</button></td>
 </tr>
 
 <tr>
@@ -76,6 +86,7 @@ GRの結果：<input type="text" placeholder="gr の結果" list="growSample" id
 	<td class="growUp"></td>
 	<td class="total"></td>
 	<td class="bonus"></td>
+	<td><button value="5" class="beMax">全振</button></td>
 </tr>
 
 <tr>
@@ -84,20 +95,27 @@ GRの結果：<input type="text" placeholder="gr の結果" list="growSample" id
 	<td class="growUp"></td>
 	<td class="total"></td>
 	<td class="bonus"></td>
+	<td><button value="6" class="beMax">全振</button></td>
 </tr>
 </table>
+<footer>本ツールは、「グループＳＮＥ」及び「株式会社ＫＡＤＯＫＡＷＡ」が権利を有する『ソード・ワールド2.5』のプレイを支援するために作られたツールです。<br/>
+(C)GroupSNE<br/>
+(C)KADOKAWA</footer>
 <script src="../../../../../com/hiyoko/util/v2/utils.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 <script>
-const params = ['dummy', '器用', '敏捷', '筋力', '生命', '知力', '精神'];
+const params = ['--', '器用', '敏捷', '筋力', '生命', '知力', '精神'];
 const generateGrowUpList = (text)=>{
 	const parseResult = [...text.matchAll(/\[(\d)\s?,\s?(\d)\]/g)];
 	const table = $('#growUpSelect');
 	parseResult.forEach((param, id)=>{
+		const button1 = `<button value="${param[1]}" class="enabled growId_${id}">${params[Number(param[1])]}</button>`;
+		const button2 = `<button value="${param[2]}" class="growId_${id}">${params[Number(param[2])]}</button>`;
+		const select = `<select class="growId_${id}">${params.map((d, i)=>{return `<option value="${i}">${d}</option>`}).join('')}</select>`;
 		if(param[1] === param[2]) {
-			table.append(`<tr><th>${id + 1}</th><td><button value="${param[1]}" class="enabled growId_${id}">${params[Number(param[1])]}</button></td></tr>`);
+			table.append(`<tr><th>${id + 1}</th><td>${button1}</td><td>${select}</td></tr>`);
 		} else {
-			table.append(`<tr><th>${id + 1}</th><td><button value="${param[1]}" class="enabled growId_${id}">${params[Number(param[1])]}</button><button value="${param[2]}" class="growId_${id}">${params[Number(param[2])]}</button></td></tr>`);
+			table.append(`<tr><th>${id + 1}</th><td>${button1}${button2}</td><td>${select}</td></tr>`);
 		}		
 	});
 };
@@ -132,22 +150,46 @@ const handleSelectGrow = (e) => {
 	const growId = /growId_\d+/.exec($(e.target).attr('class'))[0];
 	$(`.${growId}`).removeClass('enabled');
 	$(e.target).addClass('enabled');
+	$(`#growUpSelect select.${growId}`).val('0');
 	calcResult();
 };
 
+const handleUpdateEvidence = (e) => {
+	const target = $(e.target);
+	const value = target.val();
+	const growId = /growId_\d+/.exec(target.attr('class'))[0];
+	if(value !== '0') {
+		$(`.${growId}`).removeClass('enabled');
+		target.addClass('enabled');
+		calcResult();
+	} else {
+		$($(`.${growId}`)[0]).click();
+	}
+};
+
+const beMax = (e) => {
+	const type = $(e.target).val();
+	$(`#growUpSelect button[value=${type}]`).click();
+};
+
 $('#exec').click((e)=>{
+	$('#inputArea').hide();
 	const handleResult = (sheet)=>{
 		tableInit(sheet);
 		com.hiyoko.util.updateLocalStorage('com-hiyoko-sample-sw2sheetparse-index', sheetUrl, sheet.characterName);
-		$('#inputArea').hide();
 		generateGrowUpList($('#growResult').val());
 		calcResult();
 		$('table').show();
 		$('#growUpSelect button').click(handleSelectGrow);
+		$('#growUpSelect select').change(handleUpdateEvidence)
 		$('.current').bind('input', calcResult);
+		$('.beMax').click(beMax);
 	};
-	const sheetUrl = $(`#sheetUrl`).val();
+	let sheetUrl = $(`#sheetUrl`).val();
 	if(sheetUrl) {
+		if(sheetUrl.startsWith('http://')) {
+			sheetUrl = sheetUrl.replace('http://', 'https://');
+		}
 		$.ajax({
 			type:'get',
 			url: `${sheetUrl}&mode=json`,
@@ -159,9 +201,10 @@ $('#exec').click((e)=>{
 	}
 });
 
+$('footer').click((e)=>{$('footer').hide();});
 
 com.hiyoko.util.forEachMap(JSON.parse(localStorage.getItem('com-hiyoko-sample-sw2sheetparse-index') || '{}'), function(v, k) {
-	// ゆとシートしか対応する気はない
+	// ゆとシートしか対応していない
 	if(! /^\d+/.test(k)) { $('#characterSheetList').append(`<option value="${k}">${v}</option>`); }
 });
 // 
