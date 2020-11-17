@@ -17,6 +17,8 @@ table {display:none;}
 #growResult, #sheetUrl {position:absolute;left:120px;}
 .exec {height:21px;top:2px;position:relative;}
 #growUpSelect {position:absolute;left:340px;}
+#growUpSelect td {position: relative;}
+#growUpSelect select {position:absolute; top:0px; left:0px; bottom:0px;}
 #calculation {position:fixed;}
 .current, .growUp { width:50px; }
 .enabled{background-color:#00B19D;color:#FFFFFF;}
@@ -31,7 +33,7 @@ GRの結果：<input type="text" placeholder="gr の結果" list="growSample" id
 <datalist id="characterSheetList"></datalist>
 </div>
 <table id="growUpSelect" border="1">
-	<tr><th>ID</th><th>選択</th></tr>
+	<tr><th>ID</th><th>選択</th><th>勇者の証</th></tr>
 </table>
 
 <table id="calculation" border="1">
@@ -95,15 +97,18 @@ GRの結果：<input type="text" placeholder="gr の結果" list="growSample" id
 <script src="../../../../../com/hiyoko/util/v2/utils.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 <script>
-const params = ['dummy', '器用', '敏捷', '筋力', '生命', '知力', '精神'];
+const params = ['--', '器用', '敏捷', '筋力', '生命', '知力', '精神'];
 const generateGrowUpList = (text)=>{
 	const parseResult = [...text.matchAll(/\[(\d)\s?,\s?(\d)\]/g)];
 	const table = $('#growUpSelect');
 	parseResult.forEach((param, id)=>{
+		const button1 = `<button value="${param[1]}" class="enabled growId_${id}">${params[Number(param[1])]}</button>`;
+		const button2 = `<button value="${param[2]}" class="growId_${id}">${params[Number(param[2])]}</button>`;
+		const select = `<select class="growId_${id}">${params.map((d, i)=>{return `<option value="${i}">${d}</option>`}).join('')}</select>`;
 		if(param[1] === param[2]) {
-			table.append(`<tr><th>${id + 1}</th><td><button value="${param[1]}" class="enabled growId_${id}">${params[Number(param[1])]}</button></td></tr>`);
+			table.append(`<tr><th>${id + 1}</th><td>${button1}</td><td>${select}</td></tr>`);
 		} else {
-			table.append(`<tr><th>${id + 1}</th><td><button value="${param[1]}" class="enabled growId_${id}">${params[Number(param[1])]}</button><button value="${param[2]}" class="growId_${id}">${params[Number(param[2])]}</button></td></tr>`);
+			table.append(`<tr><th>${id + 1}</th><td>${button1}${button2}</td><td>${select}</td></tr>`);
 		}		
 	});
 };
@@ -138,7 +143,21 @@ const handleSelectGrow = (e) => {
 	const growId = /growId_\d+/.exec($(e.target).attr('class'))[0];
 	$(`.${growId}`).removeClass('enabled');
 	$(e.target).addClass('enabled');
+	$(`#growUpSelect select.${growId}`).val('0');
 	calcResult();
+};
+
+const handleUpdateEvidence = (e) => {
+	const target = $(e.target);
+	const value = target.val();
+	const growId = /growId_\d+/.exec(target.attr('class'))[0];
+	if(value !== '0') {
+		$(`.${growId}`).removeClass('enabled');
+		target.addClass('enabled');
+		calcResult();
+	} else {
+		$($(`.${growId}`)[0]).click();
+	}
 };
 
 const beMax = (e) => {
@@ -155,6 +174,7 @@ $('#exec').click((e)=>{
 		calcResult();
 		$('table').show();
 		$('#growUpSelect button').click(handleSelectGrow);
+		$('#growUpSelect select').change(handleUpdateEvidence)
 		$('.current').bind('input', calcResult);
 		$('.beMax').click(beMax);
 	};
