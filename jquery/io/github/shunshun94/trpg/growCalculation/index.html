@@ -16,7 +16,7 @@
 table {display:none;}
 #growResult, #sheetUrl {position:absolute;left:120px;}
 .exec {height:21px;top:2px;position:relative;}
-#growUpSelect {position:absolute;left:300px;}
+#growUpSelect {position:absolute;left:340px;}
 #calculation {position:fixed;}
 .current, .growUp { width:50px; }
 .enabled{background-color:#00B19D;color:#FFFFFF;}
@@ -36,7 +36,7 @@ GRの結果：<input type="text" placeholder="gr の結果" list="growSample" id
 
 <table id="calculation" border="1">
 <tr>
-	<th>能力</th><th>現在値</th><th>成長</th><th>合計</th><th>ボーナス</th>
+	<th>能力</th><th>現在値</th><th>成長</th><th>合計</th><th>ボーナス</th><th>全振</th>
 </tr>
 <tr>
 	<th>器用</th>
@@ -44,6 +44,7 @@ GRの結果：<input type="text" placeholder="gr の結果" list="growSample" id
 	<td class="growUp"></td>
 	<td class="total"></td>
 	<td class="bonus"></td>
+	<td><button value="1" class="beMax">全振</button></td>
 </tr>
 
 <tr>
@@ -52,6 +53,7 @@ GRの結果：<input type="text" placeholder="gr の結果" list="growSample" id
 	<td class="growUp"></td>
 	<td class="total"></td>
 	<td class="bonus"></td>
+	<td><button value="2" class="beMax">全振</button></td>
 </tr>
 
 <tr>
@@ -60,6 +62,7 @@ GRの結果：<input type="text" placeholder="gr の結果" list="growSample" id
 	<td class="growUp"></td>
 	<td class="total"></td>
 	<td class="bonus"></td>
+	<td><button value="3" class="beMax">全振</button></td>
 </tr>
 
 <tr>
@@ -68,6 +71,7 @@ GRの結果：<input type="text" placeholder="gr の結果" list="growSample" id
 	<td class="growUp"></td>
 	<td class="total"></td>
 	<td class="bonus"></td>
+	<td><button value="4" class="beMax">全振</button></td>
 </tr>
 
 <tr>
@@ -76,6 +80,7 @@ GRの結果：<input type="text" placeholder="gr の結果" list="growSample" id
 	<td class="growUp"></td>
 	<td class="total"></td>
 	<td class="bonus"></td>
+	<td><button value="5" class="beMax">全振</button></td>
 </tr>
 
 <tr>
@@ -84,6 +89,7 @@ GRの結果：<input type="text" placeholder="gr の結果" list="growSample" id
 	<td class="growUp"></td>
 	<td class="total"></td>
 	<td class="bonus"></td>
+	<td><button value="6" class="beMax">全振</button></td>
 </tr>
 </table>
 <script src="../../../../../com/hiyoko/util/v2/utils.js"></script>
@@ -135,6 +141,11 @@ const handleSelectGrow = (e) => {
 	calcResult();
 };
 
+const beMax = (e) => {
+	const type = $(e.target).val();
+	$(`#growUpSelect button[value=${type}]`).click();
+};
+
 $('#exec').click((e)=>{
 	const handleResult = (sheet)=>{
 		tableInit(sheet);
@@ -145,6 +156,7 @@ $('#exec').click((e)=>{
 		$('table').show();
 		$('#growUpSelect button').click(handleSelectGrow);
 		$('.current').bind('input', calcResult);
+		$('.beMax').click(beMax);
 	};
 	const sheetUrl = $(`#sheetUrl`).val();
 	if(sheetUrl) {
@@ -161,7 +173,7 @@ $('#exec').click((e)=>{
 
 
 com.hiyoko.util.forEachMap(JSON.parse(localStorage.getItem('com-hiyoko-sample-sw2sheetparse-index') || '{}'), function(v, k) {
-	// ゆとシートしか対応する気はない
+	// ゆとシートしか対応していない
 	if(! /^\d+/.test(k)) { $('#characterSheetList').append(`<option value="${k}">${v}</option>`); }
 });
 // 
