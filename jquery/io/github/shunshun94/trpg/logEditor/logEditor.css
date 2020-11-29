@@ -1,0 +1,100 @@
+@charset "utf-8";
+* {
+	box-sizing: border-box;
+	font-family: "BIZ UDゴシック","UD Shin Go NT Light JIS2004","UD デジタル 教科書体 N-R", Verdana, Roboto, "Droid Sans", "游ゴシック", YuGothic, "メイリオ", Meiryo, "ヒラギノ角ゴ ProN W3", "Hiragino Kaku Gothic ProN", "ＭＳ Ｐゴシック", sans-serif;
+}
+
+.io-github-shunshun94-trpg-logEditor-Post {
+	padding:16px;
+	position:relative;
+	border-top:black 1px solid;
+	user-select: none;
+}
+
+.io-github-shunshun94-trpg-logEditor-Post-params {
+	position:relative;
+	left:20px;
+}
+
+.io-github-shunshun94-trpg-logEditor-Post-params > input {
+	position:absolute;
+	left:48px;
+	height:18px;
+}
+
+.io-github-shunshun94-trpg-logEditor-Post-params-id {
+	top:-2px;
+}
+
+.io-github-shunshun94-trpg-logEditor-Post-params-class {
+	top:16px;
+}
+
+.io-github-shunshun94-trpg-logEditor-Post-handle {
+	position:absolute;
+	top:4px;
+	left:4px;
+	width:10px;
+	height:10px;
+}
+
+.logList {
+	overflow: visible scroll;
+	position:absolute;
+	top:40px;
+	bottom:16px;
+	width:100%;
+	left:16px;
+	right:16px;
+}
+
+h2 {
+	margin-top:8px;
+	margin-bottom:8px;
+	margin-left:16px;
+}
+
+#mainEditor {
+	position:absolute;
+	top:0px;left:0px;
+	width:400px;
+	bottom:40px;
+}
+#tmpEditor {
+	position:absolute;
+	top:0px;
+	left:400px;
+	bottom:140px;
+	width:800px;
+}
+
+#tmpEditor > div {
+	position:absolute;
+	top:0px;
+	bottom:0px;
+	width:400px;
+}
+
+#tmpEditorA {
+	left:0px;
+}
+#tmpEditorB {
+	left:400px;
+}
+
+#menu{
+	position:absolute;
+	left:400px;
+	bottom:40px;
+	width:800px;
+	height:100px;
+}
+footer {
+	position:absolute;
+	bottom:0px;
+	left:0px;
+	width:1200px;
+	height:40px;
+	border-top:1px black solid;
+	background-color:gray;
+}
