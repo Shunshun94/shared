@@ -6,23 +6,22 @@ io.github.shunshun94.trpg.logEditor = io.github.shunshun94.trpg.logEditor || {};
 io.github.shunshun94.trpg.logEditor.Editor = class {
 	constructor(doms) {
 		this.generateBaseEditor();
-		this.doms = this.domsToPost(doms);
-		this.initPosts();
+		const htmls = this.domsToPost(doms);
+		this.initPosts(htmls);
 		this.activateSort();
 	}
 	activateSort() {
 		const opts = {
 				group: 'shared',
-				handle: `.${io.github.shunshun94.trpg.logEditor.CLASSES.HANDLE}`,
-				animation: 150
+				handle: `.${io.github.shunshun94.trpg.logEditor.CLASSES.HANDLE}`
 		}
 		$('.logList').sortable(opts);
 	}
-	initPosts() {
-		this.getMainDom().append(this.doms.map((d)=>{return d.getEditorDom()}).join(''));
+	initPosts(doms) {
+		this.getMainDom().append(doms.join(''));
 	}
 	domsToPost(doms) {
-		return doms.map((d)=>{return new io.github.shunshun94.trpg.logEditor.Post(d);});
+		return doms.map(io.github.shunshun94.trpg.logEditor.jsonToEditorHtml);
 	}
 	getMainDom() {
 		return $('#mainEditor > .logList');
@@ -56,5 +55,21 @@ io.github.shunshun94.trpg.logEditor.Editor = class {
 		io.github.shunshun94.trpg.logEditor.DOMS.BODY.append(`
 			<footer></footer>
 		`);
+		io.github.shunshun94.trpg.logEditor.DOMS.BODY.append(`
+			<datalist id="io-github-shunshun94-trpg-logEditor-candidates-tags">
+				${io.github.shunshun94.trpg.logEditor.Editor.CONSTS.TAGS.map((t)=>{
+					return `<option value="${t}"></option>`
+				}).join('')}
+			</datalist>
+			<datalist id="io-github-shunshun94-trpg-logEditor-candidates-classes">
+				${io.github.shunshun94.trpg.logEditor.Editor.CONSTS.CLASSES.map((t)=>{
+					return `<option value="${t}"></option>`
+				}).join('')}
+			</datalist>
+		`);
 	}
+};
+io.github.shunshun94.trpg.logEditor.Editor.CONSTS = {
+	TAGS: ['p', 'h3', 'h2', 'h4', 'hr', 'h1'],
+	CLASSES: ['tab1', 'tab0']
 };

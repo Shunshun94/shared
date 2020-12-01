@@ -4,6 +4,7 @@ io.github.shunshun94 = io.github.shunshun94 || {};
 io.github.shunshun94.trpg = io.github.shunshun94.trpg || {};
 io.github.shunshun94.trpg.logEditor = io.github.shunshun94.trpg.logEditor || {};
 
+/*
 io.github.shunshun94.trpg.logEditor.fileReader = new FileReader();
 io.github.shunshun94.trpg.logEditor.fileReader.onload = (e) => {
 	const codes = new Uint8Array(io.github.shunshun94.trpg.logEditor.fileReader.result);
@@ -20,17 +21,21 @@ io.github.shunshun94.trpg.logEditor.fileReader.onload = (e) => {
 		io.github.shunshun94.trpg.logEditor.EVENTS.FILE_LOADED,
 		{doms: parsedTarget}
 	);
-	io.github.shunshun94.trpg.logEditor.DOMS.BODY.off('drop');
-	io.github.shunshun94.trpg.logEditor.DOMS.BODY.off('dragleave');
-	io.github.shunshun94.trpg.logEditor.DOMS.BODY.off('dragover');
+
 };
-
-
-
+*/
 
 io.github.shunshun94.trpg.logEditor.DOMS.BODY.on('drop', function(e) {
 	io.github.shunshun94.trpg.logEditor.DOMS.BODY.css('background-color', 'white');
-	io.github.shunshun94.trpg.logEditor.fileReader.readAsArrayBuffer(e.originalEvent.dataTransfer.files[0]);
+	io.github.shunshun94.trpg.logEditor.convertors.CcfoliaConvertor.dropEventToJson(e).then((parsedTarget)=>{
+		io.github.shunshun94.trpg.logEditor.DOMS.BODY.trigger(
+			io.github.shunshun94.trpg.logEditor.EVENTS.FILE_LOADED,
+			{doms: parsedTarget}
+		);
+		io.github.shunshun94.trpg.logEditor.DOMS.BODY.off('drop');
+		io.github.shunshun94.trpg.logEditor.DOMS.BODY.off('dragleave');
+		io.github.shunshun94.trpg.logEditor.DOMS.BODY.off('dragover');
+	});
 	e.preventDefault();
 });
 io.github.shunshun94.trpg.logEditor.DOMS.BODY.on('dragleave', function(e) {

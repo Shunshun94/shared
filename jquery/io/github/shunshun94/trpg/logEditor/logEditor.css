@@ -8,6 +8,7 @@
 	padding:16px;
 	position:relative;
 	border-top:black 1px solid;
+	width:99%;
 	user-select: none;
 }
 
@@ -16,18 +17,53 @@
 	left:20px;
 }
 
-.io-github-shunshun94-trpg-logEditor-Post-params > input {
+.io-github-shunshun94-trpg-logEditor-Post-merge {
+	position:absolute;
+	right:30px;
+	padding-left: 2px;
+	padding-right: 2px;
+	top:8px;
+	height: 20px;
+	width: 20px;
+}
+
+.io-github-shunshun94-trpg-logEditor-Post-delete {
+	position:absolute;
+	right:8px;
+	padding-left: 2px;
+	padding-right: 2px;
+	top:8px;
+	height: 20px;
+	width: 20px;
+}
+
+.io-github-shunshun94-trpg-logEditor-Post-params-param {
+	display:block;
+	position:relative;
+}
+
+.io-github-shunshun94-trpg-logEditor-Post-params-param-input {
 	position:absolute;
 	left:48px;
-	height:18px;
+	height:17px;
 }
 
-.io-github-shunshun94-trpg-logEditor-Post-params-id {
-	top:-2px;
+.io-github-shunshun94-trpg-logEditor-Post-params-param-button {
+	position:absolute;
+	left:202px;
+	padding-left: 2px;
+	padding-right: 2px;
+	height:17px;
 }
 
-.io-github-shunshun94-trpg-logEditor-Post-params-class {
-	top:16px;
+.io-github-shunshun94-trpg-logEditor-Post-name {
+	font-weight: bold;
+	padding-top:8px;
+	padding-bottom:8px;
+}
+
+.io-github-shunshun94-trpg-logEditor-Post-content {
+	padding-left:16px;
 }
 
 .io-github-shunshun94-trpg-logEditor-Post-handle {
