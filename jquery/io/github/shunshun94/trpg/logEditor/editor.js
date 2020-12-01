@@ -11,6 +11,16 @@ io.github.shunshun94.trpg.logEditor.Editor = class {
 		this.activateSort();
 		this.bindEvents();
 	}
+	
+	setRndId(post) {
+		const targetDom = post.find(`.${io.github.shunshun94.trpg.logEditor.CLASSES.INPUTS}-id`);
+		let randomString = '';
+		const baseString ='abcdefghijklmnopqrstuvwxyz';
+		for(let i = 0; i < 32; i++) {
+			randomString += baseString.charAt( Math.floor( Math.random() * baseString.length));
+		}
+		targetDom.val(randomString);
+	}
 
 	merge(post) {
 		const prevDom = post.prev();
@@ -38,18 +48,26 @@ io.github.shunshun94.trpg.logEditor.Editor = class {
 			const clicked = $(e.target);
 			if(e.target.localName === 'button') {
 				const targetPost = clicked.parents(`.${io.github.shunshun94.trpg.logEditor.CLASSES.POST}`);
-				if( clicked.hasClass(io.github.shunshun94.trpg.logEditor.CLASSES.MERGE) ) {
-					this.merge(targetPost);
+				if(targetPost.length) {
+					if( clicked.hasClass(io.github.shunshun94.trpg.logEditor.CLASSES.MERGE) ) {
+						this.merge(targetPost);
+					}
+					if( clicked.hasClass(io.github.shunshun94.trpg.logEditor.CLASSES.DELETE) ) {
+						targetPost.remove();
+					}
+					if( clicked.hasClass(io.github.shunshun94.trpg.logEditor.CLASSES.RANDOM_ID) ) {
+						this.setRndId(targetPost);
+					}
+					if( clicked.hasClass(io.github.shunshun94.trpg.logEditor.CLASSES.TOGGLE_SUB) ) {
+						this.toggleSub(targetPost);
+					}
+					return;
 				}
-				if( clicked.hasClass(io.github.shunshun94.trpg.logEditor.CLASSES.DELETE) ) {
-					targetPost.remove();
+				const targetBlock = clicked.parents(`.editBlock`);
+				if(targetBlock.length) {
+					io.github.shunshun94.trpg.logEditor.export.exec(targetBlock.find('.logList'));
 				}
-				if( clicked.hasClass(io.github.shunshun94.trpg.logEditor.CLASSES.RANDOM_ID) ) {
-					
-				}
-				if( clicked.hasClass(io.github.shunshun94.trpg.logEditor.CLASSES.TOGGLE_SUB) ) {
-					this.toggleSub(targetPost);
-				}
+
 			}
 		});
 	}
@@ -77,25 +95,27 @@ io.github.shunshun94.trpg.logEditor.Editor = class {
 	generateBaseEditor() {
 		io.github.shunshun94.trpg.logEditor.DOMS.BODY.empty();
 		io.github.shunshun94.trpg.logEditor.DOMS.BODY.append(`
-			<div id="mainEditor">
-				<h2>出力</h2>
+			<div class="editBlock" id="mainEditor">
+				<h2>出力</h2><button class="${io.github.shunshun94.trpg.logEditor.CLASSES.SAVE}">保存する</button>
 				<div class="logList"></div>
 			</div>
 		`);
 		io.github.shunshun94.trpg.logEditor.DOMS.BODY.append(`
 			<div id="tmpEditor">
-				<div id="tmpEditorA">
-					<h2>一時置き場A</h2>
+				<div class="editBlock" id="tmpEditorA">
+					<h2>一時置き場A</h2><button class="${io.github.shunshun94.trpg.logEditor.CLASSES.SAVE}">保存する</button>
 					<div class="logList"></div>
 				</div>
-				<div id="tmpEditorB">
-					<h2>一次置き場B</h2>
+				<div class="editBlock" id="tmpEditorB">
+					<h2>一次置き場B</h2><button class="${io.github.shunshun94.trpg.logEditor.CLASSES.SAVE}">保存する</button>
 					<div class="logList"></div>
 				</div>
 			</div>
 		`);
 		io.github.shunshun94.trpg.logEditor.DOMS.BODY.append(`
-			<div id="menu"></div>
+			<div id="menu">
+				
+			</div>
 		`);
 		io.github.shunshun94.trpg.logEditor.DOMS.BODY.append(`
 			<footer></footer>

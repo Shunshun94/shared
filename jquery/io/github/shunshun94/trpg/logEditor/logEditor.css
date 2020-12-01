@@ -4,6 +4,12 @@
 	font-family: "BIZ UDゴシック","UD Shin Go NT Light JIS2004","UD デジタル 教科書体 N-R", Verdana, Roboto, "Droid Sans", "游ゴシック", YuGothic, "メイリオ", Meiryo, "ヒラギノ角ゴ ProN W3", "Hiragino Kaku Gothic ProN", "ＭＳ Ｐゴシック", sans-serif;
 }
 
+.io-github-shunshun94-trpg-logEditor-save {
+	position:absolute;
+	top:8px;
+	right:8px;
+}
+
 .io-github-shunshun94-trpg-logEditor-Post {
 	padding:16px;
 	position:relative;

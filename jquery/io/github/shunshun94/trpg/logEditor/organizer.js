@@ -19,7 +19,9 @@ io.github.shunshun94.trpg.logEditor.CLASSES = {
 	CAND_TAGS: 'io-github-shunshun94-trpg-logEditor-candidates-tags',
 	CAND_CLASSES: 'io-github-shunshun94-trpg-logEditor-candidates-tags',
 	INPUTS: 'io-github-shunshun94-trpg-logEditor-Post-params-param-input',
-	CONTENT: 'io-github-shunshun94-trpg-logEditor-Post-content'
+	CONTENT: 'io-github-shunshun94-trpg-logEditor-Post-content',
+	NAME: 'io-github-shunshun94-trpg-logEditor-Post-name',
+	SAVE: 'io-github-shunshun94-trpg-logEditor-save'
 };
 
 io.github.shunshun94.trpg.logEditor.DOMS.BODY.on(io.github.shunshun94.trpg.logEditor.EVENTS.FILE_LOADED, (e, domList)=>{
