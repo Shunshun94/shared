@@ -10,11 +10,16 @@ io.github.shunshun94.trpg.logEditor.EVENTS = {
 	FILE_LOADED: 'io-github-shunshun94-trpg-logEditor-file-loaded'
 };
 io.github.shunshun94.trpg.logEditor.CLASSES = {
+	POST: 'io-github-shunshun94-trpg-logEditor-Post',
 	HANDLE: 'io-github-shunshun94-trpg-logEditor-Post-handle',
 	MERGE: 'io-github-shunshun94-trpg-logEditor-Post-merge',
 	DELETE: 'io-github-shunshun94-trpg-logEditor-Post-delete',
+	RANDOM_ID: 'io-github-shunshun94-trpg-logEditor-Post-params-param-button-random_id',
+	TOGGLE_SUB: 'io-github-shunshun94-trpg-logEditor-Post-params-param-button-toggle_sub',
 	CAND_TAGS: 'io-github-shunshun94-trpg-logEditor-candidates-tags',
 	CAND_CLASSES: 'io-github-shunshun94-trpg-logEditor-candidates-tags',
+	INPUTS: 'io-github-shunshun94-trpg-logEditor-Post-params-param-input',
+	CONTENT: 'io-github-shunshun94-trpg-logEditor-Post-content'
 };
 
 io.github.shunshun94.trpg.logEditor.DOMS.BODY.on(io.github.shunshun94.trpg.logEditor.EVENTS.FILE_LOADED, (e, domList)=>{

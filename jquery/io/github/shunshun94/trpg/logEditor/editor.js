@@ -9,7 +9,52 @@ io.github.shunshun94.trpg.logEditor.Editor = class {
 		const htmls = this.domsToPost(doms);
 		this.initPosts(htmls);
 		this.activateSort();
+		this.bindEvents();
 	}
+
+	merge(post) {
+		const prevDom = post.prev();
+		if(prevDom.length) {
+			const newContent = `
+				${prevDom.find(`.${io.github.shunshun94.trpg.logEditor.CLASSES.CONTENT}`).html()}<br/><br/>
+				${post.find(`.${io.github.shunshun94.trpg.logEditor.CLASSES.CONTENT}`).html()}
+			`.trim();
+			prevDom.find(`.${io.github.shunshun94.trpg.logEditor.CLASSES.CONTENT}`).html(newContent);
+			post.remove();
+		}
+	}
+
+	toggleSub(post) {
+		const targetDom = post.find(`.${io.github.shunshun94.trpg.logEditor.CLASSES.INPUTS}-class`);
+		if(targetDom.val().includes('tab1')) {
+			targetDom.val(targetDom.val().replace('tab1', '').trim());
+		} else {
+			targetDom.val(`${targetDom.val()} tab1`.trim());
+		}
+	}
+
+	bindEvents() {
+		$('body').click((e)=>{
+			const clicked = $(e.target);
+			if(e.target.localName === 'button') {
+				const targetPost = clicked.parents(`.${io.github.shunshun94.trpg.logEditor.CLASSES.POST}`);
+				if( clicked.hasClass(io.github.shunshun94.trpg.logEditor.CLASSES.MERGE) ) {
+					this.merge(targetPost);
+				}
+				if( clicked.hasClass(io.github.shunshun94.trpg.logEditor.CLASSES.DELETE) ) {
+					targetPost.remove();
+				}
+				if( clicked.hasClass(io.github.shunshun94.trpg.logEditor.CLASSES.RANDOM_ID) ) {
+					
+				}
+				if( clicked.hasClass(io.github.shunshun94.trpg.logEditor.CLASSES.TOGGLE_SUB) ) {
+					this.toggleSub(targetPost);
+				}
+			}
+		});
+	}
+	
+	
 	activateSort() {
 		const opts = {
 				group: 'shared',

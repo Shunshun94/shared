@@ -5,10 +5,8 @@ io.github.shunshun94.trpg = io.github.shunshun94.trpg || {};
 io.github.shunshun94.trpg.logEditor = io.github.shunshun94.trpg.logEditor || {};
 io.github.shunshun94.trpg.logEditor.jsonToEditorHtml = (json) => {
 	return `
-	<div class="io-github-shunshun94-trpg-logEditor-Post">
+	<div class="${io.github.shunshun94.trpg.logEditor.CLASSES.POST}">
 	  <div class="${io.github.shunshun94.trpg.logEditor.CLASSES.HANDLE}">≡</div>
-	  <button class="${io.github.shunshun94.trpg.logEditor.CLASSES.MERGE}">⇑</button>
-	  <button class="${io.github.shunshun94.trpg.logEditor.CLASSES.DELETE}">×</button>
 	  <div class="io-github-shunshun94-trpg-logEditor-Post-params">
 	  	${io.github.shunshun94.trpg.logEditor.jsonToParams(json)}
 	  </div>
@@ -18,6 +16,8 @@ io.github.shunshun94.trpg.logEditor.jsonToEditorHtml = (json) => {
 	  <div class="io-github-shunshun94-trpg-logEditor-Post-content">
 	    ${json.content}
 	  </div>
+	  <button class="${io.github.shunshun94.trpg.logEditor.CLASSES.MERGE}">⇑</button>
+	  <button class="${io.github.shunshun94.trpg.logEditor.CLASSES.DELETE}">×</button>
 	</div>`;
 };
 io.github.shunshun94.trpg.logEditor.PARAMS = [
@@ -29,7 +29,10 @@ io.github.shunshun94.trpg.logEditor.PARAMS = [
 	},　{
 		name:'id',
 		shortcut: {
-			rand: 'ランダムのID'
+			rand: {
+				text: 'ランダムのID',
+				class: io.github.shunshun94.trpg.logEditor.CLASSES.RANDOM_ID
+			}
 		}
 	}, {
 		name:'class',
@@ -37,7 +40,10 @@ io.github.shunshun94.trpg.logEditor.PARAMS = [
 			list: io.github.shunshun94.trpg.logEditor.CLASSES.CAND_CLASSES
 		},
 		shortcut: {
-			toggleTab1: '余談 ON/OFF'
+			toggleTab1: {
+				text: '余談 ON/OFF',
+				class: io.github.shunshun94.trpg.logEditor.CLASSES.TOGGLE_SUB
+			}
 		}
 	},　{
 		name:'style'
@@ -61,8 +67,8 @@ io.github.shunshun94.trpg.logEditor.buttonJsonToHtml = (json) => {
 		const result = [];
 		for(const key in json.shortcut) {
 			result.push(`<button
-				class="io-github-shunshun94-trpg-logEditor-Post-params-param-button io-github-shunshun94-trpg-logEditor-Post-params-param-button-${key}"
-			>${json.shortcut[key]}</button>`);
+				class="io-github-shunshun94-trpg-logEditor-Post-params-param-button ${json.shortcut[key].class}"
+			>${json.shortcut[key].text}</button>`);
 		}
 		return result.join('\n');
 	} else {
@@ -77,9 +83,9 @@ io.github.shunshun94.trpg.logEditor.jsonToParams = (json) => {
 		  ${param.name}<input
 		    type="text"
 		    value="${json[param.name]}"
-		    id="io-github-shunshun94-trpg-logEditor-Post-params-param-input-${param.name}"
 		    ${io.github.shunshun94.trpg.logEditor.attrsJsonToHtml(param)}
-		    class="io-github-shunshun94-trpg-logEditor-Post-params-param-input" />${io.github.shunshun94.trpg.logEditor.buttonJsonToHtml(param)}
+		    class="${io.github.shunshun94.trpg.logEditor.CLASSES.INPUTS} ${io.github.shunshun94.trpg.logEditor.CLASSES.INPUTS}-${param.name}" />
+		    ${io.github.shunshun94.trpg.logEditor.buttonJsonToHtml(param)}
 		</span>`;
 	}).join('');
 };
