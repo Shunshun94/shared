@@ -11,7 +11,7 @@ io.github.shunshun94.trpg.logEditor.Editor = class {
 		this.activateSort();
 		this.bindEvents();
 	}
-	
+
 	setRndId(post) {
 		const targetDom = post.find(`.${io.github.shunshun94.trpg.logEditor.CLASSES.INPUTS}-id`);
 		let randomString = '';
@@ -20,6 +20,10 @@ io.github.shunshun94.trpg.logEditor.Editor = class {
 			randomString += baseString.charAt( Math.floor( Math.random() * baseString.length));
 		}
 		targetDom.val(randomString);
+	}
+
+	duplicate(post) {
+		post.after(post.clone());
 	}
 
 	merge(post) {
@@ -49,6 +53,9 @@ io.github.shunshun94.trpg.logEditor.Editor = class {
 			if(e.target.localName === 'button') {
 				const targetPost = clicked.parents(`.${io.github.shunshun94.trpg.logEditor.CLASSES.POST}`);
 				if(targetPost.length) {
+					if( clicked.hasClass(io.github.shunshun94.trpg.logEditor.CLASSES.DUPLICATE) ) {
+						this.duplicate(targetPost);
+					}
 					if( clicked.hasClass(io.github.shunshun94.trpg.logEditor.CLASSES.MERGE) ) {
 						this.merge(targetPost);
 					}

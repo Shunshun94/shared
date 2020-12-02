@@ -4,8 +4,13 @@ io.github.shunshun94 = io.github.shunshun94 || {};
 io.github.shunshun94.trpg = io.github.shunshun94.trpg || {};
 io.github.shunshun94.trpg.logEditor = io.github.shunshun94.trpg.logEditor || {};
 io.github.shunshun94.trpg.logEditor.export = io.github.shunshun94.trpg.logEditor.export || {};
-io.github.shunshun94.trpg.logEditor.export.PREFIX = `<html><head></head><body>\n\n`;
-io.github.shunshun94.trpg.logEditor.export.SUFFIX = `\n\n</body></html>`;
+io.github.shunshun94.trpg.logEditor.export.PREFIX = `<html>
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="https://shunshun94.github.io/shared/jquery/io/github/shunshun94/trpg/replay/replay4-ccfolia.css"　type="text/css" />
+</head>
+<body>`;
+io.github.shunshun94.trpg.logEditor.export.SUFFIX = `</body></html>`;
 
 io.github.shunshun94.trpg.logEditor.export.exec = (doms) => {
 	const body = io.github.shunshun94.trpg.logEditor.export.generateBody(doms);
@@ -34,18 +39,24 @@ io.github.shunshun94.trpg.logEditor.export.generateExportPost = (dummy, dom) => 
 	if(tag === 'hr') {
 		return `<hr ${topAttributes} />`;
 	}
-	const content = dom.find(`.${io.github.shunshun94.trpg.logEditor.CLASSES.CONTENT}`).html().trim();
+	// contenteditable で改行すると div 要素が入るので除く
+	const content = dom.find(`.${io.github.shunshun94.trpg.logEditor.CLASSES.CONTENT}`).html().replaceAll('<div>', '<br>').replaceAll('</div>', '').trim();
 	if(tag !== 'p') {
 		return `<${tag} ${topAttributes}>${content}</${tag}>`
 	}
-	const name = dom.find(`.${io.github.shunshun94.trpg.logEditor.CLASSES.NAME}`).html().trim();
-	const result = [];
-	result.push(`<p ${topAttributes}>`);
-	result.push(`  <span></span>`);
-	result.push(`  <span>${name}</span>`);
-	result.push(`  <span>${content}</span>`);
-	result.push(`</p>`);
-	return result.join('\n');
+	if(dom.find(`.${io.github.shunshun94.trpg.logEditor.CLASSES.NAME}`).html()) {
+		const name = dom.find(`.${io.github.shunshun94.trpg.logEditor.CLASSES.NAME}`).html().trim();
+		const result = [];
+		result.push(`<p ${topAttributes}>`);
+		result.push(`  <span></span>`);
+		result.push(`  <span>${name}</span>`);
+		result.push(`  <span>${content}</span>`);
+		result.push(`</p>`);
+		return result.join('\n');
+	} else {
+		return `<p ${topAttributes}>${content}</p>`;
+	}
+
 };
 
 io.github.shunshun94.trpg.logEditor.export.generateBody = (doms) => {

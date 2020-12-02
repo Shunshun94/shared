@@ -12,6 +12,7 @@ io.github.shunshun94.trpg.logEditor.EVENTS = {
 io.github.shunshun94.trpg.logEditor.CLASSES = {
 	POST: 'io-github-shunshun94-trpg-logEditor-Post',
 	HANDLE: 'io-github-shunshun94-trpg-logEditor-Post-handle',
+	DUPLICATE: 'io-github-shunshun94-trpg-logEditor-Post-duplicate',
 	MERGE: 'io-github-shunshun94-trpg-logEditor-Post-merge',
 	DELETE: 'io-github-shunshun94-trpg-logEditor-Post-delete',
 	RANDOM_ID: 'io-github-shunshun94-trpg-logEditor-Post-params-param-button-random_id',

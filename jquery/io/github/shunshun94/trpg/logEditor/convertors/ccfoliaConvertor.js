@@ -31,9 +31,9 @@ io.github.shunshun94.trpg.logEditor.convertors.CcfoliaConvertor.elementToJson = 
 		result.content = elem.innerHTML.trim();
 	}
 	result.title = elem.getAttribute('title') || '';
-	result.style = elem.getAttribute('style') || io.github.shunshun94.trpg.logEditor.convertors.CcfoliaConvertor.DEFAULT_TABS_CLASS[result.tabName] || '';
+	result.style = elem.getAttribute('style') || '';
 	result.id = elem.getAttribute('id') || '';
-	result.class = elem.getAttribute('class') || '';
+	result.class = elem.getAttribute('class') || io.github.shunshun94.trpg.logEditor.convertors.CcfoliaConvertor.DEFAULT_TABS_CLASS[result.tabName] || '';
 
 	return result;
 };

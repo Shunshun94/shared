@@ -10,14 +10,19 @@ io.github.shunshun94.trpg.logEditor.jsonToEditorHtml = (json) => {
 	  <div class="io-github-shunshun94-trpg-logEditor-Post-params">
 	  	${io.github.shunshun94.trpg.logEditor.jsonToParams(json)}
 	  </div>
-	    ${ json.name ? `<div class="io-github-shunshun94-trpg-logEditor-Post-name">
-	      ${json.name}
-	    </div>` : '' }
-	  <div class="io-github-shunshun94-trpg-logEditor-Post-content">
-	    ${json.content}
-	  </div>
-	  <button class="${io.github.shunshun94.trpg.logEditor.CLASSES.MERGE}">⇑</button>
-	  <button class="${io.github.shunshun94.trpg.logEditor.CLASSES.DELETE}">×</button>
+	    ${ json.name ? `<div class="io-github-shunshun94-trpg-logEditor-Post-name">${json.name}</div>` : '' }
+	  <div 
+	  	class="io-github-shunshun94-trpg-logEditor-Post-content"
+	  	 contenteditable="true">${json.content}</div>
+	  <button
+	  	title="発言を複製する"
+	  	class="${io.github.shunshun94.trpg.logEditor.CLASSES.DUPLICATE}">C</button>
+	  <button
+	  	title="直上の発言に発言内容をマージする"
+	  	class="${io.github.shunshun94.trpg.logEditor.CLASSES.MERGE}">M</button>
+	  <button
+	  	title="発言を削除する"
+	  	class="${io.github.shunshun94.trpg.logEditor.CLASSES.DELETE}">×</button>
 	</div>`;
 };
 io.github.shunshun94.trpg.logEditor.PARAMS = [

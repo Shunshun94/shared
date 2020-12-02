@@ -23,9 +23,20 @@
 	left:20px;
 }
 
+.io-github-shunshun94-trpg-logEditor-Post-duplicate {
+	position:absolute;
+	right:74px;
+	padding-left: 2px;
+	padding-right: 2px;
+	top:8px;
+	height: 20px;
+	width: 20px;
+	
+}
+
 .io-github-shunshun94-trpg-logEditor-Post-merge {
 	position:absolute;
-	right:30px;
+	right:52px;
 	padding-left: 2px;
 	padding-right: 2px;
 	top:8px;
@@ -64,12 +75,13 @@
 
 .io-github-shunshun94-trpg-logEditor-Post-name {
 	font-weight: bold;
-	padding-top:8px;
-	padding-bottom:8px;
+	margin-top:8px;
 }
 
 .io-github-shunshun94-trpg-logEditor-Post-content {
-	padding-left:16px;
+	margin-left:16px;
+	margin-top:12px;
+	border:1px gray inset;
 }
 
 .io-github-shunshun94-trpg-logEditor-Post-handle {
@@ -88,6 +100,7 @@
 	width:100%;
 	left:16px;
 	right:16px;
+	padding-bottom:80px;
 }
 
 h2 {
