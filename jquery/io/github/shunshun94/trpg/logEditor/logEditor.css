@@ -18,6 +18,10 @@
 	user-select: none;
 }
 
+.io-github-shunshun94-trpg-logEditor-Post-selected {
+	background-color:#ffffe0;
+}
+
 .io-github-shunshun94-trpg-logEditor-Post-params {
 	position:relative;
 	left:20px;

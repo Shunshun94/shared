@@ -78,12 +78,13 @@ io.github.shunshun94.trpg.logEditor.Editor = class {
 			}
 		});
 	}
-	
-	
+
 	activateSort() {
 		const opts = {
 				group: 'shared',
-				handle: `.${io.github.shunshun94.trpg.logEditor.CLASSES.HANDLE}`
+				handle: `.${io.github.shunshun94.trpg.logEditor.CLASSES.HANDLE}`,
+				multiDrag: true,
+				selectedClass: io.github.shunshun94.trpg.logEditor.CLASSES.SELECTED,
 		}
 		$('.logList').sortable(opts);
 	}

@@ -19,6 +19,7 @@ io.github.shunshun94.trpg.logEditor.CLASSES = {
 	TOGGLE_SUB: 'io-github-shunshun94-trpg-logEditor-Post-params-param-button-toggle_sub',
 	CAND_TAGS: 'io-github-shunshun94-trpg-logEditor-candidates-tags',
 	CAND_CLASSES: 'io-github-shunshun94-trpg-logEditor-candidates-tags',
+	SELECTED: 'io-github-shunshun94-trpg-logEditor-Post-selected',
 	INPUTS: 'io-github-shunshun94-trpg-logEditor-Post-params-param-input',
 	CONTENT: 'io-github-shunshun94-trpg-logEditor-Post-content',
 	NAME: 'io-github-shunshun94-trpg-logEditor-Post-name',
