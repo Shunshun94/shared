@@ -23,7 +23,12 @@ io.github.shunshun94.trpg.logEditor.CLASSES = {
 	INPUTS: 'io-github-shunshun94-trpg-logEditor-Post-params-param-input',
 	CONTENT: 'io-github-shunshun94-trpg-logEditor-Post-content',
 	NAME: 'io-github-shunshun94-trpg-logEditor-Post-name',
-	SAVE: 'io-github-shunshun94-trpg-logEditor-save'
+	SAVE: 'io-github-shunshun94-trpg-logEditor-save',
+	NAME_MENU: 'menu-nameMenu',
+	NAME_MENU_WINDOW: 'io-github-shunshun94-trpg-logEditor-menu-NameConfig',
+	NAME_MENU_EXEC: 'io-github-shunshun94-trpg-logEditor-menu-NameConfig-exec',
+	BACKSCREEN: 'io-github-shunshun94-trpg-logEditor-backScreen',
+	TMP_WINDOW: 'io-github-shunshun94-trpg-logEditor-tmpWindow'
 };
 
 io.github.shunshun94.trpg.logEditor.DOMS.BODY.on(io.github.shunshun94.trpg.logEditor.EVENTS.FILE_LOADED, (e, domList)=>{

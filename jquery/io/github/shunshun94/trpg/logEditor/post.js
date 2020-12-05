@@ -94,3 +94,9 @@ io.github.shunshun94.trpg.logEditor.jsonToParams = (json) => {
 		</span>`;
 	}).join('');
 };
+
+io.github.shunshun94.trpg.logEditor.getPostsByName = (name) => {
+	return $(`.io-github-shunshun94-trpg-logEditor-Post-name`).filter((i,v)=>{
+		return $(v).text() === name;
+	}).parents(`.${io.github.shunshun94.trpg.logEditor.CLASSES.POST}`);
+};

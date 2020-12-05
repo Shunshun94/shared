@@ -47,34 +47,90 @@ io.github.shunshun94.trpg.logEditor.Editor = class {
 		}
 	}
 
-	bindEvents() {
-		$('body').click((e)=>{
-			const clicked = $(e.target);
-			if(e.target.localName === 'button') {
-				const targetPost = clicked.parents(`.${io.github.shunshun94.trpg.logEditor.CLASSES.POST}`);
-				if(targetPost.length) {
-					if( clicked.hasClass(io.github.shunshun94.trpg.logEditor.CLASSES.DUPLICATE) ) {
-						this.duplicate(targetPost);
-					}
-					if( clicked.hasClass(io.github.shunshun94.trpg.logEditor.CLASSES.MERGE) ) {
-						this.merge(targetPost);
-					}
-					if( clicked.hasClass(io.github.shunshun94.trpg.logEditor.CLASSES.DELETE) ) {
-						targetPost.remove();
-					}
-					if( clicked.hasClass(io.github.shunshun94.trpg.logEditor.CLASSES.RANDOM_ID) ) {
-						this.setRndId(targetPost);
-					}
-					if( clicked.hasClass(io.github.shunshun94.trpg.logEditor.CLASSES.TOGGLE_SUB) ) {
-						this.toggleSub(targetPost);
-					}
-					return;
-				}
-				const targetBlock = clicked.parents(`.editBlock`);
-				if(targetBlock.length) {
-					io.github.shunshun94.trpg.logEditor.export.exec(targetBlock.find('.logList'));
-				}
+	openNameConfigScreen() {
+		const names = Array.from(new Set($.makeArray($(`.${io.github.shunshun94.trpg.logEditor.CLASSES.NAME}`).map((i,v)=>{return $(v).text()}))));
+		io.github.shunshun94.trpg.logEditor.DOMS.BODY.append(io.github.shunshun94.trpg.logEditor.menu.NameConfig.generateDom(names));
+	}
 
+	applyNameConfig() {
+		const configResult = io.github.shunshun94.trpg.logEditor.menu.NameConfig.getInputInfo();
+		for(const name in configResult) {
+			const target = configResult[name];
+			if(target.style || target.class || target.name) {
+				target.list = io.github.shunshun94.trpg.logEditor.getPostsByName(name);
+			}
+			if(target.style) {
+				target.list.find(`.io-github-shunshun94-trpg-logEditor-Post-params-param-input-style`).val(target.style);
+			}
+			if(target.class) {
+				target.list.find(`.io-github-shunshun94-trpg-logEditor-Post-params-param-input-class`).each((i,v)=>{
+					const currentValue = $(v).val();
+					if(currentValue.includes('tab1')) {
+						$(v).val(`${target.class} tab1`);
+					} else {
+						$(v).val(target.class);
+					} 
+				});
+			}
+		}
+		for(const name in configResult) {
+			const target = configResult[name];
+			if(target.name) {
+				target.list.find(`.${io.github.shunshun94.trpg.logEditor.CLASSES.NAME}`).text(target.name);
+			}
+		}
+	}
+
+	openBackScreen() {
+		io.github.shunshun94.trpg.logEditor.DOMS.BODY.append(`<div class="${io.github.shunshun94.trpg.logEditor.CLASSES.BACKSCREEN}"></div>`);
+	}
+	
+	closeTmpWindow() {
+		$(`.${io.github.shunshun94.trpg.logEditor.CLASSES.BACKSCREEN}`).remove();
+		$(`.${io.github.shunshun94.trpg.logEditor.CLASSES.TMP_WINDOW}`).remove();
+	}
+
+	bindEvents() {
+		io.github.shunshun94.trpg.logEditor.DOMS.BODY.click((e)=>{
+			const clicked = $(e.target);
+			const isButton = e.target.localName === 'button';
+			const targetPost = clicked.parents(`.${io.github.shunshun94.trpg.logEditor.CLASSES.POST}`);
+			if(isButton && targetPost.length) {
+				if( clicked.hasClass(io.github.shunshun94.trpg.logEditor.CLASSES.DUPLICATE) ) {
+					this.duplicate(targetPost);
+				}
+				if( clicked.hasClass(io.github.shunshun94.trpg.logEditor.CLASSES.MERGE) ) {
+					this.merge(targetPost);
+				}
+				if( clicked.hasClass(io.github.shunshun94.trpg.logEditor.CLASSES.DELETE) ) {
+					targetPost.remove();
+				}
+				if( clicked.hasClass(io.github.shunshun94.trpg.logEditor.CLASSES.RANDOM_ID) ) {
+					this.setRndId(targetPost);
+				}
+				if( clicked.hasClass(io.github.shunshun94.trpg.logEditor.CLASSES.TOGGLE_SUB) ) {
+					this.toggleSub(targetPost);
+				}
+				return;
+			}
+			const targetBlock = clicked.parents(`.editBlock`);
+			if(isButton && targetBlock.length) {
+				io.github.shunshun94.trpg.logEditor.export.exec(targetBlock.find('.logList'));
+				return;
+			}
+			if( clicked.hasClass(io.github.shunshun94.trpg.logEditor.CLASSES.NAME_MENU) ) {
+				this.openBackScreen();
+				this.openNameConfigScreen();
+				return;
+			}
+			if( clicked.hasClass(io.github.shunshun94.trpg.logEditor.CLASSES.NAME_MENU_EXEC) ) {
+				this.applyNameConfig();
+				this.closeTmpWindow(clicked);
+				return;
+			}
+			if( clicked.hasClass(io.github.shunshun94.trpg.logEditor.CLASSES.BACKSCREEN) ) {
+				this.closeTmpWindow(clicked);
+				return;
 			}
 		});
 	}
@@ -122,7 +178,7 @@ io.github.shunshun94.trpg.logEditor.Editor = class {
 		`);
 		io.github.shunshun94.trpg.logEditor.DOMS.BODY.append(`
 			<div id="menu">
-				
+				<button class="${io.github.shunshun94.trpg.logEditor.CLASSES.NAME_MENU}">名前に関して設定</button>
 			</div>
 		`);
 		io.github.shunshun94.trpg.logEditor.DOMS.BODY.append(`
