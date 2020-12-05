@@ -81,6 +81,12 @@ io.github.shunshun94.trpg.logEditor.Editor = class {
 		}
 	}
 
+	styleReset() {
+		if(window.confirm('全投稿の style を削除します。よろしいですか？')) {
+			$(`.io-github-shunshun94-trpg-logEditor-Post-params-param-input-style`).val('');
+		}
+	}
+
 	openBackScreen() {
 		io.github.shunshun94.trpg.logEditor.DOMS.BODY.append(`<div class="${io.github.shunshun94.trpg.logEditor.CLASSES.BACKSCREEN}"></div>`);
 	}
@@ -126,6 +132,10 @@ io.github.shunshun94.trpg.logEditor.Editor = class {
 			if( clicked.hasClass(io.github.shunshun94.trpg.logEditor.CLASSES.NAME_MENU_EXEC) ) {
 				this.applyNameConfig();
 				this.closeTmpWindow(clicked);
+				return;
+			}
+			if( clicked.hasClass(io.github.shunshun94.trpg.logEditor.CLASSES.STYLE_RESET_MENU) ) {
+				this.styleReset();
 				return;
 			}
 			if( clicked.hasClass(io.github.shunshun94.trpg.logEditor.CLASSES.BACKSCREEN) ) {
@@ -179,6 +189,7 @@ io.github.shunshun94.trpg.logEditor.Editor = class {
 		io.github.shunshun94.trpg.logEditor.DOMS.BODY.append(`
 			<div id="menu">
 				<button class="${io.github.shunshun94.trpg.logEditor.CLASSES.NAME_MENU}">名前に関して設定</button>
+				<button class="${io.github.shunshun94.trpg.logEditor.CLASSES.STYLE_RESET_MENU}">style を全削除</button>
 			</div>
 		`);
 		io.github.shunshun94.trpg.logEditor.DOMS.BODY.append(`

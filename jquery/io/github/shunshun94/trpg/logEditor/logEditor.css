@@ -35,7 +35,6 @@
 	top:8px;
 	height: 20px;
 	width: 20px;
-	
 }
 
 .io-github-shunshun94-trpg-logEditor-Post-merge {
@@ -150,9 +149,15 @@ h2 {
 }
 
 .menu-nameMenu {
-	position:relative;
+	position:absolute;
 	left:24px;
 	top:8px;
+}
+
+.menu-styleReset {
+	position:absolute;
+	left:24px;
+	top:32px;
 }
 
 .io-github-shunshun94-trpg-logEditor-menu-NameConfig tr:nth-child(even) {
