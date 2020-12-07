@@ -21,16 +21,31 @@ io.github.shunshun94.trpg.logEditor.menu.NameConfig.generateDom = (names) => {
 
 io.github.shunshun94.trpg.logEditor.menu.NameConfig.generateListByNames = (names) => {
 	return names.map((name)=>{
-		return `<tr>
+		return `<tr class="${io.github.shunshun94.trpg.logEditor.CLASSES.NAME_MENU_WINDOW}-tr">
 			<th>${name}</th>
-			<td><input type="text" class="${io.github.shunshun94.trpg.logEditor.CLASSES.NAME_MENU_WINDOW}-name"　 placeholder="空白の場合は特に設定しません" /></td>
-			<td><input type="text" class="${io.github.shunshun94.trpg.logEditor.CLASSES.NAME_MENU_WINDOW}-class"　placeholder="空白の場合は特に設定しません" /></td>
-			<td><input type="text" class="${io.github.shunshun94.trpg.logEditor.CLASSES.NAME_MENU_WINDOW}-style"　placeholder="空白の場合は特に設定しません" /></td>
+			<td class="${io.github.shunshun94.trpg.logEditor.CLASSES.NAME_MENU_WINDOW}-td">
+				<input type="text" class="${io.github.shunshun94.trpg.logEditor.CLASSES.NAME_MENU_WINDOW}-name"　 placeholder="空白の場合は特に設定しません" />
+			</td>
+			<td class="${io.github.shunshun94.trpg.logEditor.CLASSES.NAME_MENU_WINDOW}-td">
+				<input type="text" class="${io.github.shunshun94.trpg.logEditor.CLASSES.NAME_MENU_WINDOW}-class"　placeholder="空白の場合は特に設定しません" />
+				<button class="${io.github.shunshun94.trpg.logEditor.CLASSES.NAME_MENU_WINDOW}-classInsert">自動生成</button>
+			</td>
+			<td class="${io.github.shunshun94.trpg.logEditor.CLASSES.NAME_MENU_WINDOW}-td">
+				<input type="text" class="${io.github.shunshun94.trpg.logEditor.CLASSES.NAME_MENU_WINDOW}-style"　placeholder="空白の場合は特に設定しません" />
+			</td>
 		</tr>`
 	}).join('\n');
 };
 
 io.github.shunshun94.trpg.logEditor.menu.NameConfig.PARAMS = ['name', 'class', 'style'];
+
+io.github.shunshun94.trpg.logEditor.menu.NameConfig.generateClass = (seed) => {
+	let str = '';
+	for(let i = 0; i < seed.length; i++) {
+		str += String(seed.charCodeAt(i));
+	}
+	return `_${str}`;
+};
 
 io.github.shunshun94.trpg.logEditor.menu.NameConfig.getInputInfo = () => {
 	const result = {};

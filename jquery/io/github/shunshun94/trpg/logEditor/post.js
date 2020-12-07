@@ -10,7 +10,9 @@ io.github.shunshun94.trpg.logEditor.jsonToEditorHtml = (json) => {
 	  <div class="io-github-shunshun94-trpg-logEditor-Post-params">
 	  	${io.github.shunshun94.trpg.logEditor.jsonToParams(json)}
 	  </div>
-	    ${ json.name ? `<div class="io-github-shunshun94-trpg-logEditor-Post-name">${json.name}</div>` : '' }
+	  <p>発言者：<span
+	  	class="io-github-shunshun94-trpg-logEditor-Post-name"
+	  	contenteditable="true">${json.name || ''}</span></p>
 	  <div 
 	  	class="io-github-shunshun94-trpg-logEditor-Post-content"
 	  	 contenteditable="true">${json.content}</div>

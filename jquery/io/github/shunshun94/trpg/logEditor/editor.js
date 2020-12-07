@@ -48,8 +48,14 @@ io.github.shunshun94.trpg.logEditor.Editor = class {
 	}
 
 	openNameConfigScreen() {
-		const names = Array.from(new Set($.makeArray($(`.${io.github.shunshun94.trpg.logEditor.CLASSES.NAME}`).map((i,v)=>{return $(v).text()}))));
+		const names = Array.from(new Set($.makeArray($(`.${io.github.shunshun94.trpg.logEditor.CLASSES.NAME}`).map((i,v)=>{return $(v).text()})))).filter((n)=>{return n;});
 		io.github.shunshun94.trpg.logEditor.DOMS.BODY.append(io.github.shunshun94.trpg.logEditor.menu.NameConfig.generateDom(names));
+	}
+
+	insertClassToNameConfig(tr) {
+		const name = tr.find('th').text();
+		const className = io.github.shunshun94.trpg.logEditor.menu.NameConfig.generateClass(name);
+		tr.find(`.${io.github.shunshun94.trpg.logEditor.CLASSES.NAME_MENU_WINDOW}-class`).val(className);
 	}
 
 	applyNameConfig() {
@@ -97,6 +103,13 @@ io.github.shunshun94.trpg.logEditor.Editor = class {
 	}
 
 	bindEvents() {
+		io.github.shunshun94.trpg.logEditor.DOMS.BODY.keypress((e)=>{
+			const typed = $(e.target);
+			console.log(e, e.which);
+			if( typed.hasClass( io.github.shunshun94.trpg.logEditor.CLASSES.NAME ) && (e.which === 13) ) {
+				e.preventDefault();
+			}
+		});
 		io.github.shunshun94.trpg.logEditor.DOMS.BODY.click((e)=>{
 			const clicked = $(e.target);
 			const isButton = e.target.localName === 'button';
@@ -128,6 +141,10 @@ io.github.shunshun94.trpg.logEditor.Editor = class {
 				this.openBackScreen();
 				this.openNameConfigScreen();
 				return;
+			}
+			if( clicked.hasClass(`${io.github.shunshun94.trpg.logEditor.CLASSES.NAME_MENU_WINDOW}-classInsert`) ) {
+				const tr = clicked.parents(`.${io.github.shunshun94.trpg.logEditor.CLASSES.NAME_MENU_WINDOW}-tr`);
+				this.insertClassToNameConfig(tr);
 			}
 			if( clicked.hasClass(io.github.shunshun94.trpg.logEditor.CLASSES.NAME_MENU_EXEC) ) {
 				this.applyNameConfig();

@@ -39,13 +39,13 @@ io.github.shunshun94.trpg.logEditor.export.generateExportPost = (dummy, dom) => 
 	if(tag === 'hr') {
 		return `<hr ${topAttributes} />`;
 	}
+	const name = dom.find(`.${io.github.shunshun94.trpg.logEditor.CLASSES.NAME}`).html().trim();
 	// contenteditable で改行すると div 要素が入るので除く
 	const content = dom.find(`.${io.github.shunshun94.trpg.logEditor.CLASSES.CONTENT}`).html().replaceAll('<div>', '<br>').replaceAll('</div>', '').trim();
-	if(tag !== 'p') {
+	if((tag !== 'p') || (name === '')) {
 		return `<${tag} ${topAttributes}>${content}</${tag}>`
 	}
 	if(dom.find(`.${io.github.shunshun94.trpg.logEditor.CLASSES.NAME}`).html()) {
-		const name = dom.find(`.${io.github.shunshun94.trpg.logEditor.CLASSES.NAME}`).html().trim();
 		const result = [];
 		result.push(`<p ${topAttributes}>`);
 		result.push(`  <span></span>`);

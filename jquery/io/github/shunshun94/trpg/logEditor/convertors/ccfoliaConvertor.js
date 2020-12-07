@@ -11,8 +11,6 @@ io.github.shunshun94.trpg.logEditor.convertors.CcfoliaConvertor = io.github.shun
 
 io.github.shunshun94.trpg.logEditor.convertors.CcfoliaConvertor.IGNORE_TAGS = ['script'];
 io.github.shunshun94.trpg.logEditor.convertors.CcfoliaConvertor.DEFAULT_TABS_CLASS = {
-	'[メイン]': 'tab0',
-	'[情報]': 'tab0',
 	'[雑談]': 'tab1'
 };
 
