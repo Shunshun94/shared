@@ -43,7 +43,7 @@ io.github.shunshun94.trpg.logEditor.Editor = class {
 		if(targetDom.val().includes('tab1')) {
 			targetDom.val(targetDom.val().replace('tab1', '').trim());
 		} else {
-			targetDom.val(`${targetDom.val()} tab1`.trim());
+			targetDom.val(`tab1 ${targetDom.val()}`.trim());
 		}
 	}
 
@@ -72,7 +72,7 @@ io.github.shunshun94.trpg.logEditor.Editor = class {
 				target.list.find(`.io-github-shunshun94-trpg-logEditor-Post-params-param-input-class`).each((i,v)=>{
 					const currentValue = $(v).val();
 					if(currentValue.includes('tab1')) {
-						$(v).val(`${target.class} tab1`);
+						$(v).val(`tab1 ${target.class}`);
 					} else {
 						$(v).val(target.class);
 					} 
