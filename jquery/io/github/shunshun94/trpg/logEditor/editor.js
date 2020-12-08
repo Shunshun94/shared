@@ -93,6 +93,18 @@ io.github.shunshun94.trpg.logEditor.Editor = class {
 		}
 	}
 
+	showPreview() {
+		const body = io.github.shunshun94.trpg.logEditor.export.generateBody($('#mainEditor .logList'));
+		$(`.${io.github.shunshun94.trpg.logEditor.CLASSES.PREVIEW}`).empty();
+		$(`.${io.github.shunshun94.trpg.logEditor.CLASSES.PREVIEW}`).append(body);
+		$(`.${io.github.shunshun94.trpg.logEditor.CLASSES.PREVIEW}`).append(`<button class="${io.github.shunshun94.trpg.logEditor.CLASSES.PREVIEW}-close">プレビューを閉じる</button>`);
+		$(`.${io.github.shunshun94.trpg.logEditor.CLASSES.PREVIEW}`).show();
+	}
+	closePreview() {
+		$(`.${io.github.shunshun94.trpg.logEditor.CLASSES.PREVIEW}`).empty();
+		$(`.${io.github.shunshun94.trpg.logEditor.CLASSES.PREVIEW}`).hide();
+	}
+
 	openBackScreen() {
 		io.github.shunshun94.trpg.logEditor.DOMS.BODY.append(`<div class="${io.github.shunshun94.trpg.logEditor.CLASSES.BACKSCREEN}"></div>`);
 	}
@@ -146,6 +158,10 @@ io.github.shunshun94.trpg.logEditor.Editor = class {
 				const tr = clicked.parents(`.${io.github.shunshun94.trpg.logEditor.CLASSES.NAME_MENU_WINDOW}-tr`);
 				this.insertClassToNameConfig(tr);
 			}
+			if( clicked.hasClass(`${io.github.shunshun94.trpg.logEditor.CLASSES.PREVIEW}-close`) ) {
+				this.closePreview();
+				return;
+			}
 			if( clicked.hasClass(io.github.shunshun94.trpg.logEditor.CLASSES.NAME_MENU_EXEC) ) {
 				this.applyNameConfig();
 				this.closeTmpWindow(clicked);
@@ -153,6 +169,10 @@ io.github.shunshun94.trpg.logEditor.Editor = class {
 			}
 			if( clicked.hasClass(io.github.shunshun94.trpg.logEditor.CLASSES.STYLE_RESET_MENU) ) {
 				this.styleReset();
+				return;
+			}
+			if( clicked.hasClass(io.github.shunshun94.trpg.logEditor.CLASSES.PREVIEW_MENU) ) {
+				this.showPreview();
 				return;
 			}
 			if( clicked.hasClass(io.github.shunshun94.trpg.logEditor.CLASSES.BACKSCREEN) ) {
@@ -207,6 +227,7 @@ io.github.shunshun94.trpg.logEditor.Editor = class {
 			<div id="menu">
 				<button class="${io.github.shunshun94.trpg.logEditor.CLASSES.NAME_MENU}">名前に関して設定</button>
 				<button class="${io.github.shunshun94.trpg.logEditor.CLASSES.STYLE_RESET_MENU}">style を全削除</button>
+				<button class="${io.github.shunshun94.trpg.logEditor.CLASSES.PREVIEW_MENU}">プレビュー</button>
 			</div>
 		`);
 		io.github.shunshun94.trpg.logEditor.DOMS.BODY.append(`
@@ -223,6 +244,9 @@ io.github.shunshun94.trpg.logEditor.Editor = class {
 					return `<option value="${t}"></option>`
 				}).join('')}
 			</datalist>
+		`);
+		io.github.shunshun94.trpg.logEditor.DOMS.BODY.append(`
+			<div class="${io.github.shunshun94.trpg.logEditor.CLASSES.PREVIEW}"></div>
 		`);
 	}
 };
