@@ -250,6 +250,19 @@ h2 {
 	bottom:16px;
 }
 
+.io-github-shunshun94-trpg-logEditor-FileLoader-filter {
+	position:relative;
+	top:16px;
+	left:16px;
+	padding:16px;
+	max-width:1200px;
+	background-color: rgba(255, 255, 255, 0.5);
+}
+
+.io-github-shunshun94-trpg-logEditor-FileLoader-filter-contents {
+	border-top:1px solid black;
+}
+
 .io-github-shunshun94-trpg-logEditor-tmpWindow {
 	position:relative;
 	top:16px;

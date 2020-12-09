@@ -10,6 +10,7 @@ io.github.shunshun94.trpg.logEditor.EVENTS = {
 	FILE_LOADED: 'io-github-shunshun94-trpg-logEditor-file-loaded'
 };
 io.github.shunshun94.trpg.logEditor.CLASSES = {
+	FILTER: 'io-github-shunshun94-trpg-logEditor-FileLoader-filter',
 	POST: 'io-github-shunshun94-trpg-logEditor-Post',
 	HANDLE: 'io-github-shunshun94-trpg-logEditor-Post-handle',
 	DUPLICATE: 'io-github-shunshun94-trpg-logEditor-Post-duplicate',
@@ -37,5 +38,7 @@ io.github.shunshun94.trpg.logEditor.CLASSES = {
 
 io.github.shunshun94.trpg.logEditor.DOMS.BODY.on(io.github.shunshun94.trpg.logEditor.EVENTS.FILE_LOADED, (e, domList)=>{
 	console.log(domList);
-	new io.github.shunshun94.trpg.logEditor.Editor(domList.doms);
+	io.github.shunshun94.trpg.logEditor.FileLoader.filtLongFile(domList.doms).then((filteredList)=>{
+		new io.github.shunshun94.trpg.logEditor.Editor(filteredList);
+	});
 });
