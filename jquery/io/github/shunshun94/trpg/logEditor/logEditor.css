@@ -224,9 +224,15 @@ h2 {
 	top:32px;
 }
 
-.menu-preview {
+.menu-idInsertion {
 	position:absolute;
 	left:24px;
+	top:56px;	
+}
+
+.menu-preview {
+	position:absolute;
+	right:16px;
 	top:56px;	
 }
 

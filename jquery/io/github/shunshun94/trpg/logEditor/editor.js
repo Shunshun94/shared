@@ -93,6 +93,16 @@ io.github.shunshun94.trpg.logEditor.Editor = class {
 		}
 	}
 
+	insertIdToHs() {
+		$('#mainEditor .logList').children().each((i, post)=>{
+			const postDom = $(post);
+			const tagName = (postDom.find(`.${io.github.shunshun94.trpg.logEditor.CLASSES.INPUTS}-tag`).val() || '').trim();
+			if(/^h\d$/.test(tagName)) {
+				this.setRndId(postDom);
+			}
+		});
+	}
+
 	showPreview() {
 		const body = io.github.shunshun94.trpg.logEditor.export.generateBody($('#mainEditor .logList'));
 		$(`.${io.github.shunshun94.trpg.logEditor.CLASSES.PREVIEW}`).empty();
@@ -171,6 +181,10 @@ io.github.shunshun94.trpg.logEditor.Editor = class {
 				this.styleReset();
 				return;
 			}
+			if( clicked.hasClass(io.github.shunshun94.trpg.logEditor.CLASSES.ID_INSERTION_MENU) ) {
+				this.insertIdToHs();
+				return;
+			}
 			if( clicked.hasClass(io.github.shunshun94.trpg.logEditor.CLASSES.PREVIEW_MENU) ) {
 				this.showPreview();
 				return;
@@ -227,6 +241,7 @@ io.github.shunshun94.trpg.logEditor.Editor = class {
 			<div id="menu">
 				<button class="${io.github.shunshun94.trpg.logEditor.CLASSES.NAME_MENU}">名前に関して設定</button>
 				<button class="${io.github.shunshun94.trpg.logEditor.CLASSES.STYLE_RESET_MENU}">style を全削除</button>
+				<button class="${io.github.shunshun94.trpg.logEditor.CLASSES.ID_INSERTION_MENU}">全ての見出しにランダムな ID を挿入</button>
 				<button class="${io.github.shunshun94.trpg.logEditor.CLASSES.PREVIEW_MENU}">プレビュー</button>
 			</div>
 		`);

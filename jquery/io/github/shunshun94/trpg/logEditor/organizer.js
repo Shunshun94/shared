@@ -28,6 +28,7 @@ io.github.shunshun94.trpg.logEditor.CLASSES = {
 	NAME_MENU_WINDOW: 'io-github-shunshun94-trpg-logEditor-menu-NameConfig',
 	NAME_MENU_EXEC: 'io-github-shunshun94-trpg-logEditor-menu-NameConfig-exec',
 	STYLE_RESET_MENU: 'menu-styleReset',
+	ID_INSERTION_MENU: 'menu-idInsertion',
 	PREVIEW_MENU: 'menu-preview',
 	BACKSCREEN: 'io-github-shunshun94-trpg-logEditor-backScreen',
 	TMP_WINDOW: 'io-github-shunshun94-trpg-logEditor-tmpWindow',
