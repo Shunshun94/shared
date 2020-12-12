@@ -261,6 +261,15 @@ h2 {
 
 .io-github-shunshun94-trpg-logEditor-FileLoader-filter-contents {
 	border-top:1px solid black;
+	font-size:80%;
+}
+
+.io-github-shunshun94-trpg-logEditor-FileLoader-filter-contents > p {
+	margin-bottom:4px;
+}
+
+.io-github-shunshun94-trpg-logEditor-FileLoader-filter-contents > pre {
+	margin-top: 4px;
 }
 
 .io-github-shunshun94-trpg-logEditor-tmpWindow {
@@ -273,7 +282,7 @@ h2 {
 }
 
 .io-github-shunshun94-trpg-logEditor-backScreen {
-	position:absolute;
+	position:fixed;
 	top:0px;
 	bottom: 0px;
 	left: 0px;

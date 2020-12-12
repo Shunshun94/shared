@@ -42,14 +42,8 @@ io.github.shunshun94.trpg.logEditor.FileLoader.openFilterWindow = (doms) => {
 	<input
 		class="${io.github.shunshun94.trpg.logEditor.CLASSES.FILTER}-input-end"
 		type="number" min="${doms.length - 1}" max="${doms.length}" value="${doms.length}" /></p>
-	<div class="${io.github.shunshun94.trpg.logEditor.CLASSES.FILTER}-contents ${io.github.shunshun94.trpg.logEditor.CLASSES.FILTER}-contents-head">
-		<p><span class="${io.github.shunshun94.trpg.logEditor.CLASSES.FILTER}-contents-num">1</span>番目の発言</p>
-		<pre></pre>
-	</div>
-	<div class="${io.github.shunshun94.trpg.logEditor.CLASSES.FILTER}-contents ${io.github.shunshun94.trpg.logEditor.CLASSES.FILTER}-contents-tail">
-		<p><span class="${io.github.shunshun94.trpg.logEditor.CLASSES.FILTER}-contents-num">${doms.length}</span>番目の発言</p>
-		<pre></pre>
-	</div>
+	<div class="${io.github.shunshun94.trpg.logEditor.CLASSES.FILTER}-contents ${io.github.shunshun94.trpg.logEditor.CLASSES.FILTER}-contents-head"></div>
+	<div class="${io.github.shunshun94.trpg.logEditor.CLASSES.FILTER}-contents ${io.github.shunshun94.trpg.logEditor.CLASSES.FILTER}-contents-tail"></div>
 	<hr/>
 	<button>決定</button>
 	</div>`;
@@ -83,13 +77,26 @@ io.github.shunshun94.trpg.logEditor.FileLoader.filtLongFile = (doms) => {
 			});
 			$(`.${io.github.shunshun94.trpg.logEditor.CLASSES.FILTER}-input-start`).change((e)=>{
 				const val = Number($(e.target).val());
-				$(`.${io.github.shunshun94.trpg.logEditor.CLASSES.FILTER}-contents-head .${io.github.shunshun94.trpg.logEditor.CLASSES.FILTER}-contents-num`).text(val);
-				$(`.${io.github.shunshun94.trpg.logEditor.CLASSES.FILTER}-contents-head pre`).text(`タグ: ${doms[val - 1].tag}\n\n内容：\n${doms[val - 1].content}`);
+				$(`.${io.github.shunshun94.trpg.logEditor.CLASSES.FILTER}-contents-head`).empty();
+				for(let i = ( (val - 2) > 0) ? (val - 2) : 1 ; i <= (((val + 2) <= doms.length) ? (val + 2) : (doms.length)) ; i++ ) {
+					const count = $(`<h2 ${(i === val) ? 'style="font-weight: bold;"' : ''}>${i}番目の発言</h2>`)
+					const body = $(`<pre ${(i === val) ? 'style="font-weight: bold;"' : ''}></pre>`);
+					body.text(`タグ: ${doms[i - 1].tag}\n\n${doms[i - 1].name ? ('発言者：' + doms[i - 1].name + '\n') : ''}内容：\n${doms[i - 1].content}`);
+					$(`.${io.github.shunshun94.trpg.logEditor.CLASSES.FILTER}-contents-head`).append(count);
+					$(`.${io.github.shunshun94.trpg.logEditor.CLASSES.FILTER}-contents-head`).append(body);
+				}
 			});
 			$(`.${io.github.shunshun94.trpg.logEditor.CLASSES.FILTER}-input-end`).change((e)=>{
 				const val = Number($(e.target).val());
-				$(`.${io.github.shunshun94.trpg.logEditor.CLASSES.FILTER}-contents-tail .${io.github.shunshun94.trpg.logEditor.CLASSES.FILTER}-contents-num`).text(val);
-				$(`.${io.github.shunshun94.trpg.logEditor.CLASSES.FILTER}-contents-tail pre`).text(`タグ: ${doms[val - 1].tag}\n\n内容：\n${doms[val - 1].content}`);
+				$(`.${io.github.shunshun94.trpg.logEditor.CLASSES.FILTER}-contents-tail`).empty();
+				for(let i = ( (val - 2) > 0) ? (val - 2) : 1 ; i <= (((val + 2) <= doms.length) ? (val + 2) : (doms.length)) ; i++ ) {
+					const count = $(`<h2 ${(i === val) ? 'style="font-weight: bold;"' : ''}>${i}番目の発言</h2>`)
+					const body = $(`<pre ${(i === val) ? 'style="font-weight: bold;"' : ''}></pre>`);
+					body.text(`タグ: ${doms[i - 1].tag}\n\n${doms[i - 1].name ? ('発言者：' + doms[i - 1].name + '\n') : ''}内容：\n${doms[i - 1].content}`);
+					$(`.${io.github.shunshun94.trpg.logEditor.CLASSES.FILTER}-contents-tail`).append(count);
+					$(`.${io.github.shunshun94.trpg.logEditor.CLASSES.FILTER}-contents-tail`).append(body);
+				}
+				
 			});
 			$(`.${io.github.shunshun94.trpg.logEditor.CLASSES.FILTER}-input-start`).change();
 			$(`.${io.github.shunshun94.trpg.logEditor.CLASSES.FILTER}-input-end`).change();
