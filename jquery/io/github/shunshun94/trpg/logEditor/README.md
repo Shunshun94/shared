@@ -6,7 +6,7 @@
 
 ## 使い方
 
-https://shunshun94.github.io/shared/jquery/io/github/shunshun94/trpg/logEditor/index.html を開き、
+https://shunshun94.github.io/shared/jquery/io/github/shunshun94/trpg/logEditor/LogEditor.html を開き、
 手元にあるココフォリアのセッションログをドラッグ・ドロップすればログを編集できる。
 ないし、このツールで編集したログを保存したモノでもドラッグ・ドロップすれば再編集できる。
 
