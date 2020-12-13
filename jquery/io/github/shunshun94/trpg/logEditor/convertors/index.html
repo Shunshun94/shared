@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<div id="ccfolia" style="background-color:aliceblue;width:50%;height:200px;">Ccfolia</div>
+<script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/encoding-japanese/1.0.30/encoding.min.js"></script>
+<script src="./ccfoliaConvertor.js"></script>
+<script>
+const fileReader = new FileReader();
+$('#ccfolia').on('drop', function(e) {
+	$('#ccfolia').css('background-color', 'aliceblue');
+	io.github.shunshun94.trpg.logEditor.convertors.CcfoliaConvertor.dropEventToJson(e).then(console.log);
+	e.preventDefault();
+});
+$('#ccfolia').on('dragleave', function(e) {
+	$('#ccfolia').css('background-color', 'aliceblue');
+});
+$('#ccfolia').on('dragover', function(e) {
+	$('#ccfolia').css('background-color', 'lightyellow');
+	e.preventDefault();
+});
+</script>
+</body>
+</html>
