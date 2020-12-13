@@ -249,12 +249,12 @@ io.github.shunshun94.trpg.logEditor.Editor = class {
 			<footer></footer>
 		`);
 		io.github.shunshun94.trpg.logEditor.DOMS.BODY.append(`
-			<datalist id="io-github-shunshun94-trpg-logEditor-candidates-tags">
+			<datalist id="${io.github.shunshun94.trpg.logEditor.CLASSES.CAND_TAGS}">
 				${io.github.shunshun94.trpg.logEditor.Editor.CONSTS.TAGS.map((t)=>{
 					return `<option value="${t}"></option>`
 				}).join('')}
 			</datalist>
-			<datalist id="io-github-shunshun94-trpg-logEditor-candidates-classes">
+			<datalist id="${io.github.shunshun94.trpg.logEditor.CLASSES.RANDOM_ID}">
 				${io.github.shunshun94.trpg.logEditor.Editor.CONSTS.CLASSES.map((t)=>{
 					return `<option value="${t}"></option>`
 				}).join('')}
