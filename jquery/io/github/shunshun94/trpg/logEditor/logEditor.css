@@ -1,0 +1,309 @@
+@charset "utf-8";
+* {
+	box-sizing: border-box;
+	font-family: "BIZ UDゴシック","UD Shin Go NT Light JIS2004","UD デジタル 教科書体 N-R", Verdana, Roboto, "Droid Sans", "游ゴシック", YuGothic, "メイリオ", Meiryo, "ヒラギノ角ゴ ProN W3", "Hiragino Kaku Gothic ProN", "ＭＳ Ｐゴシック", sans-serif;
+}
+
+.io-github-shunshun94-trpg-logEditor-save {
+	position:absolute;
+	top:8px;
+	right:8px;
+}
+
+.io-github-shunshun94-trpg-logEditor-Post {
+	padding:16px;
+	position:relative;
+	border-top:black 1px solid;
+	width:99%;
+	user-select: none;
+}
+
+.io-github-shunshun94-trpg-logEditor-Post-selected {
+	background-color:#ffffe0;
+}
+
+.io-github-shunshun94-trpg-logEditor-Post-params {
+	position:relative;
+	left:20px;
+}
+
+.io-github-shunshun94-trpg-logEditor-Post-duplicate {
+	position:absolute;
+	right:74px;
+	padding-left: 2px;
+	padding-right: 2px;
+	top:8px;
+	height: 20px;
+	width: 20px;
+}
+
+.io-github-shunshun94-trpg-logEditor-Post-merge {
+	position:absolute;
+	right:52px;
+	padding-left: 2px;
+	padding-right: 2px;
+	top:8px;
+	height: 20px;
+	width: 20px;
+}
+
+.io-github-shunshun94-trpg-logEditor-Post-delete {
+	position:absolute;
+	right:8px;
+	padding-left: 2px;
+	padding-right: 2px;
+	top:8px;
+	height: 20px;
+	width: 20px;
+}
+
+.io-github-shunshun94-trpg-logEditor-Post-params-param {
+	display:block;
+	position:relative;
+}
+
+.io-github-shunshun94-trpg-logEditor-Post-params-param-input {
+	position:absolute;
+	left:48px;
+	height:17px;
+}
+
+.io-github-shunshun94-trpg-logEditor-Post-params-param-button {
+	position:absolute;
+	left:202px;
+	padding-left: 2px;
+	padding-right: 2px;
+	height:17px;
+}
+
+.io-github-shunshun94-trpg-logEditor-Post-name {
+	font-weight: bold;
+	margin-top:8px;
+	width: 283px;
+	display: inline-block;
+	border:1px gray inset;
+}
+
+.io-github-shunshun94-trpg-logEditor-Post-content {
+	margin-left:16px;
+	margin-top:12px;
+	border:1px gray inset;
+}
+
+.io-github-shunshun94-trpg-logEditor-Post-handle {
+	position:absolute;
+	top:4px;
+	left:4px;
+	width:10px;
+	height:10px;
+}
+
+.logList {
+	overflow: visible scroll;
+	position:absolute;
+	top:40px;
+	bottom:16px;
+	width:100%;
+	left:16px;
+	right:16px;
+	padding-bottom:80px;
+}
+
+h2 {
+	margin-top:8px;
+	margin-bottom:8px;
+	margin-left:16px;
+}
+
+#mainEditor {
+	position:absolute;
+	top:0px;left:0px;
+	width:400px;
+	bottom:40px;
+}
+#tmpEditor {
+	position:absolute;
+	top:0px;
+	left:400px;
+	bottom:140px;
+	width:800px;
+}
+
+#tmpEditor > div {
+	position:absolute;
+	top:0px;
+	bottom:0px;
+	width:400px;
+}
+
+#tmpEditorA {
+	left:0px;
+}
+#tmpEditorB {
+	left:400px;
+}
+
+.io-github-shunshun94-trpg-logEditor-preview {
+	position:absolute;
+	top:0px;
+	left:400px;
+	bottom:40px;
+	width:800px;
+	overflow: visible scroll;
+	padding:16px;
+	background-color:white;
+	display:none;
+}
+
+.io-github-shunshun94-trpg-logEditor-preview-close {
+	position: fixed;
+	left:1040px;
+	top:8px;
+}
+
+.io-github-shunshun94-trpg-logEditor-preview h1,
+.io-github-shunshun94-trpg-logEditor-preview h2,
+.io-github-shunshun94-trpg-logEditor-preview h3,
+.io-github-shunshun94-trpg-logEditor-preview h4,
+.io-github-shunshun94-trpg-logEditor-preview h5 {
+	margin:auto;
+	margin-top: 12px;
+	padding-left: 12px;
+}
+.io-github-shunshun94-trpg-logEditor-preview h2,
+.io-github-shunshun94-trpg-logEditor-preview h3 {
+	border-bottom: black 3px double;
+	border-top: black 1px solid;
+}
+
+.io-github-shunshun94-trpg-logEditor-preview h4 {
+	border-bottom: black 3px double;
+}
+
+.io-github-shunshun94-trpg-logEditor-preview p:nth-child(even) {
+	background-color: #F5F5FF;
+}
+
+.io-github-shunshun94-trpg-logEditor-preview p.tab1 {
+	background-color: #F5F5F5;
+	font-size:70%;
+}
+
+.io-github-shunshun94-trpg-logEditor-preview p > span:nth-child(1) {
+	display:none;
+}
+
+.io-github-shunshun94-trpg-logEditor-preview p > span:nth-child(2) {
+	display:block;
+	font-weight: bold;
+	vertical-align:top;
+}
+
+.io-github-shunshun94-trpg-logEditor-preview p > span:nth-child(3) {
+	display: block;
+	padding-left:1em;
+}
+
+#menu{
+	position:absolute;
+	left:400px;
+	bottom:40px;
+	width:800px;
+	height:100px;
+}
+
+.menu-nameMenu {
+	position:absolute;
+	left:24px;
+	top:8px;
+}
+
+.menu-styleReset {
+	position:absolute;
+	left:24px;
+	top:32px;
+}
+
+.menu-idInsertion {
+	position:absolute;
+	left:24px;
+	top:56px;	
+}
+
+.menu-preview {
+	position:absolute;
+	right:16px;
+	top:56px;	
+}
+
+.io-github-shunshun94-trpg-logEditor-menu-NameConfig tr:nth-child(even) {
+	background-color: rgba(200, 255, 200, 0.3);
+}
+
+.io-github-shunshun94-trpg-logEditor-menu-NameConfig input {
+	background-color: rgba(255, 255, 255, 0.5);
+}
+
+.io-github-shunshun94-trpg-logEditor-menu-NameConfig-exec {
+	position:absolute;
+	right:16px;
+	bottom:16px;
+}
+
+.io-github-shunshun94-trpg-logEditor-FileLoader-filter {
+	position:relative;
+	top:16px;
+	left:16px;
+	padding:16px;
+	max-width:1200px;
+	background-color: rgba(255, 255, 255, 0.5);
+}
+
+.io-github-shunshun94-trpg-logEditor-FileLoader-filter-contents {
+	border-top:1px solid black;
+	font-size:80%;
+}
+
+.io-github-shunshun94-trpg-logEditor-FileLoader-filter-contents > p {
+	margin-bottom:4px;
+}
+
+.io-github-shunshun94-trpg-logEditor-FileLoader-filter-contents > pre {
+	margin-top: 4px;
+}
+
+.io-github-shunshun94-trpg-logEditor-tmpWindow {
+	position:relative;
+	top:16px;
+	left:16px;
+	padding:16px;
+	max-width:1200px;
+	background-color: rgba(255, 255, 255, 0.5);
+}
+
+.io-github-shunshun94-trpg-logEditor-backScreen {
+	position:fixed;
+	top:0px;
+	bottom: 0px;
+	left: 0px;
+	right: 0px;
+	background-color: rgba(200, 200, 200, 0.8);
+}
+
+footer {
+	position:absolute;
+	bottom:0px;
+	left:0px;
+	width:100%;
+	height:40px;
+	padding-left:8px;
+	border-top:1px black solid;
+	background-color:gray;
+	font-size:50%;
+	color:white;
+}
+
+footer > p {
+	margin-top:4px;
+	margin-bottom:4px;
+}
