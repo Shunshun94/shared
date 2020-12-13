@@ -127,7 +127,6 @@ io.github.shunshun94.trpg.logEditor.Editor = class {
 	bindEvents() {
 		io.github.shunshun94.trpg.logEditor.DOMS.BODY.keypress((e)=>{
 			const typed = $(e.target);
-			console.log(e, e.which);
 			if( typed.hasClass( io.github.shunshun94.trpg.logEditor.CLASSES.NAME ) && (e.which === 13) ) {
 				e.preventDefault();
 			}
