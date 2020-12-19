@@ -52,6 +52,10 @@ io.github.shunshun94.trpg.logEditor.convertors.CcfoliaConvertor.dropEventToJson 
 	});
 };
 
+io.github.shunshun94.trpg.logEditor.convertors.CcfoliaConvertor.isDefaultHead = (headRawHtml) => {
+	return headRawHtml.includes(`<title>ccfolia - `);
+};
+
 io.github.shunshun94.trpg.logEditor.convertors.CcfoliaConvertor.htmlToJson = (rawDom) => {
 	const dom = (new DOMParser()).parseFromString(rawDom, 'text/html');
 	io.github.shunshun94.trpg.logEditor.tmp = dom;
@@ -63,9 +67,11 @@ io.github.shunshun94.trpg.logEditor.convertors.CcfoliaConvertor.htmlToJson = (ra
 		const json = io.github.shunshun94.trpg.logEditor.convertors.CcfoliaConvertor.elementToJson(bodyChildren[i]);
 		if(json) { list.push(json) } else { omit.push(bodyChildren[i].outerHTML); }
 	}
+	const header = io.github.shunshun94.trpg.logEditor.convertors.CcfoliaConvertor.isDefaultHead(dom.head.outerHTML) ? '' : dom.head.outerHTML;
+	
 	return {
 		doms: list,
 		omitted: omit,
-		head: dom.head.outerHTML
+		head: header
 	};
 };
