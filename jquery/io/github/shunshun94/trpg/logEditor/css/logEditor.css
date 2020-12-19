@@ -236,6 +236,12 @@ h2 {
 	top:56px;	
 }
 
+.menu-editorVisual {
+	position:absolute;
+	right:16px;
+	top:32px;	
+}
+
 .io-github-shunshun94-trpg-logEditor-menu-NameConfig tr:nth-child(even) {
 	background-color: rgba(200, 255, 200, 0.3);
 }
@@ -278,6 +284,7 @@ h2 {
 	left:16px;
 	padding:16px;
 	max-width:1200px;
+	color:black;
 	background-color: rgba(255, 255, 255, 0.5);
 }
 

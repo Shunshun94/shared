@@ -1,0 +1,27 @@
+@charset "utf-8";
+.darkmode {
+	background-color:black;
+	color:white;
+} 
+
+.darkmode .io-github-shunshun94-trpg-logEditor-Post {
+	border-top:white 1px solid;
+}
+
+.darkmode .io-github-shunshun94-trpg-logEditor-preview {
+	background-color: #000000;
+}
+
+.darkmode .io-github-shunshun94-trpg-logEditor-preview h2,
+.darkmode .io-github-shunshun94-trpg-logEditor-preview h3,
+.darkmode .io-github-shunshun94-trpg-logEditor-preview h4 {
+	border-color: white;
+}
+
+.darkmode .io-github-shunshun94-trpg-logEditor-preview p:nth-child(even) {
+	background-color: #000030;
+}
+
+.darkmode .io-github-shunshun94-trpg-logEditor-preview p.tab1 {
+	background-color: #101010;
+}

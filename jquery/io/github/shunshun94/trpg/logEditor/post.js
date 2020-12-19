@@ -15,7 +15,7 @@ io.github.shunshun94.trpg.logEditor.jsonToEditorHtml = (json) => {
 	  	contenteditable="true">${json.name || ''}</span></p>
 	  <div 
 	  	class="io-github-shunshun94-trpg-logEditor-Post-content"
-	  	 contenteditable="true">${json.content}</div>
+	  	 contenteditable="true">${json.content.replaceAll('<div>', '<div >').replaceAll('</div>', '</div><!-- keep -->')}</div>
 	  <button
 	  	title="発言を複製する"
 	  	class="${io.github.shunshun94.trpg.logEditor.CLASSES.DUPLICATE}">C</button>

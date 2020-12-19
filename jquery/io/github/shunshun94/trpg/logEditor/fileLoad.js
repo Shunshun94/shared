@@ -5,11 +5,11 @@ io.github.shunshun94.trpg = io.github.shunshun94.trpg || {};
 io.github.shunshun94.trpg.logEditor = io.github.shunshun94.trpg.logEditor || {};
 
 io.github.shunshun94.trpg.logEditor.DOMS.BODY.on('drop', (e) => {
-	io.github.shunshun94.trpg.logEditor.DOMS.BODY.css('background-color', 'white');
+	io.github.shunshun94.trpg.logEditor.DOMS.BODY.css('background-color', '');
 	io.github.shunshun94.trpg.logEditor.convertors.CcfoliaConvertor.dropEventToJson(e).then((parsedTarget)=>{
 		io.github.shunshun94.trpg.logEditor.DOMS.BODY.trigger(
 			io.github.shunshun94.trpg.logEditor.EVENTS.FILE_LOADED,
-			{doms: parsedTarget}
+			parsedTarget
 		);
 		io.github.shunshun94.trpg.logEditor.DOMS.BODY.off('drop');
 		io.github.shunshun94.trpg.logEditor.DOMS.BODY.off('dragleave');

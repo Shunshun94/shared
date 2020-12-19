@@ -4,17 +4,24 @@ io.github.shunshun94 = io.github.shunshun94 || {};
 io.github.shunshun94.trpg = io.github.shunshun94.trpg || {};
 io.github.shunshun94.trpg.logEditor = io.github.shunshun94.trpg.logEditor || {};
 io.github.shunshun94.trpg.logEditor.export = io.github.shunshun94.trpg.logEditor.export || {};
-io.github.shunshun94.trpg.logEditor.export.PREFIX = `<html>
-<head>
-  <meta charset="utf-8">
-  <link rel="stylesheet" href="https://shunshun94.github.io/shared/jquery/io/github/shunshun94/trpg/replay/replay4-ccfolia.css"　type="text/css" />
-</head>
-<body>`;
 io.github.shunshun94.trpg.logEditor.export.SUFFIX = `</body></html>`;
 
-io.github.shunshun94.trpg.logEditor.export.exec = (doms) => {
+io.github.shunshun94.trpg.logEditor.export.getPrefix = (mode) => {
+	return `<!DOCTYPE html>
+	<html>
+	<head>
+	  <meta charset="utf-8">
+	  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+	  <link rel="stylesheet" href="https://shunshun94.github.io/shared/jquery/io/github/shunshun94/trpg/replay/replay4-ccfolia${ mode ? '-' + mode : ''}.css"　type="text/css" />
+	</head>
+	<body>`;
+};
+
+io.github.shunshun94.trpg.logEditor.export.exec = (doms, head, omit, mode) => {
 	const body = io.github.shunshun94.trpg.logEditor.export.generateBody(doms);
-	const html = io.github.shunshun94.trpg.logEditor.export.PREFIX + body + io.github.shunshun94.trpg.logEditor.export.SUFFIX;
+	const html = (head ? `<!DOCTYPE html>\n<html>\n${head}\n<body>\n` : io.github.shunshun94.trpg.logEditor.export.getPrefix(mode)) +
+				body + omit.join('\n') + io.github.shunshun94.trpg.logEditor.export.SUFFIX;
 	io.github.shunshun94.trpg.logEditor.export.download(html);
 };
 
@@ -41,7 +48,11 @@ io.github.shunshun94.trpg.logEditor.export.generateExportPost = (dummy, dom) => 
 	}
 	const name = dom.find(`.${io.github.shunshun94.trpg.logEditor.CLASSES.NAME}`).html().trim();
 	// contenteditable で改行すると div 要素が入るので除く
-	const content = dom.find(`.${io.github.shunshun94.trpg.logEditor.CLASSES.CONTENT}`).html().replaceAll('<div>', '<br>').replaceAll('</div>', '').trim();
+	const content = dom.find(`.${io.github.shunshun94.trpg.logEditor.CLASSES.CONTENT}`).html().
+				replaceAll('</div><!-- keep -->', '</dummy>').
+				replaceAll('<div>', '<br>').
+				replaceAll('</div>', '').
+				replaceAll('</dummy>', '</div>').trim();
 	if((tag !== 'p') || (name === '')) {
 		return `<${tag} ${topAttributes}>${content}</${tag}>`
 	}

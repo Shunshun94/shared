@@ -4,9 +4,11 @@ io.github.shunshun94 = io.github.shunshun94 || {};
 io.github.shunshun94.trpg = io.github.shunshun94.trpg || {};
 io.github.shunshun94.trpg.logEditor = io.github.shunshun94.trpg.logEditor || {};
 io.github.shunshun94.trpg.logEditor.Editor = class {
-	constructor(doms) {
+	constructor(data) {
 		this.generateBaseEditor();
-		const htmls = this.domsToPost(doms);
+		const htmls = this.domsToPost(data.doms);
+		this.head = data.head;
+		this.omit = data.omitted;
 		this.initPosts(htmls);
 		this.activateSort();
 		this.bindEvents();
@@ -155,7 +157,11 @@ io.github.shunshun94.trpg.logEditor.Editor = class {
 			}
 			const targetBlock = clicked.parents(`.editBlock`);
 			if(isButton && targetBlock.length) {
-				io.github.shunshun94.trpg.logEditor.export.exec(targetBlock.find('.logList'));
+				io.github.shunshun94.trpg.logEditor.export.exec(
+						targetBlock.find('.logList'),
+						this.head,
+						this.omit,
+						io.github.shunshun94.trpg.logEditor.DOMS.BODY.attr('class'));
 				return;
 			}
 			if( clicked.hasClass(io.github.shunshun94.trpg.logEditor.CLASSES.NAME_MENU) ) {
@@ -183,6 +189,9 @@ io.github.shunshun94.trpg.logEditor.Editor = class {
 			if( clicked.hasClass(io.github.shunshun94.trpg.logEditor.CLASSES.ID_INSERTION_MENU) ) {
 				this.insertIdToHs();
 				return;
+			}
+			if( clicked.hasClass(io.github.shunshun94.trpg.logEditor.CLASSES.DARKMODE_MENU) ) {
+				io.github.shunshun94.trpg.logEditor.DOMS.BODY.toggleClass(io.github.shunshun94.trpg.logEditor.CLASSES.DARKMODE);
 			}
 			if( clicked.hasClass(io.github.shunshun94.trpg.logEditor.CLASSES.PREVIEW_MENU) ) {
 				this.showPreview();
@@ -241,6 +250,7 @@ io.github.shunshun94.trpg.logEditor.Editor = class {
 				<button class="${io.github.shunshun94.trpg.logEditor.CLASSES.NAME_MENU}">名前に関して設定</button>
 				<button class="${io.github.shunshun94.trpg.logEditor.CLASSES.STYLE_RESET_MENU}">style を全削除</button>
 				<button class="${io.github.shunshun94.trpg.logEditor.CLASSES.ID_INSERTION_MENU}">全ての見出しにランダムな ID を挿入</button>
+				<button class="${io.github.shunshun94.trpg.logEditor.CLASSES.DARKMODE_MENU}">ナイトモード ON/OFF</button>
 				<button class="${io.github.shunshun94.trpg.logEditor.CLASSES.PREVIEW_MENU}">プレビュー</button>
 			</div>
 		`);

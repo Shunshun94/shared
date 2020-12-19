@@ -30,7 +30,9 @@ io.github.shunshun94.trpg.logEditor.CLASSES = {
 	NAME_MENU_EXEC: 'io-github-shunshun94-trpg-logEditor-menu-NameConfig-exec',
 	STYLE_RESET_MENU: 'menu-styleReset',
 	ID_INSERTION_MENU: 'menu-idInsertion',
+	DARKMODE_MENU: 'menu-editorVisual',
 	PREVIEW_MENU: 'menu-preview',
+	DARKMODE: 'darkmode',
 	BACKSCREEN: 'io-github-shunshun94-trpg-logEditor-backScreen',
 	TMP_WINDOW: 'io-github-shunshun94-trpg-logEditor-tmpWindow',
 	PREVIEW: 'io-github-shunshun94-trpg-logEditor-preview'
@@ -39,6 +41,10 @@ io.github.shunshun94.trpg.logEditor.CLASSES = {
 io.github.shunshun94.trpg.logEditor.DOMS.BODY.on(io.github.shunshun94.trpg.logEditor.EVENTS.FILE_LOADED, (e, domList)=>{
 	console.log(domList);
 	io.github.shunshun94.trpg.logEditor.FileLoader.filtLongFile(domList.doms).then((filteredList)=>{
-		new io.github.shunshun94.trpg.logEditor.Editor(filteredList);
+		new io.github.shunshun94.trpg.logEditor.Editor({
+			doms: filteredList,
+			head: domList.head,
+			omitted: domList.omitted
+		});
 	});
 });
