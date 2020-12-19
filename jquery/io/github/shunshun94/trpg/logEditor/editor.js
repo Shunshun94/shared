@@ -4,9 +4,11 @@ io.github.shunshun94 = io.github.shunshun94 || {};
 io.github.shunshun94.trpg = io.github.shunshun94.trpg || {};
 io.github.shunshun94.trpg.logEditor = io.github.shunshun94.trpg.logEditor || {};
 io.github.shunshun94.trpg.logEditor.Editor = class {
-	constructor(doms) {
+	constructor(data) {
 		this.generateBaseEditor();
-		const htmls = this.domsToPost(doms);
+		const htmls = this.domsToPost(data.doms);
+		this.head = data.head;
+		this.omit = data.omitted;
 		this.initPosts(htmls);
 		this.activateSort();
 		this.bindEvents();
@@ -155,7 +157,7 @@ io.github.shunshun94.trpg.logEditor.Editor = class {
 			}
 			const targetBlock = clicked.parents(`.editBlock`);
 			if(isButton && targetBlock.length) {
-				io.github.shunshun94.trpg.logEditor.export.exec(targetBlock.find('.logList'));
+				io.github.shunshun94.trpg.logEditor.export.exec(targetBlock.find('.logList'), this.head, this.omit);
 				return;
 			}
 			if( clicked.hasClass(io.github.shunshun94.trpg.logEditor.CLASSES.NAME_MENU) ) {

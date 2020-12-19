@@ -39,6 +39,10 @@ io.github.shunshun94.trpg.logEditor.CLASSES = {
 io.github.shunshun94.trpg.logEditor.DOMS.BODY.on(io.github.shunshun94.trpg.logEditor.EVENTS.FILE_LOADED, (e, domList)=>{
 	console.log(domList);
 	io.github.shunshun94.trpg.logEditor.FileLoader.filtLongFile(domList.doms).then((filteredList)=>{
-		new io.github.shunshun94.trpg.logEditor.Editor(filteredList);
+		new io.github.shunshun94.trpg.logEditor.Editor({
+			doms: filteredList,
+			head: domList.head,
+			omitted: domList.omitted
+		});
 	});
 });

@@ -12,9 +12,10 @@ io.github.shunshun94.trpg.logEditor.export.PREFIX = `<html>
 <body>`;
 io.github.shunshun94.trpg.logEditor.export.SUFFIX = `</body></html>`;
 
-io.github.shunshun94.trpg.logEditor.export.exec = (doms) => {
+io.github.shunshun94.trpg.logEditor.export.exec = (doms, head, omit) => {
 	const body = io.github.shunshun94.trpg.logEditor.export.generateBody(doms);
-	const html = io.github.shunshun94.trpg.logEditor.export.PREFIX + body + io.github.shunshun94.trpg.logEditor.export.SUFFIX;
+	const html = (head ? `<html>\n${head}\n<body>\n` : io.github.shunshun94.trpg.logEditor.export.PREFIX) +
+				body + omit.join('\n') + io.github.shunshun94.trpg.logEditor.export.SUFFIX;
 	io.github.shunshun94.trpg.logEditor.export.download(html);
 };
 
@@ -41,7 +42,11 @@ io.github.shunshun94.trpg.logEditor.export.generateExportPost = (dummy, dom) => 
 	}
 	const name = dom.find(`.${io.github.shunshun94.trpg.logEditor.CLASSES.NAME}`).html().trim();
 	// contenteditable で改行すると div 要素が入るので除く
-	const content = dom.find(`.${io.github.shunshun94.trpg.logEditor.CLASSES.CONTENT}`).html().replaceAll('<div>', '<br>').replaceAll('</div>', '').trim();
+	const content = dom.find(`.${io.github.shunshun94.trpg.logEditor.CLASSES.CONTENT}`).html().
+				replaceAll('</div><!-- keep -->', '</dummy>').
+				replaceAll('<div>', '<br>').
+				replaceAll('</div>', '').
+				replaceAll('</dummy>', '</div>').trim();
 	if((tag !== 'p') || (name === '')) {
 		return `<${tag} ${topAttributes}>${content}</${tag}>`
 	}
