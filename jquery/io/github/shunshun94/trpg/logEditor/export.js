@@ -4,20 +4,23 @@ io.github.shunshun94 = io.github.shunshun94 || {};
 io.github.shunshun94.trpg = io.github.shunshun94.trpg || {};
 io.github.shunshun94.trpg.logEditor = io.github.shunshun94.trpg.logEditor || {};
 io.github.shunshun94.trpg.logEditor.export = io.github.shunshun94.trpg.logEditor.export || {};
-io.github.shunshun94.trpg.logEditor.export.PREFIX = `<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-  <link rel="stylesheet" href="https://shunshun94.github.io/shared/jquery/io/github/shunshun94/trpg/replay/replay4-ccfolia.css"　type="text/css" />
-</head>
-<body>`;
 io.github.shunshun94.trpg.logEditor.export.SUFFIX = `</body></html>`;
 
-io.github.shunshun94.trpg.logEditor.export.exec = (doms, head, omit) => {
+io.github.shunshun94.trpg.logEditor.export.getPrefix = (mode) => {
+	return `<!DOCTYPE html>
+	<html>
+	<head>
+	  <meta charset="utf-8">
+	  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+	  <link rel="stylesheet" href="https://shunshun94.github.io/shared/jquery/io/github/shunshun94/trpg/replay/replay4-ccfolia${ mode ? '-' + mode : ''}.css"　type="text/css" />
+	</head>
+	<body>`;
+};
+
+io.github.shunshun94.trpg.logEditor.export.exec = (doms, head, omit, mode) => {
 	const body = io.github.shunshun94.trpg.logEditor.export.generateBody(doms);
-	const html = (head ? `<!DOCTYPE html>\n<html>\n${head}\n<body>\n` : io.github.shunshun94.trpg.logEditor.export.PREFIX) +
+	const html = (head ? `<!DOCTYPE html>\n<html>\n${head}\n<body>\n` : io.github.shunshun94.trpg.logEditor.export.getPrefix(mode)) +
 				body + omit.join('\n') + io.github.shunshun94.trpg.logEditor.export.SUFFIX;
 	io.github.shunshun94.trpg.logEditor.export.download(html);
 };
