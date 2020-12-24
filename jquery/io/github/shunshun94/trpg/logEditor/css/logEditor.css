@@ -212,33 +212,37 @@ h2 {
 	height:100px;
 }
 
-.menu-nameMenu {
+#menu > button {
 	position:absolute;
+}
+
+.menu-nameMenu {
 	left:24px;
 	top:8px;
 }
 
 .menu-styleReset {
-	position:absolute;
-	left:24px;
+	left:152px;
 	top:32px;
 }
 
+.menu-systemToPost {
+	top:8px;
+	left:152px;
+}
+
 .menu-idInsertion {
-	position:absolute;
-	left:24px;
+	left:152px;
 	top:56px;	
 }
 
 .menu-preview {
-	position:absolute;
-	right:16px;
+	left:640px;
 	top:56px;	
 }
 
 .menu-editorVisual {
-	position:absolute;
-	right:16px;
+	left:640px;
 	top:32px;	
 }
 

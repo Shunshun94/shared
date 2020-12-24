@@ -32,6 +32,7 @@ io.github.shunshun94.trpg.logEditor.CLASSES = {
 	ID_INSERTION_MENU: 'menu-idInsertion',
 	DARKMODE_MENU: 'menu-editorVisual',
 	PREVIEW_MENU: 'menu-preview',
+	SYSTEM_TO_POST_MENU: 'menu-systemToPost',
 	DARKMODE: 'darkmode',
 	BACKSCREEN: 'io-github-shunshun94-trpg-logEditor-backScreen',
 	TMP_WINDOW: 'io-github-shunshun94-trpg-logEditor-tmpWindow',
