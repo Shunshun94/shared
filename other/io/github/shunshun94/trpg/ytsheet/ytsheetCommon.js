@@ -40,6 +40,22 @@ io.github.shunshun94.trpg.ytsheet.length = (str='') => {
 	return length;
 };
 
+io.github.shunshun94.trpg.ytsheet.SHEET_TYPE = {
+	DX3_PC: 'ytsheet_dx3_pc',
+	SW25_PC: 'ytsheet_sw25_pc',
+	SW25_ENEMY: 'ytsheet_sw25_enemy'
+};
+
+io.github.shunshun94.trpg.ytsheet.getSheetSystem = (sheet) => {
+	if(sheet.type) {
+		return io.github.shunshun94.trpg.ytsheet.SHEET_TYPE.SW25_ENEMY;
+	} else if(result.effect1Name) {
+		return io.github.shunshun94.trpg.ytsheet.SHEET_TYPE.DX3_PC;
+	} else {
+		return io.github.shunshun94.trpg.ytsheet.SHEET_TYPE.SW25_PC;
+	}
+};
+
 io.github.shunshun94.trpg.ytsheet._getColumnLength = (list, header) => {
 	return list.reduce((currentMax, targetEffect)=>{
 		const result = {};
