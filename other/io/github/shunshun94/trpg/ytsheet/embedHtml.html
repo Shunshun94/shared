@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+<script src="embedHtmlGenerator.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<script>
+const url = location.search ? location.search.slice(1) : 'https://hiyo-hitsu.sakura.ne.jp/ytsheets/ytsheet2_sw2.5/sw2.5/?id=R0BihH';
+$.ajax({
+	type:'get',
+	url: `${url}&mode=json`,
+	async:true,
+	dataType:'jsonp'
+}).done((result)=>{
+	document.getElementsByTagName('body')[0].append(io.github.shunshun94.trpg.ytsheet.HtmlGenerator.generateSW25Html(result));
+});
+</script>
+</body>
+</html>
