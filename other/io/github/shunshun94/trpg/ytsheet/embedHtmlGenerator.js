@@ -39,20 +39,24 @@ io.github.shunshun94.trpg.ytsheet.HtmlGenerator.CLASSES = {
 };
 
 io.github.shunshun94.trpg.ytsheet.HtmlGenerator.defaultOpt = {
-	height: '140px',
+	height: '110px',
 	width: '390px',
-	pictureWidth:'100px'
+	pictureWidth:'110px'
 }
 
 io.github.shunshun94.trpg.ytsheet.HtmlGenerator.generateSW25Html = (json, opt={}) => {
+	const pictureWidth = opt.pictureWidth || opt.height || io.github.shunshun94.trpg.ytsheet.HtmlGenerator.defaultOpt.pictureWidth;
+	const height = opt.height || io.github.shunshun94.trpg.ytsheet.HtmlGenerator.defaultOpt.height;
+	const width = opt.width || io.github.shunshun94.trpg.ytsheet.HtmlGenerator.defaultOpt.width;
+
 	const base = document.createElement('div');
 	base.className = io.github.shunshun94.trpg.ytsheet.HtmlGenerator.CLASSES.BASE;
-	base.style = `width:${opt.width || io.github.shunshun94.trpg.ytsheet.HtmlGenerator.defaultOpt.width};border:gray solid 1px;border-radius:5px;`;
+	base.style = `z-index:3;height:${height};width:${width};border:gray solid 1px;border-radius:5px;line-height: 130%;position:relative;`;
 
 	const picture = document.createElement('div');
-	const pictureSharedStyle = `display:inline-block;height:${opt.height || io.github.shunshun94.trpg.ytsheet.HtmlGenerator.defaultOpt.height};width:${opt.pictureWidth || opt.height || io.github.shunshun94.trpg.ytsheet.HtmlGenerator.defaultOpt.pictureWidth};`;
+	const pictureSharedStyle = `position:absolute;top:0px;left:0px;height:${height};width:${pictureWidth};`;
 	if(json.imageURL) {
-		picture.style = `${pictureSharedStyle}background-position:50%;background-repeat:no-repeat;background-size:contain;background-image:url('${json.imageURL}');`;
+		picture.style = `z-index:2;${pictureSharedStyle}background-position:50%;background-repeat:no-repeat;background-size:contain;background-image:url('${json.imageURL}');`;
 	} else {
 		picture.style = pictureSharedStyle;
 		picture.innerText = 'NO IMAGE';
@@ -60,19 +64,18 @@ io.github.shunshun94.trpg.ytsheet.HtmlGenerator.generateSW25Html = (json, opt={}
 	base.append(picture);
 
 	const rightBox = document.createElement('div');
-	rightBox.style = `display:inline-block;position:relative;`;
+	rightBox.style = `position:absolute;height:height:${height};top:0px;left:${pictureWidth};`;
 	const boxList = [];
 
 	const lineOne = document.createElement('div');
-	lineOne.style = 'border-bottom:3px black double;margin:auto;margin-bottom:8px;';
+	lineOne.style = 'font-size:120%;border-bottom:3px black double;margin:auto;margin-bottom:8px;';
 
-	const level = document.createElement('span');
-	level.style = 'font-size:120%;';
-	level.innerText = `Lv.${json.level} `;
-	lineOne.append(level);
 	const name = document.createElement('span');
 	name.innerText = json.characterName;
 	lineOne.append(name);
+	const level = document.createElement('span');
+	level.innerText = `　Lv.${json.level}`;
+	lineOne.append(level);
 	if(opt.url) {
 		const link = document.createElement('a');
 		link.href = opt.url;
