@@ -47,7 +47,7 @@ io.github.shunshun94.trpg.ytsheet.HtmlGenerator.defaultOpt = {
 io.github.shunshun94.trpg.ytsheet.HtmlGenerator.generateSW25Html = (json, opt={}) => {
 	const base = document.createElement('div');
 	base.className = io.github.shunshun94.trpg.ytsheet.HtmlGenerator.CLASSES.BASE;
-	base.style = `width:${opt.width || io.github.shunshun94.trpg.ytsheet.HtmlGenerator.defaultOpt.width};border:gray solid 1px;border-radius:5px;`;
+	base.style = `width:${opt.width || io.github.shunshun94.trpg.ytsheet.HtmlGenerator.defaultOpt.width};border:gray solid 1px;border-radius:5px;line-height: 130%;`;
 
 	const picture = document.createElement('div');
 	const pictureSharedStyle = `display:inline-block;height:${opt.height || io.github.shunshun94.trpg.ytsheet.HtmlGenerator.defaultOpt.height};width:${opt.pictureWidth || opt.height || io.github.shunshun94.trpg.ytsheet.HtmlGenerator.defaultOpt.pictureWidth};`;
@@ -64,15 +64,14 @@ io.github.shunshun94.trpg.ytsheet.HtmlGenerator.generateSW25Html = (json, opt={}
 	const boxList = [];
 
 	const lineOne = document.createElement('div');
-	lineOne.style = 'border-bottom:3px black double;margin:auto;margin-bottom:8px;';
+	lineOne.style = 'font-size:120%;border-bottom:3px black double;margin:auto;margin-bottom:8px;';
 
-	const level = document.createElement('span');
-	level.style = 'font-size:120%;';
-	level.innerText = `Lv.${json.level} `;
-	lineOne.append(level);
 	const name = document.createElement('span');
 	name.innerText = json.characterName;
 	lineOne.append(name);
+	const level = document.createElement('span');
+	level.innerText = `　Lv.${json.level}`;
+	lineOne.append(level);
 	if(opt.url) {
 		const link = document.createElement('a');
 		link.href = opt.url;
