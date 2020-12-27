@@ -47,7 +47,7 @@ io.github.shunshun94.trpg.ytsheet.HtmlGenerator.defaultOpt = {
 io.github.shunshun94.trpg.ytsheet.HtmlGenerator.generateSW25Html = (json, opt={}) => {
 	const base = document.createElement('div');
 	base.className = io.github.shunshun94.trpg.ytsheet.HtmlGenerator.CLASSES.BASE;
-	base.style = `width:${opt.width || io.github.shunshun94.trpg.ytsheet.HtmlGenerator.defaultOpt.width};border:black solid 1px;`;
+	base.style = `width:${opt.width || io.github.shunshun94.trpg.ytsheet.HtmlGenerator.defaultOpt.width};border:gray solid 1px;border-radius:5px;`;
 
 	const picture = document.createElement('div');
 	const pictureSharedStyle = `display:inline-block;height:${opt.height || io.github.shunshun94.trpg.ytsheet.HtmlGenerator.defaultOpt.height};width:${opt.pictureWidth || opt.height || io.github.shunshun94.trpg.ytsheet.HtmlGenerator.defaultOpt.pictureWidth};`;
@@ -73,6 +73,14 @@ io.github.shunshun94.trpg.ytsheet.HtmlGenerator.generateSW25Html = (json, opt={}
 	const name = document.createElement('span');
 	name.innerText = json.characterName;
 	lineOne.append(name);
+	if(opt.url) {
+		const link = document.createElement('a');
+		link.href = opt.url;
+		link.style = 'text-decoration:none;';
+		link.target = '_blank';
+		link.innerText = '🔗';
+		lineOne.append(link);
+	}
 	boxList.push(lineOne);
 
 	const lineTwo = document.createElement('span');
@@ -91,8 +99,6 @@ io.github.shunshun94.trpg.ytsheet.HtmlGenerator.generateSW25Html = (json, opt={}
 		}
 	}
 	lineThree.innerText = classList.sort((a,b)=>{return b.lv - a.lv}).slice(0, 3).map((c)=>{return `${c.name}:${c.lv}`}).join('\n');
-	boxList.push(lineThree);
-
 	boxList.push(lineThree);
 
 	boxList.forEach((v)=>{ rightBox.append(v); });
