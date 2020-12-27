@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>ゆとシートをウェブサイトに埋め込む何か</title>
+</head>
+<body>
+<div id="console" style="padding-bottom:1em;">
+　　高さ：<input id="console-height" type="number" value="140" min="10" style="width:40px;" /><br/>
+　　横幅：<input id="console-width" type="number" value="390" min="30" style="width:40px;" /><br/>
+画像横幅：<input id="console-pictureWidth" type="number" value="100" min="10" style="width:40px;" />
+</div>
+<div id="preview"><div>loading...</div></div>
+<p>HTML：<input id="copy" type="text" /></p>
+
+<script src="embedHtmlGenerator.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<script>
+const url = location.search ? location.search.slice(1) : 'https://hiyo-hitsu.sakura.ne.jp/ytsheets/ytsheet2_sw2.5/sw2.5/?id=R0BihH';
+let json;
+const generate = (json)=>{
+	const param = {url: url};
+	$('#console input').each((i, v)=>{
+		const key = $(v).attr('id').replace('console-', '');
+		param[key] = `${$(v).val()}px`;
+	});
+	document.getElementById('preview').firstElementChild.remove();
+	document.getElementById('preview').append(io.github.shunshun94.trpg.ytsheet.HtmlGenerator.generateSW25Html(json, param));
+	document.getElementById('copy').value = document.getElementById('preview').innerHTML;
+};
+$('#console input').on('input', (e)=>{generate(json)});
+$('#copy').click((e)=>{
+	const target = $(e.target);
+	target.focus().get(0).setSelectionRange(0, target.val().length);
+	document.execCommand('copy');
+});
+
+$.ajax({
+	type:'get',
+	url: `${url}&mode=json`,
+	async:true,
+	dataType:'jsonp'
+}).done((result)=>{
+	json = result;
+	generate(json);
+});
+
+
+
+</script>
+</body>
+</html>

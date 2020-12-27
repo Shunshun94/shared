@@ -40,6 +40,22 @@ io.github.shunshun94.trpg.ytsheet.length = (str='') => {
 	return length;
 };
 
+io.github.shunshun94.trpg.ytsheet.SHEET_TYPE = {
+	DX3_PC: 'ytsheet_dx3_pc',
+	SW25_PC: 'ytsheet_sw25_pc',
+	SW25_ENEMY: 'ytsheet_sw25_enemy'
+};
+
+io.github.shunshun94.trpg.ytsheet.getSheetSystem = (sheet) => {
+	if(sheet.type) {
+		return io.github.shunshun94.trpg.ytsheet.SHEET_TYPE.SW25_ENEMY;
+	} else if(result.effect1Name) {
+		return io.github.shunshun94.trpg.ytsheet.SHEET_TYPE.DX3_PC;
+	} else {
+		return io.github.shunshun94.trpg.ytsheet.SHEET_TYPE.SW25_PC;
+	}
+};
+
 io.github.shunshun94.trpg.ytsheet._getColumnLength = (list, header) => {
 	return list.reduce((currentMax, targetEffect)=>{
 		const result = {};
@@ -85,6 +101,7 @@ io.github.shunshun94.trpg.ytsheet.getPicture = (src) => {
 		xhr.responseType = "blob";
 		xhr.onload = (e) => {
 			const fileName = src.slice(src.lastIndexOf("/") + 1);
+			const currentTarget = e.currentTarget;
 			if(! Boolean(jsSHA)) {
 				console.warn('To calculate SHA256 value of the picture, jsSHA is required: https://github.com/Caligatio/jsSHA');
 				resolve({ event:e, data: e.currentTarget.response, fileName: fileName, hash: '' });
@@ -94,7 +111,7 @@ io.github.shunshun94.trpg.ytsheet.getPicture = (src) => {
 				const sha = new jsSHA("SHA-256", 'ARRAYBUFFER');
 				sha.update(arraybuffer);
 				const hash = sha.getHash("HEX");
-				resolve({ event:e, data: e.currentTarget.response, fileName: fileName, hash: hash });
+				resolve({ event:e, data: currentTarget.response, fileName: fileName, hash: hash });
 				return;
 			});
 		};

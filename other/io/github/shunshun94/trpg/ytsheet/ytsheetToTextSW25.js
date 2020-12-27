@@ -20,6 +20,9 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
+
+console.warn("このファイルは今後メンテされません。https://github.com/yutorize/ytsheet2 に統合されました");
+
 var io = io || {};
 io.github = io.github || {};
 io.github.shunshun94 = io.github.shunshun94 || {};
