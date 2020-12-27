@@ -39,7 +39,7 @@ io.github.shunshun94.trpg.ytsheet.HtmlGenerator.CLASSES = {
 };
 
 io.github.shunshun94.trpg.ytsheet.HtmlGenerator.defaultOpt = {
-	height: '140px',
+	height: '100px',
 	width: '390px',
 	pictureWidth:'100px'
 }
