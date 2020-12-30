@@ -11,6 +11,13 @@ io.github.shunshun94.trpg.logEditor.Editor = class {
 		this.omit = data.omitted;
 		this.initPosts(htmls);
 		this.activateSort();
+		io.github.shunshun94.trpg.logEditor.export.setLastHash(
+				io.github.shunshun94.trpg.logEditor.export.calcCurrentHash(
+					$('#mainEditor .logList'),
+					this.head,
+					this.omit,
+					io.github.shunshun94.trpg.logEditor.DOMS.BODY.attr('class')
+				));
 		this.bindEvents();
 	}
 
@@ -145,6 +152,20 @@ io.github.shunshun94.trpg.logEditor.Editor = class {
 	}
 
 	bindEvents() {
+		const self = this;
+		window.onbeforeunload = (e)=>{
+			const currentHash = io.github.shunshun94.trpg.logEditor.export.calcCurrentHash(
+				$('#mainEditor .logList'),
+				self.head,
+				self.omit,
+				io.github.shunshun94.trpg.logEditor.DOMS.BODY.attr('class')
+			);
+			html = $('#mainEditor .logList').html();
+			if( io.github.shunshun94.trpg.logEditor.export.getLastHash() !== currentHash ) {
+				return true;
+			}
+		};
+
 		io.github.shunshun94.trpg.logEditor.DOMS.BODY.keypress((e)=>{
 			const typed = $(e.target);
 			if( typed.hasClass( io.github.shunshun94.trpg.logEditor.CLASSES.NAME ) && (e.which === 13) ) {
