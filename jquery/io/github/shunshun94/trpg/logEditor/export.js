@@ -24,7 +24,6 @@ io.github.shunshun94.trpg.logEditor.export.getLastHash = ()=>{
 };
 
 io.github.shunshun94.trpg.logEditor.export.setLastHash = (hash)=>{
-	console.log(hash);
 	io.github.shunshun94.trpg.logEditor.export.LAST_HASH = hash;
 };
 
@@ -46,7 +45,6 @@ io.github.shunshun94.trpg.logEditor.export.exec = (doms, head, omit, mode) => {
 	hash.update(html);
 	const newHash = hash.getHash("HEX");
 	io.github.shunshun94.trpg.logEditor.export.setLastHash(newHash);
-	console.log(newHash, html);
 	io.github.shunshun94.trpg.logEditor.export.download(html);
 };
 
