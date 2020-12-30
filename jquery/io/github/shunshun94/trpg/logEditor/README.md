@@ -29,3 +29,10 @@ https://shunshun94.github.io/shared/jquery/io/github/shunshun94/trpg/logEditor/L
 * https://sortablejs.github.io/sortablejs/
 * https://github.com/polygonplanet/encoding.js
 * https://jquery.com/
+* https://github.com/Caligatio/jsSHA
+
+## オマケ
+
+このツールで生成した HTML を
+https://shunshun94.github.io/shared/jquery/io/github/shunshun94/trpg/logEditor/LogToCSS.html
+にドラッグ・ドロップすると html のクラス情報をもとに CSS を生成する。 
