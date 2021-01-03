@@ -1,6 +1,16 @@
 <!DOCTYPE html>
-<html>
-<head>
+<html lang="ja">
+<head
+	　prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# article: http://ogp.me/ns/article#">
+<meta property="og:title" content="テキスト形式でマップを作成するツール" />
+<meta property="og:type" content="website" />
+<meta property="og:image"
+	content="https://shunshun94.web.fc2.com/replies/terms/ogp.jpg" />
+<meta property="og:site_name" content="http://shunshun94.github.io/shared/" />
+<meta property="og:description" content="マップを作成・テキスト形式で出力するツール" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:site" content="@Shunshun94" />
+<meta name="twitter:text:title" content="テキスト形式でマップを作成するツール" />
 <meta charset="UTF-8">
 <title>Map Util</title>
 <style>
@@ -97,9 +107,11 @@ const calcResult = () => {
 
 document.getElementById('update').addEventListener('click', (e)=>{
 	if(document.getElementById('canvas').className.includes('hidden')) {
+		document.getElementById('update').innerText = '編集する';
 		document.getElementById('canvas').className = document.getElementById('canvas').className.replace('hidden', '').trim();
 		document.getElementById('result').className = document.getElementById('result').className + ' hidden';
 	} else {
+		document.getElementById('update').innerText = '結果取得';
 		document.getElementById('result').className = document.getElementById('result').className.replace('hidden', '').trim();
 		document.getElementById('canvas').className = document.getElementById('canvas').className + ' hidden';
 		calcResult();
