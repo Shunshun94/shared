@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Map Util</title>
+<style>
+* {
+	box-sizing:border-box;
+	font-family: "BIZ UDゴシック","UD Shin Go NT Light JIS2004","UD デジタル 教科書体 N-R", Verdana, Roboto, "Droid Sans", "游ゴシック", YuGothic, "メイリオ", Meiryo, "ヒラギノ角ゴ ProN W3", "Hiragino Kaku Gothic ProN", "ＭＳ ゴシック", sans-serif;
+}
+#canvas > div {
+	position:relative;
+}
+#canvas > div > div {
+	border: 1px solid black;
+	height:20px;
+	width:20px;
+	display:inline-block;
+}
+#canvas > div > div:hover {
+	border: 4px solid gray;
+}
+.wall {
+	background-color:black;
+}
+#result {
+	width:50em;
+	height:50em;
+}
+.hidden {
+	display:none;
+}
+
+</style>
+
+</head>
+<body>
+<div id="menu"><button id="update">結果取得</button></div>
+<div id="canvas"></div>
+<textarea id="result" class="hidden"></textarea>
+
+<script>
+const size = 40;
+const canvas = document.getElementById('canvas');
+const switchStatusMouseEnter = (e)=>{
+	if(e.buttons === 1) {
+		if(e.target.className.includes('wall')) {
+			e.target.className = e.target.className.replace('wall', '').trim(); 
+		} else {
+			e.target.className = e.target.className + ' wall';
+		}
+	}
+};
+const switchStatusClick = (e)=>{
+		if(e.target.className.includes('wall')) {
+			e.target.className = e.target.className.replace('wall', '').trim(); 
+		} else {
+			e.target.className = e.target.className + ' wall';
+		}
+};
+
+for(let i = 0; i < size; i++) {
+	const row =  document.createElement("div");
+	row.style = `top:-${i*2}px`;
+	row.className = `row_${i}`;
+	for(let j = 0; j < size; j++) {
+		const col =  document.createElement("div");
+		col.className = `col_${j} rowcol`;
+		col.addEventListener('mouseenter', switchStatusMouseEnter);
+		col.addEventListener('click', switchStatusClick);
+		row.appendChild(col);
+	}
+	canvas.appendChild(row);
+}
+
+const getDomsAsArray = () => {
+	const list = document.getElementsByClassName('rowcol');
+	const result = [];
+	for(let i = 0; i < list.length; i++) {
+		if(i % size == 0) {
+			result.push([]);
+		}
+		if(list[i].className.includes('wall')) {
+			result[result.length - 1].push(1);
+		} else {
+			result[result.length - 1].push(0);
+		}
+	}
+	return result;
+};
+
+const calcResult = () => {
+	document.getElementById('result').value = getDomsAsArray().map((line)=>{
+		return line.map((d)=>{return (d ? '■' : '　')}).join('');
+	}).join('\n')
+};
+
+document.getElementById('update').addEventListener('click', (e)=>{
+	if(document.getElementById('canvas').className.includes('hidden')) {
+		document.getElementById('canvas').className = document.getElementById('canvas').className.replace('hidden', '').trim();
+		document.getElementById('result').className = document.getElementById('result').className + ' hidden';
+	} else {
+		document.getElementById('result').className = document.getElementById('result').className.replace('hidden', '').trim();
+		document.getElementById('canvas').className = document.getElementById('canvas').className + ' hidden';
+		calcResult();
+	}
+});
+</script>
+</body>
+</html>
