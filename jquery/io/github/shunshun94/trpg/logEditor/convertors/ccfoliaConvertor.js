@@ -4,9 +4,6 @@ io.github.shunshun94 = io.github.shunshun94 || {};
 io.github.shunshun94.trpg = io.github.shunshun94.trpg || {};
 io.github.shunshun94.trpg.logEditor = io.github.shunshun94.trpg.logEditor || {};
 io.github.shunshun94.trpg.logEditor.convertors = io.github.shunshun94.trpg.logEditor.convertors || {};
-
-io.github.shunshun94.trpg.logEditor.tmp;
-
 io.github.shunshun94.trpg.logEditor.convertors.CcfoliaConvertor = io.github.shunshun94.trpg.logEditor.convertors.CcfoliaConvertor ||{};
 
 io.github.shunshun94.trpg.logEditor.convertors.CcfoliaConvertor.IGNORE_TAGS = ['script'];
@@ -38,17 +35,15 @@ io.github.shunshun94.trpg.logEditor.convertors.CcfoliaConvertor.elementToJson = 
 
 io.github.shunshun94.trpg.logEditor.convertors.CcfoliaConvertor.dropEventToJson = (e) => {
 	return new Promise((resolve, reject)=>{
-		const fileReader = new FileReader();
-		fileReader.onload = (e) => {
-			const codes = new Uint8Array(fileReader.result);
+		e.originalEvent.dataTransfer.files[0].arrayBuffer().then((result)=>{
+			const codes = new Uint8Array(result);
 			const rawHtml = Encoding.convert(codes, {
 				to: 'unicode',
 				from: Encoding.detect(codes),
 				type: 'string'
 			});
 			resolve(io.github.shunshun94.trpg.logEditor.convertors.CcfoliaConvertor.htmlToJson(rawHtml));
-		};
-		fileReader.readAsArrayBuffer(e.originalEvent.dataTransfer.files[0]);
+		});
 	});
 };
 
@@ -58,7 +53,6 @@ io.github.shunshun94.trpg.logEditor.convertors.CcfoliaConvertor.isDefaultHead = 
 
 io.github.shunshun94.trpg.logEditor.convertors.CcfoliaConvertor.htmlToJson = (rawDom) => {
 	const dom = (new DOMParser()).parseFromString(rawDom, 'text/html');
-	io.github.shunshun94.trpg.logEditor.tmp = dom;
 	const bodyChildren = dom.body.children;
 	const bodyChildrenLength = bodyChildren.length;
 	const list = [];
