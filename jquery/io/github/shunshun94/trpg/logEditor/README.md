@@ -7,7 +7,7 @@
 ## 使い方
 
 https://shunshun94.github.io/shared/jquery/io/github/shunshun94/trpg/logEditor/LogEditor.html を開き、
-手元にあるココフォリアのセッションログをドラッグ・ドロップすればログを編集できる。
+手元にあるココフォリアのセッションログまたはユドナリウムの保存した部屋の zip をドラッグ・ドロップすればログを編集できる。
 ないし、このツールで編集したログを保存したモノでもドラッグ・ドロップすれば再編集できる。
 
 ## 主な機能
@@ -30,6 +30,7 @@ https://shunshun94.github.io/shared/jquery/io/github/shunshun94/trpg/logEditor/L
 * https://github.com/polygonplanet/encoding.js
 * https://jquery.com/
 * https://github.com/Caligatio/jsSHA
+* https://stuk.github.io/jszip/
 
 ## オマケ
 
