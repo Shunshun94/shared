@@ -33,9 +33,9 @@ io.github.shunshun94.trpg.logEditor.convertors.CcfoliaConvertor.elementToJson = 
 	return result;
 };
 
-io.github.shunshun94.trpg.logEditor.convertors.CcfoliaConvertor.dropEventToJson = (e) => {
+io.github.shunshun94.trpg.logEditor.convertors.CcfoliaConvertor.dropEventToJson = (file) => {
 	return new Promise((resolve, reject)=>{
-		e.originalEvent.dataTransfer.files[0].arrayBuffer().then((result)=>{
+		file.arrayBuffer().then((result)=>{
 			const codes = new Uint8Array(result);
 			const rawHtml = Encoding.convert(codes, {
 				to: 'unicode',
