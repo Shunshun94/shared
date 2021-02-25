@@ -1,15 +1,17 @@
 @media only screen and (min-width: 1600px) {
-	#mainEditor {
-		width:800px;
-	}
-	#tmpEditor {
-		left:800px;
-	}
-	#menu {
-		left:800px;
-	}
-	
-	.io-github-shunshun94-trpg-logEditor-preview{
-		left:800px;
+  #mainEditor {
+  	width:800px;
+  }
+  #tmpEditor {
+  	left:800px;
+  }
+  #menu {
+  	left:800px;
+  }
+  .io-github-shunshun94-trpg-logEditor-preview {
+  	left:800px;
+  }
+  .io-github-shunshun94-trpg-logEditor-preview-close {
+		left:1440px;
 	}
 }
