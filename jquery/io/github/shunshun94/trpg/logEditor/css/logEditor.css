@@ -156,6 +156,10 @@ h2 {
 	display:none;
 }
 
+.io-github-shunshun94-trpg-logEditor-preview > * {
+	position: static
+}
+
 .io-github-shunshun94-trpg-logEditor-preview-close {
 	position: fixed;
 	left:1040px;
@@ -179,6 +183,14 @@ h2 {
 
 .io-github-shunshun94-trpg-logEditor-preview h4 {
 	border-bottom: black 3px double;
+}
+
+.io-github-shunshun94-trpg-logEditor-preview p {
+	margin-top:0px;
+	margin-bottom:0px;
+	padding-top:4px;
+	padding-bottom:4px;
+	line-height: 130%;
 }
 
 .io-github-shunshun94-trpg-logEditor-preview p:nth-child(even) {
