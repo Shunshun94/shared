@@ -4,9 +4,36 @@ io.github.shunshun94 = io.github.shunshun94 || {};
 io.github.shunshun94.trpg = io.github.shunshun94.trpg || {};
 io.github.shunshun94.trpg.logEditor = io.github.shunshun94.trpg.logEditor || {};
 
+io.github.shunshun94.trpg.logEditor.DOMS.BODY.append(`<div style="padding:2em;position:absolute;top:0px;left:0px;right:0px;bottom:0px;">
+ログの HTML ないしユドナリウムの部屋の zip  を Drag/Drop するか、以下からアップロードしてください<br/>
+<input type="file" name="io-github-shunshun94-trpg-logEditor-FileLoader-InputFile" id="io-github-shunshun94-trpg-logEditor-FileLoader-InputFile" >
+</div>`);
+
 io.github.shunshun94.trpg.logEditor.DOMS.BODY.on('drop', (e) => {
 	io.github.shunshun94.trpg.logEditor.DOMS.BODY.css('background-color', '');
 	const targetFile = e.originalEvent.dataTransfer.files[0];
+	io.github.shunshun94.trpg.logEditor.FileLoader.readFile(targetFile);
+	e.preventDefault();
+});
+
+$('#io-github-shunshun94-trpg-logEditor-FileLoader-InputFile').on('change', (e)=>{
+	io.github.shunshun94.trpg.logEditor.DOMS.BODY.css('background-color', '');
+	const targetFile = e.target.files[0];
+	io.github.shunshun94.trpg.logEditor.FileLoader.readFile(targetFile);
+	e.preventDefault();
+});
+
+io.github.shunshun94.trpg.logEditor.DOMS.BODY.on('dragleave', (e) => {
+	io.github.shunshun94.trpg.logEditor.DOMS.BODY.css('background-color', 'white');
+});
+io.github.shunshun94.trpg.logEditor.DOMS.BODY.on('dragover', (e) => {
+	io.github.shunshun94.trpg.logEditor.DOMS.BODY.css('background-color', 'lightyellow');
+	e.preventDefault();
+});
+
+io.github.shunshun94.trpg.logEditor.FileLoader = io.github.shunshun94.trpg.logEditor.FileLoader || {};
+
+io.github.shunshun94.trpg.logEditor.FileLoader.readFile = (targetFile) => {
 	io.github.shunshun94.trpg.logEditor.convertors.ConvertorFactory.getConvertor(targetFile).dropEventToJson(targetFile).then((parsedTarget)=>{
 		io.github.shunshun94.trpg.logEditor.DOMS.BODY.trigger(
 			io.github.shunshun94.trpg.logEditor.EVENTS.FILE_LOADED,
@@ -16,20 +43,7 @@ io.github.shunshun94.trpg.logEditor.DOMS.BODY.on('drop', (e) => {
 		io.github.shunshun94.trpg.logEditor.DOMS.BODY.off('dragleave');
 		io.github.shunshun94.trpg.logEditor.DOMS.BODY.off('dragover');
 	});
-	e.preventDefault();
-});
-io.github.shunshun94.trpg.logEditor.DOMS.BODY.on('dragleave', (e) => {
-	io.github.shunshun94.trpg.logEditor.DOMS.BODY.css('background-color', 'white');
-});
-io.github.shunshun94.trpg.logEditor.DOMS.BODY.on('dragover', (e) => {
-	io.github.shunshun94.trpg.logEditor.DOMS.BODY.css('background-color', 'lightyellow');
-	e.preventDefault();
-});
-io.github.shunshun94.trpg.logEditor.DOMS.BODY.append(`<div style="padding:2em;position:absolute;top:0px;left:0px;right:0px;bottom:0px;">ログの HTML ないしユドナリウムの部屋の zip  を Drag/Drop してください</div>`);
-
-io.github.shunshun94.trpg.logEditor.FileLoader = io.github.shunshun94.trpg.logEditor.FileLoader || {};
-
-io.github.shunshun94.trpg.logEditor.FileLoader.getC
+};
 
 io.github.shunshun94.trpg.logEditor.FileLoader.openBackScreen = () => {
 	io.github.shunshun94.trpg.logEditor.DOMS.BODY.append(`<div class="${io.github.shunshun94.trpg.logEditor.CLASSES.BACKSCREEN}"></div>`);
