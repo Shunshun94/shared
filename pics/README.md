@@ -9,3 +9,7 @@
 ## default_enemy.png
 
 自作
+
+## ogp.jpg
+
+自作
