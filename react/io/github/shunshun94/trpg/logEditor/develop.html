@@ -46,14 +46,38 @@ class LikeButton extends React.Component {
         this.state = { liked: false };
     }
 
+    onDrop(e) {
+        console.log(e);
+        io.github.shunshun94.trpg.logEditor.FileLoader.onDrop(e);
+    }
+
+    onDragLeave(e) {
+        console.log('dragleave', e);
+    }
+ 
+    onDragOver(e) {
+        console.log('dragover', e);
+    }
+
     render() {
         if (this.state.liked) {
             return 'You liked this.';
         }
         return (
-            <button onClick={() => this.setState({ liked: true })}>
-                Like
-            </button>
+            <div
+                className="io-github-shunshun94-trpg-logEditor-FileLoader"
+                onDrop={(e)=>this.onDrop(e)}
+                onDragLeave={(e)=>{this.onDragLeave(e)}}
+                onDragOver={(e)=>{this.onDragLeave(e)}}
+            >
+                ログの HTML ないしユドナリウムの部屋の zip  を Drag/Drop するか、以下からアップロードしてください<br/>
+                <input
+                    type="file"
+                    name="io-github-shunshun94-trpg-logEditor-FileLoader-InputFile"
+                    id="io-github-shunshun94-trpg-logEditor-FileLoader-InputFile" 
+                    onInput={(e)=>io.github.shunshun94.trpg.logEditor.FileLoader.onInput(e)}
+                    />
+            </div>
         );
     }
 }
