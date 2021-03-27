@@ -40,35 +40,46 @@
     <script type="text/babel">
     const e = React.createElement;
 
-class LikeButton extends React.Component {
+class FileLoader extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { liked: false };
+        this.state = {
+            bgColor: 'white'
+        };
     }
 
     onDrop(e) {
-        console.log(e);
+        e.preventDefault();
+        this.setState({
+            bgColor: 'white'
+        });
         io.github.shunshun94.trpg.logEditor.FileLoader.onDrop(e);
     }
 
     onDragLeave(e) {
-        console.log('dragleave', e);
+        this.setState({
+            bgColor: 'white'
+        });
     }
  
     onDragOver(e) {
-        console.log('dragover', e);
+        // onDrop を動かすためにはこれが必要（何故？
+        // https://stackoverflow.com/questions/50230048/react-ondrop-is-not-firing/50230145
+        e.stopPropagation();
+        e.preventDefault();
+        this.setState({
+            bgColor: 'blue'
+        });
     }
 
     render() {
-        if (this.state.liked) {
-            return 'You liked this.';
-        }
+        const classes = `io-github-shunshun94-trpg-logEditor-FileLoader io-github-shunshun94-trpg-logEditor-FileLoader-${this.state.bgColor}`;
         return (
             <div
-                className="io-github-shunshun94-trpg-logEditor-FileLoader"
+                className={classes}
                 onDrop={(e)=>this.onDrop(e)}
                 onDragLeave={(e)=>{this.onDragLeave(e)}}
-                onDragOver={(e)=>{this.onDragLeave(e)}}
+                onDragOver={(e)=>{this.onDragOver(e)}}
             >
                 ログの HTML ないしユドナリウムの部屋の zip  を Drag/Drop するか、以下からアップロードしてください<br/>
                 <input
@@ -82,8 +93,20 @@ class LikeButton extends React.Component {
     }
 }
 
+class LogEditor extends React.Component {
+    render() {
+        return (
+            <FileLoader
+            
+            >
+            </FileLoader>
+        );
+    }
+}
+
 const domContainer = document.querySelector('#base');
-ReactDOM.render(e(LikeButton), domContainer);
+ReactDOM.render(e(FileLoader), domContainer);
+
     </script>
 </body>
 </html>

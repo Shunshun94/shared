@@ -10,14 +10,13 @@ io.github.shunshun94.trpg.logEditor.FileLoader.onDrop = (e) => {
 	//io.github.shunshun94.trpg.logEditor.DOMS.BODY.css('background-color', '');
 	const targetFile = e.dataTransfer.files[0];
 	io.github.shunshun94.trpg.logEditor.FileLoader.readFile(targetFile);
-	e.preventDefault();
+	
 };
 
 io.github.shunshun94.trpg.logEditor.FileLoader.onInput = (e)=>{
 	//io.github.shunshun94.trpg.logEditor.DOMS.BODY.css('background-color', '');
 	const targetFile = e.target.files[0];
 	io.github.shunshun94.trpg.logEditor.FileLoader.readFile(targetFile);
-	e.preventDefault();
 };
 
 io.github.shunshun94.trpg.logEditor.FileLoader.readFile = (targetFile) => {
