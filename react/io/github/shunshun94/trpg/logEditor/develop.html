@@ -53,7 +53,8 @@ class FileLoader extends React.Component {
         this.setState({
             bgColor: 'white'
         });
-        io.github.shunshun94.trpg.logEditor.FileLoader.onDrop(e);
+        const self = this;
+        io.github.shunshun94.trpg.logEditor.FileLoader.onDrop(e).then(self.props.onFileLoaded);
     }
 
     onDragLeave(e) {
@@ -94,10 +95,18 @@ class FileLoader extends React.Component {
 }
 
 class LogEditor extends React.Component {
+    constructor(props) {
+        super(props);
+        this.onFileLoaded = this.onFileLoaded.bind(this);
+    }
+
+    onFileLoaded(parsedFile) {
+        console.log(parsedFile);
+    } 
     render() {
         return (
             <FileLoader
-            
+                onFileLoaded={this.onFileLoaded}
             >
             </FileLoader>
         );
@@ -105,7 +114,7 @@ class LogEditor extends React.Component {
 }
 
 const domContainer = document.querySelector('#base');
-ReactDOM.render(e(FileLoader), domContainer);
+ReactDOM.render(e(LogEditor), domContainer);
 
     </script>
 </body>

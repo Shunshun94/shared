@@ -9,28 +9,18 @@ io.github.shunshun94.trpg.logEditor.FileLoader = io.github.shunshun94.trpg.logEd
 io.github.shunshun94.trpg.logEditor.FileLoader.onDrop = (e) => {
 	//io.github.shunshun94.trpg.logEditor.DOMS.BODY.css('background-color', '');
 	const targetFile = e.dataTransfer.files[0];
-	io.github.shunshun94.trpg.logEditor.FileLoader.readFile(targetFile);
+	return io.github.shunshun94.trpg.logEditor.FileLoader.readFile(targetFile);
 	
 };
 
 io.github.shunshun94.trpg.logEditor.FileLoader.onInput = (e)=>{
 	//io.github.shunshun94.trpg.logEditor.DOMS.BODY.css('background-color', '');
 	const targetFile = e.target.files[0];
-	io.github.shunshun94.trpg.logEditor.FileLoader.readFile(targetFile);
+	return io.github.shunshun94.trpg.logEditor.FileLoader.readFile(targetFile);
 };
 
 io.github.shunshun94.trpg.logEditor.FileLoader.readFile = (targetFile) => {
-	io.github.shunshun94.trpg.logEditor.convertors.ConvertorFactory.getConvertor(targetFile).dropEventToJson(targetFile).then((parsedTarget)=>{
-        console.log(parsedTarget);
-		/*
-        io.github.shunshun94.trpg.logEditor.DOMS.BODY.trigger(
-			io.github.shunshun94.trpg.logEditor.EVENTS.FILE_LOADED,
-			parsedTarget
-		);*/
-		// io.github.shunshun94.trpg.logEditor.DOMS.BODY.off('drop');
-		// io.github.shunshun94.trpg.logEditor.DOMS.BODY.off('dragleave');
-		// io.github.shunshun94.trpg.logEditor.DOMS.BODY.off('dragover');
-	});
+	return io.github.shunshun94.trpg.logEditor.convertors.ConvertorFactory.getConvertor(targetFile).dropEventToJson(targetFile);
 };
 
 io.github.shunshun94.trpg.logEditor.FileLoader.openBackScreen = () => {
