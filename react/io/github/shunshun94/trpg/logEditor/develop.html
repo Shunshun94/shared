@@ -40,26 +40,82 @@
     <script type="text/babel">
     const e = React.createElement;
 
-class LikeButton extends React.Component {
+class FileLoader extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { liked: false };
+        this.state = {
+            bgColor: 'white'
+        };
+    }
+
+    onDrop(e) {
+        e.preventDefault();
+        this.setState({
+            bgColor: 'white'
+        });
+        const self = this;
+        io.github.shunshun94.trpg.logEditor.FileLoader.onDrop(e).then(self.props.onFileLoaded);
+    }
+
+    onDragLeave(e) {
+        this.setState({
+            bgColor: 'white'
+        });
+    }
+ 
+    onDragOver(e) {
+        // onDrop を動かすためにはこれが必要（何故？
+        // https://stackoverflow.com/questions/50230048/react-ondrop-is-not-firing/50230145
+        e.stopPropagation();
+        e.preventDefault();
+        this.setState({
+            bgColor: 'blue'
+        });
     }
 
     render() {
-        if (this.state.liked) {
-            return 'You liked this.';
-        }
+        const classes = `io-github-shunshun94-trpg-logEditor-FileLoader io-github-shunshun94-trpg-logEditor-FileLoader-${this.state.bgColor}`;
         return (
-            <button onClick={() => this.setState({ liked: true })}>
-                Like
-            </button>
+            <div
+                className={classes}
+                onDrop={(e)=>this.onDrop(e)}
+                onDragLeave={(e)=>{this.onDragLeave(e)}}
+                onDragOver={(e)=>{this.onDragOver(e)}}
+            >
+                ログの HTML ないしユドナリウムの部屋の zip  を Drag/Drop するか、以下からアップロードしてください<br/>
+                <input
+                    type="file"
+                    name="io-github-shunshun94-trpg-logEditor-FileLoader-InputFile"
+                    id="io-github-shunshun94-trpg-logEditor-FileLoader-InputFile" 
+                    onInput={(e)=>io.github.shunshun94.trpg.logEditor.FileLoader.onInput(e)}
+                    />
+            </div>
+        );
+    }
+}
+
+class LogEditor extends React.Component {
+    constructor(props) {
+        super(props);
+        this.onFileLoaded = this.onFileLoaded.bind(this);
+    }
+
+    onFileLoaded(parsedFile) {
+        console.log(parsedFile);
+    } 
+    render() {
+        return (
+            <FileLoader
+                onFileLoaded={this.onFileLoaded}
+            >
+            </FileLoader>
         );
     }
 }
 
 const domContainer = document.querySelector('#base');
-ReactDOM.render(e(LikeButton), domContainer);
+ReactDOM.render(e(LogEditor), domContainer);
+
     </script>
 </body>
 </html>
