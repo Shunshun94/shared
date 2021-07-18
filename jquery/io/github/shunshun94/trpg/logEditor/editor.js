@@ -172,6 +172,19 @@ io.github.shunshun94.trpg.logEditor.Editor = class {
 				e.preventDefault();
 			}
 		});
+
+		io.github.shunshun94.trpg.logEditor.DOMS.BODY.keydown((e)=>{
+			if( e.keyCode === 83 && e.ctrlKey ) {
+				e.preventDefault();
+				io.github.shunshun94.trpg.logEditor.export.exec(
+					this.getMainDom(),
+					this.head,
+					this.omit,
+					io.github.shunshun94.trpg.logEditor.DOMS.BODY.attr('class'));
+				return;
+			}
+		});
+
 		io.github.shunshun94.trpg.logEditor.DOMS.BODY.click((e)=>{
 			const clicked = $(e.target);
 			const isButton = e.target.localName === 'button';
