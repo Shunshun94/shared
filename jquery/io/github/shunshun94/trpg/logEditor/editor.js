@@ -285,7 +285,7 @@ io.github.shunshun94.trpg.logEditor.Editor = class {
 		io.github.shunshun94.trpg.logEditor.DOMS.BODY.empty();
 		io.github.shunshun94.trpg.logEditor.DOMS.BODY.append(`
 			<div class="editBlock" id="mainEditor">
-				<h2>出力</h2><button class="${io.github.shunshun94.trpg.logEditor.CLASSES.SAVE}">保存する</button>
+				<h2>出力</h2><button class="${io.github.shunshun94.trpg.logEditor.CLASSES.SAVE}">保存する(Ctrl+S)</button>
 				<div class="logList"></div>
 			</div>
 		`);

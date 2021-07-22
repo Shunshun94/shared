@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>table.js 挙動確認</title>
+<meta charset="UTF-8">
+<script src="./table.js"></script>
+</head>
+<body>
+<textarea id="raw">
+&lt;table&gt;
+    &lt;tr&gt;
+        &lt;td&gt;羊&lt;/td&gt;&lt;td&gt;12&lt;/td&gt;&lt;td&gt;めぇめぇめぇ&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+        &lt;td&gt;ひよk&lt;/td&gt;&lt;td&gt;125&lt;/td&gt;&lt;td&gt;ちゅん&lt;/td&gt;
+    &lt;/tr&gt;
+&lt;/table&gt;
+</textarea>
+<pre id="result"></pre>
+<script>
+const array = io.github.shunshun94.util.table.getTableColumns(document.getElementById('raw').value);
+document.getElementById('result').innerText = io.github.shunshun94.util.table.generateTable(array);
+</script>
+</body>
+</html>
