@@ -30,6 +30,7 @@ io.github.shunshun94.trpg.logEditor.CLASSES = {
 	NAME_MENU_EXEC: 'io-github-shunshun94-trpg-logEditor-menu-NameConfig-exec',
 	STYLE_RESET_MENU: 'menu-styleReset',
 	ID_INSERTION_MENU: 'menu-idInsertion',
+	SAME_MEMBER_MENU: 'menu-sameMember',
 	DARKMODE_MENU: 'menu-editorVisual',
 	PREVIEW_MENU: 'menu-preview',
 	SYSTEM_TO_POST_MENU: 'menu-systemToPost',

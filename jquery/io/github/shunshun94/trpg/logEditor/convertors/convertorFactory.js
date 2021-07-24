@@ -8,6 +8,8 @@ io.github.shunshun94.trpg.logEditor.convertors.ConvertorFactory = io.github.shun
 io.github.shunshun94.trpg.logEditor.convertors.ConvertorFactory.getConvertor = (file) => {
 	if(file.name.endsWith('.zip')) {
 		return io.github.shunshun94.trpg.logEditor.convertors.UdonariumConvertor;
+	} if(file.name.endsWith('.txt') || file.name.endsWith('.text')) {
+		return io.github.shunshun94.trpg.logEditor.convertors.RawTextConvertor;
 	} else {
 		return io.github.shunshun94.trpg.logEditor.convertors.CcfoliaConvertor;
 	}
