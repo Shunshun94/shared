@@ -21,14 +21,18 @@ io.github.shunshun94.trpg.logEditor.Editor = class {
 		this.bindEvents();
 	}
 
-	setRndId(post) {
-		const targetDom = post.find(`.${io.github.shunshun94.trpg.logEditor.CLASSES.INPUTS}-id`);
+	getRndId() {
 		let randomString = '';
 		const baseString ='abcdefghijklmnopqrstuvwxyz';
 		for(let i = 0; i < 32; i++) {
 			randomString += baseString.charAt( Math.floor( Math.random() * baseString.length));
 		}
-		targetDom.val(randomString);
+		return randomString;
+	}
+
+	setRndId(post) {
+		const targetDom = post.find(`.${io.github.shunshun94.trpg.logEditor.CLASSES.INPUTS}-id`);
+		targetDom.val(this.getRndId());
 	}
 
 	duplicate(post) {
@@ -128,6 +132,30 @@ io.github.shunshun94.trpg.logEditor.Editor = class {
 				console.error(i, 'failed to get execResult', contentDom.text());
 			}
 		});
+	}
+
+	searchSameMemberDoublePost() {
+		const doms = Array.from(this.getMainDom().children());
+		let cursor = this.getRndId();
+		for(const rawDom of doms) {
+			const dom = $(rawDom);
+			const tag = dom.find(`.${io.github.shunshun94.trpg.logEditor.CLASSES.INPUTS}-tag`).val().trim();
+			if(tag === 'p') {
+				const clazz = dom.find(`.${io.github.shunshun94.trpg.logEditor.CLASSES.INPUTS}-class`).val().trim();
+				const name = dom.find(`.${io.github.shunshun94.trpg.logEditor.CLASSES.NAME}`).html().trim();
+				const target = `${name}-${clazz}`;
+				if(cursor === target) {
+					dom.find(`.${io.github.shunshun94.trpg.logEditor.CLASSES.MERGE}`)[0].focus();
+					return;
+				} else {
+					cursor = target;
+				}
+			} else {
+				cursor = this.getRndId();
+			}
+
+		}
+		alert('見つかりませんでした');
 	}
 
 	showPreview() {
@@ -249,6 +277,10 @@ io.github.shunshun94.trpg.logEditor.Editor = class {
 				this.convertSystemToPost();
 				return;
 			}
+			if( clicked.hasClass(io.github.shunshun94.trpg.logEditor.CLASSES.SAME_MEMBER_MENU) ) {
+				this.searchSameMemberDoublePost();
+				return;
+			}
 			if( clicked.hasClass(io.github.shunshun94.trpg.logEditor.CLASSES.PREVIEW_MENU) ) {
 				this.showPreview();
 				return;
@@ -307,6 +339,7 @@ io.github.shunshun94.trpg.logEditor.Editor = class {
 				<button class="${io.github.shunshun94.trpg.logEditor.CLASSES.STYLE_RESET_MENU}">style を全削除</button>
 				<button class="${io.github.shunshun94.trpg.logEditor.CLASSES.ID_INSERTION_MENU}">全ての見出しにランダムな ID を挿入</button>
 				<button class="${io.github.shunshun94.trpg.logEditor.CLASSES.SYSTEM_TO_POST_MENU}">System の発言を個人の発言に変換</button>
+				<button class="${io.github.shunshun94.trpg.logEditor.CLASSES.SAME_MEMBER_MENU}">同じ発言者の連続した発言にジャンプ</button>
 				<button class="${io.github.shunshun94.trpg.logEditor.CLASSES.DARKMODE_MENU}">ナイトモード ON/OFF</button>
 				<button class="${io.github.shunshun94.trpg.logEditor.CLASSES.PREVIEW_MENU}">プレビュー</button>
 			</div>
