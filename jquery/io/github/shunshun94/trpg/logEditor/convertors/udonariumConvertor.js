@@ -18,7 +18,7 @@ io.github.shunshun94.trpg.logEditor.convertors.UdonariumConvertor.dropEventToJso
 				const list = [];
 				for(var i = 0; i < tabs.length; i++) {
 					const targetTab = tabs[i];
-					const tabClass = (targetTab.getAttribute('name') === io.github.shunshun94.trpg.logEditor.convertors.UdonariumConvertor.MAIN) ? '' : 'tab1'; 
+					const tabClass = `${(targetTab.getAttribute('name') === io.github.shunshun94.trpg.logEditor.convertors.UdonariumConvertor.MAIN) ? '' : 'tab1 '}${targetTab.getAttribute('name')}`; 
 					const posts = targetTab.getElementsByTagName('chat');
 					for(var j = 0; j < posts.length; j++) {
 						const targetPost = posts[j];

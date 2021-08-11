@@ -8,7 +8,7 @@ io.github.shunshun94.trpg.logEditor.convertors.CcfoliaConvertor = io.github.shun
 
 io.github.shunshun94.trpg.logEditor.convertors.CcfoliaConvertor.IGNORE_TAGS = ['script'];
 io.github.shunshun94.trpg.logEditor.convertors.CcfoliaConvertor.DEFAULT_TABS_CLASS = {
-	'[雑談]': 'tab1'
+	'[雑談]': 'tab1 '
 };
 
 io.github.shunshun94.trpg.logEditor.convertors.CcfoliaConvertor.elementToJson = (elem) => {
@@ -28,7 +28,7 @@ io.github.shunshun94.trpg.logEditor.convertors.CcfoliaConvertor.elementToJson = 
 	result.title = elem.getAttribute('title') || '';
 	result.style = elem.getAttribute('style') || '';
 	result.id = elem.getAttribute('id') || '';
-	result.class = elem.getAttribute('class') || io.github.shunshun94.trpg.logEditor.convertors.CcfoliaConvertor.DEFAULT_TABS_CLASS[result.tabName] || '';
+	result.class = elem.getAttribute('class') || (result.tabName ? `${io.github.shunshun94.trpg.logEditor.convertors.CcfoliaConvertor.DEFAULT_TABS_CLASS[result.tabName] || ''}${result.tabName.slice(1, -1)}` : '');
 
 	return result;
 };
