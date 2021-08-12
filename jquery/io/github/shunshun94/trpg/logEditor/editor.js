@@ -84,11 +84,12 @@ io.github.shunshun94.trpg.logEditor.Editor = class {
 			if(target.class) {
 				target.list.find(`.io-github-shunshun94-trpg-logEditor-Post-params-param-input-class`).each((i,v)=>{
 					const currentValue = $(v).val();
-					if(currentValue.includes('tab1')) {
-						$(v).val(`tab1 ${target.class}`);
+					const isIncludeTabX = /tab\d+/.exec(currentValue)
+					if (isIncludeTabX) {
+						$(v).val(`${isIncludeTabX[0]} ${target.class}`);
 					} else {
 						$(v).val(target.class);
-					} 
+					}
 				});
 			}
 		}
