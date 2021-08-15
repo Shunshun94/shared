@@ -4,6 +4,36 @@
     <meta charset="UTF-8">
 </head>
 <body>
+    <div id="display" style="display:none;">
+        <p>入力：<input id="input" type="text" list="commandList" />（Enter で送信）</p>
+        <p>結果：<span id="result"></span></p>
+        <datalist id="commandList">
+
+        </datalist>
+    </div>
+    <p>ココフォリアのクリップボード API の内容を貼り付けてください</p>
     <script src="./clipboardApiUtil.js"></script>
+    <script>
+        let data = {};
+        document.getElementsByTagName('body')[0].addEventListener('keydown', (e)=>{
+            if(e.target.id === 'input') {
+                if(e.code === 'Enter') {
+                    document.getElementById('result').innerText = io.github.shunshun94.trpg.ccfolia.ClipboardApiUtil.v1_19.solveText(data, document.getElementById('input').value);
+                    document.getElementById('input').value = '';
+                }
+                return;
+            }
+            if(e.ctrlKey && e.code === 'KeyV') {
+                navigator.clipboard.readText().then((text)=>{
+                    data = io.github.shunshun94.trpg.ccfolia.ClipboardApiUtil.v1_19.format(text);
+                    document.getElementById('commandList').innerHTML = data.commands.split('\n').map((t)=>{
+                        return `<option value="${t}" />`
+                    }).join('');
+                    document.getElementById('display').style.display = 'block';
+                });
+            }
+            console.log(e);
+        });
+    </script>
 </body>
 </html>

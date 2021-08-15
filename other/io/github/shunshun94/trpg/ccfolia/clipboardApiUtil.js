@@ -7,7 +7,12 @@ io.github.shunshun94.trpg.ccfolia = io.github.shunshun94.trpg.ccfolia || {};
 io.github.shunshun94.trpg.ccfolia.ClipboardApiUtil = io.github.shunshun94.trpg.ccfolia.ClipboardApiUtil || {};
 io.github.shunshun94.trpg.ccfolia.ClipboardApiUtil.v1_19 = io.github.shunshun94.trpg.ccfolia.ClipboardApiUtil.v1_19 || {};
 
-io.github.shunshun94.trpg.ccfolia.ClipboardApiUtil.v1_19._format = (tmp_data) => {
+/**
+ * 
+ * @param {string|object} ココフォリアのClipboard APIに挿入するJSONまたはそのテキスト
+ * @returns {object} ココフォリアのClipboard APIのCharacter
+ */
+io.github.shunshun94.trpg.ccfolia.ClipboardApiUtil.v1_19.format = (tmp_data) => {
     if((typeof tmp_data) === 'string') {
         return JSON.parse(tmp_data).data
     } else {
@@ -46,11 +51,11 @@ io.github.shunshun94.trpg.ccfolia.ClipboardApiUtil.v1_19._getParam = (data, text
  * @param {string|object} tmp_data ココフォリアのClipboard APIに挿入するJSONまたはそのテキスト
  * @param {string} text 変数を解決したい文字列
  * @param {number} depth 変数が入れ子になっている場合に何段階まで解決するのか。デフォルト値は10
- * @returns 変数を解決済みの文字列
+ * @returns {object} 変数を解決済みの文字列
  * @throws depth の値よりも深い入れ子になっていた場合
  */
 io.github.shunshun94.trpg.ccfolia.ClipboardApiUtil.v1_19.solveText = (tmp_data, text, depth=10) => {
-    const data = io.github.shunshun94.trpg.ccfolia.ClipboardApiUtil.v1_19._format(tmp_data);
+    const data = io.github.shunshun94.trpg.ccfolia.ClipboardApiUtil.v1_19.format(tmp_data);
     const regexp = /{([^}]+)}/;
     while(regexp.test(text)) {
         const execResult = regexp.exec(text);
