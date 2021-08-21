@@ -12,20 +12,25 @@ io.github.shunshun94.trpg.logEditor.convertors.UdonariumConvertor.dropEventToJso
 	var jszip = new JSZip();
 	return new Promise((resolve, reject)=>{
 		jszip.loadAsync(file).then((zip)=>{
-			const tabs = {};
+			const tabsName = {};
 			let tabCounts = 0;
 			zip.file('chat.xml').async("string").then((rawContent)=>{
 				const dom = (new DOMParser()).parseFromString(rawContent, 'text/xml');
+				const parseError = dom.getElementsByTagName('parsererror');
+				if(parseError.length) {
+					const message = parseError[0].getElementsByTagName('div')[0].innerHTML;
+					alert(`ログにエラーが含まれるため上手く解析できません。解析できる限界までログを取得します。\nログに含まれるエラーメッセージ：${message}`);
+				}
 				const tabs = dom.getElementsByTagName('chat-tab');
 				const list = [];
 				for(var i = 0; i < tabs.length; i++) {
 					const targetTab = tabs[i];
 					const tabName = targetTab.getAttribute('name');
-					if(! tabs[tabName]) {
-						tabs[tabName] = `tab${tabCounts}`;
+					if(! tabsName[tabName]) {
+						tabsName[tabName] = `tab${tabCounts}`;
 						tabCounts++;
 					}
-					const tabClass = `${tabs[tabName]} ${targetTab.getAttribute('name')}`; 
+					const tabClass = `${tabsName[tabName]} ${targetTab.getAttribute('name')}`; 
 					const posts = targetTab.getElementsByTagName('chat');
 					for(var j = 0; j < posts.length; j++) {
 						const targetPost = posts[j];
