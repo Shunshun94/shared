@@ -60,24 +60,6 @@ p.tab1 {
 	content:"【雑談】"
 }
 
-.tab9, .tab8 {
-	display:none;
-}
-
-.tab2 {
-	padding-right: 400px;
-}
-.tab2:nth-child(even) {
-	background-color: #300000;
-}
-
-.tab3 {
-	padding-left: 400px;
-}
-.tab3:nth-child(even) {
-	background-color: #003000;
-}
-
 p > span:nth-child(1) {
 	display:none;
 }
