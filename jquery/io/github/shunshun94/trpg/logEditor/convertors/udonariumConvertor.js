@@ -16,15 +16,18 @@ io.github.shunshun94.trpg.logEditor.convertors.UdonariumConvertor.dropEventToJso
 			let tabCounts = 0;
 			zip.file('chat.xml').async("string").then((rawContent)=>{
 				const dom = (new DOMParser()).parseFromString(rawContent, 'text/xml');
+				const parseError = dom.getElementsByTagName('parsererror');
+				if(parseError.length) {
+					const message = parseError[0].getElementsByTagName('div')[0].innerHTML;
+					alert(`ログにエラーが含まれるため上手く解析できません。解析できる限界までログを取得します。\nログに含まれるエラーメッセージ：${message}`);
+				}
 				const tabs = dom.getElementsByTagName('chat-tab');
 				const list = [];
-				console.log(tabs.length, dom);
 				for(var i = 0; i < tabs.length; i++) {
 					const targetTab = tabs[i];
 					const tabName = targetTab.getAttribute('name');
 					if(! tabsName[tabName]) {
 						tabsName[tabName] = `tab${tabCounts}`;
-						console.log(tabName, tabsName[tabName]);
 						tabCounts++;
 					}
 					const tabClass = `${tabsName[tabName]} ${targetTab.getAttribute('name')}`; 
