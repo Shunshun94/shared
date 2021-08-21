@@ -12,20 +12,22 @@ io.github.shunshun94.trpg.logEditor.convertors.UdonariumConvertor.dropEventToJso
 	var jszip = new JSZip();
 	return new Promise((resolve, reject)=>{
 		jszip.loadAsync(file).then((zip)=>{
-			const tabs = {};
+			const tabsName = {};
 			let tabCounts = 0;
 			zip.file('chat.xml').async("string").then((rawContent)=>{
 				const dom = (new DOMParser()).parseFromString(rawContent, 'text/xml');
 				const tabs = dom.getElementsByTagName('chat-tab');
 				const list = [];
+				console.log(tabs.length, dom);
 				for(var i = 0; i < tabs.length; i++) {
 					const targetTab = tabs[i];
 					const tabName = targetTab.getAttribute('name');
-					if(! tabs[tabName]) {
-						tabs[tabName] = `tab${tabCounts}`;
+					if(! tabsName[tabName]) {
+						tabsName[tabName] = `tab${tabCounts}`;
+						console.log(tabName, tabsName[tabName]);
 						tabCounts++;
 					}
-					const tabClass = `${tabs[tabName]} ${targetTab.getAttribute('name')}`; 
+					const tabClass = `${tabsName[tabName]} ${targetTab.getAttribute('name')}`; 
 					const posts = targetTab.getElementsByTagName('chat');
 					for(var j = 0; j < posts.length; j++) {
 						const targetPost = posts[j];
