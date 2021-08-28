@@ -56,7 +56,6 @@ io.github.shunshun94.trpg.logEditor.Editor = class {
 		posts.reverse().forEach((post)=>{
 			trashBox.prepend(post.clone(true));
 		});
-		console.log(posts, trashBox);
 	}
 
 	toggleSub(post) {
