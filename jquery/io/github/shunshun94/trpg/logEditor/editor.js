@@ -51,6 +51,14 @@ io.github.shunshun94.trpg.logEditor.Editor = class {
 		}
 	}
 
+	copyToTrash(posts) {
+		const trashBox = $('#trashbox .logList');
+		posts.reverse().forEach((post)=>{
+			trashBox.prepend(post.clone(true));
+		});
+		console.log(posts, trashBox);
+	}
+
 	toggleSub(post) {
 		const targetDom = post.find(`.${io.github.shunshun94.trpg.logEditor.CLASSES.INPUTS}-class`);
 		if(targetDom.val().includes('tab1')) {
@@ -223,9 +231,11 @@ io.github.shunshun94.trpg.logEditor.Editor = class {
 					this.duplicate(targetPost);
 				}
 				if( clicked.hasClass(io.github.shunshun94.trpg.logEditor.CLASSES.MERGE) ) {
+					this.copyToTrash([targetPost, targetPost.prev()]);
 					this.merge(targetPost);
 				}
 				if( clicked.hasClass(io.github.shunshun94.trpg.logEditor.CLASSES.DELETE) ) {
+					this.copyToTrash([targetPost]);
 					targetPost.remove();
 				}
 				if( clicked.hasClass(io.github.shunshun94.trpg.logEditor.CLASSES.RANDOM_ID) ) {
@@ -286,9 +296,22 @@ io.github.shunshun94.trpg.logEditor.Editor = class {
 				this.showPreview();
 				return;
 			}
+			if( clicked.hasClass(io.github.shunshun94.trpg.logEditor.CLASSES.TRASHBOX_MENU)) {
+				$('#trashbox').toggle(400);
+				$('#tmpEditorB').toggle(400);
+				return;
+			}
 			if( clicked.hasClass(io.github.shunshun94.trpg.logEditor.CLASSES.BACKSCREEN) ) {
 				this.closeTmpWindow(clicked);
 				return;
+			}
+			if( clicked.hasClass(io.github.shunshun94.trpg.logEditor.CLASSES.TRASHBOX_CLOSE)) {
+				$('#trashbox').hide(400);
+				$('#tmpEditorB').show(400);
+				return;
+			}
+			if( clicked.hasClass(io.github.shunshun94.trpg.logEditor.CLASSES.DELETE_ALL) ) {
+				$('#trashbox .logList .io-github-shunshun94-trpg-logEditor-Post').remove();
 			}
 		});
 	}
@@ -332,6 +355,12 @@ io.github.shunshun94.trpg.logEditor.Editor = class {
 					<h2>一次置き場B</h2><button class="${io.github.shunshun94.trpg.logEditor.CLASSES.SAVE}">保存する</button>
 					<div class="logList"></div>
 				</div>
+				<div class="trashBlock" id="trashbox">
+					<h2>ゴミ箱</h2>
+					<button class="${io.github.shunshun94.trpg.logEditor.CLASSES.TRASHBOX_CLOSE}">閉じる</button>
+					<button class="${io.github.shunshun94.trpg.logEditor.CLASSES.DELETE_ALL}">空にする</button>
+					<div class="logList"></div>
+				</div>
 			</div>
 		`);
 		io.github.shunshun94.trpg.logEditor.DOMS.BODY.append(`
@@ -341,6 +370,7 @@ io.github.shunshun94.trpg.logEditor.Editor = class {
 				<button class="${io.github.shunshun94.trpg.logEditor.CLASSES.ID_INSERTION_MENU}">全ての見出しにランダムな ID を挿入</button>
 				<button class="${io.github.shunshun94.trpg.logEditor.CLASSES.SYSTEM_TO_POST_MENU}">System の発言を個人の発言に変換</button>
 				<button class="${io.github.shunshun94.trpg.logEditor.CLASSES.SAME_MEMBER_MENU}">同じ発言者の連続した発言にジャンプ</button>
+				<button class="${io.github.shunshun94.trpg.logEditor.CLASSES.TRASHBOX_MENU}">ゴミ箱を開閉</button>
 				<button class="${io.github.shunshun94.trpg.logEditor.CLASSES.DARKMODE_MENU}">ナイトモード ON/OFF</button>
 				<button class="${io.github.shunshun94.trpg.logEditor.CLASSES.PREVIEW_MENU}">プレビュー</button>
 			</div>

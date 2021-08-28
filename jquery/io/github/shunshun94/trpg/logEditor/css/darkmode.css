@@ -8,6 +8,10 @@
 	border-top:white 1px solid;
 }
 
+.darkmode #trashbox {
+	background-color: dimgray;
+}
+
 .darkmode .io-github-shunshun94-trpg-logEditor-preview {
 	background-color: #000000;
 }

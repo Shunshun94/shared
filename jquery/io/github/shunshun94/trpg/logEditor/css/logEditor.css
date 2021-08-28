@@ -4,10 +4,17 @@
 	font-family: "BIZ UDゴシック","UD Shin Go NT Light JIS2004","UD デジタル 教科書体 N-R", Verdana, Roboto, "Droid Sans", "游ゴシック", YuGothic, "メイリオ", Meiryo, "ヒラギノ角ゴ ProN W3", "Hiragino Kaku Gothic ProN", "ＭＳ Ｐゴシック", sans-serif;
 }
 
-.io-github-shunshun94-trpg-logEditor-save {
+.io-github-shunshun94-trpg-logEditor-save,
+.io-github-shunshun94-trpg-logEditor-deleteAll {
 	position:absolute;
 	top:8px;
 	right:8px;
+}
+
+.io-github-shunshun94-trpg-logEditor-closeTrashBox {
+	position:absolute;
+	top:8px;
+	right:78px;
 }
 
 .io-github-shunshun94-trpg-logEditor-Post {
@@ -143,6 +150,15 @@ h2 {
 #tmpEditorB {
 	left:400px;
 }
+#trashbox {
+	display:none;
+	left:400px;
+	background-color:whitesmoke;
+}
+
+#trashbox .io-github-shunshun94-trpg-logEditor-Post button {
+	display:none;
+}
 
 .io-github-shunshun94-trpg-logEditor-preview {
 	position:absolute;
@@ -246,12 +262,17 @@ h2 {
 
 .menu-idInsertion {
 	left:152px;
-	top:56px;	
+	top:56px;
 }
 
 .menu-sameMember {
 	left: 400px;
 	top: 8px;	
+}
+
+.menu-trashbox {
+	left: 400px;
+	top: 32px;
 }
 
 .menu-preview {
