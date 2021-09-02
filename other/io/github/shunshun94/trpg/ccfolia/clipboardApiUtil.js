@@ -43,6 +43,22 @@ io.github.shunshun94.trpg.ccfolia.ClipboardApiUtil.v1_19._getParam = (data, text
             
         }
     }
+    const splitedText = {};
+    data.commands.split('\n').filter((l)=>{return l.startsWith('//')}).forEach((l)=>{
+        const splited = l.slice(2).split('=');
+        if(splited.length > 1) {
+            splitedText[splited[0]] = splited.slice(1).join('=');
+        }
+    });
+    for(const internalParam in splitedText) {
+        if(internalParam === text) {
+            try {
+                return io.github.shunshun94.trpg.ccfolia.ClipboardApiUtil.v1_19.solveText(data, splitedText[internalParam], depth - 1);
+            } catch(e) {
+                throw `${text}を解決しようとして${splitedText[internalParam]}を見つけました（残回数${depth-1}）\n${e}`;
+            }
+        }
+    }
     return text;
 };
 
