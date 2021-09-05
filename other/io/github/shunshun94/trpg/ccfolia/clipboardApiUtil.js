@@ -81,4 +81,46 @@ io.github.shunshun94.trpg.ccfolia.ClipboardApiUtil.v1_19.solveText = (tmp_data, 
     return text;
 };
 
+/**
+ * 
+ * @param {string|object} ココフォリアのClipboard APIに挿入するJSONまたはそのテキスト
+ * @param {string} ステータスを変更するためのコマンド。":HP-18" といったフォーマットになる（この場合は HP を18減少させる）
+ * @returns {object} ステータス更新後のココフォリアのClipboard APIのCharacter
+ * @throws なんらかの事由で更新できなかった場合
+ */
+io.github.shunshun94.trpg.ccfolia.ClipboardApiUtil.v1_19.updateStatus = (tmp_data, tmp_command) => {
+    let command = tmp_command;
+    const data = io.github.shunshun94.trpg.ccfolia.ClipboardApiUtil.v1_19.format(tmp_data);
+    if(data.status.length === 0) { throw '操作すべきステータスの値がありません'; }
+    let noUpdateFlag = true;
+    const regexp = /^:([^+=-]+)([+-=])(\d+)/;
+    const regExpResult = regexp.exec(command);
+    if(! Boolean(regExpResult)) {
+        throw `入力された式 ${command} が処理できませんでした。 :${data.status[0].label}+10 や :${data.status[0].label}-5 といったフォーマットで入力してください。`;
+    }
+    const target = data.status.map((d, i)=>{
+        d.index = i;
+        return d;
+    }).filter((d)=>{
+        return d.label === regExpResult[1];
+    });
+    if(target.length === 0) {
+        throw `操作するステータス ${regExpResult[1]} が見つかりませんでした`;
+    }
+    const beforeValue = String(data.status[target[0].index].value);
+    while(regexp.test(command)) {
+        const execResult = regexp.exec(command);
+        if(execResult[2] === '+') {
+            data.status[target[0].index].value = Number(data.status[target[0].index].value) + Number(execResult[3]);
+        }else if(execResult[2] === '-') {
+            data.status[target[0].index].value = Number(data.status[target[0].index].value) - Number(execResult[3]);
+        }else if(execResult[2] === '=') {
+            data.status[target[0].index].value = Number(execResult[3]);
+        }
+        command = command.replace(`${execResult[2]}${execResult[3]}`, '');
+    }
+    data.updateStatusResult = `${data.status[target[0].index].label} : ${beforeValue} → ${data.status[target[0].index].value}`;
+    return data;
+};
+
 io.github.shunshun94.trpg.ccfolia.ClipboardApiUtil.latest = io.github.shunshun94.trpg.ccfolia.ClipboardApiUtil.v1_19;
