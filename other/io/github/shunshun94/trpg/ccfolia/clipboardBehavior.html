@@ -5,8 +5,12 @@
 </head>
 <body>
     <div id="display" style="display:none;">
+        <h2>入力・出力</h2>
         <p>入力：<input id="input" type="text" list="commandList" />（Enter で送信）</p>
         <p>結果：<span id="result"></span></p>
+        <hr/>
+        <h2>ログ</h2>
+        <pre id="logs"></pre>
         <datalist id="commandList">
 
         </datalist>
@@ -18,7 +22,16 @@
         document.getElementsByTagName('body')[0].addEventListener('keydown', (e)=>{
             if(e.target.id === 'input') {
                 if(e.code === 'Enter') {
-                    document.getElementById('result').innerText = io.github.shunshun94.trpg.ccfolia.ClipboardApiUtil.v1_19.solveText(data, document.getElementById('input').value);
+                    const result = io.github.shunshun94.trpg.ccfolia.ClipboardApiUtil.v1_19.solveText(data, document.getElementById('input').value);
+                    try {
+                        data = io.github.shunshun94.trpg.ccfolia.ClipboardApiUtil.v1_19.updateStatus(data, result);
+                        document.getElementById('result').innerText = data.updateStatusResult;
+                        document.getElementById('logs').innerText = `${data.updateStatusResult}\n\n${document.getElementById('logs').innerText}`;
+                    } catch(e) {
+                        console.warn(e);
+                        document.getElementById('result').innerText = result;
+                        document.getElementById('logs').innerText = `${result}\n\n${document.getElementById('logs').innerText}`;
+                    }                    
                     document.getElementById('input').value = '';
                 }
                 return;
