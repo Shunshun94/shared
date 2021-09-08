@@ -16,7 +16,7 @@ io.github.shunshun94.trpg.logEditor.menu.NameConfig.generateDom = (names) => {
 	${io.github.shunshun94.trpg.logEditor.menu.NameConfig.generateListByNames(names)}
 	</table>
 	<button class="${io.github.shunshun94.trpg.logEditor.CLASSES.NAME_MENU_EXEC}">決定</button>
-	</div>`;	
+	</div>`;
 };
 
 io.github.shunshun94.trpg.logEditor.menu.NameConfig.generateListByNames = (names) => {

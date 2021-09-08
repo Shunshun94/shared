@@ -67,6 +67,10 @@ io.github.shunshun94.trpg.logEditor.Editor = class {
 		}
 	}
 
+	openSaveScreen(targetBlock = 'mainEditor') {
+		io.github.shunshun94.trpg.logEditor.DOMS.BODY.append(io.github.shunshun94.trpg.logEditor.menu.saveMenu.generateDom(targetBlock));
+	}
+
 	openNameConfigScreen() {
 		const names = Array.from(new Set($.makeArray($(`.${io.github.shunshun94.trpg.logEditor.CLASSES.NAME}`).map((i,v)=>{return $(v).text()})))).filter((n)=>{return n;});
 		io.github.shunshun94.trpg.logEditor.DOMS.BODY.append(io.github.shunshun94.trpg.logEditor.menu.NameConfig.generateDom(names));
@@ -212,11 +216,8 @@ io.github.shunshun94.trpg.logEditor.Editor = class {
 		io.github.shunshun94.trpg.logEditor.DOMS.BODY.keydown((e)=>{
 			if( e.keyCode === 83 && e.ctrlKey ) {
 				e.preventDefault();
-				io.github.shunshun94.trpg.logEditor.export.getExporter('html').exec(
-					this.getMainDom(),
-					this.head,
-					this.omit,
-					io.github.shunshun94.trpg.logEditor.DOMS.BODY.attr('class'));
+				this.openBackScreen();
+				this.openSaveScreen();
 				return;
 			}
 		});
@@ -247,11 +248,8 @@ io.github.shunshun94.trpg.logEditor.Editor = class {
 			}
 			const targetBlock = clicked.parents(`.editBlock`);
 			if(isButton && targetBlock.length) {
-				io.github.shunshun94.trpg.logEditor.export.getExporter('html').exec(
-						targetBlock.find('.logList'),
-						this.head,
-						this.omit,
-						io.github.shunshun94.trpg.logEditor.DOMS.BODY.attr('class'));
+				this.openBackScreen();
+				this.openSaveScreen(targetBlock.attr('id'));
 				return;
 			}
 			if( clicked.hasClass(io.github.shunshun94.trpg.logEditor.CLASSES.NAME_MENU) ) {
@@ -270,6 +268,19 @@ io.github.shunshun94.trpg.logEditor.Editor = class {
 			if( clicked.hasClass(io.github.shunshun94.trpg.logEditor.CLASSES.NAME_MENU_EXEC) ) {
 				this.applyNameConfig();
 				this.closeTmpWindow(clicked);
+				return;
+			}
+			if( clicked.hasClass(`${io.github.shunshun94.trpg.logEditor.CLASSES.SAVE_MENU_WINDOW}-save`) ) {
+				this.closeTmpWindow(clicked);
+				const buttonValue = clicked.val().split(' ');
+				const targetBlockType = buttonValue[0];
+				const targetExporter = buttonValue[1];
+				console.log(buttonValue);
+				io.github.shunshun94.trpg.logEditor.export.getExporter(targetExporter).exec(
+					$(`#${targetBlockType}`).find('.logList'),
+					this.head,
+					this.omit,
+					io.github.shunshun94.trpg.logEditor.DOMS.BODY.attr('class'));
 				return;
 			}
 			if( clicked.hasClass(io.github.shunshun94.trpg.logEditor.CLASSES.STYLE_RESET_MENU) ) {
