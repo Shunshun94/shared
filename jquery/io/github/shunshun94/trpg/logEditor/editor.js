@@ -11,8 +11,8 @@ io.github.shunshun94.trpg.logEditor.Editor = class {
 		this.omit = data.omitted;
 		this.initPosts(htmls);
 		this.activateSort();
-		io.github.shunshun94.trpg.logEditor.export.setLastHash(
-				io.github.shunshun94.trpg.logEditor.export.calcCurrentHash(
+		io.github.shunshun94.trpg.logEditor.export.htmlExporter.setLastHash(
+			io.github.shunshun94.trpg.logEditor.export.htmlExporter.calcCurrentHash(
 					$('#mainEditor .logList'),
 					this.head,
 					this.omit,
@@ -167,7 +167,7 @@ io.github.shunshun94.trpg.logEditor.Editor = class {
 	}
 
 	showPreview() {
-		const body = io.github.shunshun94.trpg.logEditor.export.generateBody($('#mainEditor .logList'));
+		const body = io.github.shunshun94.trpg.logEditor.export.htmlExporter.generateBody($('#mainEditor .logList'));
 		$(`.${io.github.shunshun94.trpg.logEditor.CLASSES.PREVIEW}`).empty();
 		$(`.${io.github.shunshun94.trpg.logEditor.CLASSES.PREVIEW}`).append(body);
 		$(`.${io.github.shunshun94.trpg.logEditor.CLASSES.PREVIEW}`).append(`<button class="${io.github.shunshun94.trpg.logEditor.CLASSES.PREVIEW}-close">プレビューを閉じる</button>`);
@@ -190,14 +190,14 @@ io.github.shunshun94.trpg.logEditor.Editor = class {
 	bindEvents() {
 		const self = this;
 		window.onbeforeunload = (e)=>{
-			const currentHash = io.github.shunshun94.trpg.logEditor.export.calcCurrentHash(
+			const currentHash = io.github.shunshun94.trpg.logEditor.export.htmlExporter.calcCurrentHash(
 				$('#mainEditor .logList'),
 				self.head,
 				self.omit,
 				io.github.shunshun94.trpg.logEditor.DOMS.BODY.attr('class')
 			);
 			html = $('#mainEditor .logList').html();
-			if( io.github.shunshun94.trpg.logEditor.export.getLastHash() !== currentHash ) {
+			if( io.github.shunshun94.trpg.logEditor.export.htmlExporter.getLastHash() !== currentHash ) {
 				return true;
 			}
 		};
@@ -212,7 +212,7 @@ io.github.shunshun94.trpg.logEditor.Editor = class {
 		io.github.shunshun94.trpg.logEditor.DOMS.BODY.keydown((e)=>{
 			if( e.keyCode === 83 && e.ctrlKey ) {
 				e.preventDefault();
-				io.github.shunshun94.trpg.logEditor.export.exec(
+				io.github.shunshun94.trpg.logEditor.export.getExporter('html').exec(
 					this.getMainDom(),
 					this.head,
 					this.omit,
@@ -247,7 +247,7 @@ io.github.shunshun94.trpg.logEditor.Editor = class {
 			}
 			const targetBlock = clicked.parents(`.editBlock`);
 			if(isButton && targetBlock.length) {
-				io.github.shunshun94.trpg.logEditor.export.exec(
+				io.github.shunshun94.trpg.logEditor.export.getExporter('html').exec(
 						targetBlock.find('.logList'),
 						this.head,
 						this.omit,
