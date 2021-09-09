@@ -28,6 +28,42 @@ io.github.shunshun94.trpg.logEditor.export.commonTextExporter.download = (text) 
 	URL.revokeObjectURL(url);
 };
 
+io.github.shunshun94.trpg.logEditor.export.commonTextExporter.exec = (doms, dummy1, dummy2, dummy3) => {
+    const exportResultArray = Array.from(doms.children()).map(jQuery).map(io.github.shunshun94.trpg.logEditor.export.commonTextExporter.convertDomToElements).map((p)=>{
+        if(['h1', 'h2', 'h3', 'h4', 'h5', 'h6'].includes(p.tag)) {
+            const pad = '　'.repeat(Number(/\d/.exec(p.tag)[0]) - 1);
+            return `${pad}│${p.content}\n${pad}└────────────────────────`;
+        }
+        if(p.tag === 'hr') {
+            return '◆　　　◆　　　◆　　　◆　　　◆　　　◆　　　◆';
+        }
+        if(p.name) {
+            return `【${p.name}】\n${p.content}`;
+        }
+        return p.content;
+    });
+    io.github.shunshun94.trpg.logEditor.export.commonTextExporter.download(exportResultArray.join('\n\n'));
+};
+
+io.github.shunshun94.trpg.logEditor.export.hamelnExporter = io.github.shunshun94.trpg.logEditor.export.hamelnExporter || {};
+
+io.github.shunshun94.trpg.logEditor.export.hamelnExporter.exec = (doms, dummy1, dummy2, dummy3) => {
+    const exportResultArray = Array.from(doms.children()).map(jQuery).map(io.github.shunshun94.trpg.logEditor.export.commonTextExporter.convertDomToElements).map((p)=>{
+        if(['h1', 'h2', 'h3', 'h4', 'h5', 'h6'].includes(p.tag)) {
+            const pad = '　'.repeat(Number(/\d/.exec(p.tag)[0]) - 1);
+            return `《big》《b》${p.content}《/b》《/big》`;
+        }
+        if(p.tag === 'hr') {
+            return '《hr》';
+        }
+        if(p.name) {
+            return `《b》【${p.name}】《/b》\n${p.content}`;
+        }
+        return p.content;
+    });
+    io.github.shunshun94.trpg.logEditor.export.commonTextExporter.download(exportResultArray.join('\n\n'));
+};
+
 io.github.shunshun94.trpg.logEditor.export.pixivExporter = io.github.shunshun94.trpg.logEditor.export.pixivExporter || {};
 
 io.github.shunshun94.trpg.logEditor.export.pixivExporter.exec = (doms, dummy1, dummy2, dummy3) => {
@@ -43,6 +79,5 @@ io.github.shunshun94.trpg.logEditor.export.pixivExporter.exec = (doms, dummy1, d
         }
         return p.content;
     });
-    console.log(doms.children(), Array.from(doms.children()), exportResultArray);
     io.github.shunshun94.trpg.logEditor.export.commonTextExporter.download(exportResultArray.join('\n\n'));
 };
