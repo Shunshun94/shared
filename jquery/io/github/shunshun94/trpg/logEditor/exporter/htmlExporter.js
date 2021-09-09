@@ -4,10 +4,12 @@ io.github.shunshun94 = io.github.shunshun94 || {};
 io.github.shunshun94.trpg = io.github.shunshun94.trpg || {};
 io.github.shunshun94.trpg.logEditor = io.github.shunshun94.trpg.logEditor || {};
 io.github.shunshun94.trpg.logEditor.export = io.github.shunshun94.trpg.logEditor.export || {};
-io.github.shunshun94.trpg.logEditor.export.SUFFIX = `</body></html>`;
-io.github.shunshun94.trpg.logEditor.export.LAST_HASH = '';
+io.github.shunshun94.trpg.logEditor.export.htmlExporter = io.github.shunshun94.trpg.logEditor.export.htmlExporter || {};
 
-io.github.shunshun94.trpg.logEditor.export.getPrefix = (mode) => {
+io.github.shunshun94.trpg.logEditor.export.htmlExporter.SUFFIX = `</body></html>`;
+io.github.shunshun94.trpg.logEditor.export.htmlExporter.LAST_HASH = '';
+
+io.github.shunshun94.trpg.logEditor.export.htmlExporter.getPrefix = (mode) => {
 	return `<!DOCTYPE html>
 	<html>
 	<head>
@@ -19,36 +21,36 @@ io.github.shunshun94.trpg.logEditor.export.getPrefix = (mode) => {
 	<body>`;
 };
 
-io.github.shunshun94.trpg.logEditor.export.getLastHash = ()=>{
-	return io.github.shunshun94.trpg.logEditor.export.LAST_HASH;
+io.github.shunshun94.trpg.logEditor.export.htmlExporter.getLastHash = ()=>{
+	return io.github.shunshun94.trpg.logEditor.export.htmlExporter.LAST_HASH;
 };
 
-io.github.shunshun94.trpg.logEditor.export.setLastHash = (hash)=>{
-	io.github.shunshun94.trpg.logEditor.export.LAST_HASH = hash;
+io.github.shunshun94.trpg.logEditor.export.htmlExporter.setLastHash = (hash)=>{
+	io.github.shunshun94.trpg.logEditor.export.htmlExporter.LAST_HASH = hash;
 };
 
-io.github.shunshun94.trpg.logEditor.export.calcCurrentHash = (doms, head, omit, mode) => {
-	const body = io.github.shunshun94.trpg.logEditor.export.generateBody(doms);
-	const html = (head ? `<!DOCTYPE html>\n<html>\n${head}\n<body>\n` : io.github.shunshun94.trpg.logEditor.export.getPrefix(mode)) +
-				body + omit.join('\n') + io.github.shunshun94.trpg.logEditor.export.SUFFIX;
+io.github.shunshun94.trpg.logEditor.export.htmlExporter.calcCurrentHash = (doms, head, omit, mode) => {
+	const body = io.github.shunshun94.trpg.logEditor.export.htmlExporter.generateBody(doms);
+	const html = (head ? `<!DOCTYPE html>\n<html>\n${head}\n<body>\n` : io.github.shunshun94.trpg.logEditor.export.htmlExporter.getPrefix(mode)) +
+				body + omit.join('\n') + io.github.shunshun94.trpg.logEditor.export.htmlExporter.SUFFIX;
 	const hash = new jsSHA("SHA-256", 'TEXT');
 	hash.update(html);
 	const newHash = hash.getHash("HEX");
 	return newHash;
 };
 
-io.github.shunshun94.trpg.logEditor.export.exec = (doms, head, omit, mode) => {
-	const body = io.github.shunshun94.trpg.logEditor.export.generateBody(doms);
-	const html = (head ? `<!DOCTYPE html>\n<html>\n${head}\n<body>\n` : io.github.shunshun94.trpg.logEditor.export.getPrefix(mode)) +
-				body + omit.join('\n') + io.github.shunshun94.trpg.logEditor.export.SUFFIX;
+io.github.shunshun94.trpg.logEditor.export.htmlExporter.exec = (doms, head, omit, mode) => {
+	const body = io.github.shunshun94.trpg.logEditor.export.htmlExporter.generateBody(doms);
+	const html = (head ? `<!DOCTYPE html>\n<html>\n${head}\n<body>\n` : io.github.shunshun94.trpg.logEditor.export.htmlExporter.getPrefix(mode)) +
+				body + omit.join('\n') + io.github.shunshun94.trpg.logEditor.export.htmlExporter.SUFFIX;
 	const hash = new jsSHA("SHA-256", 'TEXT');
 	hash.update(html);
 	const newHash = hash.getHash("HEX");
-	io.github.shunshun94.trpg.logEditor.export.setLastHash(newHash);
-	io.github.shunshun94.trpg.logEditor.export.download(html);
+	io.github.shunshun94.trpg.logEditor.export.htmlExporter.setLastHash(newHash);
+	io.github.shunshun94.trpg.logEditor.export.htmlExporter.download(html);
 };
 
-io.github.shunshun94.trpg.logEditor.export.generateExportPostTopAttributes = (dom) => {
+io.github.shunshun94.trpg.logEditor.export.htmlExporter.generateExportPostTopAttributes = (dom) => {
 	const topAttributesMap = {
 		class: dom.find(`.${io.github.shunshun94.trpg.logEditor.CLASSES.INPUTS}-class`).val().trim(),
 		id: dom.find(`.${io.github.shunshun94.trpg.logEditor.CLASSES.INPUTS}-id`).val().trim(),
@@ -63,9 +65,9 @@ io.github.shunshun94.trpg.logEditor.export.generateExportPostTopAttributes = (do
 	return topAttributes.join(' ').trim();
 };
 
-io.github.shunshun94.trpg.logEditor.export.generateExportPost = (dummy, dom) => {
+io.github.shunshun94.trpg.logEditor.export.htmlExporter.generateExportPost = (dummy, dom) => {
 	const tag = dom.find(`.${io.github.shunshun94.trpg.logEditor.CLASSES.INPUTS}-tag`).val().trim();
-	const topAttributes = io.github.shunshun94.trpg.logEditor.export.generateExportPostTopAttributes(dom);
+	const topAttributes = io.github.shunshun94.trpg.logEditor.export.htmlExporter.generateExportPostTopAttributes(dom);
 	if(tag === 'hr') {
 		return `<hr ${topAttributes} />`;
 	}
@@ -93,15 +95,15 @@ io.github.shunshun94.trpg.logEditor.export.generateExportPost = (dummy, dom) => 
 
 };
 
-io.github.shunshun94.trpg.logEditor.export.generateBody = (doms) => {
+io.github.shunshun94.trpg.logEditor.export.htmlExporter.generateBody = (doms) => {
 	const result = [];
 	doms.children().each((i, v)=>{
-		result.push(io.github.shunshun94.trpg.logEditor.export.generateExportPost(i, $(v)));
+		result.push(io.github.shunshun94.trpg.logEditor.export.htmlExporter.generateExportPost(i, $(v)));
 	});
 	return result.join('\n\n');
 };
 
-io.github.shunshun94.trpg.logEditor.export.download = (html) => {
+io.github.shunshun94.trpg.logEditor.export.htmlExporter.download = (html) => {
 	const url = window.URL.createObjectURL(new Blob([ html ], { "type" : 'text/html;charset=utf-8;' }));
 	const dlLink = document.createElement("a");
 	document.body.appendChild(dlLink);
