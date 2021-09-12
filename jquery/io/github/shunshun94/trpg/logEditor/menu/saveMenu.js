@@ -13,10 +13,10 @@ io.github.shunshun94.trpg.logEditor.menu.saveMenu.generateDom = (target) => {
         <button class="${io.github.shunshun94.trpg.logEditor.CLASSES.SAVE_MENU_WINDOW}-save" value="${target} html"
         >HTMLとして出力（再編集可能）</button><br/><br/>
         <button class="${io.github.shunshun94.trpg.logEditor.CLASSES.SAVE_MENU_WINDOW}-save" value="${target} hameln"
-        >ハーメルン用テキストファイルとして出力（注：出力の仕様が今後大きく変わる可能性があります）</button><br/><br/>
+        >ハーメルン用テキストファイルとして出力</button><br/><br/>
         <button class="${io.github.shunshun94.trpg.logEditor.CLASSES.SAVE_MENU_WINDOW}-save" value="${target} pixiv"
-        >Pixiv小説用テキストファイルとして出力（注：出力の仕様が今後大きく変わる可能性があります）</button><br/><br/>
+        >Pixiv小説用テキストファイルとして出力</button><br/><br/>
         <button class="${io.github.shunshun94.trpg.logEditor.CLASSES.SAVE_MENU_WINDOW}-save" value="${target} commonText"
-        >汎用テキストファイルとして出力（注：出力の仕様が今後大きく変わる可能性があります）</button>
+        >汎用テキストファイルとして出力</button>
 	</div>`;
 };
