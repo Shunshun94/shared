@@ -27,6 +27,16 @@ io.github.shunshun94.trpg.logEditor.convertors.CcfoliaConvertor.elementToJson = 
 	} else { 
 		result.content = elem.innerHTML.trim();
 	}
+
+	if(/^x\d+|^repeat\d+|^rep\d+/.test(result.content)) {
+		const tmp = result.content.split('\n').map((l)=>{return l.trim();}).join('');
+		if(! (tmp.includes('<br>#2') || tmp.includes('<br/>#2'))) {
+			result.content = result.content.split('\n').join('<br/>');
+		}
+	}
+
+
+
 	result.title = elem.getAttribute('title') || '';
 	result.style = elem.getAttribute('style') || '';
 	result.id = elem.getAttribute('id') || '';
