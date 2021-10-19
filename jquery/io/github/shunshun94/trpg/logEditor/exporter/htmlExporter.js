@@ -76,6 +76,7 @@ io.github.shunshun94.trpg.logEditor.export.htmlExporter.generateExportPost = (du
 	const content = dom.find(`.${io.github.shunshun94.trpg.logEditor.CLASSES.CONTENT}`).html().
 				replace(/^<div>/, '').
 				replaceAll('</div><!-- keep -->', '</dummy>').
+				replaceAll('<div><br></div>', '<br>').
 				replaceAll('<div>', '<br>').
 				replaceAll('</div>', '').
 				replaceAll('</dummy>', '</div>').trim();
