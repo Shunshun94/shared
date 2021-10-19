@@ -175,6 +175,7 @@ io.github.shunshun94.trpg.logEditor.Editor = class {
 		$(`.${io.github.shunshun94.trpg.logEditor.CLASSES.PREVIEW}`).empty();
 		$(`.${io.github.shunshun94.trpg.logEditor.CLASSES.PREVIEW}`).append(body);
 		$(`.${io.github.shunshun94.trpg.logEditor.CLASSES.PREVIEW}`).append(`<button class="${io.github.shunshun94.trpg.logEditor.CLASSES.PREVIEW}-close">プレビューを閉じる</button>`);
+		$(`.${io.github.shunshun94.trpg.logEditor.CLASSES.PREVIEW}`).append(`<button class="${io.github.shunshun94.trpg.logEditor.CLASSES.PREVIEW}-update">プレビューを再読み込みする</button>`);
 		$(`.${io.github.shunshun94.trpg.logEditor.CLASSES.PREVIEW}`).show();
 	}
 	closePreview() {
@@ -263,6 +264,10 @@ io.github.shunshun94.trpg.logEditor.Editor = class {
 			}
 			if( clicked.hasClass(`${io.github.shunshun94.trpg.logEditor.CLASSES.PREVIEW}-close`) ) {
 				this.closePreview();
+				return;
+			}
+			if( clicked.hasClass(`${io.github.shunshun94.trpg.logEditor.CLASSES.PREVIEW}-update`) ) {
+				this.showPreview();
 				return;
 			}
 			if( clicked.hasClass(io.github.shunshun94.trpg.logEditor.CLASSES.NAME_MENU_EXEC) ) {
