@@ -74,6 +74,7 @@ io.github.shunshun94.trpg.logEditor.export.htmlExporter.generateExportPost = (du
 	const name = dom.find(`.${io.github.shunshun94.trpg.logEditor.CLASSES.NAME}`).html().trim();
 	// contenteditable で改行すると div 要素が入るので除く
 	const content = dom.find(`.${io.github.shunshun94.trpg.logEditor.CLASSES.CONTENT}`).html().
+				replace(/^<div>/, '').
 				replaceAll('</div><!-- keep -->', '</dummy>').
 				replaceAll('<div>', '<br>').
 				replaceAll('</div>', '').

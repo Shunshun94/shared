@@ -173,12 +173,18 @@ h2 {
 }
 
 .io-github-shunshun94-trpg-logEditor-preview > * {
-	position: static
+	position: static;
 }
 
 .io-github-shunshun94-trpg-logEditor-preview-close {
 	position: fixed;
 	left:1040px;
+	top:8px;
+}
+
+.io-github-shunshun94-trpg-logEditor-preview-update {
+	position: fixed;
+	left:848px;
 	top:8px;
 }
 
