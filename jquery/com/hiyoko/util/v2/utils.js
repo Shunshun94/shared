@@ -284,5 +284,29 @@ com.hiyoko.util.insertCommaToNum = (num, separator = ',', decimalPoint = '.') =>
 	}
 };
 
+/**
+ * ファイルをダウンロードさせます
+ * @param {string} title ファイルのタイトル
+ * @param {string} content ファイルの内容
+ */
+com.hiyoko.util.downloadFile = (title, content) => {
+	const url = window.URL.createObjectURL(new Blob([ content ], { "type" : 'text/plain;charset=utf-8;' }));
+	const a = document.createElement("a");
+	document.body.appendChild(a);
+	a.download = title;
+	a.href = url;
+	a.click();
+	a.remove();
+	URL.revokeObjectURL(url);
+};
 
-
+/**
+ * wait する。 async と await を使わないと利用できないので注意
+ * @param {number} msec 待ち時間。ミリ秒で入れること。例えば5秒待たせたいなら5000
+ * @returns Promise
+ */
+com.hiyoko.util.wait = (msec)=>{
+	return new Promise((resolve)=>{
+		setTimeout(()=>{resolve(msec)}, msec);
+	});
+};
