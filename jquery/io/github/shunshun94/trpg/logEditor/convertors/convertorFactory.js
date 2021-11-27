@@ -8,11 +8,14 @@ io.github.shunshun94.trpg.logEditor.convertors.ConvertorFactory = io.github.shun
 io.github.shunshun94.trpg.logEditor.convertors.ConvertorFactory.getConvertor = (file) => {
 	if(file.name.endsWith('.zip')) {
 		return io.github.shunshun94.trpg.logEditor.convertors.UdonariumConvertor;
-	} if(file.name.endsWith('.txt') || file.name.endsWith('.text')) {
-		return io.github.shunshun94.trpg.logEditor.convertors.RawTextConvertor;
-	} else {
-		return io.github.shunshun94.trpg.logEditor.convertors.CcfoliaConvertor;
 	}
+	if(file.name.endsWith('.txt') || file.name.endsWith('.text')) {
+		return io.github.shunshun94.trpg.logEditor.convertors.RawTextConvertor;
+	}
+	if(file.name.endsWith('.dat')) {
+		return io.github.shunshun94.trpg.logEditor.convertors.ytchatConvertor;
+	}
+	return io.github.shunshun94.trpg.logEditor.convertors.CcfoliaConvertor;
 };
 
 // https://gist.github.com/hanayashiki/8dac237671343e7f0b15de617b0051bd
