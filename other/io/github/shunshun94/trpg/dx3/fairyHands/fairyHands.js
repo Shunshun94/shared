@@ -36,7 +36,6 @@ io.github.shunshun94.trpg.dx3.FairyHands.calc = (inputString, opts=io.github.shu
         const critical = io.github.shunshun94.trpg.dx3.FairyHands.REGEXPS.CRITICAL_VALUE.exec(input)[1];
         const currentResult = io.github.shunshun94.trpg.dx3.FairyHands.REGEXPS.CURRENT_RESULT.exec(input)[1];
         const lastDice = io.github.shunshun94.trpg.dx3.FairyHands.getLastDice(input);
-        console.log(input, currentResult, lastDice);
         const newFixedValue = Number(currentResult) + (10 - lastDice);
         if(Number(critical) > 10) {
             return String(newFixedValue);
