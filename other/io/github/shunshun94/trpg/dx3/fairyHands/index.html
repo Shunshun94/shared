@@ -11,29 +11,37 @@
 <meta name="twitter:card" content="summary" />
 <meta name="twitter:site" content="@Shunshun94" />
 <meta name="twitter:text:title" content="ダブルクロス The 3rd Edition - オンセ向け妖精の手ツール" />
+<script src="./tests.js"></script>
 <script src="./fairyHands.js"></script>
 <meta charset="UTF-8">
 <title>ダブルクロス The 3rd Edition - オンセ向け妖精の手ツール</title>
 </head>
 <body>
     <h1>ダブルクロス The 3rd Edition - オンセ向け妖精の手ツール</h1>
-    <p></p>
     <p>元々の判定結果:<input
         oninput="document.getElementById('fixResult').value = io.github.shunshun94.trpg.dx3.FairyHands.calc(document.getElementById('rawResult').value)"
         type="text"
         id="rawResult"
         size="120"
-        value="(8DX7+4) ＞ 10[1,2,2,2,3,3,5,7]+10[8]+4[4]+4 ＞ 28" /></p>
+        list="sample"
+        autocomplete="on"
+        value="" /></p>
     <p>　振り直しの式:<input
         onclick="navigator.clipboard.writeText(document.getElementById('fixResult').value);alert('コピーしました')"
         type="text"
         id="fixResult"
         size="120"
         value="" /></p>
+    <datalist id="sample">
+    </datalist>
+    <hr/>
+    <p>使い方：元々の判定結果に妖精の手をかけたい判定の結果を入力すると振り直しの式に結果が表示される。<br/>振り直しの式をクリックすればコピーされるのでココフォリアなりゆどなりうむなりにペースト</p>
     <hr/>
     <p>本ツールは「矢野俊策」及び「F.E.A.R.」が権利を有する「ダブルクロス The 3rd Edition」の<br/>
 オンラインセッションにおけるプレイを支援するために作られたツールです<br/>(C)矢野俊策<br/>(C)FarEast Amusement Research Co.,Ltd.</p>
-    <p>作者連絡先：<a href="https://twitter.com/Shunshun94">@Shunshun94</a></p>
-    <script>document.getElementById('fixResult').value = io.github.shunshun94.trpg.dx3.FairyHands.calc(document.getElementById('rawResult').value);</script>
+    <p>作者連絡先：<a href="https://twitter.com/Shunshun94">@Shunshun94</a> / <a href="https://github.com/Shunshun94/shared/tree/master/other/io/github/shunshun94/trpg/dx3/fairyHands">ソースコード</a></p>
+    <script>
+        document.getElementById('sample').innerHTML = tests.map((d)=>{ return `<option value="${d.input}">入力サンプル：${d.note}</option>` }).join('');
+    </script>
 </body>
 </html>
