@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head
+	　prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# article: http://ogp.me/ns/article#">
+<meta property="og:title" content="ダブルクロス The 3rd Edition - オンセ向け妖精の手ツール" />
+<meta property="og:type" content="website" />
+<meta property="og:image"
+	content="https://shunshun94.github.io/shared/pics/ogp.jpg" />
+<meta property="og:site_name" content="https://shunshun94.web.fc2.com/" />
+<meta property="og:description" content="オンセで妖精の手を使う時にどんな判定式を書けばいいのかを出力するツール" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:site" content="@Shunshun94" />
+<meta name="twitter:text:title" content="ダブルクロス The 3rd Edition - オンセ向け妖精の手ツール" />
+<script src="./fairyHands.js"></script>
+<meta charset="UTF-8">
+<title>ダブルクロス The 3rd Edition - オンセ向け妖精の手ツール</title>
+</head>
+<body>
+    <h1>ダブルクロス The 3rd Edition - オンセ向け妖精の手ツール</h1>
+    <p></p>
+    <p>元々の判定結果:<input
+        oninput="document.getElementById('fixResult').value = io.github.shunshun94.trpg.dx3.FairyHands.calc(document.getElementById('rawResult').value)"
+        type="text"
+        id="rawResult"
+        size="120"
+        value="(8DX7+4) ＞ 10[1,2,2,2,3,3,5,7]+10[8]+4[4]+4 ＞ 28" /></p>
+    <p>　振り直しの式:<input
+        onclick="navigator.clipboard.writeText(document.getElementById('fixResult').value);alert('コピーしました')"
+        type="text"
+        id="fixResult"
+        size="120"
+        value="" /></p>
+    <hr/>
+    <p>本ツールは「矢野俊策」及び「F.E.A.R.」が権利を有する「ダブルクロス The 3rd Edition」の<br/>
+オンラインセッションにおけるプレイを支援するために作られたツールです<br/>(C)矢野俊策<br/>(C)FarEast Amusement Research Co.,Ltd.</p>
+    <p>作者連絡先：<a href="https://twitter.com/Shunshun94">@Shunshun94</a></p>
+    <script>document.getElementById('fixResult').value = io.github.shunshun94.trpg.dx3.FairyHands.calc(document.getElementById('rawResult').value);</script>
+</body>
+</html>
