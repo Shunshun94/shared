@@ -39,7 +39,6 @@
     ];
     document.getElementById('result').innerHTML = tests.map((d, i)=>{
         d.result = io.github.shunshun94.trpg.dx3.FairyHands.calc(d.input, {});
-        console.log(i+1, d.result);
         return d;
     }).map((d, i)=>{
         return `<h2>ケース${i+1}</h2>
