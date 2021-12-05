@@ -124,26 +124,20 @@ io.github.shunshun94.trpg.logEditor.export.ytchatExporter.getPrefix = (title) =>
 		<details open style="display:none;">
 		  <summary class="bold">現行ログ</summary>
 		  <ul id="roomlist">
-			<li><a href="./?mode=logs&id=1" data-byte="12" class="bold">動作確認</a></li>
-			<li><a href="./?mode=logs&id=@EqqyZM" data-byte="0" >ひよこ</a></li>
 		  </ul>
 		  </details>
-		
-		
 		<details style="display:none;">
 		<summary class="bold">過去ログ</summary>
-		  <ul id="loglist">
-			<li><a href="./?mode=logs&log=20200919_0" data-byte="4" >20200919_0</a></li>
-		  </ul>
+		  <ul id="loglist"></ul>
 		</details>
 		
 		</div>
-		<ul style="display:none;"><li class="right"><a href="./"><i class="fas fa-undo-alt"></i>ルーム一覧に戻る</a></li></ul>
+		<ul style="display:none;"></ul>
 	  </aside>
 	</div>
 	<div id="base" class="box">
 	  <header>
-		<h1>動作確認</h1><h2>現行ログ</h2>
+		<h1>${title}</h1>
 	  </header>
 	  <article id="contents">
 	  <div class="logs logs-font">`;
@@ -166,7 +160,7 @@ io.github.shunshun94.trpg.logEditor.export.ytchatExporter.postToHtml = (post, tm
                 const url = tmpUrl[2];
                 const who = (lines.length > 1) ? lines[1] : 'BGMを変更';
                 const title = (lines.length > 2) ? lines[2] : '';
-                return `<dl id="line-${id}" class="system bgm important main  ${post.class}" data-user="!SYSTEM" data-tab="1" data-tab-name="メイン">
+                return `<dl id="line-${id}" class="system bgm important main ${post.class}" data-user="!SYSTEM" data-tab="1" data-tab-name="メイン">
                 <dt style="${post.style}">!SYSTEM</dt>
                 <dd class="comm" data-date="${now}"><span class="bgm-border" data-url="${url}" data-title="${title}" data-vol="${volume}"></span>${who}</dd>
                 <dd class="info bgm" data-date="${now}" data-game="">${title}<small>${volume}％</small> <a class="link-yt" href="${url}" target="_blank"></a></dd></dl>`;
@@ -187,15 +181,24 @@ io.github.shunshun94.trpg.logEditor.export.ytchatExporter.postToHtml = (post, tm
     }
     const isSub = io.github.shunshun94.trpg.logEditor.export.ytchatExporter.isSubTab(post);
     const baseClass = isSub ? '' : 'main';
-    const baseTabName = isSub ? 'サブ' : 'メイン';
-    return `<dl id="line-${id}" class="${baseClass} ${post.class}" data-user="${post.name}" data-tab="${isSub}" data-tab-name="${baseTabName}" style="${post.style}">
-        <dt>${post.name}</dt>
-        <dd class="comm" data-date="${now}">${post.content}</dd>
-    </dl>`
+    const baseTabName = isSub ? 'サブ' : 'メイン';  
+    if(post.tag === 'p') {
+      const baseTabName = isSub ? 'サブ' : 'メイン';
+      return `<dl id="line-${id}" class="${baseClass} ${post.class}" data-user="${post.name}" data-tab="${isSub}" data-tab-name="${baseTabName}" style="${post.style}">
+          <dt>${post.name}</dt>
+          <dd id="${post.id}" class="comm" data-date="${now}">${post.content}</dd></dl>`
+    } else if(post.tag === 'hr'){
+      return `<dl id="line-${id}" class="${baseClass} ${post.class}" data-user="${post.name}" data-tab="${isSub}" data-tab-name="" style="${post.style}">
+          <dd id="${post.id}" class="comm" data-date="${now}"><hr/></dd></dl>`
+    } else {
+      return `<dl id="line-${id}" class="${baseClass} ${post.class}" data-user="${post.name}" data-tab="${isSub}" data-tab-name="" style="${post.style}">
+          <dd id="${post.id}" class="comm" data-date="${now}"><${post.tag}>${post.content}</${post.tag}></dd></dl>`
+    }
+
 };
 
 io.github.shunshun94.trpg.logEditor.export.ytchatExporter.exec = (doms, head, omit, mode) => {
-    const posts = Array.from(doms.children()).map(jQuery)
+    const postData = Array.from(doms.children()).map(jQuery)
         .map((dom, id)=>{
             try {
                 return io.github.shunshun94.trpg.logEditor.export.ytchatExporter.convertDomToElements(dom, id);
@@ -203,8 +206,8 @@ io.github.shunshun94.trpg.logEditor.export.ytchatExporter.exec = (doms, head, om
                 console.error(e, dom, id);
                 return '';
             }
-        })
-        .map((dom, id)=>{
+        });
+      const posts = postData.map((dom, id)=>{
             try {
                 return io.github.shunshun94.trpg.logEditor.export.ytchatExporter.postToHtml(dom, id);
             } catch(e) {
@@ -212,11 +215,14 @@ io.github.shunshun94.trpg.logEditor.export.ytchatExporter.exec = (doms, head, om
                 return '';
             }
         }).join('\n');
-        const title = `saved_${Number(new Date())}`;
+        const titleCandidate = postData.filter((p)=>{
+          return p.tag === 'h1' || p.tag === 'h2';
+        });
+        const title = (titleCandidate.length) ? titleCandidate[0].content.trim() : `saved_${Number(new Date())}`;
         io.github.shunshun94.trpg.logEditor.export.ytchatExporter.download(
             io.github.shunshun94.trpg.logEditor.export.ytchatExporter.getPrefix(title) +
             posts +
-            io.github.shunshun94.trpg.logEditor.export.ytchatExporter.getSuffix());
+            io.github.shunshun94.trpg.logEditor.export.ytchatExporter.getSuffix(), title);
 };
 
 io.github.shunshun94.trpg.logEditor.export.ytchatExporter.convertDomToElements = (dom) => {
@@ -243,11 +249,11 @@ io.github.shunshun94.trpg.logEditor.export.ytchatExporter.convertDomToElements =
     };
 };
 
-io.github.shunshun94.trpg.logEditor.export.ytchatExporter.download = (html) => {
+io.github.shunshun94.trpg.logEditor.export.ytchatExporter.download = (html, title) => {
 	const url = window.URL.createObjectURL(new Blob([ html ], { "type" : 'text/html;charset=utf-8;' }));
 	const dlLink = document.createElement("a");
 	document.body.appendChild(dlLink);
-	dlLink.download = `saved_${Number(new Date())}.html`;
+	dlLink.download = title;
 	dlLink.href = url;
 	dlLink.click();
 	dlLink.remove();
