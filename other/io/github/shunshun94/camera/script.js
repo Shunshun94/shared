@@ -56,6 +56,7 @@ const startVideo = () => {
 play.onclick = startVideo;
 
 const startStream = async (constraints) => {
+    console.log(constraints);
     try {
         const stream = await navigator.mediaDevices.getUserMedia(constraints);
         handleStream(stream);
@@ -65,6 +66,7 @@ const startStream = async (constraints) => {
 };
   
 const handleStream = (stream) => {
+    console.log(stream);
     video.srcObject = stream;
     play.classList.add('d-none');
     pause.classList.remove('d-none');
@@ -76,11 +78,9 @@ getCameraSelection();
 
 cameraOptions.onchange = () => {
     const updatedConstraints = {
-        ...constraints,
-        deviceId: {
-            exact: cameraOptions.value
-        }
+        ...constraints
     };
+    updatedConstraints.video.deviceId = {exact: cameraOptions.value};
     startStream(updatedConstraints);
 };
 
