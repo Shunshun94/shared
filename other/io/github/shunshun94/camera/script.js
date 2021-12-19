@@ -41,22 +41,17 @@ const startVideo = () => {
         return;
       }
       if ('mediaDevices' in navigator && navigator.mediaDevices.getUserMedia) {
-          const updatedConstraints = {
-              ...constraints,
-              deviceId: {
-                  exact: cameraOptions.value
-              }
-          };
-          startStream(updatedConstraints);
-      } else {
-          alert('カメラが使えない状態だとこのページは見れないよ');
+        io.github.shunshun94.camera.getVideoStream(cameraOptions.value).then(
+            handleStream,
+            (error)=>{
+                console.error(error);
+                alert('カメラが使えない状態だとこのページは見れないよ');
+            }
+        );
       }
 };
 
-play.onclick = startVideo;
-
 const startStream = async (constraints) => {
-    console.log(constraints);
     try {
         const stream = await navigator.mediaDevices.getUserMedia(constraints);
         handleStream(stream);
@@ -66,7 +61,6 @@ const startStream = async (constraints) => {
 };
   
 const handleStream = (stream) => {
-    console.log(stream);
     video.srcObject = stream;
     play.classList.add('d-none');
     pause.classList.remove('d-none');
@@ -74,14 +68,14 @@ const handleStream = (stream) => {
     streamStarted = true;
 };
 
-getCameraSelection();
-
-cameraOptions.onchange = () => {
-    const updatedConstraints = {
-        ...constraints
-    };
-    updatedConstraints.video.deviceId = {exact: cameraOptions.value};
-    startStream(updatedConstraints);
+cameraOptions.onchange = (e) => {
+    io.github.shunshun94.camera.getVideoStream(cameraOptions.value).then(
+        handleStream,
+        (error)=>{
+            console.error(error);
+            alert('カメラが使えない状態だとこのページは見れないよ');
+        }
+    );
 };
 
 const pauseStream = () => {
@@ -91,12 +85,10 @@ const pauseStream = () => {
 };
 
 const doScreenshot = () => {
-    canvas.width = video.videoWidth;
-    canvas.height = video.videoHeight;
-    canvas.getContext('2d').drawImage(video, 0, 0);
-    screenshotImage.src = canvas.toDataURL('image/webp');
-    screenshotImage.classList.remove('d-none');
+    io.github.shunshun94.camera.downloadScreenshot(video);
 };
-  
+
+play.onclick = startVideo;
 pause.onclick = pauseStream;
 screenshot.onclick = doScreenshot;
+getCameraSelection();
