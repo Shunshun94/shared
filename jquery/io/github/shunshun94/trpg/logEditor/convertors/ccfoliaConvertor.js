@@ -35,8 +35,6 @@ io.github.shunshun94.trpg.logEditor.convertors.CcfoliaConvertor.elementToJson = 
 		}
 	}
 
-
-
 	result.title = elem.getAttribute('title') || '';
 	result.style = elem.getAttribute('style') || '';
 	result.id = elem.getAttribute('id') || '';

@@ -344,7 +344,14 @@ io.github.shunshun94.trpg.logEditor.Editor = class {
 		this.getMainDom().append(doms.join(''));
 	}
 	domsToPost(doms) {
-		return doms.map(io.github.shunshun94.trpg.logEditor.jsonToEditorHtml);
+		return doms.map((d)=>{
+			try {
+				return io.github.shunshun94.trpg.logEditor.jsonToEditorHtml(d);
+			}catch (e) {
+				console.error(e, d);
+				return false;
+			}
+		}).filter((d)=>{return d;});
 	}
 	getMainDom() {
 		return $('#mainEditor > .logList');

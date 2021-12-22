@@ -12,6 +12,8 @@ io.github.shunshun94.trpg.logEditor.menu.saveMenu.generateDom = (target) => {
 	>
         <button class="${io.github.shunshun94.trpg.logEditor.CLASSES.SAVE_MENU_WINDOW}-save" value="${target} html"
         >HTMLとして出力（再編集可能）</button><br/><br/>
+        <span class="experimentalfunction"><button class="${io.github.shunshun94.trpg.logEditor.CLASSES.SAVE_MENU_WINDOW}-save" value="${target} ytchat"
+        >ゆとチャットっぽいHTMLとして出力</button><br/><br/></span>
         <button class="${io.github.shunshun94.trpg.logEditor.CLASSES.SAVE_MENU_WINDOW}-save" value="${target} hameln"
         >ハーメルン用テキストファイルとして出力</button><br/><br/>
         <button class="${io.github.shunshun94.trpg.logEditor.CLASSES.SAVE_MENU_WINDOW}-save" value="${target} pixiv"
