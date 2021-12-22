@@ -21,6 +21,30 @@ io.github.shunshun94.trpg.logEditor.Editor = class {
 		this.bindEvents();
 	}
 
+	additionalLoad(data) {
+		const htmls = this.domsToPost(data.doms);
+		io.github.shunshun94.trpg.logEditor.DOMS.BODY.append(io.github.shunshun94.trpg.logEditor.menu.AppendMenu.generateDom());
+		io.github.shunshun94.trpg.logEditor.menu.AppendMenu.selectHowHandleLogs().then(
+			(action)=>{
+				if(action === 'head') {
+					this.getMainDom().prepend(htmls.join(''));
+				}
+				if(action === 'tail') {
+					this.getMainDom().append(htmls.join(''));
+				}
+				if(action === 'tmpA') {
+					$(this.getTmpDoms()[0]).append(htmls.join(''));
+				}
+				if(action === 'tmpB') {
+					$(this.getTmpDoms()[1]).append(htmls.join(''));
+				}
+				io.github.shunshun94.trpg.logEditor.menu.AppendMenu.close();
+			}, (cancel)=>{
+				io.github.shunshun94.trpg.logEditor.menu.AppendMenu.close();
+			}
+		);
+	}
+
 	getRndId() {
 		let randomString = '';
 		const baseString ='abcdefghijklmnopqrstuvwxyz';

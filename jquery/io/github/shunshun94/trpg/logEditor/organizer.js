@@ -31,6 +31,7 @@ io.github.shunshun94.trpg.logEditor.CLASSES = {
 	NAME_MENU_WINDOW: 'io-github-shunshun94-trpg-logEditor-menu-NameConfig',
 	NAME_MENU_EXEC: 'io-github-shunshun94-trpg-logEditor-menu-NameConfig-exec',
 	SAVE_MENU_WINDOW: 'io-github-shunshun94-trpg-logEditor-menu-SaveMenu',
+	APPEND_MENU_WINDOW: 'io-github-shunshun94-trpg-logEditor-menu-AppendMenu',
 	STYLE_RESET_MENU: 'menu-styleReset',
 	ID_INSERTION_MENU: 'menu-idInsertion',
 	SAME_MEMBER_MENU: 'menu-sameMember',
@@ -52,16 +53,29 @@ io.github.shunshun94.trpg.logEditor.hashFunc = (text)=>{
 	return hash.getHash("HEX");
 };
 
+io.github.shunshun94.trpg.logEditor.LogEditorObject = null;
+
 io.github.shunshun94.trpg.logEditor.DOMS.BODY.on(io.github.shunshun94.trpg.logEditor.EVENTS.FILE_LOADED, (e, domList)=>{
 	console.log(domList);
-	if(io.github.shunshun94.trpg.logEditor.hashFunc(location.search) === io.github.shunshun94.trpg.logEditor.EXPERIMENTAL_FUNC_PASSWORD) {
-		io.github.shunshun94.trpg.logEditor.DOMS.BODY.addClass('experimental');
-	}
-	io.github.shunshun94.trpg.logEditor.FileLoader.filtLongFile(domList.doms).then((filteredList)=>{
-		new io.github.shunshun94.trpg.logEditor.Editor({
-			doms: filteredList,
+	if(io.github.shunshun94.trpg.logEditor.LogEditorObject)	 {
+		// 追加読み込み
+		io.github.shunshun94.trpg.logEditor.LogEditorObject.additionalLoad({
+			doms: domList.doms,
 			head: domList.head,
 			omitted: domList.omitted
 		});
-	});
+	} else {
+		// 初回読み込み
+		io.github.shunshun94.trpg.logEditor.FileLoader.filtLongFile(domList.doms).then((filteredList)=>{
+			io.github.shunshun94.trpg.logEditor.LogEditorObject = new io.github.shunshun94.trpg.logEditor.Editor({
+				doms: filteredList,
+				head: domList.head,
+				omitted: domList.omitted
+			});
+		});
+	}
 });
+
+if(io.github.shunshun94.trpg.logEditor.hashFunc(location.search) === io.github.shunshun94.trpg.logEditor.EXPERIMENTAL_FUNC_PASSWORD) {
+	io.github.shunshun94.trpg.logEditor.DOMS.BODY.addClass('experimental');
+}
