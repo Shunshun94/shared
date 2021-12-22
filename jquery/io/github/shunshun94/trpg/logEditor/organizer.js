@@ -44,8 +44,19 @@ io.github.shunshun94.trpg.logEditor.CLASSES = {
 	PREVIEW: 'io-github-shunshun94-trpg-logEditor-preview'
 };
 
+io.github.shunshun94.trpg.logEditor.EXPERIMENTAL_FUNC_PASSWORD = 'b7e85de2b6358fca404f6764a3cd1f7e58333aa4ac986e3d4354ac8e02b0d402';
+
+io.github.shunshun94.trpg.logEditor.hashFunc = (text)=>{
+	const hash = new jsSHA("SHA-256", 'TEXT');
+	hash.update(text);
+	return hash.getHash("HEX");
+};
+
 io.github.shunshun94.trpg.logEditor.DOMS.BODY.on(io.github.shunshun94.trpg.logEditor.EVENTS.FILE_LOADED, (e, domList)=>{
 	console.log(domList);
+	if(io.github.shunshun94.trpg.logEditor.hashFunc(location.search) === io.github.shunshun94.trpg.logEditor.EXPERIMENTAL_FUNC_PASSWORD) {
+		io.github.shunshun94.trpg.logEditor.DOMS.BODY.addClass('experimental');
+	}
 	io.github.shunshun94.trpg.logEditor.FileLoader.filtLongFile(domList.doms).then((filteredList)=>{
 		new io.github.shunshun94.trpg.logEditor.Editor({
 			doms: filteredList,
