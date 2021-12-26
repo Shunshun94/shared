@@ -9,6 +9,8 @@ io.github.shunshun94.trpg.logEditor.DOMS.BODY.append(`<div style="padding:2em;po
 <input type="file" name="io-github-shunshun94-trpg-logEditor-FileLoader-InputFile" id="io-github-shunshun94-trpg-logEditor-FileLoader-InputFile" >
 </div>`);
 
+
+
 io.github.shunshun94.trpg.logEditor.DOMS.BODY.on('drop', (e) => {
 	io.github.shunshun94.trpg.logEditor.DOMS.BODY.css('background-color', '');
 	const targetFile = e.originalEvent.dataTransfer.files[0];
@@ -18,9 +20,7 @@ io.github.shunshun94.trpg.logEditor.DOMS.BODY.on('drop', (e) => {
 
 $('#io-github-shunshun94-trpg-logEditor-FileLoader-InputFile').on('change', (e)=>{
 	io.github.shunshun94.trpg.logEditor.DOMS.BODY.css('background-color', '');
-	const targetFile = e.target.files[0];
-	io.github.shunshun94.trpg.logEditor.FileLoader.readFile(targetFile);
-	e.preventDefault();
+	io.github.shunshun94.trpg.logEditor.FileLoader.onChangeInputFile(e);
 });
 
 io.github.shunshun94.trpg.logEditor.DOMS.BODY.on('dragleave', (e) => {
@@ -32,6 +32,24 @@ io.github.shunshun94.trpg.logEditor.DOMS.BODY.on('dragover', (e) => {
 });
 
 io.github.shunshun94.trpg.logEditor.FileLoader = io.github.shunshun94.trpg.logEditor.FileLoader || {};
+
+io.github.shunshun94.trpg.logEditor.FileLoader.onChangeInputFile = (e) => {
+	const targetFile = e.target.files[0];
+	io.github.shunshun94.trpg.logEditor.FileLoader.readFile(targetFile);
+	e.preventDefault();
+};
+
+io.github.shunshun94.trpg.logEditor.FileLoader.kickOneTimeSave = () => {
+	const upload = document.createElement("input");
+	document.body.appendChild(upload);
+	upload.id = 'io-github-shunshun94-trpg-logEditor-FileLoader-InputFile-tmp';
+	$('#io-github-shunshun94-trpg-logEditor-FileLoader-InputFile-tmp').on('change', (e)=>{
+		io.github.shunshun94.trpg.logEditor.FileLoader.onChangeInputFile(e);
+	});
+	upload.type = 'file';
+	upload.click();
+	upload.remove();
+};
 
 io.github.shunshun94.trpg.logEditor.FileLoader.readFile = (targetFile) => {
 	io.github.shunshun94.trpg.logEditor.convertors.ConvertorFactory.getConvertor(targetFile).dropEventToJson(targetFile).then((parsedTarget)=>{

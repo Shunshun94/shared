@@ -4,6 +4,10 @@
 	font-family: "BIZ UDゴシック","UD Shin Go NT Light JIS2004","UD デジタル 教科書体 N-R", Verdana, Roboto, "Droid Sans", "游ゴシック", YuGothic, "メイリオ", Meiryo, "ヒラギノ角ゴ ProN W3", "Hiragino Kaku Gothic ProN", "ＭＳ Ｐゴシック", sans-serif;
 }
 
+body {
+	height:100%;
+}
+
 .io-github-shunshun94-trpg-logEditor-save,
 .io-github-shunshun94-trpg-logEditor-deleteAll {
 	position:absolute;
@@ -251,44 +255,50 @@ h2 {
 	position:absolute;
 }
 
-.menu-nameMenu {
-	left:24px;
-	top:8px;
+.io-github-shunshun94-trpg-logEditor-menu-PopupMenuToggle {
+	right:8px;
+	bottom:8px;
 }
 
-.menu-styleReset {
-	left:152px;
-	top:32px;
+.io-github-shunshun94-trpg-logEditor-menu-PopupMenu {
+	position:absolute;
+	display:none;
+	border:3px black solid;
+	background-color:gray;
+	right:8px;
+	bottom:28px;
 }
 
-.menu-systemToPost {
-	top:8px;
-	left:152px;
+.io-github-shunshun94-trpg-logEditor-menu-PopupMenu > hr {
+	margin:1px;
 }
-
-.menu-idInsertion {
-	left:152px;
-	top:56px;
+.io-github-shunshun94-trpg-logEditor-menu-PopupMenu > div {
+	border:1px gray ridge;
+	background-color:lightgray;
 }
-
-.menu-sameMember {
-	left: 400px;
-	top: 8px;	
+.io-github-shunshun94-trpg-logEditor-menu-PopupMenu > div:hover {
+	border:1px lightgray groove;
+	background-color:gray;
 }
 
 .menu-trashbox {
-	left: 400px;
-	top: 32px;
+	left: 24px;
+	top: 8px;
 }
 
 .menu-preview {
-	left:640px;
-	top:56px;	
+	left:24px;
+	top:32px;	
 }
 
 .menu-editorVisual {
-	left:640px;
-	top:32px;	
+	left:24px;
+	top:56px;	
+}
+
+.menu-sameMember {
+	left: 128px;
+	top: 8px;	
 }
 
 .io-github-shunshun94-trpg-logEditor-menu-NameConfig tr:nth-child(even) {
@@ -357,6 +367,17 @@ h2 {
 	left: 0px;
 	right: 0px;
 	background-color: rgba(200, 200, 200, 0.8);
+}
+
+.io-github-shunshun94-trpg-logEditor-menu-AppendMenu {
+	position:fixed;
+	padding:32px;
+	top:0px;
+	bottom:0px;
+	left:0px;
+	right:0px;
+	color:black;
+	background-color: rgba(200, 200, 200, 0.5);
 }
 
 footer {
