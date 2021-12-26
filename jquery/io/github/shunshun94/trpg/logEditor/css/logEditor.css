@@ -255,44 +255,47 @@ h2 {
 	position:absolute;
 }
 
-.menu-nameMenu {
-	left:24px;
-	top:8px;
+.io-github-shunshun94-trpg-logEditor-menu-PopupMenuToggle {
+	right:8px;
+	bottom:8px;
 }
 
-.menu-styleReset {
-	left:152px;
-	top:32px;
+.io-github-shunshun94-trpg-logEditor-menu-PopupMenu {
+	position:absolute;
+	display:none;
+	border:3px black solid;
+	background-color:gray;
+	right:8px;
+	bottom:28px;
 }
 
-.menu-systemToPost {
-	top:8px;
-	left:152px;
+.io-github-shunshun94-trpg-logEditor-menu-PopupMenu > div {
+	border:2px gray ridge;
+	background-color:lightgray;
 }
-
-.menu-idInsertion {
-	left:152px;
-	top:56px;
-}
-
-.menu-sameMember {
-	left: 400px;
-	top: 8px;	
+.io-github-shunshun94-trpg-logEditor-menu-PopupMenu > div:hover {
+	border:2px lightgray groove;
+	background-color:gray;
 }
 
 .menu-trashbox {
-	left: 400px;
-	top: 32px;
+	left: 24px;
+	top: 8px;
 }
 
 .menu-preview {
-	left:640px;
-	top:56px;	
+	left:24px;
+	top:32px;	
 }
 
 .menu-editorVisual {
-	left:640px;
-	top:32px;	
+	left:24px;
+	top:56px;	
+}
+
+.menu-sameMember {
+	left: 128px;
+	top: 8px;	
 }
 
 .io-github-shunshun94-trpg-logEditor-menu-NameConfig tr:nth-child(even) {
