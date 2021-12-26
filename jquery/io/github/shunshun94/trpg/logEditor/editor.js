@@ -339,6 +339,11 @@ io.github.shunshun94.trpg.logEditor.Editor = class {
 				io.github.shunshun94.trpg.logEditor.menu.PopupMenu.toggle();
 				return;
 			}
+			if( clicked.hasClass(io.github.shunshun94.trpg.logEditor.CLASSES.ADD_FILE_MENU) ) {
+				io.github.shunshun94.trpg.logEditor.FileLoader.kickOneTimeSave();
+				io.github.shunshun94.trpg.logEditor.menu.PopupMenu.toggle();
+				return;
+			}
 			if( clicked.hasClass(io.github.shunshun94.trpg.logEditor.CLASSES.SAME_MEMBER_MENU) ) {
 				this.searchSameMemberDoublePost();
 				return;

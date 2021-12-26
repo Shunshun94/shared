@@ -39,6 +39,18 @@ io.github.shunshun94.trpg.logEditor.FileLoader.onChangeInputFile = (e) => {
 	e.preventDefault();
 };
 
+io.github.shunshun94.trpg.logEditor.FileLoader.kickOneTimeSave = () => {
+	const upload = document.createElement("input");
+	document.body.appendChild(upload);
+	upload.id = 'io-github-shunshun94-trpg-logEditor-FileLoader-InputFile-tmp';
+	$('#io-github-shunshun94-trpg-logEditor-FileLoader-InputFile-tmp').on('change', (e)=>{
+		io.github.shunshun94.trpg.logEditor.FileLoader.onChangeInputFile(e);
+	});
+	upload.type = 'file';
+	upload.click();
+	upload.remove();
+};
+
 io.github.shunshun94.trpg.logEditor.FileLoader.readFile = (targetFile) => {
 	io.github.shunshun94.trpg.logEditor.convertors.ConvertorFactory.getConvertor(targetFile).dropEventToJson(targetFile).then((parsedTarget)=>{
 		io.github.shunshun94.trpg.logEditor.DOMS.BODY.trigger(

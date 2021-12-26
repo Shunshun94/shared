@@ -269,12 +269,15 @@ h2 {
 	bottom:28px;
 }
 
+.io-github-shunshun94-trpg-logEditor-menu-PopupMenu > hr {
+	margin:1px;
+}
 .io-github-shunshun94-trpg-logEditor-menu-PopupMenu > div {
-	border:2px gray ridge;
+	border:1px gray ridge;
 	background-color:lightgray;
 }
 .io-github-shunshun94-trpg-logEditor-menu-PopupMenu > div:hover {
-	border:2px lightgray groove;
+	border:1px lightgray groove;
 	background-color:gray;
 }
 

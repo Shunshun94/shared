@@ -41,7 +41,9 @@ io.github.shunshun94.trpg.logEditor.CLASSES = {
 	DARKMODE_MENU: 'menu-editorVisual',
 	PREVIEW_MENU: 'menu-preview',
 	SYSTEM_TO_POST_MENU: 'menu-systemToPost',
+	ADD_FILE_MENU: 'menu',
 	DARKMODE: 'darkmode',
+	EXPERIMENTAL: 'experimental',
 	BACKSCREEN: 'io-github-shunshun94-trpg-logEditor-backScreen',
 	TMP_WINDOW: 'io-github-shunshun94-trpg-logEditor-tmpWindow',
 	PREVIEW: 'io-github-shunshun94-trpg-logEditor-preview'
@@ -79,5 +81,5 @@ io.github.shunshun94.trpg.logEditor.DOMS.BODY.on(io.github.shunshun94.trpg.logEd
 });
 
 if(io.github.shunshun94.trpg.logEditor.hashFunc(location.search) === io.github.shunshun94.trpg.logEditor.EXPERIMENTAL_FUNC_PASSWORD) {
-	io.github.shunshun94.trpg.logEditor.DOMS.BODY.addClass('experimental');
+	io.github.shunshun94.trpg.logEditor.DOMS.BODY.addClass(io.github.shunshun94.trpg.logEditor.CLASSES.EXPERIMENTAL);
 }
