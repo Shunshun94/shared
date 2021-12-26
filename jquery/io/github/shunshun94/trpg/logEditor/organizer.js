@@ -28,6 +28,8 @@ io.github.shunshun94.trpg.logEditor.CLASSES = {
 	DELETE_ALL: 'io-github-shunshun94-trpg-logEditor-deleteAll',
 	TRASHBOX_CLOSE: 'io-github-shunshun94-trpg-logEditor-closeTrashBox',
 	NAME_MENU: 'menu-nameMenu',
+	POPUP_MENU: 'io-github-shunshun94-trpg-logEditor-menu-PopupMenu',
+	POPUP_MENU_TOGGLE: 'io-github-shunshun94-trpg-logEditor-menu-PopupMenuToggle',
 	NAME_MENU_WINDOW: 'io-github-shunshun94-trpg-logEditor-menu-NameConfig',
 	NAME_MENU_EXEC: 'io-github-shunshun94-trpg-logEditor-menu-NameConfig-exec',
 	SAVE_MENU_WINDOW: 'io-github-shunshun94-trpg-logEditor-menu-SaveMenu',
