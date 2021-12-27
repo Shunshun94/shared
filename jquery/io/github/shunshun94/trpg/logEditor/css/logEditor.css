@@ -288,17 +288,22 @@ h2 {
 
 .menu-preview {
 	left:24px;
-	top:32px;	
+	top:32px;
 }
 
 .menu-editorVisual {
 	left:24px;
-	top:56px;	
+	top:56px;
 }
 
 .menu-sameMember {
-	left: 128px;
-	top: 8px;	
+	left: 124px;
+	top: 8px;
+}
+
+.menu-addElement {
+	left: 124px;
+	top: 32px;
 }
 
 .io-github-shunshun94-trpg-logEditor-menu-NameConfig tr:nth-child(even) {
@@ -313,6 +318,16 @@ h2 {
 	position:absolute;
 	right:16px;
 	bottom:16px;
+}
+
+.io-github-shunshun94-trpg-logEditor-menu-AddElementMenu input {
+	width:20em;
+}
+
+.io-github-shunshun94-trpg-logEditor-menu-AddElementMenu textarea {
+	width:20em;
+	height:8em;
+	resize:none;
 }
 
 .io-github-shunshun94-trpg-logEditor-FileLoader {
