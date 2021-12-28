@@ -95,9 +95,22 @@ io.github.shunshun94.trpg.logEditor.Editor = class {
 		io.github.shunshun94.trpg.logEditor.DOMS.BODY.append(io.github.shunshun94.trpg.logEditor.menu.saveMenu.generateDom(targetBlock));
 	}
 
+	showAddElementMenu() {
+		io.github.shunshun94.trpg.logEditor.DOMS.BODY.append(io.github.shunshun94.trpg.logEditor.menu.AddNewElementMenu.generateDom(this.getNameList()));
+	}
+
+	insertNewElement() {
+		const post = io.github.shunshun94.trpg.logEditor.menu.AddNewElementMenu.getPostObject();
+		const dom = io.github.shunshun94.trpg.logEditor.jsonToEditorHtml(post);
+		$(this.getTmpDoms()[0]).append(dom);
+	}
+
+	getNameList() {
+		return Array.from(new Set($.makeArray($(`.${io.github.shunshun94.trpg.logEditor.CLASSES.NAME}`).map((i,v)=>{return $(v).text()})))).filter((n)=>{return n;});
+	}
+
 	openNameConfigScreen() {
-		const names = Array.from(new Set($.makeArray($(`.${io.github.shunshun94.trpg.logEditor.CLASSES.NAME}`).map((i,v)=>{return $(v).text()})))).filter((n)=>{return n;});
-		io.github.shunshun94.trpg.logEditor.DOMS.BODY.append(io.github.shunshun94.trpg.logEditor.menu.NameConfig.generateDom(names));
+		io.github.shunshun94.trpg.logEditor.DOMS.BODY.append(io.github.shunshun94.trpg.logEditor.menu.NameConfig.generateDom(this.getNameList()));
 	}
 
 	insertClassToNameConfig(tr) {
@@ -317,6 +330,11 @@ io.github.shunshun94.trpg.logEditor.Editor = class {
 					io.github.shunshun94.trpg.logEditor.DOMS.BODY.attr('class'));
 				return;
 			}
+			if( clicked.hasClass(`${io.github.shunshun94.trpg.logEditor.CLASSES.ADD_ELEMENT_MENU_WINDOW}-exec`)) {
+				this.insertNewElement();
+				this.closeTmpWindow(clicked);
+				return;
+			}
 			if( clicked.hasClass(io.github.shunshun94.trpg.logEditor.CLASSES.STYLE_RESET_MENU) ) {
 				io.github.shunshun94.trpg.logEditor.menu.PopupMenu.toggle();
 				this.styleReset();
@@ -350,6 +368,11 @@ io.github.shunshun94.trpg.logEditor.Editor = class {
 			}
 			if( clicked.hasClass(io.github.shunshun94.trpg.logEditor.CLASSES.PREVIEW_MENU) ) {
 				this.showPreview();
+				return;
+			}
+			if( clicked.hasClass(io.github.shunshun94.trpg.logEditor.CLASSES.ADD_ELEMENT_MENU) ) {
+				this.openBackScreen();
+				this.showAddElementMenu();
 				return;
 			}
 			if( clicked.hasClass(io.github.shunshun94.trpg.logEditor.CLASSES.TRASHBOX_MENU)) {
@@ -430,6 +453,7 @@ io.github.shunshun94.trpg.logEditor.Editor = class {
 			<div id="menu">
 				${io.github.shunshun94.trpg.logEditor.menu.PopupMenu.generateHtml()}
 				<button class="${io.github.shunshun94.trpg.logEditor.CLASSES.SAME_MEMBER_MENU}">同じ発言者の連続した発言にジャンプ</button>
+				<button class="${io.github.shunshun94.trpg.logEditor.CLASSES.ADD_ELEMENT_MENU}">要素を追加</button>
 				<button class="${io.github.shunshun94.trpg.logEditor.CLASSES.TRASHBOX_MENU}">ゴミ箱を開閉</button>
 				<button class="${io.github.shunshun94.trpg.logEditor.CLASSES.DARKMODE_MENU}">ナイトモード ON/OFF</button>
 				<button class="${io.github.shunshun94.trpg.logEditor.CLASSES.PREVIEW_MENU}">プレビュー</button>
