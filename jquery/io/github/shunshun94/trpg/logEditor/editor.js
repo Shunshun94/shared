@@ -99,6 +99,36 @@ io.github.shunshun94.trpg.logEditor.Editor = class {
 		io.github.shunshun94.trpg.logEditor.DOMS.BODY.append(io.github.shunshun94.trpg.logEditor.menu.AddNewElementMenu.generateDom(this.getNameList()));
 	}
 
+	insertUpdateBackGroundPicture() {
+		const url   = $(`#${io.github.shunshun94.trpg.logEditor.CLASSES.ADD_ELEMENT_MENU_WINDOW}-ytsheetOptions-bg-url`).val();
+		const title = $(`#${io.github.shunshun94.trpg.logEditor.CLASSES.ADD_ELEMENT_MENU_WINDOW}-ytsheetOptions-bg-title`).val();
+		const post = {
+			tag: 'p',
+			name: 'YTCHAT_SYSTEM',
+			content: `bg:${url}<br/>背景を変更<br/>${title}`,
+			id: '',
+			class: 'background-picture',
+			style: ''
+		};
+		const dom = io.github.shunshun94.trpg.logEditor.jsonToEditorHtml(post);
+		$(this.getTmpDoms()[0]).append(dom);
+	}
+
+	insertUpdateBackGroundMusic() {
+		const url   = $(`#${io.github.shunshun94.trpg.logEditor.CLASSES.ADD_ELEMENT_MENU_WINDOW}-ytsheetOptions-bgm-url`).val();
+		const title = $(`#${io.github.shunshun94.trpg.logEditor.CLASSES.ADD_ELEMENT_MENU_WINDOW}-ytsheetOptions-bgm-title`).val();
+		const post = {
+			tag: 'p',
+			name: 'YTCHAT_SYSTEM',
+			content: `bgm:10:${url}<br/>音楽を変更<br/>${title}`,
+			id: '',
+			class: 'background-music',
+			style: ''
+		};
+		const dom = io.github.shunshun94.trpg.logEditor.jsonToEditorHtml(post);
+		$(this.getTmpDoms()[0]).append(dom);
+	}
+
 	insertNewElement() {
 		const post = io.github.shunshun94.trpg.logEditor.menu.AddNewElementMenu.getPostObject();
 		const dom = io.github.shunshun94.trpg.logEditor.jsonToEditorHtml(post);
@@ -332,6 +362,16 @@ io.github.shunshun94.trpg.logEditor.Editor = class {
 			}
 			if( clicked.hasClass(`${io.github.shunshun94.trpg.logEditor.CLASSES.ADD_ELEMENT_MENU_WINDOW}-exec`)) {
 				this.insertNewElement();
+				this.closeTmpWindow(clicked);
+				return;
+			}
+			if( clicked.hasClass(`${io.github.shunshun94.trpg.logEditor.CLASSES.ADD_ELEMENT_MENU_WINDOW}-ytsheetOptions-bg-exec`)) {
+				this.insertUpdateBackGroundPicture();
+				this.closeTmpWindow(clicked);
+				return;
+			}
+			if( clicked.hasClass(`${io.github.shunshun94.trpg.logEditor.CLASSES.ADD_ELEMENT_MENU_WINDOW}-ytsheetOptions-bgm-exec`)) {
+				this.insertUpdateBackGroundMusic();
 				this.closeTmpWindow(clicked);
 				return;
 			}
