@@ -10,7 +10,7 @@ io.github.shunshun94.trpg.logEditor.menu.AddNewElementMenu.generateDom = (nameLi
     return `<div
         class="${io.github.shunshun94.trpg.logEditor.CLASSES.TMP_WINDOW} ${io.github.shunshun94.trpg.logEditor.CLASSES.ADD_ELEMENT_MENU_WINDOW}"
     >
-        <table>
+        <table class="${io.github.shunshun94.trpg.logEditor.CLASSES.ADD_ELEMENT_MENU_WINDOW}-table">
             <tr>
                 <th>tag</th>
                 <td><input type="text" list="io-github-shunshun94-trpg-logEditor-candidates-tags" /></td>
@@ -44,6 +44,53 @@ io.github.shunshun94.trpg.logEditor.menu.AddNewElementMenu.generateDom = (nameLi
                 return '<option value="' + n + '" />';
             }).join('')}
         </datalist>
+        <div class="experimentalfunction"><div class="${io.github.shunshun94.trpg.logEditor.CLASSES.ADD_ELEMENT_MENU_WINDOW}-ytsheetOptions">
+            <div class="${io.github.shunshun94.trpg.logEditor.CLASSES.ADD_ELEMENT_MENU_WINDOW}-ytsheetOptions-bg">
+                <table>
+                    <tr>
+                        <th style="text-align:right;">画像URL</th>
+                        <td><input
+                            id="${io.github.shunshun94.trpg.logEditor.CLASSES.ADD_ELEMENT_MENU_WINDOW}-ytsheetOptions-bg-url"
+                            type="text" /></td>
+                    </tr>
+                    <tr>
+                        <th style="text-align:right;">タイトル・権利情報</th>
+                        <td><input
+                            id="${io.github.shunshun94.trpg.logEditor.CLASSES.ADD_ELEMENT_MENU_WINDOW}-ytsheetOptions-bg-title"
+                            type="text" /></td>
+                    </tr>
+                    <tr><td colspan="2" style="text-align:right;"><button
+                        class="${io.github.shunshun94.trpg.logEditor.CLASSES.ADD_ELEMENT_MENU_WINDOW}-ytsheetOptions-bg-exec"
+                    >画像の切り替え作成</button></td></tr>
+                </table>
+            </div>
+            <br/>
+            <div class="${io.github.shunshun94.trpg.logEditor.CLASSES.ADD_ELEMENT_MENU_WINDOW}-ytsheetOptions-bgm">
+                <table>
+                    <tr>
+                        <th style="text-align:right;">音楽URL</th>
+                        <td><input
+                            id="${io.github.shunshun94.trpg.logEditor.CLASSES.ADD_ELEMENT_MENU_WINDOW}-ytsheetOptions-bgm-url"
+                            type="text" /></td>
+                    </tr>
+                    <tr>
+                        <th style="text-align:right;">ボリューム</th>
+                        <td><input
+                            id="${io.github.shunshun94.trpg.logEditor.CLASSES.ADD_ELEMENT_MENU_WINDOW}-ytsheetOptions-bgm-volume"
+                            type="number" min="1" max="100" value="10" /></td>
+                    </tr>
+                    <tr>
+                        <th style="text-align:right;">タイトル・権利情報</th>
+                        <td><input
+                            id="${io.github.shunshun94.trpg.logEditor.CLASSES.ADD_ELEMENT_MENU_WINDOW}-ytsheetOptions-bgm-title"
+                            type="text" /></td>
+                    </tr>
+                    <tr><td colspan="2" style="text-align:right;"><button
+                        class="${io.github.shunshun94.trpg.logEditor.CLASSES.ADD_ELEMENT_MENU_WINDOW}-ytsheetOptions-bgm-exec"
+                    >音楽の切り替え作成</button></td></tr>
+                </table>
+            </div>
+        </div></div>
     </div>`;
 };
 
@@ -58,4 +105,12 @@ io.github.shunshun94.trpg.logEditor.menu.AddNewElementMenu.getPostObject = () =>
         class: $(inputs[3]).val(),
         style: $(inputs[4]).val()
     };
+};
+
+io.github.shunshun94.trpg.logEditor.menu.AddNewElementMenu.RegisterBgm = (title, url) => {
+
+};
+
+io.github.shunshun94.trpg.logEditor.menu.AddNewElementMenu.RegisterBg = (title, url) => {
+
 };
