@@ -112,6 +112,7 @@ io.github.shunshun94.trpg.logEditor.Editor = class {
 		};
 		const dom = io.github.shunshun94.trpg.logEditor.jsonToEditorHtml(post);
 		$(this.getTmpDoms()[0]).append(dom);
+		io.github.shunshun94.trpg.logEditor.menu.AddNewElementMenu.RegisterBg(title, url);
 	}
 
 	insertUpdateBackGroundMusic() {
@@ -129,6 +130,7 @@ io.github.shunshun94.trpg.logEditor.Editor = class {
 		};
 		const dom = io.github.shunshun94.trpg.logEditor.jsonToEditorHtml(post);
 		$(this.getTmpDoms()[0]).append(dom);
+		io.github.shunshun94.trpg.logEditor.menu.AddNewElementMenu.RegisterBgm(title, url);
 	}
 
 	insertNewElement() {

@@ -106,3 +106,11 @@ io.github.shunshun94.trpg.logEditor.menu.AddNewElementMenu.getPostObject = () =>
         style: $(inputs[4]).val()
     };
 };
+
+io.github.shunshun94.trpg.logEditor.menu.AddNewElementMenu.RegisterBgm = (title, url) => {
+
+};
+
+io.github.shunshun94.trpg.logEditor.menu.AddNewElementMenu.RegisterBg = (title, url) => {
+
+};
