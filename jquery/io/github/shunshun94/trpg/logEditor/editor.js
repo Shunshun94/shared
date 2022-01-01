@@ -115,12 +115,14 @@ io.github.shunshun94.trpg.logEditor.Editor = class {
 	}
 
 	insertUpdateBackGroundMusic() {
-		const url   = $(`#${io.github.shunshun94.trpg.logEditor.CLASSES.ADD_ELEMENT_MENU_WINDOW}-ytsheetOptions-bgm-url`).val();
-		const title = $(`#${io.github.shunshun94.trpg.logEditor.CLASSES.ADD_ELEMENT_MENU_WINDOW}-ytsheetOptions-bgm-title`).val();
+		const url    = io.github.shunshun94.trpg.logEditor.export.ytchatExporter.getShoterYouTubeUrl(
+		               $(`#${io.github.shunshun94.trpg.logEditor.CLASSES.ADD_ELEMENT_MENU_WINDOW}-ytsheetOptions-bgm-url`).val());
+		const title  = $(`#${io.github.shunshun94.trpg.logEditor.CLASSES.ADD_ELEMENT_MENU_WINDOW}-ytsheetOptions-bgm-title`).val();
+		const volume = $(`#${io.github.shunshun94.trpg.logEditor.CLASSES.ADD_ELEMENT_MENU_WINDOW}-ytsheetOptions-bgm-volume`).val();
 		const post = {
 			tag: 'p',
 			name: 'YTCHAT_SYSTEM',
-			content: `bgm:10:${url}<br/>音楽を変更<br/>${title}`,
+			content: `bgm:${volume}:${url}<br/>音楽を変更<br/>${title}`,
 			id: '',
 			class: 'background-music',
 			style: ''

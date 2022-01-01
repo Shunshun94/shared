@@ -74,6 +74,12 @@ io.github.shunshun94.trpg.logEditor.menu.AddNewElementMenu.generateDom = (nameLi
                             type="text" /></td>
                     </tr>
                     <tr>
+                        <th style="text-align:right;">ボリューム</th>
+                        <td><input
+                            id="${io.github.shunshun94.trpg.logEditor.CLASSES.ADD_ELEMENT_MENU_WINDOW}-ytsheetOptions-bgm-volume"
+                            type="number" min="1" max="100" value="10" /></td>
+                    </tr>
+                    <tr>
                         <th style="text-align:right;">タイトル・権利情報</th>
                         <td><input
                             id="${io.github.shunshun94.trpg.logEditor.CLASSES.ADD_ELEMENT_MENU_WINDOW}-ytsheetOptions-bgm-title"
