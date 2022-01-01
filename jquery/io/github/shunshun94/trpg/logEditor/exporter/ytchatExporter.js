@@ -181,7 +181,6 @@ io.github.shunshun94.trpg.logEditor.export.ytchatExporter.postToHtml = (post, tm
     }
     const isSub = io.github.shunshun94.trpg.logEditor.export.ytchatExporter.isSubTab(post);
     const baseClass = isSub ? '' : 'main';
-    const baseTabName = isSub ? 'サブ' : 'メイン';  
     if(post.tag === 'p') {
       const baseTabName = isSub ? 'サブ' : 'メイン';
       return `<dl id="line-${id}" class="${baseClass} ${post.class}" data-user="${post.name}" data-tab="${isSub}" data-tab-name="${baseTabName}" style="${post.style}">
@@ -258,4 +257,14 @@ io.github.shunshun94.trpg.logEditor.export.ytchatExporter.download = (html, titl
 	dlLink.click();
 	dlLink.remove();
 	URL.revokeObjectURL(url);
+};
+
+io.github.shunshun94.trpg.logEditor.export.ytchatExporter.getShoterYouTubeUrl = (url) => {
+  if(url.startsWith('https://www.youtube.com/watch')) {
+    const regexpResult = /v=([a-zA-Z0-9]+)/.exec(url);
+    if(regexpResult) {
+      return `https://youtu.be/${regexpResult[1]}`;
+    }
+  }
+  return url;
 };

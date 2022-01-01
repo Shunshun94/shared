@@ -320,6 +320,10 @@ h2 {
 	bottom:16px;
 }
 
+.io-github-shunshun94-trpg-logEditor-menu-AddElementMenu-table {
+	width:320px;	
+}
+
 .io-github-shunshun94-trpg-logEditor-menu-AddElementMenu input {
 	width:20em;
 }
@@ -328,6 +332,12 @@ h2 {
 	width:20em;
 	height:8em;
 	resize:none;
+}
+
+.io-github-shunshun94-trpg-logEditor-menu-AddElementMenu-ytsheetOptions {
+	position: absolute;
+	top: 20px;
+	left: 340px;	
 }
 
 .io-github-shunshun94-trpg-logEditor-FileLoader {
