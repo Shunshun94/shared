@@ -112,7 +112,7 @@ io.github.shunshun94.trpg.logEditor.Editor = class {
 		};
 		const dom = io.github.shunshun94.trpg.logEditor.jsonToEditorHtml(post);
 		$(this.getTmpDoms()[0]).append(dom);
-		io.github.shunshun94.trpg.logEditor.menu.AddNewElementMenu.RegisterBg(title, url);
+		io.github.shunshun94.trpg.logEditor.menu.AddNewElementMenu.registerBg(title, url);
 	}
 
 	insertUpdateBackGroundMusic() {
@@ -130,7 +130,7 @@ io.github.shunshun94.trpg.logEditor.Editor = class {
 		};
 		const dom = io.github.shunshun94.trpg.logEditor.jsonToEditorHtml(post);
 		$(this.getTmpDoms()[0]).append(dom);
-		io.github.shunshun94.trpg.logEditor.menu.AddNewElementMenu.RegisterBgm(title, url);
+		io.github.shunshun94.trpg.logEditor.menu.AddNewElementMenu.registerBgm(title, url);
 	}
 
 	insertNewElement() {
@@ -296,6 +296,13 @@ io.github.shunshun94.trpg.logEditor.Editor = class {
 				this.openBackScreen();
 				this.openSaveScreen();
 				return;
+			}
+		});
+
+		io.github.shunshun94.trpg.logEditor.DOMS.BODY.on('input', (e)=>{
+			const inputted = $(e.target);
+			if(inputted.hasClass(`${io.github.shunshun94.trpg.logEditor.CLASSES.ADD_ELEMENT_MENU_WINDOW}-ytsheetOptions-url`)) {
+				io.github.shunshun94.trpg.logEditor.menu.AddNewElementMenu.insertByUrl(inputted);
 			}
 		});
 
