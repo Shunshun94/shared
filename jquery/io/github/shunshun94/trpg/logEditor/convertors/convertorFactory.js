@@ -6,17 +6,49 @@ io.github.shunshun94.trpg.logEditor = io.github.shunshun94.trpg.logEditor || {};
 io.github.shunshun94.trpg.logEditor.convertors = io.github.shunshun94.trpg.logEditor.convertors || {};
 io.github.shunshun94.trpg.logEditor.convertors.ConvertorFactory = io.github.shunshun94.trpg.logEditor.convertors.ConvertorFactory || {};
 io.github.shunshun94.trpg.logEditor.convertors.ConvertorFactory.getConvertor = (file) => {
-	if(file.name.endsWith('.zip')) {
-		return io.github.shunshun94.trpg.logEditor.convertors.UdonariumConvertor;
-	}
-	if(file.name.endsWith('.txt') || file.name.endsWith('.text')) {
-		return io.github.shunshun94.trpg.logEditor.convertors.RawTextConvertor;
-	}
-	if(file.name.endsWith('.dat')) {
-		return io.github.shunshun94.trpg.logEditor.convertors.ytchatConvertor;
-	}
-	return io.github.shunshun94.trpg.logEditor.convertors.CcfoliaConvertor;
+	return new Promise((resolve, reject)=>{
+		if(file.name.endsWith('.zip')) {
+			resolve(io.github.shunshun94.trpg.logEditor.convertors.UdonariumConvertor);
+		}
+		if(file.name.endsWith('.txt') || file.name.endsWith('.text')) {
+			resolve(io.github.shunshun94.trpg.logEditor.convertors.RawTextConvertor);
+		}
+		if(file.name.endsWith('.dat')) {
+			resolve(io.github.shunshun94.trpg.logEditor.convertors.ytchatConvertor);
+		}
+		resolve(io.github.shunshun94.trpg.logEditor.convertors.CcfoliaConvertor);
+	});
 };
+
+io.github.shunshun94.trpg.logEditor.convertors.ConvertorFactory.htmlHub((file)=>{
+	// Flocon base Web: 0.7.7 / Api:0.7.1
+	return new Promise((resolve, reject)=>{
+		io.github.shunshun94.trpg.logEditor.convertors.ConvertorFactory.fileToText(file).then((rawHtml)=>{
+			const dom = (new DOMParser()).parseFromString(rawHtml, 'text/html');
+			const bodyChildren = Arrays.from(dom.body.children);
+			for(const element of bodyChildren) {
+				if( (element.localName !== 'div') || (element.getAttribute('class') !== 'message') ) {
+					resolve(io.github.shunshun94.trpg.logEditor.convertors.CcfoliaConvertor);
+				}
+			}
+			resolve(io.github.shunshun94.trpg.logEditor.convertors.FloconConvertor);
+		});
+	});
+});
+
+io.github.shunshun94.trpg.logEditor.convertors.ConvertorFactory.fileToText((file)=>{
+	return new Promise((resolve, reject)=>{
+		file.arrayBuffer().then((result)=>{
+			const codes = new Uint8Array(result);
+			const rawHtml = Encoding.convert(codes, {
+				to: 'unicode',
+				from: Encoding.detect(codes),
+				type: 'string'
+			});
+			resolve(rawHtml);
+		});
+	});
+});
 
 // https://gist.github.com/hanayashiki/8dac237671343e7f0b15de617b0051bd
 (function () {

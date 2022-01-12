@@ -52,14 +52,16 @@ io.github.shunshun94.trpg.logEditor.FileLoader.kickOneTimeSave = () => {
 };
 
 io.github.shunshun94.trpg.logEditor.FileLoader.readFile = (targetFile) => {
-	io.github.shunshun94.trpg.logEditor.convertors.ConvertorFactory.getConvertor(targetFile).dropEventToJson(targetFile).then((parsedTarget)=>{
-		io.github.shunshun94.trpg.logEditor.DOMS.BODY.trigger(
-			io.github.shunshun94.trpg.logEditor.EVENTS.FILE_LOADED,
-			parsedTarget
-		);
-		io.github.shunshun94.trpg.logEditor.DOMS.BODY.off('drop');
-		io.github.shunshun94.trpg.logEditor.DOMS.BODY.off('dragleave');
-		io.github.shunshun94.trpg.logEditor.DOMS.BODY.off('dragover');
+	io.github.shunshun94.trpg.logEditor.convertors.ConvertorFactory.getConvertor(targetFile).then((convertor)=>{
+		convertor.dropEventToJson(targetFile).then((parsedTarget)=>{
+			io.github.shunshun94.trpg.logEditor.DOMS.BODY.trigger(
+				io.github.shunshun94.trpg.logEditor.EVENTS.FILE_LOADED,
+				parsedTarget
+			);
+			io.github.shunshun94.trpg.logEditor.DOMS.BODY.off('drop');
+			io.github.shunshun94.trpg.logEditor.DOMS.BODY.off('dragleave');
+			io.github.shunshun94.trpg.logEditor.DOMS.BODY.off('dragover');
+		});
 	});
 };
 
