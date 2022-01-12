@@ -7,11 +7,15 @@
 <body>
 <div id="ccfolia" style="background-color:aliceblue;width:50%;height:200px;">Ccfolia</div>
 <div id="udonarium" style="background-color:aliceblue;width:50%;height:200px;">Udonarium</div>
+<div id="line" style="background-color:aliceblue;width:50%;height:200px;">LINE</div>
+<div id="ytchat" style="background-color:aliceblue;width:50%;height:200px;">YTCHAT(.dat)</div>
 <script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/encoding-japanese/1.0.30/encoding.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jszip@3.2.1/dist/jszip.js"></script>
 <script src="./ccfoliaConvertor.js"></script>
 <script src="./udonariumConvertor.js"></script>
+<script src="./rawTextConvertor.js"></script>
+<script src="./ytchatConvertor.js"></script>
 <script>
 const fileReader = new FileReader();
 $('#ccfolia').on('drop', function(e) {
@@ -26,16 +30,30 @@ $('#ccfolia').on('dragover', function(e) {
 	$('#ccfolia').css('background-color', 'lightyellow');
 	e.preventDefault();
 });
-$('#udonarium').on('drop', function(e) {
-	$('#udonarium').css('background-color', 'aliceblue');
-	io.github.shunshun94.trpg.logEditor.convertors.UdonariumConvertor.dropEventToJson(e.originalEvent.dataTransfer.files[0]).then(console.log);
+
+$('#line').on('drop', function(e) {
+	$('#line').css('background-color', 'aliceblue');
+	io.github.shunshun94.trpg.logEditor.convertors.RawTextConvertor.dropEventToJson(e.originalEvent.dataTransfer.files[0]).then(console.log);
 	e.preventDefault();
 });
-$('#udonarium').on('dragleave', function(e) {
-	$('#udonarium').css('background-color', 'aliceblue');
+$('#line').on('dragleave', function(e) {
+	$('#line').css('background-color', 'aliceblue');
 });
-$('#udonarium').on('dragover', function(e) {
-	$('#udonarium').css('background-color', 'lightyellow');
+$('#line').on('dragover', function(e) {
+	$('#line').css('background-color', 'lightyellow');
+	e.preventDefault();
+});
+
+$('#ytchat').on('drop', function(e) {
+	$('#ytchat').css('background-color', 'aliceblue');
+	io.github.shunshun94.trpg.logEditor.convertors.ytchatConvertor.dropEventToJson(e.originalEvent.dataTransfer.files[0]).then(console.log);
+	e.preventDefault();
+});
+$('#ytchat').on('dragleave', function(e) {
+	$('#ytchat').css('background-color', 'aliceblue');
+});
+$('#ytchat').on('dragover', function(e) {
+	$('#ytchat').css('background-color', 'lightyellow');
 	e.preventDefault();
 });
 </script>

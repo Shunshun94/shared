@@ -9,13 +9,7 @@ io.github.shunshun94.trpg.logEditor.convertors.ytchatConvertor = io.github.shuns
 
 io.github.shunshun94.trpg.logEditor.convertors.ytchatConvertor.dropEventToJson = (file) => {
     return new Promise((resolve, reject)=>{
-        file.arrayBuffer().then((result)=>{
-            const codes = new Uint8Array(result);
-			const rawText = Encoding.convert(codes, {
-				to: 'unicode',
-				from: Encoding.detect(codes),
-				type: 'string'
-			});
+        io.github.shunshun94.trpg.logEditor.convertors.ConvertorFactory.fileToText(file).then((rawText)=>{
             resolve(io.github.shunshun94.trpg.logEditor.convertors.ytchatConvertor.rawTextToJson(rawText));
         });
     });
