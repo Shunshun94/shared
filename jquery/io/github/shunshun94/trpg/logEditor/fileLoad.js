@@ -5,8 +5,14 @@ io.github.shunshun94.trpg = io.github.shunshun94.trpg || {};
 io.github.shunshun94.trpg.logEditor = io.github.shunshun94.trpg.logEditor || {};
 
 io.github.shunshun94.trpg.logEditor.DOMS.BODY.append(`<div style="padding:2em;position:absolute;top:0px;left:0px;right:0px;bottom:0px;">
-ココフォリアのログの HTML、ユドナリウムの部屋の zip ないしは<br/>LINE のダウンロードしたログを Drag/Drop するか、以下からアップロードしてください<br/>
+以下のいずれかを Drag/Drop するか、以下からアップロードしてください<br/>
 <input type="file" name="io-github-shunshun94-trpg-logEditor-FileLoader-InputFile" id="io-github-shunshun94-trpg-logEditor-FileLoader-InputFile" >
+<ul>
+<li>ココフォリアのログの HTML</li>
+<li>ユドナリウムの部屋の zip</li>
+<li>Flocon のログ（シンプル）の HTML</li>
+<li>LINE からダウンロードしたログのテキストファイル</li>
+</ul>
 </div>`);
 
 
