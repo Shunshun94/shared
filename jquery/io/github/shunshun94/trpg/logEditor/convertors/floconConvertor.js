@@ -34,10 +34,8 @@ io.github.shunshun94.trpg.logEditor.convertors.FloconSimpleConvertor.elementToJs
 		const tabCandidate = children.map((d)=>{
 			return d.innerText.trim();
 		}).filter((text)=>{
-			console.log(text);
 			return text.startsWith('(') && text.endsWith(')');
 		});
-		console.log(tabCandidate);
 		if(tabCandidate.length) {
 			const tabName = /\((.+)\)/.exec(tabCandidate[0])[1];
 			if(io.github.shunshun94.trpg.logEditor.convertors.FloconSimpleConvertor.DEFAULT_TABS_CLASS[tabName]) {
