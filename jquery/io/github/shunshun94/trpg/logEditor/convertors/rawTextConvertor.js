@@ -6,18 +6,9 @@ io.github.shunshun94.trpg.logEditor = io.github.shunshun94.trpg.logEditor || {};
 io.github.shunshun94.trpg.logEditor.convertors = io.github.shunshun94.trpg.logEditor.convertors || {};
 io.github.shunshun94.trpg.logEditor.convertors.RawTextConvertor = io.github.shunshun94.trpg.logEditor.convertors.RawTextConvertor ||{};
 
-
-
 io.github.shunshun94.trpg.logEditor.convertors.RawTextConvertor.dropEventToJson = (file) => {
 	return new Promise((resolve, reject)=>{
-		file.arrayBuffer().then((result)=>{
-			const codes = new Uint8Array(result);
-			const rawText = Encoding.convert(codes, {
-				to: 'unicode',
-				from: Encoding.detect(codes),
-				type: 'string'
-			});
-
+		io.github.shunshun94.trpg.logEditor.convertors.ConvertorFactory.fileToText(file).then((rawText)=>{
 			resolve(io.github.shunshun94.trpg.logEditor.convertors.RawTextConvertor.lineToJson(rawText));
 		});
 	});
