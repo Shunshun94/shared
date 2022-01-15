@@ -308,141 +308,13 @@ io.github.shunshun94.trpg.logEditor.Editor = class {
 
 		io.github.shunshun94.trpg.logEditor.DOMS.BODY.click((e)=>{
 			const clicked = $(e.target);
-			const isButton = e.target.localName === 'button';
 			const targetPost = clicked.parents(`.${io.github.shunshun94.trpg.logEditor.CLASSES.POST}`);
-			if(isButton && targetPost.length) {
-				if( clicked.hasClass(io.github.shunshun94.trpg.logEditor.CLASSES.DUPLICATE) ) {
-					this.duplicate(targetPost);
-				}
-				if( clicked.hasClass(io.github.shunshun94.trpg.logEditor.CLASSES.MERGE) ) {
-					this.copyToTrash([targetPost, targetPost.prev()]);
-					this.merge(targetPost);
-				}
-				if( clicked.hasClass(io.github.shunshun94.trpg.logEditor.CLASSES.DELETE) ) {
-					this.copyToTrash([targetPost]);
-					targetPost.remove();
-				}
-				if( clicked.hasClass(io.github.shunshun94.trpg.logEditor.CLASSES.RANDOM_ID) ) {
-					this.setRndId(targetPost);
-				}
-				if( clicked.hasClass(io.github.shunshun94.trpg.logEditor.CLASSES.TOGGLE_SUB) ) {
-					this.toggleSub(targetPost);
-				}
-				return;
+			if(targetPost.length) {
+				io.github.shunshun94.trpg.logEditor.kickPostClickedEvents(this, clicked, targetPost);
+			} else {
+				io.github.shunshun94.trpg.logEditor.kickGeneralClicedEvents(this, clicked);
 			}
-			const targetBlock = clicked.parents(`.editBlock`);
-			if(isButton && targetBlock.length) {
-				this.openBackScreen();
-				this.openSaveScreen(targetBlock.attr('id'));
-				return;
-			}
-			if( clicked.hasClass(io.github.shunshun94.trpg.logEditor.CLASSES.NAME_MENU) ) {
-				io.github.shunshun94.trpg.logEditor.menu.PopupMenu.toggle();
-				this.openBackScreen();
-				this.openNameConfigScreen();
-				return;
-			}
-			if( clicked.hasClass(`${io.github.shunshun94.trpg.logEditor.CLASSES.NAME_MENU_WINDOW}-classInsert`) ) {
-				const tr = clicked.parents(`.${io.github.shunshun94.trpg.logEditor.CLASSES.NAME_MENU_WINDOW}-tr`);
-				this.insertClassToNameConfig(tr);
-			}
-			if( clicked.hasClass(`${io.github.shunshun94.trpg.logEditor.CLASSES.PREVIEW}-close`) ) {
-				this.closePreview();
-				return;
-			}
-			if( clicked.hasClass(`${io.github.shunshun94.trpg.logEditor.CLASSES.PREVIEW}-update`) ) {
-				this.showPreview();
-				return;
-			}
-			if( clicked.hasClass(io.github.shunshun94.trpg.logEditor.CLASSES.NAME_MENU_EXEC) ) {
-				this.applyNameConfig();
-				this.closeTmpWindow(clicked);
-				return;
-			}
-			if( clicked.hasClass(`${io.github.shunshun94.trpg.logEditor.CLASSES.SAVE_MENU_WINDOW}-save`) ) {
-				this.closeTmpWindow(clicked);
-				const buttonValue = clicked.val().split(' ');
-				const targetBlockType = buttonValue[0];
-				const targetExporter = buttonValue[1];
-				io.github.shunshun94.trpg.logEditor.export.getExporter(targetExporter).exec(
-					$(`#${targetBlockType}`).find('.logList'),
-					this.head,
-					this.omit,
-					io.github.shunshun94.trpg.logEditor.DOMS.BODY.attr('class'));
-				return;
-			}
-			if( clicked.hasClass(`${io.github.shunshun94.trpg.logEditor.CLASSES.ADD_ELEMENT_MENU_WINDOW}-exec`)) {
-				this.insertNewElement();
-				this.closeTmpWindow(clicked);
-				return;
-			}
-			if( clicked.hasClass(`${io.github.shunshun94.trpg.logEditor.CLASSES.ADD_ELEMENT_MENU_WINDOW}-ytsheetOptions-bg-exec`)) {
-				this.insertUpdateBackGroundPicture();
-				this.closeTmpWindow(clicked);
-				return;
-			}
-			if( clicked.hasClass(`${io.github.shunshun94.trpg.logEditor.CLASSES.ADD_ELEMENT_MENU_WINDOW}-ytsheetOptions-bgm-exec`)) {
-				this.insertUpdateBackGroundMusic();
-				this.closeTmpWindow(clicked);
-				return;
-			}
-			if( clicked.hasClass(io.github.shunshun94.trpg.logEditor.CLASSES.STYLE_RESET_MENU) ) {
-				io.github.shunshun94.trpg.logEditor.menu.PopupMenu.toggle();
-				this.styleReset();
-				return;
-			}
-			if( clicked.hasClass(io.github.shunshun94.trpg.logEditor.CLASSES.ID_INSERTION_MENU) ) {
-				io.github.shunshun94.trpg.logEditor.menu.PopupMenu.toggle();
-				this.insertIdToHs();
-				return;
-			}
-			if( clicked.hasClass(io.github.shunshun94.trpg.logEditor.CLASSES.DARKMODE_MENU) ) {
-				io.github.shunshun94.trpg.logEditor.DOMS.BODY.toggleClass(io.github.shunshun94.trpg.logEditor.CLASSES.DARKMODE);
-			}
-			if( clicked.hasClass(io.github.shunshun94.trpg.logEditor.CLASSES.POPUP_MENU_TOGGLE) ) {
-				io.github.shunshun94.trpg.logEditor.menu.PopupMenu.toggle();
-				return;
-			}
-			if( clicked.hasClass(io.github.shunshun94.trpg.logEditor.CLASSES.SYSTEM_TO_POST_MENU) ) {
-				this.convertSystemToPost();
-				io.github.shunshun94.trpg.logEditor.menu.PopupMenu.toggle();
-				return;
-			}
-			if( clicked.hasClass(io.github.shunshun94.trpg.logEditor.CLASSES.ADD_FILE_MENU) ) {
-				io.github.shunshun94.trpg.logEditor.FileLoader.kickOneTimeSave();
-				io.github.shunshun94.trpg.logEditor.menu.PopupMenu.toggle();
-				return;
-			}
-			if( clicked.hasClass(io.github.shunshun94.trpg.logEditor.CLASSES.SAME_MEMBER_MENU) ) {
-				this.searchSameMemberDoublePost();
-				return;
-			}
-			if( clicked.hasClass(io.github.shunshun94.trpg.logEditor.CLASSES.PREVIEW_MENU) ) {
-				this.showPreview();
-				return;
-			}
-			if( clicked.hasClass(io.github.shunshun94.trpg.logEditor.CLASSES.ADD_ELEMENT_MENU) ) {
-				this.openBackScreen();
-				this.showAddElementMenu();
-				return;
-			}
-			if( clicked.hasClass(io.github.shunshun94.trpg.logEditor.CLASSES.TRASHBOX_MENU)) {
-				$('#trashbox').toggle(400);
-				$('#tmpEditorB').toggle(400);
-				return;
-			}
-			if( clicked.hasClass(io.github.shunshun94.trpg.logEditor.CLASSES.BACKSCREEN) ) {
-				this.closeTmpWindow(clicked);
-				return;
-			}
-			if( clicked.hasClass(io.github.shunshun94.trpg.logEditor.CLASSES.TRASHBOX_CLOSE)) {
-				$('#trashbox').hide(400);
-				$('#tmpEditorB').show(400);
-				return;
-			}
-			if( clicked.hasClass(io.github.shunshun94.trpg.logEditor.CLASSES.DELETE_ALL) ) {
-				$('#trashbox .logList .io-github-shunshun94-trpg-logEditor-Post').remove();
-			}
+			
 		});
 	}
 
@@ -515,7 +387,7 @@ io.github.shunshun94.trpg.logEditor.Editor = class {
 				<p>本ツールは Ccfolia や Udonariumのテキストログを編集するツールですがそれらの開発チームとこのツールは無関係です</p>
 				<p>作者連絡先: <a href="https://twitter.com/Shunshun94" target="_blank">@Shunshun94</a> /
 				ソースコード: <a href="https://github.com/Shunshun94/shared/tree/master/jquery/io/github/shunshun94/trpg/logEditor" target="_blank">GitHub</a> /
-				作者欲しい物リスト: <a href="amzn.asia/8mNqdKy" target="_blank">Amazon</a></p>
+				作者欲しい物リスト: <a href="https://amzn.asia/8mNqdKy" target="_blank">Amazon</a></p>
 			</footer>
 		`);
 		io.github.shunshun94.trpg.logEditor.DOMS.BODY.append(`
