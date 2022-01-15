@@ -310,10 +310,10 @@ io.github.shunshun94.trpg.logEditor.Editor = class {
 			const clicked = $(e.target);
 			const targetPost = clicked.parents(`.${io.github.shunshun94.trpg.logEditor.CLASSES.POST}`);
 			if(targetPost.length) {
-				io.github.shunshun94.trpg.logEditor.PostClickedEvents(this, clicked, targetPost);
+				io.github.shunshun94.trpg.logEditor.kickPostClickedEvents(this, clicked, targetPost);
 				return;
 			}
-			io.github.shunshun94.trpg.logEditor.GeneralClicedEvents(this, clicked);
+			io.github.shunshun94.trpg.logEditor.kickGeneralClicedEvents(this, clicked);
 		});
 	}
 

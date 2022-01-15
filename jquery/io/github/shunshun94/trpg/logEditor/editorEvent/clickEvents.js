@@ -5,27 +5,47 @@ io.github.shunshun94.trpg = io.github.shunshun94.trpg || {};
 io.github.shunshun94.trpg.logEditor = io.github.shunshun94.trpg.logEditor || {};
 io.github.shunshun94.trpg.logEditor.Editor = io.github.shunshun94.trpg.logEditor.Editor || {};
 
-io.github.shunshun94.trpg.logEditor.PostClickedEvents = (self, clicked, targetPost) => {
-    if( clicked.hasClass(io.github.shunshun94.trpg.logEditor.CLASSES.DUPLICATE) ) {
-        self.duplicate(targetPost);
+io.github.shunshun94.trpg.logEditor.PostClickedEvents = [
+    {
+        class: io.github.shunshun94.trpg.logEditor.CLASSES.DUPLICATE,
+        action: (self, clicked, targetPost) => {
+            self.duplicate(targetPost);
+        }
+    }, {
+        class: io.github.shunshun94.trpg.logEditor.CLASSES.MERGE,
+        action: (self, clicked, targetPost) => {
+            self.copyToTrash([targetPost, targetPost.prev()]);
+            self.merge(targetPost);
+        }
+    }, {
+        class: io.github.shunshun94.trpg.logEditor.CLASSES.DELETE,
+        action: (self, clicked, targetPost) => {
+            self.copyToTrash([targetPost]);
+            targetPost.remove();
+        }
+    }, {
+        class: io.github.shunshun94.trpg.logEditor.CLASSES.RANDOM_ID,
+        action: (self, clicked, targetPost) => {
+            self.setRndId(targetPost);
+        }
+    }, {
+        class: io.github.shunshun94.trpg.logEditor.CLASSES.TOGGLE_SUB,
+        action: (self, clicked, targetPost) => {
+            self.toggleSub(targetPost);
+        }
     }
-    if( clicked.hasClass(io.github.shunshun94.trpg.logEditor.CLASSES.MERGE) ) {
-        self.copyToTrash([targetPost, targetPost.prev()]);
-        self.merge(targetPost);
-    }
-    if( clicked.hasClass(io.github.shunshun94.trpg.logEditor.CLASSES.DELETE) ) {
-        self.copyToTrash([targetPost]);
-        targetPost.remove();
-    }
-    if( clicked.hasClass(io.github.shunshun94.trpg.logEditor.CLASSES.RANDOM_ID) ) {
-        self.setRndId(targetPost);
-    }
-    if( clicked.hasClass(io.github.shunshun94.trpg.logEditor.CLASSES.TOGGLE_SUB) ) {
-        self.toggleSub(targetPost);
+];
+
+io.github.shunshun94.trpg.logEditor.kickPostClickedEvents = (self, clicked, targetPost) => {
+    for(const pair of io.github.shunshun94.trpg.logEditor.PostClickedEvents) {
+        if( clicked.hasClass(pair.class) ) {
+            pair.action(self, clicked, targetPost);
+            return;
+        }
     }
 };
 
-io.github.shunshun94.trpg.logEditor.GeneralClicedEvents = (self, clicked) => {
+io.github.shunshun94.trpg.logEditor.kickGeneralClicedEventsKick = (self, clicked) => {
     if( clicked.hasClass(io.github.shunshun94.trpg.logEditor.CLASSES.SAVE)) {
         const targetBlock = clicked.parents(`.editBlock`);
         self.openBackScreen();
