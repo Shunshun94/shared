@@ -45,7 +45,7 @@ io.github.shunshun94.trpg.logEditor.kickPostClickedEvents = (self, clicked, targ
     }
 };
 
-io.github.shunshun94.trpg.logEditor.kickGeneralClicedEventsKick = (self, clicked) => {
+io.github.shunshun94.trpg.logEditor.kickGeneralClicedEvents = (self, clicked) => {
     if( clicked.hasClass(io.github.shunshun94.trpg.logEditor.CLASSES.SAVE)) {
         const targetBlock = clicked.parents(`.editBlock`);
         self.openBackScreen();
