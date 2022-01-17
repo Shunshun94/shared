@@ -33,6 +33,14 @@ body>* {
 	position: relative;
 }
 
+a:link {
+	color: skyblue;
+}
+
+a:visited {
+	color: pink;
+}
+
 p:nth-child(even) {
 	background-color: #000020;
 }
