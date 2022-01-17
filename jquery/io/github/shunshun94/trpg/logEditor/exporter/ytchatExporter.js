@@ -58,11 +58,11 @@ io.github.shunshun94.trpg.logEditor.export.ytchatExporter.getPrefix = (title) =>
 	  <meta charset="UTF-8">
 	  <meta name="viewport" content="width=device-width, initial-scale=1">
 	  <title>${title}</title>
-	  <link rel="stylesheet" media="all" href="https://hiyo-hitsu.sakura.ne.jp/ytchat/lib/css/base.css">
-	  <link rel="stylesheet" media="all" href="https://hiyo-hitsu.sakura.ne.jp/ytchat/lib/css/config.css">
-	  <link rel="stylesheet" media="all" href="https://hiyo-hitsu.sakura.ne.jp/ytchat/lib/css/logs.css">
+	  <link rel="stylesheet" media="all" href="https://shunshun94.github.io/shared/jquery/io/github/shunshun94/trpg/logEditor/resources/ytchat/base.css">
+	  <link rel="stylesheet" media="all" href="https://shunshun94.github.io/shared/jquery/io/github/shunshun94/trpg/logEditor/resources/ytchat/config.css">
+	  <link rel="stylesheet" media="all" href="https://shunshun94.github.io/shared/jquery/io/github/shunshun94/trpg/logEditor/resources/ytchat/logs.css">
 	  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css" integrity="sha384-KA6wR/X5RY4zFAHpv/CnoG2UW1uogYfdnP67Uv7eULvTveboZJg0qUpmJZb5VqzN" crossorigin="anonymous">
-	  <script src="https://hiyo-hitsu.sakura.ne.jp/ytchat/lib/js/logs.js" defer></script>
+	  <script src="https://shunshun94.github.io/shared/jquery/io/github/shunshun94/trpg/logEditor/resources/ytchat/logs.js" defer></script>
 	</head>
 	<body id="logviewer">
 	  <div class="bg-image bg-front"></div>
