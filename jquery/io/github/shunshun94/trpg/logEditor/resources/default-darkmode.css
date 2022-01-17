@@ -4,17 +4,22 @@
 	font-family: "BIZ UDゴシック","UD Shin Go NT Light JIS2004","UD デジタル 教科書体 N-R", Verdana, Roboto, "Droid Sans", "游ゴシック", YuGothic, "メイリオ", Meiryo, "ヒラギノ角ゴ ProN W3", "Hiragino Kaku Gothic ProN", "ＭＳ Ｐゴシック", sans-serif;
 }
 
+body {
+	color: white;
+	background-color:black;
+}
+
 h1, h2, h3, h4, h5 {
 	margin-top: 12px;
 	padding-left: 12px;
 }
 h2, h3 {
-	border-bottom: black 3px double;
-	border-top: black 1px solid;
+	border-bottom: white 3px double;
+	border-top: white 1px solid;
 }
 
 h4 {
-	border-bottom: black 3px double;
+	border-bottom: white 3px double;
 }
 
 body>* {
@@ -29,7 +34,7 @@ body>* {
 }
 
 p:nth-child(even) {
-	background-color: #F5F5FF;
+	background-color: #000020;
 }
 
 hr {
@@ -46,7 +51,7 @@ sup:hover {
 }
 
 p.tab1 {
-	background-color: #F5F5F5;
+	background-color: #202020;
 	font-size:70%;
 }
 
