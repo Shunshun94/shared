@@ -1,0 +1,227 @@
+@charset "utf-8";
+/* // 基本設定
+---------------------------------------------------------------------------------------------------- */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+html {
+  font-size: 62.5%;
+  height: 100vh;
+  scroll-behavior: smooth;
+}
+body {
+  word-wrap : break-word;
+  font-size  : 1.4rem;
+  line-height: 1;
+  color: var(--base-font-color);
+}
+input, textarea, select, button, .button, .dice-button {
+  padding: .2rem .5rem;
+  border: .1rem solid var(--border-color-input);
+  border-radius: .8rem;
+  text-shadow: none;
+  line-height: 1;
+}
+button, .button {
+  display: inline-block;
+  padding: .3rem .5rem;
+  font-size: 1.1rem;
+  line-height: 1;
+  text-align: center;
+  cursor: pointer;
+  user-select: none;
+}
+input:hover, textarea:hover, select:hover, button:hover, .button:hover {
+  box-shadow: inset 0 0 .5rem #7af;
+  color: var(--base-font-color);
+}
+input:focus,textarea:focus,select:focus,button:focus {
+  outline: 0;
+  box-shadow: 0 0 0 .1rem #09f, 0 0 .5rem .0rem #09f;
+}
+[readonly]{
+  cursor: default;
+}
+[disabled]{
+  opacity: 0.5;
+}
+textarea {
+  resize: none;
+}
+textarea.autosize {
+  overflow: hidden;
+}
+ul {
+  list-style-type: none;
+}
+input[type="color"] {
+}
+.link {
+  cursor: pointer;
+}
+summary,
+[onclick] {
+  cursor: pointer;
+}
+
+/* スライダー */
+input[type="range"],
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+}
+input[type="range"] {
+  height: .6em;
+  padding: 0;
+}
+input[type=range]::-webkit-slider-thumb {
+  background: #aaa;
+  height: .6em;
+  width: .6em;
+  border-radius: 20%;
+}
+input[type=range]::-moz-range-thumb {
+  background: #aaa;
+  height: .6em;
+  width: .6em;
+  border-radius: 20%;
+}
+input[type=range]::-moz-range-track {
+  height:0;
+}
+
+/* フォント */
+html,
+body,
+button {
+  font-family: 'Lato',"BIZ UDGothic","Meiryo","YuKyokasho Yoko";
+}
+.logs-font,
+.form-comm {
+  font-family: 'Lato',var(--logs-font-family-jp),"BIZ UDGothic","Meiryo","YuKyokasho Yoko";
+}
+.serif { font-style: inherit; font-family: 'Libre Baskerville',var(--logs-font-family-min),"Hiragino Mincho ProN","Yu Mincho",serif !important; }
+h1,h2,h3,h4,h5,h6,dt,th,b,strong,label,
+#menubar, #topic, .topic .info, .float-box summary, .chat-palette summary,
+.bold {
+  font-family: 'Lato',"Yu Gothic","YuGothic","Meiryo";
+  font-weight: 700;
+}
+.num-font {
+  font-family: 'Lato',"Yu Gothic","YuGothic","Meiryo";
+  font-weight: 700;
+}
+textarea,
+input,
+select {
+  font-family: "BIZ UDGothic","Meiryo","Tsukushi A Round Gothic";
+}
+button, .button {
+  font-family: "Hiragino Kaku Gothic ProN","Meiryo";
+  font-weight: bold;
+}
+.dash {
+  font-family: "Meiryo","Noto Sans JP";
+  font-weight: normal;
+}
+.logs em,
+.float-box em {
+  -webkit-text-emphasis: dot filled;
+          text-emphasis: dot filled;
+  font-style: inherit; 
+}
+.oblique { font-style: oblique; }
+.strike  { text-decoration: line-through; }
+.under  { text-decoration: underline; }
+.large { font-size: 150%; line-height: calc(1 + (1/1.5)*0.8); }
+.large .large { line-height: calc(1 + (1/1.5/1.5)*0.8); }
+.large .large .large { line-height: calc(1 + (1/1.5/1.5/1.5)*0.8); }
+.large .large .large .large { font-size: 100%; }
+/* 
+.large .large { font-size: calc(100% * (2/1.5)); line-height: calc(1 + (1/2)*0.8); }
+.large .large .large { font-size: calc(100% * (2.5/2)); line-height: calc(1 + (1/2.5)*0.8); }
+.large .large .large .large { font-size: calc(100% * (3/2.5)); line-height: calc(1 + (1/3)*0.8); }
+.large .large .large .large .large { font-size: calc(100% * (3.5/3)); line-height: calc(1 + (1/3.5)*0.8); }
+.large .large .large .large .large .large { font-size: calc(100% * (4/3.5)); line-height: calc(1 + (1/4)*0.8); }
+.large .large .large .large .large .large .large { font-size: 100%; }
+*/
+.small { font-size: 80%; }
+.hide  { color:transparent; text-shadow: none; }
+.left  { text-align: left; }
+.center{ text-align: center; }
+.right { text-align: right; }
+
+img.icon { width: 1em; height: 1em; }
+
+/* ボックス */
+.box {
+  border-radius: 1rem;
+  padding: .5rem;
+  overflow: auto;
+}
+.box h2 {
+  font-size: 1.5em;
+}
+.box h3 {
+  margin: .5em 0 0;
+  font-size: 1.15em;
+}
+.box h4 {
+  margin: .5em 0 0;
+  font-size: 1.075em;
+}
+
+/* ログ */
+.logs dt,
+.logs dd {
+  white-space: pre-wrap;
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+.logs dl dd a {
+  display: inline-block;
+}
+.logs dd.info {
+  white-space: normal;
+}
+.logs dl dd.info::before {
+  content: '\f054';
+  font-family: "Font Awesome 5 Free";
+  font-weight: bold;
+  position: absolute;
+  left: -.25em;
+  text-shadow: none;
+  opacity: 0.6;
+  transform: scale(0.7);
+}
+.logs dl dd.info b {
+  display: inline-block;
+}
+.logs dl dd.info strong {
+  display: inline-block;
+  font-size: calc(1em / 0.85);
+  line-height: calc(1.8 * 0.85);
+}
+.logs dl.system {
+  padding-top   : .25em;
+  padding-bottom: .25em;
+}
+.logs dl.system dd.comm { font-size: 90%; }
+.logs dl.system dd.comm::before  { font-size: calc(1em / 0.9); }
+.logs dl.system.bgm   dd.comm,
+.logs dl.system.bg    dd.comm,
+.logs dl.system.topic dd.comm,
+.logs dl.system.memo  dd.comm,
+.logs dl.system.round dd.comm { font-size: 80%; }
+.logs dl.system.bgm   dd.comm::before,
+.logs dl.system.bg    dd.comm::before,
+.logs dl.system.topic dd.comm::before,
+.logs dl.system.memo  dd.comm::before,
+.logs dl.system.round dd.comm::before  { font-size: calc(1em / 0.8); }
+
+.logs dl.system.round dd.info { font-size: inherit; }
+
+.logs dl dd button {
+  vertical-align: middle;
+}

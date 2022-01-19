@@ -1,0 +1,70 @@
+<html>
+<body>
+<div style="padding:2em;">
+    ブックマークレットにしたい .js ファイルを Drag/Drop するか、以下からアップロードしてください<br>
+    <input type="file" name="io-github-shunshun94-trpg-logEditor-FileLoader-InputFile" id="io-github-shunshun94-trpg-logEditor-FileLoader-InputFile">
+</div>
+<p id="result" style=""></p>
+<script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/encoding-japanese/1.0.30/encoding.min.js"></script>
+<script>
+const $body = $('body');
+$body.on('drop', (e) => {
+    $body.css('background-color', '');
+    const targetFile = e.originalEvent.dataTransfer.files[0];
+    generateLink(targetFile);
+    e.preventDefault();
+});
+
+$('#io-github-shunshun94-trpg-logEditor-FileLoader-InputFile').on('change', (e)=>{
+    $body.css('background-color', '');
+    onChangeInputFile(e);
+});
+
+$body.on('dragleave', (e) => {
+    $body.css('background-color', 'white');
+});
+$body.on('dragover', (e) => {
+    $body.css('background-color', 'lightyellow');
+    e.preventDefault();
+});
+
+const onChangeInputFile = (e) => {
+	const targetFile = e.target.files[0];
+	generateLink(targetFile);
+	e.preventDefault();
+};
+
+const fileToText = (file)=>{
+	return new Promise((resolve, reject)=>{
+		file.arrayBuffer().then((result)=>{
+			const codes = new Uint8Array(result);
+			const raw = Encoding.convert(codes, {
+				to: 'unicode',
+				from: Encoding.detect(codes),
+				type: 'string'
+			});
+			resolve(raw);
+		});
+	});
+};
+
+const generateLink = (targetFile) => {
+	fileToText(targetFile).then((raw)=>{
+        console.log(raw);
+        const link = $('<a></a>');
+        link.attr('href', 'javascript:' + raw.split('\n').map((d)=>{
+            return d.trim();
+        }).filter((d)=>{
+            return ! d.startsWith('//');
+        }).join(''));
+        link.text('このリンクをお気に入りに Drag/Drop してください');
+        $('#result').empty();
+        $('#result').append(link);
+        console.log($('#result'), link)
+    });
+};
+
+</script>
+</body>
+</html>
