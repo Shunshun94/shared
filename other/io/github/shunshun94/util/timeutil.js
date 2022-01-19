@@ -50,7 +50,7 @@ io.github.shunshun94.util.Time.getWeekendsInTerm = (tmpStart, tmpEnd) => {
 	};
 	let cursor = _getFirstWeekend();
 	if(cursor === 0) { return []; }
-	let list = []
+	let list = [];
 	while(cursor < end) {
 		list.push({
 			head: cursor,
