@@ -7,8 +7,11 @@
 <p id="result" style=""></p>
 <script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/encoding-japanese/1.0.30/encoding.min.js"></script>
+<script src="../../../../../jquery/com/hiyoko/util/v2/utils.js"></script>
 <script>
 const $body = $('body');
+const params = com.hiyoko.util.getQueries();
+const title = params.title || 'My bookmarklet';
 $body.on('drop', (e) => {
     $body.css('background-color', '');
     const targetFile = e.originalEvent.dataTransfer.files[0];
@@ -58,9 +61,10 @@ const generateLink = (targetFile) => {
         }).filter((d)=>{
             return ! d.startsWith('//');
         }).join(''));
-        link.text('このリンクをお気に入りに Drag/Drop してください');
+        link.text(title);
         $('#result').empty();
         $('#result').append(link);
+        $('#result').append('<span>←このリンクをブックマークバーに Drag/Drop してください</span>');
         console.log($('#result'), link)
     });
 };
