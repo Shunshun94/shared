@@ -61,7 +61,7 @@ const generateLink = (targetFile) => {
         }).filter((d)=>{
             return ! d.startsWith('//');
         }).join(''));
-        link.text(title);
+        link.text(decodeURI(title));
         $('#result').empty();
         $('#result').append(link);
         $('#result').append('<span>←このリンクをブックマークバーに Drag/Drop してください</span>');
