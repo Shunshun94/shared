@@ -9,7 +9,7 @@ io.github.shunshun94.trpg.logEditor.menu.AddNewElementMenu = io.github.shunshun9
 io.github.shunshun94.trpg.logEditor.menu.AddNewElementMenu.CONSTS = {
     bgmKey: `${io.github.shunshun94.trpg.logEditor.CLASSES.ADD_ELEMENT_MENU_WINDOW}-bgmCandList`,
     bgKey : `${io.github.shunshun94.trpg.logEditor.CLASSES.ADD_ELEMENT_MENU_WINDOW}-bggCandList`
-}
+};
 
 io.github.shunshun94.trpg.logEditor.menu.AddNewElementMenu.generateDom = (nameList = []) => {
     return `<div
@@ -71,7 +71,7 @@ io.github.shunshun94.trpg.logEditor.menu.AddNewElementMenu.generateDom = (nameLi
                     >画像の切り替え作成</button></td></tr>
                 </table>
                 <datalist id="${io.github.shunshun94.trpg.logEditor.CLASSES.ADD_ELEMENT_MENU_WINDOW}-ytsheetOptions-bgList">
-                ${JSON.parse(localStorage.getItem(io.github.shunshun94.trpg.logEditor.menu.AddNewElementMenu.CONSTS.bgKey) || '[]').map((n)=>{
+                ${io.github.shunshun94.trpg.logEditor.menu.AddNewElementMenu.getItem('bg').map((n)=>{
                     return '<option value="' + n.url + '">' + n.title + '</option>';
                 }).join('')}
                 </datalist>
@@ -104,7 +104,7 @@ io.github.shunshun94.trpg.logEditor.menu.AddNewElementMenu.generateDom = (nameLi
                     >音楽の切り替え作成</button></td></tr>
                 </table>
                 <datalist id="${io.github.shunshun94.trpg.logEditor.CLASSES.ADD_ELEMENT_MENU_WINDOW}-ytsheetOptions-bgmList">
-                ${JSON.parse(localStorage.getItem(io.github.shunshun94.trpg.logEditor.menu.AddNewElementMenu.CONSTS.bgmKey) || '[]').map((n)=>{
+                ${io.github.shunshun94.trpg.logEditor.menu.AddNewElementMenu.getItem('bgm').map((n)=>{
                     return '<option value="' + n.url + '">' + n.title + '</option>';
                 }).join('')}
                 </datalist>
@@ -133,7 +133,7 @@ io.github.shunshun94.trpg.logEditor.menu.AddNewElementMenu.insertByUrl = (update
     if(! Boolean(regexpExecResult)) { return; }
     const key = regexpExecResult[1];
     const url = updatedDom.val();
-    const cand = JSON.parse(localStorage.getItem(io.github.shunshun94.trpg.logEditor.menu.AddNewElementMenu.CONSTS[`${key}Key`]) || '[]').filter((d)=>{
+    const cand = io.github.shunshun94.trpg.logEditor.menu.AddNewElementMenu.getItem(key).filter((d)=>{
         return d.url === url;
     });
     if(cand.length) {
@@ -141,8 +141,8 @@ io.github.shunshun94.trpg.logEditor.menu.AddNewElementMenu.insertByUrl = (update
     }
 };
 
-io.github.shunshun94.trpg.logEditor.menu.AddNewElementMenu.registerItem = (title, url, key) => {
-    const list = JSON.parse(localStorage.getItem(key) || '[]');
+io.github.shunshun94.trpg.logEditor.menu.AddNewElementMenu.registerItem = (title, url, key, defaultValue=[]) => {
+    const list = JSON.parse(localStorage.getItem(key) || JSON.stringify(defaultValue));
     list.unshift({
         url: url,
         title: title
@@ -156,10 +156,36 @@ io.github.shunshun94.trpg.logEditor.menu.AddNewElementMenu.registerItem = (title
     localStorage.setItem(key, JSON.stringify(newList));
 };
 
+io.github.shunshun94.trpg.logEditor.menu.AddNewElementMenu.getItem = (key) => {
+    const storageKey = io.github.shunshun94.trpg.logEditor.menu.AddNewElementMenu.CONSTS[`${key}Key`];
+    return JSON.parse(localStorage.getItem(storageKey) || JSON.stringify(io.github.shunshun94.trpg.logEditor.menu.AddNewElementMenu.DEFAULT_LIST[key]));
+};
+
 io.github.shunshun94.trpg.logEditor.menu.AddNewElementMenu.registerBgm = (title, url) => {
-    io.github.shunshun94.trpg.logEditor.menu.AddNewElementMenu.RegisterItem(title, url, io.github.shunshun94.trpg.logEditor.menu.AddNewElementMenu.CONSTS.bgmKey);
+    io.github.shunshun94.trpg.logEditor.menu.AddNewElementMenu.registerItem(title, url, io.github.shunshun94.trpg.logEditor.menu.AddNewElementMenu.CONSTS.bgmKey);
 };
 
 io.github.shunshun94.trpg.logEditor.menu.AddNewElementMenu.registerBg = (title, url) => {
-    io.github.shunshun94.trpg.logEditor.menu.AddNewElementMenu.RegisterItem(title, url, io.github.shunshun94.trpg.logEditor.menu.AddNewElementMenu.CONSTS.bgKey);
+    io.github.shunshun94.trpg.logEditor.menu.AddNewElementMenu.registerItem(
+        title,
+        url,
+        io.github.shunshun94.trpg.logEditor.menu.AddNewElementMenu.CONSTS.bgKey,
+        io.github.shunshun94.trpg.logEditor.menu.AddNewElementMenu.DEFAULT_LIST.bg);
+};
+
+io.github.shunshun94.trpg.logEditor.menu.AddNewElementMenu.DEFAULT_LIST = {
+    bg: [{
+        url: 'https://shunshun94.github.io/shared/jquery/io/github/shunshun94/trpg/logEditor/resources/background-picture/waterfall.jpg',
+        title: '滝 by Shunshun94'
+    }, {
+        url: 'https://shunshun94.github.io/shared/jquery/io/github/shunshun94/trpg/logEditor/resources/background-picture/river.jpg',
+        title: '跳んで渡れる川 by Shunshun94'
+    }, {
+        url: 'https://shunshun94.github.io/shared/jquery/io/github/shunshun94/trpg/logEditor/resources/background-picture/stonebridge.jpg',
+        title: '石橋 by Shunshun94'
+    }, {
+        url: 'https://shunshun94.github.io/shared/jquery/io/github/shunshun94/trpg/logEditor/resources/background-picture/sunset.jpg',
+        title: '日が沈む海岸 by Shunshun94'
+    }],
+    bgm: []
 };
