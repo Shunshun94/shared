@@ -49,7 +49,7 @@ io.github.shunshun94.trpg.logEditor.menu.AddNewElementMenu.generateDom = (nameLi
                 return '<option value="' + n + '" />';
             }).join('')}
         </datalist>
-        <div class="experimentalfunction"><div class="${io.github.shunshun94.trpg.logEditor.CLASSES.ADD_ELEMENT_MENU_WINDOW}-ytsheetOptions">
+        <div class="${io.github.shunshun94.trpg.logEditor.CLASSES.ADD_ELEMENT_MENU_WINDOW}-ytsheetOptions">
             <div class="${io.github.shunshun94.trpg.logEditor.CLASSES.ADD_ELEMENT_MENU_WINDOW}-ytsheetOptions-bg">
                 <table>
                     <tr>
@@ -109,7 +109,7 @@ io.github.shunshun94.trpg.logEditor.menu.AddNewElementMenu.generateDom = (nameLi
                 }).join('')}
                 </datalist>
             </div>
-        </div></div>
+        </div>
 
     </div>`;
 };
