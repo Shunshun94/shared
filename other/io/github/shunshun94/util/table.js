@@ -56,7 +56,14 @@ io.github.shunshun94.util.table.exportAsAATable = (tableArray, columnsLength) =>
     }).join(`\n├${separator}┤\n`) + `\n└${io.github.shunshun94.util.table.generateSeparator(columnsLength, '┴')}┘`;
 };
 
-io.github.shunshun94.util.table.generateTable = (tableArray) => {
+io.github.shunshun94.util.table.generateTable = (tableArray, mode='AA') => {
+    const move = {
+        'AA': io.github.shunshun94.util.table.generateTableAsAA
+    };
+    return move[mode](tableArray);
+};
+
+io.github.shunshun94.util.table.generateTableAsAA = (tableArray) => {
     const columnsLength = io.github.shunshun94.util.table.calcColumnsLength(tableArray);
     const adjustedElements = io.github.shunshun94.util.table.adjustTable(tableArray, columnsLength);
     return io.github.shunshun94.util.table.exportAsAATable(adjustedElements, columnsLength);
@@ -70,7 +77,27 @@ io.github.shunshun94.util.table.calcTableSize = (aa) => {
     };
 };
 
-io.github.shunshun94.util.table.getTableColumns = (htmlStr) => {
+io.github.shunshun94.util.table.getTableColumns = (seed, mode='html') => {
+    const move = {
+        'html': io.github.shunshun94.util.table.getTableColumnsFromHtmlStr,
+        'json': io.github.shunshun94.util.table.getTableColumnsFromObjectArray
+    };
+    return move[mode](seed);
+};
+
+io.github.shunshun94.util.table.getTableColumnsFromObjectArray = (objectArray) => {
+    const columns = [];
+    for(var key in objectArray[0]) {
+        columns.push(key);
+    }
+    return objectArray.map((d)=>{
+        return columns.map((key)=>{
+            return String(d[key]);
+        });
+    });
+};
+
+io.github.shunshun94.util.table.getTableColumnsFromHtmlStr = (htmlStr) => {
     const dom = (new DOMParser()).parseFromString(htmlStr, 'text/html');
     return Array.from(dom.body.children[0].children[0].children).map((tr)=>{
         return Array.from(tr.children).map((td)=>{return td.innerText});
