@@ -7,11 +7,30 @@
 </head>
 <body>
 <textarea id="raw">
-
+bcdice config status
+bcdice config list
+bcdice config set $system
+bcdice config help $system
+bcdice config load $key
+bcdice admin setServer $url
+bcdice admin removeServer $url
+bcdice admin listServer
+bcdice admin refreshSecretDice
+bcdice admin updateDiceRollPrefix
+bcdice admin addOriginalTable
+bcdice admin removeOriginalTable
+bcdice admin listOriginalTable
+bcdice admin reloadOriginalTable
+bcdice discord listRoomIds
+bcdice discord listRooms
+bcdice discord listServers
+bcdice discord removeSlashCommands
+bcdice roll $command
+br $command
 </textarea>
 <pre id="result"></pre>
 <script>
-
+console.log(JSON.stringify(io.github.shunshun94.util.CommandTree.generate(document.getElementById('raw').value), null, 2));
 </script>
 </body>
 </html>
