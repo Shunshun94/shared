@@ -50,15 +50,25 @@ io.github.shunshun94.util.CommandTree.calcDepthRecursive = (object) => {
     }
 };
 
-io.github.shunshun94.util.CommandTree.generateHtmlRecursive = (object, maxDepth, currentDepth=0) => {
+io.github.shunshun94.util.CommandTree.generateHtmlRecursive = (object, maxDepth, currentDepth=0, lastEmtpyColumnClassName = io.github.shunshun94.util.CommandTree.CONSTS.CLASS_NAME.EMPTY) => {
     let result = [];
     for(const key in object) {
+        const emptyColumnClassName = `${lastEmtpyColumnClassName}-${key}`;
         const title = `<td colspan="${maxDepth - currentDepth}">${key}</td>`;
-        const children = io.github.shunshun94.util.CommandTree.generateHtmlRecursive(object[key], maxDepth, currentDepth + 1);
+        const children = io.github.shunshun94.util.CommandTree.generateHtmlRecursive(object[key], maxDepth, currentDepth + 1, emptyColumnClassName);
         if(currentDepth) {
-            result.push(['<tr>', `\t<td rowspan="${children.length + 1}"></td>`, '\t' + title, '\t<td><!-- 説明文 --></td>', '</tr>'].join('\n'));
+            result.push([
+                '<tr>',
+                `\t<td class="${emptyColumnClassName}" rowspan="${children.length + 1}"></td>`,
+                '\t' + title,
+                '\t<td><!-- 説明文 --></td>',
+                '</tr>'].join('\n'));
         } else {
-            result.push(['<tr>',                                                 '\t' + title, '\t<td><!-- 説明文 --></td>', '</tr>'].join('\n'));
+            result.push([
+                '<tr>',
+                '\t' + title,
+                '\t<td><!-- 説明文 --></td>',
+                '</tr>'].join('\n'));
         }
         result = result.concat(children);
     }
@@ -75,6 +85,9 @@ io.github.shunshun94.util.CommandTree.outputAsHtml = (object) => {
 };
 
 io.github.shunshun94.util.CommandTree.CONSTS = {
+    CLASS_NAME: {
+        EMPTY : 'io-github-shunshun94-util-CommandTree-emptyColumn'
+    },
     OUTPUT_TYPES: {
         JSON: io.github.shunshun94.util.CommandTree.outputAsJson,
         HTML: io.github.shunshun94.util.CommandTree.outputAsHtml
