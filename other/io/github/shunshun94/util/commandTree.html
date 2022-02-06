@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>commandTree.js 挙動確認</title>
+<meta charset="UTF-8">
+<script src="./commandTree.js"></script>
+</head>
+<body>
+<textarea id="raw">
+bcdice config status
+bcdice config list
+bcdice config set $system
+bcdice config help $system
+bcdice config load $key
+bcdice admin setServer $url
+bcdice admin removeServer $url
+bcdice admin listServer
+bcdice admin refreshSecretDice
+bcdice admin updateDiceRollPrefix
+bcdice admin addOriginalTable
+bcdice admin removeOriginalTable
+bcdice admin listOriginalTable
+bcdice admin reloadOriginalTable
+bcdice discord listRoomIds
+bcdice discord listRooms
+bcdice discord listServers
+bcdice discord removeSlashCommands
+bcdice roll $command
+br $command
+</textarea>
+<p>開発者ツールのコンソールに結果を出力しています。</p>
+<script>
+console.log("io.github.shunshun94.util.CommandTree.generate(document.getElementById('raw').value)",
+            io.github.shunshun94.util.CommandTree.generate(document.getElementById('raw').value));
+console.log("io.github.shunshun94.util.CommandTree.generate(document.getElementById('raw').value, io.github.shunshun94.util.CommandTree.CONSTS.OUTPUT_TYPES.HTML)",
+            io.github.shunshun94.util.CommandTree.generate(document.getElementById('raw').value, io.github.shunshun94.util.CommandTree.CONSTS.OUTPUT_TYPES.HTML));
+</script>
+</body>
+</html>
