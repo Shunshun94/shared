@@ -65,7 +65,7 @@ io.github.shunshun94.util.CommandTree.generateHtmlRecursive = (object, maxDepth,
     if(currentDepth) {
         return result;
     } else {
-        return '<table border="1">' + result.join('\n') + '</table>';
+        return '<table border="1">\n' + result.join('\n') + '\n</table>';
     }
 };
 
