@@ -38,8 +38,45 @@ io.github.shunshun94.util.CommandTree.outputAsJson = (input) => {
     return input;
 };
 
+io.github.shunshun94.util.CommandTree.calcDepthRecursive = (object) => {
+    const resultList = [];
+    for(const key in object) {
+        resultList.push(io.github.shunshun94.util.CommandTree.calcDepthRecursive(object[key]));
+    }
+    if(resultList.length) {
+        return Math.max.apply(null, resultList) + 1;
+    } else {
+        return 0;
+    }
+};
+
+io.github.shunshun94.util.CommandTree.generateHtmlRecursive = (object, maxDepth, currentDepth=0) => {
+    let result = [];
+    for(const key in object) {
+        const title = `<td colspan="${maxDepth - currentDepth}">${key}</td>`;
+        const children = io.github.shunshun94.util.CommandTree.generateHtmlRecursive(object[key], maxDepth, currentDepth + 1);
+        if(currentDepth) {
+            result.push(['<tr>', `\t<td rowspan="${children.length + 1}"></td>`, '\t' + title, '\t<td><!-- 説明文 --></td>', '</tr>'].join('\n'));
+        } else {
+            result.push(['<tr>',                                                 '\t' + title, '\t<td><!-- 説明文 --></td>', '</tr>'].join('\n'));
+        }
+        result = result.concat(children);
+    }
+    if(currentDepth) {
+        return result;
+    } else {
+        return '<table border="1">' + result.join('\n') + '</table>';
+    }
+};
+
+io.github.shunshun94.util.CommandTree.outputAsHtml = (object) => {
+    const depth = io.github.shunshun94.util.CommandTree.calcDepthRecursive(object);
+    return io.github.shunshun94.util.CommandTree.generateHtmlRecursive(object, depth);
+};
+
 io.github.shunshun94.util.CommandTree.CONSTS = {
     OUTPUT_TYPES: {
-        JSON: io.github.shunshun94.util.CommandTree.outputAsJson
+        JSON: io.github.shunshun94.util.CommandTree.outputAsJson,
+        HTML: io.github.shunshun94.util.CommandTree.outputAsHtml
     }
 };

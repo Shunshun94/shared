@@ -28,9 +28,12 @@ bcdice discord removeSlashCommands
 bcdice roll $command
 br $command
 </textarea>
-<pre id="result"></pre>
+<p>開発者ツールのコンソールに結果を出力しています。</p>
 <script>
-console.log(JSON.stringify(io.github.shunshun94.util.CommandTree.generate(document.getElementById('raw').value), null, 2));
+console.log("io.github.shunshun94.util.CommandTree.generate(document.getElementById('raw').value)",
+            io.github.shunshun94.util.CommandTree.generate(document.getElementById('raw').value));
+console.log("io.github.shunshun94.util.CommandTree.generate(document.getElementById('raw').value, io.github.shunshun94.util.CommandTree.CONSTS.OUTPUT_TYPES.HTML)",
+            io.github.shunshun94.util.CommandTree.generate(document.getElementById('raw').value, io.github.shunshun94.util.CommandTree.CONSTS.OUTPUT_TYPES.HTML));
 </script>
 </body>
 </html>
