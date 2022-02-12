@@ -29,32 +29,38 @@ io.github.shunshun94.trpg.sw2.magics.generateDom = ({tag, content='', classes=''
 };
 
 io.github.shunshun94.trpg.sw2.magics.generateHtmlFirstLine = ({
-    level, name, cost, size
+    category, level, name, cost, size
 }) => {
     const $firstLine = io.github.shunshun94.trpg.sw2.magics.generateDom({tag: 'tr'});
-
-    $firstLine.appendChild(io.github.shunshun94.trpg.sw2.magics.generateDom({
-        tag: 'th', classes: `${io.github.shunshun94.trpg.sw2.magics.CONSTS.CLASS}-level`, content: level
-    }));
+    const baseClass = io.github.shunshun94.trpg.sw2.magics.CONSTS.CLASS;
+    const $level = io.github.shunshun94.trpg.sw2.magics.generateDom({
+        tag: 'th', classes: `${baseClass}-level`
+    });
+    if(category === io.github.shunshun94.trpg.sw2.magics.CONSTS.CLASSES.FAIRY_TAMER) {
+        $level.innerHtml = `<span class="${baseClass}-level-class">クラス</span><br/>${level}`;
+    } else {
+        $level.textContent = level;
+    }
+    $firstLine.appendChild($level);
 
     const $name = io.github.shunshun94.trpg.sw2.magics.generateDom({
-        tag: 'th', classes: `${io.github.shunshun94.trpg.sw2.magics.CONSTS.CLASS}-name`, content: `【${name}】`
+        tag: 'th', classes: `${baseClass}-name`, content: `【${name}】`
     });
     $name.colSpan = '5';
     if(size) {
         const $size = document.createElement('span');
-        $size.className = `${io.github.shunshun94.trpg.sw2.magics.CONSTS.CLASS}-magiShereSize`;
+        $size.className = `${baseClass}-magiShereSize`;
         $size.textContent = `マギスフィア：${size}`;
         $name.appendChild($size);
     }
     $firstLine.appendChild($name);
 
     $firstLine.appendChild(io.github.shunshun94.trpg.sw2.magics.generateDom({
-        tag: 'th', classes: `${io.github.shunshun94.trpg.sw2.magics.CONSTS.CLASS}-commonTh`, content: `消費`
+        tag: 'th', classes: `${baseClass}-commonTh`, content: `消費`
     }));
 
     $firstLine.appendChild(io.github.shunshun94.trpg.sw2.magics.generateDom({
-        tag: 'td', classes: `${io.github.shunshun94.trpg.sw2.magics.CONSTS.CLASS}-cost`, content: (Number(cost) ? `MP${cost}` : cost)
+        tag: 'td', classes: `${baseClass}-cost`, content: (Number(cost) ? `MP${cost}` : cost)
     }));
 
     return $firstLine;
@@ -128,7 +134,7 @@ io.github.shunshun94.trpg.sw2.magics.generateHtml = ({
     });
     $base.border='1';
 
-    $base.appendChild(io.github.shunshun94.trpg.sw2.magics.generateHtmlFirstLine({level, name, cost, size}));
+    $base.appendChild(io.github.shunshun94.trpg.sw2.magics.generateHtmlFirstLine({category, level, name, cost, size}));
     $base.appendChild(io.github.shunshun94.trpg.sw2.magics.generateHtmlSecondLine({target, range, time, regist}));
     $base.appendChild(io.github.shunshun94.trpg.sw2.magics.generateHtmlThirdLine({overview, attribute}));
     $base.appendChild(io.github.shunshun94.trpg.sw2.magics.generateHtmlSimpleLine({column:'効果', content:detail, contenntName:'detail'}));
