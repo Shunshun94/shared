@@ -1,0 +1,44 @@
+@charset "utf-8";
+* {
+	box-sizing: border-box;
+	font-family: "BIZ UDゴシック","UD Shin Go NT Light JIS2004","UD デジタル 教科書体 N-R", Verdana, Roboto, "Droid Sans", "游ゴシック", YuGothic, "メイリオ", Meiryo, "ヒラギノ角ゴ ProN W3", "Hiragino Kaku Gothic ProN", "ＭＳ Ｐゴシック", sans-serif;
+}
+
+.io-github-shunshun94-trpg-sw2-magics {
+    width: 40em;
+}
+
+.io-github-shunshun94-trpg-sw2-magics-level {
+    width:3em;
+    height:3em;
+}
+
+.io-github-shunshun94-trpg-sw2-magics-name {
+    font-size:120%;
+    text-align:left;
+    position:relative;
+    color:white;
+    background-color:black;
+}
+
+.io-github-shunshun94-trpg-sw2-magics-magiShereSize {
+    position:absolute;
+    right:4px;
+    bottom:4px;
+    font-size:80%;
+}
+
+.io-github-shunshun94-trpg-sw2-magics-commonTh {
+    width:3em;
+    background-color:gainsboro;
+}
+
+.io-github-shunshun94-trpg-sw2-magics-target,
+.io-github-shunshun94-trpg-sw2-magics-range,
+.io-github-shunshun94-trpg-sw2-magics-time,
+.io-github-shunshun94-trpg-sw2-magics-cost,
+.io-github-shunshun94-trpg-sw2-magics-regist,
+.io-github-shunshun94-trpg-sw2-magics-attribute {
+    width:7em;
+    text-align:center;
+}
