@@ -8,13 +8,25 @@
 table {
     margin-bottom:1em;
 }
+input, select, button {
+    width: 100%;
+}
+#io-github-shunshun94-trpg-sw2-magicInputer th {
+    background-color:gainsboro;
+}
 </style>
 </head>
 <body>
+<div id="input"></div>
+
 <div id="result"></div>
 
 <script src="./magics.js"></script>
+<script src="./magicInputer.js"></script>
 <script>
+const appendMagic = (m) => {
+    document.getElementById('result').appendChild(io.github.shunshun94.trpg.sw2.magics.generateHtml(m));
+};
 [{
     category: io.github.shunshun94.trpg.sw2.magics.CONSTS.CLASSES.SORCERER,
     level: 3,
@@ -38,17 +50,20 @@ table {
     time: '3分\n(18ラウンド)',
     regist: '必中',
     overview: '例示の力で動きを封じる',
-    detail: '転倒状態の対象に粘着性のサンプルを撒き散らし、立ち上がることを阻害します',
+    detail: '転倒状態の対象に粘着性のサンプルを撒き散らし、実装例を書かせます',
     size: '中'
-}].forEach((d)=>{
-    var hiyo = io.github.shunshun94.trpg.sw2.magics.generateHtml(d);
-    document.getElementById('result').appendChild(hiyo);
-})
+}].forEach(appendMagic);
 
-
+document.getElementById('input').innerHTML = io.github.shunshun94.trpg.sw2.magicInputer.generate();
+io.github.shunshun94.trpg.sw2.magicInputer.bindEvent();
+document.getElementById(io.github.shunshun94.trpg.sw2.magicInputer.CONSTS.ID).addEventListener(
+    io.github.shunshun94.trpg.sw2.magicInputer.CONSTS.EVENT,
+    (e)=>{
+        const val = io.github.shunshun94.trpg.sw2.magicInputer.getValues();
+        console.log(val);
+        appendMagic(val);
+    }
+);
 </script>
-
-
-
 </body>
 </html>

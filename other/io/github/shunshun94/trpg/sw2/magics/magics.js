@@ -29,7 +29,7 @@ io.github.shunshun94.trpg.sw2.magics.generateDom = ({tag, content='', classes=''
 };
 
 io.github.shunshun94.trpg.sw2.magics.generateHtmlFirstLine = ({
-    category, level, name, cost, size
+    category, level, name, cost, timing, size
 }) => {
     const $firstLine = io.github.shunshun94.trpg.sw2.magics.generateDom({tag: 'tr'});
     const baseClass = io.github.shunshun94.trpg.sw2.magics.CONSTS.CLASS;
@@ -37,14 +37,14 @@ io.github.shunshun94.trpg.sw2.magics.generateHtmlFirstLine = ({
         tag: 'th', classes: `${baseClass}-level`
     });
     if(category === io.github.shunshun94.trpg.sw2.magics.CONSTS.CLASSES.FAIRY_TAMER) {
-        $level.innerHtml = `<span class="${baseClass}-level-class">クラス</span><br/>${level}`;
+        $level.innerHTML = `<span class="${baseClass}-level-class">クラス</span><br/>${level}`;
     } else {
         $level.textContent = level;
     }
     $firstLine.appendChild($level);
 
     const $name = io.github.shunshun94.trpg.sw2.magics.generateDom({
-        tag: 'th', classes: `${baseClass}-name`, content: `【${name}】`
+        tag: 'th', classes: `${baseClass}-name`, content: `${timing||''}【${name}】`
     });
     $name.colSpan = '5';
     if(size) {
@@ -127,14 +127,14 @@ io.github.shunshun94.trpg.sw2.magics.generateHtmlThirdLine = ({overview, attribu
 
 io.github.shunshun94.trpg.sw2.magics.generateHtml = ({
     category, level, name, cost, target, range, time, regist, overview, detail,
-    attribute, chant, size
+    timing, attribute, chant, size
 }) => {
     const $base = io.github.shunshun94.trpg.sw2.magics.generateDom({
         tag:'table', classes: `${category} ${io.github.shunshun94.trpg.sw2.magics.CONSTS.CLASS}`
     });
     $base.border='1';
 
-    $base.appendChild(io.github.shunshun94.trpg.sw2.magics.generateHtmlFirstLine({category, level, name, cost, size}));
+    $base.appendChild(io.github.shunshun94.trpg.sw2.magics.generateHtmlFirstLine({category, level, name, cost, timing, size}));
     $base.appendChild(io.github.shunshun94.trpg.sw2.magics.generateHtmlSecondLine({target, range, time, regist}));
     $base.appendChild(io.github.shunshun94.trpg.sw2.magics.generateHtmlThirdLine({overview, attribute}));
     $base.appendChild(io.github.shunshun94.trpg.sw2.magics.generateHtmlSimpleLine({column:'効果', content:detail, contenntName:'detail'}));
