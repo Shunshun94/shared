@@ -74,6 +74,7 @@ const appendMagic = (m) => {
     const id = `magicContent_${number}`;
     const table = io.github.shunshun94.trpg.sw2.magics.generateHtml(m);
     table.id = id;
+    table.title = m.name;
     base.appendChild(table);
 
     const buttons = document.createElement('div');
@@ -134,7 +135,7 @@ document.getElementsByTagName('body')[0].onclick = (e)=>{
         html2canvas(document.getElementById(`magicContent_${number}`)).then(canvas => {
             let downloadEle = document.createElement("a");
             downloadEle.href = canvas.toDataURL("image/png");
-            downloadEle.download = "report.png";
+            downloadEle.download = document.getElementById(`magicContent_${number}`).title;
             downloadEle.click();
         });
     }
