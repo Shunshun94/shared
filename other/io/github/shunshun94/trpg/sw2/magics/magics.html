@@ -2,7 +2,18 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>オリジナル魔法をうまい感じに表示する何か</title>
+<meta property="og:title" content="ソードワールド2.X オリジナル魔法ジェネレータ" />
+<meta property="og:type" content="website" />
+<meta property="og:image" content="https://shunshun94.github.io/shared/pics/ogp.jpg" />
+<meta property="og:site_name" content="https://github.com/Shunshun94/shared/" />
+<meta property="og:description" content="ソードワールド2.X のオリジナル魔法をそれっぽく表示するジェネレータ" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content="@Shunshun94" />
+<meta name="twitter:domain" content="shunshun94.github.io" />
+<meta name="twitter:title" content="ソードワールド2.X オリジナル魔法ジェネレータ" />
+<meta name="twitter:description" content="ソードワールド2.X のオリジナル魔法をそれっぽく表示するジェネレータ" />
+<meta name="twitter:image" content="https://keywordmap.jp/academy/wp-content/uploads/2020/03/tmb10-min.png" />
+<title>ソードワールド2.X オリジナル魔法ジェネレータ</title>
 <link rel="stylesheet" href="./magics.css" type="text/css" />
 <style>
 table {
@@ -14,6 +25,18 @@ input, select, button {
 textarea {
     width: 100%;
     resize:none;
+}
+.magic {
+    position:relative;
+}
+.magic_buttons {
+    position: absolute;
+    left: 41em;
+    top: 0px;
+    width:7em;
+}
+.magic_buttons > button {
+    margin-bottom:1em;
 }
 #io-github-shunshun94-trpg-sw2-magicInputer th {
     background-color:gainsboro;
@@ -27,9 +50,33 @@ textarea {
 
 <script src="./magics.js"></script>
 <script src="./magicInputer.js"></script>
+<script src="https://html2canvas.hertzen.com/dist/html2canvas.js"></script>
 <script>
 const appendMagic = (m) => {
-    document.getElementById('result').appendChild(io.github.shunshun94.trpg.sw2.magics.generateHtml(m));
+    const base = document.createElement('div');
+    base.className = 'magic';
+
+    const number = document.getElementById('result').children.length;
+    const id = `magicContent_${number}`;
+    const table = io.github.shunshun94.trpg.sw2.magics.generateHtml(m);
+    table.id = id;
+    base.appendChild(table);
+
+    const buttons = document.createElement('div');
+    buttons.className = 'magic_buttons';
+    const picture = io.github.shunshun94.trpg.sw2.magics.generateDom({
+        tag: 'button', classes: 'magic_picture', content: '画像として保存'
+    });
+    picture.value = number;
+    const html = io.github.shunshun94.trpg.sw2.magics.generateDom({
+        tag: 'button', classes: 'magic_html', content: 'htmlをコピー'
+    });
+    html.value = number;
+    buttons.appendChild(picture);
+    buttons.appendChild(html);
+    base.appendChild(buttons);
+
+    document.getElementById('result').appendChild(base);
 };
 [{
     category: io.github.shunshun94.trpg.sw2.magics.CONSTS.CLASSES.SORCERER,
@@ -67,6 +114,22 @@ document.getElementById(io.github.shunshun94.trpg.sw2.magicInputer.CONSTS.ID).ad
         appendMagic(val);
     }
 );
+document.getElementsByTagName('body')[0].onclick = (e)=>{
+    if(e.target.className === 'magic_picture') {
+        const number = e.target.value;
+        html2canvas(document.getElementById(`magicContent_${number}`)).then(canvas => {
+            let downloadEle = document.createElement("a");
+            downloadEle.href = canvas.toDataURL("image/png");
+            downloadEle.download = "report.png";
+            downloadEle.click();
+        });
+    }
+    if(e.target.className === 'magic_html') {
+        const number = e.target.value;
+        const target = document.getElementById(`magicContent_${number}`);
+        navigator.clipboard.writeText(`<table class="${target.className}">${target.innerHTML}</table>`);
+    }
+};
 </script>
 </body>
 </html>

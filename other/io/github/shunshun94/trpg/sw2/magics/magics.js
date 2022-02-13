@@ -19,8 +19,6 @@ io.github.shunshun94.trpg.sw2.magics.CONSTS.CLASSES = {
     GRIMOIRE:    `${io.github.shunshun94.trpg.sw2.magics.CONSTS.CLASS}-grimoire`,
 };
 
-
-
 io.github.shunshun94.trpg.sw2.magics.generateDom = ({tag, content='', classes=''}) => {
     const dom = document.createElement(tag);
     dom.textContent = content;
