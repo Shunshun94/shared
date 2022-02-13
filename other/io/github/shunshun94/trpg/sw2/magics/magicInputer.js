@@ -87,7 +87,7 @@ io.github.shunshun94.trpg.sw2.magicInputer.generate = () => {
             <th>概要</th><td colspan="3"><input type="text" id="${io.github.shunshun94.trpg.sw2.magicInputer.CONSTS.ID}-overview" /></td>
         </tr>
         <tr>
-            <th>効果</th><td colspan="3"><input type="text" id="${io.github.shunshun94.trpg.sw2.magicInputer.CONSTS.ID}-detail" /></td>
+            <th>効果</th><td colspan="3"><textarea rows="4" id="${io.github.shunshun94.trpg.sw2.magicInputer.CONSTS.ID}-detail"></textarea></td>
         </tr>
         <tr>
             <th>詠唱</th><td colspan="3"><input type="text" id="${io.github.shunshun94.trpg.sw2.magicInputer.CONSTS.ID}-chant" /></td>
@@ -178,14 +178,13 @@ io.github.shunshun94.trpg.sw2.magicInputer.bindEvent = () => {
 
 io.github.shunshun94.trpg.sw2.magicInputer.getValues = (dom=document.getElementById(io.github.shunshun94.trpg.sw2.magicInputer.CONSTS.ID)) => {
     const result = {};
-    Array.from(dom.getElementsByTagName('input')).forEach((d)=>{
+    const insertValue = (d)=>{
         const column = d.id.replace(`${io.github.shunshun94.trpg.sw2.magicInputer.CONSTS.ID}-`, '');
         result[column] = d.value;
-    });
-    Array.from(dom.getElementsByTagName('select')).forEach((d)=>{
-        const column = d.id.replace(`${io.github.shunshun94.trpg.sw2.magicInputer.CONSTS.ID}-`, '');
-        result[column] = d.value;
-    });
+    };
+    Array.from(dom.getElementsByTagName('input')).forEach(insertValue);
+    Array.from(dom.getElementsByTagName('select')).forEach(insertValue);
+    Array.from(dom.getElementsByTagName('textarea')).forEach(insertValue);
     result.range = result.range.replace('/', '/\n');
     result.time = result.time.replace('(', '\n(');
     return result;
