@@ -1,0 +1,95 @@
+@charset "utf-8";
+* {
+	box-sizing: border-box;
+	font-family: "BIZ UDゴシック","UD Shin Go NT Light JIS2004","UD デジタル 教科書体 N-R", Verdana, Roboto, "Droid Sans", "游ゴシック", YuGothic, "メイリオ", Meiryo, "ヒラギノ角ゴ ProN W3", "Hiragino Kaku Gothic ProN", "ＭＳ Ｐゴシック", sans-serif;
+}
+
+.io-github-shunshun94-trpg-sw2-magics {
+    width: 40em;
+    white-space: pre-line;
+    background-color:white;
+}
+
+.io-github-shunshun94-trpg-sw2-magics-sorcerer .io-github-shunshun94-trpg-sw2-magics-level {
+    background-image: url("./icons/sorcerer.png");
+}
+
+.io-github-shunshun94-trpg-sw2-magics-conjurer .io-github-shunshun94-trpg-sw2-magics-level {
+    background-image: url("./icons/conjurer.png");
+}
+
+.io-github-shunshun94-trpg-sw2-magics-wizard .io-github-shunshun94-trpg-sw2-magics-level {
+    background-image: url("./icons/wizard.png");
+}
+
+.io-github-shunshun94-trpg-sw2-magics-priest .io-github-shunshun94-trpg-sw2-magics-level {
+    background-image: url("./icons/priest.png");
+}
+
+.io-github-shunshun94-trpg-sw2-magics-magitech .io-github-shunshun94-trpg-sw2-magics-level {
+    background-image: url("./icons/magitech.png");
+}
+
+.io-github-shunshun94-trpg-sw2-magics-fairy_tamer .io-github-shunshun94-trpg-sw2-magics-level {
+    background-image: url("./icons/fairy_tamer.png");
+}
+
+.io-github-shunshun94-trpg-sw2-magics-druid .io-github-shunshun94-trpg-sw2-magics-level {
+    background-image: url("./icons/druid.png");
+}
+
+.io-github-shunshun94-trpg-sw2-magics-demon_ruler .io-github-shunshun94-trpg-sw2-magics-level {
+    background-image: url("./icons/demon_ruler.png");
+}
+
+.io-github-shunshun94-trpg-sw2-magics-grimoire .io-github-shunshun94-trpg-sw2-magics-level {
+    background-image: url("./icons/grimoire.png");
+}
+
+.io-github-shunshun94-trpg-sw2-magics-level {
+    background-repeat: no-repeat;
+    background-size:contain;
+    background-position: center;
+    color:white;
+    text-shadow: 1px 1px 0 black, -1px -1px 0 black,
+                -1px 1px 0 black,  1px -1px 0 black,
+                 0px 1px 0 black,  0 -1px 0 black,
+                -1px 0 0 black,    1px 0 0 black;
+    font-size:80%;
+}
+
+.io-github-shunshun94-trpg-sw2-magics-level-class {
+    font-size:10%;
+}
+
+.io-github-shunshun94-trpg-sw2-magics-name {
+    font-size:120%;
+    padding-top:4px;
+    padding-bottom:4px;
+    text-align:left;
+    position:relative;
+    color:white;
+    background-color:black;
+}
+
+.io-github-shunshun94-trpg-sw2-magics-magiShereSize {
+    position:absolute;
+    right:4px;
+    bottom:4px;
+    font-size:40%;
+}
+
+.io-github-shunshun94-trpg-sw2-magics-commonTh {
+    width:2.9em;
+    background-color:gainsboro;
+}
+
+.io-github-shunshun94-trpg-sw2-magics-target,
+.io-github-shunshun94-trpg-sw2-magics-range,
+.io-github-shunshun94-trpg-sw2-magics-time,
+.io-github-shunshun94-trpg-sw2-magics-cost,
+.io-github-shunshun94-trpg-sw2-magics-regist,
+.io-github-shunshun94-trpg-sw2-magics-attribute {
+    width:7.1em;
+    text-align:center;
+}

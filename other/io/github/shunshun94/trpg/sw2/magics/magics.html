@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>オリジナル魔法をうまい感じに表示する何か</title>
+<link rel="stylesheet" href="./magics.css" type="text/css" />
+<style>
+table {
+    margin-bottom:1em;
+}
+input, select, button {
+    width: 100%;
+}
+textarea {
+    width: 100%;
+    resize:none;
+}
+#io-github-shunshun94-trpg-sw2-magicInputer th {
+    background-color:gainsboro;
+}
+</style>
+</head>
+<body>
+<div id="input"></div>
+
+<div id="result"></div>
+
+<script src="./magics.js"></script>
+<script src="./magicInputer.js"></script>
+<script>
+const appendMagic = (m) => {
+    document.getElementById('result').appendChild(io.github.shunshun94.trpg.sw2.magics.generateHtml(m));
+};
+[{
+    category: io.github.shunshun94.trpg.sw2.magics.CONSTS.CLASSES.SORCERER,
+    level: 3,
+    name: 'サンプル・キャスト',
+    cost: 7,
+    target: '1体',
+    range: '1(10m)/\n起点指定',
+    time: '一瞬',
+    regist: '半減',
+    overview: '例示の力で威力20ダメージ',
+    attribute: '衝撃',
+    detail: '魔法のサンプルで叩き、対象に「威力20+魔力」点の魔法ダメージを与えます',
+    chant: '「真、第三階位の攻。表示、衝撃――例示」'
+},{
+    category: io.github.shunshun94.trpg.sw2.magics.CONSTS.CLASSES.MAGITECH,
+    level: 3,
+    name: 'サンプル・ボム',
+    cost: 5,
+    target: '1体X',
+    range: '2(30m)/射撃',
+    time: '3分\n(18ラウンド)',
+    regist: '必中',
+    overview: '例示の力で動きを封じる',
+    detail: '転倒状態の対象に粘着性のサンプルを撒き散らし、実装例を書かせます',
+    size: '中'
+}].forEach(appendMagic);
+
+document.getElementById('input').innerHTML = io.github.shunshun94.trpg.sw2.magicInputer.generate();
+io.github.shunshun94.trpg.sw2.magicInputer.bindEvent();
+document.getElementById(io.github.shunshun94.trpg.sw2.magicInputer.CONSTS.ID).addEventListener(
+    io.github.shunshun94.trpg.sw2.magicInputer.CONSTS.EVENT,
+    (e)=>{
+        const val = io.github.shunshun94.trpg.sw2.magicInputer.getValues();
+        appendMagic(val);
+    }
+);
+</script>
+</body>
+</html>
