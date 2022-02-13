@@ -135,7 +135,7 @@ document.getElementsByTagName('body')[0].onclick = (e)=>{
         html2canvas(document.getElementById(`magicContent_${number}`)).then(canvas => {
             let downloadEle = document.createElement("a");
             downloadEle.href = canvas.toDataURL("image/png");
-            downloadEle.download = document.getElementById(`magicContent_${number}`).title;
+            downloadEle.download = document.getElementById(`magicContent_${number}`).title + '.png';
             downloadEle.click();
         });
     }
