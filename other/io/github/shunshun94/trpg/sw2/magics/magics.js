@@ -36,10 +36,11 @@ io.github.shunshun94.trpg.sw2.magics.generateHtmlFirstLine = ({
     const $level = io.github.shunshun94.trpg.sw2.magics.generateDom({
         tag: 'th', classes: `${baseClass}-level`
     });
+    const actualLevel = (Number(level) === 16) ? '超' : level;
     if(category === io.github.shunshun94.trpg.sw2.magics.CONSTS.CLASSES.FAIRY_TAMER) {
-        $level.innerHTML = `<span class="${baseClass}-level-class">クラス</span><br/>${level}`;
+        $level.innerHTML = `<span class="${baseClass}-level-class">クラス</span><br/>${actualLevel}`;
     } else {
-        $level.textContent = level;
+        $level.textContent = actualLevel;
     }
     $firstLine.appendChild($level);
 

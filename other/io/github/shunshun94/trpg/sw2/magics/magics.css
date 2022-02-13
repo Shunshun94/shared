@@ -7,14 +7,59 @@
 .io-github-shunshun94-trpg-sw2-magics {
     width: 40em;
     white-space: pre-line;
+    background-color:white;
+}
+
+.io-github-shunshun94-trpg-sw2-magics-sorcerer .io-github-shunshun94-trpg-sw2-magics-level {
+    background-image: url("./icons/sorcerer.png");
+}
+
+.io-github-shunshun94-trpg-sw2-magics-conjurer .io-github-shunshun94-trpg-sw2-magics-level {
+    background-image: url("./icons/conjurer.png");
+}
+
+.io-github-shunshun94-trpg-sw2-magics-wizard .io-github-shunshun94-trpg-sw2-magics-level {
+    background-image: url("./icons/wizard.png");
+}
+
+.io-github-shunshun94-trpg-sw2-magics-priest .io-github-shunshun94-trpg-sw2-magics-level {
+    background-image: url("./icons/priest.png");
+}
+
+.io-github-shunshun94-trpg-sw2-magics-magitech .io-github-shunshun94-trpg-sw2-magics-level {
+    background-image: url("./icons/magitech.png");
+}
+
+.io-github-shunshun94-trpg-sw2-magics-fairy_tamer .io-github-shunshun94-trpg-sw2-magics-level {
+    background-image: url("./icons/fairy_tamer.png");
+}
+
+.io-github-shunshun94-trpg-sw2-magics-druid .io-github-shunshun94-trpg-sw2-magics-level {
+    background-image: url("./icons/druid.png");
+}
+
+.io-github-shunshun94-trpg-sw2-magics-demon_ruler .io-github-shunshun94-trpg-sw2-magics-level {
+    background-image: url("./icons/demon_ruler.png");
+}
+
+.io-github-shunshun94-trpg-sw2-magics-grimoire .io-github-shunshun94-trpg-sw2-magics-level {
+    background-image: url("./icons/grimoire.png");
 }
 
 .io-github-shunshun94-trpg-sw2-magics-level {
-    width:2em;
+    background-repeat: no-repeat;
+    background-size:contain;
+    background-position: center;
+    color:white;
+    text-shadow: 1px 1px 0 black, -1px -1px 0 black,
+                -1px 1px 0 black,  1px -1px 0 black,
+                 0px 1px 0 black,  0 -1px 0 black,
+                -1px 0 0 black,    1px 0 0 black;
+    font-size:80%;
 }
 
 .io-github-shunshun94-trpg-sw2-magics-level-class {
-    font-size:20%;
+    font-size:10%;
 }
 
 .io-github-shunshun94-trpg-sw2-magics-name {
