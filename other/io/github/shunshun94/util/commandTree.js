@@ -126,10 +126,9 @@ io.github.shunshun94.util.CommandTree.outputAsJavacordSlashCommand = (object) =>
   return result.join('\n\n');
 };
 
-io.github.shunshun94.util.CommandTree.outputAsJavacordSlashCommandParserRecursive = (object, tmp_key, depth) => {
+io.github.shunshun94.util.CommandTree.outputAsJavacordSlashCommandParserRecursive = (object, isString, depth) => {
     const indents = '\t'.repeat(depth);
-    const isString = tmp_key.startsWith('$');
-    const lastOption = depth ? `option${depth - 1}` : 'interaction';
+    const lastOption = (depth > 1) ? `option${depth - 1}` : 'interaction';
     if(! io.github.shunshun94.util.CommandTree.hasProperty(object)) {
         if(isString) {
             return `${indents}String ${lastOption}Value = ${lastOption}.getStringValue().orElse('');\n${indents}//TODO 何をするのか記載`;
@@ -139,8 +138,8 @@ io.github.shunshun94.util.CommandTree.outputAsJavacordSlashCommandParserRecursiv
     }
     const currentOption = `option${depth}`;
     const result= [
-        `${indents}SlashCommandInteractionOption ${currentOption} = lastOptionName.getOptionByIndex(0).get();`,
-        `${indents}String ${currentOption}Name = lastOptionName.getOptionByIndex(0).get();`,
+        `${indents}SlashCommandInteractionOption ${currentOption} = ${lastOption}.getOptionByIndex(0).get();`,
+        `${indents}String ${currentOption}Name = ${currentOption}.getOptionByIndex(0).get();`,
     ];
     if(isString) {
         result.push(`${indents}String ${currentOption}Value = ${currentOption}.getStringValue().orElse('');`);
@@ -149,7 +148,7 @@ io.github.shunshun94.util.CommandTree.outputAsJavacordSlashCommandParserRecursiv
         const keyName = key.startsWith('$') ? key.substr(1) : key;
         result.push([
             `${indents}if( ${currentOption}Name.equals("${keyName}") ) {`,
-            io.github.shunshun94.util.CommandTree.outputAsJavacordSlashCommandParserRecursive(object[key], key, depth + 1),
+            io.github.shunshun94.util.CommandTree.outputAsJavacordSlashCommandParserRecursive(object[key], key.startsWith('$'), depth + 1),
             `${indents}}`
         ].join('\n'));
     }
@@ -164,9 +163,9 @@ io.github.shunshun94.util.CommandTree.outputAsJavacordSlashCommandParser = (obje
     for(const commandName in object) {
         result.push([
             `if( commandName.equals("${commandName}") ) {`,
-            io.github.shunshun94.util.CommandTree.outputAsJavacordSlashCommandParserRecursive(object[commandName], commandName, 1),
+            io.github.shunshun94.util.CommandTree.outputAsJavacordSlashCommandParserRecursive(object[commandName], false, 1),
             '}'
-        ]);
+        ].join('\n'));
     }
     return result.join('\n');
 };
