@@ -384,7 +384,7 @@ io.github.shunshun94.trpg.logEditor.Editor = class {
 		`);
 		io.github.shunshun94.trpg.logEditor.DOMS.BODY.append(`
 			<footer>
-				<p>本ツールは Ccfolia や Udonariumのテキストログを編集するツールですがそれらの開発チームとこのツールは無関係です</p>
+				<p>本ツールはココフォリアやユドナリウム、FloconやLINEのテキストログを編集するツールですがそれらの開発チームとこのツールは無関係です</p>
 				<p>作者連絡先: <a href="https://twitter.com/Shunshun94" target="_blank">@Shunshun94</a> /
 				ソースコード: <a href="https://github.com/Shunshun94/shared/tree/master/jquery/io/github/shunshun94/trpg/logEditor" target="_blank">GitHub</a> /
 				作者欲しい物リスト: <a href="https://amzn.asia/8mNqdKy" target="_blank">Amazon</a> /
