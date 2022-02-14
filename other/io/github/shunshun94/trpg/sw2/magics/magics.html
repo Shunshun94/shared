@@ -67,10 +67,11 @@ footer {
 <script src="https://html2canvas.hertzen.com/dist/html2canvas.js"></script>
 <script>
 const appendMagic = (m) => {
+    const number = Number(new Date());
     const base = document.createElement('div');
     base.className = 'magic';
+    base.id = `magic_${number}`;
 
-    const number = document.getElementById('result').children.length;
     const id = `magicContent_${number}`;
     const table = io.github.shunshun94.trpg.sw2.magics.generateHtml(m);
     table.id = id;
@@ -87,8 +88,13 @@ const appendMagic = (m) => {
         tag: 'button', classes: 'magic_html', content: 'htmlをコピー'
     });
     html.value = number;
+    const deleteBtn = io.github.shunshun94.trpg.sw2.magics.generateDom({
+        tag: 'button', classes: 'magic_delete', content: '削除'
+    });
+    deleteBtn.value = number;
     buttons.appendChild(picture);
     buttons.appendChild(html);
+    buttons.appendChild(deleteBtn);
     base.appendChild(buttons);
 
     document.getElementById('result').appendChild(base);
@@ -143,6 +149,11 @@ document.getElementsByTagName('body')[0].onclick = (e)=>{
         const number = e.target.value;
         const target = document.getElementById(`magicContent_${number}`);
         navigator.clipboard.writeText(`<table class="${target.className}">${target.innerHTML}</table>`);
+    }
+    if(e.target.className === 'magic_delete') {
+        const number = e.target.value;
+        const target = document.getElementById(`magic_${number}`);
+        target.remove();
     }
 };
 </script>
