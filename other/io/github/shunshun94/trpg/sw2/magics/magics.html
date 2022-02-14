@@ -142,7 +142,7 @@ document.getElementsByTagName('body')[0].onclick = (e)=>{
     if(e.target.className === 'magic_html') {
         const number = e.target.value;
         const target = document.getElementById(`magicContent_${number}`);
-        navigator.clipboard.writeText(`<table class="${target.className}">${target.innerHTML}</table>`);
+        navigator.clipboard.writeText(`<table border="1" class="${target.className}">${target.innerHTML}</table>`);
     }
     if(e.target.className === 'magic_delete') {
         const number = e.target.value;
