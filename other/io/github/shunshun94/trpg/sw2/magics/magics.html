@@ -80,21 +80,15 @@ const appendMagic = (m) => {
 
     const buttons = document.createElement('div');
     buttons.className = 'magic_buttons';
-    const picture = io.github.shunshun94.trpg.sw2.magics.generateDom({
-        tag: 'button', classes: 'magic_picture', content: '画像として保存'
+    [
+        {tag: 'button', classes: 'magic_picture', content: '画像として保存'},
+        {tag: 'button', classes: 'magic_html', content: 'htmlをコピー'},
+        {tag: 'button', classes: 'magic_delete', content: '削除'}
+    ].forEach((d)=>{
+        const btn = io.github.shunshun94.trpg.sw2.magics.generateDom(d);
+        btn.value = number;
+        buttons.appendChild(btn);
     });
-    picture.value = number;
-    const html = io.github.shunshun94.trpg.sw2.magics.generateDom({
-        tag: 'button', classes: 'magic_html', content: 'htmlをコピー'
-    });
-    html.value = number;
-    const deleteBtn = io.github.shunshun94.trpg.sw2.magics.generateDom({
-        tag: 'button', classes: 'magic_delete', content: '削除'
-    });
-    deleteBtn.value = number;
-    buttons.appendChild(picture);
-    buttons.appendChild(html);
-    buttons.appendChild(deleteBtn);
     base.appendChild(buttons);
 
     document.getElementById('result').appendChild(base);
