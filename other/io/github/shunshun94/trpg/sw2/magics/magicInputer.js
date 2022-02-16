@@ -80,6 +80,7 @@ io.github.shunshun94.trpg.sw2.magicInputer.generate = () => {
                     <option value="">主動作のみ</option>
                     <option value="≫">補助動作可</option>
                     <option value="≫△">補助動作・戦闘準備可</option>
+                    <option value="△">戦闘準備可</option>
                 </select>
                 </td>
         </tr>
