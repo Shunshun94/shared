@@ -80,7 +80,7 @@ const appendMagic = (m) => {
     const id = `magicContent_${number}`;
     const table = io.github.shunshun94.trpg.sw2.magics.generateHtml(m);
     table.id = id;
-    table.title = m.name;
+    table.title = m.name || number;
     base.appendChild(table);
 
     const buttons = document.createElement('div');
