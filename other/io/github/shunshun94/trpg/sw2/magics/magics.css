@@ -64,12 +64,27 @@
 
 .io-github-shunshun94-trpg-sw2-magics-name {
     font-size:120%;
+    height:1em;
     padding-top:4px;
     padding-bottom:4px;
     text-align:left;
     position:relative;
     color:white;
     background-color:black;
+}
+
+.io-github-shunshun94-trpg-sw2-magics-timing-minorAction {
+    top:-0.25em;
+    left:0.1em;
+    transform: scaleX(0.5) rotate(90deg);
+    position:absolute;
+}
+
+.io-github-shunshun94-trpg-sw2-magics-timing-prepareAction {
+    position:absolute;
+}
+.io-github-shunshun94-trpg-sw2-magics-nameContent {
+    position:relative;
 }
 
 .io-github-shunshun94-trpg-sw2-magics-magiShereSize {

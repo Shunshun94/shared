@@ -43,13 +43,41 @@ io.github.shunshun94.trpg.sw2.magics.generateHtmlFirstLine = ({
     $firstLine.appendChild($level);
 
     const $name = io.github.shunshun94.trpg.sw2.magics.generateDom({
-        tag: 'th', classes: `${baseClass}-name`, content: `${timing||''}【${name}】`
+        tag: 'th', classes: `${baseClass}-name`
     });
     $name.colSpan = '5';
+    let nameTimingCharCount = 0;
+    if(timing) {
+        const timingClass = `${baseClass}-timing`;
+        const $timing = io.github.shunshun94.trpg.sw2.magics.generateDom({
+            tag: 'span', classes: timingClass
+        });
+        if(timing.includes('≫')) {
+            const $minorAction = io.github.shunshun94.trpg.sw2.magics.generateDom({
+                tag: 'span', classes: `${timingClass}-minorAction`, content: '△\n△'
+            });
+            $timing.appendChild($minorAction);
+            nameTimingCharCount++;
+        }
+        if(timing.includes('△')) {
+            const $prepareAction = io.github.shunshun94.trpg.sw2.magics.generateDom({
+                tag: 'span', classes: `${timingClass}-prepareAction`, content: '△'
+            });
+            $prepareAction.style.left = `${nameTimingCharCount + (nameTimingCharCount + 1) * 0.1}em`;
+            $timing.appendChild($prepareAction);
+            nameTimingCharCount++;
+        }
+        $name.appendChild($timing);        
+    }
+    const $nameContent = io.github.shunshun94.trpg.sw2.magics.generateDom({
+        tag: 'span', classes: `${baseClass}-nameContent`, content: `【${name}】`
+    });
+    $nameContent.style.left = `${nameTimingCharCount}em`;
+    $name.appendChild($nameContent);
     if(size) {
-        const $size = document.createElement('span');
-        $size.className = `${baseClass}-magiShereSize`;
-        $size.textContent = `マギスフィア：${size}`;
+        const $size = io.github.shunshun94.trpg.sw2.magics.generateDom({
+            tag: 'span', classes: `${baseClass}-magiShereSize`, content: `マギスフィア：${size}`
+        });
         $name.appendChild($size);
     }
     $firstLine.appendChild($name);
