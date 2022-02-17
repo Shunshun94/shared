@@ -165,7 +165,7 @@ io.github.shunshun94.trpg.sw2.magicInputer.generate = () => {
         <option value="精神効果" />
         <option value="精神効果（弱）" />
         <option value="呪い" />
-        <option value="呪い＋精神効果" />
+        <option value="呪い+精神効果" />
     </datalist>`;  
 };
 
@@ -186,7 +186,8 @@ io.github.shunshun94.trpg.sw2.magicInputer.getValues = (dom=document.getElementB
     Array.from(dom.getElementsByTagName('input')).forEach(insertValue);
     Array.from(dom.getElementsByTagName('select')).forEach(insertValue);
     Array.from(dom.getElementsByTagName('textarea')).forEach(insertValue);
-    result.range = result.range.replace('/', '/\n');
+    result.target = result.target.includes('エリア(半径') ? result.target.replace('(', '\n(') : result.target;
+    result.range = (result.range.endsWith('/起点指定') || result.range.endsWith('/突破')) ? result.range.replace('/', '/\n') : result.range;
     result.time = result.time.replace('(', '\n(');
     return result;
 };
