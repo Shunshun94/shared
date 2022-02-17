@@ -54,7 +54,7 @@ io.github.shunshun94.trpg.sw2.magics.generateHtmlFirstLine = ({
         });
         if(timing.includes('≫')) {
             const $minorAction = io.github.shunshun94.trpg.sw2.magics.generateDom({
-                tag: 'span', classes: `${timingClass}-minorAction`, content: '△\n△'
+                tag: 'span', classes: `${timingClass}-minorAction`, content: '▲\n▲'
             });
             $timing.appendChild($minorAction);
             nameTimingCharCount++;
