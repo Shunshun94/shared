@@ -4,6 +4,10 @@
 	font-family: "BIZ UDゴシック","UD Shin Go NT Light JIS2004","UD デジタル 教科書体 N-R", Verdana, Roboto, "Droid Sans", "游ゴシック", YuGothic, "メイリオ", Meiryo, "ヒラギノ角ゴ ProN W3", "Hiragino Kaku Gothic ProN", "ＭＳ Ｐゴシック", sans-serif;
 }
 
+body {
+    margin:0px;
+}
+
 input, select {
     width: 100%;
 }
@@ -13,10 +17,33 @@ textarea {
     resize:none;
 }
 
+table, h2, p {
+    margin-left:4px;
+}
+
 .longheader {
     font-size:70%;
 }
 
 .disabled {
     background-color:gray;
+}
+
+footer {
+    font-size:60%;
+    left:0px;
+    right:0px;
+    bottom:0px;
+    padding:4px;
+    background-color:#F4F4F4;
+    width:100%;
+}
+
+h1 {
+    left:0px;
+    right:0px;
+    top:0px;
+    padding:4px;
+    background-color:#F4F4F4;
+    width:100%;
 }
