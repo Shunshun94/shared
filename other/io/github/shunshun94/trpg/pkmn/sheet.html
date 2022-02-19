@@ -36,7 +36,7 @@
             </div>
             <div id="pkmn-data">
                 <h2>ポケモン</h2>
-                <p><button id="exec-pkmn-ccfolia">ココフォリアコマ出力</button><!--　<button>テキスト出力</button>--></p>
+                <p><button id="exec-pkmn-ccfolia">ココフォリアコマ出力</button>　<button id="exec-pkmn-text">テキスト出力</button></p>
                 <table border="1">
                     <tr>
                         <th>種族</th>
@@ -45,13 +45,20 @@
                         <td><input id="pkmn-name" placeholder="フシぴょん" type="text" /></td>
                         <th>性別</th>
                         <td><select id="pkmn-sex" type="text">
-                            <option value=""></option>
                             <option value="オス">♂</option>
                             <option value="メス">♀</option>
                             <option value="不明">不明</option>
                         </select></td>
+                        <td class="disabled" colspan="2"></td>
+                    </tr>
+                    <tr>
                         <th>特性</th>
                         <td><input id="pkmn-charactaristic" placeholder="しんりょく" type="text" /></td>
+                        <th>タイプ1</th>
+                        <td><input id="pkmn-type1" list="pkmn-skill-type-list"  placeholder="くさ" type="text" /></td>
+                        <th>タイプ2</th>
+                        <td><input id="pkmn-type2" list="pkmn-skill-type-list" placeholder="どく" type="text" /></td>
+                        <td class="disabled" colspan="2"></td>
                     </tr>
                     <tr><td class="disabled" colspan="8"></td></tr>
                     <tr>
