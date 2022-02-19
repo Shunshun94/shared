@@ -1,0 +1,220 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="./sheet.css" type="text/css" />
+    </head>
+    <body>
+        <div id="base">
+            <button id="exec-save">保存する（Ctrl+S）</button>
+            <div id="trainer-data">
+                <h2>トレーナー</h2>
+                <p><button id="exec-trainer-ccfolia">ココフォリアコマ出力</button>　<button id="exec-trainer-text">テキスト出力</button></p>
+                <table border="1">
+                    <tr>
+                        <th class="longheader">プレイヤー</th>
+                        <td colspan="7"><input id="trainer-player" type="text" /></td>
+                    </tr>
+                    <tr>
+                        <th>名前</th>
+                        <td><input id="trainer-name" type="text" /></td>
+                        <th>性別</th>
+                        <td><input id="trainer-sex" list="trainer-sex-list" type="text" /></td>
+                        <th>出身</th>
+                        <td><input id="trainer-from" list="trainer-from" type="text" /></td>
+                        <th>所持金</th>
+                        <td><input id="trainer-moeny" type="number" /></td>
+                    </tr>
+                    <tr>
+                        <th>持ち物</th>
+                        <td colspan="3"><textarea rows="10" id="trainer-moeny"></textarea></td>
+                        <th>設定</th>
+                        <td colspan="3"><textarea rows="10" id="trainer-info"></textarea></td>
+                    </tr>
+                </table>
+            </div>
+            <div id="pkmn-data">
+                <h2>ポケモン</h2>
+                <p><button>ココフォリアコマ出力</button>　<button>テキスト出力</button></p>
+                <table border="1">
+                    <tr>
+                        <th>種族</th>
+                        <td><input id="pkmn-race" placeholder="フシギダネ" type="text" /></td>
+                        <th class="longheader">ニックネーム</th>
+                        <td><input id="pkmn-name" placeholder="フシぴょん" type="text" /></td>
+                        <th>性別</th>
+                        <td><input id="pkmn-sex" type="text" /></td>
+                        <th>特性</th>
+                        <td><input id="pkmn-charactaristic" placeholder="しんりょく" type="text" /></td>
+                    </tr>
+                    <tr><td class="disabled" colspan="8"></td></tr>
+                    <tr>
+                        <th>体力</th>
+                        <td><input id="pkmn-physical" type="number" /></td>
+                        <th>HP</th>
+                        <td><input id="pkmn-hp" type="number" /></td>
+                        <th>持ち物</th>
+                        <td><input id="pkmn-item" type="text" /></td>
+                        <td class="disabled" colspan="2"></td>
+                    </tr>
+                    
+                    <tr>
+                        <th>こうげき</th>
+                        <td><input id="pkmn-pattack" type="number" /></td>
+                        <th>ぼうぎょ</th>
+                        <td><input id="pkmn-pdefence" type="number" /></td>
+                        <th>とくこう</th>
+                        <td><input id="pkmn-sattack" type="number" /></td>
+                        <th>とくぼう</th>
+                        <td><input id="pkmn-sdeffence" type="number" /></td>
+                    </tr>
+                    <tr>
+                        <th>すばやさ</th>
+                        <td><input id="pkmn-speed" type="number" /></td>
+                        <td class="disabled" colspan="6"></td>
+                    </tr>
+                    <tr><td class="disabled" colspan="8"></td></tr>
+                    <tr>
+                        <th>技名</th>
+                        <td><input id="pkmn-skill_1_name" type="text" /></td>
+                        <th>タイプ</th>
+                        <td><input id="pkmn-skill_1-type" list="pkmn-skill-type-list" type="text" /></td>
+                        <th>参照</th>
+                        <td><select id="pkmn-skill_1-reference">
+                                <option value="pattack">こうげき</option>
+                                <option value="sattack">とくこう</option>
+                                <option value="other">その他</option>
+                        </select></td>
+                        <th>接触</th>
+                        <td><select id="pkmn-skill_1-touch">
+                                <option value="touch">接触</option>
+                                <option value="untouch">非接触</option>
+                        </select></td>
+                    </tr>
+                    <tr>
+                        <th>威力</th>
+                        <td><input id="pkmn-skill_1_power" type="number" /></td>
+                        <th>命中</th>
+                        <td><input id="pkmn-skill_1-hit" type="number" /></td>
+                        <th>PP</th>
+                        <td><input id="pkmn-skill_1-pp" type="number" /></td>
+                        <td class="disabled" colspan="2"></td>
+                    </tr>
+                    <tr>
+                        <th>効果</th>
+                        <td colspan="7"><input id="pkmn-skill_1_effect" type="text" /></td>
+                    </tr>
+                    <tr><td class="disabled" colspan="8"></td></tr>
+                    <tr>
+                        <th>技名</th>
+                        <td><input id="pkmn-skill_2_name" type="text" /></td>
+                        <th>タイプ</th>
+                        <td><input id="pkmn-skill_2-type" list="pkmn-skill-type-list" type="text" /></td>
+                        <th>参照</th>
+                        <td><select id="pkmn-skill_2-reference">
+                                <option value="pattack">こうげき</option>
+                                <option value="sattack">とくこう</option>
+                                <option value="other">その他</option>
+                        </select></td>
+                        <th>接触</th>
+                        <td><select id="pkmn-skill_2-touch">
+                                <option value="touch">接触</option>
+                                <option value="untouch">非接触</option>
+                        </select></td>
+                    </tr>
+                    <tr>
+                        <th>威力</th>
+                        <td><input id="pkmn-skill_2_power" type="number" /></td>
+                        <th>命中</th>
+                        <td><input id="pkmn-skill_2-hit" type="number" /></td>
+                        <th>PP</th>
+                        <td><input id="pkmn-skill_2-pp" type="number" /></td>
+                        <td class="disabled" colspan="2"></td>
+                    </tr>
+                    <tr>
+                        <th>効果</th>
+                        <td colspan="7"><input id="pkmn-skill_2_effect" type="text" /></td>
+                    </tr>
+                    <tr><td class="disabled" colspan="8"></td></tr>
+                    <tr>
+                        <th>技名</th>
+                        <td><input id="pkmn-skill_3_name" type="text" /></td>
+                        <th>タイプ</th>
+                        <td><input id="pkmn-skill_3-type" list="pkmn-skill-type-list" type="text" /></td>
+                        <th>参照</th>
+                        <td><select id="pkmn-skill_3-reference">
+                                <option value="pattack">こうげき</option>
+                                <option value="sattack">とくこう</option>
+                                <option value="other">その他</option>
+                        </select></td>
+                        <th>接触</th>
+                        <td><select id="pkmn-skill_3-touch">
+                                <option value="touch">接触</option>
+                                <option value="untouch">非接触</option>
+                        </select></td>
+                    </tr>
+                    <tr>
+                        <th>威力</th>
+                        <td><input id="pkmn-skill_3_power" type="number" /></td>
+                        <th>命中</th>
+                        <td><input id="pkmn-skill_3-hit" type="number" /></td>
+                        <th>PP</th>
+                        <td><input id="pkmn-skill_3-pp" type="number" /></td>
+                        <td class="disabled" colspan="2"></td>
+                    </tr>
+                    <tr>
+                        <th>効果</th>
+                        <td colspan="7"><input id="pkmn-skill_3_effect" type="text" /></td>
+                    </tr>
+                    <tr><td class="disabled" colspan="8"></td></tr>
+                    <tr>
+                        <th>技名</th>
+                        <td><input id="pkmn-skill_4_name" type="text" /></td>
+                        <th>タイプ</th>
+                        <td><input id="pkmn-skill_4-type" list="pkmn-skill-type-list" type="text" /></td>
+                        <th>参照</th>
+                        <td><select id="pkmn-skill_4-reference">
+                                <option value="pattack">こうげき</option>
+                                <option value="sattack">とくこう</option>
+                                <option value="other">その他</option>
+                        </select></td>
+                        <th>接触</th>
+                        <td><select id="pkmn-skill_4-touch">
+                                <option value="touch">接触</option>
+                                <option value="untouch">非接触</option>
+                        </select></td>
+                    </tr>
+                    <tr>
+                        <th>威力</th>
+                        <td><input id="pkmn-skill_4_power" type="number" /></td>
+                        <th>命中</th>
+                        <td><input id="pkmn-skill_4-hit" type="number" /></td>
+                        <th>PP</th>
+                        <td><input id="pkmn-skill_4-pp" type="number" /></td>
+                        <td class="disabled" colspan="2"></td>
+                    </tr>
+                    <tr>
+                        <th>効果</th>
+                        <td colspan="7"><input id="pkmn-skill_4_effect" type="text" /></td>
+                    </tr>
+                    <tr><td class="disabled" colspan="8"></td></tr>
+                    <tr>
+                        <th>設定</th>
+                        <td colspan="7"><textarea rows="10" id="pkmn-info"></textarea></td>
+                    </tr>
+                    <tr>
+                        <th>履歴</th>
+                        <td colspan="7"><textarea rows="5" id="pkmn-history_0"></textarea></td>
+                    </tr>
+                    <tr>
+                        <td colspan="8"><button id="addHistory">履歴追加</button></td>
+                    </tr>
+                </table>
+            </div>
+            <footer></footer>
+        </div>
+        <script src="../../../../../../jquery/com/hiyoko/util/v2/utils.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/encoding-japanese/1.0.30/encoding.min.js"></script>
+        <script src="sheet.js"></script>
+        <script src="sheetSaveUtil.js"></script>
+        <script src="sheetEvents.js"></script>
+    </body>
+</html>
