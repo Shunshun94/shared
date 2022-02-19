@@ -87,7 +87,6 @@ io.github.shunshun94.trpg.pkmn.sheet.getText = (data) => {
         const pp     = data[`pkmn-skill_${d}-pp`];
 
         if(reference === 'other') {
-            const power  = Math.floor(Number(data[`pkmn-skill_${d}-power`])/10);
             return [
                 `わざ${d}：${name}（${type}）`,
                 `命中：${hit} PP：${pp}`,

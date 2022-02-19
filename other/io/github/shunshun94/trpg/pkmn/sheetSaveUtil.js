@@ -32,12 +32,16 @@ io.github.shunshun94.trpg.pkmn.sheet.SaveUtil.loadFile = (e) => {
             type: 'string'
         });
         const json = JSON.parse(rawJson);
-        for(const key in json) {
-            if(document.getElementById(key)) {
-                document.getElementById(key).value = json[key];
-            }
-        }
+        io.github.shunshun94.trpg.pkmn.sheet.SaveUtil.applyLoadedData(json);        
     });
+};
+
+io.github.shunshun94.trpg.pkmn.sheet.SaveUtil.applyLoadedData = (json) => {
+    for(const key in json) {
+        if(document.getElementById(key)) {
+            document.getElementById(key).value = json[key];
+        }
+    }
 };
 
 io.github.shunshun94.trpg.pkmn.sheet.SaveUtil.getTrainerAsCcfolia = (e) => {
