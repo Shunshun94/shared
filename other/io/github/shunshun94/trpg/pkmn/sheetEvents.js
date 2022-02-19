@@ -7,6 +7,7 @@ document.getElementsByTagName('body')[0].onkeydown = (e) => {
 };
 document.getElementById('exec-trainer-ccfolia').onclick = io.github.shunshun94.trpg.pkmn.sheet.SaveUtil.getTrainerAsCcfolia;
 document.getElementById('exec-pkmn-ccfolia').onclick = io.github.shunshun94.trpg.pkmn.sheet.SaveUtil.getPkmnAsCcfolia;
+document.getElementById('exec-pkmn-text').onclick = io.github.shunshun94.trpg.pkmn.sheet.SaveUtil.getPkmnAsText;
 
 document.getElementById('base').ondrop = (e) => {
     e.preventDefault();

@@ -67,7 +67,7 @@ io.github.shunshun94.trpg.pkmn.sheet.SaveUtil.getPkmnAsCcfolia = (e) => {
 		data: {
             name: data['pkmn-name'] || data['pkmn-race'],
             initiative: 2,
-            status: io.github.shunshun94.trpg.pkmn.sheet.getStatus(data),
+            status: io.github.shunshun94.trpg.pkmn.sheet.getCcfoliaStatus(data),
             params: [
                 {
                     label: 'こうげき',
@@ -95,4 +95,10 @@ io.github.shunshun94.trpg.pkmn.sheet.SaveUtil.getPkmnAsCcfolia = (e) => {
     };
     navigator.clipboard.writeText(JSON.stringify(result));
     alert('クリップボードにコピーしました。ココフォリアにペーストすればコマを作成できます');
+};
+
+io.github.shunshun94.trpg.pkmn.sheet.SaveUtil.getPkmnAsText = (e) => {
+    const data = io.github.shunshun94.trpg.pkmn.sheet.SaveUtil.getValues(document.getElementById('pkmn-data'));
+    navigator.clipboard.writeText(io.github.shunshun94.trpg.pkmn.sheet.getText(data));
+    alert('クリップボードにコピーしました');
 };
