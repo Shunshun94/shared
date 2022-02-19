@@ -6,12 +6,12 @@
 
 ## どこから使えるの？
 
-[https://shunshun94.github.io/shared/other/io/github/shunshun94/trpg/sw2/magics/magics.html](https://shunshun94.github.io/shared/other/io/github/shunshun94/trpg/pkmn/sheet.html)
+[https://shunshun94.github.io/shared/other/io/github/shunshun94/trpg/pkmn/sheet.html](https://shunshun94.github.io/shared/other/io/github/shunshun94/trpg/pkmn/sheet.html)
 
 ## 今後の予定は？
 
-* テキスト出力を作る
 * 相性やタイプ一致に関する修正の追加
+* テキスト出力を作る
 * 履歴を追加できるようにする
 * 見た目もうちょっとなんとかする
 * ユドナリウム対応
