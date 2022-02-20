@@ -106,3 +106,10 @@ io.github.shunshun94.trpg.pkmn.sheet.SaveUtil.getPkmnAsText = (e) => {
     navigator.clipboard.writeText(io.github.shunshun94.trpg.pkmn.sheet.getText(data));
     alert('クリップボードにコピーしました');
 };
+
+io.github.shunshun94.trpg.pkmn.sheet.SaveUtil.importFromYakkun = (e) => {
+    const pastedText = (e.clipboardData || window.clipboardData).getData('text');
+    const data = io.github.shunshun94.trpg.pkmn.sheet.parseYakkun(pastedText);
+    io.github.shunshun94.trpg.pkmn.sheet.SaveUtil.applyLoadedData(data);
+};
+

@@ -18,3 +18,9 @@ document.getElementById('base').ondragover = (e) => {
     e.preventDefault();
     e.stopPropagation();  
 };
+
+document.getElementsByTagName('body')[0].addEventListener('paste', (e)=>{
+    if(['INPUT', 'TEXTAREA', 'SELECT'].includes(e.target.tagName)) {return;}
+    e.preventDefault();
+    io.github.shunshun94.trpg.pkmn.sheet.SaveUtil.importFromYakkun(e);
+});
