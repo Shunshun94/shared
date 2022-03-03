@@ -19,6 +19,14 @@ io.github.shunshun94.trpg.SW2_PCLister.isVampireBlood = (url) => {
     return url.startsWith('https://charasheet.vampire-blood.net/');
 };
 
+io.github.shunshun94.trpg.SW2_PCLister.getGuiUrl = (url) => {
+    if(io.github.shunshun94.trpg.SW2_PCLister.isVampireBlood(url)) {
+        return /https:\/\/charasheet.vampire-blood.net\/[a-fm0-9]+/.exec(url)[0];
+    } else {
+        return url;
+    }
+};
+
 io.github.shunshun94.trpg.SW2_PCLister.getJsonpUrl = (url) => {
     if(io.github.shunshun94.trpg.SW2_PCLister.isVampireBlood(url)) {
         const validatedUrl = /https:\/\/charasheet.vampire-blood.net\/[a-fm0-9]+/.exec(url)[0];
@@ -29,11 +37,14 @@ io.github.shunshun94.trpg.SW2_PCLister.getJsonpUrl = (url) => {
 };
 
 io.github.shunshun94.trpg.SW2_PCLister.getSheet = (url) => {
-    const sheetGetter = io.github.shunshun94.trpg.SW2_PCLister.isVampireBlood(url) ? io.github.shunshun94.trpg.SW2_PCLister.getVampireBlood : io.github.shunshun94.trpg.SW2_PCLister.getYtSheet;
-    const jsonpUrl = io.github.shunshun94.trpg.SW2_PCLister.getJsonpUrl(io.github.shunshun94.trpg.SW2_PCLister.getJsonpUrl(url));
-    io.github.shunshun94.trpg.SW2_PCLister.getUrl(jsonpUrl).then((data)=>{
-        const line = sheetGetter(data);
-        console.log(line);
+    return new Promise((resolve, reject)=>{
+        const sheetGetter = io.github.shunshun94.trpg.SW2_PCLister.isVampireBlood(url) ? io.github.shunshun94.trpg.SW2_PCLister.getVampireBlood : io.github.shunshun94.trpg.SW2_PCLister.getYtSheet;
+        const jsonpUrl = io.github.shunshun94.trpg.SW2_PCLister.getJsonpUrl(io.github.shunshun94.trpg.SW2_PCLister.getJsonpUrl(url));
+        io.github.shunshun94.trpg.SW2_PCLister.getUrl(jsonpUrl).then((data)=>{
+            const line = sheetGetter(data);
+            line.url = io.github.shunshun94.trpg.SW2_PCLister.getGuiUrl(url);
+            resolve(line);
+        });
     });
 };
 

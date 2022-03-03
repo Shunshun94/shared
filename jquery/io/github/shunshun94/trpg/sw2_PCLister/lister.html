@@ -30,18 +30,68 @@ footer {
     background-color:#F4F4F4;
     width:100%;
 }
+
+th {
+    background-color:black;
+    color:white;
+    min-width:36px;
+}
+
+td {
+    text-align:right;
+    padding:4px;
+}
+
+tr:nth-child(odd) {
+    background-color:#E0FFE0;
+}
+
+.disabled {
+    background-color:black;
+    min-width:4px;
+}
+
+.noDisplay {
+    display: none;
+}
+
+.output {
+    border-top:1px solid gray;
+}
 </style>
 </head>
 <body>
+    <div class="input">
+        <p>キャラクターシートURL：<input type="text" id="sheetUrl" list="sheets"/><button id="add">追加</button></p>
+    </div>
+    <div class="output noDisplay">
+        <table class="baseTable" border="1">
+            <tr>
+                <th>名前</th>
+                <th>命中</th>
+                <th>回避</th>
+                <th>魔力</th>
+                <th>精神</th>
+                <th>生命</th>
+                <th>HP</th>
+                <th>防護</th>
+                <th class="disabled"></th>
+                <th>先制</th>
+                <th>魔知</th>
+                <th>削除</th>
+            </tr>
+        </table>        
 
-<footer>
-    <a href="https://twitter.com/Shunshun94">作者 Twitter</a> | <a href="https://github.com/Shunshun94/shared/tree/master/jquery/io/github/shunshun94/trpg/sw2_PCLister">GitHub</a> | <a href="http://amzn.asia/8mNqdKy">ひよこのほしい物りすと</a>
-    <hr/>
-    本ツールは、「グループＳＮＥ」及び「株式会社ＫＡＤＯＫＡＷＡ」が権利を有する『ソード・ワールド2.5』のプレイを支援するために作られたツールです。<br>
-    (C)GroupSNE<br>
-    (C)KADOKAWA</footer>
+    </div>
+    <footer>
+        <a href="https://twitter.com/Shunshun94">作者 Twitter</a> | <a href="https://github.com/Shunshun94/shared/tree/master/jquery/io/github/shunshun94/trpg/sw2_PCLister">GitHub</a> | <a href="http://amzn.asia/8mNqdKy">ひよこのほしい物りすと</a>
+        <hr/>
+        本ツールは、「グループＳＮＥ」及び「株式会社ＫＡＤＯＫＡＷＡ」が権利を有する『ソード・ワールド2.5』のプレイを支援するために作られたツールです。<br>
+        (C)GroupSNE<br>
+        (C)KADOKAWA</footer>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="./pcLister.js"></script>
+<script src="./pcListerApp.js"></script>
 <script>
 
 </script>
