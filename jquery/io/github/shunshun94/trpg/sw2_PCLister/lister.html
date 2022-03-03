@@ -31,6 +31,10 @@ footer {
     width:100%;
 }
 
+#sheetUrl{
+    width:18em;
+}
+
 th {
     background-color:black;
     color:white;
@@ -42,8 +46,27 @@ td {
     padding:4px;
 }
 
-tr:nth-child(odd) {
+baseTable tr:nth-child(odd) {
     background-color:#E0FFE0;
+}
+
+.buffTable input {
+    width:100%;
+}
+
+.buffTable th,
+.buffTable td {
+    width:40px;
+    padding:0px;
+    text-align:center;
+}
+
+.buffTable tr td:nth-child(1) {
+    width:120px;
+}
+
+#buffTable-appendTr {
+    text-align:right;
 }
 
 .disabled {
@@ -81,8 +104,26 @@ tr:nth-child(odd) {
                 <th>魔知</th>
                 <th>削除</th>
             </tr>
-        </table>        
-
+        </table>
+        <hr/>
+        <table class="buffTable" border="1">
+            <tr>
+                <th>名前</th>
+                <th>命中</th>
+                <th>回避</th>
+                <th>魔力</th>
+                <th>精神</th>
+                <th>生命</th>
+                <th>HP</th>
+                <th>防護</th>
+                <th>先制</th>
+                <th>魔知</th>
+                <th>削除</th>
+            </tr>
+            <tr id="buffTable-appendTr">
+                <td colspan="11"><button id="buffTable-appendTr-exec">行追加</button></td>
+            </tr>
+        </table>
     </div>
     <footer>
         <a href="https://twitter.com/Shunshun94">作者 Twitter</a> | <a href="https://github.com/Shunshun94/shared/tree/master/jquery/io/github/shunshun94/trpg/sw2_PCLister">GitHub</a> | <a href="http://amzn.asia/8mNqdKy">ひよこのほしい物りすと</a>
