@@ -63,6 +63,7 @@ tr:nth-child(odd) {
 <body>
     <div class="input">
         <p>キャラクターシートURL：<input type="text" id="sheetUrl" list="sheets"/><button id="add">追加</button></p>
+        <datalist id="sheets"></datalist>
     </div>
     <div class="output noDisplay">
         <table class="baseTable" border="1">
@@ -90,6 +91,7 @@ tr:nth-child(odd) {
         (C)GroupSNE<br>
         (C)KADOKAWA</footer>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="../../../../../com/hiyoko/util/v2/utils.js"></script>
 <script src="./pcLister.js"></script>
 <script src="./pcListerApp.js"></script>
 <script>

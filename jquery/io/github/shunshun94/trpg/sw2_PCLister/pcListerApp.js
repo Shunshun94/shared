@@ -31,8 +31,13 @@ io.github.shunshun94.trpg.SW2_PCListerApp.bindEvents = () => {
             $('#sheetUrl').val('');
             $('.noDisplay').removeClass('noDisplay');
             $('.baseTable').append(io.github.shunshun94.trpg.SW2_PCListerApp.generateTr(data));
+            com.hiyoko.util.updateLocalStorage('com-hiyoko-sample-sw2sheetparse-index', data.url, data.name);
         });
     });
 };
 
 io.github.shunshun94.trpg.SW2_PCListerApp.bindEvents();
+
+com.hiyoko.util.forEachMap(JSON.parse(localStorage.getItem('com-hiyoko-sample-sw2sheetparse-index') || '{}'), function(v, k) {
+	if(! /^\d+/.test(k)) { $('#sheets').append(`<option value="${k}">${v}</option>`); }
+});
