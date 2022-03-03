@@ -14,74 +14,7 @@
 <meta name="twitter:description" content="" />
 <meta name="twitter:image" content="" />
 <title>ソードワールド2.X PC 一覧</title>
-
-<style>
-* {
-	box-sizing: border-box;
-	font-family: "BIZ UDゴシック","UD Shin Go NT Light JIS2004","UD デジタル 教科書体 N-R", Verdana, Roboto, "Droid Sans", "游ゴシック", YuGothic, "メイリオ", Meiryo, "ヒラギノ角ゴ ProN W3", "Hiragino Kaku Gothic ProN", "ＭＳ Ｐゴシック", sans-serif;
-}
-
-footer {
-    font-size:60%;
-    left:0px;
-    right:0px;
-    bottom:0px;
-    padding:4px;
-    background-color:#F4F4F4;
-    width:100%;
-}
-
-#sheetUrl{
-    width:18em;
-}
-
-th {
-    background-color:black;
-    color:white;
-    min-width:36px;
-}
-
-td {
-    text-align:right;
-    padding:4px;
-}
-
-baseTable tr:nth-child(odd) {
-    background-color:#E0FFE0;
-}
-
-.buffTable input {
-    width:100%;
-}
-
-.buffTable th,
-.buffTable td {
-    width:40px;
-    padding:0px;
-    text-align:center;
-}
-
-.buffTable tr td:nth-child(1) {
-    width:120px;
-}
-
-#buffTable-appendTr {
-    text-align:right;
-}
-
-.disabled {
-    background-color:black;
-    min-width:4px;
-}
-
-.noDisplay {
-    display: none;
-}
-
-.output {
-    border-top:1px solid gray;
-}
-</style>
+<link rel="stylesheet" href="./lister.css" type="text/css" />
 </head>
 <body>
     <div class="input">
@@ -94,7 +27,7 @@ baseTable tr:nth-child(odd) {
                 <th>名前</th>
                 <th>命中</th>
                 <th>回避</th>
-                <th>魔力</th>
+                <th>魔行</th>
                 <th>精神</th>
                 <th>生命</th>
                 <th>HP</th>
@@ -106,27 +39,30 @@ baseTable tr:nth-child(odd) {
             </tr>
         </table>
         <hr/>
-        <table class="buffTable" border="1">
-            <tr>
-                <th>名前</th>
-                <th>命中</th>
-                <th>回避</th>
-                <th>魔力</th>
-                <th>精神</th>
-                <th>生命</th>
-                <th>HP</th>
-                <th>防護</th>
-                <th>先制</th>
-                <th>魔知</th>
-                <th>削除</th>
-            </tr>
-            <tr id="buffTable-appendTr">
-                <td colspan="11"><button id="buffTable-appendTr-exec">行追加</button></td>
-            </tr>
-        </table>
+        <div id="buffManager">
+            <table class="buffTable" border="1">
+                <tr>
+                    <th>名前</th>
+                    <th>命中</th>
+                    <th>回避</th>
+                    <th>魔行</th>
+                    <th>精神</th>
+                    <th>生命</th>
+                    <th>HP</th>
+                    <th>防護</th>
+                    <th>先制</th>
+                    <th>魔知</th>
+                    <th>削除</th>
+                </tr>
+                <tr id="buffTable-appendTr">
+                    <td colspan="11"><button id="buffTable-appendTr-exec">行追加</button></td>
+                </tr>
+            </table>
+            <table class="buffApplyTable" border="1"></table>
+        </div>
     </div>
     <footer>
-        <a href="https://twitter.com/Shunshun94">作者 Twitter</a> | <a href="https://github.com/Shunshun94/shared/tree/master/jquery/io/github/shunshun94/trpg/sw2_PCLister">GitHub</a> | <a href="http://amzn.asia/8mNqdKy">ひよこのほしい物りすと</a>
+        <a href="https://twitter.com/Shunshun94">作者 Twitter</a> | <a href="https://github.com/Shunshun94/shared/tree/master/jquery/io/github/shunshun94/trpg/sw2_PCLister">GitHub</a> | <a href="http://amzn.asia/8mNqdKy">ひよこのほしい物りすと</a> | このフッターはダブルクリックで消えます
         <hr/>
         本ツールは、「グループＳＮＥ」及び「株式会社ＫＡＤＯＫＡＷＡ」が権利を有する『ソード・ワールド2.5』のプレイを支援するために作られたツールです。<br>
         (C)GroupSNE<br>
