@@ -225,7 +225,6 @@ $('#export').click((e)=>{
 $('footer').click((e)=>{$('footer').hide();});
 
 com.hiyoko.util.forEachMap(JSON.parse(localStorage.getItem('com-hiyoko-sample-sw2sheetparse-index') || '{}'), function(v, k) {
-	// ゆとシートしか対応していない
 	if(! /^\d+/.test(k)) { $('#characterSheetList').append(`<option value="${k}">${v}</option>`); }
 });
 // 
