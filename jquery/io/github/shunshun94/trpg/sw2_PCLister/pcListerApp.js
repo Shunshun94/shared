@@ -8,7 +8,6 @@ io.github.shunshun94.trpg.SW2_PCListerApp.rewriteFixedBaseTable = () => {
     const characters =   io.github.shunshun94.trpg.SW2_PCListerApp.getCharacterIdMap();
     const buffs      =   io.github.shunshun94.trpg.SW2_PCListerApp.getBuffIdMap();
     const appliedBuffs = io.github.shunshun94.trpg.SW2_PCListerApp.getBuffApplyTable();
-    console.log(characters, buffs, appliedBuffs);
     for(const buffId in appliedBuffs) {
         const buff = buffs[buffId];
         const buffedCharacters = appliedBuffs[buffId];
