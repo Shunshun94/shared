@@ -11,4 +11,5 @@ PC情報を並べて表示するツール。GMがデータのこととか考え�
 
 # どこから使うの
 
+以下画像からどうぞ
 [![ここ](./ogp.png)](https://shunshun94.github.io/shared/jquery/io/github/shunshun94/trpg/sw2_PCLister/lister.html) 
