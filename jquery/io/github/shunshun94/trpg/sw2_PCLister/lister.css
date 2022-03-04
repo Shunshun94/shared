@@ -53,7 +53,7 @@ td {
 
 .buffTable th,
 .buffTable td {
-    width:40px;
+    width:50px;
     padding:0px;
     text-align:center;
 }
@@ -77,7 +77,7 @@ td {
 
 .buffApplyTable {
     position:absolute;
-    left:560px;
+    left:650px;
     top:4px;
 }
 

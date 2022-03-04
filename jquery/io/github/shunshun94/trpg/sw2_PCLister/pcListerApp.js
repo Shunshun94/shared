@@ -38,7 +38,7 @@ io.github.shunshun94.trpg.SW2_PCListerApp.getBuffIdMap = () => {
     const buffIds = io.github.shunshun94.trpg.SW2_PCListerApp.getBuffIdList();
     const buffs = {};
     io.github.shunshun94.trpg.SW2_PCListerApp.getBuffTableData().forEach((l, i)=>{
-        buffs[buffIds[i].id] = l;
+        buffs[buffIds[i].id] = l.map(Number);
     });
     return buffs;
 };
@@ -154,7 +154,7 @@ io.github.shunshun94.trpg.SW2_PCListerApp.getBaseTableOriginalData = () => {
 io.github.shunshun94.trpg.SW2_PCListerApp.getBuffTableData = () => {
     const result = [];
     $('.buffTable-line').each((dummy1, d)=>{
-        result.push($(d).find('input').map((dummy2, v)=>{ return Number($(v).val()) }).get());
+        result.push($(d).find('input').map((dummy2, v)=>{ return $(v).val(); }).get());
     });
     return result;
 };
