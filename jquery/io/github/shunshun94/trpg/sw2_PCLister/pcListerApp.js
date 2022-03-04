@@ -4,9 +4,57 @@ io.github.shunshun94 = io.github.shunshun94 || {};
 io.github.shunshun94.trpg = io.github.shunshun94.trpg || {};
 io.github.shunshun94.trpg.SW2_PCListerApp = io.github.shunshun94.trpg.SW2_PCListerApp || {};
 
+io.github.shunshun94.trpg.SW2_PCListerApp.rewriteFixedBaseTable = () => {
+    const characters =   io.github.shunshun94.trpg.SW2_PCListerApp.getCharacterIdMap();
+    const buffs      =   io.github.shunshun94.trpg.SW2_PCListerApp.getBuffIdMap();
+    const appliedBuffs = io.github.shunshun94.trpg.SW2_PCListerApp.getBuffApplyTable();
+    console.log(characters, buffs, appliedBuffs);
+    for(const buffId in appliedBuffs) {
+        const buff = buffs[buffId];
+        const buffedCharacters = appliedBuffs[buffId];
+        for(const charId in buffedCharacters) {
+            ['hit', 'dodge', 'magic', 'mental', 'life', 'hp', 'guard', 'initiative', 'enemy'].forEach((dummy, i)=>{
+                characters[charId][i + 1] += buff[i + 1];
+            });
+        }
+    }
+    for(const id in characters) {
+        const char = characters[id];
+        ['hit', 'dodge', 'magic', 'mental', 'life', 'hp', 'guard', 'initiative', 'enemy'].forEach((c, i)=>{
+            $(`#${id} .${c}`).text(char[i + 1]);
+        });
+    }
+};
+
+io.github.shunshun94.trpg.SW2_PCListerApp.getCharacterIdMap = () => {
+    const characterIds = io.github.shunshun94.trpg.SW2_PCListerApp.getCharacterIdList();
+    const characters = {};
+    io.github.shunshun94.trpg.SW2_PCListerApp.getBaseTableOriginalData().forEach((l, i)=>{
+        characters[characterIds[i].id] = l;
+    });
+    return characters;
+};
+
+io.github.shunshun94.trpg.SW2_PCListerApp.getBuffIdMap = () => {
+    const buffIds = io.github.shunshun94.trpg.SW2_PCListerApp.getBuffIdList();
+    const buffs = {};
+    io.github.shunshun94.trpg.SW2_PCListerApp.getBuffTableData().forEach((l, i)=>{
+        buffs[buffIds[i].id] = l;
+    });
+    return buffs;
+};
+
+io.github.shunshun94.trpg.SW2_PCListerApp.getCharacterIdList = () => {
+    return $('.baseTable-line').map((i, v)=>{return {id: v.id, name: $(v).find('.name').text()}}).get();
+}
+
+io.github.shunshun94.trpg.SW2_PCListerApp.getBuffIdList = () => {
+    return $('.buffTable-line').map((i, v)=>{return {id: v.id, name: $(v).find('.buff-name').val()}}).get();
+}
+
 io.github.shunshun94.trpg.SW2_PCListerApp.generateBuffApplyTable = (currentValue = {}) => {
-    const characterList = $('.baseTable-line').map((i, v)=>{return {id: v.id, name: $(v).find('.name').text()}}).get();
-    const buffList = $('.buffTable-line').map((i, v)=>{return {id: v.id, name: $(v).find('.buff-name').val()}}).get();
+    const characterList = io.github.shunshun94.trpg.SW2_PCListerApp.getCharacterIdList();
+    const buffList = io.github.shunshun94.trpg.SW2_PCListerApp.getBuffIdList();
 
     $('.buffApplyTable').empty();
 
@@ -81,17 +129,33 @@ io.github.shunshun94.trpg.SW2_PCListerApp.generateTr = (data) => {
     ['hit', 'dodge', 'magic', 'mental', 'life', 'hp', 'guard', 'disabled', 'initiative', 'enemy', 'remove'].forEach((d)=>{
        const td = $('<td></td>');
        td.addClass(d);
-       td.text(data[d] === 0 ? '0' : data[d] || '');
+       const value = data[d] === 0 ? '0' : data[d] || '';
+       td.text(value);
+       td.attr('title', value);
        tr.append(td);
     });
     tr.find('.remove').append('<button class="removeButton">✕</button>');
     return tr;
 };
 
+io.github.shunshun94.trpg.SW2_PCListerApp.getBaseTableOriginalData = () => {
+    const result = [];
+    $(`.name`).each((i, d)=>{
+        result.push([]);
+        result[i].push($(d).text());
+    });
+    ['hit', 'dodge', 'magic', 'mental', 'life', 'hp', 'guard', 'initiative', 'enemy'].forEach((c)=>{
+        $(`.${c}`).each((i, d)=>{
+            result[i].push(Number($(d).attr('title')));
+        });
+    });
+    return result;
+};
+
 io.github.shunshun94.trpg.SW2_PCListerApp.getBuffTableData = () => {
     const result = [];
     $('.buffTable-line').each((dummy1, d)=>{
-        result.push($(d).find('input').map((dummy2, v)=>{ return $(v).val() }).get());
+        result.push($(d).find('input').map((dummy2, v)=>{ return Number($(v).val()) }).get());
     });
     return result;
 };
@@ -112,13 +176,18 @@ io.github.shunshun94.trpg.SW2_PCListerApp.bindEvents = () => {
     });
     $('.buffTable').change((e)=>{
         localStorage.setItem('io-github-shunshun94-trpg-sw2_pclister-buffs', JSON.stringify(io.github.shunshun94.trpg.SW2_PCListerApp.getBuffTableData()));
+        io.github.shunshun94.trpg.SW2_PCListerApp.rewriteFixedBaseTable();
     });
     $('.output').click((e)=>{
         const target = $(e.target);
         if(target.hasClass('removeButton')) {
             target.parent().parent().remove();
             io.github.shunshun94.trpg.SW2_PCListerApp.reloadBuffApplyTable();
+            io.github.shunshun94.trpg.SW2_PCListerApp.rewriteFixedBaseTable();
         }
+    });
+    $('#buffManager').change((e)=>{
+        io.github.shunshun94.trpg.SW2_PCListerApp.rewriteFixedBaseTable();
     });
     $('footer').on('dblclick', (e)=>{
         $('footer').remove();
