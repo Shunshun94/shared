@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta property="og:title" content="ソードワールド2.X PC 能力比較・一覧" />
+<meta property="og:type" content="website" />
+<meta property="og:image" content="https://shunshun94.github.io/shared/jquery/io/github/shunshun94/trpg/sw2_PCLister/ogp.png" />
+<meta property="og:site_name" content="https://github.com/Shunshun94/shared/" />
+<meta property="og:description" content="ソードワールド 2.X の PC 能力をバフ・デバフの補正を含めて一覧表示。エネミーを選ぶ際にどうぞ" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content="@Shunshun94" />
+<meta name="twitter:domain" content="shunshun94.github.io" />
+<meta name="twitter:title" content="ソードワールド2.X PC 能力比較・一覧" />
+<meta name="twitter:description" content="ソードワールド 2.X の PC 能力をバフ・デバフの補正を含めて一覧表示。エネミーを選ぶ際にどうぞ" />
+<meta name="twitter:image" content="https://shunshun94.github.io/shared/jquery/io/github/shunshun94/trpg/sw2_PCLister/ogp.png" />
+<title>ソードワールド2.X PC 能力比較・一覧</title>
+<link rel="stylesheet" href="./lister.css" type="text/css" />
+</head>
+<body>
+    <div class="input">
+        <p>キャラクターシートURL：<input type="text" id="sheetUrl" list="sheets"/><button id="add">追加</button></p>
+        <datalist id="sheets"></datalist>
+    </div>
+    <div class="output noDisplay">
+        <table class="baseTable" border="1">
+            <tr>
+                <th>名前</th>
+                <th>命中</th>
+                <th>回避</th>
+                <th>魔行</th>
+                <th>精神</th>
+                <th>生命</th>
+                <th>HP</th>
+                <th>防護</th>
+                <th class="disabled"></th>
+                <th>先制</th>
+                <th>魔知</th>
+                <th>削除</th>
+            </tr>
+        </table>
+        <hr/>
+        <div id="buffManager">
+            <table class="buffTable" border="1">
+                <tr>
+                    <th>名前</th>
+                    <th>命中</th>
+                    <th>回避</th>
+                    <th>魔行</th>
+                    <th>精神</th>
+                    <th>生命</th>
+                    <th>HP</th>
+                    <th>防護</th>
+                    <th>先制</th>
+                    <th>魔知</th>
+                    <th>削除</th>
+                </tr>
+                <tr id="buffTable-appendTr">
+                    <td colspan="11"><button id="buffTable-appendTr-exec">行追加</button></td>
+                </tr>
+            </table>
+            <table class="buffApplyTable" border="1"></table>
+        </div>
+    </div>
+    <footer>
+        <a href="https://twitter.com/Shunshun94">作者 Twitter</a> | <a href="https://github.com/Shunshun94/shared/tree/master/jquery/io/github/shunshun94/trpg/sw2_PCLister">GitHub</a> | <a href="http://amzn.asia/8mNqdKy">ひよこのほしい物りすと</a> | このフッターはダブルクリックで消えます
+        <hr/>
+        本ツールは、「グループＳＮＥ」及び「株式会社ＫＡＤＯＫＡＷＡ」が権利を有する『ソード・ワールド2.5』のプレイを支援するために作られたツールです。<br>
+        (C)GroupSNE<br>
+        (C)KADOKAWA</footer>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="../../../../../com/hiyoko/util/v2/utils.js"></script>
+<script src="./pcLister.js"></script>
+<script src="./pcListerApp.js"></script>
+<script>
+
+</script>
+</body>
+</html>

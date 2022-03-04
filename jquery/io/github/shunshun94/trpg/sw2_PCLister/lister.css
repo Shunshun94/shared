@@ -1,0 +1,102 @@
+@charset "utf-8";
+
+* {
+	box-sizing: border-box;
+	font-family: "BIZ UDゴシック","UD Shin Go NT Light JIS2004","UD デジタル 教科書体 N-R", Verdana, Roboto, "Droid Sans", "游ゴシック", YuGothic, "メイリオ", Meiryo, "ヒラギノ角ゴ ProN W3", "Hiragino Kaku Gothic ProN", "ＭＳ Ｐゴシック", sans-serif;
+}
+
+footer {
+    font-size:60%;
+    left:0px;
+    right:0px;
+    bottom:0px;
+    padding:4px;
+    background-color:#F4F4F4;
+    width:100%;
+    position:fixed;
+}
+
+#sheetUrl{
+    width:18em;
+}
+
+th {
+    background-color:black;
+    color:white;
+    min-width:36px;
+    height:28px;
+}
+
+td {
+    text-align:right;
+    padding:4px;
+}
+
+.baseTable tr:nth-child(odd) {
+    background-color:#E0FFE0;
+}
+
+#buffManager {
+    position:relative;
+}
+
+.buffTable {
+    position:absolute;
+    top:4px;
+    left:4px;
+    min-width:544px;
+}
+
+.buffTable input {
+    width:100%;
+}
+
+.buffTable th,
+.buffTable td {
+    width:40px;
+    padding:0px;
+    text-align:center;
+}
+
+.buffTable tr:nth-child(odd) {
+    background-color:#E0E0FF;
+}
+
+.buffTable tr td:nth-child(1) {
+    width:120px;
+}
+
+.buffTable-line {
+    height:29px;
+}
+
+#buffTable-appendTr > td {
+    text-align:right;
+    background-color:gray;
+}
+
+.buffApplyTable {
+    position:absolute;
+    left:560px;
+    top:4px;
+}
+
+.buffApplyTable th {
+    overflow: hidden;
+    white-space: nowrap;
+    width:36px;
+}
+
+.disabled {
+    background-color:black;
+    min-width:4px;
+}
+
+.noDisplay {
+    display: none;
+}
+
+.output {
+    border-top:1px solid gray;
+    padding:4px;
+}
