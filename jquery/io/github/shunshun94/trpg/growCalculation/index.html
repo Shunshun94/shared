@@ -124,12 +124,12 @@ const generateGrowUpList = (text)=>{
 
 const tableInit = (sheet) => {
 	const list = $('.current');
-	$(list[0]).val(sheet.sttDex || sheet.NP1 ? (Number(sheet.N_waza  ) + Number(sheet.V_NC1) + Number(sheet.NS1) + Number(sheet.NM1)) : 0);
-	$(list[1]).val(sheet.sttAgi || sheet.NP2 ? (Number(sheet.N_waza  ) + Number(sheet.V_NC2) + Number(sheet.NS2) + Number(sheet.NM2)) : 0);
-	$(list[2]).val(sheet.sttStr || sheet.NP3 ? (Number(sheet.N_karada) + Number(sheet.V_NC3) + Number(sheet.NS3) + Number(sheet.NM3)) : 0);
-	$(list[3]).val(sheet.sttVit || sheet.NP4 ? (Number(sheet.N_karada) + Number(sheet.V_NC4) + Number(sheet.NS4) + Number(sheet.NM4)) : 0);
-	$(list[4]).val(sheet.sttInt || sheet.NP5 ? (Number(sheet.N_kokoro) + Number(sheet.V_NC5) + Number(sheet.NS5) + Number(sheet.NM5)) : 0);
-	$(list[5]).val(sheet.sttMnd || sheet.NP6 ? (Number(sheet.N_kokoro) + Number(sheet.V_NC6) + Number(sheet.NS6) + Number(sheet.NM6)) : 0);
+	$(list[0]).val(sheet.sttDex || (sheet.NP1 ? (Number(sheet.N_waza  ) + Number(sheet.V_NC1) + Number(sheet.NS1) + Number(sheet.NM1)) : 0));
+	$(list[1]).val(sheet.sttAgi || (sheet.NP2 ? (Number(sheet.N_waza  ) + Number(sheet.V_NC2) + Number(sheet.NS2) + Number(sheet.NM2)) : 0));
+	$(list[2]).val(sheet.sttStr || (sheet.NP3 ? (Number(sheet.N_karada) + Number(sheet.V_NC3) + Number(sheet.NS3) + Number(sheet.NM3)) : 0));
+	$(list[3]).val(sheet.sttVit || (sheet.NP4 ? (Number(sheet.N_karada) + Number(sheet.V_NC4) + Number(sheet.NS4) + Number(sheet.NM4)) : 0));
+	$(list[4]).val(sheet.sttInt || (sheet.NP5 ? (Number(sheet.N_kokoro) + Number(sheet.V_NC5) + Number(sheet.NS5) + Number(sheet.NM5)) : 0));
+	$(list[5]).val(sheet.sttMnd || (sheet.NP6 ? (Number(sheet.N_kokoro) + Number(sheet.V_NC6) + Number(sheet.NS6) + Number(sheet.NM6)) : 0));
 };
 
 const calcResult = () => {
