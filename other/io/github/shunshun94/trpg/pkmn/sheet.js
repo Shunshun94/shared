@@ -116,10 +116,10 @@ io.github.shunshun94.trpg.pkmn.sheet.parseYakkun = (raw) => {
     const rawHp = Number(/HP\s+(\d+)\(\d+位\)/.exec(raw)[1]);
     result['pkmn-hp'] = Math.floor((rawHp + 75) / 2);
     result['pkmn-physical'] = Math.floor(rawHp / 10);
-    result['pkmn-pattack'] = Math.floor(Number(/こうげき\s+(\d+)\(\d+位\)/.exec(raw)[1]) / 10);
-    result['pkmn-pdefence'] = Math.floor(Number(/ぼうぎょ\s+(\d+)\(\d+位\)/.exec(raw)[1]) / 10);
-    result['pkmn-sattack'] = Math.floor(Number(/とくこう\s+(\d+)\(\d+位\)/.exec(raw)[1]) / 10);
-    result['pkmn-sdefence'] = Math.floor(Number(/とくぼう\s+(\d+)\(\d+位\)/.exec(raw)[1]) / 10);
-    result['pkmn-speed'] = Math.floor(Number(/すばやさ\s+(\d+)\(\d+位\)/.exec(raw)[1]) / 10);
+    result['pkmn-pattack'] = Math.floor(Number(/こうげき\s+(\d+).*\(\d+位\)/.exec(raw)[1]) / 10);
+    result['pkmn-pdefence'] = Math.floor(Number(/ぼうぎょ\s+(\d+).*\(\d+位\)/.exec(raw)[1]) / 10);
+    result['pkmn-sattack'] = Math.floor(Number(/とくこう\s+(\d+).*\(\d+位\)/.exec(raw)[1]) / 10);
+    result['pkmn-sdefence'] = Math.floor(Number(/とくぼう\s+(\d+).*\(\d+位\)/.exec(raw)[1]) / 10);
+    result['pkmn-speed'] = Math.floor(Number(/すばやさ\s+(\d+).*\(\d+位\)/.exec(raw)[1]) / 10);
     return result;
 };
