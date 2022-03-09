@@ -112,8 +112,10 @@ io.github.shunshun94.trpg.pkmn.sheet.parseYakkun = (raw) => {
     result['pkmn-type1'] = types[0];
     if(types.length > 1) {
         result['pkmn-type2'] = types[1];
+    } else {
+        result['pkmn-type2'] = '';
     }
-    const rawHp = Number(/HP\s+(\d+)\(\d+位\)/.exec(raw)[1]);
+    const rawHp = Number(/HP\s+(\d+).*\(\d+位\)/.exec(raw)[1]);
     result['pkmn-hp'] = Math.floor((rawHp + 75) / 2);
     result['pkmn-physical'] = Math.floor(rawHp / 10);
     result['pkmn-pattack'] = Math.floor(Number(/こうげき\s+(\d+).*\(\d+位\)/.exec(raw)[1]) / 10);
