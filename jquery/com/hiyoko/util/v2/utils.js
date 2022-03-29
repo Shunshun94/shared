@@ -187,6 +187,14 @@ com.hiyoko.util.mapMap = function(map, func) {
 	return result;
 };
 
+com.hiyoko.util.mapToArray = function(map, func) {
+    const result = [];
+    for(var key in map) {
+        result.push(func(map[key], key, map));
+    }
+    return result;
+};
+
 com.hiyoko.util.max = function(array) {
 	return Math.max.apply(null, array);
 };
