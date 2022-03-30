@@ -1,8 +1,8 @@
 const main = new Vue({
     el: '#buffer-table',
     data: {
-        characters: {},
-        effects: {},
+        characters: [],
+        effects: [],
         mapping: {}
     },
     methods: {
