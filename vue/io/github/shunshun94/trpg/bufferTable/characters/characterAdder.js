@@ -43,7 +43,22 @@ Vue.component('character-adder', {
                 callbackParamName: 'callback'
             }).then(function (response) {
                 this.characterSheetUrl = '';
-                this.$emit('io-github-shunshun94-trpg-bufferTable-characters-adder-addCharacter', response.data.pc_name  || response.data.characterName);
+                if(response.data.type === 'm') {
+                    const count = Number(response.data.statusNum) + 1;
+                    const name = response.data.monsterName;
+                    const result = [];
+
+                    for(let i = 1; i < count; i++) {
+                        result.push({
+                            name: `${name}: ${response.data[`status${i}Style`]}`
+                        });
+                    }
+                    this.$emit('io-github-shunshun94-trpg-bufferTable-characters-adder-addCharacter', result);
+                } else {
+                    this.$emit('io-github-shunshun94-trpg-bufferTable-characters-adder-addCharacter', [{
+                        name: response.data.pc_name  || response.data.characterName
+                    }]);
+                }
             }.bind(this));
         }
     }
