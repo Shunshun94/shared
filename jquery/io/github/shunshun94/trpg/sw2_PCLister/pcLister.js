@@ -87,9 +87,11 @@ io.github.shunshun94.trpg.SW2_PCLister.getYtSheetEnemy = (data) => {
     const result = [];
     const name = data.monsterName;
 
-    const magic = Math.max.apply(null, [...data.skills.matchAll(/魔力(\d+)/gm)].map((m)=>{
+    const magicList = [...data.skills.matchAll(/魔力(\d+)/gm)];
+    const magic = magicList.length ? Math.max.apply(null, magicList.map((m)=>{
         return Number(m[1]);
-    }));
+    })) : 0;
+
     for(let i = 1; i < count; i++) {
         result.push({
             name:       `${name}: ${data[`status${i}Style`]}`,
