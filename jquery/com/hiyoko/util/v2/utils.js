@@ -163,6 +163,11 @@ com.hiyoko.util.groupArray = function(array, groupBy) {
 	return result;
 }
 
+/**
+ * @deprecated map に forEach があるのでそれを使うべきです
+ * @param {*} map 
+ * @param {*} func 
+ */
 com.hiyoko.util.forEachMap = function(map, func) {
 	for(var key in map) {
 		func(map[key], key, map);
@@ -209,13 +214,20 @@ com.hiyoko.util.extend = function(superClass, subClass) {
 	}
 };
 
+/**
+ * @deprecated padStart を使うべきです
+ * @param base 
+ * @param {*} length 
+ * @param {*} opt_char 
+ * @returns 
+ */
 com.hiyoko.util.addStuffRight = function(base, length, opt_char){
 	var char = opt_char ? opt_char : " ";
 	return com.hiyoko.util.stringTimes(char, length - base.length) + base;
 };
 
 /**
- * 
+ * @deprecated repeat を使うべきです
  * @param {String} str
  * @param {number} time
  */
