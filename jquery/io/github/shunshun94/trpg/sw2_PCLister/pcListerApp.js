@@ -161,11 +161,15 @@ io.github.shunshun94.trpg.SW2_PCListerApp.getBuffTableData = () => {
 
 io.github.shunshun94.trpg.SW2_PCListerApp.bindEvents = () => {
     $('#add').click((e)=>{
-        io.github.shunshun94.trpg.SW2_PCLister.getSheet($('#sheetUrl').val()).then((data)=>{
+        io.github.shunshun94.trpg.SW2_PCLister.getSheet($('#sheetUrl').val()).then((dataList)=>{
             $('#sheetUrl').val('');
             $('.noDisplay').removeClass('noDisplay');
-            $('.baseTable').append(io.github.shunshun94.trpg.SW2_PCListerApp.generateTr(data));
-            com.hiyoko.util.updateLocalStorage('com-hiyoko-sample-sw2sheetparse-index', data.url, data.name);
+            dataList.forEach((data)=>{
+                $('.baseTable').append(io.github.shunshun94.trpg.SW2_PCListerApp.generateTr(data));
+            });
+            if(dataList[0].type !== 'm') {
+                com.hiyoko.util.updateLocalStorage('com-hiyoko-sample-sw2sheetparse-index', dataList[0].url, dataList[0].name);
+            }
             io.github.shunshun94.trpg.SW2_PCListerApp.reloadBuffApplyTable();
         });
     });
