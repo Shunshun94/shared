@@ -8,6 +8,9 @@ const main = new Vue({
     methods: {
         updateCharacters: function(characters) {
             this.characters = characters;
+        },
+        updateBuffs: function(buffs) {
+            this.store = buffs;
         }
     }
 });

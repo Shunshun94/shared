@@ -24,6 +24,7 @@
     ></character-manager>
     <buff-manager
         v-bind:store="store"
+        v-on:io-github-shunshun94-trpg-buffertable-buffstore-updatebuffs="updateBuffs"
     ></buff-manager>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
@@ -34,6 +35,7 @@
 <script src="../../../../../../jquery/com/hiyoko/util/v2/utils.js"></script>
 <script src="./characters/characterAdder.js"></script>
 <script src="./characters/characterManager.js"></script>
+<script src="./buffs/buffData.js"></script>
 <script src="./buffs/buffAdder.js"></script>
 <script src="./buffs/buffManager.js"></script>
 <script src="./main.js"></script>

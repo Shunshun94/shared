@@ -55,7 +55,8 @@ Vue.component('buff-adder', {
     </section>`,
     methods: {
         addBuff: function(e) {
-            this.$emit('io-github-shunshun94-trpg-bufferTable-buffstore-adder-addBuff', this.buffInfo);
+            const newBuff = {};
+            this.$emit('io-github-shunshun94-trpg-bufferTable-buffstore-adder-addBuff', Object.assign(newBuff, this.buffInfo));
         }
     }
 });
