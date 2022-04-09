@@ -2,7 +2,7 @@ const main = new Vue({
     el: '#buffer-table',
     data: {
         characters: [],
-        effects: [],
+        store: [],
         mapping: {}
     },
     methods: {
@@ -10,5 +10,4 @@ const main = new Vue({
             this.characters = characters;
         }
     }
-
 });

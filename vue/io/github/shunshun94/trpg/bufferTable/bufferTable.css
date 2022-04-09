@@ -5,6 +5,22 @@
 	font-family: "BIZ UDゴシック","UD Shin Go NT Light JIS2004","UD デジタル 教科書体 N-R", Verdana, Roboto, "Droid Sans", "游ゴシック", YuGothic, "メイリオ", Meiryo, "ヒラギノ角ゴ ProN W3", "Hiragino Kaku Gothic ProN", "ＭＳ Ｐゴシック", sans-serif;
 }
 
+#buffer-table {
+	display:flex;
+}
+
+#io-github-shunshun94-trpg-bufferTable-characters {
+	width:600px;
+}
+
 .io-github-shunshun94-trpg-bufferTable-characters-list-character-buffs {
 	width:300px;
+}
+
+#io-github-shunshun94-trpg-bufferTable-buffstore {
+	width:600px;
+}
+
+#io-github-shunshun94-trpg-buffstore-buffs-adder-from {
+	width:60px;
 }
