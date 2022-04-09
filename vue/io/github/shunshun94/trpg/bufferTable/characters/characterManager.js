@@ -6,25 +6,25 @@ Vue.component('character-manager', {
         ></character-adder>
         <table border="1"  id="io-github-shunshun94-trpg-bufferTable-characters-list">
             <character-status
-                v-for="name in characters" v-bind:name="name"
+                v-for="character in characters" v-bind:character="character"
             ></character-status>
         </table>
     </section>`,
     methods: {
         addCharacter: function(character) {
-            const newList = this.characters.slice();
-            newList.push(character);
+            const newList = this.characters.slice().concat(character);
+            const validateList = newList.map((d)=>{return d.name});
             this.$emit(
                 'io-github-shunshun94-trpg-buffertable-characters-updatecharacters',
-                newList.filter((name, i, list) => list.indexOf(name) === i));
+                newList.filter((c, i) => validateList.indexOf(c.name) === i));
         }
     }
 });
 
 Vue.component('character-status', {
-    props: ['name'],
+    props: ['character'],
     template: `<tr class="io-github-shunshun94-trpg-bufferTable-characters-list-character">
-        <th class="io-github-shunshun94-trpg-bufferTable-characters-list-character-name">{{name}}</th>
+        <th class="io-github-shunshun94-trpg-bufferTable-characters-list-character-name">{{character.name}}</th>
         <td class="io-github-shunshun94-trpg-bufferTable-characters-list-character-buffs"></td>
     </tr>`
 });

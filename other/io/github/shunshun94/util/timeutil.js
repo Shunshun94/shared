@@ -173,6 +173,71 @@ io.github.shunshun94.util.Time.getConflictedTerms = (listA, listB) => {
 	});
 };
 
+io.github.shunshun94.util.Time.dateToDayString = (date) => {
+	return `${date.getFullYear()}/${String(date.getMonth() + 1).padStart(2, '0')}/${String(date.getDate()).padStart(2, '0')}`;
+};
+
+/**
+ * 文字列を YYYY/MM/DD 形式に変換します
+ * @param {String} str 
+ */
+io.github.shunshun94.util.Time.convertStringToDay = (str, beforePriority=false) => {
+	if(str.includes('-') || str.includes('/') || str.includes('.')) {
+		const tmp = new Date(str);
+		return io.github.shunshun94.util.Time.dateToDayString(tmp);
+	}
+	if(/\d\d\d\d\d\d\d\d/.test(str)) {
+		return `${str.substring(0,4)}/${str.substring(4,6)}/${str.substring(6,8)}`;
+	}
+	if(/\d\d\d\d\d\d\d/.test(str)) {
+		const d = {
+			year:  str.substring(0,4),
+
+			month1:str.substring(4,5),
+			day2:  str.substring(5,7),
+
+			month2:str.substring(4,6),
+			day1:  str.substring(6,7)
+		};
+		if( d.month1 === '0' ) { // 5文字目が0 = YYYYMMD 形式
+			return `${d.year}/${d.month2}/0${d.day1}`;
+		}
+		if( Number(d.month1) > 1 ) { // 5文字目が0,1以外 = YYYYMDD 形式
+			return `${d.year}/0${d.month1}/${d.day2}`;
+		}
+		if( d.month2.endsWith('0') || d.month2.endsWith('1') || d.month2.endsWith('2') ) {
+			// 2022123 は 2022/1/23 なのか 2022/12/3 なのかはわからない
+			// beforePriority で決める。
+			// beforePriority が true  なら YYYYMDD
+			// beforePriority が false なら YYYYMMD
+			if(beforePriority) {
+				return `${d.year}/0${d.month1}/${d.day2}`;
+			} else {
+				return `${d.year}/${d.month2}/0${d.day1}`;
+			}
+		}
+		return `${d.year}/0${d.month1}/${d.day2}`;
+	}
+	if(/\d\d\d\d\d\d/.test(str)) {
+		const d = {
+			yymmdd: {
+				year:  str.substring(0,2),
+				month: str.substring(2,4),
+				day:   str.substring(4,6)
+			},
+			yyyymd: {
+				year:  str.substring(0,4),
+				month: str.substring(4,5),
+				day:   str.substring(5,6)
+			}
+		};
+		if( Number(d.yymmdd.month) < 13 ) { // YYMMDD と判断
+			return `${String((new Date()).getFullYear()).substring(0,2)}${d.yymmdd.year}/${d.yymmdd.month}/${d.yymmdd.day}`;
+		} else {
+			return `${d.yyyymd.year}/0${d.yyyymd.month}/0${d.yyyymd.day}`;
+		}
+	}
+};
 
 io.github.shunshun94.util.Time.CONSTS = io.github.shunshun94.util.Time.CONSTS || {};
 io.github.shunshun94.util.Time.CONSTS.MIN = 1000 * 60;
