@@ -204,9 +204,9 @@ com.hiyoko.util.forEachMap(JSON.parse(localStorage.getItem('com-hiyoko-sample-sw
 });
 
 JSON.parse(localStorage.getItem('io-github-shunshun94-trpg-sw2_pclister-buffs') || `[
-    ["転倒",            "-2","-2","-2","0","0","0","0","-2","-2"],
-    ["ファナティシズム", "2","-2", "0","0","0","0","0", "0", "0"],
-    ["全力攻撃1",        "0","-2", "0","0","0","0","0", "0", "0"]]`).forEach((d)=>{
+    ["転倒",            "-2","-2","-2","0","0","0","0","-2","-2", "0"],
+    ["ファナティシズム", "2","-2", "0","0","0","0","0", "0", "0", "0"],
+    ["全力攻撃1",        "0","-2", "0","0","0","0","0", "0", "0", "4"]]`).forEach((d)=>{
     const tr = io.github.shunshun94.trpg.SW2_PCListerApp.appendBuffDataTableTr();
     tr.find('input').each((i, v)=>{
         $(v).val(d[i])
