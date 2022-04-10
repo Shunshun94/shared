@@ -50,13 +50,15 @@ Vue.component('character-adder', {
 
                     for(let i = 1; i < count; i++) {
                         result.push({
-                            name: `${name}: ${response.data[`status${i}Style`]}`
+                            name: `${name}: ${response.data[`status${i}Style`]}`,
+                            buffs: []
                         });
                     }
                     this.$emit('io-github-shunshun94-trpg-bufferTable-characters-adder-addCharacter', result);
                 } else {
                     this.$emit('io-github-shunshun94-trpg-bufferTable-characters-adder-addCharacter', [{
-                        name: response.data.pc_name  || response.data.characterName
+                        name: response.data.pc_name  || response.data.characterName,
+                        buffs: []
                     }]);
                 }
             }.bind(this));

@@ -7,6 +7,7 @@ Vue.component('character-manager', {
         <table border="1"  id="io-github-shunshun94-trpg-bufferTable-characters-list">
             <character-status
                 v-for="character in characters" v-bind:character="character"
+                v-on:io-github-shunshun94-trpg-bufferTable-characters-adder-updateCharacter="updateCharacter"
             ></character-status>
         </table>
     </section>`,
@@ -17,14 +18,40 @@ Vue.component('character-manager', {
             this.$emit(
                 'io-github-shunshun94-trpg-buffertable-characters-updatecharacters',
                 newList.filter((c, i) => validateList.indexOf(c.name) === i));
+        },
+        updateCharacter: function(character) {
+            const newList = this.characters.slice();
+            newList.forEach((c)=>{
+                if(c.name === character.name) {
+                    c.buffs = character.buffs;
+                }
+            });
+            this.$emit('io-github-shunshun94-trpg-buffertable-characters-updatecharacters', newList);
         }
     }
 });
 
 Vue.component('character-status', {
     props: ['character'],
+    computed: {
+        buffs: {
+            get(   ) {return this.character.buffs.slice();},
+            set(val) {
+                this.$emit('io-github-shunshun94-trpg-bufferTable-characters-adder-updateCharacter', {
+                    name: this.character.name,
+                    buffs: val
+                })
+            }
+        }
+    },
     template: `<tr class="io-github-shunshun94-trpg-bufferTable-characters-list-character">
         <th class="io-github-shunshun94-trpg-bufferTable-characters-list-character-name">{{character.name}}</th>
-        <td class="io-github-shunshun94-trpg-bufferTable-characters-list-character-buffs"></td>
+        <td class="io-github-shunshun94-trpg-bufferTable-characters-list-character-buffs">
+            <draggable v-model="buffs" group="buffs" >
+                <buff-data
+                    v-for="buff in buffs" v-bind:buff="buff"
+                ></buff-data>
+            </draggable>
+        </td>
     </tr>`
 });

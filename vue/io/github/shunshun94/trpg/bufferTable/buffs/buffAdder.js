@@ -29,7 +29,7 @@ Vue.component('buff-adder', {
             <option value="3">30秒(3ラウンド)</option>
             <option value="1">10秒(1ラウンド)</option>
             <option value="6">1分(6ラウンド)</option>
-            <option value="9">1分半(9ラウンド)</option> <!-- 錬体の極意を考えると -->
+            <option value="9">1分半(9ラウンド)</option> <!-- 錬体の極意を考えるとこれも必要 -->
             <option value="360">1時間以上(360ラウンド)</option>
         </select><br/>
         タイミング：<input
@@ -55,8 +55,7 @@ Vue.component('buff-adder', {
     </section>`,
     methods: {
         addBuff: function(e) {
-            const newBuff = {};
-            this.$emit('io-github-shunshun94-trpg-bufferTable-buffstore-adder-addBuff', Object.assign(newBuff, this.buffInfo));
+            this.$emit('io-github-shunshun94-trpg-bufferTable-buffstore-adder-addBuff', JSON.parse(JSON.stringify(this.buffInfo)));
         }
     }
 });
