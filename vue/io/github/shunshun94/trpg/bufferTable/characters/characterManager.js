@@ -34,18 +34,21 @@ Vue.component('character-manager', {
 Vue.component('character-status', {
     props: ['character'],
     computed: {
+        url: function() {return this.character.url;},
         buffs: {
             get(   ) {return this.character.buffs.slice();},
             set(val) {
                 this.$emit('io-github-shunshun94-trpg-bufferTable-characters-adder-updateCharacter', {
                     name: this.character.name,
+                    url: this.character.url,
                     buffs: val
                 })
             }
         }
     },
     template: `<tr class="io-github-shunshun94-trpg-bufferTable-characters-list-character">
-        <th class="io-github-shunshun94-trpg-bufferTable-characters-list-character-name">{{character.name}}</th>
+        <th class="io-github-shunshun94-trpg-bufferTable-characters-list-character-name">
+            <a v-bind:href="url" target="_blank">{{character.name}}</a></th>
         <td class="io-github-shunshun94-trpg-bufferTable-characters-list-character-buffs">
             <draggable v-model="buffs" group="buffs" >
                 <buff-data
