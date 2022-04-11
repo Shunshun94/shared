@@ -1,4 +1,4 @@
-const downloadFile = (title, content) => {
+var downloadFile = (title, content) => {
 	const url = window.URL.createObjectURL(new Blob([ content ], { "type" : 'text/plain;charset=utf-8;' }));
 	const a = document.createElement("a");
 	document.body.appendChild(a);
