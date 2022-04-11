@@ -19,6 +19,7 @@ Vue.component('buff-manager', {
                 <buff-data
                     v-for="buff in computedStore" v-bind:buff="buff"
                     v-on:io-github-shunshun94-trpg-bufferTable-buffstore-adder-addBuff="addBuff"
+                    v-on:io-github-shunshun94-trpg-bufferTable-buffstore-adder-removeBuff="removeBuff"
                 ></buff-data>
             </draggable>
         </div>
@@ -26,6 +27,10 @@ Vue.component('buff-manager', {
     methods: {
         addBuff: function(buff) {
             const newList = this.store.slice().concat([buff]);
+            this.$emit('io-github-shunshun94-trpg-buffertable-buffstore-updatebuffs', newList);
+        },
+        removeBuff: function(removedBuffId) {
+            const newList = this.store.filter((buff)=>{return buff.id !== removedBuffId;});
             this.$emit('io-github-shunshun94-trpg-buffertable-buffstore-updatebuffs', newList);
         }
     }

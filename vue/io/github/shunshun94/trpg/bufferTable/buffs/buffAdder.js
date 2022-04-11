@@ -1,3 +1,12 @@
+var rndString = (length=8) => {
+	var randomString = '';
+	var baseString ='0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+	for(var i=0; i<length; i++) {
+		randomString += baseString.charAt( Math.floor( Math.random() * baseString.length));
+	}
+	return randomString;
+};
+
 Vue.component('buff-adder', {
     data: function() {
         return {
@@ -55,7 +64,9 @@ Vue.component('buff-adder', {
     </section>`,
     methods: {
         addBuff: function(e) {
-            this.$emit('io-github-shunshun94-trpg-bufferTable-buffstore-adder-addBuff', JSON.parse(JSON.stringify(this.buffInfo)));
+            const data = JSON.parse(JSON.stringify(this.buffInfo));
+            data.id = rndString();
+            this.$emit('io-github-shunshun94-trpg-bufferTable-buffstore-adder-addBuff', data);
         }
     }
 });

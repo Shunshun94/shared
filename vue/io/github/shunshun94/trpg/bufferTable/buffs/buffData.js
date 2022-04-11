@@ -11,6 +11,9 @@ Vue.component('buff-data', {
         copyBuff: function(e) {
             const newBuff = {};
             this.$emit('io-github-shunshun94-trpg-bufferTable-buffstore-adder-addBuff', Object.assign(newBuff, this.buff));
+        },
+        removeBuff: function(e) {
+            this.$emit('io-github-shunshun94-trpg-bufferTable-buffstore-adder-removeBuff', this.buff.id);
         }
     }
 });
