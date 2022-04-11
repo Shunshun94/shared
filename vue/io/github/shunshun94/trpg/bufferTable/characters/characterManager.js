@@ -1,10 +1,25 @@
+const downloadFile = (title, content) => {
+	const url = window.URL.createObjectURL(new Blob([ content ], { "type" : 'text/plain;charset=utf-8;' }));
+	const a = document.createElement("a");
+	document.body.appendChild(a);
+	a.download = title;
+	a.href = url;
+	a.click();
+	a.remove();
+	URL.revokeObjectURL(url);
+};
+
 Vue.component('character-manager', {
     props: ['characters'],
     template: `<section id="io-github-shunshun94-trpg-bufferTable-characters">
+        <character-save-manager
+            v-on:io-github-shunshun94-trpg-bufferTable-characters-savemanager-getTable="getTable"
+            v-on:io-github-shunshun94-trpg-bufferTable-characters-savemanager-getJson="getJson"
+        ></character-save-manager>
         <character-adder
             v-on:io-github-shunshun94-trpg-bufferTable-characters-adder-addCharacter="addCharacter"
         ></character-adder>
-        <table border="1"  id="io-github-shunshun94-trpg-bufferTable-characters-list">
+        <table border="1" id="io-github-shunshun94-trpg-bufferTable-characters-list">
             <character-status
                 v-for="character in characters" v-bind:character="character"
                 v-on:io-github-shunshun94-trpg-bufferTable-characters-adder-updateCharacter="updateCharacter"
@@ -27,6 +42,17 @@ Vue.component('character-manager', {
                 }
             });
             this.$emit('io-github-shunshun94-trpg-buffertable-characters-updatecharacters', newList);
+        },
+        getTable: function() {
+            navigator.clipboard.writeText(`<table>${document.getElementById('io-github-shunshun94-trpg-bufferTable-characters-list').innerHTML}</table>`).then((ok)=>{
+                alert('クリップボードに表の HTML をコピーしました');
+            }, (ng)=>{
+                alert('クリップボードへのコピーに失敗しました');
+                console.error(ng);
+            });
+        },
+        getJson: function() {
+            downloadFile('buff-data.json', JSON.stringify(this.characters));
         }
     }
 });
@@ -51,9 +77,9 @@ Vue.component('character-status', {
             <a v-bind:href="url" target="_blank">{{character.name}}</a></th>
         <td class="io-github-shunshun94-trpg-bufferTable-characters-list-character-buffs">
             <draggable v-model="buffs" group="buffs" >
-                <buff-data
+                <chracter-buff-data
                     v-for="buff in buffs" v-bind:buff="buff"
-                ></buff-data>
+                ></chracter-buff-data>
             </draggable>
         </td>
     </tr>`

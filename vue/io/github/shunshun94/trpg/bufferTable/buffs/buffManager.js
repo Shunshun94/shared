@@ -1,4 +1,11 @@
-
+var rndString = (length=8) => {
+	var randomString = '';
+	var baseString ='0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+	for(var i=0; i<length; i++) {
+		randomString += baseString.charAt( Math.floor( Math.random() * baseString.length));
+	}
+	return randomString;
+};
 
 Vue.component('buff-manager', {
     props: ['store'],
@@ -26,6 +33,7 @@ Vue.component('buff-manager', {
     </section>`,
     methods: {
         addBuff: function(buff) {
+            buff.id = rndString();
             const newList = this.store.slice().concat([buff]);
             this.$emit('io-github-shunshun94-trpg-buffertable-buffstore-updatebuffs', newList);
         },

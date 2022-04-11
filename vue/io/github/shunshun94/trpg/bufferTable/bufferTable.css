@@ -15,10 +15,37 @@
 
 .io-github-shunshun94-trpg-bufferTable-characters-list-character-buffs {
 	width:600px;
+	background-color:lavender;
+	padding:4px;
+}
+
+.io-github-shunshun94-trpg-bufferTable-characters-list-character-buffs-buff {
+	background-color:white;
+	border:2px black solid;
+	border-radius: 8px;
+	padding:4px;
+	margin-top:4px;
+	margin-bottom:4px;
 }
 
 #io-github-shunshun94-trpg-bufferTable-buffstore {
 	width:600px;
+}
+
+#io-github-shunshun94-trpg-bufferTable-buffstore-store {
+	background-color:lavender;
+	border-radius: 8px;
+	min-height:300px;
+	padding:4px;
+}
+
+.io-github-shunshun94-trpg-bufferTable-buff {
+	background-color:white;
+	border:2px black solid;
+	border-radius: 8px;
+	padding:4px;
+	margin-top:4px;
+	margin-bottom:4px;
 }
 
 #io-github-shunshun94-trpg-buffstore-buffs-adder-from {
