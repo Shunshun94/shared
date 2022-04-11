@@ -22,12 +22,23 @@
         v-bind:characters="characters"
         v-on:io-github-shunshun94-trpg-buffertable-characters-updatecharacters="updateCharacters"
     ></character-manager>
+    <buff-manager
+        v-bind:store="store"
+        v-on:io-github-shunshun94-trpg-buffertable-buffstore-updatebuffs="updateBuffs"
+    ></buff-manager>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sortablejs@1.8.4/Sortable.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Vue.Draggable/2.20.0/vuedraggable.umd.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/axios-jsonp/dist/index.min.js"></script>
 <script src="../../../../../../jquery/com/hiyoko/util/v2/utils.js"></script>
+<script src="./characters/characterBuffData.js"></script>
 <script src="./characters/characterAdder.js"></script>
+<script src="./characters/characterSaveManager.js"></script>
 <script src="./characters/characterManager.js"></script>
+<script src="./buffs/buffData.js"></script>
+<script src="./buffs/buffAdder.js"></script>
+<script src="./buffs/buffManager.js"></script>
 <script src="./main.js"></script>
 </body></html>

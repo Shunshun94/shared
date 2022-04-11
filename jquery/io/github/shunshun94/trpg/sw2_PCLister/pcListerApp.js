@@ -159,19 +159,40 @@ io.github.shunshun94.trpg.SW2_PCListerApp.getBuffTableData = () => {
     return result;
 };
 
+io.github.shunshun94.trpg.SW2_PCListerApp.handleLoadedCharacterSheet = (dataList)=>{
+    $('#sheetUrl').val('');
+    $('.noDisplay').removeClass('noDisplay');
+    dataList.forEach((data)=>{
+        $('.baseTable').append(io.github.shunshun94.trpg.SW2_PCListerApp.generateTr(data));
+    });
+    if(dataList[0].type !== 'm') {
+        com.hiyoko.util.updateLocalStorage('com-hiyoko-sample-sw2sheetparse-index', dataList[0].url, dataList[0].name);
+    }
+    io.github.shunshun94.trpg.SW2_PCListerApp.reloadBuffApplyTable();
+};
+
+io.github.shunshun94.trpg.SW2_PCListerApp.onloadJson = (json) => {
+    Promise.all(json.map((d)=>{return io.github.shunshun94.trpg.SW2_PCLister.getSheet(d.url)})).then((dataList)=>{
+        dataList.forEach(io.github.shunshun94.trpg.SW2_PCListerApp.handleLoadedCharacterSheet);
+        const buffMap = {};
+        io.github.shunshun94.trpg.SW2_PCListerApp.getBuffIdList().forEach((d)=>{
+            buffMap[d.name] = d.id;
+        });
+        const characterMap = {};
+        io.github.shunshun94.trpg.SW2_PCListerApp.getCharacterIdList().forEach((d)=>{
+            characterMap[d.name] = d.id;
+        });
+        json.forEach((c)=>{
+            c.buffs.forEach((b)=>{
+                $(`input[value=${buffMap[b.name]}-${characterMap[c.name]}]`).prop('checked', true);
+            });
+        });
+    });
+};
+
 io.github.shunshun94.trpg.SW2_PCListerApp.bindEvents = () => {
     $('#add').click((e)=>{
-        io.github.shunshun94.trpg.SW2_PCLister.getSheet($('#sheetUrl').val()).then((dataList)=>{
-            $('#sheetUrl').val('');
-            $('.noDisplay').removeClass('noDisplay');
-            dataList.forEach((data)=>{
-                $('.baseTable').append(io.github.shunshun94.trpg.SW2_PCListerApp.generateTr(data));
-            });
-            if(dataList[0].type !== 'm') {
-                com.hiyoko.util.updateLocalStorage('com-hiyoko-sample-sw2sheetparse-index', dataList[0].url, dataList[0].name);
-            }
-            io.github.shunshun94.trpg.SW2_PCListerApp.reloadBuffApplyTable();
-        });
+        io.github.shunshun94.trpg.SW2_PCLister.getSheet($('#sheetUrl').val()).then(io.github.shunshun94.trpg.SW2_PCListerApp.handleLoadedCharacterSheet);
     });
     $('#buffTable-appendTr-exec').click((e)=>{
         io.github.shunshun94.trpg.SW2_PCListerApp.appendBuffDataTableTr();
@@ -195,6 +216,37 @@ io.github.shunshun94.trpg.SW2_PCListerApp.bindEvents = () => {
     $('footer').on('dblclick', (e)=>{
         $('footer').remove();
     });
+    const body = $('body');
+    body.on('dragleave', (e) => {
+	    body.css('background-color', '');
+        e.preventDefault();
+    });
+    body.on('dragover', (e) => {
+	    body.css('background-color', 'lightyellow');
+        e.preventDefault();
+    });
+    body.on('drop', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const fileReader = new FileReader();
+        fileReader.onload = (e) => {
+            const codes = new Uint8Array(fileReader.result);
+            const rawString = Encoding.convert(codes, {
+                to: 'unicode',
+                from: Encoding.detect(codes),
+                type: 'string'
+            });
+            try {
+                const loadedData = JSON.parse(rawString);
+                io.github.shunshun94.trpg.SW2_PCListerApp.onloadJson(loadedData);
+            } catch(err) {
+                alert('データの読み込みに失敗しました');
+                console.error(err, rawString);
+            }
+        };
+    	fileReader.readAsArrayBuffer(e.originalEvent.dataTransfer.files[0]);
+        body.css('background-color', '');
+    });
 };
 
 io.github.shunshun94.trpg.SW2_PCListerApp.bindEvents();
@@ -204,9 +256,9 @@ com.hiyoko.util.forEachMap(JSON.parse(localStorage.getItem('com-hiyoko-sample-sw
 });
 
 JSON.parse(localStorage.getItem('io-github-shunshun94-trpg-sw2_pclister-buffs') || `[
-    ["転倒",            "-2","-2","-2","0","0","0","0","-2","-2"],
-    ["ファナティシズム", "2","-2", "0","0","0","0","0", "0", "0"],
-    ["全力攻撃1",        "0","-2", "0","0","0","0","0", "0", "0"]]`).forEach((d)=>{
+    ["転倒",            "-2","-2","-2","0","0","0","0","-2","-2", "0", "0", "1"],
+    ["ファナティシズム", "2","-2", "0","0","0","0","0", "0", "0", "0", "0", "18"],
+    ["全力攻撃1",        "0","-2", "0","0","0","0","0", "0", "0", "4", "0", "1"]]`).forEach((d)=>{
     const tr = io.github.shunshun94.trpg.SW2_PCListerApp.appendBuffDataTableTr();
     tr.find('input').each((i, v)=>{
         $(v).val(d[i])
