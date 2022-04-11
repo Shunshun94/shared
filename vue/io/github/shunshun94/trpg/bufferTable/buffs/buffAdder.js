@@ -1,3 +1,25 @@
+var updateBuffStorage = (buffInfo) => {
+    let flag = true;
+    const baseData = JSON.parse(localStorage.getItem('io-github-shunshun94-trpg-sw2_pclister-buffs') || '[]').map((buff)=>{
+        if(buff[0] === buffInfo.name) {
+            for(var i = buff.length; i < 12; i++) {
+                buff.push(0);
+            }
+            buff[12] = buffInfo.length;
+            flag = false;
+        }
+        return buff;
+    });
+    if(flag) {
+        baseData.push([
+            buffInfo.name,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            buffInfo.length
+        ]);
+    }
+    localStorage.setItem('io-github-shunshun94-trpg-sw2_pclister-buffs', JSON.stringify(baseData));
+};
+
 Vue.component('buff-adder', {
     data: function() {
         return {
@@ -12,7 +34,7 @@ Vue.component('buff-adder', {
             buffList: com.hiyoko.util.mapToArray(JSON.parse(localStorage.getItem('io-github-shunshun94-trpg-sw2_pclister-buffs') || '[]'), function(v) {
                 return {
                     name: v[0],
-                    length: v[12]
+                    length: v[12] || 18
                 };
             })
         };
@@ -20,6 +42,7 @@ Vue.component('buff-adder', {
     template: `<section id="io-github-shunshun94-trpg-buffstore-buffs-adder">
         <p>名称：<input type="text"
             v-model="buffInfo.name"
+            @input="onInputBuffName"
             id="io-github-shunshun94-trpg-buffstore-buffs-adder-name"
             list="io-github-shunshun94-trpg-buffstore-buffs-adder-name-suggest"/><br/>
         効果時間：<select
@@ -56,7 +79,14 @@ Vue.component('buff-adder', {
     methods: {
         addBuff: function(e) {
             const data = JSON.parse(JSON.stringify(this.buffInfo));
+            updateBuffStorage(this.buffInfo);
             this.$emit('io-github-shunshun94-trpg-bufferTable-buffstore-adder-addBuff', data);
+        },
+        onInputBuffName: function(e) {
+            const data = this.buffList.filter((buff)=>{return buff.name === this.buffInfo.name;});
+            if(data.length) {
+                this.buffInfo.length = Number(data[0].length);
+            }
         }
     }
 });
