@@ -187,6 +187,7 @@ io.github.shunshun94.trpg.SW2_PCListerApp.onloadJson = (json) => {
                 $(`input[value=${buffMap[b.name]}-${characterMap[c.name]}]`).prop('checked', true);
             });
         });
+        io.github.shunshun94.trpg.SW2_PCListerApp.rewriteFixedBaseTable();
     });
 };
 
