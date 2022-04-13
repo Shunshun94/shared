@@ -44,7 +44,7 @@ Vue.component('character-manager', {
             this.$emit('io-github-shunshun94-trpg-buffertable-characters-updatecharacters', newList);
         },
         getTable: function() {
-            navigator.clipboard.writeText(`<table>${document.getElementById('io-github-shunshun94-trpg-bufferTable-characters-list').innerHTML}</table>`).then((ok)=>{
+            navigator.clipboard.writeText(`<table border="1">${document.getElementById('io-github-shunshun94-trpg-bufferTable-characters-list').innerHTML}</table>`).then((ok)=>{
                 alert('クリップボードに表の HTML をコピーしました');
             }, (ng)=>{
                 alert('クリップボードへのコピーに失敗しました');

@@ -32,10 +32,10 @@
 	width:600px;
 }
 
-#io-github-shunshun94-trpg-bufferTable-buffstore-store {
-	background-color:lavender;
-	border-radius: 8px;
+#io-github-shunshun94-trpg-bufferTable-buffstore-store > div {
 	min-height:300px;
+	border-radius: 8px;
+	background-color:lavender;
 	padding:4px;
 }
 
