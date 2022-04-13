@@ -3,6 +3,7 @@ io.github = io.github || {};
 io.github.shunshun94 = io.github.shunshun94 || {};
 io.github.shunshun94.trpg = io.github.shunshun94.trpg || {};
 io.github.shunshun94.trpg.SW2_PCListerApp = io.github.shunshun94.trpg.SW2_PCListerApp || {};
+io.github.shunshun94.trpg.SW2_PCListerApp.CONSTS = io.github.shunshun94.trpg.SW2_PCListerApp.CONSTS || {}
 
 io.github.shunshun94.trpg.SW2_PCListerApp.rewriteFixedBaseTable = () => {
     const characters =   io.github.shunshun94.trpg.SW2_PCListerApp.getCharacterIdMap();
@@ -100,12 +101,24 @@ io.github.shunshun94.trpg.SW2_PCListerApp.reloadBuffApplyTable = () => {
     );
 };
 
+io.github.shunshun94.trpg.SW2_PCListerApp.CONSTS.BUFF_TABLE_COLUMNGUIDE = {
+    'hit': '命中',
+    'dodge': '回避',
+    'magic': '魔法行使',
+    'mental': '精神抵抗',
+    'life': '生命抵抗',
+    'hp': 'HP',
+    'guard': '防護点',
+    'initiative': '先制',
+    'enemy': '魔物知識'
+};
+
 io.github.shunshun94.trpg.SW2_PCListerApp.appendBuffDataTableTr = () => {
     const tr = $('<tr class="buffTable-line"></tr>');
     tr.attr('id', com.hiyoko.util.rndString());
     tr.append(`<td><input type="text" class="buff-name" /></td>`);
     ['hit', 'dodge', 'magic', 'mental', 'life', 'hp', 'guard', 'initiative', 'enemy'].forEach((d)=>{
-        tr.append(`<td><input type="number" value="0" class="buff-${d}" /></td>`);
+        tr.append(`<td><input type="number" value="0" title="${io.github.shunshun94.trpg.SW2_PCListerApp.CONSTS.BUFF_TABLE_COLUMNGUIDE[d]}" class="buff-${d}" /></td>`);
     });
     tr.append('<td><button class="removeButton">✕</button></td>');
     $('#buffTable-appendTr').before(tr);
