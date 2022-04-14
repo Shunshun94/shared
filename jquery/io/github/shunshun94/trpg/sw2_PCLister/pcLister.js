@@ -139,7 +139,7 @@ io.github.shunshun94.trpg.SW2_PCLister.getYtSheetPC = (data) => {
     const weaponsDamage = Array(Number(data.weaponNum)).fill().map((dummy, i)=>{return Number(data[`weapon${i + 1}DmgTotal`]);});
     result.hit    = Math.max.apply(null, weaponsHit);
     result.rate   = Math.max.apply(null, weaponsRate);
-    result.Damage = Math.max.apply(null, weaponsDamage);
+    result.damage = Math.max.apply(null, weaponsDamage);
 
     const magicsCast = ['Sor', 'Con', 'Pri', 'Mag', 'Fai', 'Dem', 'Dru'].map((name)=>{
         return Number(data[`magicPower${name}`]) + Number(data[`magicCastAdd${name}`] || 0);

@@ -5,6 +5,8 @@ io.github.shunshun94.trpg = io.github.shunshun94.trpg || {};
 io.github.shunshun94.trpg.SW2_PCListerApp = io.github.shunshun94.trpg.SW2_PCListerApp || {};
 io.github.shunshun94.trpg.SW2_PCListerApp.CONSTS = io.github.shunshun94.trpg.SW2_PCListerApp.CONSTS || {}
 
+io.github.shunshun94.trpg.SW2_PCListerApp.CONSTS.COLUMNS_LIST = ['hit', 'dodge', 'magic', 'mental', 'life', 'hp', 'guard', 'rate', 'damage', 'initiative', 'enemy'];
+
 io.github.shunshun94.trpg.SW2_PCListerApp.rewriteFixedBaseTable = () => {
     const characters =   io.github.shunshun94.trpg.SW2_PCListerApp.getCharacterIdMap();
     const buffs      =   io.github.shunshun94.trpg.SW2_PCListerApp.getBuffIdMap();
@@ -13,14 +15,14 @@ io.github.shunshun94.trpg.SW2_PCListerApp.rewriteFixedBaseTable = () => {
         const buff = buffs[buffId];
         const buffedCharacters = appliedBuffs[buffId];
         for(const charId in buffedCharacters) {
-            ['hit', 'dodge', 'magic', 'mental', 'life', 'hp', 'guard', 'initiative', 'enemy'].forEach((dummy, i)=>{
+            io.github.shunshun94.trpg.SW2_PCListerApp.CONSTS.COLUMNS_LIST.forEach((dummy, i)=>{
                 characters[charId][i + 1] += buff[i + 1];
             });
         }
     }
     for(const id in characters) {
         const char = characters[id];
-        ['hit', 'dodge', 'magic', 'mental', 'life', 'hp', 'guard', 'initiative', 'enemy'].forEach((c, i)=>{
+        io.github.shunshun94.trpg.SW2_PCListerApp.CONSTS.COLUMNS_LIST.forEach((c, i)=>{
             $(`#${id} .${c}`).text(char[i + 1]);
         });
     }
@@ -109,15 +111,35 @@ io.github.shunshun94.trpg.SW2_PCListerApp.CONSTS.BUFF_TABLE_COLUMNGUIDE = {
     'life': '生命抵抗',
     'hp': 'HP',
     'guard': '防護点',
+    'rate': '威力',
+    'damage': '追加ダメージ',
     'initiative': '先制',
     'enemy': '魔物知識'
 };
+
+io.github.shunshun94.trpg.SW2_PCListerApp.CONSTS.BUFF_COLOMN_INDEX = {
+    'name': 0,
+    'hit': 1,
+    'dodge': 2,
+    'magic': 3,
+    'mental': 4,
+    'life': 5,
+    'hp': 6,
+    'guard': 7,
+    'rate': 11,
+    'damage': 10,
+    'initiative': 8,
+    'enemy': 9
+};
+for(var key in io.github.shunshun94.trpg.SW2_PCListerApp.CONSTS.BUFF_COLOMN_INDEX) {
+    io.github.shunshun94.trpg.SW2_PCListerApp.CONSTS.BUFF_COLOMN_INDEX[`buff-${key}`] = io.github.shunshun94.trpg.SW2_PCListerApp.CONSTS.BUFF_COLOMN_INDEX[key];
+}
 
 io.github.shunshun94.trpg.SW2_PCListerApp.appendBuffDataTableTr = () => {
     const tr = $('<tr class="buffTable-line"></tr>');
     tr.attr('id', com.hiyoko.util.rndString());
     tr.append(`<td><input type="text" class="buff-name" /></td>`);
-    ['hit', 'dodge', 'magic', 'mental', 'life', 'hp', 'guard', 'initiative', 'enemy'].forEach((d)=>{
+    io.github.shunshun94.trpg.SW2_PCListerApp.CONSTS.COLUMNS_LIST.forEach((d)=>{
         tr.append(`<td><input type="number" value="0" title="${io.github.shunshun94.trpg.SW2_PCListerApp.CONSTS.BUFF_TABLE_COLUMNGUIDE[d]}" class="buff-${d}" /></td>`);
     });
     tr.append('<td><button class="removeButton">✕</button></td>');
@@ -138,7 +160,7 @@ io.github.shunshun94.trpg.SW2_PCListerApp.generateTr = (data) => {
     name.append(nameA);
     tr.append(name);
 
-    ['hit', 'dodge', 'magic', 'mental', 'life', 'hp', 'guard', 'disabled', 'initiative', 'enemy', 'remove'].forEach((d)=>{
+    ['hit', 'dodge', 'magic', 'mental', 'life', 'hp', 'guard', 'rate', 'damage', 'disabled', 'initiative', 'enemy', 'remove'].forEach((d)=>{
        const td = $('<td></td>');
        td.addClass(d);
        const value = data[d] === 0 ? '0' : data[d] || '';
@@ -156,7 +178,7 @@ io.github.shunshun94.trpg.SW2_PCListerApp.getBaseTableOriginalData = () => {
         result.push([]);
         result[i].push($(d).text());
     });
-    ['hit', 'dodge', 'magic', 'mental', 'life', 'hp', 'guard', 'initiative', 'enemy'].forEach((c)=>{
+    io.github.shunshun94.trpg.SW2_PCListerApp.CONSTS.COLUMNS_LIST.forEach((c)=>{
         $(`.${c}`).each((i, d)=>{
             result[i].push(Number($(d).attr('title')));
         });
@@ -275,6 +297,7 @@ JSON.parse(localStorage.getItem('io-github-shunshun94-trpg-sw2_pclister-buffs') 
     ["全力攻撃1",        "0","-2", "0","0","0","0","0", "0", "0", "4", "0", "1"]]`).forEach((d)=>{
     const tr = io.github.shunshun94.trpg.SW2_PCListerApp.appendBuffDataTableTr();
     tr.find('input').each((i, v)=>{
-        $(v).val(d[i])
+        const dom = $(v);
+        $(v).val(d[io.github.shunshun94.trpg.SW2_PCListerApp.CONSTS.BUFF_COLOMN_INDEX[dom.prop('class')]]);
     });
 });
