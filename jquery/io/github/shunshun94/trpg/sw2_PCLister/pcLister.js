@@ -74,7 +74,9 @@ io.github.shunshun94.trpg.SW2_PCLister.getVampireBlood = (data) => {
         type:       'c'
     };
     if(data.arms_hit) {
-        result.hit = Math.max.apply(null, data.arms_hit.map((d)=>{return Number(d)}));
+        result.hit  = Math.max.apply(null, data.arms_hit.map((d)=>{return Number(d)}));
+        result.rate = Math.max.apply(null, data.arms_iryoku.map((d)=>{return Number(d)}));
+        result.damage=Math.max.apply(null, data.arms_damage.map((d)=>{return Number(d)}));
     } else {
         result.hit = 0;
     }
@@ -93,7 +95,7 @@ io.github.shunshun94.trpg.SW2_PCLister.getYtSheetEnemy = (data) => {
     })) : 0;
 
     for(let i = 1; i < count; i++) {
-        result.push({
+        const parts = {
             name:       `${name}: ${data[`status${i}Style`]}`,
             hp:         Number(data[`status${i}Hp`]      ) || 0,
             mp:         Number(data[`status${i}Hp`]      ) || 0,
@@ -105,8 +107,16 @@ io.github.shunshun94.trpg.SW2_PCLister.getYtSheetEnemy = (data) => {
             guard:      Number(data[`status${i}Defense`] ) || 0,
             enemy:      Number(data.reputation           ) || 0,
             initiative: Number(data.initiative           ) || 0,
+            rate:       20,
             type:       'm'
-        });
+        };
+        const damageRegExpResult = /2d6?([+-]\d+)/.exec(data[`status${i}Damage`]);
+        if(damageRegExpResult) {
+            parts.damage = Number(damageRegExpResult[1] - 2);
+        } else {
+            parts.damage = -2;
+        }
+        result.push(parts);
     }
     return result;
 };
@@ -125,7 +135,11 @@ io.github.shunshun94.trpg.SW2_PCLister.getYtSheetPC = (data) => {
         type:       'c'
     };
     const weaponsHit = Array(Number(data.weaponNum)).fill().map((dummy, i)=>{return Number(data[`weapon${i + 1}AccTotal`]);});
-    result.hit = Math.max.apply(null, weaponsHit);
+    const weaponsRate = Array(Number(data.weaponNum)).fill().map((dummy, i)=>{return Number(data[`weapon${i + 1}Rate`]);});
+    const weaponsDamage = Array(Number(data.weaponNum)).fill().map((dummy, i)=>{return Number(data[`weapon${i + 1}DmgTotal`]);});
+    result.hit    = Math.max.apply(null, weaponsHit);
+    result.rate   = Math.max.apply(null, weaponsRate);
+    result.damage = Math.max.apply(null, weaponsDamage);
 
     const magicsCast = ['Sor', 'Con', 'Pri', 'Mag', 'Fai', 'Dem', 'Dru'].map((name)=>{
         return Number(data[`magicPower${name}`]) + Number(data[`magicCastAdd${name}`] || 0);
