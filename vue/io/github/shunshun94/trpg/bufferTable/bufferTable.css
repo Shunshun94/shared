@@ -11,6 +11,11 @@
 
 #io-github-shunshun94-trpg-bufferTable-characters {
 	min-width:700px;
+	max-width:700px;
+}
+
+#io-github-shunshun94-trpg-bufferTable-characters-savemanager {
+	font-size:70%;
 }
 
 .io-github-shunshun94-trpg-bufferTable-characters-list-character-buffs {
@@ -26,10 +31,16 @@
 	padding:4px;
 	margin-top:4px;
 	margin-bottom:4px;
+	user-select: none;
 }
 
 #io-github-shunshun94-trpg-bufferTable-buffstore {
 	width:600px;
+	position:fixed;
+	left:800px;
+	top:4px;
+	bottom:4px;
+	overflow: scroll;
 }
 
 #io-github-shunshun94-trpg-bufferTable-buffstore-store > div {
@@ -46,6 +57,7 @@
 	padding:4px;
 	margin-top:4px;
 	margin-bottom:4px;
+	user-select: none;
 }
 
 #io-github-shunshun94-trpg-buffstore-buffs-adder-from {
