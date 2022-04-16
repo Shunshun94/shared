@@ -27,6 +27,7 @@
 	padding:4px;
 	margin-top:4px;
 	margin-bottom:4px;
+	user-select: none;
 }
 
 #io-github-shunshun94-trpg-bufferTable-buffstore {
@@ -52,6 +53,7 @@
 	padding:4px;
 	margin-top:4px;
 	margin-bottom:4px;
+	user-select: none;
 }
 
 #io-github-shunshun94-trpg-buffstore-buffs-adder-from {
