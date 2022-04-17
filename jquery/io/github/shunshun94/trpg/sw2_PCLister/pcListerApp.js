@@ -189,7 +189,12 @@ io.github.shunshun94.trpg.SW2_PCListerApp.getBaseTableOriginalData = () => {
 io.github.shunshun94.trpg.SW2_PCListerApp.getBuffTableData = () => {
     const result = [];
     $('.buffTable-line').each((dummy1, d)=>{
-        result.push($(d).find('input').map((dummy2, v)=>{ return $(v).val(); }).get());
+        const buff = [];
+        $(d).find('input').each((i, input)=>{
+            const $input = $(input);
+            buff[io.github.shunshun94.trpg.SW2_PCListerApp.CONSTS.BUFF_COLOMN_INDEX[$input.prop('class')]] = $input.val();
+        });
+        result.push(buff);
     });
     return result;
 };
