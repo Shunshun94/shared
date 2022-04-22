@@ -16,7 +16,25 @@ io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.CONSTS.SESSION
             return (/\[\s(.+)\s\]\s(.+)\s:\s(\d+)\s→\s(\d+)/gm).exec(post.content);
         },
         getTableData: (post, matchResult)=> {
-
+            const diff = Number(matchResult[4]) - Number(matchResult[3]);
+            const name = matchResult[1];
+            return {
+                name: name,
+                paramUpdate: {
+                    column: matchResult[2],
+                    before: matchResult[3],
+                    after:  matchResult[4],
+                    diff:   diff
+                },
+                before: {
+                    name: post.name,
+                    content: post.content.substring(0, matchResult.index).trim()
+                },
+                after: {
+                    name: post.name,
+                    content: post.content.substring(matchResult.index).replace(matchResult[0], '').trim()
+                }
+            };
         }
     }, {
         name: 'editedResourceManage',
