@@ -69,6 +69,27 @@ io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.domToJson = (d
     return result;
 };
 
+io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.generateHeaderTr = () => {
+    const tr = document.createElement('tr');
+    [
+        'ID',
+        '名前',
+        '発言内容',
+        'ダイスコマンド',
+        'ダイス出目',
+        'ダイス結果',
+        '変更されたステータス',
+        '変更前のステータス',
+        '変更後のステータス',
+        'ステータスの増減量'
+    ].map((d)=>{
+        const th = document.createElement('th');
+        th.textContent = d;
+        tr.appendChild(th);
+    });
+    return tr;
+};
+
 io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.postToTr = (post, number) => {
     const tr = document.createElement('tr');
     [
@@ -96,6 +117,7 @@ io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.postToTr = (po
 io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.jsonToHtml = (array) => {
     const table = document.createElement('table');
     table.border=1;
+    table.appendChild(io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.generateHeaderTr());
     array.forEach((post, i)=>{
         table.appendChild(io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.postToTr(post, i));
     });
