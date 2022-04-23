@@ -1,0 +1,12 @@
+table tr:nth-child(2n) {
+    background-color:#D0D0D0;
+}
+
+td {
+    user-select: all;
+}
+
+td:hover {
+    background-color:black;
+    color:white;
+}
