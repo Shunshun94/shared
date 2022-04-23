@@ -24,12 +24,14 @@ io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.getSessionElem
 
 io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.domToJson = (doms) => {
     const result = [];
-    const handlers = io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.CONSTS.SESSION_ELEMENT_HANDLERS.concat(
+    const handlers = io.github.shunshun94.trpg.logEditor.export.OperationTableExporter[
+            io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.CONSTS.SYSTEM_MAP['Cthulhu'].name
+        ].SESSION_ELEMENT_HANDLERS.concat(
         io.github.shunshun94.trpg.logEditor.export.OperationTableExporter[
             io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.CONSTS.SYSTEM_MAP['SwordWorld2.5'].name
-        ].SESSION_ELEMENT_HANDLERS
+        ].SESSION_ELEMENT_HANDLERS).concat(
+        io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.CONSTS.SESSION_ELEMENT_HANDLERS
     );
-    console.log(handlers);
     Array.from(doms.children()).filter((dom)=>{
         return $(dom).find(`.${io.github.shunshun94.trpg.logEditor.CLASSES.INPUTS}-tag`).val().trim() === 'p';
     }).map((dom)=>{

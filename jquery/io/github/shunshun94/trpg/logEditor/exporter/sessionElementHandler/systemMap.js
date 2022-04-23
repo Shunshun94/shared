@@ -10,7 +10,13 @@ io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.CONSTS = io.gi
 io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.CONSTS.SYSTEM_MAP = {
     'SwordWorld2.5': {
         file: 'swordWorld_2_5ElementHandler',
-        name: 'SW25'
+        name: 'SW25',
+        label: 'ソードワールド2.5'
+    },
+    'Cthulhu': {
+        file: 'cocElementHandler',
+        name: 'COC',
+        label: 'クトゥルフの呼び声'
     }
 };
 
