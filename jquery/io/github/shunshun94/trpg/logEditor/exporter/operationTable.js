@@ -99,7 +99,20 @@ io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.jsonToHtml = (
     });
     const body = document.createElement('body');
     body.appendChild(table);
+
+    const head = document.createElement('head');
+    const utf8 = document.createElement('meta');
+    utf8.charset = 'UTF-8';
+    head.appendChild(utf8);
+
+    const css  = document.createElement('link');
+    css.rel  = 'stylesheet';
+    css.href = 'https://shunshun94.github.io/shared/jquery/io/github/shunshun94/trpg/logEditor/resources/operationTable/operationTable.css';
+    css.type = 'text/css';
+    head.appendChild(css);
+
     const html = document.createElement('html');
+    html.appendChild(head);
     html.appendChild(body);
     return html.outerHTML;
 };
