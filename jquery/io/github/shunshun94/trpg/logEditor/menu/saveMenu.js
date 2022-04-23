@@ -19,6 +19,11 @@ io.github.shunshun94.trpg.logEditor.menu.saveMenu.generateDom = (target) => {
         <button class="${io.github.shunshun94.trpg.logEditor.CLASSES.SAVE_MENU_WINDOW}-save" value="${target} pixiv"
         >Pixiv小説用テキストファイルとして出力</button><br/><br/>
         <button class="${io.github.shunshun94.trpg.logEditor.CLASSES.SAVE_MENU_WINDOW}-save" value="${target} commonText"
-        >汎用テキストファイルとして出力</button>
+        >汎用テキストファイルとして出力</button><br/><br/>
+        <button class="${io.github.shunshun94.trpg.logEditor.CLASSES.SAVE_MENU_WINDOW}-save " value="${target} operationTable"
+        >分析・再利用用 HTML として出力（SW2.5とCoCにのみ対応 / フォーマットは今後変更の可能性あり）</button>
+        <br/><br/>
+        <button class="${io.github.shunshun94.trpg.logEditor.CLASSES.SAVE_MENU_WINDOW}-save " value="${target} operationJson"
+        >分析・再利用用 JSON として出力（SW2.5とCoCにのみ対応 / フォーマットは今後変更の可能性あり）</button>
 	</div>`;
 };
