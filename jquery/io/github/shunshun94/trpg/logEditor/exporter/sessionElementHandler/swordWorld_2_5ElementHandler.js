@@ -11,7 +11,7 @@ io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.SW25.SESSION_E
     {
         name: 'rateTableDiceRoll',
         getMatchResult: (post)=>{
-            return (/(KeyNo\.\d[\+\-\d\[\]cmragf]*)\s＞\s2D:\[([\d,\s]+)\]=([\d,]+)\s＞\s([\d,\+\-\*\/\(\)]+)\s＞\s?([\d回転]*)\s?＞?\s(\d+)/gm).exec(post.content);
+            return (/(KeyNo\.\d[\+\-\d\[\]cmragf<=]*)\s＞\s2D:\[([\d,\s]+)\]=([\d,]+)\s＞\s([\d,\+\-\*\/\(\)]+)\s＞\s?([\d回転]*)\s?＞?\s(\d+)/gm).exec(post.content);
         },
         getTableData: (post, matchResult)=> {
             const diceResults = matchResult[2].split(' ').map((pair)=>{
