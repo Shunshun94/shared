@@ -183,7 +183,7 @@ io.github.shunshun94.util.Time.dateToDayString = (date) => {
  */
 io.github.shunshun94.util.Time.convertStringToDay = (str, beforePriority=false) => {
 	if(str.includes('-') || str.includes('/') || str.includes('.')) {
-		const tmp = new Date(str);
+		const tmp = new Date((new Date(str)).toISOString());
 		return io.github.shunshun94.util.Time.dateToDayString(tmp);
 	}
 	if(/\d\d\d\d\d\d\d\d/.test(str)) {
@@ -237,6 +237,7 @@ io.github.shunshun94.util.Time.convertStringToDay = (str, beforePriority=false) 
 			return `${d.yyyymd.year}/0${d.yyyymd.month}/0${d.yyyymd.day}`;
 		}
 	}
+	throw `"${str}" は対応していない形式です`;
 };
 
 io.github.shunshun94.util.Time.CONSTS = io.github.shunshun94.util.Time.CONSTS || {};
