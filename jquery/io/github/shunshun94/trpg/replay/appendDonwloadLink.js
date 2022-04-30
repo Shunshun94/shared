@@ -1,0 +1,1 @@
+$('footer').append(`<p><a href="${location.protocol}//${location.host}${location.pathname}" download="${location.pathname.split('/').pop()}">ログをダウンロードする</a>(<a href="https://shunshun94.github.io/shared/jquery/io/github/shunshun94/trpg/logEditor/LogEditor.html" target="_blnak">ログエディタ</a>で加工する用)</p>`);
