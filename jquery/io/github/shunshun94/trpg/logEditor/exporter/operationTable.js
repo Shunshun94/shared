@@ -22,17 +22,8 @@ io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.getSessionElem
     }
 };
 
-io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.domToJson = (doms) => {
-    const result = [];
-    const handlers = io.github.shunshun94.trpg.logEditor.export.OperationTableExporter[
-            io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.CONSTS.SYSTEM_MAP['Cthulhu'].name
-        ].SESSION_ELEMENT_HANDLERS.concat(
-        io.github.shunshun94.trpg.logEditor.export.OperationTableExporter[
-            io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.CONSTS.SYSTEM_MAP['SwordWorld2.5'].name
-        ].SESSION_ELEMENT_HANDLERS).concat(
-        io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.CONSTS.SESSION_ELEMENT_HANDLERS
-    );
-    Array.from(doms.children()).filter((dom)=>{
+io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.domsToPlainJson = (doms) => {
+    return doms.filter((dom)=>{
         return $(dom).find(`.${io.github.shunshun94.trpg.logEditor.CLASSES.INPUTS}-tag`).val().trim() === 'p';
     }).map((dom)=>{
         const d = $(dom);
@@ -40,7 +31,28 @@ io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.domToJson = (d
             name:    d.find(`.${io.github.shunshun94.trpg.logEditor.CLASSES.NAME}`   ).html().trim(),
             content: d.find(`.${io.github.shunshun94.trpg.logEditor.CLASSES.CONTENT}`).textWithLF().trim().replaceAll('\t', '')
         };
-    }).forEach((tmp_post)=>{
+    });
+};
+
+io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.jQueryDomsToPlainJson = (doms) => {
+    return io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.domsToPlainJson(Array.from(doms.children()));
+};
+
+io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.plainJsonToOperationTableJson = (doms, opt_system) => {
+    const result = [];
+    const handlers = opt_system ? io.github.shunshun94.trpg.logEditor.export.OperationTableExporter[
+            io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.CONSTS.SYSTEM_MAP[opt_system].name
+        ].SESSION_ELEMENT_HANDLERS.concat(
+            io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.CONSTS.SESSION_ELEMENT_HANDLERS
+        ) : io.github.shunshun94.trpg.logEditor.export.OperationTableExporter[
+            io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.CONSTS.SYSTEM_MAP['Cthulhu'].name
+        ].SESSION_ELEMENT_HANDLERS.concat(
+        io.github.shunshun94.trpg.logEditor.export.OperationTableExporter[
+            io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.CONSTS.SYSTEM_MAP['SwordWorld2.5'].name
+        ].SESSION_ELEMENT_HANDLERS).concat(
+        io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.CONSTS.SESSION_ELEMENT_HANDLERS
+    );
+    doms.forEach((tmp_post)=>{
         let post = {after: tmp_post};
         let tmp  = false;
         while(post) {
@@ -63,10 +75,14 @@ io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.domToJson = (d
                 post = false;
             }
         }
-         // A発言者、B発言内容、Cダイスロール元式、Dダイスロール出目、Eダイスロール結果、F変更対象パラメータ、Gパラメータ変更元、Hパラメータ変更後、Iパラメータの変更差値
     });
-
     return result;
+};
+
+io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.domsToJson = (doms, opt_system) => {
+    return io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.plainJsonToOperationTableJson(
+        io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.jQueryDomsToPlainJson(doms), opt_system
+    );
 };
 
 io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.generateHeaderTr = () => {
@@ -142,7 +158,7 @@ io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.jsonToHtml = (
 };
 
 io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.exec = (doms, head, omit, mode) => {
-    const json = io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.domToJson(doms);
+    const json = io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.domsToJson(doms);
     const html = io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.jsonToHtml(json);
     io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.download(html, `saved_${Number(new Date())}.html`, 'text/html;charset=utf-8;');
 };
