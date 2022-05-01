@@ -41,17 +41,19 @@ io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.jQueryDomsToPl
 io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.plainJsonToOperationTableJson = (doms, opt_system) => {
     const result = [];
     const handlers = opt_system ? io.github.shunshun94.trpg.logEditor.export.OperationTableExporter[
-            io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.CONSTS.SYSTEM_MAP[opt_system].name
-        ].SESSION_ELEMENT_HANDLERS.concat(
+                io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.CONSTS.SYSTEM_MAP[opt_system].name
+            ].
+        SESSION_ELEMENT_HANDLERS.concat(
             io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.CONSTS.SESSION_ELEMENT_HANDLERS
         ) : io.github.shunshun94.trpg.logEditor.export.OperationTableExporter[
             io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.CONSTS.SYSTEM_MAP['Cthulhu'].name
         ].SESSION_ELEMENT_HANDLERS.concat(
-        io.github.shunshun94.trpg.logEditor.export.OperationTableExporter[
-            io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.CONSTS.SYSTEM_MAP['SwordWorld2.5'].name
-        ].SESSION_ELEMENT_HANDLERS).concat(
-        io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.CONSTS.SESSION_ELEMENT_HANDLERS
-    );
+            io.github.shunshun94.trpg.logEditor.export.OperationTableExporter[
+                io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.CONSTS.SYSTEM_MAP['SwordWorld2.5'].name
+            ].
+        SESSION_ELEMENT_HANDLERS).concat(
+            io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.CONSTS.SESSION_ELEMENT_HANDLERS
+        );
     doms.forEach((tmp_post)=>{
         let post = {after: tmp_post};
         let tmp  = false;
@@ -77,6 +79,23 @@ io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.plainJsonToOpe
         }
     });
     return result;
+};
+
+io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.fileLoaderResultToPlainJson = (flResult) => {
+    const tmp = $('<div></div>');
+    return flResult.doms.filter((d)=>{return d.tag === 'p'}).map((d)=>{
+        tmp.html(d.content);
+        return {
+            name: d.name,
+            content: tmp.textWithLF().trim().replaceAll('\t', '')
+        };
+    });
+};
+
+io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.fileLoaderResultToJson = (flResult) => {
+    return io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.plainJsonToOperationTableJson(
+        io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.fileLoaderResultToPlainJson(flResult)
+    );
 };
 
 io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.domsToJson = (doms, opt_system) => {

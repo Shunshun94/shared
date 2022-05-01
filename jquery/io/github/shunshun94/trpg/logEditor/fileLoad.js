@@ -20,6 +20,10 @@ io.github.shunshun94.trpg.logEditor.DOMS.BODY.append(`<div style="padding:2em;po
 io.github.shunshun94.trpg.logEditor.DOMS.BODY.on('drop', (e) => {
 	io.github.shunshun94.trpg.logEditor.DOMS.BODY.css('background-color', '');
 	const targetFile = e.originalEvent.dataTransfer.files[0];
+	io.github.shunshun94.trpg.logEditor.DOMS.BODY.trigger(
+		io.github.shunshun94.trpg.logEditor.EVENTS.FILE_DROPED,
+		targetFile.name
+	);
 	io.github.shunshun94.trpg.logEditor.FileLoader.readFile(targetFile);
 	e.preventDefault();
 });

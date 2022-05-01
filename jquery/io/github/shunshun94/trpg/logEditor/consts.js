@@ -7,7 +7,8 @@ io.github.shunshun94.trpg.logEditor.DOMS = {
 	BODY: $('body')
 };
 io.github.shunshun94.trpg.logEditor.EVENTS = {
-	FILE_LOADED: 'io-github-shunshun94-trpg-logEditor-file-loaded'
+	FILE_LOADED: 'io-github-shunshun94-trpg-logEditor-file-loaded',
+	FILE_DROPED: 'io-github-shunshun94-trpg-logEditor-file-droped'
 };
 io.github.shunshun94.trpg.logEditor.CLASSES = {
 	FILTER: 'io-github-shunshun94-trpg-logEditor-FileLoader-filter',
