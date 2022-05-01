@@ -34,6 +34,14 @@ https://shunshun94.github.io/shared/jquery/io/github/shunshun94/trpg/logEditor/L
 
 ## オマケ
 
+### CSS 生成ツール
+
 このツールで生成した HTML を
 https://shunshun94.github.io/shared/jquery/io/github/shunshun94/trpg/logEditor/LogToCSS.html
+にドラッグ・ドロップすると html のクラス情報をもとに CSS を生成する。 
+
+### テーブル形式に変換
+
+対応しているログファイルを
+https://shunshun94.github.io/shared/jquery/io/github/shunshun94/trpg/logEditor/logToTableJson.html
 にドラッグ・ドロップすると html のクラス情報をもとに CSS を生成する。 
