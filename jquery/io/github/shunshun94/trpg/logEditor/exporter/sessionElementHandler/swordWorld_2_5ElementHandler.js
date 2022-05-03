@@ -35,5 +35,30 @@ io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.SW25.SESSION_E
                 }
             };
         }
+    }, {
+        name: 'druidMagicDiceRoll',
+        getMatchResult: (post)=>{
+            return (/\((Dru\[\d+,\d+,\d\][\+\-]?\d*)\)\s?＞\s?2D\[(\d,\d)\]=\d+\s?＞\s?\d+[\+\-]?\d*\s?＞\s?(\d+)/gm).exec(post.content);
+        },
+        getTableData: (post, matchResult)=> {
+            const diceResults = [matchResult[2].split(',').map(Number)];
+            return {
+                name: post.name.trim(),
+                content: `ダイスロール: ${matchResult[0]}`,
+                dice: {
+                    command: matchResult[1],
+                    dice:    diceResults,
+                    result:  matchResult[3]
+                },
+                before: {
+                    name: post.name,
+                    content: post.content.substring(0, matchResult.index).trim()
+                },
+                after: {
+                    name: post.name,
+                    content: post.content.substring(matchResult.index).replace(matchResult[0], '').trim()
+                }
+            };
+        }
     }
 ];
