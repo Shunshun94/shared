@@ -24,10 +24,10 @@ io.github.shunshun94.util.rejectEmpty = (target, opt_desc) => {
  * @return {Map.<string, string>}
  */
 io.github.shunshun94.util.getQueries = (opt_query) => {
-	const query = opt_query ? '?' + opt_query : location.search;
+	const query = opt_query ? opt_query : location.search.substring(1);
 	var result = new Map();
-	(query.slice(1)).split('&').forEach((param)=>{
-        const  pair = param.split('=');
+	query.split('&').forEach((param) => {
+        const pair = param.split('=');
         result.set(pair[0], pair.slice(1).join('='));
 	});
 	return result;
