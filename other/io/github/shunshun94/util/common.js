@@ -6,7 +6,7 @@ io.github.shunshun94.util = io.github.shunshun94.util || {};
 /** 
  * target が undefined ないし null の場合に Error を throw します
  * @param {Object} target 対象となる Object
- * @param {string} opt_desc
+ * @param {String} opt_desc
  */
 io.github.shunshun94.util.rejectEmpty = (target, opt_desc) => {
 	var desc = opt_desc ? opt_desc : 'Inputed variable is ';
@@ -20,8 +20,8 @@ io.github.shunshun94.util.rejectEmpty = (target, opt_desc) => {
 
 /**
  * URL の Query 部分を取得する関数です
- * @param {string} opt_query Query
- * @return {Map.<string, string>}
+ * @param {String} opt_query Query
+ * @return {Map.<String, String>}
  */
 io.github.shunshun94.util.getQueries = (opt_query) => {
 	const query = opt_query ? opt_query : location.search.substring(1);
@@ -57,10 +57,10 @@ io.github.shunshun94.util.setValuesFromQueries = () => {
 
 /** 
   * ランダムな文字列を作成する関数です
-  * @param {number} opt_length 生成される文字列の長さです。接頭語・接尾語の長さは含まれません
-  * @param {string} opt_prefix 返り値の先頭に付く接頭語です
-  * @param {string} opt_suffix 返り値の先頭に付く接尾語です
-  * @return {string}
+  * @param {Number} opt_length 生成される文字列の長さです。接頭語・接尾語の長さは含まれません
+  * @param {String} opt_prefix 返り値の先頭に付く接頭語です
+  * @param {String} opt_suffix 返り値の先頭に付く接尾語です
+  * @return {String}
   */
 io.github.shunshun94.util.rndString = (opt_length, opt_prefix, opt_suffix) => {
 	var length = opt_length || 8;
@@ -77,8 +77,8 @@ io.github.shunshun94.util.rndString = (opt_length, opt_prefix, opt_suffix) => {
 
 /**
  * LocalStorage に map 形式の値が入っている場合に、特定のキーの値だけ更新します
- * @param {string} storageId LocalStorage の Storage Id
- * @param {string} key LocalStorage のキーで引いてくる map のキー
+ * @param {String} storageId LocalStorage の Storage Id
+ * @param {String} key LocalStorage のキーで引いてくる map のキー
  * @param {*} value 更新後の値
  * @returns LocalStorage の Storage Id で引いてきた更新後の値の全体
  */
@@ -91,8 +91,8 @@ io.github.shunshun94.util.updateLocalStorage = (storageId, key, value) => {
 
 /**
  * LocalStorage に map 形式の値が入っている場合に、特定のキーの値だけ取得します
- * @param {string} storageId 
- * @param {string} key 
+ * @param {String} storageId 
+ * @param {String} key 
  * @returns LocalStorage の Storage Id で引いてきた map の指定した key の値
  */
 io.github.shunshun94.util.getLocalStorage = (storageId, key) => {
@@ -230,7 +230,7 @@ io.github.shunshun94.util.mapToArray = (map, func=io.github.shunshun94.util.retu
  * // => 7
  * @param {Array.<*|Number>} array 最大の値をとる候補の配列
  * @param {Function} opt_func 比較したい値を取り出す関数
- * @returns 
+ * @returns {*|Number}
  */
 io.github.shunshun94.util.max = (array, opt_func) => {
     if(opt_func) {
@@ -257,7 +257,7 @@ io.github.shunshun94.util.max = (array, opt_func) => {
  * // => 2
  * @param {Array.<*|Number>} array 最大の値をとる候補の配列
  * @param {Function} opt_func 比較したい値を取り出す関数
- * @returns 
+ * @returns {*|Number}
  */
 io.github.shunshun94.util.min = (array, opt_func) => {
     if(opt_func) {
@@ -276,15 +276,17 @@ io.github.shunshun94.util.min = (array, opt_func) => {
 };
 
 /**
- * 
- * @param {number} int 16進数6桁で表現されるカラーコードを10進数に直したもの
- * @returns {string} #RRGGBB の形で表現されるカラーコード
+ * 10進数の数字を16進数のカラーコードに変換します
+ * io.github.shunshun94.util.intToColor(16711680);
+ * // => #ff0000
+ * @param {Number} int 16進数6桁で表現されるカラーコードを10進数のnumberで書いたもの
+ * @returns {String} #RRGGBB の形で表現されるカラーコード
  */
 io.github.shunshun94.util.intToColor = (int) => {
 	if(int == -1){
 		return "transparent";
 	}
-	return "#" + int.tostring(16).padStart(6, '0');
+	return "#" + Number(int).toString(16).padStart(6, '0');
 };
 
 /**
@@ -292,7 +294,7 @@ io.github.shunshun94.util.intToColor = (int) => {
  * @param {Date} base 基準となる日
  * @param {Number} before 前何ヶ月分について出力するか
  * @param {Number} after 後何ヶ月分について出力するか
- * @returns 
+ * @returns {Array.<Number>}
  */
 io.github.shunshun94.util.listMonthBeforeAfter = (base = new Date(), before = 12, after = before) => {
 	var target = base;
@@ -300,17 +302,17 @@ io.github.shunshun94.util.listMonthBeforeAfter = (base = new Date(), before = 12
 	target.setMonth((base).getMonth() - (before + 1));
 	for(var i = 0; i < (before + after + 1); i++) {
 		target.setMonth(target.getMonth() + 1);
-		result.push(Number(new Date(target.getFullYear(), target.getMonth(), 1)))
+		result.push(Number(new Date(target.getFullYear(), target.getMonth(), 1)));
 	}
 	return result;
 };
 
 /**
  * 数字にカンマを挿入して返却する。 1234567 -> 1,234,567
- * @param {num} カンマを挿入したい数字
- * @param {separator} カンマ以外のものを桁の区切りに使いたい場合に指定する。与えなければカンマ
- * @param {decimalPoint} ピリオド以外のものを桁の区切りに使いたい場合に指定する。与えなければピリオド
- * @returns {string} カンマが挿入された数字の文字列
+ * @param {Number} num カンマを挿入したい数字
+ * @param {String} opt_separator カンマ以外のものを桁の区切りに使いたい場合に指定する。与えなければカンマ
+ * @param {String} opt_decimalPoint ピリオド以外のものを桁の区切りに使いたい場合に指定する。与えなければピリオド
+ * @returns {String} カンマが挿入された数字の文字列
  */
 io.github.shunshun94.util.insertCommaToNum = (num, separator = ',', decimalPoint = '.') => {
 	const strs = String(num).split('.');
@@ -349,8 +351,8 @@ io.github.shunshun94.util.insertCommaToNum = (num, separator = ',', decimalPoint
 
 /**
  * ファイルをダウンロードさせます
- * @param {string} title ファイルのタイトル
- * @param {string} content ファイルの内容
+ * @param {String} title ファイルのタイトル
+ * @param {String} content ファイルの内容
  */
 io.github.shunshun94.util.downloadFile = (title, content) => {
 	const url = window.URL.createObjectURL(new Blob([ content ], { "type" : 'text/plain;charset=utf-8;' }));
@@ -365,7 +367,7 @@ io.github.shunshun94.util.downloadFile = (title, content) => {
 
 /**
  * 引数に与えた内容をクリップボードにコピーさせます
- * @param {string} text 
+ * @param {String} text 
  * @returns {Promise}
  */
 io.github.shunshun94.util.insertToClipboard = (text) => {
@@ -374,7 +376,7 @@ io.github.shunshun94.util.insertToClipboard = (text) => {
 
 /**
  * クリップボードの中身を取得します
- * @returns {string}
+ * @returns {String}
  */
 io.github.shunshun94.util.getFromClipboard = async () => {
     const text = await navigator.clipboard.readText();
@@ -383,7 +385,7 @@ io.github.shunshun94.util.getFromClipboard = async () => {
 
 /**
  * wait します。 async と await を使わないと利用できないので注意
- * @param {number} msec 待ち時間。ミリ秒で入れること。例えば5秒待たせたいなら5000
+ * @param {Number} msec 待ち時間。ミリ秒で入れること。例えば5秒待たせたいなら5000
  * @returns Promise
  */
 io.github.shunshun94.util.wait = (msec) => {
