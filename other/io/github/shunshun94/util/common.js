@@ -141,7 +141,7 @@ io.github.shunshun94.util.groupArray = (array, groupBy) => {
 
 /**
  * オブジェクトを JavaScript の Map に変換します
- * @param {*} map 
+ * @param {Object} map 
  * @returns 変換後の Map
  */
 io.github.shunshun94.util.objectToMap = (map) => {
