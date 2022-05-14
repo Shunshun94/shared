@@ -35,7 +35,7 @@ io.github.shunshun94.util.getQueries = (opt_query) => {
 
 /**
  * クエリの値に基づいて html の input / textarea に値を挿入します
- * @returns 値が挿入された input / textarea
+ * @returns {Array} 値が挿入された input / textarea
  */
 io.github.shunshun94.util.setValuesFromQueries = () => {
 	const queries = io.github.shunshun94.util.getQueries();
@@ -80,7 +80,7 @@ io.github.shunshun94.util.rndString = (opt_length, opt_prefix, opt_suffix) => {
  * @param {String} storageId LocalStorage の Storage Id
  * @param {String} key LocalStorage のキーで引いてくる map のキー
  * @param {*} value 更新後の値
- * @returns LocalStorage の Storage Id で引いてきた更新後の値の全体
+ * @returns {*} LocalStorage の Storage Id で引いてきた更新後の値の全体
  */
 io.github.shunshun94.util.updateLocalStorage = (storageId, key, value) => {
 	var data = JSON.parse(localStorage.getItem(storageId) || '{}');
@@ -93,7 +93,7 @@ io.github.shunshun94.util.updateLocalStorage = (storageId, key, value) => {
  * LocalStorage に map 形式の値が入っている場合に、特定のキーの値だけ取得します
  * @param {String} storageId 
  * @param {String} key 
- * @returns LocalStorage の Storage Id で引いてきた map の指定した key の値
+ * @returns {*} LocalStorage の Storage Id で引いてきた map の指定した key の値
  */
 io.github.shunshun94.util.getLocalStorage = (storageId, key) => {
 	var data = JSON.parse(localStorage.getItem(storageId) || '{}');
@@ -124,7 +124,7 @@ io.github.shunshun94.util.mergeArray = (arrayA, arrayB, func) => {
  * // => {"0":[3,6,9],"1":[1,4,7,10],"2":[2,5,8]}
  * @param {Array} array 分類する配列
  * @param {Function} groupBy 分類するための値を返す関数
- * @returns 分類後の map
+ * @returns {Map.<String, Array>} 分類後の map
  */
 io.github.shunshun94.util.groupArray = (array, groupBy) => {
 	var result = new Map();
@@ -141,8 +141,8 @@ io.github.shunshun94.util.groupArray = (array, groupBy) => {
 
 /**
  * オブジェクトを JavaScript の Map に変換します
- * @param {*} map 
- * @returns 変換後の Map
+ * @param {Object} map 
+ * @returns {Map} 変換後の Map
  */
 io.github.shunshun94.util.objectToMap = (map) => {
     const result = new Map();
@@ -169,7 +169,7 @@ io.github.shunshun94.util.mapToObject = (map) => {
  * map から特定の値だけ取り除きます
  * @param {Map} map 
  * @param {Function} func 
- * @returns 
+ * @returns {Map}
  */
 io.github.shunshun94.util.filterMap = (map, func) => {
 	var result = new Map();
@@ -185,7 +185,7 @@ io.github.shunshun94.util.filterMap = (map, func) => {
  * map のオブジェクト全てに対して処理を行います
  * @param {Map} map 
  * @param {Function} func 
- * @returns 全ての値に対して処理を実施した後の Map
+ * @returns {Map} 全ての値に対して処理を実施した後の Map
  */
 io.github.shunshun94.util.mapMap = (map, func) => {
 	var result = new Map();
@@ -198,7 +198,7 @@ io.github.shunshun94.util.mapMap = (map, func) => {
 /**
  * 第一引数をそのまま返却します
  * @param {*} param 
- * @returns 
+ * @returns {*}
  */
 io.github.shunshun94.util.returnMe = (param) => {return param;};
 
@@ -213,7 +213,7 @@ io.github.shunshun94.util.returnMe = (param) => {return param;};
  * // => [{"key":"a","value":0},{"key":"b","value":4},{"key":"c","value":53}]
  * @param {Map} map 
  * @param {Function} func 
- * @returns 
+ * @returns {Array.<*>}
  */
 io.github.shunshun94.util.mapToArray = (map, func=io.github.shunshun94.util.returnMe) => {
     const result = [];
@@ -386,7 +386,7 @@ io.github.shunshun94.util.getFromClipboard = async () => {
 /**
  * wait します。 async と await を使わないと利用できないので注意
  * @param {Number} msec 待ち時間。ミリ秒で入れること。例えば5秒待たせたいなら5000
- * @returns Promise
+ * @returns {Promise}
  */
 io.github.shunshun94.util.wait = (msec) => {
 	return new Promise((resolve) => {
