@@ -1,0 +1,36 @@
+<html>
+    <head>
+        <title>ゆとシートに貼り付ける用よく使うデータ</title>
+        <script src="../../../../util/common.js"></script>
+        <script src="./data.js"></script>
+        <style>
+            pre {
+                background-color:skyblue;
+                margin-top:4px;
+                padding:4px;
+            }
+            pre:hover {
+                color: gray;
+            }
+        </style>
+    </head>
+    <body>
+        <script>
+            const base = document.getElementsByTagName('body')[0];
+                data.forEach((text)=>{
+                const elem = document.createElement('pre');
+                elem.innerText = text;
+                base.appendChild(elem);
+            });
+            base.addEventListener('click', (e)=>{
+                if( e.target.localName === 'pre' ) {
+                    io.github.shunshun94.util.insertToClipboard(e.target.innerText).then(()=>{
+                        alert('コピーしました');
+                    }, (e)=>{
+                        console.error(e);
+                    });
+                }
+            });
+        </script>
+    </body>
+</html>
