@@ -1,7 +1,19 @@
 
 <!DOCTYPE html>
 <html>
-<head>
+    <head
+	　prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# article: http://ogp.me/ns/article#">
+<meta property="og:title" content="ダブルクロス The 3rd Edition - バックトラック帰還率表" />
+<meta property="og:type" content="website" />
+<meta property="og:image"
+	content="https://shunshun94.github.io/shared/pics/ogp.jpg" />
+<meta property="og:site_name" content="https://shunshun94.github.io/shared" />
+<meta property="og:description" content="バックトラックの成功率表" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:site" content="@Shunshun94" />
+<meta name="twitter:text:title" content="ダブルクロス The 3rd Edition - バックトラック帰還率表" />
+<script src="./backtrack.js" ></script>
+<script src="../../../util/table.js"></script>
 <meta charset="UTF-8">
 <title>バックトラック帰還率表</title>
 <style>
@@ -12,11 +24,11 @@
 </head>
 <body>
 <h1>バックトラック帰還率表</h1>
-<p>小数点以下は切り捨てている。</p>
-<p>Nd10 は N 個振った場合の値。</p>
+<p>小数点以下は切り捨てている。Nd10 は N 個振った場合の値。</p>
+<p><a target="_blank" href="https://github.com/Shunshun94/shared/tree/master/other/io/github/shunshun94/trpg/dx3/backtrack">ソースコード</a> / <a target="_blank" href="https://twitter.com/Shunshun94">作者 Twitter</a></p>
+<p>本ツールは「矢野俊策」及び「F.E.A.R.」が権利を有する「ダブルクロス The 3rd Edition」の<br/>
+オンラインセッションにおけるプレイを支援するために作られたツールです<br/>(C)矢野俊策<br/>(C)FarEast Amusement Research Co.,Ltd.</p>
 <div id="com-hiyoko-dx3-bt"></div>
-<script src="./backtrack.js" ></script>
-<script src="../../../util/table.js"></script>
 <script>
 io.github.shunshun94.util.table.activateHover(io.github.shunshun94.trpg.dx3.BackTrack.rendTable(document.getElementById("com-hiyoko-dx3-bt")));
 </script>
