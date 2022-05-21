@@ -87,6 +87,6 @@ io.github.shunshun94.trpg.dx3.BackTrack.rendTable = ($element, opt_dice, opt_len
 		resultHtmls[i] += "</tr>\n";
 		
 	}
-
 	$element.innerHTML = "<table border='1'>\n" + resultHtmls.join("") + "</table>";
+	return $element.getElementsByTagName('table')[0];
 };

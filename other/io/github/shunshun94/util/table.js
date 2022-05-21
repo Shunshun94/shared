@@ -104,4 +104,23 @@ io.github.shunshun94.util.table.getTableColumnsFromHtmlStr = (htmlStr) => {
     });
 };
 
+io.github.shunshun94.util.table.activateHover = (tableElement) => {
+    const remove = () => {
+        Array.from(tableElement.getElementsByClassName('active')).forEach((td)=>{
+            td.className = td.className.replaceAll('active', '').trim();
+        });
+    }
+    tableElement.onmouseover = (e)=>{
+        const dom = e.target;
+        remove();
+        if(['td', 'th'].includes(dom.localName)) {
+            Array.from(dom.classList).forEach((cl)=>{
+                Array.from(tableElement.getElementsByClassName(cl)).forEach((td)=>{
+                    td.className += ' active';
+                });
+            });
+        }
+    };
+    tableElement.onmouseout = remove;
+};
 
