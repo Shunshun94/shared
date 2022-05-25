@@ -349,6 +349,30 @@ io.github.shunshun94.util.insertCommaToNum = (num, separator = ',', decimalPoint
 	}
 };
 
+io.github.shunshun94.util.HASH_ALGORITHMS = {
+	SHA1:   'SHA-1',
+	SHA256: 'SHA-256',
+	SHA384: 'SHA-384',
+	SHA512: 'SHA-512'
+};
+
+/**
+ * ハッシュ値を計算します
+ * io.github.shunshun94.util.calcHash('パスワード', 'SHA-256').then(console.log);
+ * // => d8b076148c939d9d2d6eb60458969c486794a4c0fcf0632be58fa5bf6d15aafa
+ * @param {String} text ハッシュ値を計算する文字列
+ * @param {String} algorithm ハッシュ値を計算するアルゴリズム。io.github.shunshun94.util.HASH_ALGORITHMS の値が利用可能。指定しない場合は SHA-256
+ * @returns {Promise}
+ */
+io.github.shunshun94.util.calcHash = (text, algorithm = io.github.shunshun94.util.HASH_ALGORITHMS.SHA256) => {
+    return new Promise((resolve, reject)=>{
+        const uint8  = new TextEncoder().encode(text);
+        crypto.subtle.digest(algorithm, uint8).then((digest)=>{
+            resolve(Array.from(new Uint8Array(digest)).map(v => v.toString(16).padStart(2,'0')).join('')); 
+        });
+    });
+};
+
 /**
  * ファイルをダウンロードさせます
  * @param {String} title ファイルのタイトル
