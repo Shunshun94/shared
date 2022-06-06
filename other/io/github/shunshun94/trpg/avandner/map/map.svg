@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+   width="600" height="600" viewBox="-200 -200 400 400" xml:space="preserve">
+<path
+	d="M 0,0 L 173.8666487320323,-46.58742811845373 a 180 180 -15 0 1 0, 93.17485623690746 z"
+	fill="hsl(0,100%,90%)"
+	stroke="black"
+	class="io-github-shunshun94-trpg-avandner-map-label-1"></path>
+
+<path
+	d="M 0,0 L 173.8666487320323,46.58742811845373 a 180 180 15 0 1 -46.587428118453744, 80.69179249512482 z"
+	fill="hsl(30,100%,90%)"
+	stroke="black"
+	class="io-github-shunshun94-trpg-avandner-map-label-2"></path>
+
+<path
+	d="M 0,0 L 127.27922061357856,127.27922061357854 a 180 180 45 0 1 -80.69179249512483, 46.58742811845376 z"
+	fill="hsl(60,100%,90%)"
+	stroke="black"
+	class="io-github-shunshun94-trpg-avandner-map-label-3"></path>
+
+<path
+	d="M 0,0 L 46.58742811845373,173.8666487320323 a 180 180 75 0 1 -93.17485623690744, 0 z"
+	fill="hsl(90,100%,90%)"
+	stroke="black"
+	class="io-github-shunshun94-trpg-avandner-map-label-4"></path>
+
+<path
+	d="M 0,0 L -46.587428118453715,173.8666487320323 a 180 180 105 0 1 -80.69179249512483, -46.587428118453744 z"
+	fill="hsl(120,100%,90%)"
+	stroke="black"
+	class="io-github-shunshun94-trpg-avandner-map-label-5"></path>
+
+<path
+	d="M 0,0 L -127.27922061357854,127.27922061357856 a 180 180 135 0 1 -46.58742811845373, -80.69179249512477 z"
+	fill="hsl(150,100%,90%)"
+	stroke="black"
+	class="io-github-shunshun94-trpg-avandner-map-label-6"></path>
+
+<path
+	d="M 0,0 L -173.86664873203227,46.587428118453786 a 180 180 165 0 1 -2.842170943040401e-14, -93.17485623690753 z"
+	fill="hsl(180,100%,90%)"
+	stroke="black"
+	class="io-github-shunshun94-trpg-avandner-map-label-7"></path>
+
+<path
+	d="M 0,0 L -173.8666487320323,-46.587428118453744 a 180 180 195 0 1 46.58742811845369, -80.69179249512474 z"
+	fill="hsl(210,100%,90%)"
+	stroke="black"
+	class="io-github-shunshun94-trpg-avandner-map-label-8"></path>
+
+<path
+	d="M 0,0 L -127.27922061357862,-127.27922061357849 a 180 180 225 0 1 80.6917924951249, -46.587428118453815 z"
+	fill="hsl(240,100%,90%)"
+	stroke="black"
+	class="io-github-shunshun94-trpg-avandner-map-label-9"></path>
+
+<path
+	d="M 0,0 L -46.587428118453715,-173.8666487320323 a 180 180 255 0 1 93.17485623690737, 0 z"
+	fill="hsl(270,100%,90%)"
+	stroke="black"
+	class="io-github-shunshun94-trpg-avandner-map-label-10"></path>
+
+<path
+	d="M 0,0 L 46.58742811845365,-173.8666487320323 a 180 180 285 0 1 80.69179249512487, 46.587428118453715 z"
+	fill="hsl(300,100%,90%)"
+	stroke="black"
+	class="io-github-shunshun94-trpg-avandner-map-label-11"></path>
+
+<path
+	d="M 0,0 L 127.27922061357852,-127.27922061357859 a 180 180 315 0 1 46.58742811845373, 80.6917924951247 z"
+	fill="hsl(330,100%,90%)"
+	stroke="black"
+	class="io-github-shunshun94-trpg-avandner-map-label-12"></path>
+
+<path
+	d="M 0,0 L 154.54813220625093,-41.41104721640332 a 160 160 -15 0 1 0, 82.82209443280664 z"
+	fill="hsl(0,100%,60%)"
+	stroke="black"
+	class="io-github-shunshun94-trpg-avandner-map-out-1"></path>
+
+<path
+	d="M 0,0 L 154.54813220625093,41.41104721640332 a 160 160 15 0 1 -41.41104721640332, 71.72603777344428 z"
+	fill="hsl(30,100%,60%)"
+	stroke="black"
+	class="io-github-shunshun94-trpg-avandner-map-out-2"></path>
+
+<path
+	d="M 0,0 L 113.13708498984761,113.1370849898476 a 160 160 45 0 1 -71.72603777344429, 41.41104721640333 z"
+	fill="hsl(60,100%,60%)"
+	stroke="black"
+	class="io-github-shunshun94-trpg-avandner-map-out-3"></path>
+
+<path
+	d="M 0,0 L 41.41104721640332,154.54813220625093 a 160 160 75 0 1 -82.82209443280662, 0 z"
+	fill="hsl(90,100%,60%)"
+	stroke="black"
+	class="io-github-shunshun94-trpg-avandner-map-out-4"></path>
+
+<path
+	d="M 0,0 L -41.411047216403304,154.54813220625093 a 160 160 105 0 1 -71.72603777344429, -41.41104721640332 z"
+	fill="hsl(120,100%,60%)"
+	stroke="black"
+	class="io-github-shunshun94-trpg-avandner-map-out-5"></path>
+
+<path
+	d="M 0,0 L -113.1370849898476,113.13708498984761 a 160 160 135 0 1 -41.411047216403304, -71.72603777344425 z"
+	fill="hsl(150,100%,60%)"
+	stroke="black"
+	class="io-github-shunshun94-trpg-avandner-map-out-6"></path>
+
+<path
+	d="M 0,0 L -154.5481322062509,41.41104721640336 a 160 160 165 0 1 -2.842170943040401e-14, -82.8220944328067 z"
+	fill="hsl(180,100%,60%)"
+	stroke="black"
+	class="io-github-shunshun94-trpg-avandner-map-out-7"></path>
+
+<path
+	d="M 0,0 L -154.54813220625093,-41.411047216403325 a 160 160 195 0 1 41.41104721640326, -71.7260377734442 z"
+	fill="hsl(210,100%,60%)"
+	stroke="black"
+	class="io-github-shunshun94-trpg-avandner-map-out-8"></path>
+
+<path
+	d="M 0,0 L -113.13708498984766,-113.13708498984754 a 160 160 225 0 1 71.72603777344436, -41.41104721640339 z"
+	fill="hsl(240,100%,60%)"
+	stroke="black"
+	class="io-github-shunshun94-trpg-avandner-map-out-9"></path>
+
+<path
+	d="M 0,0 L -41.411047216403304,-154.54813220625093 a 160 160 255 0 1 82.82209443280655, -2.842170943040401e-14 z"
+	fill="hsl(270,100%,60%)"
+	stroke="black"
+	class="io-github-shunshun94-trpg-avandner-map-out-10"></path>
+
+<path
+	d="M 0,0 L 41.41104721640325,-154.54813220625095 a 160 160 285 0 1 71.72603777344433, 41.41104721640332 z"
+	fill="hsl(300,100%,60%)"
+	stroke="black"
+	class="io-github-shunshun94-trpg-avandner-map-out-11"></path>
+
+<path
+	d="M 0,0 L 113.13708498984758,-113.13708498984764 a 160 160 315 0 1 41.41104721640332, 71.72603777344418 z"
+	fill="hsl(330,100%,60%)"
+	stroke="black"
+	class="io-github-shunshun94-trpg-avandner-map-out-12"></path>
+
+<path
+	d="M 0,0 L 106.25184089179751,-28.470094961277283 a 110 110 -15 0 1 0, 56.940189922554566 z"
+	fill="hsl(0,100%,30%)"
+	stroke="black"
+	class="io-github-shunshun94-trpg-avandner-map-in-1"></path>
+
+<path
+	d="M 0,0 L 106.25184089179751,28.470094961277283 a 110 110 15 0 1 -28.470094961277283, 49.31165096924293 z"
+	fill="hsl(30,100%,30%)"
+	stroke="black"
+	class="io-github-shunshun94-trpg-avandner-map-in-2"></path>
+
+<path
+	d="M 0,0 L 77.78174593052023,77.78174593052022 a 110 110 45 0 1 -49.31165096924295, 28.470094961277297 z"
+	fill="hsl(60,100%,30%)"
+	stroke="black"
+	class="io-github-shunshun94-trpg-avandner-map-in-3"></path>
+
+<path
+	d="M 0,0 L 28.470094961277283,106.25184089179751 a 110 110 75 0 1 -56.94018992255455, 0 z"
+	fill="hsl(90,100%,30%)"
+	stroke="black"
+	class="io-github-shunshun94-trpg-avandner-map-in-4"></path>
+
+<path
+	d="M 0,0 L -28.47009496127727,106.25184089179751 a 110 110 105 0 1 -49.31165096924295, -28.470094961277283 z"
+	fill="hsl(120,100%,30%)"
+	stroke="black"
+	class="io-github-shunshun94-trpg-avandner-map-in-5"></path>
+
+<path
+	d="M 0,0 L -77.78174593052022,77.78174593052023 a 110 110 135 0 1 -28.470094961277283, -49.31165096924292 z"
+	fill="hsl(150,100%,30%)"
+	stroke="black"
+	class="io-github-shunshun94-trpg-avandner-map-in-6"></path>
+
+<path
+	d="M 0,0 L -106.2518408917975,28.47009496127731 a 110 110 165 0 1 -1.4210854715202004e-14, -56.940189922554595 z"
+	fill="hsl(180,100%,30%)"
+	stroke="black"
+	class="io-github-shunshun94-trpg-avandner-map-in-7"></path>
+
+<path
+	d="M 0,0 L -106.25184089179751,-28.470094961277287 a 110 110 195 0 1 28.47009496127724, -49.311650969242905 z"
+	fill="hsl(210,100%,30%)"
+	stroke="black"
+	class="io-github-shunshun94-trpg-avandner-map-in-8"></path>
+
+<path
+	d="M 0,0 L -77.78174593052027,-77.78174593052019 a 110 110 225 0 1 49.311650969243004, -28.470094961277326 z"
+	fill="hsl(240,100%,30%)"
+	stroke="black"
+	class="io-github-shunshun94-trpg-avandner-map-in-9"></path>
+
+<path
+	d="M 0,0 L -28.47009496127727,-106.25184089179751 a 110 110 255 0 1 56.9401899225545, -1.4210854715202004e-14 z"
+	fill="hsl(270,100%,30%)"
+	stroke="black"
+	class="io-github-shunshun94-trpg-avandner-map-in-10"></path>
+
+<path
+	d="M 0,0 L 28.470094961277233,-106.25184089179753 a 110 110 285 0 1 49.31165096924297, 28.470094961277283 z"
+	fill="hsl(300,100%,30%)"
+	stroke="black"
+	class="io-github-shunshun94-trpg-avandner-map-in-11"></path>
+
+<path
+	d="M 0,0 L 77.7817459305202,-77.78174593052024 a 110 110 315 0 1 28.470094961277283, 49.311650969242876 z"
+	fill="hsl(330,100%,30%)"
+	stroke="black"
+	class="io-github-shunshun94-trpg-avandner-map-in-12"></path>
+</svg>
