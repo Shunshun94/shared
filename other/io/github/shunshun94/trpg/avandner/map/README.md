@@ -8,3 +8,8 @@ https://shunshun94.github.io/shared/other/io/github/shunshun94/trpg/avandner/map
 
 ## 実際に生成された SVG を見たい
 ![こんな](./map.svg)
+
+## 公式？
+
+違うよ！！！！
+本ツールは、「どらこにあん」が権利を有する『黒絢のアヴァンドナー』のプレイを支援するために作られた二次創作のツールです。
