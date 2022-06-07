@@ -10,19 +10,21 @@ io.github.shunshun94.trpg.avandner.map.generate = (option={}) => {
     const paths = [];
     const mapBaseData = io.github.shunshun94.trpg.avandner.map.CONSTS.mapBaseData;
     [mapBaseData.label, mapBaseData.out, mapBaseData.in].forEach((d)=>{
-        for(var i = 0; i < 12; i++) {
+        for(var j = 0; j < 12; j++) {
+            const i = j - 3;
             const baseLength = d.length;
             const x1 = baseLength * Math.cos((Math.PI * (i*2 - 1))/12);
             const x2 = baseLength * Math.cos((Math.PI * (i*2 + 1))/12);
             const y1 = baseLength * Math.sin((Math.PI * (i*2 - 1))/12);
             const y2 = baseLength * Math.sin((Math.PI * (i*2 + 1))/12);
-            paths.push(`<path d="M 0,0 L ${x1},${y1} a ${baseLength} ${baseLength} ${(i*2 - 1) * 15} 0 1 ${x2 - x1}, ${y2 - y1} z" fill="hsl(${i * 30},100%,${d.lightness}%)" stroke="black" class="io-github-shunshun94-trpg-avandner-map-${d.name}-${i+1}"></path>`);
+            paths.push(`<path d="M 0,0 L ${x1},${y1} a ${baseLength} ${baseLength} ${(i*2 - 1) * 15} 0 1 ${x2 - x1}, ${y2 - y1} z" fill="hsl(${j * 30},100%,${d.lightness}%)" stroke="black" class="io-github-shunshun94-trpg-avandner-map-${d.name}-${i+1}"></path>`);
         }
     });
     paths.push(`<circle cx="0" cy="0" r="${mapBaseData.center.length}"  fill="hsl(0,100%,${mapBaseData.center.lightness}%)" stroke="black" class="io-github-shunshun94-trpg-avandner-map-${mapBaseData.center.name}" />`);
 
     const numberLabelFontSize = option.numberLabelFontSize || option.fontSize || io.github.shunshun94.trpg.avandner.map.CONSTS.NUMS_FONT_SIZE;
-    const nums = `<g font-size="${numberLabelFontSize}">` + io.github.shunshun94.trpg.avandner.map.CONSTS.NUMS_TEXTS.map((t, i) => {
+    const nums = `<g font-size="${numberLabelFontSize}">` + io.github.shunshun94.trpg.avandner.map.CONSTS.NUMS_TEXTS.map((t, j) => {
+        const i = j - 2;
         const baseLength = (mapBaseData.label.length + mapBaseData.out.length) / 2;
         const x = baseLength * Math.cos((Math.PI * (i*2))/12) - (numberLabelFontSize / 2);
         const y = baseLength * Math.sin((Math.PI * (i*2))/12) + (numberLabelFontSize / 2);
