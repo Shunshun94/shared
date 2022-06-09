@@ -3,10 +3,18 @@
 <head>
 <meta charset="UTF-8">
 <script src="map.js"></script>
+<script src="../../../util/common.js"></script>
 </head>
 <body>
     <div id="base"></div>
-    <script>document.getElementById('base').innerHTML = io.github.shunshun94.trpg.avandner.map.generate();</script>
+    <script>
+    const query = io.github.shunshun94.util.getQueries();
+    const characters = {};
+    decodeURIComponent(query.get('characters')).split(',').forEach((t)=>{const splited=t.split(':');characters[splited[0]] = splited[1];});
+    document.getElementById('base').innerHTML = io.github.shunshun94.trpg.avandner.map.generate({
+        characters:characters
+    });
+    </script>
 <footer>
 <a href="https://twitter.com/Shunshun94">作者 Twitter</a> | <a href="https://github.com/Shunshun94/shared/tree/master/other/io/github/shunshun94/trpg/avandner/map">GitHub</a> | <a href="http://amzn.asia/8mNqdKy">ひよこのほしい物りすと</a>
 <hr>
