@@ -24,7 +24,7 @@ io.github.shunshun94.util.rejectEmpty = (target, opt_desc) => {
  * @return {Map.<String, String>}
  */
 io.github.shunshun94.util.getQueries = (opt_query) => {
-	const query = opt_query ? opt_query : location.search.substring(1);
+	const query = opt_query ? opt_query : decodeURIComponent(location.search.substring(1));
 	var result = new Map();
 	query.split('&').forEach((param) => {
         const pair = param.split('=');
@@ -39,20 +39,20 @@ io.github.shunshun94.util.getQueries = (opt_query) => {
  */
 io.github.shunshun94.util.setValuesFromQueries = () => {
 	const queries = io.github.shunshun94.util.getQueries();
-    const doms = [];
-    queries.forEach((value, key)=>{
+	const doms = [];
+	queries.forEach((value, key)=>{
 		const elementById = document.getElementById(key);
 		if(elementById) {
 			elementById.value = value.replace(/\\n/gm, '\n');
-            doms.push(elementById);
+			doms.push(elementById);
 		}
 		const elementsByClass = document.getElementsByClassName(key);
-        Array.from(elementsByClass).forEach((dom)=>{
-            doms.push(dom);
-            dom.value = value.replace(/\\n/gm, '\n');
-        });
-    });
-    return doms;
+		Array.from(elementsByClass).forEach((dom)=>{
+			doms.push(dom);
+			dom.value = value.replace(/\\n/gm, '\n');
+		});
+	});
+	return doms;
 };
 
 /** 
@@ -128,14 +128,14 @@ io.github.shunshun94.util.mergeArray = (arrayA, arrayB, func) => {
  */
 io.github.shunshun94.util.groupArray = (array, groupBy) => {
 	var result = new Map();
-    array.forEach((value, i)=>{
-        const groupId = groupBy(value, i, array);
-        if(result.has(groupId)) {
-            result.get(groupId).push(value);
-        } else {
-            result.set(groupId, [value]);
-        }
-    });
+	array.forEach((value, i)=>{
+		const groupId = groupBy(value, i, array);
+		if(result.has(groupId)) {
+			result.get(groupId).push(value);
+		} else {
+			result.set(groupId, [value]);
+		}
+	});
 	return result;
 };
 
@@ -173,7 +173,7 @@ io.github.shunshun94.util.mapToObject = (map) => {
  */
 io.github.shunshun94.util.filterMap = (map, func) => {
 	var result = new Map();
-    map.forEach((value, key)=>{
+	map.forEach((value, key)=>{
         if(func(value, key, map)) {
             result.set(key, value);
         }
@@ -189,9 +189,9 @@ io.github.shunshun94.util.filterMap = (map, func) => {
  */
 io.github.shunshun94.util.mapMap = (map, func) => {
 	var result = new Map();
-    map.forEach((value, key)=>{
-        result.set(key, func(value, key, map));
-    });
+	map.forEach((value, key)=>{
+		result.set(key, func(value, key, map));
+	});
 	return result;
 };
 
