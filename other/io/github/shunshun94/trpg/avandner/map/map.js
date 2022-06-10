@@ -143,9 +143,9 @@ io.github.shunshun94.trpg.avandner.map.calcTwoPointRelation = (start, end) => {
     if(       pointLength.y >= 0 && pointLength.x <= 0 ) {
         result.angle = angles.cos;
     }else if( pointLength.y <= 0 && pointLength.x <= 0) {
-        result.angle = angles.sin - Math.PI / 2;
-    }else if( pointLength.x <= 0 && pointLength.y >= 0) {
-        result.angle = angles.cos - Math.PI / 2;
+        result.angle = (angles.sin - Math.PI) * -1;
+    }else if( pointLength.y <= 0 && pointLength.x >= 0) {
+        result.angle = angles.cos * -1;
     } else {
         result.angle = angles.sin;
     }
