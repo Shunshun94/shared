@@ -7,6 +7,25 @@
 </head>
 <body>
     <div id="base"></div>
+    <table border="1">
+        <tr>
+            <th>マップ高さ</th>
+            <td><input type="number" id="height" value="600" /></td>
+        </tr>
+        <tr>
+            <th>マップ横幅</th>
+            <td><input type="number" id="width" value="600" /></td>
+        </tr>
+        <tr>
+            <th>キャラクターの配置</th>
+            <td><input type="text" value="" id="characters" /><br/>カンマ区切りで<strong>キャラクター名:場所</strong>表記</td>
+        </tr>
+        <tr>
+            <th>移動の軌跡</th>
+            <td><input type="text" value="" id="move" /><br/>カンマ区切りで移動した順で記載</td>
+        </tr>
+        <tr><td colspan="2" style="padding:4px;"><button id="exec">表に入れた情報で再描画</button>　<button id="sample">サンプルを描画</button></td></tr>
+    </table>
     <script>
     const query = io.github.shunshun94.util.getQueries();
     const characters = {};
@@ -22,6 +41,15 @@
         numberLabelFontSize: query.get('numberLabelFontSize'),
         move:                move
     });
+    io.github.shunshun94.util.setValuesFromQueries();
+    document.getElementById('exec').onclick = (e) => {
+        location.href = `${location.origin}${location.pathname}?` + ['height', 'width', 'characters', 'move'].map((column)=>{
+            return `${column}=${document.getElementById(column).value}`;
+        }).join('&');
+    };
+    document.getElementById('sample').onclick = (e) => {
+        location.href = `${location.origin}${location.pathname}?height=500&width=500&characters=🐸:c,🐥:8i,🐏:4i,😺:9o&move=7o,8o,8i`;
+    };
     </script>
 <footer>
 <a href="https://twitter.com/Shunshun94">作者 Twitter</a> | <a href="https://github.com/Shunshun94/shared/tree/master/other/io/github/shunshun94/trpg/avandner/map">GitHub</a> | <a href="http://amzn.asia/8mNqdKy">ひよこのほしい物りすと</a>
