@@ -170,17 +170,17 @@ io.github.shunshun94.trpg.avandner.map.generateMove = (option={}) => {
     result.push([
         `<line class="io-github-shunshun94-trpg-avandner-map-move-finishPoints"`,
         `x1="${lastMove.end.x}"`,
-        `x2="${lastMove.end.x + (lastMove.length / 3) * Math.sin(lastMove.angle - Math.PI / 12)}"`,
+        `x2="${lastMove.end.x + (lastMove.length / 3) * Math.cos(lastMove.angle - Math.PI / 12)}"`,
         `y1="${lastMove.end.y}"`,
-        `y2="${lastMove.end.y + (lastMove.length / 3) * Math.cos(lastMove.angle - Math.PI / 12)}"`,
+        `y2="${lastMove.end.y + (lastMove.length / 3) * Math.sin(lastMove.angle - Math.PI / 12)}"`,
         `stroke="${color}" />`
     ].join(' '));
     result.push([
         `<line class="io-github-shunshun94-trpg-avandner-map-move-finishPoints"`,
         `x1="${lastMove.end.x}"`,
-        `x2="${lastMove.end.x + (lastMove.length / 3) * Math.sin(lastMove.angle + Math.PI / 12)}"`,
+        `x2="${lastMove.end.x + (lastMove.length / 3) * Math.cos(lastMove.angle + Math.PI / 12)}"`,
         `y1="${lastMove.end.y}"`,
-        `y2="${lastMove.end.y + (lastMove.length / 3) * Math.cos(lastMove.angle + Math.PI / 12)}"`,
+        `y2="${lastMove.end.y + (lastMove.length / 3) * Math.sin(lastMove.angle + Math.PI / 12)}"`,
         `stroke="${color}" />`
     ].join(' '));
 
