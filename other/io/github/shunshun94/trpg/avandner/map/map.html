@@ -7,25 +7,37 @@
 </head>
 <body>
     <div id="base"></div>
-    <table border="1">
-        <tr>
-            <th>マップ高さ</th>
-            <td><input type="number" id="height" value="600" /></td>
-        </tr>
-        <tr>
-            <th>マップ横幅</th>
-            <td><input type="number" id="width" value="600" /></td>
-        </tr>
-        <tr>
-            <th>キャラクターの配置</th>
-            <td><input type="text" value="" id="characters" /><br/>カンマ区切りで<strong>キャラクター名:場所</strong>表記</td>
-        </tr>
-        <tr>
-            <th>移動の軌跡</th>
-            <td><input type="text" value="" id="move" /><br/>カンマ区切りで移動した順で記載</td>
-        </tr>
-        <tr><td colspan="2" style="padding:4px;"><button id="exec">表に入れた情報で再描画</button>　<button id="sample">サンプルを描画</button></td></tr>
-    </table>
+    <div id="operation" style="position:absolute;top:4px; right:4px;">
+        <table border="1">
+            <tr>
+                <th>マップ高さ</th>
+                <td><input type="number" id="height" value="600" /></td>
+            </tr>
+            <tr>
+                <th>マップ横幅</th>
+                <td><input type="number" id="width" value="600" /></td>
+            </tr>
+            <tr>
+                <th>キャラクターの配置</th>
+                <td><input type="text" value="" id="characters" /><br/>カンマ区切りで<strong>キャラクター名:場所</strong>表記</td>
+            </tr>
+            <tr>
+                <th>キャラクターの表示サイズ</th>
+                <td><input type="number" value="8" id="characterFontSize" /></td>
+            </tr>
+            <tr>
+                <th>移動の軌跡</th>
+                <td><input type="text" value="" id="move" /><br/>カンマ区切りで移動した順で記載</td>
+            </tr>
+            <tr><td colspan="2" style="padding:4px;"><button id="exec">表に入れた情報で再描画</button>　<button id="sample">サンプルを描画</button></td></tr>
+        </table>
+        <p><span>SVG のコードをコピー</span><br/>
+        <textarea id="copy_svg" style="resize:none;width:90%;"></textarea></p>
+        <p><span>描画に必要なライブラリを読み込むコードをコピー</span><br/>
+        <textarea id="copy_import" style="resize:none;width:90%;">&lt;script src="https://shunshun94.github.io/shared/other/io/github/shunshun94/trpg/avandner/map/map.js"&gt;&lt;/script&gt;</textarea></p>
+        <p><span>描画用 HTML・JavaScript のコードをコピー</span><br/>
+        <textarea id="copy_html" style="resize:none;width:90%;"></textarea></p>
+    </div>
     <script>
     const query = io.github.shunshun94.util.getQueries();
     const characters = {};
@@ -33,22 +45,42 @@
         decodeURIComponent(query.get('characters')).split(',').forEach((t)=>{const splited=t.split(':');characters[splited[0]] = splited[1];});
     }
     const move = query.get('move') ? decodeURIComponent(query.get('move')).split(',') : false;
-    document.getElementById('base').innerHTML = io.github.shunshun94.trpg.avandner.map.generate({
+    const generateParam = {
         characters:          characters,
         width:               query.get('width'),
         height:              query.get('height'),
         characterFontSize:   query.get('characterFontSize'),
         numberLabelFontSize: query.get('numberLabelFontSize'),
         move:                move
-    });
+    }
+    const svg = io.github.shunshun94.trpg.avandner.map.generate(generateParam);
+    document.getElementById('base').innerHTML = svg;
+    document.getElementById('copy_svg').value = svg;
+    const rndId = 'io-github-shunshun94-trpg-avandner-map-svg' + io.github.shunshun94.util.rndString(8, '-');
+    document.getElementById('copy_html').value = [
+        `<div id="${rndId}"></div>`,
+        `document.getElementById('${rndId}').innerHTML = io.github.shunshun94.trpg.avandner.map.generate(${JSON.stringify(generateParam)});`
+    ].join('\n')
     io.github.shunshun94.util.setValuesFromQueries();
     document.getElementById('exec').onclick = (e) => {
-        location.href = `${location.origin}${location.pathname}?` + ['height', 'width', 'characters', 'move'].map((column)=>{
+        location.href = `${location.origin}${location.pathname}?` + ['height', 'width', 'characters', 'characterFontSize', 'move'].map((column)=>{
             return `${column}=${document.getElementById(column).value}`;
         }).join('&');
     };
     document.getElementById('sample').onclick = (e) => {
-        location.href = `${location.origin}${location.pathname}?height=500&width=500&characters=🐸:c,🐥:8i,🐏:4i,😺:9o&move=7o,8o,8i`;
+        location.href = `${location.origin}${location.pathname}?height=500&width=500&characters=🐸:c,🐥:8i,🐏:4i,😺:9o&characterFontSize=16&move=7o,8o,8i`;
+    };
+    document.getElementById('copy_svg').onclick = (e) => {
+        io.github.shunshun94.util.insertToClipboard(document.getElementById('copy_svg').value);
+        alert('クリップボードに SVG をコピーしました');
+    };
+    document.getElementById('copy_import').onclick = (e) => {
+        io.github.shunshun94.util.insertToClipboard(document.getElementById('copy_import').value);
+        alert('ライブラリを読み込むための HTML をコピーしました');
+    };
+    document.getElementById('copy_html').onclick = (e) => {
+        io.github.shunshun94.util.insertToClipboard(document.getElementById('copy_html').value);
+        alert('クリップボードに HTML と JavaScript をコピーしました');
     };
     </script>
 <footer>
