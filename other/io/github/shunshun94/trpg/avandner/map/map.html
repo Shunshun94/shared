@@ -10,13 +10,17 @@
     <script>
     const query = io.github.shunshun94.util.getQueries();
     const characters = {};
-    decodeURIComponent(query.get('characters')).split(',').forEach((t)=>{const splited=t.split(':');characters[splited[0]] = splited[1];});
+    if(query.get('characters')) {
+        decodeURIComponent(query.get('characters')).split(',').forEach((t)=>{const splited=t.split(':');characters[splited[0]] = splited[1];});
+    }
+    const move = query.get('move') ? decodeURIComponent(query.get('move')).split(',') : false;
     document.getElementById('base').innerHTML = io.github.shunshun94.trpg.avandner.map.generate({
         characters:          characters,
         width:               query.get('width'),
         height:              query.get('height'),
         characterFontSize:   query.get('characterFontSize'),
-        numberLabelFontSize: query.get('numberLabelFontSize')
+        numberLabelFontSize: query.get('numberLabelFontSize'),
+        move:                move
     });
     </script>
 <footer>

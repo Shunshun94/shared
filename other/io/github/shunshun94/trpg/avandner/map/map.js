@@ -7,17 +7,27 @@ io.github.shunshun94.trpg.avandner.map = io.github.shunshun94.trpg.avandner.map 
 
 io.github.shunshun94.trpg.avandner.map.generate = (option={}) => {
     const baseSVG = `<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="${option.width || 600}" height="${option.height || 600}" viewBox="-200 -200 400 400" xml:space="preserve">`;
-    const paths = io.github.shunshun94.trpg.avandner.map.generateCircles();
-    const nums = io.github.shunshun94.trpg.avandner.map.generateLabels(option);
-    const chars = io.github.shunshun94.trpg.avandner.map.generateCharacterPositions(option);
 
     return [
         baseSVG,
-        paths,
-        nums,
-        chars,
+        io.github.shunshun94.trpg.avandner.map.generateCircles(option),
+        io.github.shunshun94.trpg.avandner.map.generateLabels(option),
+        io.github.shunshun94.trpg.avandner.map.generateMove(option),
+        io.github.shunshun94.trpg.avandner.map.generateCharacterPositions(option),
         '</svg>'
     ].join('\n');
+};
+
+io.github.shunshun94.trpg.avandner.map.generateMove = (option={}) => {
+    if(! option.move) {return '';}
+    const result = [];
+    const color = option.moveColor || option.strokeColor || option.color || '#D0D0D0';
+    for(var i = 0; i < option.move.length - 1; i++) {
+        const startPosition = io.github.shunshun94.trpg.avandner.map.calcCenterPositionByArea(option.move[i]);
+        const endPosition = io.github.shunshun94.trpg.avandner.map.calcCenterPositionByArea(option.move[i + 1]);
+        result.push(`<line class="io-github-shunshun94-trpg-avandner-map-move" x1="${startPosition.x}" y1="${startPosition.y}" x2="${endPosition.x}" y2="${endPosition.y}" stroke="${color}" />`);
+    }
+    return result.join('\n');
 };
 
 io.github.shunshun94.trpg.avandner.map.CONSTS = io.github.shunshun94.trpg.avandner.map.CONSTS || {};
@@ -47,6 +57,30 @@ io.github.shunshun94.trpg.avandner.map.CONSTS.mapBaseData = {
     }
 };
 
+io.github.shunshun94.trpg.avandner.map.calcCenterPositionByArea = (areaName) => {
+    const mapBaseData = io.github.shunshun94.trpg.avandner.map.CONSTS.mapBaseData;
+    const postionRegExpResults = [
+        { re:/^(\d+)[iI]/.exec(areaName), length: (mapBaseData.center.length + mapBaseData.in.length ) / 2 },
+        { re:/^(\d+)[oO]/.exec(areaName), length: (mapBaseData.in.length     + mapBaseData.out.length) / 2 },
+        { re:/^[cC]/.exec(areaName),      length: 0}
+    ].filter((d)=>{return d.re});
+    if(postionRegExpResults.length === 0) {
+        const errorMessage = `位置情報 "${areaName}" は無効な位置情報です。位置情報は 8i や 6o、ないし c といった記法である必要があります`;
+        console.error(errorMessage);
+        throw errorMessage;
+    }
+    const postionRegExpResult = postionRegExpResults[0];
+    const baseLength = postionRegExpResult.length;
+    return io.github.shunshun94.trpg.avandner.map.calcCenter(Number(postionRegExpResult.re[1] || '0') - 3, baseLength);
+}
+
+io.github.shunshun94.trpg.avandner.map.calcCenter = (position, distanceFromCenter) => {
+    return {
+        x: distanceFromCenter * Math.cos((Math.PI * (position*2))/12),
+        y: distanceFromCenter * Math.sin((Math.PI * (position*2))/12)
+    };
+};
+
 io.github.shunshun94.trpg.avandner.map.generateCircles = () => {
     const paths = [];
     const mapBaseData = io.github.shunshun94.trpg.avandner.map.CONSTS.mapBaseData;
@@ -68,12 +102,12 @@ io.github.shunshun94.trpg.avandner.map.generateCircles = () => {
 io.github.shunshun94.trpg.avandner.map.generateLabels = (option={}) => {
     const numberLabelFontSize = option.numberLabelFontSize || option.fontSize || io.github.shunshun94.trpg.avandner.map.CONSTS.NUMS_FONT_SIZE;
     const mapBaseData = io.github.shunshun94.trpg.avandner.map.CONSTS.mapBaseData;
-    return `<g font-size="${numberLabelFontSize}">\n` + io.github.shunshun94.trpg.avandner.map.CONSTS.NUMS_TEXTS.map((t, j) => {
-        const i = j - 2;
+    return `<g class="io-github-shunshun94-trpg-avandner-map-positionLabel" font-size="${numberLabelFontSize}">\n` + io.github.shunshun94.trpg.avandner.map.CONSTS.NUMS_TEXTS.map((t, j) => {
         const baseLength = (mapBaseData.label.length + mapBaseData.out.length) / 2;
-        const x = baseLength * Math.cos((Math.PI * (i*2))/12) - (numberLabelFontSize / 2);
-        const y = baseLength * Math.sin((Math.PI * (i*2))/12) + (numberLabelFontSize / 2);
-        return `<text x="${x}" y="${y}" >${t}</text>`;
+        const position = io.github.shunshun94.trpg.avandner.map.calcCenter(j - 2, baseLength);
+        const x = position.x - (numberLabelFontSize / 2);
+        const y = position.y + (numberLabelFontSize / 2);
+        return `<text class="io-github-shunshun94-trpg-avandner-map-${j+1}" x="${x}" y="${y}" >${t}</text>`;
     }).join('\n') + '\n</g>';    
 };
 
@@ -91,26 +125,14 @@ io.github.shunshun94.trpg.avandner.map.generateCharactersByPositions = (characte
 
 io.github.shunshun94.trpg.avandner.map.generateCharacterPositions = (option={}) => {
     const characterByPos = option.charactersByPositions || io.github.shunshun94.trpg.avandner.map.generateCharactersByPositions(option.characters);
-    const mapBaseData = io.github.shunshun94.trpg.avandner.map.CONSTS.mapBaseData;
     const characterFontSize = option.characterFontSize || option.fontSize || io.github.shunshun94.trpg.avandner.map.CONSTS.CHAR_FONT_SIZE;
     const result = [];
     for(var pos in characterByPos) {
         const characters = characterByPos[pos].join(',');
-        const postionRegExpResults = [
-            { re:/^(\d+)[iI]/.exec(pos), length: (mapBaseData.center.length + mapBaseData.in.length ) / 2 },
-            { re:/^(\d+)[oO]/.exec(pos), length: (mapBaseData.in.length     + mapBaseData.out.length) / 2 },
-            { re:/^[cC]/.exec(pos),      length: 0}
-        ].filter((d)=>{return d.re});
-        if(postionRegExpResults.length === 0) {
-            throw `位置情報 "${pos}" は無効な位置情報です。位置情報は 8i や 6o、ないし c といった記法である必要があります`;
-        }
-        const postionRegExpResult = postionRegExpResults[0];
-        const baseLength = postionRegExpResult.length;
-        const position   = Number(postionRegExpResult.re[1] || '0') - 3;
-
-        const baseX = baseLength * Math.cos((Math.PI * (position*2))/12) - ((characterFontSize / 2) * characters.length);
-        const baseY = baseLength * Math.sin((Math.PI * (position*2))/12) - ( characterFontSize / 2);
-        result.push(`<text x="${baseX}" y="${baseY}" >${characters}</text>`);
+        const position = io.github.shunshun94.trpg.avandner.map.calcCenterPositionByArea(pos);
+        const baseX = position.x - ((characterFontSize / 2) * characters.length);
+        const baseY = position.y + ( characterFontSize / 2);
+        result.push(`<text class="io-github-shunshun94-trpg-avandner-map-characterLabel-${pos}" x="${baseX}" y="${baseY}" >${characters}</text>`);
     }
-    return `<g font-size="${characterFontSize}">\n${result.join('\n')}\n</g>`;
+    return `<g class="io-github-shunshun94-trpg-avandner-map-characterLabel" font-size="${characterFontSize}">\n${result.join('\n')}\n</g>`;
 };
