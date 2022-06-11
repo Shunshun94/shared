@@ -156,10 +156,11 @@ io.github.shunshun94.trpg.avandner.map.generateMove = (option={}) => {
     if(! option.move) {return '';}
     const result = [];
     const color = option.moveColor || option.strokeColor || option.color || '#D0D0D0';
+    const width = option.moveWidth || '2px';
     for(var i = 0; i < option.move.length - 1; i++) {
         const startPosition = io.github.shunshun94.trpg.avandner.map.calcCenterPositionByArea(option.move[i]);
         const endPosition = io.github.shunshun94.trpg.avandner.map.calcCenterPositionByArea(option.move[i + 1]);
-        result.push(`<line class="io-github-shunshun94-trpg-avandner-map-move" x1="${startPosition.x}" y1="${startPosition.y}" x2="${endPosition.x}" y2="${endPosition.y}" stroke="${color}" />`);
+        result.push(`<line class="io-github-shunshun94-trpg-avandner-map-move" stroke-width="${width}" stroke-linecap="round" x1="${startPosition.x}" y1="${startPosition.y}" x2="${endPosition.x}" y2="${endPosition.y}" stroke="${color}" />`);
     }
 
     const lastMove = io.github.shunshun94.trpg.avandner.map.calcTwoPointRelation(
@@ -173,7 +174,8 @@ io.github.shunshun94.trpg.avandner.map.generateMove = (option={}) => {
         `x2="${lastMove.end.x + (lastMove.length / 3) * Math.cos(lastMove.angle - Math.PI / 12)}"`,
         `y1="${lastMove.end.y}"`,
         `y2="${lastMove.end.y + (lastMove.length / 3) * Math.sin(lastMove.angle - Math.PI / 12)}"`,
-        `stroke="${color}" />`
+        `stroke="${color}"`,
+        `stroke-width="${width}" stroke-linecap="round" />`
     ].join(' '));
     result.push([
         `<line class="io-github-shunshun94-trpg-avandner-map-move-finishPoints"`,
@@ -181,7 +183,8 @@ io.github.shunshun94.trpg.avandner.map.generateMove = (option={}) => {
         `x2="${lastMove.end.x + (lastMove.length / 3) * Math.cos(lastMove.angle + Math.PI / 12)}"`,
         `y1="${lastMove.end.y}"`,
         `y2="${lastMove.end.y + (lastMove.length / 3) * Math.sin(lastMove.angle + Math.PI / 12)}"`,
-        `stroke="${color}" />`
+        `stroke="${color}"`,
+        `stroke-width="${width}" stroke-linecap="round" />`
     ].join(' '));
 
 
