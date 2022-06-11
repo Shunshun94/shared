@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta property="og:title" content="黒絢のアヴァンドナー ダイアクロックマップ描画ツール" />
 <meta property="og:type" content="website" />
-<meta property="og:image" content="https://shunshun94.github.io/shared/pics/ogp.jpg" />
+<meta property="og:image" content="https://shunshun94.github.io/shared/other/io/github/shunshun94/trpg/avandner/map/ogp.jpg" />
 <meta property="og:site_name" content="https://github.com/Shunshun94/shared/" />
 <meta property="og:description" content="ウェブサイト上に埋め込むためのダイアクロックマップを生成するツール" />
 <meta name="twitter:card" content="summary_large_image" />
@@ -12,15 +12,15 @@
 <meta name="twitter:domain" content="shunshun94.github.io" />
 <meta name="twitter:title" content="黒絢のアヴァンドナー ダイアクロックマップ描画ツール" />
 <meta name="twitter:description" content="ウェブサイト上に埋め込むためのダイアクロックマップを生成するツール" />
-<meta name="twitter:image" content="https://shunshun94.github.io/shared/pics/ogp.jpg" />
+<meta name="twitter:image" content="https://shunshun94.github.io/shared/other/io/github/shunshun94/trpg/avandner/map/ogp.jpg" />
 <title>黒絢のアヴァンドナー ダイアクロックマップ描画ツール</title>
 <script src="map.js"></script>
 <script src="../../../util/common.js"></script>
 <script src="https://html2canvas.hertzen.com/dist/html2canvas.js"></script>
 </head>
 <body>
-    <div id="base" style="height:600px;"></div>
-    <div id="operation" style="position:absolute;top:4px; right:4px;">
+    <div id="base" style="min-height:600px;"></div>
+    <div id="operation" style="position:absolute;top:4px;right:4px;">
         <table border="1">
             <tr>
                 <th>マップ高さ</th>
@@ -108,7 +108,7 @@
         io.github.shunshun94.util.downloadFile(`${rndId}.svg`, svg);
     };
     document.getElementById('dl_png').onclick = (e) => {
-        html2canvas(document.getElementsByTagName('svg')[0]).then(canvas => {
+        html2canvas(document.getElementById('base')).then(canvas => {
             let downloadEle = document.createElement("a");
             downloadEle.href = canvas.toDataURL("image/png");
             downloadEle.download = `${rndId}.png`;
