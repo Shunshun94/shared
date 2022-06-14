@@ -21,7 +21,15 @@ io.github.shunshun94.trpg.avandner.map.generate = (option={}) => {
 io.github.shunshun94.trpg.avandner.map.CONSTS = io.github.shunshun94.trpg.avandner.map.CONSTS || {};
 io.github.shunshun94.trpg.avandner.map.CONSTS.CHAR_FONT_SIZE =  8;
 io.github.shunshun94.trpg.avandner.map.CONSTS.NUMS_FONT_SIZE = 14;
-io.github.shunshun94.trpg.avandner.map.CONSTS.NUMS_TEXTS = ['１', '２', '３', '４', '５', '６', '７', '８', '９', '10', '11', '12'];
+io.github.shunshun94.trpg.avandner.map.CONSTS.ARROW_WIDTH = '2px';
+io.github.shunshun94.trpg.avandner.map.CONSTS.NUMS_TEXTS = {
+    COMMON: ['１', '２', '３', '４', '５', '６', '７', '８', '９', '10', '11', '12'],
+    ZERO_START: ['１', '２', '３', '４', '５', '６', '７', '８', '９', '10', '11', '０'],
+    GREEK: ['Ⅰ', 'Ⅱ', 'Ⅲ', 'Ⅳ', 'Ⅴ', 'Ⅵ', 'Ⅶ', 'Ⅷ', 'Ⅸ', 'Ⅹ', 'Ⅺ', 'Ⅻ'],
+};
+io.github.shunshun94.trpg.avandner.map.CONSTS.COLORS = {
+    ARROW_COLOR: '#D0D0D0'
+};
 io.github.shunshun94.trpg.avandner.map.CONSTS.mapBaseData = {
     label: {
         name:     'label',
@@ -90,7 +98,8 @@ io.github.shunshun94.trpg.avandner.map.generateCircles = () => {
 io.github.shunshun94.trpg.avandner.map.generateLabels = (option={}) => {
     const numberLabelFontSize = option.numberLabelFontSize || option.fontSize || io.github.shunshun94.trpg.avandner.map.CONSTS.NUMS_FONT_SIZE;
     const mapBaseData = io.github.shunshun94.trpg.avandner.map.CONSTS.mapBaseData;
-    return `<g class="io-github-shunshun94-trpg-avandner-map-positionLabel" font-size="${numberLabelFontSize}">\n` + io.github.shunshun94.trpg.avandner.map.CONSTS.NUMS_TEXTS.map((t, j) => {
+    return `<g class="io-github-shunshun94-trpg-avandner-map-positionLabel" font-size="${numberLabelFontSize}">\n` +
+    io.github.shunshun94.trpg.avandner.map.CONSTS.NUMS_TEXTS[option.labelType || option.label || 'COMMON'].map((t, j) => {
         const baseLength = (mapBaseData.label.length + mapBaseData.out.length) / 2;
         const position = io.github.shunshun94.trpg.avandner.map.calcCenter(j - 2, baseLength);
         const x = position.x - (numberLabelFontSize / 2);
@@ -155,8 +164,8 @@ io.github.shunshun94.trpg.avandner.map.calcTwoPointRelation = (start, end) => {
 io.github.shunshun94.trpg.avandner.map.generateMove = (option={}) => {
     if(! option.move) {return '';}
     const result = [];
-    const color = option.moveColor || option.strokeColor || option.color || '#D0D0D0';
-    const width = option.moveWidth || '2px';
+    const color = option.moveColor || option.strokeColor || option.color || io.github.shunshun94.trpg.avandner.map.CONSTS.COLORS.ARROW_COLOR;
+    const width = option.moveWidth || io.github.shunshun94.trpg.avandner.map.CONSTS.ARROW_WIDTH;
     for(var i = 0; i < option.move.length - 1; i++) {
         const startPosition = io.github.shunshun94.trpg.avandner.map.calcCenterPositionByArea(option.move[i]);
         const endPosition = io.github.shunshun94.trpg.avandner.map.calcCenterPositionByArea(option.move[i + 1]);
