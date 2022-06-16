@@ -6,22 +6,50 @@ io.github.shunshun94.trpg.avandner = io.github.shunshun94.trpg.avandner || {};
 io.github.shunshun94.trpg.avandner.map = io.github.shunshun94.trpg.avandner.map || {};
 
 io.github.shunshun94.trpg.avandner.map.generate = (option={}) => {
-    const baseSVG = `<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="${option.width || 600}" height="${option.height || 600}" viewBox="-200 -200 400 400" xml:space="preserve">`;
-
+    const svgPrefix = `<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="${option.width || 600}" height="${option.height || 600}" viewBox="-200 -200 400 400" xml:space="preserve">`;
+    const svgSuffix = '</svg>' + (io.github.shunshun94.trpg.avandner.map.CONSTS.LINK_APPEND_MODE ? `<a href="https://shunshun94.github.io/shared/other/io/github/shunshun94/trpg/avandner/map/map.html?${io.github.shunshun94.trpg.avandner.map.generateQuery(option)}" target="_blank">生成ページに移動</a>` : '');
     return [
-        baseSVG,
+        svgPrefix,
         io.github.shunshun94.trpg.avandner.map.generateCircles(option),
         io.github.shunshun94.trpg.avandner.map.generateLabels(option),
         io.github.shunshun94.trpg.avandner.map.generateMove(option),
         io.github.shunshun94.trpg.avandner.map.generateCharacterPositions(option),
-        '</svg>'
+        svgSuffix
     ].join('\n');
 };
 
+io.github.shunshun94.trpg.avandner.map.variableToQueries = {
+    characters: (param)=>{
+        const result = [];
+        for(var key in param) {
+            result.push(`${decodeURIComponent(key)}:${param[key]}`);
+        }
+        return result.join(',');
+    },
+    move: (param)=>{
+        return param.join(',');
+    }
+};
+
+io.github.shunshun94.trpg.avandner.map.generateQuery = (option={}) => {
+    const result = [];
+    for(var key in option) {
+        if(option[key]) {
+            if(io.github.shunshun94.trpg.avandner.map.variableToQueries[key]) {
+                result.push(`${key}=${io.github.shunshun94.trpg.avandner.map.variableToQueries[key](option[key])}`);
+            } else {
+                result.push(`${key}=${decodeURIComponent(option[key])}`);
+            }
+        }
+    }
+    return result.join('&');
+};
+
 io.github.shunshun94.trpg.avandner.map.CONSTS = io.github.shunshun94.trpg.avandner.map.CONSTS || {};
+io.github.shunshun94.trpg.avandner.map.CONSTS.LINK_APPEND_MODE = false;
 io.github.shunshun94.trpg.avandner.map.CONSTS.CHAR_FONT_SIZE =  8;
 io.github.shunshun94.trpg.avandner.map.CONSTS.NUMS_FONT_SIZE = 14;
-io.github.shunshun94.trpg.avandner.map.CONSTS.ARROW_WIDTH = '2px';
+io.github.shunshun94.trpg.avandner.map.CONSTS.ARROW_WIDTH = 2;
 io.github.shunshun94.trpg.avandner.map.CONSTS.NUMS_TEXTS = {
     COMMON: ['１', '２', '３', '４', '５', '６', '７', '８', '９', '10', '11', '12'],
     ZERO_START: ['１', '２', '３', '４', '５', '６', '７', '８', '９', '10', '11', '０'],
@@ -161,11 +189,21 @@ io.github.shunshun94.trpg.avandner.map.calcTwoPointRelation = (start, end) => {
     return result;
 };
 
+// rawWidth がかつて "2px" といった形式で他と統一されてなかったので導入された後方互換対応用関数
+io.github.shunshun94.trpg.avandner.map.calcWidth = (rawWidth) => {
+    const textWidth = String(rawWidth);
+    if(/^\d+$/.test(textWidth)) {
+        return `${textWidth}px`;
+    } else {
+        return textWidth;
+    }
+};
+
 io.github.shunshun94.trpg.avandner.map.generateMove = (option={}) => {
     if(! option.move) {return '';}
     const result = [];
     const color = option.moveColor || option.strokeColor || option.color || io.github.shunshun94.trpg.avandner.map.CONSTS.COLORS.ARROW_COLOR;
-    const width = option.moveWidth || io.github.shunshun94.trpg.avandner.map.CONSTS.ARROW_WIDTH;
+    const width = io.github.shunshun94.trpg.avandner.map.calcWidth(option.moveWidth || io.github.shunshun94.trpg.avandner.map.CONSTS.ARROW_WIDTH);
     for(var i = 0; i < option.move.length - 1; i++) {
         const startPosition = io.github.shunshun94.trpg.avandner.map.calcCenterPositionByArea(option.move[i]);
         const endPosition = io.github.shunshun94.trpg.avandner.map.calcCenterPositionByArea(option.move[i + 1]);
