@@ -87,7 +87,7 @@
     document.getElementById('copy_svg').value = svg;
     const rndId = 'io-github-shunshun94-trpg-avandner-map-svg' + io.github.shunshun94.util.rndString(8, '-');
     document.getElementById('copy_html').value = [
-        `<div id="${rndId}"></div>\n`,
+        `<div id="${rndId}" class="io-github-shunshun94-trpg-avandner-map-svg"></div>\n`,
         `<scr`,
         `ipt>document.getElementById('${rndId}').innerHTML = io.github.shunshun94.trpg.avandner.map.generate(${JSON.stringify(generateParam)});</scr`,
         `ipt>`

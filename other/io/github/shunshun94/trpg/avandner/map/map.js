@@ -67,12 +67,12 @@ io.github.shunshun94.trpg.avandner.map.CONSTS.mapBaseData = {
     out: {
         name:     'out',
         length:   170,
-        lightness:60
+        lightness:80
     },
     in: {
         name:     'in',
         length:   125,
-        lightness:30
+        lightness:70
     },
     center: {
         name:     'center',
