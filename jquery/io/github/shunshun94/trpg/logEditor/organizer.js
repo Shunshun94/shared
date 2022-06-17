@@ -25,6 +25,7 @@ io.github.shunshun94.trpg.logEditor.DOMS.BODY.on(io.github.shunshun94.trpg.logEd
 		// 初回読み込み
 		io.github.shunshun94.trpg.logEditor.FileLoader.filtLongFile(domList.doms).then((filteredList)=>{
 			io.github.shunshun94.trpg.logEditor.LogEditorObject = new io.github.shunshun94.trpg.logEditor.Editor({
+				title: domList.title,
 				doms: filteredList,
 				head: domList.head,
 				omitted: domList.omitted

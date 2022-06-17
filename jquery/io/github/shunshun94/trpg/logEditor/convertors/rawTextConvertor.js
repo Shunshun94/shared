@@ -9,12 +9,12 @@ io.github.shunshun94.trpg.logEditor.convertors.RawTextConvertor = io.github.shun
 io.github.shunshun94.trpg.logEditor.convertors.RawTextConvertor.dropEventToJson = (file) => {
 	return new Promise((resolve, reject)=>{
 		io.github.shunshun94.trpg.logEditor.convertors.ConvertorFactory.fileToText(file).then((rawText)=>{
-			resolve(io.github.shunshun94.trpg.logEditor.convertors.RawTextConvertor.lineToJson(rawText));
+			resolve(io.github.shunshun94.trpg.logEditor.convertors.RawTextConvertor.lineToJson(rawText, file.title));
 		});
 	});
 };
 
-io.github.shunshun94.trpg.logEditor.convertors.RawTextConvertor.lineToJson = (text) => {
+io.github.shunshun94.trpg.logEditor.convertors.RawTextConvertor.lineToJson = (text, title) => {
 	const posts = [];
 	text.split(/^\d\d\d\d\.\d\d\.\d\d\s[日月火水木金土]曜日/gm).filter((d)=>{
 		return d;
@@ -35,6 +35,7 @@ io.github.shunshun94.trpg.logEditor.convertors.RawTextConvertor.lineToJson = (te
 		}
 	});
 	return {
+		title: title.split('.')[0],
 		doms: posts,
 		omitted: [],
 		head: ''

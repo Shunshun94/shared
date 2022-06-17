@@ -54,7 +54,7 @@ io.github.shunshun94.trpg.logEditor.convertors.FloconSimpleConvertor.elementToJs
 io.github.shunshun94.trpg.logEditor.convertors.FloconSimpleConvertor.dropEventToJson = (file) => {
 	return new Promise((resolve, reject)=>{
 		io.github.shunshun94.trpg.logEditor.convertors.ConvertorFactory.fileToText(file).then((rawHtml)=>{
-			resolve(io.github.shunshun94.trpg.logEditor.convertors.FloconSimpleConvertor.htmlToJson(rawHtml));
+			resolve(io.github.shunshun94.trpg.logEditor.convertors.FloconSimpleConvertor.htmlToJson(rawHtml, file.name));
 		});
 	});
 };
@@ -63,11 +63,12 @@ io.github.shunshun94.trpg.logEditor.convertors.FloconSimpleConvertor.isDefaultHe
 	return headRawHtml.includes(`<title>ccfolia - `);
 };
 
-io.github.shunshun94.trpg.logEditor.convertors.FloconSimpleConvertor.htmlToJson = (rawDom) => {
+io.github.shunshun94.trpg.logEditor.convertors.FloconSimpleConvertor.htmlToJson = (rawDom, title) => {
 	const dom = (new DOMParser()).parseFromString(rawDom, 'text/html');
 	const bodyChildren = Array.from(dom.body.children[0].children);
 	const list = bodyChildren.map(io.github.shunshun94.trpg.logEditor.convertors.FloconSimpleConvertor.elementToJson);	
 	return {
+		title: title.split('.')[0],
 		doms: list,
 		omitted: [],
 		head: ''

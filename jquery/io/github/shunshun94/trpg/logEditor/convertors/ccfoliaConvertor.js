@@ -50,7 +50,7 @@ io.github.shunshun94.trpg.logEditor.convertors.CcfoliaConvertor.elementToJson = 
 io.github.shunshun94.trpg.logEditor.convertors.CcfoliaConvertor.dropEventToJson = (file) => {
 	return new Promise((resolve, reject)=>{
 		io.github.shunshun94.trpg.logEditor.convertors.ConvertorFactory.fileToText(file).then((rawHtml)=>{
-			resolve(io.github.shunshun94.trpg.logEditor.convertors.CcfoliaConvertor.htmlToJson(rawHtml));
+			resolve(io.github.shunshun94.trpg.logEditor.convertors.CcfoliaConvertor.htmlToJson(rawHtml, file.name));
 		});
 	});
 };
@@ -59,7 +59,7 @@ io.github.shunshun94.trpg.logEditor.convertors.CcfoliaConvertor.isDefaultHead = 
 	return headRawHtml.includes(`<title>ccfolia - `);
 };
 
-io.github.shunshun94.trpg.logEditor.convertors.CcfoliaConvertor.htmlToJson = (rawDom) => {
+io.github.shunshun94.trpg.logEditor.convertors.CcfoliaConvertor.htmlToJson = (rawDom, title) => {
 	const dom = (new DOMParser()).parseFromString(rawDom, 'text/html');
 	const bodyChildren = dom.body.children;
 	const bodyChildrenLength = bodyChildren.length;
@@ -72,6 +72,7 @@ io.github.shunshun94.trpg.logEditor.convertors.CcfoliaConvertor.htmlToJson = (ra
 	const header = io.github.shunshun94.trpg.logEditor.convertors.CcfoliaConvertor.isDefaultHead(dom.head.outerHTML) ? '' : dom.head.outerHTML;
 	
 	return {
+		title: title.split('.')[0],
 		doms: list,
 		omitted: omit,
 		head: header

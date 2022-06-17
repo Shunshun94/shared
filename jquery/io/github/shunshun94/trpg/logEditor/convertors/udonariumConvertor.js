@@ -49,6 +49,7 @@ io.github.shunshun94.trpg.logEditor.convertors.UdonariumConvertor.dropEventToJso
 					}
 				}
 				resolve({
+					title: file.name.split('.')[0],
 					doms: list.sort((a,b)=>{return a.ts - b.ts}),
 					omitted: [],
 					head: ''

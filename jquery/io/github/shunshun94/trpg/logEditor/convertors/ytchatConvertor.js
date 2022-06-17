@@ -10,7 +10,7 @@ io.github.shunshun94.trpg.logEditor.convertors.ytchatConvertor = io.github.shuns
 io.github.shunshun94.trpg.logEditor.convertors.ytchatConvertor.dropEventToJson = (file) => {
     return new Promise((resolve, reject)=>{
         io.github.shunshun94.trpg.logEditor.convertors.ConvertorFactory.fileToText(file).then((rawText)=>{
-            resolve(io.github.shunshun94.trpg.logEditor.convertors.ytchatConvertor.rawTextToJson(rawText));
+            resolve(io.github.shunshun94.trpg.logEditor.convertors.ytchatConvertor.rawTextToJson(rawText, file.name));
         });
     });
 };
@@ -28,7 +28,7 @@ io.github.shunshun94.trpg.logEditor.convertors.ytchatConvertor.toTextFromSplited
     }
 };
 
-io.github.shunshun94.trpg.logEditor.convertors.ytchatConvertor.rawTextToJson = (rawText) => {
+io.github.shunshun94.trpg.logEditor.convertors.ytchatConvertor.rawTextToJson = (rawText, title) => {
     const posts = rawText.split('\n').filter((d)=>{return d;}).map((line)=>{
         const splitedPost = line.split('<>');
 
@@ -43,6 +43,7 @@ io.github.shunshun94.trpg.logEditor.convertors.ytchatConvertor.rawTextToJson = (
         };
     });
 	return {
+        title: title.split('.')[0],
 		doms: posts,
 		omitted: [],
 		head: ''

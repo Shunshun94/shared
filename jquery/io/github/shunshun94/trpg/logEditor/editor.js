@@ -7,6 +7,7 @@ io.github.shunshun94.trpg.logEditor.Editor = class {
 	constructor(data) {
 		this.generateBaseEditor();
 		const htmls = this.domsToPost(data.doms);
+		this.title = data.title;
 		this.head = data.head;
 		this.omit = data.omitted;
 		this.initPosts(htmls);
