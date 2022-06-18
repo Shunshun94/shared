@@ -5,8 +5,13 @@ Shared Files
 ## License
 
 [GPLv3](./LICENSE)
+<!-- jszip を使っているので GPLv3。jszip 関係ないエリアについてはもっとゆるいライセンスでもいい -->
 
 ## Used Libs.
+
+### jszip
+
+License Information: https://github.com/Stuk/jszip/blob/main/LICENSE.markdown
 
 ### jQuery and jQueryUI
 
