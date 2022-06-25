@@ -4,3 +4,6 @@
 
 * シート: https://character-sheets.appspot.com/avandner/edit.html?key=ahVzfmNoYXJhY3Rlci1zaGVldHMtbXByFwsSDUNoYXJhY3RlckRhdGEYnofMqAQM
 * データ: https://character-sheets.appspot.com/avandner/display?key=ahVzfmNoYXJhY3Rlci1zaGVldHMtbXByFwsSDUNoYXJhY3RlckRhdGEYnofMqAQM&ajax=1
+
+
+// https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js
