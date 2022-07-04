@@ -7,6 +7,7 @@ io.github.shunshun94.trpg.logEditor.export = io.github.shunshun94.trpg.logEditor
 io.github.shunshun94.trpg.logEditor.export.OperationTableExporter = io.github.shunshun94.trpg.logEditor.export.OperationTableExporter || {};
 io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.CONSTS = io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.CONSTS || {};
 io.github.shunshun94.trpg.logEditor.export.OperationJsonExporter = io.github.shunshun94.trpg.logEditor.export.OperationJsonExporter || {};
+io.github.shunshun94.trpg.logEditor.export.UniKoeExporter = io.github.shunshun94.trpg.logEditor.export.UniKoeExporter || {};
 
 io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.getSessionElement = (post, handlers) => {
     const filteredElement = handlers.map((element)=>{
@@ -182,11 +183,13 @@ io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.exec = (doms, 
     io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.download(html, `saved_${Number(new Date())}.html`, 'text/html;charset=utf-8;');
 };
 
-
-
 io.github.shunshun94.trpg.logEditor.export.OperationJsonExporter.exec = (doms, head, omit, mode) => {
-    const json = io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.domToJson(doms);
+    const json = io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.domsToJson(doms);
     io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.download(JSON.stringify(json), `saved_${Number(new Date())}.json`, 'text/json;charset=utf-8;');
+};
+
+io.github.shunshun94.trpg.logEditor.export.UniKoeExporter.exec = (doms, head, omit, mode) => {
+    const json = io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.domsToJson(doms);
 };
 
 io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.download = (text, title, type) => {
