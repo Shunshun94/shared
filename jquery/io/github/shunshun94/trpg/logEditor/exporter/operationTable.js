@@ -7,7 +7,7 @@ io.github.shunshun94.trpg.logEditor.export = io.github.shunshun94.trpg.logEditor
 io.github.shunshun94.trpg.logEditor.export.OperationTableExporter = io.github.shunshun94.trpg.logEditor.export.OperationTableExporter || {};
 io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.CONSTS = io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.CONSTS || {};
 io.github.shunshun94.trpg.logEditor.export.OperationJsonExporter = io.github.shunshun94.trpg.logEditor.export.OperationJsonExporter || {};
-io.github.shunshun94.trpg.logEditor.export.UniKoeExporter = io.github.shunshun94.trpg.logEditor.export.UniKoeExporter || {};
+io.github.shunshun94.trpg.logEditor.export.UniCoeExporter = io.github.shunshun94.trpg.logEditor.export.UniCoeExporter || {};
 
 io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.getSessionElement = (post, handlers) => {
     const filteredElement = handlers.map((element)=>{
@@ -188,8 +188,17 @@ io.github.shunshun94.trpg.logEditor.export.OperationJsonExporter.exec = (doms, h
     io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.download(JSON.stringify(json), `saved_${Number(new Date())}.json`, 'text/json;charset=utf-8;');
 };
 
-io.github.shunshun94.trpg.logEditor.export.UniKoeExporter.exec = (doms, head, omit, mode) => {
-    const json = io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.domsToJson(doms);
+io.github.shunshun94.trpg.logEditor.export.UniCoeExporter.exec = (doms, head, omit, mode) => {
+    const resultText = io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.domsToJson(doms).map((d)=>{
+        if(d.paramUpdate) {
+            return '';
+        }else if(d.dice) {
+            return `${d.name}＞【ダイスロール】`;
+        } else {
+            return d.content.replaceAll('＞', '>').split(/[!?！？。\n]/).filter((d)=>{return d;}).map((l)=>{return `${d.name}＞${l}`}).join('\n');
+        }
+    }).filter((d)=>{return d;}).join('\n');
+    io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.download(resultText, `saved_${Number(new Date())}.txt`, 'text/plain;charset=utf-8;');
 };
 
 io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.download = (text, title, type) => {
