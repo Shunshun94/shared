@@ -40,4 +40,6 @@ n 人が秘密鍵を保持しているならば可用性を維持することが
 <script src="https://shunshun94.github.io/shared/other/io/github/shunshun94/util/shamir/shamir.js"></script>
 ```
 
+## ソースコードはどこ？
 
+[こちらからどうぞ](https://github.com/Shunshun94/shared/tree/master/other/io/github/shunshun94/util/shamir)
