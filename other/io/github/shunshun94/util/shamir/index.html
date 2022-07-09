@@ -1,6 +1,49 @@
 <html>
     <head>
-        <script src="./shamir.js"></script>
+        <meta charset="UTF-8">
+        <style>
+            textarea {
+                resize:none;
+                width:300px;
+                height:40px;
+            }
+            .layout {
+                width: 1366px;
+                height: 768px;
+                display: grid;
+                grid-template-rows: 240px;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 8px 4px;
+            }
+        </style>
+
     </head>
-    <body></body>
+    <body>
+        <h1>シャミアの秘密分散法</h1>
+        <p><a href="./README">README.md</a></p>
+        <div class="layout">
+            <div>
+                <h2>シェアの生成</h2>
+                <h3>秘密の文字列</h3>
+                <p><input type="text" id="seed_str" value="王様の耳はロバの耳" /></p>
+                <h3>復元に必要な人数</h3>
+                <p><input type="number" id="seed_num" value="3" min="2" max="30" /></p>
+                <h3>秘密を持つ人数</h3>
+                <p><input type="number" id="share_num" value="5" min="2" max="50" /></p>
+                <h3>シェア生成</h3>
+                <p><button id="generate_share">生成する</button></p>
+                <textarea id="share_generated"></textarea>
+            </div>
+            <div>
+                <h2>シェアからの復元</h2>
+                <h3>シェア</h3>
+                <textarea id="inputed_share"></textarea>
+                <h3>秘密の文字列</h3>
+                <p><button id="generate_secret">復元する</button><br/><span id="secret"></span></p>
+            </div>
+        </div>
+        <script src="./../common.js"></script>
+        <script src="./shamir.js"></script>
+        <script src="./sample.js"></script>
+    </body>
 </html>

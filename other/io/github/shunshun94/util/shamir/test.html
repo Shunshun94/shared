@@ -1,0 +1,65 @@
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <script src="./shamir.js"></script>
+    </head>
+    <body>
+        <pre id="results"></pre>
+        <script>
+            const secret = 'ひみつの文字列 secret characters';
+            const enoughShares = [
+                [0,1,2,3,4],
+                [1,2,3,4,5],
+                [2,3,4,5,6],
+                [3,4,5,6,7],
+                [0,1,2,3,4,5],
+                [0,1,2,3,4,5,6],
+                [0,1,2,3,4,5,6,7]
+            ];
+            const notEnoughShares = [
+                [0,1,2,3],
+                [1,2,3,4],
+                [2,3,4,5],
+                [3,4,5,6],
+                [0,1,2],
+                [0,1],
+                [0]
+            ];
+            const xList = [1,2,3,4,5,6,7,8];
+            const required = 5;
+            const shares_1 = io.github.shunshun94.util.Shamir.calculateSharedSecretFromText(secret, xList, required);
+            const reMapSharedList = (list, shares) => {return list.map((i)=>{return shares[i];});};
+            const getSecretString = (shares, i) => {
+                try {
+                    return {idx: i, str: io.github.shunshun94.util.Shamir.calculateSecretStringFromShares(shares)};
+                } catch(e) {
+                    return {idx: i, str: '復元失敗'};
+                }
+            };
+
+            const commonBehaviortestCases = [
+                {   seed: enoughShares, shares: shares_1,
+                    assertion: (result, i)=>{return result.str !== secret;},
+                    errorMessage: (d)=>{return `テストケース1：${d.idx}番目の復元結果が[${d.str}]であり、もとの値と異なります`;}
+                }, {seed: notEnoughShares, shares: shares_1,
+                    assertion: (result, i)=>{return result.str === secret;},
+                    errorMessage: (d)=>{return `テストケース2：${d.idx}番目が復元できるべきでないのに復元できています`;}
+                }
+            ];
+            document.getElementById('results').textContent = commonBehaviortestCases.map((testCase)=>{
+                testCase.seed.map((d)=>{return reMapSharedList(d, testCase.shares)}).map(getSecretString).filter(testCase.assertion).map(testCase.errorMessage).join('\n');
+            }).join('\n');
+            enoughShares.reduce((previousValue, currentValue, idx)=>{
+                const new_shared = io.github.shunshun94.util.Shamir.calculateSharedSecretFromText(previousValue, xList, required);
+                const new_secret = io.github.shunshun94.util.Shamir.calculateSecretStringFromShares(reMapSharedList(currentValue, new_shared));
+                if(new_secret !== secret) {
+                    const errorMessage = `${idx}番目で復元に失敗しました（復元後の値：${new_secret}）`;
+                    console.error(errorMessage, new_shared);
+                } else {
+                    console.log(`${idx}番目：復元成功`);
+                }
+                return new_secret;
+            }, secret);
+        </script>
+    </body>
+</html>
