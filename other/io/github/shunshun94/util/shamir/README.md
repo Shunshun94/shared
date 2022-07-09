@@ -30,7 +30,7 @@ n 人が秘密鍵を保持しているならば可用性を維持することが
 
 ## 試すことはできるの？
 
-[こちらからどうぞ](./index.html)
+[こちらからどうぞ](https://shunshun94.github.io/shared/other/io/github/shunshun94/util/shamir/index.html)
 
 ## 自分のウェブサイトに組み込むことはできるの？
 
