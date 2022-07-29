@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta property="og:title" content="ソードワールド2.5 PCをエネミーデータに変換" />
+<meta property="og:type" content="website" />
+<meta property="og:image" content="https://shunshun94.github.io/shared/other/io/github/shunshun94/trpg/sw2/magics/ogp.png" />
+<meta property="og:site_name" content="https://github.com/Shunshun94/shared/" />
+<meta property="og:description" content="ソードワールド2.5 の PC データをエネミーデータにコンバートするツール" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content="@Shunshun94" />
+<meta name="twitter:domain" content="shunshun94.github.io" />
+<meta name="twitter:title" content="ソードワールド2.5 PCをエネミーデータに変換" />
+<meta name="twitter:description" content="ソードワールド2.5 の PC データをエネミーデータにコンバートするツール" />
+<meta name="twitter:image" content="https://shunshun94.github.io/shared/other/io/github/shunshun94/trpg/sw2/magics/ogp.png" />
+<title>ソードワールド2.5 PCをエネミーデータに変換</title>
+<link rel="stylesheet" href="./pc2enemy.css" type="text/css" />
+<style>
+</style>
+</head>
+<body>
+    <div class="input">
+        <p>キャラクターシートURL：<input type="text" id="sheetUrl" list="sheets"/><button id="exec">変換</button></p>
+        <datalist id="sheets"></datalist>
+    </div>
+    <div id="request"></div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="../../../../../../../../other/io/github/shunshun94/util/common.js"></script>
+    <script src="pc2enemy.js"></script>
+    <script src="app.js"></script>
+</body>
