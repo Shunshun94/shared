@@ -1,0 +1,19 @@
+<html>
+    <head>
+        <meta charset="UTF-8">
+    </head>
+    <body>
+        <div id="input"></div>
+        <script src="./sheetInputComponent.js"></script>
+        <script>
+            io.github.shunshun94.trpg.sw2.component.SheetInput.build(document.getElementById('input'));
+            document.getElementsByTagName('body')[0].addEventListener(
+                io.github.shunshun94.trpg.sw2.component.SheetInput.EVENTS.SHEET_URL_INPUT,
+                (e)=>{
+                    alert(`URL: ${e.url} が入力されました`);
+                    e.resolve();
+                }
+            );
+        </script>
+    </body>
+</html>
