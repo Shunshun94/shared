@@ -1,0 +1,141 @@
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>名札生成</title>
+        <style>
+            * {
+                box-sizing:border-box;
+                font-family: "BIZ UDゴシック","UD Shin Go NT Light JIS2004","UD デジタル 教科書体 N-R", Verdana, Roboto, "Droid Sans", "游ゴシック", YuGothic, "メイリオ", Meiryo, "ヒラギノ角ゴ ProN W3", "Hiragino Kaku Gothic ProN", "ＭＳ Ｐゴシック", sans-serif;
+            }
+            @media print{
+                #input {display:none;}
+                footer {display:none;}
+            }
+            .nameplate {
+                border: 1px black solid;
+                margin-left:0px;
+                margin-right:0px;
+                position:relative;
+            }
+            .platea > .nameplate {
+                width:8.5cm;
+                height:6cm;
+                display:inline-block;
+            }
+            .platea .name {
+                position:absolute;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                bottom:0.2cm;
+                top:3.2cm;
+                left:0px;
+                right:0px;
+                text-align:center;
+                font-size:2em;
+            }
+            .platea .image {
+                position:absolute;
+                top:0.8cm;
+                left:0.2cm;
+                right:0.2cm;
+                bottom:2.8cm;
+            }
+            .plateb > .nameplate {
+                width:3.8cm;
+                height:4cm;
+                display:inline-block;
+            }
+            .plateb .short-name {
+                position:absolute;
+                bottom:0.2cm;
+                left:0px;
+                right:0px;
+                text-align:center;
+                font-size:1.4em;
+            }
+            .plateb .image {display:none;}
+            .platec > .nameplate {
+                width:3.5cm;
+                height:1.63cm;
+            }
+            .platec .short-name {
+                position:absolute;
+                bottom:0.2cm;
+                top:0.2cm;
+                left:1.3cm;
+                right:2px;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                font-size:0.8em;
+            }
+            .platec .image {
+                position:absolute;
+                top:0.2cm;
+                left:0.1cm;
+                right:2.2cm;
+                bottom:0.2cm;
+            }
+            .image {
+                background-size:contain;
+                background-repeat: no-repeat;
+                background-position: center center;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="input">
+            名前：<input type="text" id="input-name" placeholder="名前（名字・名前を全角スペースで区切ってください）" /><br/>
+            画像：<input type="file" id="input-image" accept="image/*" />
+            <hr/>
+        </div>
+        <div class="platea"></div>
+        <div class="plateb"></div>
+        <div class="platec"></div>
+        <footer>
+            <p><a href="nameplate.html" download="nameplate.html">このツールを手元にダウンロードしていつでも利用できるようにする</a><br/>
+            <a href="https://github.com/Shunshun94/shared/tree/master/other/io/github/shunshun94/util/print/nameplate/">ソースコード</a></p>
+        </footer>
+
+
+        <script>
+            const commonNameplateTemplate = `<div class="nameplate"><div class="image"></div><div class="name"></div></div>`;
+            const shortNameplateTemplate = `<div class="nameplate"><div class="image"></div><div class="short-name"></div></div>`;
+            const imageUpdate = (e) => {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    Array.from(document.getElementsByClassName('image')).forEach((d)=>{
+                        d.style.backgroundImage = `url("${e.target.result}")`;
+                    });
+                };
+                reader.readAsDataURL(e.target.files[0]);
+            };
+            const textUpdate = (e) => {
+                let name = e.target.value;
+                if(name.length > 9) { name = name.split('　').join('<br/>'); }
+                Array.from(document.getElementsByClassName('name')).forEach((d)=>{
+                    d.innerHTML = name;
+                });
+                name = e.target.value;
+                if(name.length > 6) { name = name.split('　').join('<br/>'); }
+                Array.from(document.getElementsByClassName('short-name')).forEach((d)=>{
+                    d.innerHTML = name;
+                });
+            };
+            const defaultName = location.search ? decodeURI(location.search.substr(1)) : '';
+            document.getElementById('input-name').value = defaultName;
+
+            document.getElementById('input-name' ).addEventListener('change', textUpdate);
+            document.getElementById('input-image').addEventListener('change', imageUpdate);
+            document.getElementsByClassName('platea')[0].innerHTML = commonNameplateTemplate.repeat(4);
+            document.getElementsByClassName('plateb')[0].innerHTML = shortNameplateTemplate.repeat(1);
+            document.getElementsByClassName('platec')[0].innerHTML = shortNameplateTemplate.repeat(3);
+            textUpdate({
+                target: document.getElementById('input-name')
+            });
+        </script>
+    </body>
+</html>
