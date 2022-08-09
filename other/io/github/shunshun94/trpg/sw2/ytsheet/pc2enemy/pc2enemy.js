@@ -35,6 +35,7 @@ io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.exec = (json) => {
     for(var key in weapon) {
         result[key] = weapon[key];
     }
+    result.skills = io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.generateSkills(json);
     return result;
 };
 
@@ -74,6 +75,89 @@ io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.getWeaponList = (json) => {
     });
 };
 
+io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.generateSkills = (json) => {
+    let result = [];
+
+    const magics = io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.getMagicInfo(json);
+    result = result.concat(magics.texts);
+    const magicLikes = io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.getMagicLikeInfo(json);
+    result = result.concat(magicLikes.texts);
+
+
+    return result.join('&lt;br&gt;&lt;br&gt;');
+};
+
+io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.MAGIC_SUFFIX = {
+    'Sor': {name:'真語魔法'},
+    'Con': {name:'操霊魔法'},
+    'Pri': {name:'神聖魔法'},
+    'Mag': {name:'魔動機術'},
+    'Fai': {name:'妖精魔法'},
+    'Dem': {name:'召異魔法'},
+    'Dru': {name:'森羅魔法'},
+    'Gri': {name:'秘奥魔法', skill:'magicGramarye'}
+};
+
+io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.getMagicInfo = (json) => {
+    const result = {
+        max: 0,
+        texts: []
+    };
+    const magicList = io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.MAGIC_SUFFIX;
+    for(var key in magicList) {
+        if(json[`lv${key}`]) {
+            const category = magicList[key];
+            const power = Number(json[`magicPower${key}`]);
+            if( power > result.max) {
+                result.max = power;
+            }
+            if(category.skill) {
+                let i = 1;
+                const skillList = [];
+                while(json[`${category.skill}${i}`]) {
+                    skillList.push(`【${json[`${category.skill}${i}`]}】`);
+                    i++;
+                }
+                result.texts.push(`▶${category.name}${json[`lv${key}`]}レベル／魔力${power}（${power + 7}）&lt;br&gt;${skillList.join('')}の${category.name}を使用します。`);
+            } else {
+                result.texts.push(`▶${category.name}${json[`lv${key}`]}レベル／魔力${power}（${power + 7}）`);
+            }
+        }
+    }
+    return result;
+};
+
+io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.NOMAGIC_SUFFIX = {
+    'Enh': {name:'練技', skill:'craftEnhance', mark:'▶≫△'},
+    'Alc': {name:'賦術', skill:'craftAlchemy', mark:'≫△'},
+    'War': {name:'鼓咆', skill:'craftCommand', mark:'≫'}
+};
+
+io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.getMagicLikeInfo = (json) => {
+    const result = {
+        max: 0,
+        texts: []
+    };
+    const magicList = io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.NOMAGIC_SUFFIX;
+    for(var key in magicList) {
+        if(json[`lv${key}`]) {
+            const category = magicList[key];
+            const power = Number(json[`magicPower${key}`] || '0');
+            if( power > result.max) {
+                result.max = power;
+            }
+            let i = 1;
+            const skillList = [];
+            while(json[`${category.skill}${i}`]) {
+                skillList.push(`【${json[`${category.skill}${i}`]}】`);
+                i++;
+            }
+            result.texts.push(`${category.mark}${category.name}${power ? `／${power}（${power + 7}）` : '' }&lt;br&gt;${skillList.join('')}の${category.name}を使用します。`);
+        }
+    }
+    return result;
+};
+
 // コボルドの攻撃能力そのまんま
 io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.DEFAULT_WEAPON = {
     name: 'ナイフ',
@@ -92,15 +176,12 @@ io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.getAttackWay = (json) => {
         }
     }, io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.DEFAULT_WEAPON);
     return {
-        status1Accuracy:   expectedWeapons.acc,
-        status1AccuracyFix:expectedWeapons.accTotal,
+        status1Accuracy:   expectedWeapons.accTotal,
+        status1AccuracyFix:expectedWeapons.accTotal + 7,
         status1Damage:     `2d6+${expectedWeapons.expected - 7}`,
         status1Style:      expectedWeapons.name
     };
 };
-
-
-// ダメージ期待値 https://w.atwiki.jp/wiki2_sw/pages/89.html
 
 io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.getLanguage = (json) => {
     const languageCount = Number(json.languageNum);

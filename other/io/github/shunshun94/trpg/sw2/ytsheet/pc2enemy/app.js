@@ -23,6 +23,7 @@ const bindEvents = () => {
                 json.sourceUrl = url;
                 const result = io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.exec(json);
                 e.resolve();
+                io.github.shunshun94.util.downloadFile(`${result.monsterName}.json`, JSON.stringify(result));
                 console.log(result);
             })
         }
