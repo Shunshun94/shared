@@ -82,8 +82,63 @@ io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.generateSkills = (json) => {
     result = result.concat(magics.texts);
     const magicLikes = io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.getMagicLikeInfo(json);
     result = result.concat(magicLikes.texts);
+    const battleSkills = io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.getBattleSkillsInfo(json);
+    result = result.concat(battleSkills.texts);
 
     return result.join('&lt;br&gt;&lt;br&gt;');
+};
+
+io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.MAX_LEVEL = 17;
+
+io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.getBattleSkillList = (json) => {
+    const list = [];
+    for(var i = 0; i < io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.MAX_LEVEL; i++) {
+        if(json[`combatFeatsLv${i + 1}`]) {
+            list.push(json[`combatFeatsLv${i + 1}`]);
+        }
+    }
+    return list; //.concat(json.combatFeatsAuto ? json.combatFeatsAuto.split(',') : []);
+};
+
+io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.getBattleSkillsInfo = (json) => {
+    const battleSkillList = io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.getBattleSkillList(json);
+    
+    const skillMap = {};
+    battleSkillList.forEach((name)=>{
+        if(io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.BATTLE_SKILLS.LIST[name]) {
+            const targetSkill = io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.BATTLE_SKILLS.LIST[name];
+            if(! targetSkill.skip) {
+                const cursor = targetSkill.group || name;
+                if(! skillMap[cursor]) {
+                    skillMap[cursor] = {
+                        timing: [],
+                        list: []
+                    };
+                }
+                const text = targetSkill.replace || (targetSkill.replaceFunction ? targetSkill.replaceFunction(json) : name);
+                skillMap[cursor].timing.push(targetSkill.timing);
+                skillMap[cursor].list.push(text);
+            }
+        } else {
+            skillMap[name] = {
+                timing: ['常'], list: [name]
+            }
+        }
+    });
+    const result = [];
+    for(var key in skillMap) {
+        const target = io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.BATTLE_SKILLS.FILTER[key] ? io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.BATTLE_SKILLS.FILTER[key](skillMap[key]) : skillMap[key];
+        const icons = target.timing.flat().filter((elem, index, self) => {
+            return self.indexOf(elem) === index;
+        }).map((elem)=>{
+            return io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.BATTLE_SKILLS.TIMING[elem];
+        }).join('');
+        const names = target.list.join('、');
+        result.push(`${icons}${names}`);
+    }
+    return {
+        texts: result
+    };
 };
 
 io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.FAIRY_ELEMENTS = {

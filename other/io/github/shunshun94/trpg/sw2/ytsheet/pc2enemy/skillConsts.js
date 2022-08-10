@@ -7,6 +7,25 @@ io.github.shunshun94.trpg.sw2.ytsheet = io.github.shunshun94.trpg.sw2.ytsheet ||
 io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY = io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY || {};
 io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS = io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS || {};
 io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.BATTLE_SKILLS = io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.BATTLE_SKILLS || {};
+io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.BATTLE_SKILLS.TIMING = {
+    '準': '△',
+    '常': '○',
+    '主': '＞',
+    '補': '≫',
+    '宣': '🗨'
+};
+io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.BATTLE_SKILLS.FILTER = {
+    '複数宣言': (skills)=>{
+      skills.list = [skills.list.sort().reverse()[0]];
+      return skills;
+    },
+    '魔法適性': (skills)=>{
+      if(skills.list.includes('魔法拡大すべて')) {
+        skills.list = skills.list.filter((d)=>{return ! d.startsWith('魔法拡大／')});
+      }
+      return skills;
+    }
+};
 io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.BATTLE_SKILLS.LIST = {
     "足さばき": {
       timing: "常"
