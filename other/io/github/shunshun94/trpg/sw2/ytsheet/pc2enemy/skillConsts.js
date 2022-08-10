@@ -15,6 +15,24 @@ io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.BATTLE_SKILLS.TIMING = {
     '宣': '🗨'
 };
 io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.BATTLE_SKILLS.FILTER = {
+    '投げ': (skills)=>{
+      const acc = Number(json.bonusDex) + Number(json.lvGra);
+      const expected = io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.calcExpectedDamage({
+        dmgTotal: Number(json.bonusStr) + Number(json.lvGra),
+        rate: skills.list.includes('投げ強化Ⅱ') ? 30 : (skills.list.includes('投げ強化Ⅰ') ? 20 : 10),
+        crit:12
+      });
+      return {
+        timing: ['主'],
+        text: `投げ攻撃／${acc}（${acc + 7}）／回避力／消滅&lt;br&gt;近接攻撃として対象1体を投げ飛ばします。対象は「2d+${expected - 7}」点の物理ダメージを受け、転倒します。`
+      }
+    },
+    '2回攻撃':(skills)=>{
+      const withoutDoubleAttacksList = skills.list.filter((d)=>{return d !== '2回攻撃'});
+      const doubleAttacks = skills.list.filter((d)=>{return d === '2回攻撃'});
+      skills.list = [`${doubleAttacks.length + 1}回攻撃`].concat(withoutDoubleAttacksList);
+      return skills;
+    },
     '複数宣言': (skills)=>{
       skills.list = [skills.list.sort().reverse()[0]];
       return skills;
@@ -31,8 +49,7 @@ io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.BATTLE_SKILLS.LIST = {
       timing: "常"
     },
     "追い打ち": {
-      timing: "常",
-      group: 'シールドバッシュ'
+      timing: "常"
     },
     "ガーディアンⅠ": {
       timing: "常",
@@ -288,8 +305,7 @@ io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.BATTLE_SKILLS.LIST = {
       group: '賦術'
     },
     "踏みつけ": {
-      timing: "常",
-      group: '投げ'
+      timing: "常"
     },
     "ブロッキング": {
       timing: "常",
@@ -302,6 +318,7 @@ io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.BATTLE_SKILLS.LIST = {
     },
     "変幻自在Ⅱ": {
       timing: "常",
+      group: '複数宣言',
       replace: '複数宣言＝3回'
     },
     "防具習熟Ａ／金属鎧": {
@@ -540,12 +557,28 @@ io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.BATTLE_SKILLS.LIST = {
       timing: "宣"
     },
     "シールドバッシュⅠ": {
-      timing: "宣",
-      group: 'シールドバッシュ'
+      timing: "主",
+      replaceFunction: (json) => {
+        const acc = Number(json.bonusDex) + Number(json.lvFig || json.lvFen) + 2;
+        const expected = io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.calcExpectedDamage({
+          dmgTotal: Number(json.bonusStr) + Number(json.lvFig || json.lvFen),
+          rate:Number(json.shieldReqd),
+          crit:12
+        });
+        return `シールドバッシュ／${acc}（${acc + 7}）／回避力／消滅&lt;br&gt;近接攻撃として対象1体に盾による打撃を行います。対象は「2d+${expected - 7}」点の物理ダメージを受け、転倒します。`;
+      }
     },
     "シールドバッシュⅡ": {
-      timing: "宣",
-      group: 'シールドバッシュ'
+      timing: "主",
+      replaceFunction: (json) => {
+        const acc = Number(json.bonusDex) + Number(json.lvFig || json.lvFen) + 2;
+        const expected = io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.calcExpectedDamage({
+          dmgTotal: Number(json.bonusStr) + Number(json.lvFig || json.lvFen),
+          rate:Number(json.shieldReqd),
+          crit:12
+        });
+        return `シールドバッシュ／${acc}（${acc + 7}）／回避力／消滅&lt;br&gt;近接攻撃として対象1体に盾による打撃を行います。対象は「2d+${expected - 7}」点の物理ダメージを受け、転倒します。`;
+      }
     },
     "シャドウステップⅠ": {
       timing: "宣"
@@ -718,5 +751,88 @@ io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.BATTLE_SKILLS.LIST = {
     },
     "ワードブレイク": {
       timing: "主"
+    },
+
+    "タフネス": {
+      timing:"常",
+      skip: true
+    },
+    "追加攻撃": {
+      timing:"主",
+      group: '2回攻撃',
+      replace: '2回攻撃'
+    },
+    "投げ攻撃": {
+      timing:"主",
+      group: '投げ'
+    },
+    "カウンター": {
+      timing:"常"
+    },
+    "バトルマスター": {
+      timing:"常",
+      group: '複数宣言',
+      replace: '複数宣言＝2回'
+    },
+    "ルーンマスター": {
+      timing:"常",
+      group: '複数宣言',
+      replace: '複数宣言＝2回'
+    },
+    "トレジャーハント": {
+      timing:"常",
+      skip: true
+    },
+    "ファストアクション": {timing:"常"},
+    "トレジャーマスター": {
+      timing:"常",
+      skip: true
+    },
+    "匠の技": {
+      timing:"常",
+      skip: true
+    },
+    "影走り": {
+      timing:"常"
+    },
+    "治癒適性": {
+      timing:"常"
+    },
+    "サバイバビリティ": {
+      timing:"常"
+    },
+    "不屈": {
+      timing:"常"
+    },
+    "ポーションマスター": {
+      timing:"常"
+    },
+    "韋駄天": {
+      timing:"常"
+    },
+    "縮地": {
+      "timing":"常"
+    },
+    "ランアンドガン": {
+      timing:"常"
+    },
+    "鋭い目": {
+      timing:"常",
+      skip: true
+    },
+    "弱点看破": {
+      timing:"常",
+      skip: true
+    },
+    "マナセーブ": {
+      timing:"常",
+      group: '魔法適性'
+    },
+    "マナ耐性": {
+      timing:"常"
+    },
+    "賢人の知恵": {
+      timing:"常",
+      skip: true
     }
 };

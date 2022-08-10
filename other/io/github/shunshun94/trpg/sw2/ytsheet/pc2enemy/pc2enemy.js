@@ -70,9 +70,13 @@ io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.getWeaponList = (json) => {
         });
     }
     return list.map((w)=>{
-        w.expected = w.dmgTotal + Math.round(((w.rate + 10) / 6) * (io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.CRITICAL_COEFFCIENTS[w.crit] || 1));
+        w.expected = io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.calcExpectedDamage(w);
         return w;
     });
+};
+
+io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.calcExpectedDamage = (w) => {
+    return w.dmgTotal + Math.round(((w.rate + 10) / 6) * (io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.CRITICAL_COEFFCIENTS[w.crit] || 1));
 };
 
 io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.generateSkills = (json) => {
@@ -97,7 +101,7 @@ io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.getBattleSkillList = (json) => {
             list.push(json[`combatFeatsLv${i + 1}`]);
         }
     }
-    return list; //.concat(json.combatFeatsAuto ? json.combatFeatsAuto.split(',') : []);
+    return list.concat(json.combatFeatsAuto ? json.combatFeatsAuto.split(',') : []);
 };
 
 io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.getBattleSkillsInfo = (json) => {
