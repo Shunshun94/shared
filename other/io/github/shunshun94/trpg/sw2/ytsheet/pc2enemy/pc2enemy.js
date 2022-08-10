@@ -9,7 +9,7 @@ io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS = io.github.shunshun94.trp
 io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.exec = (json) => {
     const result = {
         author: json.playerName,
-        initiative: json.initiative,
+        initiative: Number(json.initiative) + 7,
         intellect: (Number(json.sttInt) > 29) ? '高い' : '人間並み',
         language: io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.getLanguage(json),
         lv: json.level,
@@ -18,7 +18,7 @@ io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.exec = (json) => {
         mobility: json.mobilityTotal,
         monsterName: json.characterName,
         perception: (json.raceAbility.includes('暗視')) ? '五感（暗視）' : '五感',
-        reputation: Number(json.level) + 4,
+        reputation: Number(json.level) + 3,
         sin: json.sin || 0,
         status1Defense: json.defenseTotal1Def,
         status1Evasion:json.defenseTotal1Eva,
@@ -83,8 +83,11 @@ io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.generateSkills = (json) => {
     const magicLikes = io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.getMagicLikeInfo(json);
     result = result.concat(magicLikes.texts);
 
-
     return result.join('&lt;br&gt;&lt;br&gt;');
+};
+
+io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.FAIRY_ELEMENTS = {
+    Earth: '土', Water: '水・氷', Fire:'炎', Wind:'風', Light:'光', Dark:'闇'
 };
 
 io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.MAGIC_SUFFIX = {
@@ -92,7 +95,15 @@ io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.MAGIC_SUFFIX = {
     'Con': {name:'操霊魔法'},
     'Pri': {name:'神聖魔法'},
     'Mag': {name:'魔動機術'},
-    'Fai': {name:'妖精魔法'},
+    'Fai': {name:'妖精魔法', secondLine: (json)=>{
+        const list = [];
+        for(var key in io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.FAIRY_ELEMENTS) {
+            if(json[`fairyContract${key}`]) {
+                list.push(`「${io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.FAIRY_ELEMENTS[key]}」`);
+            }
+        }
+        return `使用する属性は${list.join('')}です。`;
+    }},
     'Dem': {name:'召異魔法'},
     'Dru': {name:'森羅魔法'},
     'Gri': {name:'秘奥魔法', skill:'magicGramarye'}
@@ -111,7 +122,9 @@ io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.getMagicInfo = (json) => {
             if( power > result.max) {
                 result.max = power;
             }
-            if(category.skill) {
+            if(category.secondLine) {
+                result.texts.push(`▶${category.name}${json[`lv${key}`]}レベル／魔力${power}（${power + 7}）&lt;br&gt;${category.secondLine(json)}`);
+            }else if(category.skill) {
                 let i = 1;
                 const skillList = [];
                 while(json[`${category.skill}${i}`]) {
@@ -128,9 +141,11 @@ io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.getMagicInfo = (json) => {
 };
 
 io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.NOMAGIC_SUFFIX = {
-    'Enh': {name:'練技', skill:'craftEnhance', mark:'▶≫△'},
-    'Alc': {name:'賦術', skill:'craftAlchemy', mark:'≫△'},
-    'War': {name:'鼓咆', skill:'craftCommand', mark:'≫'}
+    'Enh': {name:'練技', skill:'craftEnhance',    mark:'▶≫△'},
+    'Alc': {name:'賦術', skill:'craftAlchemy',    mark:'≫△'},
+    'Geo': {name:'相域', skill:'craftGeomancy',   mark:'≫'},
+    'War': {name:'鼓咆', skill:'craftCommand',    mark:'≫'},
+    'Mys': {name:'占瞳', skill:'craftDivination', mark:'▶'}
 };
 
 io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.getMagicLikeInfo = (json) => {
