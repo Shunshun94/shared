@@ -15,26 +15,23 @@ const request = (url) => {
 };
 
 const bindEvents = () => {
-    document.getElementById('exec').onclick = (e) => {
-        const url = document.getElementById('sheetUrl').value;
-        request(url).then((json)=>{
-            console.log(json);
-            const result = io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.exec(json);
-            console.log(result);
-        })
-    };
+    document.getElementById('input').addEventListener(
+        io.github.shunshun94.trpg.sw2.component.SheetInput.EVENTS.SHEET_URL_INPUT,
+        (e) => {
+            const url = e.url;
+            request(url).then((json)=>{
+                json.sourceUrl = url;
+                const result = io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.exec(json);
+                e.resolve();
+                io.github.shunshun94.util.downloadFile(`${result.monsterName}.json`, JSON.stringify(result));
+                console.log(result);
+            })
+        }
+    );
 };
 
 const loadSheetList = () => {
-    const sheets = document.getElementById('sheets');
-    io.github.shunshun94.util.objectToMap(JSON.parse(localStorage.getItem('com-hiyoko-sample-sw2sheetparse-index') || '{}')).forEach((v, k) => {
-        if(! k.startsWith('https://charasheet.vampire-blood.net/')) {
-            const option = document.createElement('option');
-            option.value = k;
-            option.textContent = v;
-            sheets.append(option);
-        }
-    });
+    io.github.shunshun94.trpg.sw2.component.SheetInput.build(document.getElementById('input'), {characterSheetFilter: 'ytsheet'});
 };
 
 initialize();
