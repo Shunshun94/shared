@@ -562,7 +562,7 @@ io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.BATTLE_SKILLS.LIST = {
         const acc = Number(json.bonusDex) + Number(json.lvFig || json.lvFen) + 2;
         const expected = io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.calcExpectedDamage({
           dmgTotal: Number(json.bonusStr) + Number(json.lvFig || json.lvFen),
-          rate:Number(json.shieldReqd),
+          rate:Number(json.shield1Reqd),
           crit:12
         });
         return `シールドバッシュ／${acc}（${acc + 7}）／回避力／消滅&lt;br&gt;近接攻撃として対象1体に盾による打撃を行います。対象は「2d+${expected - 7}」点の物理ダメージを受け、転倒します。`;
@@ -574,7 +574,7 @@ io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.BATTLE_SKILLS.LIST = {
         const acc = Number(json.bonusDex) + Number(json.lvFig || json.lvFen) + 2;
         const expected = io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.calcExpectedDamage({
           dmgTotal: Number(json.bonusStr) + Number(json.lvFig || json.lvFen),
-          rate:Number(json.shieldReqd),
+          rate:Number(json.shield1Reqd),
           crit:12
         });
         return `シールドバッシュ／${acc}（${acc + 7}）／回避力／消滅&lt;br&gt;近接攻撃として対象1体に盾による打撃を行います。対象は「2d+${expected - 7}」点の物理ダメージを受け、転倒します。`;
@@ -832,6 +832,14 @@ io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.BATTLE_SKILLS.LIST = {
       timing:"常"
     },
     "賢人の知恵": {
+      timing:"常",
+      skip: true
+    },
+    '掠め取り':{
+      timing:"常",
+      skip: true
+    },
+    'クルードテイク':{
       timing:"常",
       skip: true
     }

@@ -49,6 +49,23 @@ io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.CRITICAL_COEFFCIENTS = {
     13: 1
 };
 
+io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.calcForumula = (text, token) => {
+    const parseResult = /(\d+)([\+\-])/.exec(text);
+    if(parseResult) {
+        if(token === '-') {
+            return io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.calcForumula(text.replace(parseResult[0], ''), parseResult[2]) - Number(parseResult[1]);
+        } else {
+            return io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.calcForumula(text.replace(parseResult[0], ''), parseResult[2]) + Number(parseResult[1]);
+        }
+    } else {
+        if(token === '-') {
+            return Number(text) * -1;
+        } else {
+            return Number(text);
+        }
+    }
+};
+
 io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.getWeaponList = (json) => {
     const count = Number(json.weaponNum);
     const list = [];
@@ -58,7 +75,7 @@ io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.getWeaponList = (json) => {
             name:            json[`weapon${id}Name`],
             acc:      Number(json[`weapon${id}Acc`]),
             accTotal: Number(json[`weapon${id}AccTotal`]),
-            rate:     Number(json[`weapon${id}Rate`]),
+            rate:     io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.calcForumula(json[`weapon${id}Rate`]),
             crit:     Number(json[`weapon${id}Crit`]),
             dmg:      Number(json[`weapon${id}Dmg`]),
             dmgTotal: Number(json[`weapon${id}DmgTotal`]),
@@ -76,6 +93,7 @@ io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.getWeaponList = (json) => {
 };
 
 io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.calcExpectedDamage = (w) => {
+    console.log(w);
     return w.dmgTotal + Math.round(((w.rate + 10) / 6) * (io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.CRITICAL_COEFFCIENTS[w.crit] || 1));
 };
 
@@ -243,6 +261,7 @@ io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.DEFAULT_WEAPON = {
 io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.getAttackWay = (json) => {
     const weapons = io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.getWeaponList(json);
     const expectedWeapons = weapons.reduce((c, w)=>{
+        console.log(c,w);
         if( w.expected >= c.expected) {
             return w;
         } else {
