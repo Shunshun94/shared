@@ -15,7 +15,7 @@ io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.BATTLE_SKILLS.TIMING = {
     '宣': '🗨'
 };
 io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.BATTLE_SKILLS.FILTER = {
-    '投げ': (skills)=>{
+    '投げ': (skills, json)=>{
       const acc = Number(json.bonusDex) + Number(json.lvGra);
       const expected = io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.calcExpectedDamage({
         dmgTotal: Number(json.bonusStr) + Number(json.lvGra),
@@ -24,7 +24,7 @@ io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.BATTLE_SKILLS.FILTER = {
       });
       return {
         timing: ['主'],
-        text: `投げ攻撃／${acc}（${acc + 7}）／回避力／消滅&lt;br&gt;近接攻撃として対象1体を投げ飛ばします。対象は「2d+${expected - 7}」点の物理ダメージを受け、転倒します。`
+        list: [`投げ攻撃／${acc}（${acc + 7}）／回避力／消滅&lt;br&gt;近接攻撃として対象1体を投げ飛ばします。対象は「2d+${expected - 7}」点の物理ダメージを受け、転倒します。`]
       }
     },
     '2回攻撃':(skills)=>{

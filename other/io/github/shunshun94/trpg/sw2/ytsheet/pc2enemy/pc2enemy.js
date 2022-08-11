@@ -114,6 +114,9 @@ io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.MAX_LEVEL = 17;
 
 io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.getBattleSkillList = (json) => {
     const list = [];
+    if(json.lvGra) {
+        list.push('投げ攻撃');
+    }
     for(var i = 0; i < io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.MAX_LEVEL; i++) {
         if(json[`combatFeatsLv${i + 1}`]) {
             list.push(json[`combatFeatsLv${i + 1}`]);
@@ -149,7 +152,7 @@ io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.getBattleSkillsInfo = (json) => {
     });
     const result = [];
     for(var key in skillMap) {
-        const target = io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.BATTLE_SKILLS.FILTER[key] ? io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.BATTLE_SKILLS.FILTER[key](skillMap[key]) : skillMap[key];
+        const target = io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.BATTLE_SKILLS.FILTER[key] ? io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.BATTLE_SKILLS.FILTER[key](skillMap[key], json) : skillMap[key];
         const icons = target.timing.flat().filter((elem, index, self) => {
             return self.indexOf(elem) === index;
         }).map((elem)=>{
