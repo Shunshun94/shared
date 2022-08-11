@@ -17,7 +17,7 @@ io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.exec = (json) => {
         mndResistFix: Number(json.mndResistTotal) + 7,
         mobility: json.mobilityTotal,
         monsterName: json.characterName,
-        perception: (json.raceAbility.includes('暗視')) ? '五感（暗視）' : '五感',
+        perception: (json.raceAbility.includes('［暗視］')) ? '五感（暗視）' : '五感',
         reputation: Number(json.level) + 3,
         sin: json.sin || 0,
         status1Defense: json.defenseTotal1Def,
