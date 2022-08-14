@@ -9,7 +9,7 @@ io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS = io.github.shunshun94.trp
 io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.exec = (json) => {
     const result = {
         author: json.playerName,
-        initiative: Number(json.initiative) + 7,
+        initiative: Number(json.initiative) + 7 + io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.baseAppendCalcInitiative(json),
         intellect: (Number(json.sttInt) > 29) ? '高い' : '人間並み',
         language: io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.getLanguage(json),
         lv: json.level,
@@ -37,6 +37,15 @@ io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.exec = (json) => {
     }
     result.skills = io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.generateSkills(json);
     return result;
+};
+
+io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.baseAppendCalcInitiative = (json) => {
+    let bonus = 0;
+    if(json.combatFeatsAuto && json.combatFeatsAuto.includes('匠の技')) {
+        //2回振る場合、期待値は +1 される
+        bonus += 1;
+    }
+    return bonus;
 };
 
 io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.CRITICAL_COEFFCIENTS = {
