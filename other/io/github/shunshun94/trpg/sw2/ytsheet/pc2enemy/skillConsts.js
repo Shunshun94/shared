@@ -849,17 +849,70 @@ io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.RACE_ABILITY = io.github.s
 io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.RACE_ABILITY.LIST = {
   "剣の加護／運命変転": {},
   "暗視": {skip: true},
-  "剣の加護／優しき水": {},
-  "剣の加護／炎身": {},
+  "剣の加護／優しき水": {
+    replaceFunction: (json) => {
+      const level = Number(json.level);
+      if(level < 6) {
+        return '○剣の加護／優しき水';
+      } else {
+        return '○剣の加護／優しき水&lt;br&gt;この能力を位置が同じくする1体にも与えることができます';
+      }
+    }
+  },
+  "剣の加護／炎身": {
+    replaceFunction: (json) => {
+      const level = Number(json.level);
+      if(level < 6) {
+        return '○剣の加護／炎身';
+      } else if(level < 11) {
+        return '○剣の加護／炎身&lt;br&gt;この能力を位置が同じくする1体にも与えることができます';
+      } else {
+        return '○剣の加護／炎身&lt;br&gt;この能力を位置が同じくする1体にも与えることができます。さらに、純エネルギー属性のダメージを被るとき、自動的にその算出ダメージを半減します。純エネルギー属性で「抵抗：半減」の効果を「抵抗：消滅」として受けます。';
+      }
+    }
+  },
   "第六感": {skip: true},
-  "HP変換": {},
-  "異貌": {},
+  "HP変換": {
+    replaceFunction: (json) => {
+      const level = Number(json.level);
+      if(level < 6) {
+        return '▶HP変換';
+      } else if(level < 11) {
+        return '△≫HP変換';
+      } else {
+        return '△≫HP変換&lt;br&gt;1日に2回まで使用できます';
+      }
+    }
+  },
+  "異貌": {
+    replaceFunction: (json) => {
+      const level = Number(json.level);
+      if(level < 6) {
+        return '≫異貌';
+      } else if(level < 11) {
+        return '≫異貌&lt;br&gt;使用持の打撃点は+1点されます';
+      } else {
+        return '≫異貌&lt;br&gt;使用持の打撃点は+1点され、命中力判定に+1のボーナス修正を受け、さらに魔力に+1のボーナス修正を受けます';
+      }
+    }
+  },
   "弱点／土": {},
   "弱点／水・氷": {},
   "弱点／炎": {},
   "弱点／風": {},
   "暗視(獣変貌)": {skip: true},
-  "獣変貌": {},
+  "獣変貌": {
+    replaceFunction: (json) => {
+      const level = Number(json.level);
+      if(level < 6) {
+        return '▶獣変貌';
+      } else if(level < 11) {
+        return '△≫獣変貌';
+      } else {
+        return '△≫獣変貌&lt;br&gt;使用時はさらに回避力判定と先制判定に+1のボーナス修正を受けます';
+      }
+    }
+  },
   "鱗の皮膚": {skip: true},
   "尻尾が武器": {skip: true},
   "剣の加護／風の翼": {},
@@ -870,16 +923,50 @@ io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.RACE_ABILITY.LIST = {
   "見えざる手": {skip: true},
   "姿なき職人": {},
   "吸精": {},
-  "月光の守り": {},
+  "月光の守り": {
+    replaceFunction: (json) => {
+      const level = Number(json.level);
+      if(level < 6) {
+        return '';
+      } else if(level < 11) {
+        return '○月光の守り&lt;br&gt;毒、病気、呪い属性で受ける物理・魔法ダメージを常に3点軽減します';
+      } else {
+        return '○月光の守り&lt;br&gt;毒、病気、呪い属性で受ける物理・魔法ダメージを常に6点軽減します';
+      }
+    }
+  },
   "輝く肉体": {},
   "太陽の再生": {skip: true},
   "太陽の子": {},
   "蛮族の身体": {skip: true},
   "未熟な翼": {},
-  "切り裂く風": {},
+  "切り裂く風": {
+    replaceFunction: (json) => {
+      const level = Number(json.level);
+      const lifeB = Number(json.bonusVit);
+      const base = level+lifeB;
+      const level1 = `＞切り裂く風1／${base}（${base + 7}）／精神抵抗力／半減&lt;br&gt;「射程／形状：2（30m）／起点指定」で対象1体に「威力10+${base}」点の風属性の魔法ダメージを与えます。使用するとMPを4点消費します。`;
+      const level2 = `＞切り裂く風2／${base}（${base + 7}）／精神抵抗力／半減&lt;br&gt;「射程／形状：2（30m）／起点指定」で対象1体に「威力30+${base}」点の風属性の魔法ダメージを与えます。使用するとMPを8点消費します。`;
+      const level3 = `＞切り裂く風3／${base}（${base + 7}）／精神抵抗力／半減&lt;br&gt;「射程／形状：2（30m）／起点指定」で対象1体に「威力50+${base}」点の風属性の魔法ダメージを与えます。使用するとMPを12点消費します。`
+      if(level < 6) {
+        return [level1].join('&lt;br&gt;&lt;br&gt;');
+      } else if(level < 11) {
+        return [level1, level2].join('&lt;br&gt;&lt;br&gt;');
+      } else {
+        return [level1, level2, level3].join('&lt;br&gt;&lt;br&gt;');
+      }
+    }
+  },
   "水中適性": {},
   "甲殻の手": {skip: true},
-  "石化の視線": {},
+  "石化の視線": {
+    replaceFunction: (json) => {
+      const level = Number(json.level);
+      const mindB = Number(json.bonusMnd);
+      const base = level+mindB;
+      return `≫石化の視線／${base}（${base + 7}）／精神抵抗力／消滅&lt;br&gt;「射程／形状：2（30m）／起点指定」で対象1体に石化進行（『Ⅱ』368項／『ML』65項）。使用するとMPを5点消費します。`;
+    }
+  },
   "毒の血液": {},
   "剛力": {skip: true},
   "水・氷耐性": {},
@@ -887,10 +974,10 @@ io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.RACE_ABILITY.LIST = {
   "妖精の加護": {},
   "浮遊": {},
   "魂の輝き": {},
-  "鉱石の生命": {skip: true},
+  "鉱石の生命": {},
   "晶石の身体": {skip: true},
   "魔法の申し子": {},
-  "デジャヴ": {},
+  "デジャヴ": {skip: true},
   "猫変化": {},
   "獣性の発露": {},
   "戦乙女の光羽": {},
@@ -912,7 +999,9 @@ io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.RACE_ABILITY.LIST = {
   "契約の絆": {},
   "黒炎の遣い手": {},
   "魔剣の所持": {skip: true},
-  "飛行（飛翔）": {},
+  "飛行（飛翔）": {
+    replace: `○飛行（飛翔）&lt;br&gt;近接攻撃における命中力・回避力判定に+1のボーナス修正を得ます`
+  },
   "竜化": {},
   "限定竜化": {},
   "邪視と瞳石": {},
@@ -920,8 +1009,12 @@ io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.RACE_ABILITY.LIST = {
   "魔物化": {},
   "水中活動": {},
   "無呼吸活動": {},
-  "仲間との連携": {},
-  "敵への憤怒": {},
+  "仲間との連携": {
+    replace: `○仲間との連携&lt;br&gt;※能力に合わせて編集してください`
+  },
+  "敵への憤怒": {
+    replace: `○敵への憤怒&lt;br&gt;※能力に合わせて編集してください`
+  },
   "半馬半人": {skip: true},
   "馬人の武術": {skip: true},
   "弱体化": {},

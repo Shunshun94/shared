@@ -100,6 +100,8 @@ io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.calcExpectedDamage = (w) => {
 io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.generateSkills = (json) => {
     let result = [];
 
+    const abilities = io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.getAbilityInfo(json);
+    result = result.concat(abilities.texts);
     const magics = io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.getMagicInfo(json);
     result = result.concat(magics.texts);
     const magicLikes = io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.getMagicLikeInfo(json);
@@ -107,7 +109,25 @@ io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.generateSkills = (json) => {
     const battleSkills = io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.getBattleSkillsInfo(json);
     result = result.concat(battleSkills.texts);
 
-    return result.join('&lt;br&gt;&lt;br&gt;');
+    return result.join('&lt;br&gt;&lt;br&gt;').trim();
+};
+
+io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.getAbilityInfo = (json) => {
+    const list = json.raceAbility.substr(1, json.raceAbility.length - 2).split('］［');
+    const map = io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.RACE_ABILITY.LIST;
+    return {
+        texts: list.map((ability)=>{
+            const target = map[ability];
+            if(target.skip) {return '';}
+            if(target.replaceFunction) {
+                return target.replaceFunction(json);
+            }
+            if(target.replace) {
+                return target.replace;
+            }
+            return '○' + ability;
+        })
+    }
 };
 
 io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.MAX_LEVEL = 17;
