@@ -6,6 +6,19 @@ io.github.shunshun94.trpg.sw2 = io.github.shunshun94.trpg.sw2 || {};
 io.github.shunshun94.trpg.sw2.ytsheet = io.github.shunshun94.trpg.sw2.ytsheet || {};
 io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY = io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY || {};
 io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS = io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS || {};
+
+io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.MAX_LEVEL = 17;
+
+io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.CRITICAL_COEFFCIENTS = {
+  7: 36/15,
+  8: 36/21,
+  9: 36/26,
+  10: 36/30,
+  11: 36/33,
+  12: 36/35,
+  13: 1
+};
+
 io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.BATTLE_SKILLS = io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.BATTLE_SKILLS || {};
 io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.BATTLE_SKILLS.TIMING = {
     '準': '△',
@@ -14,6 +27,46 @@ io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.BATTLE_SKILLS.TIMING = {
     '補': '≫',
     '宣': '🗨'
 };
+
+io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.FAIRY_ELEMENTS = {
+  Earth: '土', Water: '水・氷', Fire:'炎', Wind:'風', Light:'光', Dark:'闇'
+};
+
+io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.MAGIC_SUFFIX = {
+  'Sor': {name:'真語魔法'},
+  'Con': {name:'操霊魔法'},
+  'Pri': {name:'神聖魔法'},
+  'Mag': {name:'魔動機術'},
+  'Fai': {name:'妖精魔法', secondLine: (json)=>{
+      const list = [];
+      for(var key in io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.FAIRY_ELEMENTS) {
+          if(json[`fairyContract${key}`]) {
+              list.push(`「${io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.FAIRY_ELEMENTS[key]}」`);
+          }
+      }
+      return `使用する属性は${list.join('')}です。`;
+  }},
+  'Dem': {name:'召異魔法'},
+  'Dru': {name:'森羅魔法'},
+  'Gri': {name:'秘奥魔法', skill:'magicGramarye'}
+};
+
+io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.NOMAGIC_SUFFIX = {
+  'Enh': {name:'練技', skill:'craftEnhance',    mark:'▶≫△'},
+  'Alc': {name:'賦術', skill:'craftAlchemy',    mark:'≫△'},
+  'Geo': {name:'相域', skill:'craftGeomancy',   mark:'≫'},
+  'War': {name:'鼓咆', skill:'craftCommand',    mark:'≫'},
+  'Mys': {name:'占瞳', skill:'craftDivination', mark:'▶'}
+};
+
+// コボルドの攻撃能力そのまんま
+io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.DEFAULT_WEAPON = {
+  name: 'ナイフ',
+  expected: 8,
+  acc: 3,
+  accTotal: 10
+};
+
 io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.BATTLE_SKILLS.FILTER = {
     '投げ': (skills, json)=>{
       const acc = Number(json.bonusDex) + Number(json.lvGra);
@@ -699,7 +752,37 @@ io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.BATTLE_SKILLS.LIST = {
     "魔力撃": {
       timing: "宣",
       replaceFunction: (json)=>{
-        const magic = io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.getMagicInfo(json);
+        const getMagicInfo = (json) => {
+            const result = {
+                max: 0,
+                texts: []
+            };
+            const magicList = io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.MAGIC_SUFFIX;
+            for(var key in magicList) {
+                if(json[`lv${key}`]) {
+                    const category = magicList[key];
+                    const power = Number(json[`magicPower${key}`]);
+                    if( power > result.max) {
+                        result.max = power;
+                    }
+                    if(category.secondLine) {
+                        result.texts.push(`▶${category.name}${json[`lv${key}`]}レベル／魔力${power}（${power + 7}）&lt;br&gt;${category.secondLine(json)}`);
+                    }else if(category.skill) {
+                        let i = 1;
+                        const skillList = [];
+                        while(json[`${category.skill}${i}`]) {
+                            skillList.push(`【${json[`${category.skill}${i}`]}】`);
+                            i++;
+                        }
+                        result.texts.push(`▶${category.name}${json[`lv${key}`]}レベル／魔力${power}（${power + 7}）&lt;br&gt;${skillList.join('')}の${category.name}を使用します。`);
+                    } else {
+                        result.texts.push(`▶${category.name}${json[`lv${key}`]}レベル／魔力${power}（${power + 7}）`);
+                    }
+                }
+            }
+            return result;
+        };
+        const magic = getMagicInfo(json);
         return `魔力撃＝＋${magic.max}ダメージ`;
       }
     },

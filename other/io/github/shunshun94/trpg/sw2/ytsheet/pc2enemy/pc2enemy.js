@@ -9,7 +9,7 @@ io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS = io.github.shunshun94.trp
 io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.exec = (json) => {
     const result = {
         author: json.playerName,
-        initiative: Number(json.initiative) + 7,
+        initiative: Number(json.initiative) + 7 + io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.baseAppendCalcInitiative(json),
         intellect: (Number(json.sttInt) > 29) ? '高い' : '人間並み',
         language: io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.getLanguage(json),
         lv: json.level,
@@ -39,14 +39,13 @@ io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.exec = (json) => {
     return result;
 };
 
-io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.CRITICAL_COEFFCIENTS = {
-    7: 36/15,
-    8: 36/21,
-    9: 36/26,
-    10: 36/30,
-    11: 36/33,
-    12: 36/35,
-    13: 1
+io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.baseAppendCalcInitiative = (json) => {
+    let bonus = 0;
+    if(json.combatFeatsAuto && json.combatFeatsAuto.includes('匠の技')) {
+        //2回振る場合、期待値は +1 される
+        bonus += 1;
+    }
+    return bonus;
 };
 
 io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.calcForumula = (text, token) => {
@@ -130,8 +129,6 @@ io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.getAbilityInfo = (json) => {
     }
 };
 
-io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.MAX_LEVEL = 17;
-
 io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.getBattleSkillList = (json) => {
     const list = [];
     if(json.lvGra) {
@@ -186,29 +183,6 @@ io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.getBattleSkillsInfo = (json) => {
     };
 };
 
-io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.FAIRY_ELEMENTS = {
-    Earth: '土', Water: '水・氷', Fire:'炎', Wind:'風', Light:'光', Dark:'闇'
-};
-
-io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.MAGIC_SUFFIX = {
-    'Sor': {name:'真語魔法'},
-    'Con': {name:'操霊魔法'},
-    'Pri': {name:'神聖魔法'},
-    'Mag': {name:'魔動機術'},
-    'Fai': {name:'妖精魔法', secondLine: (json)=>{
-        const list = [];
-        for(var key in io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.FAIRY_ELEMENTS) {
-            if(json[`fairyContract${key}`]) {
-                list.push(`「${io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.FAIRY_ELEMENTS[key]}」`);
-            }
-        }
-        return `使用する属性は${list.join('')}です。`;
-    }},
-    'Dem': {name:'召異魔法'},
-    'Dru': {name:'森羅魔法'},
-    'Gri': {name:'秘奥魔法', skill:'magicGramarye'}
-};
-
 io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.getMagicInfo = (json) => {
     const result = {
         max: 0,
@@ -240,14 +214,6 @@ io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.getMagicInfo = (json) => {
     return result;
 };
 
-io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.NOMAGIC_SUFFIX = {
-    'Enh': {name:'練技', skill:'craftEnhance',    mark:'▶≫△'},
-    'Alc': {name:'賦術', skill:'craftAlchemy',    mark:'≫△'},
-    'Geo': {name:'相域', skill:'craftGeomancy',   mark:'≫'},
-    'War': {name:'鼓咆', skill:'craftCommand',    mark:'≫'},
-    'Mys': {name:'占瞳', skill:'craftDivination', mark:'▶'}
-};
-
 io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.getMagicLikeInfo = (json) => {
     const result = {
         max: 0,
@@ -271,14 +237,6 @@ io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.getMagicLikeInfo = (json) => {
         }
     }
     return result;
-};
-
-// コボルドの攻撃能力そのまんま
-io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.DEFAULT_WEAPON = {
-    name: 'ナイフ',
-    expected: 8,
-    acc: 3,
-    accTotal: 10
 };
 
 io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.getAttackWay = (json) => {
