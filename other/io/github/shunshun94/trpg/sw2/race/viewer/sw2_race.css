@@ -1,0 +1,64 @@
+@charset "utf-8";
+* {
+	box-sizing:border-box;
+	font-family: "BIZ UDゴシック","UD Shin Go NT Light JIS2004","UD デジタル 教科書体 N-R", Verdana, Roboto, "Droid Sans", "游ゴシック", YuGothic, "メイリオ", Meiryo, "ヒラギノ角ゴ ProN W3", "Hiragino Kaku Gothic ProN", "ＭＳ Ｐゴシック", sans-serif;
+}
+
+body > h1,
+body > h2,
+body > h3,
+body > dl,
+body > p {
+    width:800px;
+}
+
+h1 {
+    background-image: url("./race_h1.png");
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    width:800px;
+    height:60px
+    font-size:120%;
+    text-align:center;
+    padding-top:4px;
+    padding-bottom:4px;
+}
+
+h2 {
+    font-size:100%;
+    border-bottom:1px black solid;
+}
+
+h3 {
+    font-size:100%;
+    background-color:black;
+    color:white;
+    padding:2px;
+}
+
+p {
+    text-indent:1em;
+}
+
+dt {
+    font-weight:bold;
+    display:inline;
+}
+dt::after{
+    content:"："
+}
+
+dd {
+    display:inline;
+    margin-inline-start:0px;
+}
+
+.barth_table th {
+    background-color:black;
+    color:white;
+}
+
+.barth_table tr:nth-child(odd) {
+    background-color:#D0D0D0;
+}
