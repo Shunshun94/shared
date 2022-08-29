@@ -54,6 +54,11 @@ dd {
     margin-inline-start:0px;
 }
 
+.barth_table caption {
+    text-align:left;
+    font-weight:bold;
+}
+
 .barth_table th {
     background-color:black;
     color:white;
