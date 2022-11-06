@@ -1,30 +1,35 @@
 @charset "utf-8";
 
 .io-github-shunshun94-util-decoration-keeping > .io-github-shunshun94-util-decoration-char {
-    --delay: calc((var(--char-index) + 1) * 40ms);
+    --delay: calc((var(--char-index) + 1) * 200ms);
 	animation: io-github-shunshun94-util-decoration-keeping-char 800ms infinite both;
 	animation-delay: var(--delay);
-    color:white;
+    font-weight: bold;
 }
 
 @keyframes io-github-shunshun94-util-decoration-keeping-char {
     0% {
         background-image: linear-gradient(-0.9rad, black 12%, yellow 25%, black 37%, yellow 50%, black 63%, yellow 75%, black 87%, yellow);
+        color: hsl(0, 100%, 100%);
     }
 
     25% {
         background-image: linear-gradient(-0.9rad, yellow 6%, black 18%, yellow 31%, black 43%, yellow 56%, black 69%, yellow 81%, black 93%, yellow);
+        color: hsl(0, 100%, 85%);
     }
 
     50% {
         background-image: linear-gradient(-0.9rad, yellow 12%, black 25%, yellow 37%, black 50%, yellow 63%, black 75%, yellow 87%, black);
+        color: hsl(0, 100%, 70%);
     }
 
     75% {
         background-image: linear-gradient(-0.9rad, black 6%, yellow 18%, black 31%, yellow 43%, black 56%, yellow 69%, black 81%, yellow 93%, black);
+        color: hsl(0, 100%, 85%);
     }
 
     100% {
         background-image: linear-gradient(-0.9rad, black 12%, yellow 25%, black 37%, yellow 50%, black 63%, yellow 75%, black 87%, yellow);
+        color: hsl(0, 100%, 100%);
     }
 }
