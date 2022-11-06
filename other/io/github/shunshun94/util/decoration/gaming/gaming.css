@@ -1,0 +1,79 @@
+@charset "utf-8";
+
+.io-github-shunshun94-util-decoration-gaming > .io-github-shunshun94-util-decoration-char,
+.io-github-shunshun94-util-decoration-gaming-shade > .io-github-shunshun94-util-decoration-char {
+	--delay: calc((var(--char-index) + 1) * 40ms);
+	animation: io-github-shunshun94-util-decoration-gaming-char-shade 800ms infinite both;
+	animation-delay: var(--delay);
+}
+
+@keyframes io-github-shunshun94-util-decoration-gaming-char-shade {
+	0% {
+		color: hsl(0, 100%, 35%);
+	}
+    25% {
+		color: hsl(90, 100%, 35%);
+	}
+    50% {
+		color: hsl(180, 100%, 35%);
+	}
+    75% {
+		color: hsl(270, 100%, 35%);
+	}
+    100% {
+		color: hsl(360, 100%, 35%);
+	}
+}
+
+.io-github-shunshun94-util-decoration-gaming-light > .io-github-shunshun94-util-decoration-char {
+	--delay: calc((var(--char-index) + 1) * 40ms);
+	animation: io-github-shunshun94-util-decoration-gaming-char-light 800ms infinite both;
+	animation-delay: var(--delay);
+}
+
+@keyframes io-github-shunshun94-util-decoration-gaming-char-light {
+	0% {
+		color: hsl(0, 100%, 65%);
+	}
+    25% {
+		color: hsl(90, 100%, 65%);
+	}
+    50% {
+		color: hsl(180, 100%, 65%);
+	}
+    75% {
+		color: hsl(270, 100%, 65%);
+	}
+    100% {
+		color: hsl(360, 100%, 65%);
+	}
+}
+
+.io-github-shunshun94-util-decoration-gaming-full > .io-github-shunshun94-util-decoration-char {
+	--delay: calc((var(--char-index) + 1) * 40ms);
+	animation: io-github-shunshun94-util-decoration-gaming-char-full 800ms infinite both;
+	animation-delay: var(--delay);
+}
+
+@keyframes io-github-shunshun94-util-decoration-gaming-char-full {
+	0% {
+		color: hsl(0, 100%, 35%);
+        background-color: hsl(180, 100%, 85%);
+	}
+    25% {
+		color: hsl(90, 100%, 35%);
+        background-color: hsl(270, 100%, 85%);
+	}
+    50% {
+		color: hsl(180, 100%, 35%);
+        background-color: hsl(0, 100%, 85%);
+	}
+    75% {
+		color: hsl(270, 100%, 35%);
+        background-color: hsl(90, 100%, 85%);
+	}
+    100% {
+		color: hsl(360, 100%, 35%);
+        background-color: hsl(180, 100%, 85%);
+	}
+}
