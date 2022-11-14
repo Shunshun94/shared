@@ -1,0 +1,34 @@
+@charset "utf-8";
+
+.io-github-shunshun94-util-decoration-redline > .io-github-shunshun94-util-decoration-char {
+	--delay: calc((var(--char-index) + 1) * 40ms);
+	animation: io-github-shunshun94-util-decoration-redline-char 400ms infinite both;
+	animation-delay: var(--delay);
+    border-top-style: solid;
+    border-top-width: 6px;
+    border-bottom-style: solid;
+    border-bottom-width: 6px;
+}
+
+@keyframes io-github-shunshun94-util-decoration-redline-char {
+	0% {
+        color:hsl(0, 100%, 0%);
+		border-color: hsl(0, 100%, 85%);
+	}
+    25% {
+        color:hsl(0, 100%, 25%);
+		border-color: hsl(0, 100%, 65%);
+	}
+    50% {
+        color:hsl(0, 100%, 0%);
+		border-color: hsl(0, 100%, 50%);
+	}
+    75% {
+        color:hsl(0, 100%, 25%);
+		border-color: hsl(0, 100%, 45%);
+	}
+    100% {
+        color:hsl(0, 100%, 0%);
+		border-color: hsl(0, 100%, 25%);
+	}
+}
