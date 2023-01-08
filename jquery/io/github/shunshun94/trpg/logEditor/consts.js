@@ -14,6 +14,7 @@ io.github.shunshun94.trpg.logEditor.CLASSES = {
 	FILTER: 'io-github-shunshun94-trpg-logEditor-FileLoader-filter',
 	POST: 'io-github-shunshun94-trpg-logEditor-Post',
 	HANDLE: 'io-github-shunshun94-trpg-logEditor-Post-handle',
+	NAMECHANGE: 'io-github-shunshun94-trpg-logEditor-Post-namechange',
 	DUPLICATE: 'io-github-shunshun94-trpg-logEditor-Post-duplicate',
 	MERGE: 'io-github-shunshun94-trpg-logEditor-Post-merge',
 	DELETE: 'io-github-shunshun94-trpg-logEditor-Post-delete',
@@ -53,3 +54,4 @@ io.github.shunshun94.trpg.logEditor.CLASSES = {
 };
 
 io.github.shunshun94.trpg.logEditor.EXPERIMENTAL_FUNC_PASSWORD = 'b7e85de2b6358fca404f6764a3cd1f7e58333aa4ac986e3d4354ac8e02b0d402';
+io.github.shunshun94.trpg.logEditor.HOSTPLAYER = localStorage.getItem('io.github.shunshun94.trpg.logEditor.HOSTPLAYER') || 'GM';

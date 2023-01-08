@@ -12,7 +12,11 @@ io.github.shunshun94.trpg.logEditor.jsonToEditorHtml = (json) => {
 	  </div>
 	  <p>発言者：<span
 	  	class="io-github-shunshun94-trpg-logEditor-Post-name"
-	  	contenteditable="true">${json.name || ''}</span></p>
+	  	contenteditable="true">${json.name || ''}</span>
+		<button
+		title="名前をGMにする"
+		class="${io.github.shunshun94.trpg.logEditor.CLASSES.NAMECHANGE}">${io.github.shunshun94.trpg.logEditor.HOSTPLAYER}</button>
+	  </p>
 	  <div 
 	  	class="io-github-shunshun94-trpg-logEditor-Post-content"
 	  	 contenteditable="true">${json.content.replaceAll('<div>', '<div >').replaceAll('</div>', '</div><!-- keep -->')}</div>

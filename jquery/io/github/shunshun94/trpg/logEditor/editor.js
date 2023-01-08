@@ -59,6 +59,10 @@ io.github.shunshun94.trpg.logEditor.Editor = class {
 		targetDom.val(this.getRndId());
 	}
 
+	beHostPlayer(post) {
+		post.find(`.${io.github.shunshun94.trpg.logEditor.CLASSES.NAME}`).text(io.github.shunshun94.trpg.logEditor.HOSTPLAYER);
+	}
+
 	duplicate(post) {
 		post.after(post.clone());
 	}
