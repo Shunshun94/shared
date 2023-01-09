@@ -25,6 +25,8 @@ io.github.shunshun94.trpg.logEditor.menu.saveMenu.generateDom = (target) => {
         <button class="${io.github.shunshun94.trpg.logEditor.CLASSES.SAVE_MENU_WINDOW}-save " value="${target} operationJson"
         >分析・再利用用 JSON として出力（SW2.5とCoCにのみ対応 / フォーマットは今後変更の可能性あり）</button><br/><br/>
         <button class="${io.github.shunshun94.trpg.logEditor.CLASSES.SAVE_MENU_WINDOW}-save " value="${target} UniCoeText"
-        >ユニコエへの挿入用テキストファイルとして出力（SW2.5とCoCにのみ対応 / フォーマットは今後変更の可能性あり）</button>
+        >ユニコエへの挿入用テキストファイルとして出力（SW2.5とCoCにのみ対応 / フォーマットは今後変更の可能性あり）</button><br/><br/>
+        <button class="${io.github.shunshun94.trpg.logEditor.CLASSES.SAVE_MENU_WINDOW}-save " value="${target} YukkuriMovieMaker"
+        >ゆっくりムービーメーカーの台本への挿入用テキストファイルとして出力（SW2.5とCoCにのみ対応 / フォーマットは今後変更の可能性あり）</button>
 	</div>`;
 };

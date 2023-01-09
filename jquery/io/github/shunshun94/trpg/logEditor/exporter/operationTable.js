@@ -8,6 +8,7 @@ io.github.shunshun94.trpg.logEditor.export.OperationTableExporter = io.github.sh
 io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.CONSTS = io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.CONSTS || {};
 io.github.shunshun94.trpg.logEditor.export.OperationJsonExporter = io.github.shunshun94.trpg.logEditor.export.OperationJsonExporter || {};
 io.github.shunshun94.trpg.logEditor.export.UniCoeExporter = io.github.shunshun94.trpg.logEditor.export.UniCoeExporter || {};
+io.github.shunshun94.trpg.logEditor.export.YukkuriMovieMakerExporter = io.github.shunshun94.trpg.logEditor.export.UniCoeExporter || {};
 
 io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.getSessionElement = (post, handlers) => {
     const filteredElement = handlers.map((element)=>{
@@ -30,7 +31,7 @@ io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.domsToPlainJso
         const d = $(dom);
         return {
             name:    d.find(`.${io.github.shunshun94.trpg.logEditor.CLASSES.NAME}`   ).html().trim(),
-            content: d.find(`.${io.github.shunshun94.trpg.logEditor.CLASSES.CONTENT}`).textWithLF().trim().replaceAll('\t', '')
+            content: d.find(`.${io.github.shunshun94.trpg.logEditor.CLASSES.CONTENT}`).text().trim().replaceAll('\t', '')
         };
     });
 };
@@ -88,7 +89,7 @@ io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.fileLoaderResu
         tmp.html(d.content);
         return {
             name: d.name,
-            content: tmp.textWithLF().trim().replaceAll('\t', '')
+            content: tmp.text().trim().replaceAll('\t', '')
         };
     });
 };
@@ -210,6 +211,21 @@ io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.download = (te
 	dlLink.click();
 	dlLink.remove();
 	URL.revokeObjectURL(url);
+};
+
+io.github.shunshun94.trpg.logEditor.export.YukkuriMovieMakerExporter.exec = (doms, head, omit, mode) => {
+    const resultText = io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.domsToJson(doms).map((d)=>{
+        if(d.paramUpdate) {
+            return '';
+        }else if(d.dice) {
+            return `${d.name}「【ダイスロール】」`;
+        } else {
+            return d.content.replaceAll('「', '\\「').replaceAll('」', '\\」').split(/[!?！？。\n]/).filter((d)=>{
+                return (d) && (d !== '\\」');
+            }).filter((d)=>{return d;}).map((l)=>{return `${d.name}「${l}」`}).join('\n');
+        }
+    }).filter((d)=>{return d;}).join('\n');
+    io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.download(resultText, `saved_${Number(new Date())}.txt`, 'text/plain;charset=utf-8;');
 };
 
 (function(r){function l(a){return b(a,c,t,function(a){return u[a]})}function m(a){return b(a,f,v,function(a){return w[a]})}function b(a,b,d,e){return a&&d.test(a)?a.replace(b,e):a}function d(a){if(null==a)return"";if("string"==typeof a)return a;if(Array.isArray(a))return a.map(d)+"";var b=a+"";return"0"==b&&1/a==-(1/0)?"-0":b}var u={"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"},c=/[&<>"']/g,t=new RegExp(c.source),w={"&amp;":"&","&lt;":"<","&gt;":">","&quot;":'"',"&#39;":"'"},f=/&(?:amp|lt|gt|quot|#39);/g,
