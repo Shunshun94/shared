@@ -852,6 +852,9 @@ io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.BATTLE_SKILLS.LIST = {
     "カウンター": {
       timing:"常"
     },
+    "舞い流し": {
+      timing:"常"
+    },
     "バトルマスター": {
       timing:"常",
       group: '複数宣言',
