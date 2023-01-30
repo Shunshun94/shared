@@ -125,7 +125,7 @@ io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.getAbilityInfo = (json) => {
                 return target.replace;
             }
             return '○' + ability;
-        })
+        }).filter((d)=>{return d})
     }
 };
 
