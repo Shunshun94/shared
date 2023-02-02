@@ -259,7 +259,7 @@ io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.getAttackWay = (json) => {
 
 io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.getLanguage = (json) => {
     const languageCount = Number(json.languageNum);
-    const list = [];
+    const list = io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.RACE_LANGUAGE.LIST[json.race].language;
     for(var i = 0; i < languageCount; i++) {
         if(json[`language${i + 1}Talk`]) { list.push(json[`language${i + 1}`]) }
     }
