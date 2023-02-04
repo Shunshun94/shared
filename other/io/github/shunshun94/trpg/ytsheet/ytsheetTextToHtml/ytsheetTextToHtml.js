@@ -20,12 +20,24 @@ io.github.shunshun94.trpg.ytsheet.TextToHtml.lineReplacers = [
         result: (exec, option)=>{ return `<hr/>` }
     }, {
         name: 'dotted line',
-        regexp: /( \*){4,}\s*$/,
+        regexp: /^( \*){4,}\s*$/,
         result: (exec, option)=>{ return `<hr style="border-style:dotted;"/>` }
     }, {
         name: 'dashed line',
-        regexp: /( \-){4,}\s*$/,
+        regexp: /^( \-){4,}\s*$/,
         result: (exec, option)=>{ return `<hr style="border-style:dashed;"/>` }
+    }, {
+        name: 'align-left',
+        regexp: /^LEFT:(.*)$/,
+        result: (exec, option)=>{ return `<span style="display:block;text-align:left;">${exec[1]}</span>` }
+    }, {
+        name: 'align-center',
+        regexp: /^CENTER:(.*)$/,
+        result: (exec, option)=>{ return `<span style="display:block;text-align:center;">${exec[1]}</span>` }
+    }, {
+        name: 'align-right',
+        regexp: /^RIGHT:(.*)$/,
+        result: (exec, option)=>{ return `<span style="display:block;text-align:right;">${exec[1]}</span>` }
     }
 ];
 
