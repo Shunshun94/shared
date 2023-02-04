@@ -5,7 +5,15 @@
 <title>ゆとシート形式の装飾を HTML に変換</title>
 </head>
 <body>
-<textarea rows="10" cols="40" id="input"></textarea>
+<textarea rows="10" cols="40" id="input">太字　：''text''
+斜体　：'''text'''
+打消線：%%text%%
+下線　：__text__
+ルビ　：|text《てきすと》
+傍点　：《《テキスト》》
+透明　：{{テキスト}}
+リンク：[[text>https://shunshun94.github.io/shared/other/io/github/shunshun94/trpg/ytsheet/ytsheetTextToHtml/index.html]]
+別のゆとシートへのリンク：[text#text]</textarea>
 <hr/>
 <textarea rows="10" cols="40" id="result_plain"></textarea>
 <div id="result_html">
@@ -13,13 +21,13 @@
 </div>
 <script src="./ytsheetTextToHtml.js"></script>
 <script>
-    document.getElementById('input').addEventListener('input', (e)=>{
+    const redraw = (e)=>{
         const result = io.github.shunshun94.trpg.ytsheet.TextToHtml.convert(document.getElementById('input').value);
         document.getElementById('result_html').innerHTML = result;
         document.getElementById('result_plain').value = result;
-    })
-    // 
-
+    };
+    document.getElementById('input').addEventListener('input', redraw);
+    redraw();
 </script>
 </body>
 </html>
