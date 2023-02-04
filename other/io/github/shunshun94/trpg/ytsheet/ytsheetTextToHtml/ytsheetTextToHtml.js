@@ -30,6 +30,18 @@ io.github.shunshun94.trpg.ytsheet.TextToHtml.lineReplacers = [
         name: 'ruby',
         regexp: /[|｜]([^|｜]+)《([^》]+)》/,
         result: (exec, option)=>{ return `<ruby>${exec[1]}<rt>${exec[2]}</rt></ruby>` }
+    }, {
+        name: 'commmon_link',
+        regexp: /\[([^>]+)>(https?:\/\/.+)\]/,
+        result: (exec, option)=>{ return `<a href="${exec[2]}" target="_blank">${exec[1]}</a>` }
+    }, {
+        name: 'commmon_link_escaped',
+        regexp: /\[(.+)&gt;(https?:\/\/.+)\]/,
+        result: (exec, option)=>{ return `<a href="${exec[2]}" target="_blank">${exec[1]}</a>` }
+    }, {
+        name: 'sheet_link',
+        regexp: /\[(.+)#([a-zA-Z0-9\-]+)\]/,
+        result: (exec, option)=>{ return `<a href="?id=${exec[2]}" target="_blank">${exec[1]}</a>` }
     }
 ];
 
