@@ -38,6 +38,70 @@ io.github.shunshun94.trpg.ytsheet.TextToHtml.lineReplacers = [
         name: 'align-right',
         regexp: /^RIGHT:(.*)$/,
         result: (exec, option)=>{ return `<span style="display:block;text-align:right;">${exec[1]}</span>` }
+    }, {
+        name: 'header-lv3',
+        regexp: /^\*\*\*(.+)$/,
+        result: (exec, option)=>{ return `<h4>${exec[1].trim()}</h4>`; }
+    }, {
+        name: 'header-lv2',
+        regexp: /^\*\*(.+)$/,
+        result: (exec, option)=>{ return `<h3>${exec[1].trim()}</h3>`; }
+    }, {
+        name: 'header-lv1',
+        regexp: /^\*(.+)$/,
+        result: (exec, option)=>{ return `<h2>${exec[1].trim()}</h2>`; }
+    }, {
+        name: 'summary-header-lv3',
+        regexp: /^\[>\]\*\*\*(.+)$/,
+        result: (exec, option)=>{ return [
+            '<details>', `<summary><h4 style="display:inline;">${exec[1].trim()}</h4></summary>`
+        ]; }
+    }, {
+        name: 'summary-header-lv2',
+        regexp: /^\[>\]\*\*(.+)$/,
+        result: (exec, option)=>{ return [
+            '<details>', `<summary><h3 style="display:inline;">${exec[1].trim()}</h3></summary>`
+        ]; }
+    }, {
+        name: 'summary-header-lv1',
+        regexp: /^\[>\]\*(.+)$/,
+        result: (exec, option)=>{ return [
+            '<details>', `<summary><h2 style="display:inline;">${exec[1].trim()}</h2></summary>`
+        ]; }
+    }, {
+        name: 'summary',
+        regexp: /^\[>\](.+)$/,
+        result: (exec, option)=>{ return [
+            '<details>', `<summary>${exec[1].trim()}</summary>`
+        ]; }
+    }, {
+        name: 'summary-header-lv3-escaped',
+        regexp: /^\[&gt;\]\*\*\*(.+)$/,
+        result: (exec, option)=>{ return [
+            '<details>', `<summary><h4 style="display:inline;">${exec[1].trim()}</h4></summary>`
+        ]; }
+    }, {
+        name: 'summary-header-lv2-escaped',
+        regexp: /^\[&gt;\]\*\*(.+)$/,
+        result: (exec, option)=>{ return [
+            '<details>', `<summary><h3 style="display:inline;">${exec[1].trim()}</h3></summary>`
+        ]; }
+    }, {
+        name: 'summary-header-lv1-escaped',
+        regexp: /^\[&gt;\]\*(.+)$/,
+        result: (exec, option)=>{ return [
+            '<details>', `<summary><h2 style="display:inline;">${exec[1].trim()}</h2></summary>`
+        ]; }
+    }, {
+        name: 'summary-escaped',
+        regexp: /^\[&gt;\](.+)$/,
+        result: (exec, option)=>{ return [
+            '<details>', `<summary>${exec[1].trim()}</summary>`
+        ]; }
+    }, {
+        name: 'summary-closed',
+        regexp: /^\[\-{3,}\](.*)$/,
+        result: (exec, option)=>{ return `</details>`; }
     }
 ];
 
@@ -95,7 +159,7 @@ io.github.shunshun94.trpg.ytsheet.TextToHtml.replaceLines = (input, options) => 
             }
         }
         return `${line}\n`;
-    }).join('');
+    }).flat().join('');
 };
 
 io.github.shunshun94.trpg.ytsheet.TextToHtml.decorateLines = (input, options) => {
