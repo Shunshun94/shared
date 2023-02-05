@@ -38,6 +38,18 @@ io.github.shunshun94.trpg.ytsheet.TextToHtml.lineReplacers = [
         name: 'align-right',
         regexp: /^RIGHT:(.*)$/,
         result: (exec, option)=>{ return `<span style="display:block;text-align:right;">${exec[1]}</span>` }
+    }, {
+        name: 'header-lv3',
+        regexp: /^\*\*\*(.+)$/,
+        result: (exec, option)=>{ return `<h4>${exec[1].trim()}</h4>`; }
+    }, {
+        name: 'header-lv2',
+        regexp: /^\*\*(.+)$/,
+        result: (exec, option)=>{ return `<h3>${exec[1].trim()}</h3>`; }
+    }, {
+        name: 'header-lv1',
+        regexp: /^\*(.+)$/,
+        result: (exec, option)=>{ return `<h2>${exec[1].trim()}</h2>`; }
     }
 ];
 
