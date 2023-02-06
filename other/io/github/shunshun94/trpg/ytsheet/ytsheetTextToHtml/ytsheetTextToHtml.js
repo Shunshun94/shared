@@ -16,15 +16,15 @@ io.github.shunshun94.trpg.ytsheet.TextToHtml.lineReplacers = [
         result: (exec, option)=>{ return ''; }
     }, {
         name: 'common_line',
-        regexp: /^-{4,}\s*$/,
+        regexp: /^-{4,}$/,
         result: (exec, option)=>{ return `<hr/>` }
     }, {
         name: 'dotted line',
-        regexp: /^( \*){4,}\s*$/,
+        regexp: /^( \*){4,}$/,
         result: (exec, option)=>{ return `<hr style="border-style:dotted;"/>` }
     }, {
         name: 'dashed line',
-        regexp: /^( \-){4,}\s*$/,
+        regexp: /^( \-){4,}$/,
         result: (exec, option)=>{ return `<hr style="border-style:dashed;"/>` }
     }, {
         name: 'align-left',
