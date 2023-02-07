@@ -9,6 +9,32 @@ io.github.shunshun94.trpg.ytsheet.TextToHtml.CONSTS = {
     COMMMENT_OUT: 'io.github.shunshun94.trpg.ytsheet.TextToHtml.CONSTS.COMMENT_OUT'
 };
 
+io.github.shunshun94.trpg.ytsheet.TextToHtml.multiLinesReplacers = [
+    {
+        name: 'definition_list',
+        regexp: /^:([^|]*)\|(.*)$/,
+        result: (execs, option)=>{
+            const result = [];
+            execs.forEach((exec)=>{
+                if(exec[1]) {
+                    result.push({
+                        dt: exec[1],
+                        dd: []
+                    });
+                }
+                if(result.length) {
+                    result[result.length - 1].dd.push(exec[2]);
+                }
+            });
+            return ['<dl>',
+                result.map((d)=>{
+                    return `<dt>${d.dt}</dt><dd>${d.dd.join('\n')}</dd>`;
+                }),
+                '</dl>'].flat();
+        }
+    }
+];
+
 io.github.shunshun94.trpg.ytsheet.TextToHtml.lineReplacers = [
     {
         name: 'comment_out',
@@ -149,6 +175,42 @@ io.github.shunshun94.trpg.ytsheet.TextToHtml.lineDecorateReplacers = [
     }
 ];
 
+io.github.shunshun94.trpg.ytsheet.TextToHtml.replaceMultiLinesRecursive = (input, options, replacers) => {
+    if(replacers.length === 0) {return input;}
+    const replacer = replacers[0];
+    const result = [];
+    let targets = [];
+    for(var i = 0; i < input.length; i++) {
+        const exec = replacer.regexp.exec(input[i]);
+        if(exec) {
+            targets.push(exec);
+        } else {
+            if( targets.length ) {
+                result.push(replacer.result(targets, options));
+                targets = [];
+            }
+            result.push(input[i]);
+        }
+    }
+    if( targets.length ) {
+        result.push(replacer.result(targets, options));
+    }
+
+    return io.github.shunshun94.trpg.ytsheet.TextToHtml.replaceMultiLinesRecursive(
+        result.flat(), options,
+        replacers.slice(1)
+    );
+};
+
+io.github.shunshun94.trpg.ytsheet.TextToHtml.replaceMultiLines = (input, options) => {
+    const lines = input.split('\n');
+    const result = [];
+    return io.github.shunshun94.trpg.ytsheet.TextToHtml.replaceMultiLinesRecursive(
+        lines,
+        options,
+        io.github.shunshun94.trpg.ytsheet.TextToHtml.multiLinesReplacers).join('\n');
+};
+
 io.github.shunshun94.trpg.ytsheet.TextToHtml.replaceLines = (input, options) => {
     return input.split('\n').map((line)=>{
         for(var i in io.github.shunshun94.trpg.ytsheet.TextToHtml.lineReplacers) {
@@ -176,7 +238,11 @@ io.github.shunshun94.trpg.ytsheet.TextToHtml.decorateLines = (input, options) =>
 };
 
 io.github.shunshun94.trpg.ytsheet.TextToHtml.convert = (input, options = {}) => {
-    return io.github.shunshun94.trpg.ytsheet.TextToHtml.decorateLines(
-        io.github.shunshun94.trpg.ytsheet.TextToHtml.replaceLines(input, options),
-        options).trim().replaceAll('\n', '<br>\n');
+    return [
+        io.github.shunshun94.trpg.ytsheet.TextToHtml.replaceMultiLines,
+        io.github.shunshun94.trpg.ytsheet.TextToHtml.replaceLines,
+        io.github.shunshun94.trpg.ytsheet.TextToHtml.decorateLines
+    ].reduce((currentInput, func)=>{
+        return func(currentInput, options);
+    }, input).trim().replaceAll('\n', '<br>\n');
 };
