@@ -26,11 +26,11 @@ io.github.shunshun94.trpg.ytsheet.TextToHtml.multiLinesReplacers = [
                     result[result.length - 1].dd.push(exec[2]);
                 }
             });
-            return ['<dl>',
+            return [['<dl style="display:grid;grid-template-columns: auto 1fr;">',
                 result.map((d)=>{
-                    return `<dt>${d.dt}</dt><dd>${d.dd.join('\n')}</dd>`;
+                    return `<dt style="grid-column:1/2;font-weight:bold;border-style: dotted;border-width: 0 0 1px;">${d.dt}</dt><dd style="grid-column:2/3;border-style: dotted;border-width: 0 0 1px;padding-left: 1em;margin-inline-start:0px;">${d.dd.join('\n')}</dd>`;
                 }),
-                '</dl>'].flat();
+                '</dl>'].flat().join('')];
         }
     }, {
         name: 'table',
@@ -234,7 +234,7 @@ io.github.shunshun94.trpg.ytsheet.TextToHtml.replaceMultiLinesRecursive = (input
     }
 
     return io.github.shunshun94.trpg.ytsheet.TextToHtml.replaceMultiLinesRecursive(
-        result.flat(), options,
+        result, options,
         replacers.slice(1)
     );
 };
