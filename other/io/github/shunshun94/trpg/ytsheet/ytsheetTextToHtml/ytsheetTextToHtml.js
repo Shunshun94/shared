@@ -26,11 +26,48 @@ io.github.shunshun94.trpg.ytsheet.TextToHtml.multiLinesReplacers = [
                     result[result.length - 1].dd.push(exec[2]);
                 }
             });
-            return ['<dl>',
+            return [['<dl style="display:grid;grid-template-columns: auto 1fr;">',
                 result.map((d)=>{
-                    return `<dt>${d.dt}</dt><dd>${d.dd.join('\n')}</dd>`;
+                    return `<dt style="grid-column:1/2;font-weight:bold;border-style: dotted;border-width: 0 0 1px;">${d.dt}</dt><dd style="grid-column:2/3;border-style: dotted;border-width: 0 0 1px;padding-left: 1em;margin-inline-start:0px;">${d.dd.join('\n')}</dd>`;
                 }),
-                '</dl>'].flat();
+                '</dl>'].flat().join('')];
+        }
+    }, {
+        name: 'table',
+        regexp: /^\|.*\|$/,
+        result: (execs, option) => {
+            const columns = execs.map((exec)=>{return exec[0].slice(1, -1).split('|');});
+            const result = ['<table border="1">'];
+            let row_num = 0;
+            columns.forEach((line)=>{
+                result.push('<tr>');
+                let col_num = 0;
+                let colspan = 1;
+                line.forEach((column)=>{
+                    let rowspan = 1;
+                    console.log(`check from columns[${row_num + rowspan}][${col_num}]  (columnLength: ${columns.length})`);
+                    while( columns[ row_num + rowspan ] && columns[ row_num + rowspan ][col_num] === '~' ) { rowspan++; console.log(`columns[${row_num + rowspan}][${col_num}] is '~' (columnLength: ${columns.length})`) }
+                    col_num++;
+                    if ( column === '>' || column === '&gt;' ) {
+                        colspan++;
+                        // colspan を増やすだけで何もしない
+                    } else if( column === '~' ) {
+                        // 何もしない
+                    } else {
+                        let elem = `td`;
+                        let item = column;
+                        if(/^~/.test(column)) {
+                            elem = 'th';
+                            item = column.substring(1);
+                        }
+                        result.push(`<${elem} ${colspan > 1 ? `colspan="${colspan}"` : ''} ${rowspan > 1 ? `rowspan="${rowspan}"` : ''}>${item}</${elem}>`);
+                    }
+                });
+                result.push('</tr>');
+                row_num++;
+            });
+            result.push('</table>');
+            return [result.join('')];
         }
     }
 ];
@@ -197,7 +234,7 @@ io.github.shunshun94.trpg.ytsheet.TextToHtml.replaceMultiLinesRecursive = (input
     }
 
     return io.github.shunshun94.trpg.ytsheet.TextToHtml.replaceMultiLinesRecursive(
-        result.flat(), options,
+        result, options,
         replacers.slice(1)
     );
 };
