@@ -26,6 +26,14 @@ io.github.shunshun94.trpg.ytsheet.AutoComplete.Common.getNameInputs = (target) =
     });
 };
 
+io.github.shunshun94.trpg.ytsheet.AutoComplete.Common.getPositionName = (elementName) => {
+    return /^([^\d]+)\d*/.exec(elementName)[1];
+};
+
+io.github.shunshun94.trpg.ytsheet.AutoComplete.Common.getEmpty = () => {
+    return false;
+};
+
 io.github.shunshun94.trpg.ytsheet.AutoComplete.Common.load = (targetStorageName) => {
     return JSON.parse(localStorage.getItem(targetStorageName) || '{}');
 };
@@ -33,10 +41,18 @@ io.github.shunshun94.trpg.ytsheet.AutoComplete.Common.load = (targetStorageName)
 io.github.shunshun94.trpg.ytsheet.AutoComplete.Common.save = (targetStorageName, saveTargets) => {
     const targetStorage = io.github.shunshun94.trpg.ytsheet.AutoComplete.Common.load(targetStorageName);
     saveTargets.forEach((saveTarget)=>{
-        targetStorage[saveTarget.keyColumn] = targetStorage[saveTarget.keyColumn] || {};
+        targetStorage[saveTarget.system_KeyColumn] = targetStorage[saveTarget.system_KeyColumn] || {};
         for(var column in saveTarget) {
-            if(column !== 'keyColumn') {
-                targetStorage[saveTarget.keyColumn][column] = saveTarget[column];
+            if(! column.startsWith('system_')) {
+                targetStorage[saveTarget.system_KeyColumn][column] = saveTarget[column];
+            }
+        }
+        if(saveTarget.system_position) {
+            if(! targetStorage[saveTarget.system_KeyColumn].system_position) {
+                targetStorage[saveTarget.system_KeyColumn].system_position = [];
+            }
+            if(! targetStorage[saveTarget.system_KeyColumn].system_position.includes(saveTarget.system_position)) {
+                targetStorage[saveTarget.system_KeyColumn].system_position.push(saveTarget.system_position);
             }
         }
     });
@@ -46,10 +62,12 @@ io.github.shunshun94.trpg.ytsheet.AutoComplete.Common.save = (targetStorageName,
 io.github.shunshun94.trpg.ytsheet.AutoComplete.Learning.getInputedData = (target) => {
     const key = target.key || io.github.shunshun94.trpg.ytsheet.AutoComplete.CONSTS.DEFAULT_KEY;
     const nameInputs = io.github.shunshun94.trpg.ytsheet.AutoComplete.Common.getNameInputs(target).filter((input)=>{return input.value;});
+    const getPosition = target.isPositionStrict ? io.github.shunshun94.trpg.ytsheet.AutoComplete.Common.getPositionName : io.github.shunshun94.trpg.ytsheet.AutoComplete.Common.getEmpty;
     return nameInputs.map((nameInput)=>{
         const columnNamePrefix = nameInput.name.replace(key, '');
         const result = {};
-        result.keyColumn = nameInput.value;
+        result.system_position = getPosition(columnNamePrefix);
+        result.system_KeyColumn = nameInput.value;
         target.columns.forEach((column)=>{
             const targetDom = document.getElementsByName(`${columnNamePrefix}${column}`)[0];
             if(targetDom && targetDom.value) {
