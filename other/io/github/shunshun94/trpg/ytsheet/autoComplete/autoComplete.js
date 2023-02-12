@@ -85,27 +85,51 @@ io.github.shunshun94.trpg.ytsheet.AutoComplete.Learning.learn = (targetList) => 
         const targetStorageName = `${storageKey}${systemName}-${target.name || target.element.id}`;
         const saveTargets = io.github.shunshun94.trpg.ytsheet.AutoComplete.Learning.getInputedData(target);
         io.github.shunshun94.trpg.ytsheet.AutoComplete.Common.save(targetStorageName, saveTargets);
+        console.log(`saved to localStorage ${targetStorageName}`, saveTargets);
     });
 };
 
-io.github.shunshun94.trpg.ytsheet.AutoComplete.Inserting.bindInputEvent = (nameInput, storageKey, key, isPositionStrict = false) => {
-    if(isPositionStrict) {
-        const positionName = io.github.shunshun94.trpg.ytsheet.AutoComplete.Common.getPositionName(nameInput.name);
-        nameInput.setAttribute('list', `${storageKey}-${positionName}list`);
-    } else {
-        nameInput.setAttribute('list', `${storageKey}-list`);
-    }
-    nameInput.addEventListener('input', (e)=>{
-        const data = io.github.shunshun94.trpg.ytsheet.AutoComplete.Common.load(storageKey);
-        const item = data[e.target.value];
-        if(item) {
-            const columnNamePrefix = e.target.name.replace(key, '');
-            for(var column in item) {
-                if(! column.startsWith('system_')) {
-                    document.getElementsByName(`${columnNamePrefix}${column}`)[0].value = item[column];
+io.github.shunshun94.trpg.ytsheet.AutoComplete.Inserting.insertListToNameInputs = (targetList) => {
+    const systemName = location.href.split('/').slice(-2, -1);
+    const storagePrefix = io.github.shunshun94.trpg.ytsheet.AutoComplete.CONSTS.STORAGE_KEY;
+    targetList.forEach((target)=>{
+        const nameInputs = io.github.shunshun94.trpg.ytsheet.AutoComplete.Common.getNameInputs(target);
+        const storageKey = `${storagePrefix}${systemName}-${target.name || target.element.id}`;
+        nameInputs.forEach((nameInput)=>{
+            const positionName = target.isPositionStrict ? io.github.shunshun94.trpg.ytsheet.AutoComplete.Common.getPositionName(nameInput.name) : '';
+            nameInput.setAttribute('list', `${storageKey}-${positionName}list`);
+        });
+    });    
+};
+
+io.github.shunshun94.trpg.ytsheet.AutoComplete.Inserting.bindInputEvents = (targetList) => {
+    const systemName = location.href.split('/').slice(-2, -1);
+    const storagePrefix = io.github.shunshun94.trpg.ytsheet.AutoComplete.CONSTS.STORAGE_KEY;
+    targetList.forEach((target)=>{
+        const key = target.key || io.github.shunshun94.trpg.ytsheet.AutoComplete.CONSTS.DEFAULT_KEY;
+        const storageKey = `${storagePrefix}${systemName}-${target.name || target.element.id}`;
+        target.element.addEventListener('input', (e)=>{
+            const nameInput = e.target;
+            if( nameInput.name.endsWith(key) ) {
+                const data = io.github.shunshun94.trpg.ytsheet.AutoComplete.Common.load(storageKey);
+                const item = data[nameInput.value];
+                if(item) {
+                    const columnNamePrefix = nameInput.name.replace(key, '');
+                    for(var column in item) {
+                        if(! column.startsWith('system_')) {
+                            const updateTarget = document.getElementsByName(`${columnNamePrefix}${column}`)[0];
+                            if(updateTarget) {
+                                updateTarget.value = item[column];
+                                if(updateTarget.oninput) { updateTarget.oninput(); }
+                                if(updateTarget.onchange) { updateTarget.onchange(); }
+                            } else {
+                                console.warn(`element named ${columnNamePrefix}${column} is not found!`);
+                            }
+                        }
+                    }
                 }
             }
-        }
+        });
     });
 };
 
@@ -126,6 +150,7 @@ io.github.shunshun94.trpg.ytsheet.AutoComplete.Inserting.generateDataListOptions
 
 io.github.shunshun94.trpg.ytsheet.AutoComplete.Inserting.generateDataListHtml = (storageKey, position = '') => {
     const dataList = document.createElement('datalist');
+    dataList.className = `${io.github.shunshun94.trpg.ytsheet.AutoComplete.CONSTS.STORAGE_KEY}datalist`;
     dataList.id = `${storageKey}-${position}list`;
     io.github.shunshun94.trpg.ytsheet.AutoComplete.Inserting.generateDataListOptions(storageKey, position).forEach((option)=>{
         //TODO apply でまとめて登録できない？
@@ -157,38 +182,26 @@ io.github.shunshun94.trpg.ytsheet.AutoComplete.Inserting.updateDataListHtml = (t
     const storagePrefix = io.github.shunshun94.trpg.ytsheet.AutoComplete.CONSTS.STORAGE_KEY;
     targetList.forEach((target)=>{
         const storageKey = `${storagePrefix}${systemName}-${target.name || target.element.id}`;
-        if(target.isPositionStrict) {
-            const positionList = Array.from(new Set(io.github.shunshun94.trpg.ytsheet.AutoComplete.Common.getNameInputs(target).map((input)=>{
-                return io.github.shunshun94.trpg.ytsheet.AutoComplete.Common.getPositionName(input.name);
-            })));
-            positionList.forEach((position)=>{
-                const dataList = document.getElementById(`${storageKey}-${position}list`);
+        const positionList = target.isPositionStrict ? Array.from(new Set(io.github.shunshun94.trpg.ytsheet.AutoComplete.Common.getNameInputs(target).map((input)=>{
+            return io.github.shunshun94.trpg.ytsheet.AutoComplete.Common.getPositionName(input.name);
+        }))) : [''];
+        positionList.forEach((position)=>{
+            const dataList = document.getElementById(`${storageKey}-${position}list`);
+            try {
                 dataList.innerHTML = '';
                 io.github.shunshun94.trpg.ytsheet.AutoComplete.Inserting.generateDataListOptions(storageKey, position).forEach((option)=>{
                     dataList.append(option);
                 });
-            });
-        } else {
-            const dataList = document.getElementById(`${storageKey}-list`);
-            dataList.innerHTML = '';
-            io.github.shunshun94.trpg.ytsheet.AutoComplete.Inserting.generateDataListOptions(storageKey).forEach((option)=>{
-                dataList.append(option);
-            });
-        }
+            } catch (e) {
+                console.error(`Failed to update datalist ID = ${storageKey}-${position}list, is it exsits?`, e);
+            }
+        });
     });
 };
 
 io.github.shunshun94.trpg.ytsheet.AutoComplete.Inserting.initialize = (targetList, baseElement = document.getElementsByTagName('body')[0]) => {
-    const systemName = location.href.split('/').slice(-2, -1);
-    const storagePrefix = io.github.shunshun94.trpg.ytsheet.AutoComplete.CONSTS.STORAGE_KEY;
     io.github.shunshun94.trpg.ytsheet.AutoComplete.Inserting.insertDataListHtml(targetList, baseElement);
-    targetList.forEach((target)=>{
-        const key = target.key || io.github.shunshun94.trpg.ytsheet.AutoComplete.CONSTS.DEFAULT_KEY;
-        const nameInputs = io.github.shunshun94.trpg.ytsheet.AutoComplete.Common.getNameInputs(target);
-        const storageKey = `${storagePrefix}${systemName}-${target.name || target.element.id}`;
-
-        nameInputs.forEach((nameInput)=>{
-            io.github.shunshun94.trpg.ytsheet.AutoComplete.Inserting.bindInputEvent(nameInput, storageKey, key, target.isPositionStrict);
-        });
-    });
+    io.github.shunshun94.trpg.ytsheet.AutoComplete.Inserting.insertListToNameInputs(targetList);
+    io.github.shunshun94.trpg.ytsheet.AutoComplete.Inserting.bindInputEvents(targetList);
+    console.log(`finished: io.github.shunshun94.trpg.ytsheet.AutoComplete.Inserting.initialize ${targetList.length} auto complete targets are initialized. ${document.getElementsByClassName(`${io.github.shunshun94.trpg.ytsheet.AutoComplete.CONSTS.STORAGE_KEY}datalist`).length} datalist elements are added.`);
 };
