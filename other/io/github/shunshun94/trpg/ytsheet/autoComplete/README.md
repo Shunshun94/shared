@@ -29,19 +29,21 @@ io.github.shunshun94.trpg.ytsheet.AutoComplete.Inserting.updateDataListHtml(auto
 
 ```typescript
 {
-    element: Node,
-    columns: Array<string>,
-    key:     string | null,
-    name:    string | null
+    element:          Node,
+    columns:          Array<string>,
+    key:              string | null,
+    name:             string | null,
+    isPositionStrict: boolean
 }
 ```
 
 | 要素名 | 要否 | 説明 |
-| ------- | ---- | ---- |
-| element | 必須 | 自動補完される要素群の親要素を指定します |
-| columns | 必須 | 自動補完される要素群の補完対象となる要素の名称を配列で指定します |
-| key     | 任意 | 自動補完される要素群のユーザが入力する要素の名称を指定します。指定しない場合 `Name` が使われます |
-| name    | 任意 | 自動補完される要素群つける名前を指定します。指定しない場合、 `element` で指定した要素の ID が使われます |
+| ------ | ---- | ---- |
+| element          | 必須 | 自動補完される要素群の親要素を指定します |
+| columns          | 必須 | 自動補完される要素群の補完対象となる要素の名称を配列で指定します |
+| key              | 任意 | 自動補完される要素群のユーザが入力する要素の名称を指定します。指定しない場合 `Name` が使われます |
+| name             | 任意 | 自動補完される要素群つける名前を指定します。指定しない場合、 `element` で指定した要素の ID が使われます |
+| isPositionStrict | 任意 | `true` にした場合、入力時のサジェストを部位ごとに制限します。指定しない場合 `False` となります |
 
 `columns` と `key` の「要素の名称」はわかりにくいので以下で解説します。
 
@@ -73,6 +75,13 @@ io.github.shunshun94.trpg.ytsheet.AutoComplete.Inserting.updateDataListHtml(auto
 "自動補完される要素群の補完対象となる要素の名称" 上述の key と同様にそれらの要素が持つ name から防具の種類を除いたものとなります。
 よって、必要筋力は `Reqd`、回避力は `Eva`、防護点は `Def`、備考は `Note` となります。
 
+### isPositionStrict を true にした場合の挙動
+
+装飾品はディスプレイサー・ガジェットやスマルティエの銀鈴がありますから頭部の装飾品であっても腰や背中でもサジェストしてほしいものだと考えられます。
+しかし、防具について鎧を盾の欄に記入したりすることはありませんから鎧は鎧の欄でだけ、盾は盾の欄でだけサジェストしてほしいものです。
+`isPositionStrict` を `true` にすることで鎧は鎧の欄だけ、盾は盾の欄だけでサジェストするといった制御を行います。
+この値が `false` の場合、どこの部位であっても全ての部位でサジェストされます。
+
 ### 防具の自動補完を行う場合の引数
 
 よって、防具の自動補完を行う場合の引数は次のようになります。
@@ -80,9 +89,32 @@ io.github.shunshun94.trpg.ytsheet.AutoComplete.Inserting.updateDataListHtml(auto
 
 ```javascript
 {
-    element: document.getElementById('armours'),
-    columns: ['Reqd', 'Eva', 'Def', 'Note'],
-    key:     'Name',
-    name:    'armours'
+    element:          document.getElementById('armours'),
+    columns:          ['Reqd', 'Eva', 'Def', 'Note'],
+    key:              'Name',
+    name:             'armours',
+    isPositionStrict: true
 }
+```
+
+このドキュメント冒頭に示した例と併せて次のようにすれば実行が可能です。
+
+```javascript
+const autoCompleteParam = [{
+    element:          document.getElementById('accessories'),
+    columns:          ['Note']
+}, {
+    element:          document.getElementById('armours'),
+    columns:          ['Reqd', 'Eva', 'Def', 'Note'],
+    isPositionStrict: true
+}];
+
+// 自動補完を有効にする
+io.github.shunshun94.trpg.ytsheet.AutoComplete.Inserting.initialize(autoCompleteParam);
+
+// ユーザが入力した情報を保存する
+io.github.shunshun94.trpg.ytsheet.AutoComplete.Learning.learn(autoCompleteParam);
+
+// 自動補完の補完内容を保存した情報で更新する
+io.github.shunshun94.trpg.ytsheet.AutoComplete.Inserting.updateDataListHtml(autoCompleteParam);
 ```
