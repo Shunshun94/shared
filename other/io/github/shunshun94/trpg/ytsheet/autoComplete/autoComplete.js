@@ -85,6 +85,7 @@ io.github.shunshun94.trpg.ytsheet.AutoComplete.Learning.learn = (targetList) => 
         const targetStorageName = `${storageKey}${systemName}-${target.name || target.element.id}`;
         const saveTargets = io.github.shunshun94.trpg.ytsheet.AutoComplete.Learning.getInputedData(target);
         io.github.shunshun94.trpg.ytsheet.AutoComplete.Common.save(targetStorageName, saveTargets);
+        console.log(`saved to localStorage ${targetStorageName}`, saveTargets);
     });
 };
 
@@ -181,24 +182,20 @@ io.github.shunshun94.trpg.ytsheet.AutoComplete.Inserting.updateDataListHtml = (t
     const storagePrefix = io.github.shunshun94.trpg.ytsheet.AutoComplete.CONSTS.STORAGE_KEY;
     targetList.forEach((target)=>{
         const storageKey = `${storagePrefix}${systemName}-${target.name || target.element.id}`;
-        if(target.isPositionStrict) {
-            const positionList = Array.from(new Set(io.github.shunshun94.trpg.ytsheet.AutoComplete.Common.getNameInputs(target).map((input)=>{
-                return io.github.shunshun94.trpg.ytsheet.AutoComplete.Common.getPositionName(input.name);
-            })));
-            positionList.forEach((position)=>{
-                const dataList = document.getElementById(`${storageKey}-${position}list`);
+        const positionList = target.isPositionStrict ? Array.from(new Set(io.github.shunshun94.trpg.ytsheet.AutoComplete.Common.getNameInputs(target).map((input)=>{
+            return io.github.shunshun94.trpg.ytsheet.AutoComplete.Common.getPositionName(input.name);
+        }))) : [''];
+        positionList.forEach((position)=>{
+            const dataList = document.getElementById(`${storageKey}-${position}list`);
+            try {
                 dataList.innerHTML = '';
                 io.github.shunshun94.trpg.ytsheet.AutoComplete.Inserting.generateDataListOptions(storageKey, position).forEach((option)=>{
                     dataList.append(option);
                 });
-            });
-        } else {
-            const dataList = document.getElementById(`${storageKey}-list`);
-            dataList.innerHTML = '';
-            io.github.shunshun94.trpg.ytsheet.AutoComplete.Inserting.generateDataListOptions(storageKey).forEach((option)=>{
-                dataList.append(option);
-            });
-        }
+            } catch (e) {
+                console.error(`Failed to update datalist ID = ${storageKey}-${position}list, is it exsits?`, e);
+            }
+        });
     });
 };
 
