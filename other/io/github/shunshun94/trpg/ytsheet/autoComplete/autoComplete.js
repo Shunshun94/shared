@@ -126,6 +126,7 @@ io.github.shunshun94.trpg.ytsheet.AutoComplete.Inserting.generateDataListOptions
 
 io.github.shunshun94.trpg.ytsheet.AutoComplete.Inserting.generateDataListHtml = (storageKey, position = '') => {
     const dataList = document.createElement('datalist');
+    dataList.className = `${io.github.shunshun94.trpg.ytsheet.AutoComplete.CONSTS.STORAGE_KEY}datalist`;
     dataList.id = `${storageKey}-${position}list`;
     io.github.shunshun94.trpg.ytsheet.AutoComplete.Inserting.generateDataListOptions(storageKey, position).forEach((option)=>{
         //TODO apply でまとめて登録できない？
@@ -191,4 +192,5 @@ io.github.shunshun94.trpg.ytsheet.AutoComplete.Inserting.initialize = (targetLis
             io.github.shunshun94.trpg.ytsheet.AutoComplete.Inserting.bindInputEvent(nameInput, storageKey, key, target.isPositionStrict);
         });
     });
+    console.log(`finished: io.github.shunshun94.trpg.ytsheet.AutoComplete.Inserting.initialize ${targetList.length} auto complete targets are initialized. ${document.getElementsByClassName(`${io.github.shunshun94.trpg.ytsheet.AutoComplete.CONSTS.STORAGE_KEY}datalist`).length} datalist elements are added.`);
 };
