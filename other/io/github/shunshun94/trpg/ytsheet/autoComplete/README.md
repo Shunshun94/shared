@@ -42,7 +42,7 @@ io.github.shunshun94.trpg.ytsheet.AutoComplete.Inserting.updateDataListHtml(auto
 | element          | 必須 | 自動補完される要素群の親要素を指定します |
 | columns          | 必須 | 自動補完される要素群の補完対象となる要素の名称を配列で指定します |
 | key              | 任意 | 自動補完される要素群のユーザが入力する要素の名称を指定します。指定しない場合 `Name` が使われます |
-| name             | 任意 | 自動補完される要素群つける名前を指定します。指定しない場合、 `element` で指定した要素の ID が使われます |
+| name             | 任意 | 自動補完される要素群につける名前を指定します。指定しない場合、 `element` で指定した要素の ID が使われます |
 | isPositionStrict | 任意 | `true` にした場合、入力時のサジェストを部位ごとに制限します。指定しない場合 `False` となります |
 
 `columns` と `key` の「要素の名称」はわかりにくいので以下で解説します。
@@ -118,3 +118,21 @@ io.github.shunshun94.trpg.ytsheet.AutoComplete.Learning.learn(autoCompleteParam)
 // 自動補完の補完内容を保存した情報で更新する
 io.github.shunshun94.trpg.ytsheet.AutoComplete.Inserting.updateDataListHtml(autoCompleteParam);
 ```
+
+## その他詳細な話
+
+### データの格納
+
+データは `localStorage` に保存されます。
+`localStorage` のキーは次のように命名されます。
+
+`ytsheet-autocomplete-${システム名}-${自動補完される要素の名前}`
+
+例えば `ytsheet-autocomplete-sw2.5-armours` や `ytsheet-autocomplete-sw2.5-accessories` のようになります。
+
+### サジェストの方法
+
+自動補完される要素群のユーザが入力する要素（引数の `key` で指定される要素）への入力は
+`datalist` 要素を用いてサジェストされます。
+`datalist` 要素の id は `isPositionStrict` が `false` の場合は `ytsheet-autocomplete-${システム名}-${自動補完される要素の名前}-list`、
+`isPositionStrict` が `true` の場合は `ytsheet-autocomplete-${システム名}-${自動補完される要素の名前}-${部位名}list` となります。
