@@ -91,8 +91,6 @@ function sendScheduleToSlack(schedules) {
     'icon_emoji': icon
   };
   const payloadString = JSON.stringify(payload);
-  console.log(`webhook URL: ${webhook.substring(0, 18)}*********${webhook.slice(-4)}`);
-  console.log(`payload:      ${payloadString}`);
   let les = UrlFetchApp.fetch(webhook, {
     'method': 'post',
     'contentType': 'application/json',
@@ -100,7 +98,9 @@ function sendScheduleToSlack(schedules) {
     "muteHttpExceptions" : true,
   });
 
-  if( les.getResponseCode() !== 200 ) {
+  if( les.getResponseCode() === 200 ) {
+    console.log('Sent schedule to slack');
+  } else {
     console.error(les.getResponseCode());
     console.error(les.getContentText());
   }
