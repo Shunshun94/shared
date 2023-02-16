@@ -107,7 +107,8 @@ function sendScheduleToSlack(schedules) {
 }
 
 function sendScheduleToEmail(schedules) {
-  
+  const address = PropertiesService.getScriptProperties().getProperty('EMAIL_ADDRESS');
+  GmailApp.sendEmail(address, '今週のスケジュール', generateSemiMarkdownFormattedSchedule(schedules));
 }
 
 function sendScheduleInfo(schedules) {
