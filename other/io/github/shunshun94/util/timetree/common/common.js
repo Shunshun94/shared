@@ -106,7 +106,20 @@ function sendScheduleToSlack(schedules) {
   }
 }
 
+function sendScheduleToEmail(schedules) {
+  
+}
+
+function sendScheduleInfo(schedules) {
+  if(PropertiesService.getScriptProperties().getProperty('SLACK_INCOMING_WEBHOOK')) {
+    sendScheduleToSlack(schedules);
+  }
+  if(PropertiesService.getScriptProperties().getProperty('EMAIL_ADDRESS')) {
+    sendScheduleToEmail(schedules);
+  }
+}
+
 function execute() {
   const schedules = getSchedules();
-  sendScheduleToSlack(schedules);
+  sendScheduleInfo(schedules);
 }
