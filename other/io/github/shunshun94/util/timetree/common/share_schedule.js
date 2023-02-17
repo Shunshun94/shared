@@ -1,4 +1,4 @@
-function getDefaultRequestOption() {
+function getTimeTreeDefaultRequestOption() {
   const token = PropertiesService.getScriptProperties().getProperty('TIMETREE_TOKEN');
   return {
     'method': 'get',
@@ -9,36 +9,69 @@ function getDefaultRequestOption() {
   };
 }
 
-function getCalendarList() {
+function getTimeTreeCalendarList() {
   const url = 'https://timetreeapis.com/calendars';
-  const response = UrlFetchApp.fetch(url, getDefaultRequestOption());
+  const response = UrlFetchApp.fetch(url, getTimeTreeDefaultRequestOption());
   return JSON.parse(response.getContentText());
 }
 
-function getSchedulesFromCalendar(calendarId, days = 7) {
+function getSchedulesFromTimeTreeCalendar(calendarId, days = 7) {
   const url = `https://timetreeapis.com/calendars/${calendarId}/upcoming_events?timezone=Asia/Tokyo&days=${days}`;
-  const response = UrlFetchApp.fetch(url, getDefaultRequestOption());
+  const response = UrlFetchApp.fetch(url, getTimeTreeDefaultRequestOption());
   return JSON.parse(response.getContentText());
 }
 
-function getSchedules(days = 7) {
-  const calendars = getCalendarList().data;
-  const schedules = calendars.map((calendar)=>{
-    return getSchedulesFromCalendar(calendar.id, days).data.map((schedule)=>{
+function getSchedulesFromTimeTreeCalendars(days = 7) {
+  const calendars = getTimeTreeCalendarList().data;
+  return calendars.map((calendar)=>{
+    return getSchedulesFromTimeTreeCalendar(calendar.id, days).data.map((schedule)=>{
       schedule.calendarId = calendar.id;
       schedule.sortKey = Number(new Date(schedule.attributes.start_at));
       return schedule;
     })
-  }).flat().sort((a,b)=>{
+  }).flat();
+}
+
+function getSchedulesFromGoogleCalendarsCalendars() {
+  const calendarIds = PropertiesService.getScriptProperties().getProperty('GOOGLE_CALENDAR_IDs');
+  if(calendarIds) {
+    const start = new Date(Number(new Date()) + (1000 * 60 * 60 * 2));
+    const end   = new Date(Number(new Date()) + (1000 * 60 * 60 * 2) + (1000 * 60 * 60 * 24 * 7));
+    return calendarIds.split(',').map((id)=>{
+      return CalendarApp.getCalendarById(id).getEvents(start, end).map((schedule)=>{
+        return {
+          calendarId: id,
+          sortKey: Number(new Date(schedule.getStartTime())),
+          isModified: true,
+          isAllDay: schedule.isAllDayEvent(),
+          title: schedule.getTitle(),
+          date: schedule.getStartTime().toLocaleDateString('ja-JP'),
+          start: schedule.getStartTime().toLocaleTimeString('ja-JP').slice(0,5),
+          end: schedule.getEndTime().toLocaleTimeString('ja-JP').slice(0,5)
+        };
+      });
+    }).flat();
+  } else {
+    return [];
+  }
+}
+
+function getSchedules(days = 7) {
+  return [
+    getSchedulesFromTimeTreeCalendars(),
+    getSchedulesFromGoogleCalendarsCalendars()
+  ].flat().sort((a,b)=>{
     return a.sortKey - b.sortKey;
   });
-  return schedules;
 }
 
 function modifySchedulesEasyToHandle(schedules) {
   const result = [];
   let cursorDay = '';
   schedules.map((s)=>{
+    if(s.isModified) {
+      return s;
+    }
     const attr = s.attributes;
     const start = new Date(attr.start_at);
     const end = new Date(attr.end_at);
@@ -118,6 +151,10 @@ function sendScheduleInfo(schedules) {
   if(PropertiesService.getScriptProperties().getProperty('EMAIL_ADDRESS')) {
     sendScheduleToEmail(schedules);
   }
+}
+
+function behavior() {
+  console.log(getSchedules());
 }
 
 function execute() {
