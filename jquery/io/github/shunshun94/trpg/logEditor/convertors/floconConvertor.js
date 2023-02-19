@@ -6,6 +6,8 @@ io.github.shunshun94.trpg.logEditor = io.github.shunshun94.trpg.logEditor || {};
 io.github.shunshun94.trpg.logEditor.convertors = io.github.shunshun94.trpg.logEditor.convertors || {};
 io.github.shunshun94.trpg.logEditor.convertors.FloconSimpleConvertor = io.github.shunshun94.trpg.logEditor.convertors.FloconSimpleConvertor ||{};
 
+io.github.shunshun94.trpg.logEditor.convertors.FloconSimpleConvertor.version = '0.8.7';
+
 io.github.shunshun94.trpg.logEditor.convertors.FloconSimpleConvertor.DEFAULT_TABS_CLASS = {
 	'メイン': ' '
 };
@@ -57,10 +59,6 @@ io.github.shunshun94.trpg.logEditor.convertors.FloconSimpleConvertor.dropEventTo
 			resolve(io.github.shunshun94.trpg.logEditor.convertors.FloconSimpleConvertor.htmlToJson(rawHtml));
 		});
 	});
-};
-
-io.github.shunshun94.trpg.logEditor.convertors.FloconSimpleConvertor.isDefaultHead = (headRawHtml) => {
-	return headRawHtml.includes(`<title>ccfolia - `);
 };
 
 io.github.shunshun94.trpg.logEditor.convertors.FloconSimpleConvertor.htmlToJson = (rawDom) => {
