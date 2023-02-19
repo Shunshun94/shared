@@ -32,11 +32,11 @@ function getSchedulesFromTimeTreeCalendars(days = 7) {
   }).flat();
 }
 
-function getSchedulesFromGoogleCalendarsCalendars() {
+function getSchedulesFromGoogleCalendarsCalendars(days = 7) {
   const calendarIds = PropertiesService.getScriptProperties().getProperty('GOOGLE_CALENDAR_IDs');
   if(calendarIds) {
     const start = new Date(Number(new Date()) + (1000 * 60 * 60 * 2));
-    const end   = new Date(Number(new Date()) + (1000 * 60 * 60 * 2) + (1000 * 60 * 60 * 24 * 7));
+    const end   = new Date(Number(new Date()) + (1000 * 60 * 60 * 2) + (1000 * 60 * 60 * 24 * days));
     return calendarIds.split(',').map((id)=>{
       return CalendarApp.getCalendarById(id).getEvents(start, end).map((schedule)=>{
         return {
@@ -58,8 +58,8 @@ function getSchedulesFromGoogleCalendarsCalendars() {
 
 function getSchedules(days = 7) {
   return [
-    getSchedulesFromTimeTreeCalendars(),
-    getSchedulesFromGoogleCalendarsCalendars()
+    getSchedulesFromTimeTreeCalendars(days),
+    getSchedulesFromGoogleCalendarsCalendars(days)
   ].flat().sort((a,b)=>{
     return a.sortKey - b.sortKey;
   });
