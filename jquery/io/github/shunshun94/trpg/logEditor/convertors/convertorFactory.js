@@ -48,7 +48,8 @@ io.github.shunshun94.trpg.logEditor.convertors.ConvertorFactory.htmlHub = (file)
 		io.github.shunshun94.trpg.logEditor.convertors.ConvertorFactory.fileToText(file).then((rawHtml)=>{
 			const dom = (new DOMParser()).parseFromString(rawHtml, 'text/html');
 			if(io.github.shunshun94.trpg.logEditor.convertors.ConvertorFactory.isTekeyV1(rawHtml, dom)) {
-				// Tekey Chat Log V1
+				resolve(io.github.shunshun94.trpg.logEditor.convertors.TekeyV1Converter);
+				return;
 			}
 			if(io.github.shunshun94.trpg.logEditor.convertors.ConvertorFactory.isTekeyV2(rawHtml, dom)) {
 				resolve(io.github.shunshun94.trpg.logEditor.convertors.TekeyV2Converter);
