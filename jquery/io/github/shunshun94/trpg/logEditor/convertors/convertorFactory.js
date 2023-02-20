@@ -35,15 +35,18 @@ io.github.shunshun94.trpg.logEditor.convertors.ConvertorFactory.isFloconSimpleLo
 };
 
 io.github.shunshun94.trpg.logEditor.convertors.ConvertorFactory.isTekeyV1 = (rawHtml, dom) => {
-	return /<body>\n\[[^\]]+\]<font\scolor=/.test(rawHtml);
+	return /<body>\r?\n?\[[^\]]+\]<font\scolor=/.test(rawHtml);
 };
 
 io.github.shunshun94.trpg.logEditor.convertors.ConvertorFactory.isTekeyV2 = (rawHtml, dom) => {
 	return rawHtml.includes('<!--Tekeyチャットログv2-->');
 };
 
+io.github.shunshun94.trpg.logEditor.convertors.ConvertorFactory.isMuseru = (rawHtml, dom) => {
+	return rawHtml.includes('user_ddntf_chatlog.css') && (! io.github.shunshun94.trpg.logEditor.convertors.ConvertorFactory.isTekeyV1(rawHtml, dom));
+};
+
 io.github.shunshun94.trpg.logEditor.convertors.ConvertorFactory.htmlHub = (file)=>{
-	// Flocon base Web: 0.7.7 / Api:0.7.1
 	return new Promise((resolve, reject)=>{
 		io.github.shunshun94.trpg.logEditor.convertors.ConvertorFactory.fileToText(file).then((rawHtml)=>{
 			const dom = (new DOMParser()).parseFromString(rawHtml, 'text/html');
@@ -57,6 +60,11 @@ io.github.shunshun94.trpg.logEditor.convertors.ConvertorFactory.htmlHub = (file)
 			}
 			if(io.github.shunshun94.trpg.logEditor.convertors.ConvertorFactory.isFloconSimpleLogs(rawHtml, dom)) {
 				resolve(io.github.shunshun94.trpg.logEditor.convertors.FloconSimpleConvertor);
+				return;
+			}
+			if(io.github.shunshun94.trpg.logEditor.convertors.ConvertorFactory.isMuseru(rawHtml, dom)) {
+				resolve(io.github.shunshun94.trpg.logEditor.convertors.MuseruConvertor);
+				return;
 			}
 			resolve(io.github.shunshun94.trpg.logEditor.convertors.CcfoliaConvertor);
 		});
