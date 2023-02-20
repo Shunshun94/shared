@@ -15,8 +15,8 @@ io.github.shunshun94.trpg.SW2_PCListerApp.rewriteFixedBaseTable = () => {
         const buff = buffs[buffId];
         const buffedCharacters = appliedBuffs[buffId];
         for(const charId in buffedCharacters) {
-            io.github.shunshun94.trpg.SW2_PCListerApp.CONSTS.COLUMNS_LIST.forEach((dummy, i)=>{
-                characters[charId][i + 1] += buff[i + 1];
+            io.github.shunshun94.trpg.SW2_PCListerApp.CONSTS.COLUMNS_LIST.forEach((columnName, i)=>{
+                characters[charId][i + 1] += buff[io.github.shunshun94.trpg.SW2_PCListerApp.CONSTS.BUFF_COLOMN_INDEX[columnName]];
             });
         }
     }
