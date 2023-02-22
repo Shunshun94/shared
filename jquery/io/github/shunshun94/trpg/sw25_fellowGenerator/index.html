@@ -1,0 +1,52 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta property="og:title" content="ソード・ワールド 2.5 ゆとシート2 からフェローの行動表をテキスト化" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://shunshun94.github.io/shared/pics/ogp.jpg" />
+    <meta property="og:site_name" content="https://github.com/Shunshun94/shared/" />
+    <meta property="og:description" content="ゆとシートのフェロー情報からフェロー用の行動表をテキスト化する。チャパレなどに突っ込むことで NPC のリアクション高速化にどうぞ" />
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@Shunshun94" />
+    <meta name="twitter:domain" content="shunshun94.github.io" />
+    <meta name="twitter:title" content="ソード・ワールド 2.5 ゆとシート2 からフェローの行動表をテキスト化" />
+    <meta name="twitter:description" content="ゆとシートのフェロー情報からフェロー用の行動表をテキスト化する。チャパレなどに突っ込むことで NPC のリアクション高速化にどうぞ" />
+    <meta name="twitter:image" content="https://shunshun94.github.io/shared/pics/ogp.jpg" />
+    <title>ソード・ワールド 2.5 ゆとシート2 からフェローの行動表をテキスト化</title>
+</head>
+<body>
+    <h1>ソード・ワールド 2.5 ゆとシート2 からフェローの行動表をテキスト化</h1>
+    <div class="input">
+        <p>キャラクターシートURL：<input type="text" id="sheetUrl" list="sheets"/><button id="add">追加</button></p>
+        <datalist id="sheets"></datalist>
+    </div>
+    <hr/>
+    <textarea id="result" style="resize:none;width:412px;height:80px;"></textarea>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="./fellowGenerator.js"></script>
+    <script src="../../../../../com/hiyoko/util/v2/utils.js"></script>
+    <script>
+        com.hiyoko.util.forEachMap(JSON.parse(localStorage.getItem('com-hiyoko-sample-sw2sheetparse-index') || '{}'), function(v, k) {
+            if(! /^\d+/.test(k)) { $('#sheets').append(`<option value="${k}">${v}</option>`); }
+        });
+        const getUrl = (url) => {
+            return new Promise((resolve, reject)=>{
+                $.ajax({
+                    type:'get',
+                    url: url,
+                    async:true,
+                    dataType:'jsonp'
+                }).done(resolve);
+            });
+        };
+        $('#add').click((e)=>{
+            const url = `${$('#sheetUrl').val()}&mode=json`;
+            console.log(url);
+            getUrl(url).then((json)=>{
+                $(`#result`).val(io.github.shunshun94.trpg.FellowGenerator.generate(json, false) + '\n\n' + io.github.shunshun94.trpg.FellowGenerator.generate(json, true));
+            });
+
+        });
+    </script>
+</body>
+</html>
