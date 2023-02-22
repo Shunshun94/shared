@@ -44,4 +44,4 @@ https://shunshun94.github.io/shared/jquery/io/github/shunshun94/trpg/logEditor/L
 
 対応しているログファイルを
 https://shunshun94.github.io/shared/jquery/io/github/shunshun94/trpg/logEditor/logToTableJson.html
-にドラッグ・ドロップすると html のクラス情報をもとに CSS を生成する。 
+にドラッグ・ドロップすると表形式の HTML を出力する。
