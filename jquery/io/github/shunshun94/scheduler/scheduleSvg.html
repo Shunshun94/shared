@@ -12,11 +12,12 @@
 
 </head> 
 <body>
-<div id="svg"></div>
+	<div id="svg"></div>
 <script src="./scheduler.js"></script>
 <script src="./scheduleSvg.js"></script>
 <script>
-document.getElementById('svg').append(io.github.shunshun94.scheduler.SchedulerSvg.generateSvg(io.github.shunshun94.scheduler.Scheduler.INITIAL_SCHEDULE, {isStyleActive: true}));
+document.getElementById('svg').innerHTML = (io.github.shunshun94.scheduler.SchedulerSvg.generateSvg(io.github.shunshun94.scheduler.Scheduler.INITIAL_SCHEDULE, {isStyleActive: true}).outerHTML);
 </script>
+
 </body>
 </html>
