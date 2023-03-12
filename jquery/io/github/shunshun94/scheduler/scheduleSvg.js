@@ -30,6 +30,7 @@ io.github.shunshun94.scheduler.SchedulerSvg.getOptions = (schedules = false, opt
             id: s.id, label: s.label, length: s.length
         };
     });
+    options.dateFormat = options.dateFormat || `%m/%d (%D)`;
     options.holidays = options.holidays || {};
     options.startDate = io.github.shunshun94.scheduler.SchedulerSvg.modifyDateToHead(options.startDate || (options.schedules[0] ? new Date(options.schedules[0].prepare) : new Date()));
     options.dayLength = options.endDate ? io.github.shunshun94.scheduler.SchedulerSvg.calcDayCounts({
@@ -52,6 +53,16 @@ io.github.shunshun94.scheduler.SchedulerSvg.modifyDateToHead = (date) => {
     date.setHours(0);
     date.setMinutes(0);
     return date;
+};
+
+io.github.shunshun94.scheduler.SchedulerSvg.dateToString = (date, format) => {
+    const month = date.getMonth() + 1;
+
+    return format
+        .replace(/%y/g, date.getFullYear())
+        .replace(/%m/g, month)
+        .replace(/%d/g, date.getDate())
+        .replace(/%D/g, io.github.shunshun94.scheduler.SchedulerSvg.CONSTS.DAYS[date.getDay()]);
 };
 
 io.github.shunshun94.scheduler.SchedulerSvg.calcDayCounts = (schedule) => {
@@ -190,7 +201,7 @@ io.github.shunshun94.scheduler.SchedulerSvg.drawDayRect = (day, options) => {
 io.github.shunshun94.scheduler.SchedulerSvg.drawDayInformation = (day, options) => {
     const text = document.createElement('text');
     text.classname = `io-github-shunshun94-scheduler-SchedulerSvg-date-dateColumn-date`;
-    text.textContent = `${day.getMonth() + 1}/${day.getDate()} (${io.github.shunshun94.scheduler.SchedulerSvg.CONSTS.DAYS[day.getDay()]})`;
+    text.textContent = io.github.shunshun94.scheduler.SchedulerSvg.dateToString(day, options.dateFormat);
     text.setAttribute('x', 2);
     text.setAttribute('y', options.height * (options.idx + 1) + options.height * 4 / 6);
     text.setAttribute('font-size', options.height / 3);
