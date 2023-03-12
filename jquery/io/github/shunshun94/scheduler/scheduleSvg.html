@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>スケジュール帳（画像）</title>
+<link type="text/css" rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/cupertino/jquery-ui.css" />
+<style type="text/css">
+	* {
+		box-sizing:border-box;
+	}
+</style>
+
+</head> 
+<body>
+	<div id="svg"></div>
+<script src="./scheduler.js"></script>
+<script src="./scheduleSvg.js"></script>
+<script>
+document.getElementById('svg').innerHTML = (io.github.shunshun94.scheduler.SchedulerSvg.generateSvg(
+	io.github.shunshun94.scheduler.Scheduler.INITIAL_SCHEDULE
+).outerHTML);
+</script>
+
+</body>
+</html>
