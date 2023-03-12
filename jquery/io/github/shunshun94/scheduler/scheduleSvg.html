@@ -16,7 +16,9 @@
 <script src="./scheduler.js"></script>
 <script src="./scheduleSvg.js"></script>
 <script>
-document.getElementById('svg').innerHTML = (io.github.shunshun94.scheduler.SchedulerSvg.generateSvg(io.github.shunshun94.scheduler.Scheduler.INITIAL_SCHEDULE, {isStyleActive: true}).outerHTML);
+document.getElementById('svg').innerHTML = (io.github.shunshun94.scheduler.SchedulerSvg.generateSvg(
+	io.github.shunshun94.scheduler.Scheduler.INITIAL_SCHEDULE
+).outerHTML);
 </script>
 
 </body>
