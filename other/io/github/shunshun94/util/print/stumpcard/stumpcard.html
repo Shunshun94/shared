@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+    <?!= HtmlService.createHtmlOutputFromFile('stumpcard-css').getContent(); ?>
+  </head>
+  <body>
+    <div id="console"><button onclick="window.print();">印刷</button></div>
+    <div id="print_guide">
+      <h1>印刷ガイド</h1>
+      <p>Google Chrome の機能で印刷している前提で記載しています</p>
+      <ul>
+        <li>用紙サイズを「B5」にしてください</li>
+        <li>余白を「なし」にしてください</li>
+        <li>ページを「カスタム」にし、「2-」を入力すると印刷ガイドを印刷から除外できます</li>
+      </ul>
+    </div>
+    <div id="result">
+    <?
+      const DAYS_DISPLAY_CHARS = ['にちようび', 'げつようび', 'かようび', 'すいようび', 'もくようび', 'きんようび', 'どようび']
+      const days = [2, 4, 6]; // 火曜日、木曜日、土曜日
+      const printDayList = getTargetDays( days, new Date('2023/4/1'), new Date('2024/3/1') );
+      printDayList.forEach((monthInfo, mi, monthList)=>{
+    ?>
+      <div class="card">
+        <span class="month"><?= monthInfo.month ?>がつ</span>
+        <div class="seals">
+          <?
+            days.forEach((dayId)=>{
+          ?>
+            <span class="seal seal_header"><?= DAYS_DISPLAY_CHARS[dayId] ?></span>
+          <?
+            });
+          ?>
+          <?  
+            let dayCursor = 0;
+            while( days[dayCursor] !== monthInfo.dayList[0].day ) {
+          ?>
+            <span class="seal seal_detail"></span>
+          <?
+              dayCursor++;
+            }
+          ?>
+          <? monthInfo.dayList.forEach((day, di, dayList)=>{ ?>
+            <span class="seal seal_detail">
+              <span class="seal_detail_date"><?= day.date ?></span>
+              <? if( day.holiday ) { ?>
+                <span class="seal_detail_holiday"><?= day.holiday ?></span>
+                <span class="seal_detail_circle seal_detail_circle_holiday"></span>
+              <? } else { ?>
+                <span class="seal_detail_circle"></span>
+              <? } ?>
+            </span>
+          <? }); ?>
+        </div>
+      </div>
+    <?
+      });
+    ?>
+    </div>
+  </body>
+</html>

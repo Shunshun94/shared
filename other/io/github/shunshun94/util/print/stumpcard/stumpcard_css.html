@@ -1,0 +1,80 @@
+<style>
+    * {
+        box-sizing:border-box;
+        font-family: "BIZ UDゴシック","UD Shin Go NT Light JIS2004","UD デジタル 教科書体 N-R", Verdana, Roboto, "Droid Sans", "游ゴシック", YuGothic, "メイリオ", Meiryo, "ヒラギノ角ゴ ProN W3", "Hiragino Kaku Gothic ProN", "ＭＳ Ｐゴシック", sans-serif;
+    }
+    
+    #print_guide {
+      display:none;
+    }
+    
+    .card {
+      width: 87mm;
+      height: 128mm;
+      padding:4mm;
+      display:inline-block;
+    }
+    
+    .month {
+      font-size:160%;
+      margin-bottom:4mm;
+      margin:auto;
+    }
+    
+    .seals {
+      margin:auto;
+    }
+    
+    .seal {
+      width: 27%;
+      display:inline-block;
+    }
+    .seal_header {
+      text-align:center;
+      margin-bottom:4mm;
+    }
+    
+    .seal_detail {
+      margin-bottom:2mm;
+      position:relative;
+    }
+    
+    .seal_detail_date {
+      position:absolute;
+      font-size:80%;
+      top:0px;
+      left:0px;
+    }
+    
+    .seal_detail_circle {
+      width:16mm;
+      height:16mm;
+      border: 1px gray solid;
+      border-radius: 8mm;
+      margin:auto;
+      display:block;
+    }
+    
+    .seal_detail_holiday {
+      font-size:70%;
+      text-align:center;
+      position:absolute;
+      top:6mm;
+      left:0px;
+      display:block;
+    }
+    
+    .seal_detail_circle_holiday {
+      border-color:white;
+    }
+    
+    @media print {
+      #console {
+        display:none;
+      }
+      #print_guide {
+        display:block;
+        height: 180mm;
+      }
+    }
+</style>
