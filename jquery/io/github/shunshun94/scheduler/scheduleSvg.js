@@ -6,6 +6,7 @@ io.github.shunshun94.scheduler.SchedulerSvg = io.github.shunshun94.scheduler.Sch
 
 io.github.shunshun94.scheduler.SchedulerSvg.CONSTS = io.github.shunshun94.scheduler.SchedulerSvg.CONSTS || {};
 io.github.shunshun94.scheduler.SchedulerSvg.CONSTS.DAYS = ['Sun.', 'Mon.', 'Tue.', 'Wed.', 'Thu.', 'Fri.', 'Sat.'];
+io.github.shunshun94.scheduler.SchedulerSvg.CONSTS.DAYS.DEFAULT_COLOR = ['coral', 'transparent', 'transparent', 'transparent', 'transparent', 'transparent', 'mediumturquoise'];
 
 io.github.shunshun94.scheduler.SchedulerSvg.generateSvg = (schedules = false, tmp_options = {}) => {
     const options = io.github.shunshun94.scheduler.SchedulerSvg.getOptions(schedules, tmp_options);
@@ -33,7 +34,6 @@ io.github.shunshun94.scheduler.SchedulerSvg.getOptions = (schedules = false, opt
         };
         return result;
     });
-    console.log(options.schedules);
     options.dateFormat = options.dateFormat || '%m/%d (%D)';
     options.holidays = options.holidays || {};
     options.startDate = io.github.shunshun94.scheduler.SchedulerSvg.modifyDateToHead(options.startDate || (options.schedules[0] ? new Date(options.schedules[0].prepare) : new Date()));
@@ -50,6 +50,11 @@ io.github.shunshun94.scheduler.SchedulerSvg.getOptions = (schedules = false, opt
     options.tidyUpColor = options.tidyUpColor || 'khaki';
     options.bodyColor = options.bodyColor || 'mediumseagreen';
     options.opacity = options.opacity || options.transparent || '0.75';
+
+    options.dayColor = options.dayColor || {};
+    io.github.shunshun94.scheduler.SchedulerSvg.CONSTS.DAYS.forEach((dayName, i)=>{
+        options.dayColor[i] = options.dayColor[dayName] || options.dayColor[i] || io.github.shunshun94.scheduler.SchedulerSvg.CONSTS.DAYS.DEFAULT_COLOR[i];
+    });
 
     options.timeSeparationCount = options.timeSeparationCount || 12;
 
@@ -212,6 +217,7 @@ io.github.shunshun94.scheduler.SchedulerSvg.drawBase = (options = {}) => {
     for(var i = 0; i < options.dayLength; i++) {
         const day = new Date(Number(options.startDate) + (1000 * 60 * 60 * 24) * i);
         options.idx = i;
+        options.day = day.getDay();
         io.github.shunshun94.scheduler.SchedulerSvg.drawDayRect(day, options).forEach((element)=>{svg.append(element);});
     }
     for(var j = 0; j < (options.timeSeparationCount - 1); j++) {
@@ -303,7 +309,7 @@ io.github.shunshun94.scheduler.SchedulerSvg.drawLeftRect = (options) => {
     rect.setAttribute('width',        options.leftWidth);
     rect.setAttribute('height',       options.height);
     rect.setAttribute('stroke',       'black');
-    rect.setAttribute('fill',         'transparent');
+    rect.setAttribute('fill',         options.dayColor[options.day]);
     rect.setAttribute('stroke-width', 1);
     return rect;
 };
