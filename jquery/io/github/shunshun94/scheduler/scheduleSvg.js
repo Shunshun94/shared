@@ -30,7 +30,7 @@ io.github.shunshun94.scheduler.SchedulerSvg.getOptions = (schedules = false, opt
             id: s.id, label: s.label, length: s.length
         };
     });
-    options.dateFormat = options.dateFormat || `%m/%d (%D)`;
+    options.dateFormat = options.dateFormat || '%m/%d (%D)';
     options.holidays = options.holidays || {};
     options.startDate = io.github.shunshun94.scheduler.SchedulerSvg.modifyDateToHead(options.startDate || (options.schedules[0] ? new Date(options.schedules[0].prepare) : new Date()));
     options.dayLength = options.endDate ? io.github.shunshun94.scheduler.SchedulerSvg.calcDayCounts({
@@ -137,14 +137,12 @@ io.github.shunshun94.scheduler.SchedulerSvg.drawScheduleByDay = (schedule, optio
     return result;
 };
 
-io.github.shunshun94.scheduler.SchedulerSvg.drawSchedule = (schedule, options, scheduleIndex) => {
+io.github.shunshun94.scheduler.SchedulerSvg.drawSchedule = (schedule, options) => {
     const result = [];
     options.distanceFromTop = io.github.shunshun94.scheduler.SchedulerSvg.calcDayCounts({
         prepare: Number(options.startDate), tidyUp:schedule.prepare
     });
     const length = io.github.shunshun94.scheduler.SchedulerSvg.calcDayCounts(schedule);
-    const sentinelHead = Number(options.startDate);
-    const sentinelTail = Number(options.endDate);  
     for(var i = 0; i < length; i++) {
         const day = new Date(Number(schedule.prepare) + (1000 * 60 * 60 * 24) * i);
         if((day >= options.startDate) && (day <= options.endDate)) {
@@ -162,8 +160,8 @@ io.github.shunshun94.scheduler.SchedulerSvg.drawBase = (options = {}) => {
         options.idx = i;
         io.github.shunshun94.scheduler.SchedulerSvg.drawDayRect(day, options).forEach((element)=>{svg.append(element);});
     }
-    for(var i = 0; i < 7; i++) {
-        options.idx = i;
+    for(var j = 0; j < 7; j++) {
+        options.idx = j;
         svg.append(io.github.shunshun94.scheduler.SchedulerSvg.timeSeparationLine(options));
     }
     return svg;
@@ -190,7 +188,7 @@ io.github.shunshun94.scheduler.SchedulerSvg.drawSvgElement = (options) => {
     return svg;
 };
 
-io.github.shunshun94.scheduler.SchedulerSvg.drawDayRect = (day, options) => {    
+io.github.shunshun94.scheduler.SchedulerSvg.drawDayRect = (day, options) => {
     return [
         io.github.shunshun94.scheduler.SchedulerSvg.drawLeftRect(options),
         io.github.shunshun94.scheduler.SchedulerSvg.drawRightRect(options),
@@ -200,7 +198,7 @@ io.github.shunshun94.scheduler.SchedulerSvg.drawDayRect = (day, options) => {
 
 io.github.shunshun94.scheduler.SchedulerSvg.drawDayInformation = (day, options) => {
     const text = document.createElement('text');
-    text.classname = `io-github-shunshun94-scheduler-SchedulerSvg-date-dateColumn-date`;
+    text.classname = 'io-github-shunshun94-scheduler-SchedulerSvg-date-dateColumn-date';
     text.textContent = io.github.shunshun94.scheduler.SchedulerSvg.dateToString(day, options.dateFormat);
     text.setAttribute('x', 2);
     text.setAttribute('y', options.height * (options.idx + 1) + options.height * 4 / 6);
@@ -210,7 +208,7 @@ io.github.shunshun94.scheduler.SchedulerSvg.drawDayInformation = (day, options) 
 
 io.github.shunshun94.scheduler.SchedulerSvg.drawRightRect = (options) => {
     const rect = document.createElement('rect');
-    rect.classname = `io-github-shunshun94-scheduler-SchedulerSvg-date-scheduleColumn`;
+    rect.classname = 'io-github-shunshun94-scheduler-SchedulerSvg-date-scheduleColumn';
     rect.setAttribute('x',            options.leftWidth);
     rect.setAttribute('y',            options.height * (options.idx + 1));
     rect.setAttribute('width',        options.rightWidth);
@@ -223,7 +221,7 @@ io.github.shunshun94.scheduler.SchedulerSvg.drawRightRect = (options) => {
 
 io.github.shunshun94.scheduler.SchedulerSvg.drawLeftRect = (options) => {
     const rect = document.createElement('rect');
-    rect.classname = `io-github-shunshun94-scheduler-SchedulerSvg-date-dateColumn`;
+    rect.classname = 'io-github-shunshun94-scheduler-SchedulerSvg-date-dateColumn';
     rect.setAttribute('x',            '0');
     rect.setAttribute('y',            options.height * (options.idx + 1));
     rect.setAttribute('width',        options.leftWidth);
@@ -233,3 +231,6 @@ io.github.shunshun94.scheduler.SchedulerSvg.drawLeftRect = (options) => {
     rect.setAttribute('stroke-width', 1);
     return rect;
 };
+
+var module = module || {};
+module.exports = io.github.shunshun94.scheduler.SchedulerSvg;
