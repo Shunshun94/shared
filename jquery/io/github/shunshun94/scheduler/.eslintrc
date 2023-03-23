@@ -1,0 +1,23 @@
+{
+    "extends": "eslint:recommended",
+    "env": {
+        "es6": true,
+        "browser": true
+    },
+    parserOptions: {
+        parser: 'babel-eslint'
+    },
+    "rules": {
+        "no-unsafe-finally": "off",
+        "no-native-reassign": "off",
+        "complexity": ["off", 11],
+        "comma-dangle": "error",
+        "require-yield": "error",
+        "quotes": ['error', 'single'],
+        "no-trailing-spaces": ['error', { 'ignoreComments': true }],
+        "semi": ['error', 'always'],
+        "space-before-function-paren": ['error', 'always'],
+        "object-curly-spacing": ['error', 'always'],
+        "array-bracket-spacing": ['error', 'never']
+    }
+}
