@@ -22,14 +22,18 @@ io.github.shunshun94.scheduler.SchedulerSvg.getOptions = (schedules = false, opt
     options.schedules = (options.initialSchedule || schedules || []).sort((a, b) => {
         return a.prepare - b.prepare;
     }).map((s)=>{
-        return {
+        const result = {
             prepare: s.prepare + timeDiff,
             start: s.start + timeDiff,
             end: s.end + timeDiff,
             tidyUp: s.tidyUp + timeDiff,
-            id: s.id, label: s.label, length: s.length
+            id: s.id,
+            label: s.label || io.github.shunshun94.scheduler.SchedulerSvg.generateDefaultLabel(s),
+            length: s.length
         };
+        return result;
     });
+    console.log(options.schedules);
     options.dateFormat = options.dateFormat || '%m/%d (%D)';
     options.holidays = options.holidays || {};
     options.startDate = io.github.shunshun94.scheduler.SchedulerSvg.modifyDateToHead(options.startDate || (options.schedules[0] ? new Date(options.schedules[0].prepare) : new Date()));
@@ -47,6 +51,26 @@ io.github.shunshun94.scheduler.SchedulerSvg.getOptions = (schedules = false, opt
     options.bodyColor = options.bodyColor || 'mediumseagreen';
 
     return options;
+};
+
+io.github.shunshun94.scheduler.SchedulerSvg.generateDefaultLabel = (schedule, OVER_THREE_MONTH_LABEL = 'NON STOP') => {
+    const timeToString = (milliSec) => {
+        const date = new Date(milliSec);
+        return `${String(date.getHours()).padStart(2, 0)}:${String(date.getMinutes()).padStart(2, 0)}`;
+    };
+    const dateToString = (milliSec) => {
+        const date = new Date(milliSec);
+        return io.github.shunshun94.scheduler.SchedulerSvg.dateToString(date, '%m/%d');
+    };
+    if(        schedule.length.total < (60 * 28      )) {
+        return `${timeToString(schedule.start)} ～ ${timeToString(schedule.end)}`;
+    } else if( schedule.length.total < (60 * 24 * 8  )) {
+        return `${dateToString(schedule.start)} ${timeToString(schedule.start)} ～ ${dateToString(schedule.end)} ${timeToString(schedule.end)}`;
+    } else if( schedule.length.total < (60 * 24 * 100)) {
+        return `${dateToString(schedule.start)} ～ ${dateToString(schedule.end)}`;
+    } else {
+        return OVER_THREE_MONTH_LABEL;
+    }
 };
 
 io.github.shunshun94.scheduler.SchedulerSvg.modifyDateToHead = (date) => {
@@ -74,7 +98,7 @@ io.github.shunshun94.scheduler.SchedulerSvg.calcDayCounts = (schedule) => {
 io.github.shunshun94.scheduler.SchedulerSvg.drawScheduleRect = (targetHead, targetTail, sentinelHead, sentinelTail, className, options) => {
     const oneDay = (1000 * 60 * 60 * 24);
     const head = (targetHead < sentinelHead) ? 1          : ((targetHead - 1) % oneDay);
-    const tail = (targetTail > sentinelTail) ? oneDay - 1 : ((targetTail - 1)   % oneDay);
+    const tail = (targetTail > sentinelTail) ? oneDay - 1 : ((targetTail - 1) % oneDay);
     const rect = document.createElement('rect');
     rect.classname = `io-github-shunshun94-scheduler-SchedulerSvg-date-schedule-${className}`;
     rect.setAttribute('x',            options.leftWidth + options.rightWidth * (head / oneDay));
@@ -85,6 +109,29 @@ io.github.shunshun94.scheduler.SchedulerSvg.drawScheduleRect = (targetHead, targ
     rect.setAttribute('fill',         options[`${className}Color`]);
     rect.setAttribute('stroke-width', 1);
     return rect;
+};
+
+io.github.shunshun94.scheduler.SchedulerSvg.drawScheduleText = (schedule, options) => {
+    const oneDay = (1000 * 60 * 60 * 24);
+    const targetHead   = schedule.start;
+    const targetTail   = schedule.end;
+    const sentinelHead = options.sentinelHead;
+    const sentinelTail = options.sentinelTail;
+    const head = (targetHead < sentinelHead) ? 1          : ((targetHead - 1) % oneDay);
+    const tail = (targetTail > sentinelTail) ? oneDay - 1 : ((targetTail - 1) % oneDay);
+    const elementLength = options.rightWidth * (tail - head) / oneDay;
+    const fontSize = options.height / 3;
+    if( elementLength * 1.7 < schedule.label.length * fontSize ) {
+        return [];
+    }
+    const text = document.createElement('text');
+    text.classname = 'io-github-shunshun94-scheduler-SchedulerSvg-date-schedule-text';
+    text.textContent = schedule.label;
+    text.setAttribute('text-anchor',  'middle');
+    text.setAttribute('x',            options.leftWidth + options.rightWidth * ((head + tail) / (oneDay * 2)));
+    text.setAttribute('y',            options.height * (options.distanceFromTop + options.idx) + options.height * 4 / 6);
+    text.setAttribute('font-size',    fontSize);
+    return text;
 };
 
 io.github.shunshun94.scheduler.SchedulerSvg.drawSchedulePrepare = (schedule, options) => {
@@ -119,8 +166,9 @@ io.github.shunshun94.scheduler.SchedulerSvg.shouldDraw = (targetHead, targetTail
 
 io.github.shunshun94.scheduler.SchedulerSvg.drawScheduleByDay = (schedule, options) => {
     const result = [];
-    options.sentinelHead = Number(io.github.shunshun94.scheduler.SchedulerSvg.modifyDateToHead(new Date(schedule.prepare + (1000*60*60*24) * options.idx))) + options.timezone * (1000 * 60 * 60);
-    options.sentinelTail = Number(options.sentinelHead) + 1000 * 60 * 60 * 24;
+    const oneDay = (1000 * 60 * 60 * 24);
+    options.sentinelHead = Number(io.github.shunshun94.scheduler.SchedulerSvg.modifyDateToHead(new Date(schedule.prepare + oneDay * options.idx))) + options.timezone * (1000 * 60 * 60);
+    options.sentinelTail = Number(options.sentinelHead) + oneDay;
 
     if(io.github.shunshun94.scheduler.SchedulerSvg.shouldDraw( schedule.prepare, schedule.start, options.sentinelHead, options.sentinelTail )) {
         // prepare の描画
@@ -129,6 +177,7 @@ io.github.shunshun94.scheduler.SchedulerSvg.drawScheduleByDay = (schedule, optio
     if(io.github.shunshun94.scheduler.SchedulerSvg.shouldDraw( schedule.start, schedule.end, options.sentinelHead, options.sentinelTail )){
         // スケジュール本体の描画
         result.push(io.github.shunshun94.scheduler.SchedulerSvg.drawScheduleBody(schedule, options));
+        result.push(io.github.shunshun94.scheduler.SchedulerSvg.drawScheduleText(schedule, options));
     }
     if(io.github.shunshun94.scheduler.SchedulerSvg.shouldDraw( schedule.end, schedule.tidyUp, options.sentinelHead, options.sentinelTail )) {
         // tidyUp の描画
