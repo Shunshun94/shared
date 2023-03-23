@@ -51,6 +51,8 @@ io.github.shunshun94.scheduler.SchedulerSvg.getOptions = (schedules = false, opt
     options.bodyColor = options.bodyColor || 'mediumseagreen';
     options.opacity = options.opacity || options.transparent || '0.75';
 
+    options.timeSeparationCount = options.timeSeparationCount || 12;
+
     return options;
 };
 
@@ -212,7 +214,7 @@ io.github.shunshun94.scheduler.SchedulerSvg.drawBase = (options = {}) => {
         options.idx = i;
         io.github.shunshun94.scheduler.SchedulerSvg.drawDayRect(day, options).forEach((element)=>{svg.append(element);});
     }
-    for(var j = 0; j < 7; j++) {
+    for(var j = 0; j < (options.timeSeparationCount - 1); j++) {
         options.idx = j;
         svg.append(io.github.shunshun94.scheduler.SchedulerSvg.timeSeparationLine(options));
     }
@@ -222,9 +224,9 @@ io.github.shunshun94.scheduler.SchedulerSvg.drawBase = (options = {}) => {
 io.github.shunshun94.scheduler.SchedulerSvg.drawTimeString = (options) => {
     const text = document.createElement('text');
     text.classname = 'io-github-shunshun94-scheduler-SchedulerSvg-date-scheduleColumn';
-    text.textContent = (options.idx + 1) * 3;
+    text.textContent = (options.idx + 1) * (24 / options.timeSeparationCount);
     text.setAttribute('text-anchor',  'middle');
-    text.setAttribute('x',            options.leftWidth + (options.rightWidth / 8) * (options.idx + 1));
+    text.setAttribute('x',            options.leftWidth + (options.rightWidth / options.timeSeparationCount) * (options.idx + 1));
     text.setAttribute('y',            options.height * 5 / 6);
     text.setAttribute('font-size',    options.height / 3);
     return text;
@@ -234,7 +236,7 @@ io.github.shunshun94.scheduler.SchedulerSvg.drawTimeScale = (options) => {
     const result = [];
     options.idx = -1;
     result.push(io.github.shunshun94.scheduler.SchedulerSvg.drawRightRect(options));
-    for(var j = 0; j < 7; j++) {
+    for(var j = 0; j < (options.timeSeparationCount - 1); j++) {
         options.idx = j;
         result.push(io.github.shunshun94.scheduler.SchedulerSvg.drawTimeString(options));
     }
@@ -243,7 +245,7 @@ io.github.shunshun94.scheduler.SchedulerSvg.drawTimeScale = (options) => {
 
 io.github.shunshun94.scheduler.SchedulerSvg.timeSeparationLine = (options) => {
     const line = document.createElement('line');
-    const x = options.leftWidth + (options.rightWidth / 8) * (options.idx + 1);
+    const x = options.leftWidth + (options.rightWidth / options.timeSeparationCount) * (options.idx + 1);
     line.setAttribute('x1',           x);
     line.setAttribute('y1',           options.height);
     line.setAttribute('x2',           x);
