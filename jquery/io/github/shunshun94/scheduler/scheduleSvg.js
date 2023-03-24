@@ -240,8 +240,6 @@ io.github.shunshun94.scheduler.SchedulerSvg.drawTimeString = (options) => {
 
 io.github.shunshun94.scheduler.SchedulerSvg.drawTimeScale = (options) => {
     const result = [];
-    options.idx = -1;
-    result.push(io.github.shunshun94.scheduler.SchedulerSvg.drawRightRect(options));
     for(var j = 0; j < (options.timeSeparationCount - 1); j++) {
         options.idx = j;
         result.push(io.github.shunshun94.scheduler.SchedulerSvg.drawTimeString(options));
