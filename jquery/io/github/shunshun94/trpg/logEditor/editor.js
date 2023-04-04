@@ -59,6 +59,11 @@ io.github.shunshun94.trpg.logEditor.Editor = class {
 		targetDom.val(this.getRndId());
 	}
 
+	appendParentheses(post) {
+		const contentDom = post.find(`.${io.github.shunshun94.trpg.logEditor.CLASSES.CONTENT}`);
+		contentDom.html('「' + contentDom.html() + '」');
+	}
+
 	beHostPlayer(post) {
 		post.find(`.${io.github.shunshun94.trpg.logEditor.CLASSES.NAME}`).text(io.github.shunshun94.trpg.logEditor.HOSTPLAYER);
 	}
