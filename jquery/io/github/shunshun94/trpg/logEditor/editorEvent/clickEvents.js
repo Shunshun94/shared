@@ -7,6 +7,11 @@ io.github.shunshun94.trpg.logEditor.Editor = io.github.shunshun94.trpg.logEditor
 
 io.github.shunshun94.trpg.logEditor.PostClickedEvents = [
     {
+        class: io.github.shunshun94.trpg.logEditor.CLASSES.PARENTHESES,
+        action: (self, clicked, targetPost) => {
+            self.appendParentheses(targetPost);
+        }
+    }, {
         class: io.github.shunshun94.trpg.logEditor.CLASSES.NAMECHANGE,
         action: (self, clicked, targetPost) => {
             self.beHostPlayer(targetPost);

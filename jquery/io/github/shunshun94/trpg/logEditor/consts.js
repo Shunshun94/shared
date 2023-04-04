@@ -15,6 +15,7 @@ io.github.shunshun94.trpg.logEditor.CLASSES = {
 	POST: 'io-github-shunshun94-trpg-logEditor-Post',
 	HANDLE: 'io-github-shunshun94-trpg-logEditor-Post-handle',
 	NAMECHANGE: 'io-github-shunshun94-trpg-logEditor-Post-namechange',
+	PARENTHESES: 'io-github-shunshun94-trpg-logEditor-Post-parentheses',
 	DUPLICATE: 'io-github-shunshun94-trpg-logEditor-Post-duplicate',
 	MERGE: 'io-github-shunshun94-trpg-logEditor-Post-merge',
 	DELETE: 'io-github-shunshun94-trpg-logEditor-Post-delete',
