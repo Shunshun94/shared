@@ -1,0 +1,33 @@
+<html>
+    <head>
+        <title>総当たり戦表をなんか出す</title>
+        <meta charset="UTF-8" />
+        <script src="./roundRobinTournament.js"></script>
+    </head>
+    <body>
+        <div id="console"></div>
+        <div id="result">
+
+        </div>
+        <script>
+            const rawTable = `	人間	エルフ	ドワーフ	タビット	ルーンフォーク	リカント	リルドラケン	グラスランナー	メリア（短）	メリア（長）	ティエンス	レプラカーン	シャドウ	ソレイユ
+人間	○	○	○	✕	✕	○	✕	✕	✕	✕	○	✕	○	○
+エルフ	○	○	✕	✕	✕	✕	✕	✕	✕	✕	✕	✕	✕	✕
+ドワーフ	○	✕	○	✕	✕	✕	✕	✕	✕	✕	✕	✕	✕	✕
+タビット	✕	✕	✕	○	✕	✕	✕	✕	✕	✕	✕	✕	✕	✕
+ルーンフォーク	✕	✕	✕	✕	✕	✕	✕	✕	✕	✕	✕	✕	✕	✕
+リカント	○	✕	✕	✕	✕	○	✕	✕	✕	✕	✕	✕	✕	✕
+リルドラケン	✕	✕	✕	✕	✕	✕	○	✕	✕	✕	✕	✕	✕	✕
+グラスランナー	✕	✕	✕	✕	✕	✕	✕	○	✕	✕	✕	✕	✕	✕
+メリア（短）	✕	✕	✕	✕	✕	✕	✕	✕	○	✕	✕	✕	✕	✕
+メリア（長）	✕	✕	✕	✕	✕	✕	✕	✕	✕	○	✕	✕	✕	✕
+ティエンス	○	✕	✕	✕	✕	✕	✕	✕	✕	✕	○	✕	✕	✕
+レプラカーン	✕	✕	✕	✕	✕	✕	✕	✕	✕	✕	✕	○	✕	✕
+シャドウ	○	✕	✕	✕	✕	✕	✕	✕	✕	✕	✕	✕	○	✕
+ソレイユ	○	✕	✕	✕	✕	✕	✕	✕	✕	✕	✕	✕	✕	○`;
+            const generatedTable = io.github.shunshun94.util.table.roundRobinTournament.generateFromText(rawTable);
+            document.getElementById('result').append(generatedTable.table);
+            console.log(generatedTable.list)
+        </script>
+    </body>
+</html>
