@@ -2,7 +2,7 @@
     <head>
         <title>総当たり戦表をなんか出す</title>
         <meta charset="UTF-8" />
-        <script src="./roundRobinTournament.js"></script>
+        <script src="./tsvToTable.js"></script>
     </head>
     <body>
         <div id="console"></div>
@@ -25,7 +25,7 @@
 レプラカーン	✕	✕	✕	✕	✕	✕	✕	✕	✕	✕	✕	○	✕	✕
 シャドウ	○	✕	✕	✕	✕	✕	✕	✕	✕	✕	✕	✕	○	✕
 ソレイユ	○	✕	✕	✕	✕	✕	✕	✕	✕	✕	✕	✕	✕	○`;
-            const generatedTable = io.github.shunshun94.util.table.roundRobinTournament.generateFromText(rawTable);
+            const generatedTable = io.github.shunshun94.util.table.tsvToTable.generate(rawTable);
             document.getElementById('result').append(generatedTable.table);
             console.log(generatedTable.list)
         </script>
