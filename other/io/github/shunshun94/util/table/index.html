@@ -1,11 +1,13 @@
 <html>
     <head>
-        <title>総当たり戦表をなんか出す</title>
+        <title>SW2.5 子供作れるか表</title>
         <meta charset="UTF-8" />
         <script src="./tsvToTable/tsvToTable.js"></script>
         <script src="./listToCheckboxes/listToCheckboxes.js"></script>
+        <script src="./activeCursor/activeCursor.js"></script>
         <style>
             .hide { display:none; }
+            .active { background-color: aquamarine; }
         </style>
     </head>
     <body>
@@ -34,6 +36,7 @@
             const listBase = document.getElementById('console');
             tableBase.append(generatedTable.table);
             listBase.append(io.github.shunshun94.util.table.listToCheckboxes.generateList(generatedTable.list, 'race'));
+            io.github.shunshun94.util.table.bindActiveCursor(tableBase);
             listBase.addEventListener(io.github.shunshun94.util.table.listToCheckboxes.ModifyListEvent, (e)=>{
                 const activeIds = ['row_', 'col_'].map((type)=>{
                     return ['0'].concat(e.list.map((item)=>{return item.split('_')[1]})).map((id)=>{
