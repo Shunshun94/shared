@@ -2,19 +2,40 @@
     <head>
         <title>SW2.5 子供作れるか表</title>
         <meta charset="UTF-8" />
+        <meta property="og:title" content="SW2.5 子供作れるか表" />
+        <meta property="og:type" content="website" />
+        <meta property="og:image" content="https://shunshun94.github.io/shared/pics/ogp.jpg" />
+        <meta property="og:site_name" content="https://github.com/Shunshun94/shared/" />
+        <meta property="og:description" content="SW2.5の子供作れるかの表を使って table に関する utility の動作デモ" />
+        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:site" content="@Shunshun94" />
+        <meta name="twitter:domain" content="shunshun94.github.io" />
+        <meta name="twitter:title" content="SW2.5 子供作れるか表" />
+        <meta name="twitter:description" content="SW2.5の子供作れるかの表を使って table に関する utility の動作デモ" />
+        <meta name="twitter:image" content="https://shunshun94.github.io/shared/pics/ogp.jpg" />
         <script src="./tsvToTable/tsvToTable.js"></script>
         <script src="./listToCheckboxes/listToCheckboxes.js"></script>
         <script src="./activeCursor/activeCursor.js"></script>
         <style>
             .hide { display:none; }
             .active { background-color: aquamarine; }
+            ul {padding-left:0px;}
+            li {display:inline-block; margin:4px; }
+            li input {
+                display:none;
+            }
+            li label span {
+                color:black; padding:4px; border-radius: 4px; border: aqua 3px outset; background-color:skyblue;
+            }
+            li label input:checked + span {
+                color:white; border: aqua 3px inset; background-color:blue;
+            }
+            
         </style>
     </head>
     <body>
         <div id="console"></div>
-        <div id="result">
-
-        </div>
+        <div id="result"></div>
         <script>
             const rawTable = `	人間	エルフ	ドワーフ	タビット	ルーンフォーク	リカント	リルドラケン	グラスランナー	メリア（短）	メリア（長）	ティエンス	レプラカーン	シャドウ	ソレイユ
 人間	○	○	○	✕	✕	○	✕	✕	✕	✕	○	✕	○	○

@@ -12,13 +12,15 @@ io.github.shunshun94.util.table.listToCheckboxes.generateList = (list, name) => 
     list.forEach((item, id)=>{
         if(item.trim()) {
             const itemDom = document.createElement('li');
+            const label = document.createElement('label');
             const checkbox = document.createElement('input');
+            const text = document.createElement('span');
             checkbox.type = 'checkbox';
             checkbox.value = `${name}_${id}`;
             checkbox.checked = true;
-            const label = document.createElement('label');
-            label.textContent = item;
-            itemDom.append(checkbox);
+            text.textContent = item;
+            label.append(checkbox);
+            label.append(text);
             itemDom.append(label);
             result.append(itemDom);
         }
