@@ -1,0 +1,17 @@
+<html>
+    <head>
+        <meta charset="UTF-8">
+    </head>
+    <body>
+        <textarea id="base"></textarea>
+        <hr/>
+        <pre id="result"></pre>
+        <script>
+            document.getElementById('base').oninput = (e) => {
+                document.getElementById('result').innerHTML = document.getElementById('base').value.split('\n').map((d)=>{
+                    return `git add ${d.split(' ').at(-1)}`;
+                }).join('\n')
+            };
+        </script>
+    </body>
+</html>
