@@ -1,0 +1,172 @@
+@charset "utf-8";
+* {
+	box-sizing: border-box;
+	font-family: "BIZ UDゴシック","UD Shin Go NT Light JIS2004","UD デジタル 教科書体 N-R", Verdana, Roboto, "Droid Sans", "游ゴシック", YuGothic, "メイリオ", Meiryo, "ヒラギノ角ゴ ProN W3", "Hiragino Kaku Gothic ProN", "ＭＳ Ｐゴシック", sans-serif;
+}
+
+#how_to_use {
+    display:none;
+}
+
+#io-github-shunshun94-trpg-scenarioTools-AncientBlue {
+    position:relative;
+}
+
+.paragraph, .paragraph-fixed {
+    width:100px;
+    height:100px;
+    background-color:aliceblue;
+    border:1px skyblue solid;
+    border-radius: 12px;
+    text-align:center;
+    padding:4px;
+    position:absolute;
+}
+
+.paragraph-select {
+    width:90%;
+}
+
+.paragraph-name {
+    display:block;
+}
+
+#io-github-shunshun94-trpg-scenarioTools-AncientBlue > div {
+    position:absolute;
+    display:block;    
+    border:1px skyblue solid;
+    border-radius: 12px;
+}
+
+#io-github-shunshun94-trpg-scenarioTools-AncientBlue > div > h2 {
+    padding-left:8px;
+    margin-top:4px;
+}
+
+
+
+#area6 {
+    top:700px;
+    left:800px;
+    width:332px;
+    height:312px;
+}
+
+#paragraph-20 {
+    top:32px;
+    left:80px;
+}
+
+#paragraph-21 {
+    top:128px;
+    left:220px;
+}
+
+#paragraph-22 {
+    top:140px;
+    left:8px;
+}
+
+#paragraph-23 {
+    top:200px;
+    left:108px;
+}
+
+#area7 {
+    top:200px;
+    left:400px;
+    width:356px;
+    height:340px;
+}
+
+#paragraph-24 {
+    top:124px;
+    left:248px;
+}
+
+#paragraph-25 {
+    top:132px;
+    left:148px;
+}
+
+#paragraph-26 {
+    top:32px;
+    left:108px;
+}
+
+#paragraph-27 {
+    top:92px;
+    left:8px;
+}
+
+#paragraph-fixed01 {
+    top:232px;
+    left:160px;
+}
+
+#area8 {
+    top:600px;
+    left:400px;
+    width:324px;
+    height:320px;
+}
+
+#paragraph-28 {
+    top:56px;
+    left:32px;
+}
+
+#paragraph-29 {
+    top:48px;
+    left:132px;
+}
+
+#paragraph-30 {
+    top:156px;
+    left:8px;
+}
+
+#paragraph-31 {
+    top:212px;
+    left:108px;
+}
+
+#paragraph-fixed02 {
+    top:148px;
+    left:208px;
+}
+
+#area9 {
+    top:400px;
+    left:20px;
+    width:360px;
+    height:380px;
+}
+
+#paragraph-32 {
+    top:160px;
+    left:8px;
+}
+
+#paragraph-33 {
+    top:48px;
+    left:108px;
+}
+
+#paragraph-34 {
+    top:144px;
+    left:240px;
+}
+
+#paragraph-35 {
+    top:268px;
+    left:120px;
+}
+
+#paragraph-fixed03 {
+    top:152px;
+    left:120px;
+}
+
+
+
