@@ -94,7 +94,7 @@ io.github.shunshun94.trpg.scenarioTools.ViceCity = class {
 			if(tag.hasClass('paragraph-code')) {
 				tag = tag.parent();
 			}
-			const domIdRE = /\d+/;
+			const domIdRE = /([a-z0-9]+)$/;
 			const newPlaceId = domIdRE.exec(tag.attr('id'))[0];
 			if(this.decided[io.github.shunshun94.trpg.scenarioTools.ViceCity.CONSTS.KEYS.CURRENT_PARAGRAPH] === newPlaceId) {
 				this.updatePage(io.github.shunshun94.trpg.scenarioTools.ViceCity.CONSTS.KEYS.CURRENT_PARAGRAPH, '');
@@ -143,6 +143,7 @@ io.github.shunshun94.trpg.scenarioTools.ViceCity = class {
 		$('.westtown').click((e)=>{this.moveToParagraph('westtown')});
 		$('.oldtown').click((e)=>{this.moveToParagraph('oldtown')});
 		$('.newtown').click((e)=>{this.moveToParagraph('newtown')});
+		$('.paragraph-fixed').click((e)=>{this.moveToParagraph(e)});
 		$('.paragraph').contextmenu((e)=>{this.changeParagraphDivider(e)});
 	}
 };
