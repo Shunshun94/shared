@@ -5,7 +5,13 @@
 }
 
 #how_to_use {
-    display:none;
+    position:absolute;
+    top:1060px;
+}
+
+footer {
+    position:absolute;
+    top:1720px;
 }
 
 #io-github-shunshun94-trpg-scenarioTools-AncientBlue {
@@ -29,6 +35,11 @@
 
 .paragraph-name {
     display:block;
+}
+
+.paragraph-current-exist {
+    background-color:honeydew;
+    border:1px green solid;
 }
 
 #io-github-shunshun94-trpg-scenarioTools-AncientBlue > div {
