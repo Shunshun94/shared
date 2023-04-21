@@ -91,10 +91,8 @@
 <p>このページのアドレスをそのままコピーして共有すれば同じマップを他の人も見ることができます</p>
 <h2>パラグラフを配置する</h2>
 <p>パラグラフが決定したブロックのドロップダウンリスト (<select><option>こんな感じの物</option></select>) からパラグラフを選択すればそのブロックが書き換わります</p>
-<h2>パラグラフを区切る</h2>
-<p>パラグラフを右クリックすることでパラグラフに射線を引くことができます。右クリックごとに表示は切り替わります。</p>
 <h2>ブロックを移動する</h2>
-<p>移動先のブロックをクリックするとそのブロックが青くなります。<br/>青いブロックを再度クリックすると現在位置が非表示になります。現在位置を表示したくない場合にご利用ください</p>
+<p>移動先のブロックをクリックするとそのブロックが緑色になります。<br/>緑色のブロックを再度クリックすると現在位置が非表示になります。現在位置を表示したくない場合にご利用ください</p>
 <h2>変更を元に戻す</h2>
 <p>ブラウザの戻る機能を使えばひとつ前の状態に戻ります</p>
 <h2>リセット</h2>
@@ -102,10 +100,11 @@
 <h2>その他参照項</h2>
 <dl>
 	<dt>パラグラフ決定のルール</dt>
-	<dd>ヴァイスシティ p.8 (ブロックの移動, パラグラフの配置, また訪れていないパラグラフの配置)</dd>
-	<dd>ヴァイスシティ p.114 (また訪れていないパラグラフの配置　ヴァイスシティブロック決定表)</dd>
-	<dt>マップ原本・その他のシート</dt>
-	<dd>ヴァイスシティ p.125～ or <a href="https://fujimi-trpg-online.jp/download/sw25.html">ソード・ワールド2.5　ダウンロード | ダウンロード一覧 | 富士見書房公式 TRPG ONLINE</a></dd>
+	<dd>18, 19頁（決定の手順）</dd>
+	<dd>143頁（ブロック決定表）</dd>
+	<dt>移動に関するルール</dt>
+	<dd>8頁（行動シークエンス）</dd>
+	<dd>111～114頁（航海チャレンジ）</dd>
 </dl>
 <h2>作者連絡先</h2>
 <p><a href="https://twitter.com/Shunshun94">Twitter @Shunshun94</a> / <a href="http://amzn.asia/8mNqdKy">作者欲しいものリスト</a></p>
@@ -160,6 +159,8 @@ io.github.shunshun94.trpg.scenarioTools.ViceCity.CONSTS.AREAS = {
 const viceCity = new io.github.shunshun94.trpg.scenarioTools.ViceCity({
 	dom: $('#io-github-shunshun94-trpg-scenarioTools-AncientBlue')
 });
+
+$('.paragraph').off('contextmenu');
 </script>
 
 </body>
