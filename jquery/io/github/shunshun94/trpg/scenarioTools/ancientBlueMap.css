@@ -1,0 +1,316 @@
+@charset "utf-8";
+* {
+	box-sizing: border-box;
+	font-family: "BIZ UDゴシック","UD Shin Go NT Light JIS2004","UD デジタル 教科書体 N-R", Verdana, Roboto, "Droid Sans", "游ゴシック", YuGothic, "メイリオ", Meiryo, "ヒラギノ角ゴ ProN W3", "Hiragino Kaku Gothic ProN", "ＭＳ Ｐゴシック", sans-serif;
+}
+
+#how_to_use {
+    position:absolute;
+    top:1060px;
+}
+
+footer {
+    position:absolute;
+    top:1720px;
+}
+
+#io-github-shunshun94-trpg-scenarioTools-AncientBlue {
+    position:relative;
+}
+
+.paragraph, .paragraph-fixed {
+    width:100px;
+    height:100px;
+    background-color:aliceblue;
+    border:1px skyblue solid;
+    border-radius: 12px;
+    text-align:center;
+    padding:4px;
+    position:absolute;
+}
+
+.paragraph-select {
+    width:90%;
+}
+
+.paragraph-name {
+    display:block;
+}
+
+.paragraph-current-exist {
+    background-color:honeydew;
+    border:1px green solid;
+}
+
+#io-github-shunshun94-trpg-scenarioTools-AncientBlue > div {
+    position:absolute;
+    display:block;    
+    border:1px skyblue solid;
+    border-radius: 12px;
+}
+
+#io-github-shunshun94-trpg-scenarioTools-AncientBlue > div > h2 {
+    padding-left:8px;
+    margin-top:4px;
+}
+
+#area1 {
+    top:360px;
+    left:1360px;
+    width:232px;
+    height:266px;
+}
+
+#paragraph-0 {
+    top:132px;
+    left:120px;
+}
+
+#paragraph-1 {
+    top:152px;
+    left:20px;
+}
+
+#paragraph-2 {
+    top:52px;
+    left:20px;
+}
+
+#paragraph-3 {
+    top:32px;
+    left:120px;
+}
+
+#area2 {
+    top:160px;
+    left:1080px;
+    width:272px;
+    height:346px;
+}
+
+#paragraph-4 {
+    top:140px;
+    left:168px;
+}
+
+#paragraph-5 {
+    top:216px;
+    left:68px;
+}
+
+#paragraph-6 {
+    top:32px;
+    left:120px;
+}
+
+#paragraph-7 {
+    top:104px;
+    left:8px;
+}
+
+#area3 {
+    top:560px;
+    left:1080px;
+    width:272px;
+    height:346px;
+}
+
+#paragraph-8 {
+    top:32px;
+    left:80px;
+}
+
+#paragraph-9 {
+    top:132px;
+    left:156px;
+}
+
+#paragraph-10 {
+    top:240px;
+    left:120px;
+}
+
+#paragraph-11 {
+    top:152px;
+    left:8px;
+}
+
+#area4 {
+    top:372px;
+    left:760px;
+    width:288px;
+    height:348px;
+}
+
+#paragraph-12 {
+    top:160px;
+    left:8px;
+}
+
+#paragraph-13 {
+    top:48px;
+    left:58px;
+}
+
+#paragraph-14 {
+    top:124px;
+    left:168px;
+}
+
+#paragraph-15 {
+    top:240px;
+    left:120px;
+}
+
+#area5 {
+    top:8px;
+    left:760px;
+    width:240px;
+    height:360px;
+}
+
+#paragraph-16 {
+    top:32px;
+    left:60px;
+}
+
+#paragraph-17 {
+    top:132px;
+    left:20px;
+}
+
+#paragraph-18 {
+    top:148px;
+    left:120px;
+}
+
+#paragraph-19 {
+    top:248px;
+    left:60px;
+}
+
+#area6 {
+    top:728px;
+    left:740px;
+    width:332px;
+    height:312px;
+}
+
+#paragraph-20 {
+    top:32px;
+    left:80px;
+}
+
+#paragraph-21 {
+    top:128px;
+    left:220px;
+}
+
+#paragraph-22 {
+    top:140px;
+    left:8px;
+}
+
+#paragraph-23 {
+    top:200px;
+    left:108px;
+}
+
+#area7 {
+    top:160px;
+    left:400px;
+    width:356px;
+    height:340px;
+}
+
+#paragraph-24 {
+    top:124px;
+    left:248px;
+}
+
+#paragraph-25 {
+    top:132px;
+    left:148px;
+}
+
+#paragraph-26 {
+    top:32px;
+    left:108px;
+}
+
+#paragraph-27 {
+    top:92px;
+    left:8px;
+}
+
+#paragraph-fixed01 {
+    top:232px;
+    left:160px;
+}
+
+#area8 {
+    top:560px;
+    left:400px;
+    width:324px;
+    height:320px;
+}
+
+#paragraph-28 {
+    top:56px;
+    left:32px;
+}
+
+#paragraph-29 {
+    top:48px;
+    left:132px;
+}
+
+#paragraph-30 {
+    top:156px;
+    left:8px;
+}
+
+#paragraph-31 {
+    top:212px;
+    left:108px;
+}
+
+#paragraph-fixed02 {
+    top:148px;
+    left:208px;
+}
+
+#area9 {
+    top:360px;
+    left:20px;
+    width:360px;
+    height:380px;
+}
+
+#paragraph-32 {
+    top:160px;
+    left:8px;
+}
+
+#paragraph-33 {
+    top:48px;
+    left:108px;
+}
+
+#paragraph-34 {
+    top:144px;
+    left:240px;
+}
+
+#paragraph-35 {
+    top:268px;
+    left:120px;
+}
+
+#paragraph-fixed03 {
+    top:152px;
+    left:120px;
+}
+
+
+
