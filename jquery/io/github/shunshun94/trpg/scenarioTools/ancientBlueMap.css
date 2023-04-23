@@ -16,17 +16,25 @@ footer {
 
 #io-github-shunshun94-trpg-scenarioTools-AncientBlue {
     position:relative;
+    background-image: url("./img/ancinetBlue/positionInfo.png");
+    /* background-image: url("./img/ancinetBlue/blankMap.png"); */
+    height: 670px;
+    width:1000px;
+    background-size:contain;
 }
 
+
+
 .paragraph, .paragraph-fixed {
-    width:100px;
-    height:100px;
+    width:54px;
+    height:54px;
     background-color:aliceblue;
     border:1px skyblue solid;
-    border-radius: 12px;
+    opacity: 0.6;
     text-align:center;
     padding:4px;
     position:absolute;
+    font-size:0.4em;
 }
 
 .paragraph-select {
@@ -45,13 +53,13 @@ footer {
 #io-github-shunshun94-trpg-scenarioTools-AncientBlue > div {
     position:absolute;
     display:block;    
-    border:1px skyblue solid;
-    border-radius: 12px;
 }
 
 #io-github-shunshun94-trpg-scenarioTools-AncientBlue > div > h2 {
     padding-left:8px;
     margin-top:4px;
+    font-size:1.2em;
+
 }
 
 #area1 {
@@ -217,99 +225,108 @@ footer {
 }
 
 #area7 {
-    top:160px;
-    left:400px;
+    top:60px;
+    left:158px;
     width:356px;
     height:340px;
+    border:1px solid black;
 }
 
 #paragraph-24 {
-    top:124px;
-    left:248px;
+    top:100px;
+    left:145px;
+    height:53px;
+    width:51px;
 }
 
 #paragraph-25 {
-    top:132px;
-    left:148px;
+    top:105px;
+    left:95px;
+    width: 50px;
+    height: 51px;
 }
 
 #paragraph-26 {
-    top:32px;
-    left:108px;
+    top:52px;
+    left:71px;
 }
 
 #paragraph-27 {
-    top:92px;
-    left:8px;
+    top:88px;
+    left:16px;
 }
 
 #paragraph-fixed01 {
-    top:232px;
-    left:160px;
+    top:156px;
+    left:97px;
+    width:52px;
+    height:50px;
 }
 
 #area8 {
-    top:560px;
-    left:400px;
+    top:400px;
+    left:133px;
     width:324px;
     height:320px;
 }
 
 #paragraph-28 {
-    top:56px;
+    top:42px;
     left:32px;
 }
 
 #paragraph-29 {
-    top:48px;
-    left:132px;
+    top:36px;
+    left:87px;
 }
 
 #paragraph-30 {
-    top:156px;
-    left:8px;
+    top:96px;
+    left:16px;
+    width:62px;
 }
 
 #paragraph-31 {
-    top:212px;
-    left:108px;
+    top:132px;
+    left:78px;
 }
 
 #paragraph-fixed02 {
-    top:148px;
-    left:208px;
+    top:89px;
+    left:132px;
 }
 
 #area9 {
-    top:360px;
-    left:20px;
+    top:200px;
+    left:0px;
     width:360px;
     height:380px;
 }
 
 #paragraph-32 {
-    top:160px;
-    left:8px;
+    top:99px;
+    left:-2px;
 }
 
 #paragraph-33 {
-    top:48px;
-    left:108px;
+    top:39px;
+    left:71px;
 }
 
 #paragraph-34 {
-    top:144px;
-    left:240px;
+    top:94px;
+    left:144px;
 }
 
 #paragraph-35 {
-    top:268px;
-    left:120px;
+    top:156px;
+    left:85px;
 }
 
 #paragraph-fixed03 {
-    top:152px;
-    left:120px;
+    top:97px;
+    left:61px;
+    width:65px;
 }
 
 
