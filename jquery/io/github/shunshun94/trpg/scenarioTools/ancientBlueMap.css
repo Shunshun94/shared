@@ -4,29 +4,47 @@
 	font-family: "BIZ UDゴシック","UD Shin Go NT Light JIS2004","UD デジタル 教科書体 N-R", Verdana, Roboto, "Droid Sans", "游ゴシック", YuGothic, "メイリオ", Meiryo, "ヒラギノ角ゴ ProN W3", "Hiragino Kaku Gothic ProN", "ＭＳ Ｐゴシック", sans-serif;
 }
 
+h2 {
+    margin-top:4px;
+    font-size:1.2em;
+}
+
 #how_to_use {
-    position:absolute;
-    top:1060px;
+    display:inline-block;
+    width:500px;
 }
 
 footer {
-    position:absolute;
-    top:1720px;
+    border-top:blue 4px double;
+    background-color:azure;
+    font-size:0.6em;
+    position:relative;
+    top:32px;
 }
 
 #io-github-shunshun94-trpg-scenarioTools-AncientBlue {
     position:relative;
+    background-image: url("./img/ancinetBlue/blankMap.png");
+    height: 670px;
+    top:20px;
+    width:1000px;
+    left:16px;
+    display:inline-block;
+    background-size:contain;
+    background-repeat: no-repeat;
 }
 
+
+
 .paragraph, .paragraph-fixed {
-    width:100px;
-    height:100px;
-    background-color:aliceblue;
+    width:54px;
+    height:54px;
+    background-color:rgba(240, 248, 255, 0.8);
     border:1px skyblue solid;
-    border-radius: 12px;
     text-align:center;
     padding:4px;
     position:absolute;
+    font-size:0.4em;
 }
 
 .paragraph-select {
@@ -44,272 +62,320 @@ footer {
 
 #io-github-shunshun94-trpg-scenarioTools-AncientBlue > div {
     position:absolute;
-    display:block;    
-    border:1px skyblue solid;
-    border-radius: 12px;
+    display:block;
 }
 
 #io-github-shunshun94-trpg-scenarioTools-AncientBlue > div > h2 {
     padding-left:8px;
-    margin-top:4px;
 }
 
 #area1 {
-    top:360px;
-    left:1360px;
-    width:232px;
-    height:266px;
+    top:212px;
+    left:800px;
+    width:200px;
+    height:200px;
 }
 
 #paragraph-0 {
-    top:132px;
-    left:120px;
+    top:99px;
+    left:97px;
+    height:59px;
+    width:59px;
 }
 
 #paragraph-1 {
-    top:152px;
-    left:20px;
+    top:112px;
+    left:33px;
+    height:64px;
+    width:64px;
 }
 
 #paragraph-2 {
-    top:52px;
-    left:20px;
+    top:48px;
+    left:33px;
+    height:64px;
+    width:64px;
 }
 
 #paragraph-3 {
-    top:32px;
-    left:120px;
+    top:40px;
+    left:97px;
+    height:59px;
+    width:59px;
 }
 
 #area2 {
-    top:160px;
-    left:1080px;
-    width:272px;
-    height:346px;
+    top:32px;
+    left:640px;
+    width:200px;
+    height:220px;
 }
 
 #paragraph-4 {
-    top:140px;
-    left:168px;
+    top:94px;
+    left:117px;
+    height:59px;
+    width:64px;
 }
 
 #paragraph-5 {
-    top:216px;
-    left:68px;
+    top:144px;
+    left:54px;
+    height:62px;
+    width:64px;
 }
 
 #paragraph-6 {
-    top:32px;
-    left:120px;
+    top:28px;
+    left:91px;
+    height:62px;
+    width:64px;
 }
 
 #paragraph-7 {
-    top:104px;
-    left:8px;
+    top:76px;
+    left:20px;
+    height:60px;
+    width:60px;
 }
 
 #area3 {
-    top:560px;
-    left:1080px;
-    width:272px;
-    height:346px;
+    top:376px;
+    left:640px;
+    width:200px;
+    height:200px;
 }
 
 #paragraph-8 {
-    top:32px;
-    left:80px;
+    top:26px;
+    left:64px;
+    width:61px;
 }
 
 #paragraph-9 {
-    top:132px;
-    left:156px;
+    top:79px;
+    left:121px;
+    width:63px;
 }
 
 #paragraph-10 {
-    top:240px;
-    left:120px;
+    top:142px;
+    left:79px;
+    width:62px;
+    height:56px;
 }
 
 #paragraph-11 {
-    top:152px;
+    top:94px;
     left:8px;
+    height:56px;
+    width:63px;
 }
 
 #area4 {
-    top:372px;
-    left:760px;
-    width:288px;
-    height:348px;
+    top:222px;
+    left:404px;
+    width:200px;
+    height:220px;
 }
 
 #paragraph-12 {
-    top:160px;
-    left:8px;
+    top:102px;
+    left:6px;
+    height:62px;
+    width:61px;
 }
 
 #paragraph-13 {
-    top:48px;
-    left:58px;
+    top:30px;
+    left:59px;
+    height:64px;
+    width:64px;
 }
 
 #paragraph-14 {
-    top:124px;
-    left:168px;
+    top:74px;
+    left:130px;
+    height:64px;
+    width:64px;
 }
 
 #paragraph-15 {
-    top:240px;
-    left:120px;
+    top:142px;
+    left:81px;
+    height:64px;
+    width:64px;
 }
 
 #area5 {
-    top:8px;
-    left:760px;
-    width:240px;
-    height:360px;
+    top:-20px;
+    left:400px;
+    width:188px;
+    height:200px;
 }
 
 #paragraph-16 {
-    top:32px;
-    left:60px;
+    top:30px;
+    left:90px;
+    height:52px;
 }
 
 #paragraph-17 {
-    top:132px;
-    left:20px;
+    top:82px;
+    left:69px;
+    height:48px;
+    width:56px;
 }
 
 #paragraph-18 {
-    top:148px;
-    left:120px;
+    top:85px;
+    left:125px;
+    height:49px;
 }
 
 #paragraph-19 {
-    top:248px;
-    left:60px;
+    top:134px;
+    left:90px;
+    height:53px;
+    width:60px;
 }
 
 #area6 {
-    top:728px;
-    left:740px;
-    width:332px;
-    height:312px;
+    top:464px;
+    left:380px;
+    width:208px;
+    height:216px;
 }
 
 #paragraph-20 {
-    top:32px;
-    left:80px;
+    top:36px;
+    left:53px;
+    height:60px;
+    width:62px;
 }
 
 #paragraph-21 {
-    top:128px;
-    left:220px;
+    top:87px;
+    left:143px;
+    width:56px;
 }
 
 #paragraph-22 {
-    top:140px;
+    top:100px;
     left:8px;
+    height:61px;
+    width:66px;
 }
 
 #paragraph-23 {
-    top:200px;
-    left:108px;
+    top:144px;
+    left:74px;
+    height:61px;
+    width:66px;
 }
 
 #area7 {
-    top:160px;
-    left:400px;
-    width:356px;
-    height:340px;
+    top:60px;
+    left:158px;
+    width:200px;
+    height:212px;
 }
 
 #paragraph-24 {
-    top:124px;
-    left:248px;
+    top:100px;
+    left:145px;
+    height:53px;
+    width:51px;
 }
 
 #paragraph-25 {
-    top:132px;
-    left:148px;
+    top:105px;
+    left:95px;
+    width: 50px;
+    height: 51px;
 }
 
 #paragraph-26 {
-    top:32px;
-    left:108px;
+    top:52px;
+    left:71px;
 }
 
 #paragraph-27 {
-    top:92px;
-    left:8px;
+    top:88px;
+    left:17px;
 }
 
 #paragraph-fixed01 {
-    top:232px;
-    left:160px;
+    top:156px;
+    left:97px;
+    width:52px;
+    height:50px;
 }
 
 #area8 {
-    top:560px;
-    left:400px;
-    width:324px;
-    height:320px;
+    top:400px;
+    left:133px;
+    width:200px;
+    height:200px;
 }
 
 #paragraph-28 {
-    top:56px;
-    left:32px;
+    top:42px;
+    left:33px;
 }
 
 #paragraph-29 {
-    top:48px;
-    left:132px;
+    top:36px;
+    left:87px;
 }
 
 #paragraph-30 {
-    top:156px;
-    left:8px;
+    top:96px;
+    left:16px;
+    width:62px;
 }
 
 #paragraph-31 {
-    top:212px;
-    left:108px;
+    top:132px;
+    left:78px;
 }
 
 #paragraph-fixed02 {
-    top:148px;
-    left:208px;
+    top:89px;
+    left:132px;
 }
 
 #area9 {
-    top:360px;
-    left:20px;
-    width:360px;
-    height:380px;
+    top:200px;
+    left:0px;
+    width:208px;
+    height:220px;
 }
 
 #paragraph-32 {
-    top:160px;
-    left:8px;
+    top:99px;
+    left:-2px;
 }
 
 #paragraph-33 {
-    top:48px;
-    left:108px;
+    top:39px;
+    left:71px;
 }
 
 #paragraph-34 {
-    top:144px;
-    left:240px;
+    top:94px;
+    left:144px;
 }
 
 #paragraph-35 {
-    top:268px;
-    left:120px;
+    top:156px;
+    left:85px;
 }
 
 #paragraph-fixed03 {
-    top:152px;
-    left:120px;
+    top:97px;
+    left:61px;
+    width:65px;
 }
 
 
