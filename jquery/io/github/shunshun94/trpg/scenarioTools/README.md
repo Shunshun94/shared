@@ -2,7 +2,7 @@
 
 ## エンシェントブルーマップ管理ツール
 
-https://shunshun94.github.io/shared/jquery/io/github/shunshun94/trpg/scenarioTools/ancinetBlueMap.html
+https://shunshun94.github.io/shared/jquery/io/github/shunshun94/trpg/scenarioTools/ancientBlueMap.html
 
 ## ヴァイスシティマップ管理ツール
 
