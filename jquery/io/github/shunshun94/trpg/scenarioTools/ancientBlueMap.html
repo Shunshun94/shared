@@ -108,6 +108,11 @@
 	<dd>8頁（行動シークエンス）</dd>
 	<dd>111～114頁（航海チャレンジ）</dd>
 </dl>
+<h2>共有用 URL・ダウンロード</h2>
+<p>　　　ＵＲＬ：<input type="text" readonly id="url_plain"/><br/>
+ゆとシート用：<input type="text" readonly id="url_ytsheet"/><br/>
+ダウンロード：<button id="dl_picture">地図を画像形式で取得</button></p>
+
 <h2>作者連絡先</h2>
 <p><a href="https://twitter.com/Shunshun94">Twitter @Shunshun94</a> / <a href="http://amzn.asia/8mNqdKy">作者欲しいものリスト</a> / <a href="https://github.com/Shunshun94/shared/tree/master/jquery/io/github/shunshun94/trpg/scenarioTools">ソースコード</a></p>
 <hr/>
@@ -117,6 +122,7 @@
 <p>本作は、「グループＳＮＥ」及び「株式会社ＫＡＤＯＫＡＷＡ」が権利を有する『ソード・ワールド2.5』のために作られたツールです。<br/>(C)GroupSNE<br/>(C)KADOKAWA</p>
 </footer>
 
+<script src="https://html2canvas.hertzen.com/dist/html2canvas.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 <script src="./viceCity.js"></script>
 <script>
@@ -162,6 +168,25 @@ io.github.shunshun94.trpg.scenarioTools.ViceCity.CONSTS.AREAS = {
 const viceCity = new io.github.shunshun94.trpg.scenarioTools.ViceCity({
 	dom: $('#io-github-shunshun94-trpg-scenarioTools-AncientBlue')
 });
+
+const copyText = (e)=>{
+	navigator.clipboard.writeText(e.target.value);
+	alert('クリップボードにコピーしました');
+};
+
+$('#url_plain').val(location.href);
+$('#url_plain').click(copyText)
+$('#url_ytsheet').val(`[[七王群島の地図>${location.href}]]`);
+$('#url_ytsheet').click(copyText);
+$('#dl_picture').click((e)=>{
+	html2canvas(document.getElementById('io-github-shunshun94-trpg-scenarioTools-AncientBlue')).then(canvas => {
+		let downloadEle = document.createElement("a");
+		downloadEle.href = canvas.toDataURL("image/png");
+		downloadEle.download = "map.png";
+		downloadEle.click();
+	});
+});
+
 
 $('.paragraph').off('contextmenu');
 </script>
