@@ -34,7 +34,9 @@ footer {
     background-repeat: no-repeat;
 }
 
-
+.picture select {
+    display:none;
+}
 
 .paragraph, .paragraph-fixed {
     width:54px;
