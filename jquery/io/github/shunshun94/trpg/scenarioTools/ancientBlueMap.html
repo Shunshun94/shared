@@ -179,11 +179,13 @@ $('#url_plain').click(copyText)
 $('#url_ytsheet').val(`[[七王群島の地図>${location.href}]]`);
 $('#url_ytsheet').click(copyText);
 $('#dl_picture').click((e)=>{
+	$('#io-github-shunshun94-trpg-scenarioTools-AncientBlue').addClass('picture');
 	html2canvas(document.getElementById('io-github-shunshun94-trpg-scenarioTools-AncientBlue')).then(canvas => {
 		let downloadEle = document.createElement("a");
 		downloadEle.href = canvas.toDataURL("image/png");
 		downloadEle.download = "map.png";
 		downloadEle.click();
+		$('#io-github-shunshun94-trpg-scenarioTools-AncientBlue').removeClass('picture');
 	});
 });
 
