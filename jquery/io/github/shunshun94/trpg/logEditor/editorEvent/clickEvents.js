@@ -17,6 +17,11 @@ io.github.shunshun94.trpg.logEditor.PostClickedEvents = [
             self.beHostPlayer(targetPost);
         }
     }, {
+        class: io.github.shunshun94.trpg.logEditor.CLASSES.NAMECYCLE,
+        action: (self, clicked, targetPost) => {
+            self.changePostName(targetPost);
+        }
+    }, {
         class: io.github.shunshun94.trpg.logEditor.CLASSES.DUPLICATE,
         action: (self, clicked, targetPost) => {
             self.duplicate(targetPost);
