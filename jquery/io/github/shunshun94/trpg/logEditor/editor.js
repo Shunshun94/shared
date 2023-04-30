@@ -323,7 +323,6 @@ io.github.shunshun94.trpg.logEditor.Editor = class {
 			} else {
 				io.github.shunshun94.trpg.logEditor.kickGeneralClicedEvents(this, clicked);
 			}
-			
 		});
 	}
 
