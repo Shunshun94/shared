@@ -17,4 +17,13 @@
   .io-github-shunshun94-trpg-logEditor-preview-update {
 		left:1248px;
 	}
+
+  #mainEditor .io-github-shunshun94-trpg-logEditor-Post {
+    padding-bottom:16px;
+  }
+
+  #mainEditor .io-github-shunshun94-trpg-logEditor-Post-parentheses {
+    top:116px;
+    bottom:auto;
+  }
 }

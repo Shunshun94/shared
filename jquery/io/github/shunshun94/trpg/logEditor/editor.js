@@ -68,6 +68,14 @@ io.github.shunshun94.trpg.logEditor.Editor = class {
 		post.find(`.${io.github.shunshun94.trpg.logEditor.CLASSES.NAME}`).text(io.github.shunshun94.trpg.logEditor.HOSTPLAYER);
 	}
 
+	changePostName(post) {
+		const nameList = this.getNameList().sort();
+		const currentName = post.find(`.${io.github.shunshun94.trpg.logEditor.CLASSES.NAME}`).text();
+		const currentNameIndex = nameList.indexOf(currentName);
+		console.log(currentNameIndex, currentName);
+		post.find(`.${io.github.shunshun94.trpg.logEditor.CLASSES.NAME}`).text(nameList[currentNameIndex + 1] || nameList[0]);
+	}
+
 	duplicate(post) {
 		post.after(post.clone());
 	}
@@ -323,7 +331,6 @@ io.github.shunshun94.trpg.logEditor.Editor = class {
 			} else {
 				io.github.shunshun94.trpg.logEditor.kickGeneralClicedEvents(this, clicked);
 			}
-			
 		});
 	}
 

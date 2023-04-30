@@ -23,6 +23,7 @@ body {
 
 .io-github-shunshun94-trpg-logEditor-Post {
 	padding:16px;
+	padding-bottom:28px;
 	position:relative;
 	border-top:black 1px solid;
 	width:99%;
@@ -90,7 +91,7 @@ body {
 .io-github-shunshun94-trpg-logEditor-Post-name {
 	font-weight: bold;
 	margin-top:8px;
-	width: 245px;
+	width: 200px;
 	display: inline-block;
 	border:1px gray inset;
 }
@@ -100,6 +101,12 @@ body {
 	margin-top:12px;
 	border:1px gray inset;
 	padding: 4px;
+}
+
+.io-github-shunshun94-trpg-logEditor-Post-parentheses {
+	position: absolute;
+    bottom: 4px;
+    right: 16px;
 }
 
 .io-github-shunshun94-trpg-logEditor-Post-handle {
