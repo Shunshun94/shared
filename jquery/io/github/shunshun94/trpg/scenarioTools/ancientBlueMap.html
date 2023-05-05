@@ -182,7 +182,7 @@ $('#url_ytsheet').click(copyText);
 $('#url_html').val(`<a href="${location.href}" target="_blank" rel="noopener noreferrer">地図</a>`);
 $('#url_html').click(copyText);
 $('#dl_picture').click((e)=>{
-	$('#io-github-shunshun94-trpg-scenarioTools-AncientBlue').addClass('picture');
+	$('body')[0].addClass('picture');
 	html2canvas(document.getElementById('io-github-shunshun94-trpg-scenarioTools-AncientBlue')).then(canvas => {
 		let downloadEle = document.createElement("a");
 		downloadEle.href = canvas.toDataURL("image/png");
