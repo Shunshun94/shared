@@ -22,6 +22,11 @@ footer {
     top:32px;
 }
 
+#map {
+    position:relative;
+    display:inline-block;
+}
+
 #io-github-shunshun94-trpg-scenarioTools-AncientBlue {
     position:relative;
     background-image: url("./img/ancientBlue/blankMap.png");
@@ -40,7 +45,7 @@ footer {
     display:none;
 }
 
-body.picture {
+.picture #map {
     padding-top:39px;
     padding-bottom:39px;
     width:1000px;
