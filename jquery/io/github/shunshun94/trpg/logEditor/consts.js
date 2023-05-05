@@ -46,6 +46,7 @@ io.github.shunshun94.trpg.logEditor.CLASSES = {
 	TRASHBOX_MENU: 'menu-trashbox',
 	DARKMODE_MENU: 'menu-editorVisual',
 	PREVIEW_MENU: 'menu-preview',
+	TEKEY_STATUS_MODIFY_TO_CCFOLIA: 'menu-tekeyStatusModifyToCcfoliaStatusModify',
 	SYSTEM_TO_POST_MENU: 'menu-systemToPost',
 	ADD_FILE_MENU: 'menu',
 	DARKMODE: 'darkmode',
