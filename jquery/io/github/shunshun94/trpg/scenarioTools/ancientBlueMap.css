@@ -34,8 +34,16 @@ footer {
     background-repeat: no-repeat;
 }
 
-.picture select {
+.picture select,
+.picture footer,
+.picture #how_to_use {
     display:none;
+}
+
+body.picture {
+    padding-top:39px;
+    padding-bottom:39px;
+    width:1000px;
 }
 
 .paragraph, .paragraph-fixed {

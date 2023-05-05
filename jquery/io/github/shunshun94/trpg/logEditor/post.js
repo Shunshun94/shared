@@ -112,3 +112,9 @@ io.github.shunshun94.trpg.logEditor.getPostsByName = (name) => {
 		return $(v).text() === name;
 	}).parents(`.${io.github.shunshun94.trpg.logEditor.CLASSES.POST}`);
 };
+
+io.github.shunshun94.trpg.logEditor.getPostsByContentRegExp = (regexp) => {
+	return $(`.io-github-shunshun94-trpg-logEditor-Post-content`).filter((i,v)=>{
+		return regexp.test($(v).text());
+	}).parents(`.${io.github.shunshun94.trpg.logEditor.CLASSES.POST}`);
+};
