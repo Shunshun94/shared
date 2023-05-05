@@ -217,9 +217,8 @@ io.github.shunshun94.trpg.logEditor.Editor = class {
 	}
 
 	convertTekeyStatusModifyToCommonStyle() {
-		const regexp = /(.*)の(.*)を(-?\d+)\(-?\d*\s*→\s*-?\d*\)[増減][加少]\s*\((-?\d+)\s→\s(-?\d+)\)/;
+		const regexp = /(.*)の(.*)を(-?\d?[dD]?\d+)\(-?\d*\s*→\s*-?\d*\)に?[増減変][加少更]\s*\((-?\d+)\s→\s(-?\d+)\)/;
 		const targetList = io.github.shunshun94.trpg.logEditor.getPostsByContentRegExp(regexp);
-		console.log(targetList);
 		targetList.each((i, v)=>{
 			const target = $(v);
 			const contentDom = target.find(`.${io.github.shunshun94.trpg.logEditor.CLASSES.CONTENT}`);
