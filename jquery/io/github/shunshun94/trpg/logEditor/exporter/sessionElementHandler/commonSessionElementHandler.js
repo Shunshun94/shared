@@ -108,5 +108,29 @@ io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.CONSTS.SESSION
                 }
             };
         }
+    }, {
+        name: 'singleDiceRoll',
+        getMatchResult: (post)=>{
+            return (/\(([\dD\-\+\*\/\(\)\*]+)>?=?\d*\)\s[＞→]\s(\d+)/gm).exec(post.content);
+        },
+        getTableData: (post, matchResult)=> {
+            return {
+                name: post.name.trim(),
+                content: `ダイスロール: ${matchResult[0]}`,
+                dice: {
+                    command: matchResult[1],
+                    dice:    [Number(matchResult[2])],
+                    result:  matchResult[2]
+                },
+                before: {
+                    name: post.name,
+                    content: io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.removeSystemNamePrefix(post.content.substring(0, matchResult.index).trim())
+                },
+                after: {
+                    name: post.name,
+                    content: post.content.substring(matchResult.index).replace(matchResult[0], '').trim()
+                }
+            };
+        }
     }
 ];
