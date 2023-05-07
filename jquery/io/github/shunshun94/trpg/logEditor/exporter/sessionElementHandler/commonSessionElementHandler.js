@@ -8,6 +8,22 @@ io.github.shunshun94.trpg.logEditor.export.OperationTableExporter = io.github.sh
 
 io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.CONSTS = io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.CONSTS || {};
 
+io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.CONSTS.REGEXP = {
+    SystemNamePrefix: /\n.*\s*:\s*$/
+};
+
+// /\n.*\s*:\s*$/
+
+io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.removeSystemNamePrefix = (text) => {
+    const execResult = io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.CONSTS.REGEXP.SystemNamePrefix.exec(text);
+    if( execResult ) {
+        return text.replace(execResult[0], '').trim();
+    }
+    return text;
+};
+
+// SwordWorld2.5 :
+
 io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.CONSTS.SESSION_ELEMENT_HANDLERS = [
     {
         name: 'commonResourceManage',
@@ -63,7 +79,7 @@ io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.CONSTS.SESSION
     }, {
         name: 'commonDiceRoll',
         getMatchResult: (post)=>{
-            return (/\(([\dD\-\+\*\/\(\)\*]+)\)\s＞\s([\d\[\],\+\-\*\/\(\)\*]+)\s＞\s(\d+)/gm).exec(post.content);
+            return (/\(([\dD\-\+\*\/\(\)\*]+)>?=?\d*\)\s[＞→]\s([\d\[\],\+\-\*\/\(\)\*]+)\s[＞→]\s(\d+)/gm).exec(post.content);
         },
         getTableData: (post, matchResult)=> {
             const diceResults = [];
@@ -84,7 +100,7 @@ io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.CONSTS.SESSION
                 },
                 before: {
                     name: post.name,
-                    content: post.content.substring(0, matchResult.index).trim()
+                    content: io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.removeSystemNamePrefix(post.content.substring(0, matchResult.index).trim())
                 },
                 after: {
                     name: post.name,
