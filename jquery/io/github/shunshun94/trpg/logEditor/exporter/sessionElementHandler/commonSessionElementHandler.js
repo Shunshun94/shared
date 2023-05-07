@@ -63,7 +63,7 @@ io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.CONSTS.SESSION
     }, {
         name: 'commonDiceRoll',
         getMatchResult: (post)=>{
-            return (/\(([\dD\-\+\*\/]+)\)\s＞\s([\d\[\],\+\-\*\/]+)\s＞\s(\d+)/gm).exec(post.content);
+            return (/\(([\dD\-\+\*\/\(\)\*]+)\)\s＞\s([\d\[\],\+\-\*\/\(\)\*]+)\s＞\s(\d+)/gm).exec(post.content);
         },
         getTableData: (post, matchResult)=> {
             const diceResults = [];
