@@ -178,6 +178,11 @@ io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.jsonToHtml = (
     return html.outerHTML;
 };
 
+io.github.shunshun94.trpg.logEditor.export.IdLogExporter.exec = (doms, head, omit, mode) => {
+    const resultJson = {};
+    io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.download(JSON.stringify(resultJson), `saved_${Number(new Date())}.json`, 'text/json;charset=utf-8;');
+};
+
 io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.exec = (doms, head, omit, mode) => {
     const json = io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.domsToJson(doms);
     const html = io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.jsonToHtml(json);
