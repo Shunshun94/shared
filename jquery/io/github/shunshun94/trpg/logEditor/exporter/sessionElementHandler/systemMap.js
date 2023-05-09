@@ -20,3 +20,10 @@ io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.CONSTS.SYSTEM_
     }
 };
 
+io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.getAllSystemMapNames = () => {
+    const result = [];
+    for(var name in io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.CONSTS.SYSTEM_MAP) {
+        result.push(name);
+    }
+    return result;
+};

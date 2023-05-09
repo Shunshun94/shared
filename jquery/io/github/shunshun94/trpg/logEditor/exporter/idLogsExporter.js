@@ -6,7 +6,7 @@ io.github.shunshun94.trpg.logEditor = io.github.shunshun94.trpg.logEditor || {};
 io.github.shunshun94.trpg.logEditor.export = io.github.shunshun94.trpg.logEditor.export || {};
 io.github.shunshun94.trpg.logEditor.export.IdLogExporter = io.github.shunshun94.trpg.logEditor.export.IdLogExporter || {};
 
-io.github.shunshun94.trpg.logEditor.export.IdLogExporter.exec = (doms, head, omit, mode) => {
+io.github.shunshun94.trpg.logEditor.export.IdLogExporter.generateIdListJson = (doms) => {
     const result = [];
     doms.children().each((i, v)=>{
         const dom = $(v);
@@ -28,7 +28,10 @@ io.github.shunshun94.trpg.logEditor.export.IdLogExporter.exec = (doms, head, omi
             result.push(item);
         }
 	});
+    return result;
+};
 
+io.github.shunshun94.trpg.logEditor.export.IdLogExporter.exec = (doms) => {
     const download = (text) => {
         const url = window.URL.createObjectURL(new Blob([ text ], { "type" : 'text/json;charset=utf-8;' }));
         const dlLink = document.createElement("a");
@@ -40,5 +43,5 @@ io.github.shunshun94.trpg.logEditor.export.IdLogExporter.exec = (doms, head, omi
         URL.revokeObjectURL(url);
     };
 
-    download(JSON.stringify(result, null, 2));
+    download(JSON.stringify(io.github.shunshun94.trpg.logEditor.export.IdLogExporter.generateIdListJson(doms), null, 2));
 };
