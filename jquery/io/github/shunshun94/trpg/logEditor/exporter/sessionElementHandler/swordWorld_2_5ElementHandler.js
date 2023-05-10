@@ -14,7 +14,6 @@ io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.SW25.SESSION_E
             return (/(KeyNo\.\d[\+\-\d\[\]cmragf<=]*)\s[＞→]\s2D:\[([\d,\s]+)\]=([\d,]+)\s[＞→]\s([\d,\+\-\*\/\(\)]+)\s[＞→]\s?([\d回転]*)\s?[＞→]?\s(\d+)/gm).exec(post.content);
         },
         getTableData: (post, matchResult)=> {
-            console.log(matchResult[2].split(/\s/));
             const diceResults = matchResult[2].split(/\s/).map((pair)=>{
                 return pair.split(',').map((d)=>{return Number(d)});
             });
