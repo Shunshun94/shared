@@ -28,5 +28,8 @@ io.github.shunshun94.trpg.logEditor.menu.saveMenu.generateDom = (target) => {
         >ユニコエへの挿入用テキストファイルとして出力（SW2.5とCoCにのみ対応 / フォーマットは今後変更の可能性あり）</button><br/><br/>
         <button class="${io.github.shunshun94.trpg.logEditor.CLASSES.SAVE_MENU_WINDOW}-save " value="${target} YukkuriMovieMaker"
         >ゆっくりムービーメーカーの台本への挿入用テキストファイルとして出力（SW2.5とCoCにのみ対応 / フォーマットは今後変更の可能性あり）</button>
+        <br/><br/>
+        <button class="${io.github.shunshun94.trpg.logEditor.CLASSES.SAVE_MENU_WINDOW}-save experimentalfunction" value="${target} IdLogExporter"
+        >ID のある要素の一覧を json 形式で出力</button>
 	</div>`;
 };

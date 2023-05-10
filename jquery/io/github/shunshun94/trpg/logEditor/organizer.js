@@ -35,4 +35,7 @@ io.github.shunshun94.trpg.logEditor.DOMS.BODY.on(io.github.shunshun94.trpg.logEd
 
 if(io.github.shunshun94.trpg.logEditor.hashFunc(location.search) === io.github.shunshun94.trpg.logEditor.EXPERIMENTAL_FUNC_PASSWORD) {
 	io.github.shunshun94.trpg.logEditor.DOMS.BODY.addClass(io.github.shunshun94.trpg.logEditor.CLASSES.EXPERIMENTAL);
+	console.log('experimental mode');
+} else {
+	console.log('not experimental mode');
 }

@@ -17,7 +17,9 @@ io.github.shunshun94.trpg.logEditor.export.ExpoterMap = {
     operationTable: io.github.shunshun94.trpg.logEditor.export.OperationTableExporter,
     operationJson: io.github.shunshun94.trpg.logEditor.export.OperationJsonExporter,
     UniCoeText: io.github.shunshun94.trpg.logEditor.export.UniCoeExporter,
-    YukkuriMovieMaker: io.github.shunshun94.trpg.logEditor.export.YukkuriMovieMakerExporter
+    YukkuriMovieMaker: io.github.shunshun94.trpg.logEditor.export.YukkuriMovieMakerExporter,
+
+    IdLogExporter: io.github.shunshun94.trpg.logEditor.export.IdLogExporter
 };
 
 io.github.shunshun94.trpg.logEditor.export.getExporter = (mode) => {

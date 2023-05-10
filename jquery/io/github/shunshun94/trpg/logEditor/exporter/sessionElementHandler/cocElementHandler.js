@@ -7,10 +7,6 @@ io.github.shunshun94.trpg.logEditor.export = io.github.shunshun94.trpg.logEditor
 io.github.shunshun94.trpg.logEditor.export.OperationTableExporter = io.github.shunshun94.trpg.logEditor.export.OperationTableExporter || {};
 io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.COC = io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.COC || {};
 
-/**************************************************
- *追加したら systemMap.js への追加も忘れないこと！*
- *************************************************/
-
 io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.COC.SESSION_ELEMENT_HANDLERS = [
     {
         name: 'coc7CommonRoll',
@@ -33,7 +29,7 @@ io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.COC.SESSION_EL
                 },
                 before: {
                     name: post.name,
-                    content: post.content.substring(0, matchResult.index).trim()
+                    content: io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.removeSystemNamePrefix(post.content.substring(0, matchResult.index).trim())
                 },
                 after: {
                     name: post.name,
@@ -60,7 +56,7 @@ io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.COC.SESSION_EL
                 },
                 before: {
                     name: post.name,
-                    content: post.content.substring(0, matchResult.index).trim()
+                    content: io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.removeSystemNamePrefix(post.content.substring(0, matchResult.index).trim())
                 },
                 after: {
                     name: post.name,
