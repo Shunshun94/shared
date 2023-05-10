@@ -11,10 +11,10 @@ io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.SW25.SESSION_E
     {
         name: 'rateTableDiceRoll',
         getMatchResult: (post)=>{
-            return (/(KeyNo\.\d[\+\-\d\[\]cmragf<=]*)\s＞\s2D:\[([\d,\s]+)\]=([\d,]+)\s＞\s([\d,\+\-\*\/\(\)]+)\s＞\s?([\d回転]*)\s?＞?\s(\d+)/gm).exec(post.content);
+            return (/(KeyNo\.\d[\+\-\d\[\]cmragf<=]*)\s[＞→]\s2D:\[([\d,\s]+)\]=([\d,]+)\s[＞→]\s([\d,\+\-\*\/\(\)]+)\s[＞→]\s?([\d回転]*)\s?[＞→]?\s(\d+)/gm).exec(post.content);
         },
         getTableData: (post, matchResult)=> {
-            const diceResults = matchResult[2].split(' ').map((pair)=>{
+            const diceResults = matchResult[2].split(/\s/).map((pair)=>{
                 return pair.split(',').map((d)=>{return Number(d)});
             });
             return {
@@ -27,7 +27,7 @@ io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.SW25.SESSION_E
                 },
                 before: {
                     name: post.name,
-                    content: post.content.substring(0, matchResult.index).trim()
+                    content: io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.removeSystemNamePrefix(post.content.substring(0, matchResult.index).trim())
                 },
                 after: {
                     name: post.name,
@@ -52,7 +52,7 @@ io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.SW25.SESSION_E
                 },
                 before: {
                     name: post.name,
-                    content: post.content.substring(0, matchResult.index).trim()
+                    content: io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.removeSystemNamePrefix(post.content.substring(0, matchResult.index).trim())
                 },
                 after: {
                     name: post.name,
