@@ -12,8 +12,6 @@ io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.CONSTS.REGEXP 
     SystemNamePrefix: /\n.*\s*:\s*$/
 };
 
-// /\n.*\s*:\s*$/
-
 io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.removeSystemNamePrefix = (text) => {
     const execResult = io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.CONSTS.REGEXP.SystemNamePrefix.exec(text);
     if( execResult ) {
@@ -21,8 +19,6 @@ io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.removeSystemNa
     }
     return text;
 };
-
-// SwordWorld2.5 :
 
 io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.CONSTS.SESSION_ELEMENT_HANDLERS = [
     {
