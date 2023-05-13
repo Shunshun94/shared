@@ -9,7 +9,9 @@ io.github.shunshun94.trpg.logEditor.export.OperationTableExporter = io.github.sh
 io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.CONSTS = io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.CONSTS || {};
 
 io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.CONSTS.REGEXP = {
-    SystemNamePrefix: /\n.*\s*:\s*$/
+    SystemNamePrefix: /\n.*\s*:\s*$/,
+    ResrouceManage: /\[\s(.+)\s\]\s(.+)\s:\s(\d+)\s→\s(\d+)/gm,
+    EditedResourceManage: /([^\t\n\r]+)\s:\s(\d+)\s→\s(\d+)/gm
 };
 
 io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.removeSystemNamePrefix = (text) => {
@@ -24,7 +26,7 @@ io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.CONSTS.SESSION
     {
         name: 'commonResourceManage',
         getMatchResult: (post)=>{
-            return (/\[\s(.+)\s\]\s(.+)\s:\s(\d+)\s→\s(\d+)/gm).exec(post.content);
+            return (io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.CONSTS.REGEXP.ResrouceManage).exec(post.content);
         },
         getTableData: (post, matchResult)=> {
             const diff = Number(matchResult[4]) - Number(matchResult[3]);
@@ -50,7 +52,7 @@ io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.CONSTS.SESSION
     }, {
         name: 'editedResourceManage',
         getMatchResult: (post)=>{
-            return (/([^\t\n\r]+)\s:\s(\d+)\s→\s(\d+)/gm).exec(post.content);
+            return (io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.CONSTS.REGEXP.EditedResourceManage).exec(post.content);
         },
         getTableData: (post, matchResult)=> {
             const diff = Number(matchResult[3]) - Number(matchResult[2]);
