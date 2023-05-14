@@ -83,6 +83,25 @@ io.github.shunshun94.trpg.logEditor.resources.appendkMemberJoinLeaveLog = (posts
     return history.concat(joinLeaveList).sort((a,b)=>{return a.index - b.index;});
 };
 
+io.github.shunshun94.trpg.logEditor.resources.convertResourceObjectToTableHtml = (history, idx, pastTableObject = {}, columnOrder) => {
+    //TODO ここ実装する
+    return {
+        tableObject: tableObject,
+        tableHtml: tableHtml
+    };
+};
+
+io.github.shunshun94.trpg.logEditor.resources.convertResourceHistoryToTableHtmls = (history, columnOrder = ['HP','MP','SAN']) => {
+    let lastTableObject = {tableObject: {}};
+    return history.map((log, idx)=>{
+        lastTableObject = io.github.shunshun94.trpg.logEditor.resources.convertResourceObjectToTableHtml(log, idx, lastTableObject.tableObject, columnOrder);
+        return lastTableObject;
+    });
+};
+
+
+
+
 io.github.shunshun94.trpg.logEditor.resources.generateResroucesInfoTables = (doms) => {
     const modifiedPosts = Array.from(doms.children()).map(io.github.shunshun94.trpg.logEditor.resources.postToPostElements);
     const resourceModificationHistory = modifiedPosts.map(io.github.shunshun94.trpg.logEditor.resources.pickResourceModificationLog).filter((element)=>{return element.resources});
