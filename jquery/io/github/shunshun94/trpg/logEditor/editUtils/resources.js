@@ -27,12 +27,12 @@ io.github.shunshun94.trpg.logEditor.resources.postToPostElements = (tmp_dom) => 
 io.github.shunshun94.trpg.logEditor.resources.getFirstResourceModificationLogFrom = (content, name) => {
     const regexpA = io.github.shunshun94.trpg.logEditor.resources.CONSTS.REGEXPS.ResourceModify.exec(content);
     if(regexpA) {
-        return { body: regexpA[0], name: regexpA[1], status: regexpA[2], before: regexpA[3], after: regexpA[4] };
+        return { body: regexpA[0], name: regexpA[1], status: regexpA[2], before: Number(regexpA[3]), after: Number(regexpA[4]) };
     }
 
     const regexpB = io.github.shunshun94.trpg.logEditor.resources.CONSTS.REGEXPS.EditedResourceModify.exec(content);
     if(regexpB) {
-        return { body: regexpB[0], name: name, status: regexpB[1], before: regexpB[2], after: regexpB[3]};
+        return { body: regexpB[0], name: name, status: regexpB[1], before: Number(regexpB[2]), after: Number(regexpB[3])};
     }
 
     return null;
@@ -56,7 +56,7 @@ io.github.shunshun94.trpg.logEditor.resources.appendkMemberJoinLeaveLog = (posts
         for(var name in post.resources) {
             if(! memberList[name]) { memberList[name] = {resources:{}}; }
             for(var statusName in post.resources[name]) {
-                if(! memberList[name].resources[statusName]) { memberList[name].resources[statusName] = {before: post.resources[name][statusName].before}; }
+                if(! memberList[name].resources[statusName]) { memberList[name].resources[statusName] = {after: post.resources[name][statusName].before, max: post.resources[name][statusName].before}; }
             }
         }
     });
@@ -83,7 +83,31 @@ io.github.shunshun94.trpg.logEditor.resources.appendkMemberJoinLeaveLog = (posts
     return history.concat(joinLeaveList).sort((a,b)=>{return a.index - b.index;});
 };
 
+io.github.shunshun94.trpg.logEditor.resources.generateTableObject = (history, idx, pastTableObject = {}) => {
+    const tableObject = JSON.parse(JSON.stringify(pastTableObject));
+    const index = history.id || history.index || idx;
+    for(var name in history.resources) {
+        if(! tableObject[name]) {
+            tableObject[name] = JSON.parse(JSON.stringify(history.resources[name]));
+        }
+        const updatedColumnList = Object.keys(history.resources[name]);
+        if(updatedColumnList.length) {
+            updatedColumnList.forEach((column, i)=>{
+                if(history.resources[name][column].before !== tableObject[name][column].after) {
+                    console.warn(index, `${name} の ${column} が更新されますが更新前の値が一致しません（元々：${tableObject[name][column].after} / 更新時：${history.resources[name][column].before}）`);
+                }
+                tableObject[name][column].before = history.resources[name][column].before;
+                tableObject[name][column].after  = history.resources[name][column].after;
+            });
+        } else {
+            delete tableObject[name];
+        }
+    }
+    return tableObject;
+};
+
 io.github.shunshun94.trpg.logEditor.resources.convertResourceObjectToTableHtml = (history, idx, pastTableObject = {}, columnOrder) => {
+    const tableObject = io.github.shunshun94.trpg.logEditor.resources.generateTableObject(history, idx, pastTableObject);
     //TODO ここ実装する
     return {
         tableObject: tableObject,
