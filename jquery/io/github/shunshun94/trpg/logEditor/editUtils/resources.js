@@ -83,8 +83,19 @@ io.github.shunshun94.trpg.logEditor.resources.appendkMemberJoinLeaveLog = (posts
     return history.concat(joinLeaveList).sort((a,b)=>{return a.index - b.index;});
 };
 
+io.github.shunshun94.trpg.logEditor.resources.removeBeforeFromEachColumns = (tableObject) => {
+    const nameList = Object.keys(tableObject);
+    nameList.forEach((name)=>{
+        const columnList = Object.keys(tableObject[name]);
+        columnList.forEach((column)=>{
+            delete tableObject[name][column].before;
+        });
+    });
+    return tableObject;
+};
+
 io.github.shunshun94.trpg.logEditor.resources.generateTableObject = (history, idx, pastTableObject = {}) => {
-    const tableObject = JSON.parse(JSON.stringify(pastTableObject));
+    const tableObject = io.github.shunshun94.trpg.logEditor.resources.removeBeforeFromEachColumns(JSON.parse(JSON.stringify(pastTableObject)));
     const index = history.id || history.index || idx;
     for(var name in history.resources) {
         if(! tableObject[name]) {
