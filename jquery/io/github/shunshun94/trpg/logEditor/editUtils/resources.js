@@ -70,9 +70,9 @@ io.github.shunshun94.trpg.logEditor.resources.appendkMemberJoinLeaveLog = (posts
     const joinLeaveMap = {};
     for(var name in memberList) {
         const target = memberList[name];
-        if(! joinLeaveMap[target.join]) { joinLeaveMap[target.join] = { index: target.join, resources: {} }; }
+        if(! joinLeaveMap[target.join]) { joinLeaveMap[target.join] = { index: target.join - 1, resources: {} }; }
         joinLeaveMap[target.join].resources[name] = target.resources;
-        if(! joinLeaveMap[target.leave]) { joinLeaveMap[target.leave] = { index: target.leave, resources: {} }; }
+        if(! joinLeaveMap[target.leave]) { joinLeaveMap[target.leave] = { index: target.leave + 1, resources: {} }; }
         joinLeaveMap[target.leave].resources[name] = {};
     }
     const joinLeaveList = [];
@@ -92,10 +92,15 @@ io.github.shunshun94.trpg.logEditor.resources.generateTableObject = (history, id
         }
         const updatedColumnList = Object.keys(history.resources[name]);
         if(updatedColumnList.length) {
-            updatedColumnList.forEach((column, i)=>{
-                if(history.resources[name][column].before !== tableObject[name][column].after) {
-                    console.warn(index, `${name} の ${column} が更新されますが更新前の値が一致しません（元々：${tableObject[name][column].after} / 更新時：${history.resources[name][column].before}）`);
+            updatedColumnList.forEach((column)=>{
+                try {
+                    if(history.resources[name][column].before !== tableObject[name][column].after) {
+                        console.warn(index, `${name} の ${column} が更新されますが更新前の値が一致しません（元々：${tableObject[name][column].after} / 更新時：${history.resources[name][column].before}）`);
+                    }
+                } catch (e) {
+                    console.error(e, name, column, history, idx, tableObject);
                 }
+
                 tableObject[name][column].before = history.resources[name][column].before;
                 tableObject[name][column].after  = history.resources[name][column].after;
             });
@@ -111,7 +116,7 @@ io.github.shunshun94.trpg.logEditor.resources.convertResourceObjectToTableHtml =
     //TODO ここ実装する
     return {
         tableObject: tableObject,
-        tableHtml: tableHtml
+        // tableHtml: tableHtml
     };
 };
 
