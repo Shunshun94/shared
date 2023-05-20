@@ -9,6 +9,10 @@ const addFactorsToLogs = (flags = {}) => {
     if(flags.characterDisplay || false) {
         characterDisplayHandle(flags.characterDisplay);
     }
+
+    if(document.getElementById('lastUpdateDisplay')) {
+        document.getElementById('lastUpdateDisplay').textContent = new Date(document.lastModified).toLocaleDateString();
+    }
 };
 
 const generateDisplayCharacterDom = (key, characterInfo, parentId) => {
