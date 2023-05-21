@@ -39,14 +39,19 @@ io.github.shunshun94.trpg.logEditor.resources.getFirstResourceModificationLogFro
 };
 
 io.github.shunshun94.trpg.logEditor.resources.pickResourceModificationLog = (postElement, postIndex) => {
-    //TODO 一つのポストで同じキャラクターの同じステータスを二回変更している場合に対応する必要がある。
-    // 呼び出し元で flat する覚悟を決めてこちらはオブジェクトじゃなくてオブジェクトの配列を返却することで対応可能だろう
     const result = {index: postIndex};
     let rd;
     while(rd = io.github.shunshun94.trpg.logEditor.resources.getFirstResourceModificationLogFrom(postElement.content, postElement.name)) {
         if(! result.resources) { result.resources = {}; }
         if(! result.resources[rd.name]) { result.resources[rd.name] = {}; }
-        result.resources[rd.name][rd.status] = {before: rd.before, after:  rd.after};
+
+        if(! result.resources[rd.name][rd.status]) {
+            result.resources[rd.name][rd.status] = {before: rd.before, after:  rd.after};
+        } else {
+            // 1度の発言で2回更新されている場合はマージしてしまう
+            result.resources[rd.name][rd.status].after = rd.after;
+        }
+
         postElement.content = postElement.content.replace(rd.body, '');
     }
     return result;
