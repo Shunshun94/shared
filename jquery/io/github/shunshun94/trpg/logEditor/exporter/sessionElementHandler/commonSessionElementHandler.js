@@ -10,8 +10,8 @@ io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.CONSTS = io.gi
 
 io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.CONSTS.REGEXP = {
     SystemNamePrefix: /\n.*\s*:\s*$/,
-    ResourceManage: /\[\s(.+)\s\]\s(.+)\s:\s(\d+)\s→\s(\d+)/gm,
-    EditedResourceManage: /([^\t\n\r]+)\s:\s(\d+)\s→\s(\d+)/gm
+    ResourceManage: /\[\s(.+)\s\]\s(.+)\s:\s(-?\d+)\s→\s(-?\d+)/gm,
+    EditedResourceManage: /([^\t\n\r]+)\s:\s(-?\d+)\s→\s(-?\d+)/gm
 };
 
 io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.removeSystemNamePrefix = (text) => {
