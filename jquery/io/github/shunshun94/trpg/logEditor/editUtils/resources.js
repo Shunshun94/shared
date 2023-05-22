@@ -8,7 +8,7 @@ io.github.shunshun94.trpg.logEditor.resources = io.github.shunshun94.trpg.logEdi
 io.github.shunshun94.trpg.logEditor.resources.CONSTS = io.github.shunshun94.trpg.logEditor.resources.CONSTS || {};
 
 io.github.shunshun94.trpg.logEditor.resources.CONSTS.REGEXPS = {
-    ResourceModify: (io.github.shunshun94.trpg.logEditor.export.OperationTableExporter) ? io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.CONSTS.REGEXP.ResrouceManage : /\[\s(.+)\s\]\s(.+)\s:\s(\d+)\s→\s(\d+)/gm,
+    ResourceModify: (io.github.shunshun94.trpg.logEditor.export.OperationTableExporter) ? io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.CONSTS.REGEXP.ResourceManage : /\[\s(.+)\s\]\s(.+)\s:\s(\d+)\s→\s(\d+)/gm,
     EditedResourceModify: (io.github.shunshun94.trpg.logEditor.export.OperationTableExporter) ? io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.CONSTS.REGEXP.EditedResourceManage : /([^\t\n\r]+)\s:\s(\d+)\s→\s(\d+)/gm
 };
 
@@ -129,12 +129,50 @@ io.github.shunshun94.trpg.logEditor.resources.generateTableObject = (history, id
     return tableObject;
 };
 
+io.github.shunshun94.trpg.logEditor.resources.convertTableObjectToTableHtml = (tableObject, columnOrder) => {
+    const result = document.createElement('table');
+    result.setAttribute('border', 1);
+    Object.keys(tableObject).forEach((name)=>{
+        const characterTr = document.createElement('tr');
+        const characterNameTh = document.createElement('th');
+        characterNameTh.textContent = name;
+        characterTr.append(characterNameTh);
+
+        const character = tableObject[name];
+        columnOrder.forEach((column)=>{
+            const statusTd = document.createElement('td');
+            if(character[column]) {
+                if(character[column].before) {
+                    statusTd.innerHTML = `<span class="resource-table-columnName">${column}</span><span class="resource-table-value resource-table-value-before">${character[column].before}</span><span class="resource-table-value resource-table-value-after">${character[column].after}</span><span class="resource-table-value resource-table-value-max">${character[column].max}</span>`;
+                    statusTd.className = 'resource-table-updated';
+                } else {
+                    statusTd.innerHTML = `<span class="resource-table-columnName">${column}</span><span class="resource-table-value resource-table-value-after">${character[column].after}</span><span class="resource-table-value resource-table-value-max">${character[column].max}</span>`;
+                }
+            } else {
+                statusTd.className = 'resource-table-no_info';
+            }
+            characterTr.append(statusTd);
+        });
+
+        result.append(characterTr);
+    });
+    return result;
+};
+
 io.github.shunshun94.trpg.logEditor.resources.convertResourceObjectToTableHtml = (history, idx, pastTableObject = {}, columnOrder) => {
     const tableObject = io.github.shunshun94.trpg.logEditor.resources.generateTableObject(history, idx, pastTableObject);
-    //TODO ここ実装する
+    const content = io.github.shunshun94.trpg.logEditor.resources.convertTableObjectToTableHtml(tableObject, columnOrder);
+
     return {
         tableObject: tableObject,
-        // tableHtml: tableHtml
+        domSeed: {
+            tag: 'div',
+            name: '',
+            content: content.outerHTML,
+            id: '',
+            class: '',
+            style: ''
+        }
     };
 };
 
@@ -149,7 +187,7 @@ io.github.shunshun94.trpg.logEditor.resources.convertResourceHistoryToTableHtmls
 
 
 
-io.github.shunshun94.trpg.logEditor.resources.generateResroucesInfoTables = (doms) => {
+io.github.shunshun94.trpg.logEditor.resources.generateresourcesInfoTables = (doms) => {
     const modifiedPosts = Array.from(doms.children()).map(io.github.shunshun94.trpg.logEditor.resources.postToPostElements);
     const resourceModificationHistory = modifiedPosts.map(io.github.shunshun94.trpg.logEditor.resources.pickResourceModificationLog).filter((element)=>{return element.resources});
     const resourceHistory = io.github.shunshun94.trpg.logEditor.resources.appendkMemberJoinLeaveLog(modifiedPosts, resourceModificationHistory);

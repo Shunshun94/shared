@@ -156,6 +156,14 @@ io.github.shunshun94.trpg.logEditor.Editor = class {
 		$(this.getTmpDoms()[0]).append(dom);
 	}
 
+	insertResourceModifyTables() {
+		const modifyHistory = io.github.shunshun94.trpg.logEditor.resources.generateresourcesInfoTables(this.getMainDom());
+		const htmls = io.github.shunshun94.trpg.logEditor.resources.convertResourceHistoryToTableHtmls(modifyHistory);
+		htmls.forEach((post)=>{
+			$(this.getTmpDoms()[0]).append(io.github.shunshun94.trpg.logEditor.jsonToEditorHtml(post.domSeed));
+		});
+	}
+
 	getNameList() {
 		return Array.from(new Set($.makeArray($(`.${io.github.shunshun94.trpg.logEditor.CLASSES.NAME}`).map((i,v)=>{return $(v).text()})))).filter((n)=>{return n;});
 	}

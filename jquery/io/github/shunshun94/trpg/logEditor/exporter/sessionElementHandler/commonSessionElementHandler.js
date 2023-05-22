@@ -10,7 +10,7 @@ io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.CONSTS = io.gi
 
 io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.CONSTS.REGEXP = {
     SystemNamePrefix: /\n.*\s*:\s*$/,
-    ResrouceManage: /\[\s(.+)\s\]\s(.+)\s:\s(\d+)\s→\s(\d+)/gm,
+    ResourceManage: /\[\s(.+)\s\]\s(.+)\s:\s(\d+)\s→\s(\d+)/gm,
     EditedResourceManage: /([^\t\n\r]+)\s:\s(\d+)\s→\s(\d+)/gm
 };
 
@@ -26,7 +26,7 @@ io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.CONSTS.SESSION
     {
         name: 'commonResourceManage',
         getMatchResult: (post)=>{
-            return (io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.CONSTS.REGEXP.ResrouceManage).exec(post.content);
+            return (io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.CONSTS.REGEXP.ResourceManage).exec(post.content);
         },
         getTableData: (post, matchResult)=> {
             const diff = Number(matchResult[4]) - Number(matchResult[3]);
