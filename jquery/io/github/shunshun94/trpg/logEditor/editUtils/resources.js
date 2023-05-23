@@ -12,7 +12,7 @@ io.github.shunshun94.trpg.logEditor.resources.CONSTS.REGEXPS = {
     EditedResourceModify: (io.github.shunshun94.trpg.logEditor.export.OperationTableExporter) ? io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.CONSTS.REGEXP.EditedResourceManage : /([^\t\n\r]+)\s:\s(-?\d+)\s→\s(-?\d+)/gm
 };
 
-io.github.shunshun94.trpg.logEditor.resources.CONSTS.DEFAULT_COLUMN_ORDER = ['HP','MP','SAN'];
+io.github.shunshun94.trpg.logEditor.resources.CONSTS.DEFAULT_COLUMN_ORDER = ['HP','MP'];
 
 io.github.shunshun94.trpg.logEditor.resources.getNameList = (doms) => {
     return (new Set($.makeArray(doms.find(`.${io.github.shunshun94.trpg.logEditor.CLASSES.NAME}`).map((i,v)=>{return $(v).text()})))).filter((n)=>{return n;});
@@ -131,9 +131,10 @@ io.github.shunshun94.trpg.logEditor.resources.generateTableObject = (history, id
     return tableObject;
 };
 
-io.github.shunshun94.trpg.logEditor.resources.convertTableObjectToTableHtml = (tableObject, columnOrder = io.github.shunshun94.trpg.logEditor.resources.CONSTS.DEFAULT_COLUMN_ORDER) => {
+io.github.shunshun94.trpg.logEditor.resources.convertTableObjectToTableHtmlV1 = (tableObject, columnOrder) => {
     const result = document.createElement('table');
     result.setAttribute('border', 1);
+    result.className = 'resource-table';
     Object.keys(tableObject).forEach((name)=>{
         const characterTr = document.createElement('tr');
         const characterNameTh = document.createElement('th');
@@ -163,7 +164,7 @@ io.github.shunshun94.trpg.logEditor.resources.convertTableObjectToTableHtml = (t
 
 io.github.shunshun94.trpg.logEditor.resources.convertResourceObjectToTableHtml = (history, idx, pastTableObject = {}, columnOrder) => {
     const tableObject = io.github.shunshun94.trpg.logEditor.resources.generateTableObject(history, idx, pastTableObject);
-    const content = io.github.shunshun94.trpg.logEditor.resources.convertTableObjectToTableHtml(tableObject, columnOrder);
+    const content = io.github.shunshun94.trpg.logEditor.resources.convertTableObjectToTableHtmlV1(tableObject, columnOrder);
 
     return {
         tableObject: tableObject,
@@ -178,16 +179,13 @@ io.github.shunshun94.trpg.logEditor.resources.convertResourceObjectToTableHtml =
     };
 };
 
-io.github.shunshun94.trpg.logEditor.resources.convertResourceHistoryToTableHtmls = (history, columnOrder = ['HP','MP','SAN']) => {
+io.github.shunshun94.trpg.logEditor.resources.convertResourceHistoryToTableHtmls = (history, columnOrder = io.github.shunshun94.trpg.logEditor.resources.CONSTS.DEFAULT_COLUMN_ORDER) => {
     let lastTableObject = {tableObject: {}};
     return history.map((log, idx)=>{
         lastTableObject = io.github.shunshun94.trpg.logEditor.resources.convertResourceObjectToTableHtml(log, idx, lastTableObject.tableObject, columnOrder);
         return lastTableObject;
     });
 };
-
-
-
 
 io.github.shunshun94.trpg.logEditor.resources.generateresourcesInfoTables = (doms) => {
     const modifiedPosts = Array.from(doms.children()).map(io.github.shunshun94.trpg.logEditor.resources.postToPostElements);
