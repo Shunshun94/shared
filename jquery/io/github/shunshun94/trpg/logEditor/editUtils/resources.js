@@ -131,6 +131,40 @@ io.github.shunshun94.trpg.logEditor.resources.generateTableObject = (history, id
     return tableObject;
 };
 
+io.github.shunshun94.trpg.logEditor.resources.convertTableObjectToTableHtmlV2 = (tableObject, columnOrder, tableStructure = {}) => {
+    const result = document.createElement('table');
+    result.setAttribute('border', 1);
+    result.className = 'resource-table';
+    Object.keys(tableObject).forEach((name)=>{
+        const characterTr = document.createElement('tr');
+        const characterNameTh = document.createElement('th');
+        characterNameTh.textContent = name;
+        characterTr.append(characterNameTh);
+
+        const character = tableObject[name];
+        columnOrder.forEach((column)=>{
+            const statusTd = document.createElement('td');
+            if(character[column]) {
+                if(character[column].before) {
+                    statusTd.innerHTML = `<span class="resource-table-columnName">${column}</span><span class="resource-table-value resource-table-value-before">${character[column].before}</span><span class="resource-table-value resource-table-value-after">${character[column].after}</span><span class="resource-table-value resource-table-value-max">${character[column].max}</span>`;
+                    statusTd.className = 'resource-table-updated';
+                } else {
+                    statusTd.innerHTML = `<span class="resource-table-columnName">${column}</span><span class="resource-table-value resource-table-value-after">${character[column].after}</span><span class="resource-table-value resource-table-value-max">${character[column].max}</span>`;
+                }
+            } else {
+                statusTd.className = 'resource-table-no_info';
+            }
+            characterTr.append(statusTd);
+        });
+
+        result.append(characterTr);
+    });
+    return {
+        content: result,
+        tableStructure: tableStructure
+    };
+};
+
 io.github.shunshun94.trpg.logEditor.resources.convertTableObjectToTableHtmlV1 = (tableObject, columnOrder) => {
     const result = document.createElement('table');
     result.setAttribute('border', 1);
@@ -159,30 +193,34 @@ io.github.shunshun94.trpg.logEditor.resources.convertTableObjectToTableHtmlV1 = 
 
         result.append(characterTr);
     });
-    return result;
+    return {
+        content: result,
+        tableStructure: false
+    };
 };
 
 io.github.shunshun94.trpg.logEditor.resources.convertResourceObjectToTableHtml = (history, idx, pastTableObject = {}, columnOrder) => {
-    const tableObject = io.github.shunshun94.trpg.logEditor.resources.generateTableObject(history, idx, pastTableObject);
-    const content = io.github.shunshun94.trpg.logEditor.resources.convertTableObjectToTableHtmlV1(tableObject, columnOrder);
+    const tableObject = io.github.shunshun94.trpg.logEditor.resources.generateTableObject(history, idx, (pastTableObject.tableObject || {}));
+    const htmlObject = io.github.shunshun94.trpg.logEditor.resources.convertTableObjectToTableHtmlV1(tableObject, columnOrder, pastTableObject.tableStructure);
 
     return {
         tableObject: tableObject,
         domSeed: {
             tag: 'div',
             name: '',
-            content: content.outerHTML,
+            content: htmlObject.content.outerHTML,
             id: '',
             class: '',
             style: ''
-        }
+        },
+        tableStructure: htmlObject.tableStructure
     };
 };
 
 io.github.shunshun94.trpg.logEditor.resources.convertResourceHistoryToTableHtmls = (history, columnOrder = io.github.shunshun94.trpg.logEditor.resources.CONSTS.DEFAULT_COLUMN_ORDER) => {
     let lastTableObject = {tableObject: {}};
     return history.map((log, idx)=>{
-        lastTableObject = io.github.shunshun94.trpg.logEditor.resources.convertResourceObjectToTableHtml(log, idx, lastTableObject.tableObject, columnOrder);
+        lastTableObject = io.github.shunshun94.trpg.logEditor.resources.convertResourceObjectToTableHtml(log, idx, lastTableObject, columnOrder);
         return lastTableObject;
     });
 };
