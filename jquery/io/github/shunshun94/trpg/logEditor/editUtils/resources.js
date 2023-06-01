@@ -10,10 +10,10 @@ io.github.shunshun94.trpg.logEditor.resources.CONSTS = io.github.shunshun94.trpg
 io.github.shunshun94.trpg.logEditor.resources.CONSTS.REGEXPS = {
     ResourceModify: (io.github.shunshun94.trpg.logEditor.export.OperationTableExporter) ? io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.CONSTS.REGEXP.ResourceManage : /\[\s(.+)\s\]\s(.+)\s:\s(-?\d+)\s→\s(-?\d+)/gm,
     EditedResourceModify: (io.github.shunshun94.trpg.logEditor.export.OperationTableExporter) ? io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.CONSTS.REGEXP.EditedResourceManage : /([^\t\n\r]+)\s:\s(-?\d+)\s→\s(-?\d+)/gm,
-    ResourceWithPartsName: [
-        /([^\*]+)\*$/,
-        /^\*([^\*]+)/
-    ]
+    ResourceWithPartsName: {
+        back: /([^\*]+)\*$/,
+        front: /^\*([^\*]+)/
+    }
 };
 
 io.github.shunshun94.trpg.logEditor.resources.CONSTS.DEFAULT_COLUMN_ORDER = ['HP','MP'];
@@ -135,7 +135,30 @@ io.github.shunshun94.trpg.logEditor.resources.generateTableObject = (history, id
     return tableObject;
 };
 
-io.github.shunshun94.trpg.logEditor.resources.convertTableObjectToTableHtmlV2 = (tableObject, columnOrder, tableStructure = {}) => {
+io.github.shunshun94.trpg.logEditor.resources.convertRawTableToTableWithParts = (tableObject, columnOrder) => {
+    const result = {};
+    Object.keys(tableObject).forEach((name)=>{
+        const characterResult = {};
+        columnOrder.sharedColumns.forEach((column)=>{
+            characterResult.singlePartsEnemy[column] = tableObject[name][column];
+        });
+
+        Object.keys(tableObject[name]).forEach((column)=>{
+            columnOrder.partsColumns.forEach((masterColumn)=>{
+                if(masterColumn[column.method](column.name)) {
+                    const partsName = masterColumn.replace(column.name, '');
+                    if(! characterResult[partsName]) { characterResult[partsName] = {}; }
+                    characterResult[partsName][column.name] = tableObject[name][masterColumn];
+                }
+            });
+        });
+        result[name] = characterResult;
+    });
+    return result;
+};
+
+io.github.shunshun94.trpg.logEditor.resources.convertTableObjectToTableHtmlV2 = (rawTableObject, columnOrder, tableStructure = {}) => {
+    const tableObject = io.github.shunshun94.trpg.logEditor.resources.convertRawTableToTableWithParts(rawTableObject, columnOrder);
     const result = document.createElement('table');
     result.setAttribute('border', 1);
     result.className = 'resource-table';
@@ -203,9 +226,34 @@ io.github.shunshun94.trpg.logEditor.resources.convertTableObjectToTableHtmlV1 = 
     };
 };
 
+io.github.shunshun94.trpg.logEditor.resources.separateColumnOrder = (rawColumnOrder) => {
+    const result = {
+        sharedColumns: [],
+        partsColumns: []
+    };
+    const regexps = io.github.shunshun94.trpg.logEditor.resources.CONSTS.REGEXPS.ResourceWithPartsName;
+    rawColumnOrder.forEach((rawColumn)=>{
+        const front = regexps.front.exec(rawColumn);
+        const back  = regexps.back.exec(rawColumn);
+        if(front) {
+            result.partsColumns.push({ name: front[1], method: 'endsWith' });
+        } else if(back) {
+            result.partsColumns.push({ name: back[1], method: 'startsWith'});
+        } else {
+            result.sharedColumns.push(rawColumn);
+        }
+    });
+    return result;
+};
+
 io.github.shunshun94.trpg.logEditor.resources.convertResourceObjectToTableHtml = (history, idx, pastTableObject = {}, columnOrder) => {
     const tableObject = io.github.shunshun94.trpg.logEditor.resources.generateTableObject(history, idx, (pastTableObject.tableObject || {}));
-    const htmlObject = io.github.shunshun94.trpg.logEditor.resources.convertTableObjectToTableHtmlV1(tableObject, columnOrder, pastTableObject.tableStructure);
+    let htmlObject;
+    if( columnOrder.sharedColumns && sharedColumns.partsColumns ) {
+        htmlObject = io.github.shunshun94.trpg.logEditor.resources.convertTableObjectToTableHtmlV2(tableObject, columnOrder, pastTableObject.tableStructure);
+    } else {
+        htmlObject = io.github.shunshun94.trpg.logEditor.resources.convertTableObjectToTableHtmlV1(tableObject, columnOrder, pastTableObject.tableStructure);
+    }
 
     return {
         tableObject: tableObject,
