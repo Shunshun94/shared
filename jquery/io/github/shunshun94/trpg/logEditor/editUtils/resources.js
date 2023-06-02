@@ -140,15 +140,20 @@ io.github.shunshun94.trpg.logEditor.resources.convertRawTableToTableWithParts = 
     Object.keys(tableObject).forEach((name)=>{
         const characterResult = {};
         columnOrder.sharedColumns.forEach((column)=>{
-            characterResult.singlePartsEnemy[column] = tableObject[name][column];
+            characterResult.singleParts[column] = tableObject[name][column];
         });
 
         Object.keys(tableObject[name]).forEach((column)=>{
             columnOrder.partsColumns.forEach((masterColumn)=>{
-                if(masterColumn[column.method](column.name)) {
-                    const partsName = masterColumn.replace(column.name, '');
-                    if(! characterResult[partsName]) { characterResult[partsName] = {}; }
-                    characterResult[partsName][column.name] = tableObject[name][masterColumn];
+                if(column[masterColumn.method](masterColumn.name)) {
+                    const partsName = column.replace(masterColumn.name, '');
+                    if(partsName) { // 羽HP とか HP羽 とかだった場合
+                        if(! characterResult[partsName]) { characterResult[partsName] = {}; }
+                        characterResult[partsName][masterColumn.name] = tableObject[name][column];
+                    } else { // HP とかだった場合
+                        characterResult.singleParts[column] = tableObject[name][column];
+                    }
+
                 }
             });
         });
@@ -163,6 +168,16 @@ io.github.shunshun94.trpg.logEditor.resources.convertTableObjectToTableHtmlV2 = 
     result.setAttribute('border', 1);
     result.className = 'resource-table';
     Object.keys(tableObject).forEach((name)=>{
+        const character = tableObject[name]
+        const parts = Object.keys(character);
+        if(parts.length === 1) {
+            // 従来どおりの処理
+        } else {
+            // 複数部位
+        }
+    });
+    
+    /*
         const characterTr = document.createElement('tr');
         const characterNameTh = document.createElement('th');
         characterNameTh.textContent = name;
@@ -185,7 +200,7 @@ io.github.shunshun94.trpg.logEditor.resources.convertTableObjectToTableHtmlV2 = 
         });
 
         result.append(characterTr);
-    });
+    });*/
     return {
         content: result,
         tableStructure: tableStructure
