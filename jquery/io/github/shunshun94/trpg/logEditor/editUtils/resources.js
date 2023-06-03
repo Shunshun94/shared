@@ -153,7 +153,6 @@ io.github.shunshun94.trpg.logEditor.resources.convertRawTableToTableWithParts = 
                     } else { // HP とかだった場合
                         characterResult.singleParts[column] = tableObject[name][column];
                     }
-
                 }
             });
         });
@@ -162,11 +161,13 @@ io.github.shunshun94.trpg.logEditor.resources.convertRawTableToTableWithParts = 
     return result;
 };
 
-io.github.shunshun94.trpg.logEditor.resources.convertTableObjectToTableHtmlV2 = (rawTableObject, columnOrder, tableStructure = {}) => {
+io.github.shunshun94.trpg.logEditor.resources.convertTableObjectToTableHtmlV2 = (rawTableObject, columnOrder) => {
     const tableObject = io.github.shunshun94.trpg.logEditor.resources.convertRawTableToTableWithParts(rawTableObject, columnOrder);
     const result = document.createElement('table');
     result.setAttribute('border', 1);
     result.className = 'resource-table';
+    const partsColumns  = columnOrder.partsColumns;
+    const sharedColumns = 
     Object.keys(tableObject).forEach((name)=>{
         const character = tableObject[name]
         const parts = Object.keys(character);
@@ -236,8 +237,7 @@ io.github.shunshun94.trpg.logEditor.resources.convertTableObjectToTableHtmlV1 = 
         result.append(characterTr);
     });
     return {
-        content: result,
-        tableStructure: false
+        content: result
     };
 };
 
@@ -258,6 +258,14 @@ io.github.shunshun94.trpg.logEditor.resources.separateColumnOrder = (rawColumnOr
             result.sharedColumns.push(rawColumn);
         }
     });
+    result.defaultHeight = result.sharedColumns.length ? 2 : 1;
+    if( result.sharedColumns.length > result.partsColumns ) {
+        result.partsColumnsEmpty  = result.sharedColumns.length - result.partsColumns.length;
+        result.sharedColumnsEmpty = 0;
+    } else {
+        result.partsColumnsEmpty  = 0;
+        result.sharedColumnsEmpty = result.partsColumns.length - result.sharedColumns.length;
+    }
     return result;
 };
 
@@ -265,9 +273,9 @@ io.github.shunshun94.trpg.logEditor.resources.convertResourceObjectToTableHtml =
     const tableObject = io.github.shunshun94.trpg.logEditor.resources.generateTableObject(history, idx, (pastTableObject.tableObject || {}));
     let htmlObject;
     if( columnOrder.sharedColumns && sharedColumns.partsColumns ) {
-        htmlObject = io.github.shunshun94.trpg.logEditor.resources.convertTableObjectToTableHtmlV2(tableObject, columnOrder, pastTableObject.tableStructure);
+        htmlObject = io.github.shunshun94.trpg.logEditor.resources.convertTableObjectToTableHtmlV2(tableObject, columnOrder);
     } else {
-        htmlObject = io.github.shunshun94.trpg.logEditor.resources.convertTableObjectToTableHtmlV1(tableObject, columnOrder, pastTableObject.tableStructure);
+        htmlObject = io.github.shunshun94.trpg.logEditor.resources.convertTableObjectToTableHtmlV1(tableObject, columnOrder);
     }
 
     return {
@@ -279,8 +287,7 @@ io.github.shunshun94.trpg.logEditor.resources.convertResourceObjectToTableHtml =
             id: '',
             class: '',
             style: ''
-        },
-        tableStructure: htmlObject.tableStructure
+        }
     };
 };
 
