@@ -139,10 +139,6 @@ io.github.shunshun94.trpg.logEditor.resources.convertRawTableToTableWithParts = 
     const result = {};
     Object.keys(tableObject).forEach((name)=>{
         const characterResult = {};
-        columnOrder.sharedColumns.forEach((column)=>{
-            characterResult.singleParts[column] = tableObject[name][column];
-        });
-
         Object.keys(tableObject[name]).forEach((column)=>{
             columnOrder.partsColumns.forEach((masterColumn)=>{
                 if(column[masterColumn.method](masterColumn.name)) {
@@ -156,6 +152,10 @@ io.github.shunshun94.trpg.logEditor.resources.convertRawTableToTableWithParts = 
                 }
             });
         });
+        columnOrder.sharedColumns.forEach((column)=>{
+            if(! characterResult.shared) { characterResult.shared = {}; }
+            characterResult.shared[column] = tableObject[name][column];
+        });
         result[name] = characterResult;
     });
     return result;
@@ -166,45 +166,51 @@ io.github.shunshun94.trpg.logEditor.resources.convertTableObjectToTableHtmlV2 = 
     const result = document.createElement('table');
     result.setAttribute('border', 1);
     result.className = 'resource-table';
-    const partsColumns  = columnOrder.partsColumns;
-    const sharedColumns = 
     Object.keys(tableObject).forEach((name)=>{
-        const character = tableObject[name]
-        const parts = Object.keys(character);
-        if(parts.length === 1) {
-            // 従来どおりの処理
-        } else {
-            // 複数部位
-        }
-    });
-    
-    /*
-        const characterTr = document.createElement('tr');
-        const characterNameTh = document.createElement('th');
-        characterNameTh.textContent = name;
-        characterTr.append(characterNameTh);
-
         const character = tableObject[name];
-        columnOrder.forEach((column)=>{
-            const statusTd = document.createElement('td');
-            if(character[column]) {
-                if(character[column].before) {
-                    statusTd.innerHTML = `<span class="resource-table-columnName">${column}</span><span class="resource-table-value resource-table-value-before">${character[column].before}</span><span class="resource-table-value resource-table-value-after">${character[column].after}</span><span class="resource-table-value resource-table-value-max">${character[column].max}</span>`;
-                    statusTd.className = 'resource-table-updated';
-                } else {
-                    statusTd.innerHTML = `<span class="resource-table-columnName">${column}</span><span class="resource-table-value resource-table-value-after">${character[column].after}</span><span class="resource-table-value resource-table-value-max">${character[column].max}</span>`;
-                }
-            } else {
-                statusTd.className = 'resource-table-no_info';
+        const parts  = Object.keys(character);
+        parts.forEach((partsName, partsIndex)=>{
+            const tr = document.createElement('tr');
+            if(partsIndex === 0) {
+                const nameTh = document.createElement('th');
+                nameTh.textContent = name;
+                nameTh.setAttribute('rowspan', parts.length);
+                tr.append(nameTh);
             }
-            characterTr.append(statusTd);
-        });
 
-        result.append(characterTr);
-    });*/
+            const currentColumns = (partsName === 'shared') ? columnOrder.sharedColumns : columnOrder.partsColumns;
+            const firstColumnIsJoined = ['singleParts', 'shared'].includes(partsName) || parts.length === columnOrder.defaultHeight;
+            const part = character[partsName];
+
+            if(! firstColumnIsJoined) {
+                const partsNameTh = document.createElement('th');
+                partsNameTh.textContent = partsName;
+                tr.append(partsNameTh);
+            }
+
+            currentColumns.forEach((columnName, columnIndex)=>{
+                const statusTd = document.createElement('td');
+                if(part[columnName]) {
+                    if(part[columnName].before) {
+                        statusTd.innerHTML = `<span class="resource-table-columnName">${column}</span><span class="resource-table-value resource-table-value-before">${character[column].before}</span><span class="resource-table-value resource-table-value-after">${part[columnName].after}</span><span class="resource-table-value resource-table-value-max">${part[columnName].max}</span>`;
+                        statusTd.className = 'resource-table-updated';
+                    } else {
+                        statusTd.innerHTML = `<span class="resource-table-columnName">${column}</span><span class="resource-table-value resource-table-value-after">${character[column].after}</span><span class="resource-table-value resource-table-value-max">${part[columnName].max}</span>`;
+                    }
+                } else {
+                    statusTd.className = 'resource-table-no_info';
+                } 
+                if(firstColumnIsJoined) {
+                    statusTd.setAttribute('colspan', 2);
+                }
+                tr.append(statusTd);
+            });
+            result.append(tr);
+        });
+    });
+
     return {
-        content: result,
-        tableStructure: tableStructure
+        content: result
     };
 };
 
