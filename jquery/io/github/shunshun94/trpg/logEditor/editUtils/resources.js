@@ -26,7 +26,7 @@ io.github.shunshun94.trpg.logEditor.resources.postToPostElements = (tmp_dom) => 
     const dom = $(tmp_dom);
     return {
         name: dom.find(`.${io.github.shunshun94.trpg.logEditor.CLASSES.NAME}`).text(),
-        content: dom.find(`.${io.github.shunshun94.trpg.logEditor.CLASSES.CONTENT}`).text()
+        content: dom.find(`.${io.github.shunshun94.trpg.logEditor.CLASSES.CONTENT}`).html().replace(/<br\/?>/gm, '\n')
     };
 };
 
