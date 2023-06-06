@@ -171,6 +171,7 @@ io.github.shunshun94.trpg.logEditor.resources.convertTableObjectToTableHtmlV2 = 
         const character = tableObject[name];
         const parts  = Object.keys(character);
         parts.forEach((partsName, partsIndex)=>{
+            const part = character[partsName];
             const tr = document.createElement('tr');
             if(partsIndex === 0) {
                 const nameTh = document.createElement('th');
@@ -181,7 +182,6 @@ io.github.shunshun94.trpg.logEditor.resources.convertTableObjectToTableHtmlV2 = 
 
             const currentColumns = (partsName === 'shared') ? columnOrder.sharedColumns : columnOrder.partsColumns;
             const firstColumnIsJoined = ['singleParts', 'shared'].includes(partsName) || parts.length === columnOrder.defaultHeight;
-            const part = character[partsName];
 
             if(! firstColumnIsJoined) {
                 const partsNameTh = document.createElement('th');
@@ -189,14 +189,15 @@ io.github.shunshun94.trpg.logEditor.resources.convertTableObjectToTableHtmlV2 = 
                 tr.append(partsNameTh);
             }
 
-            currentColumns.forEach((columnName, columnIndex)=>{
+            currentColumns.forEach((column, columnIndex)=>{
+                const columnName = column.name;
                 const statusTd = document.createElement('td');
                 if(part[columnName]) {
                     if(part[columnName].before) {
-                        statusTd.innerHTML = `<span class="resource-table-columnName">${column}</span><span class="resource-table-value resource-table-value-before">${character[column].before}</span><span class="resource-table-value resource-table-value-after">${part[columnName].after}</span><span class="resource-table-value resource-table-value-max">${part[columnName].max}</span>`;
+                        statusTd.innerHTML = `<span class="resource-table-columnName">${columnName}</span><span class="resource-table-value resource-table-value-before">${part[columnName].before}</span><span class="resource-table-value resource-table-value-after">${part[columnName].after}</span><span class="resource-table-value resource-table-value-max">${part[columnName].max}</span>`;
                         statusTd.className = 'resource-table-updated';
                     } else {
-                        statusTd.innerHTML = `<span class="resource-table-columnName">${column}</span><span class="resource-table-value resource-table-value-after">${character[column].after}</span><span class="resource-table-value resource-table-value-max">${part[columnName].max}</span>`;
+                        statusTd.innerHTML = `<span class="resource-table-columnName">${columnName}</span><span class="resource-table-value resource-table-value-after">${part[columnName].after}</span><span class="resource-table-value resource-table-value-max">${part[columnName].max}</span>`;
                     }
                 } else {
                     statusTd.className = 'resource-table-no_info';
@@ -300,6 +301,7 @@ io.github.shunshun94.trpg.logEditor.resources.convertResourceObjectToTableHtml =
 
 io.github.shunshun94.trpg.logEditor.resources.convertResourceHistoryToTableHtmls = (history, tmp_columnOrder = io.github.shunshun94.trpg.logEditor.resources.CONSTS.DEFAULT_COLUMN_ORDER) => {
     const columnOrder = io.github.shunshun94.trpg.logEditor.resources.separateColumnOrder(tmp_columnOrder);
+    console.log(columnOrder);
     let lastTableObject = {tableObject: {}};
     return history.map((log, idx)=>{
         lastTableObject = io.github.shunshun94.trpg.logEditor.resources.convertResourceObjectToTableHtml(log, idx, lastTableObject, columnOrder);
