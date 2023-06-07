@@ -16,6 +16,7 @@ io.github.shunshun94.trpg.logEditor.menu.PopupMenu.generateHtml = () => {
         <div class="${io.github.shunshun94.trpg.logEditor.CLASSES.ID_INSERTION_MENU}">全ての見出しにランダムな ID を挿入</div>
         <div class="${io.github.shunshun94.trpg.logEditor.CLASSES.TEKEY_STATUS_MODIFY_TO_CCFOLIA}">Tekey のリソース操作をココフォリア形式に変更</div>
         <div class="${io.github.shunshun94.trpg.logEditor.CLASSES.SYSTEM_TO_POST_MENU}">System の発言を個人の発言に変換</div>
+        <div class="${io.github.shunshun94.trpg.logEditor.CLASSES.INSERT_RESOURCE_MODIFICATION_LOGS} experimentalfunction">リソース操作のログを表形式で挿入</div>        
     </div>
     <button class="${io.github.shunshun94.trpg.logEditor.CLASSES.POPUP_MENU_TOGGLE}">メニュー(Alt+M)</button>`;
 };

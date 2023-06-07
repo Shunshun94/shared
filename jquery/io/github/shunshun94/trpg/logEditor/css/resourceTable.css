@@ -1,0 +1,21 @@
+@charset "utf-8";
+
+.resource-table-no_info {
+    background-color:gray;
+}
+
+.resource-table-updated {
+    font-weight: bold;
+}
+
+.resource-table-columnName::after {
+    content: ' : ';
+}
+
+.resource-table-value-before::after {
+    content: ' → ';
+}
+
+.resource-table-value-max::before {
+    content: ' / ';
+}
