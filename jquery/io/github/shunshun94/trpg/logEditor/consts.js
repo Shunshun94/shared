@@ -48,6 +48,7 @@ io.github.shunshun94.trpg.logEditor.CLASSES = {
 	PREVIEW_MENU: 'menu-preview',
 	TEKEY_STATUS_MODIFY_TO_CCFOLIA: 'menu-tekeyStatusModifyToCcfoliaStatusModify',
 	SYSTEM_TO_POST_MENU: 'menu-systemToPost',
+	INSERT_RESOURCE_MODIFICATION_LOGS: 'menu-insertResourceModificationLogs',
 	ADD_FILE_MENU: 'menu',
 	DARKMODE: 'darkmode',
 	EXPERIMENTAL: 'experimental',

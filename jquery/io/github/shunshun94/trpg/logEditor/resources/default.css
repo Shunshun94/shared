@@ -66,3 +66,23 @@ p > span:nth-child(3) {
 	display: block;
 	padding-left:1em;
 }
+
+.resource-table-no_info {
+    background-color:gray;
+}
+
+.resource-table-updated {
+    font-weight: bold;
+}
+
+.resource-table-columnName::after {
+    content: ' : ';
+}
+
+.resource-table-value-before::after {
+    content: ' → ';
+}
+
+.resource-table-value-max::before {
+    content: ' / ';
+}

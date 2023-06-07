@@ -149,6 +149,12 @@ io.github.shunshun94.trpg.logEditor.GeneralClicedEvents = [
             io.github.shunshun94.trpg.logEditor.menu.PopupMenu.toggle();
         }
     }, {
+        class: io.github.shunshun94.trpg.logEditor.CLASSES.INSERT_RESOURCE_MODIFICATION_LOGS,
+        action: (self, clicked) => {
+            self.insertResourceModifyTables();
+            io.github.shunshun94.trpg.logEditor.menu.PopupMenu.toggle();
+        }
+    }, {
         class: io.github.shunshun94.trpg.logEditor.CLASSES.SYSTEM_TO_POST_MENU,
         action: (self, clicked) => {
             self.convertSystemToPost();

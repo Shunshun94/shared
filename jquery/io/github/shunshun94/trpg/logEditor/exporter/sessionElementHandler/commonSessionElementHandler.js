@@ -9,10 +9,10 @@ io.github.shunshun94.trpg.logEditor.export.OperationTableExporter = io.github.sh
 io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.CONSTS = io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.CONSTS || {};
 
 io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.CONSTS.REGEXP = {
-    SystemNamePrefix: /\n.*\s*:\s*$/
+    SystemNamePrefix: /\n.*\s*:\s*$/,
+    ResourceManage: /\[\s(.+)\s\]\s(.+)\s:\s(-?\d+)\s→\s(-?\d+)/gm,
+    EditedResourceManage: /([^\t\n\r]+)\s:\s(-?\d+)\s→\s(-?\d+)/gm
 };
-
-// /\n.*\s*:\s*$/
 
 io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.removeSystemNamePrefix = (text) => {
     const execResult = io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.CONSTS.REGEXP.SystemNamePrefix.exec(text);
@@ -22,13 +22,11 @@ io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.removeSystemNa
     return text;
 };
 
-// SwordWorld2.5 :
-
 io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.CONSTS.SESSION_ELEMENT_HANDLERS = [
     {
         name: 'commonResourceManage',
         getMatchResult: (post)=>{
-            return (/\[\s(.+)\s\]\s(.+)\s:\s(\d+)\s→\s(\d+)/gm).exec(post.content);
+            return (io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.CONSTS.REGEXP.ResourceManage).exec(post.content);
         },
         getTableData: (post, matchResult)=> {
             const diff = Number(matchResult[4]) - Number(matchResult[3]);
@@ -54,7 +52,7 @@ io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.CONSTS.SESSION
     }, {
         name: 'editedResourceManage',
         getMatchResult: (post)=>{
-            return (/([^\t\n\r]+)\s:\s(\d+)\s→\s(\d+)/gm).exec(post.content);
+            return (io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.CONSTS.REGEXP.EditedResourceManage).exec(post.content);
         },
         getTableData: (post, matchResult)=> {
             const diff = Number(matchResult[3]) - Number(matchResult[2]);
