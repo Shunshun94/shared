@@ -31,8 +31,9 @@ io.github.shunshun94.trpg.sw2.component.SheetInput.build = (targetDom, options={
     button.id = `${inputAreaId}-Exec${uniqueId}`;
     baseInputArea.append(button);
     button.onclick =  (e) => {
-        const event = document.createEvent("HTMLEvents");
-        event.initEvent(io.github.shunshun94.trpg.sw2.component.SheetInput.EVENTS.SHEET_URL_INPUT, true, true);
+        const event = new Event(io.github.shunshun94.trpg.sw2.component.SheetInput.EVENTS.SHEET_URL_INPUT, {
+            bubbles: true, cancelable: true,
+        });
         event.url = sheetUrl.value;
         event.resolve = ()=>{sheetUrl.value = '';};
         e.target.dispatchEvent(event);
