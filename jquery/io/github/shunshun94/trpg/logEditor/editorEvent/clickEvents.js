@@ -149,6 +149,12 @@ io.github.shunshun94.trpg.logEditor.GeneralClicedEvents = [
             io.github.shunshun94.trpg.logEditor.menu.PopupMenu.toggle();
         }
     }, {
+        class: io.github.shunshun94.trpg.logEditor.CLASSES.UDONARIUM_STATUS_MODIFY_TO_CCFOLIA,
+        action: (self, clicked) => {
+            self.convertUdonariumStatusModifyToCommonStyle();
+            io.github.shunshun94.trpg.logEditor.menu.PopupMenu.toggle();
+        }
+    }, {
         class: io.github.shunshun94.trpg.logEditor.CLASSES.INSERT_RESOURCE_MODIFICATION_LOGS,
         action: (self, clicked) => {
             self.insertResourceModifyTables();
