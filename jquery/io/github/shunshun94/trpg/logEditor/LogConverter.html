@@ -35,7 +35,6 @@ io.github.shunshun94.trpg.logEditor.EVENTS = {
 <script src="./fileLoad.js"></script>
 <script>
 io.github.shunshun94.trpg.logEditor.DOMS.BODY.on(io.github.shunshun94.trpg.logEditor.EVENTS.FILE_LOADED, (e, domList)=>{
-	console.log(e, domList);
 	io.github.shunshun94.trpg.logEditor.export.htmlExporter.download(io.github.shunshun94.trpg.logEditor.export.htmlExporter.domListToHtml(domList));
 	io.github.shunshun94.trpg.logEditor.bindInitialEvents(io.github.shunshun94.trpg.logEditor.DOMS.BODY);
 });
