@@ -17,33 +17,33 @@ io.github.shunshun94.trpg.logEditor.DOMS.BODY.append(`<div style="padding:2em;po
 </ul>
 </div>`);
 
-
-
-io.github.shunshun94.trpg.logEditor.DOMS.BODY.on('drop', (e) => {
-	io.github.shunshun94.trpg.logEditor.DOMS.BODY.css('background-color', '');
-	const targetFile = e.originalEvent.dataTransfer.files[0];
-	io.github.shunshun94.trpg.logEditor.DOMS.BODY.trigger(
-		io.github.shunshun94.trpg.logEditor.EVENTS.FILE_DROPED,
-		targetFile.name
-	);
-	io.github.shunshun94.trpg.logEditor.FileLoader.readFile(targetFile);
-	e.preventDefault();
-});
-
-$('#io-github-shunshun94-trpg-logEditor-FileLoader-InputFile').on('change', (e)=>{
-	io.github.shunshun94.trpg.logEditor.DOMS.BODY.css('background-color', '');
-	io.github.shunshun94.trpg.logEditor.FileLoader.onChangeInputFile(e);
-});
-
-io.github.shunshun94.trpg.logEditor.DOMS.BODY.on('dragleave', (e) => {
-	io.github.shunshun94.trpg.logEditor.DOMS.BODY.css('background-color', 'white');
-});
-io.github.shunshun94.trpg.logEditor.DOMS.BODY.on('dragover', (e) => {
-	io.github.shunshun94.trpg.logEditor.DOMS.BODY.css('background-color', 'lightyellow');
-	e.preventDefault();
-});
-
 io.github.shunshun94.trpg.logEditor.FileLoader = io.github.shunshun94.trpg.logEditor.FileLoader || {};
+
+io.github.shunshun94.trpg.logEditor.FileLoader.bindInitialEvents = (body, input) => {
+	body.on('drop', (e) => {
+		io.github.shunshun94.trpg.logEditor.DOMS.BODY.css('background-color', '');
+		const targetFile = e.originalEvent.dataTransfer.files[0];
+		body.trigger(
+			io.github.shunshun94.trpg.logEditor.EVENTS.FILE_DROPED,
+			targetFile.name
+		);
+		io.github.shunshun94.trpg.logEditor.FileLoader.readFile(targetFile);
+		e.preventDefault();
+	});
+	
+	input.on('change', (e)=>{
+		body.css('background-color', '');
+		io.github.shunshun94.trpg.logEditor.FileLoader.onChangeInputFile(e);
+	});
+	
+	body.on('dragleave', (e) => {
+		body.css('background-color', 'white');
+	});
+	body.on('dragover', (e) => {
+		body.css('background-color', 'lightyellow');
+		e.preventDefault();
+	});
+};
 
 io.github.shunshun94.trpg.logEditor.FileLoader.onChangeInputFile = (e) => {
 	const targetFile = e.target.files[0];
@@ -156,3 +156,7 @@ io.github.shunshun94.trpg.logEditor.FileLoader.filtLongFile = (doms) => {
 ;
 };
 
+io.github.shunshun94.trpg.logEditor.FileLoader.bindInitialEvents(
+	io.github.shunshun94.trpg.logEditor.DOMS.BODY,
+	$('#io-github-shunshun94-trpg-logEditor-FileLoader-InputFile')
+);
