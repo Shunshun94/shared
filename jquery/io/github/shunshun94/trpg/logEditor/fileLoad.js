@@ -15,34 +15,39 @@ io.github.shunshun94.trpg.logEditor.DOMS.BODY.append(`<div style="padding:2em;po
 <li>Flocon のログ（シンプル）の HTML</li>
 <li>LINE からダウンロードしたログのテキストファイル</li>
 </ul>
+${[io.github.shunshun94.trpg.logEditor.LogToTable, io.github.shunshun94.trpg.logEditor.Link].filter((d)=>{return d}).map((d)=>{return d.buildHtml().outerHTML}).join('')}
 </div>`);
 
 io.github.shunshun94.trpg.logEditor.FileLoader = io.github.shunshun94.trpg.logEditor.FileLoader || {};
 
 io.github.shunshun94.trpg.logEditor.FileLoader.bindInitialEvents = (body, input) => {
-	body.on('drop', (e) => {
-		io.github.shunshun94.trpg.logEditor.DOMS.BODY.css('background-color', '');
-		const targetFile = e.originalEvent.dataTransfer.files[0];
-		body.trigger(
-			io.github.shunshun94.trpg.logEditor.EVENTS.FILE_DROPED,
-			targetFile.name
-		);
-		io.github.shunshun94.trpg.logEditor.FileLoader.readFile(targetFile);
-		e.preventDefault();
-	});
-	
-	input.on('change', (e)=>{
-		body.css('background-color', '');
-		io.github.shunshun94.trpg.logEditor.FileLoader.onChangeInputFile(e);
-	});
-	
-	body.on('dragleave', (e) => {
-		body.css('background-color', 'white');
-	});
-	body.on('dragover', (e) => {
-		body.css('background-color', 'lightyellow');
-		e.preventDefault();
-	});
+	if(body) {
+		body.on('drop', (e) => {
+			io.github.shunshun94.trpg.logEditor.DOMS.BODY.css('background-color', '');
+			const targetFile = e.originalEvent.dataTransfer.files[0];
+			body.trigger(
+				io.github.shunshun94.trpg.logEditor.EVENTS.FILE_DROPED,
+				targetFile.name
+			);
+			io.github.shunshun94.trpg.logEditor.FileLoader.readFile(targetFile);
+			e.preventDefault();
+		});
+		
+		body.on('dragleave', (e) => {
+			body.css('background-color', 'white');
+		});
+		body.on('dragover', (e) => {
+			body.css('background-color', 'lightyellow');
+			e.preventDefault();
+		});
+	}
+
+	if(input) {
+		input.on('change', (e)=>{
+			body.css('background-color', '');
+			io.github.shunshun94.trpg.logEditor.FileLoader.onChangeInputFile(e);
+		});
+	}
 };
 
 io.github.shunshun94.trpg.logEditor.FileLoader.onChangeInputFile = (e) => {
@@ -66,13 +71,13 @@ io.github.shunshun94.trpg.logEditor.FileLoader.kickOneTimeSave = () => {
 io.github.shunshun94.trpg.logEditor.FileLoader.readFile = (targetFile) => {
 	io.github.shunshun94.trpg.logEditor.convertors.ConvertorFactory.getConvertor(targetFile).then((convertor)=>{
 		convertor.dropEventToJson(targetFile).then((parsedTarget)=>{
+			io.github.shunshun94.trpg.logEditor.DOMS.BODY.off('drop');
+			io.github.shunshun94.trpg.logEditor.DOMS.BODY.off('dragleave');
+			io.github.shunshun94.trpg.logEditor.DOMS.BODY.off('dragover');
 			io.github.shunshun94.trpg.logEditor.DOMS.BODY.trigger(
 				io.github.shunshun94.trpg.logEditor.EVENTS.FILE_LOADED,
 				parsedTarget
 			);
-			io.github.shunshun94.trpg.logEditor.DOMS.BODY.off('drop');
-			io.github.shunshun94.trpg.logEditor.DOMS.BODY.off('dragleave');
-			io.github.shunshun94.trpg.logEditor.DOMS.BODY.off('dragover');
 		});
 	});
 };

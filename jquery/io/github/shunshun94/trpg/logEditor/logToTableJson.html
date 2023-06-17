@@ -3,6 +3,7 @@
 <head>
   <meta charset="utf-8">
   <title>ログと分析用 json に変換する</title>
+  <link rel="stylesheet" href="css/relatedTools.css" type="text/css" />
 </head>
 <body>
 
@@ -18,7 +19,6 @@
 <script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/encoding-japanese/1.0.30/encoding.min.js"></script>
 <script src="./consts.js"></script>
-<script src="./fileLoad.js"></script>
 <script src="./exporter/htmlExporter.js"></script>
 <script src="./exporter/textExporter.js"></script>
 <script src="./exporter/ytchatExporter.js"></script>
@@ -29,6 +29,14 @@
 <script src="./exporter/operationTable.js"></script>
 <script src="./exporter/exporterFactory.js"></script>
 <script src="./editUtils/post.js"></script>
-<script src="./logToTable.js"></script>
+<script src="./InitialAppendInfo/link.js"></script>
+<script src="./InitialAppendInfo/logToTable.js"></script>
+<script src="./fileLoad.js"></script>
+<script>
+  io.github.shunshun94.trpg.logEditor.DOMS.BODY.click((e)=>{
+    const button = io.github.shunshun94.trpg.logEditor.LogToTable.BUTTON_LIST.find((btn)=>{return btn.id === e.target.id});
+    if(button) {button.clicked();}
+  });
+</script>
 </body>
 </html>
