@@ -94,7 +94,6 @@ io.github.shunshun94.trpg.logEditor.export.htmlExporter.generateExportPost = (du
 	} else {
 		return `<p ${topAttributes}>${content}</p>`;
 	}
-
 };
 
 io.github.shunshun94.trpg.logEditor.export.htmlExporter.generateBody = (doms) => {
@@ -114,4 +113,39 @@ io.github.shunshun94.trpg.logEditor.export.htmlExporter.download = (html) => {
 	dlLink.click();
 	dlLink.remove();
 	URL.revokeObjectURL(url);
+};
+
+io.github.shunshun94.trpg.logEditor.export.htmlExporter.domJsonToHtml = (json) => {
+	const tag = json.tag;
+	const topAttributes = ['class', 'id', 'style'].map((attrName)=>{
+		if(json[attrName]) {
+			return `${attrName}="${json[attrName].trim()}"`;
+		} else {
+			return '';
+		}
+	}).join(' ');
+	if(tag === 'hr') {
+		return `<hr ${topAttributes} />`;
+	}
+	const name = (json.name || '').trim();
+	// contenteditable で改行すると div 要素が入るので除く
+	const content = json.content.trim();
+	if((tag !== 'p') || (name === '')) {
+		return `<${tag} ${topAttributes}>${content}</${tag}>`
+	}
+
+	const result = [];
+	result.push(`<p ${topAttributes}>`);
+	result.push(`  <span></span>`);
+	result.push(`  <span>${name}</span>`);
+	result.push(`  <span>${content}</span>`);
+	result.push(`</p>`);
+	return result.join('\n');
+};
+
+io.github.shunshun94.trpg.logEditor.export.htmlExporter.domListToHtml = (domList) => {
+	return (domList.head ? `<!DOCTYPE html>\n<html>\n${domList.head}\n<body>\n` : io.github.shunshun94.trpg.logEditor.export.htmlExporter.getPrefix('')) +
+			domList.doms.map(io.github.shunshun94.trpg.logEditor.export.htmlExporter.domJsonToHtml).join('\n') +
+			domList.omitted.join('\n') +
+			io.github.shunshun94.trpg.logEditor.export.htmlExporter.SUFFIX;
 };
