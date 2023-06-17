@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Log to HTML</title>
+<link rel="stylesheet" href="css/relatedTools.css" type="text/css" />
 </head>
 <body>
 <script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script>
@@ -21,6 +22,7 @@ io.github.shunshun94.trpg.logEditor.EVENTS = {
 	FILE_DROPED: 'io-github-shunshun94-trpg-logEditor-file-droped'
 };
 </script>
+<script src="https://cdn.jsdelivr.net/npm/jszip@3.2.1/dist/jszip.js"></script>
 <script src="./convertors/ccfoliaConvertor.js"></script>
 <script src="./convertors/udonariumConvertor.js"></script>
 <script src="./convertors/rawTextConvertor.js"></script>
@@ -37,7 +39,7 @@ io.github.shunshun94.trpg.logEditor.EVENTS = {
 <script>
 io.github.shunshun94.trpg.logEditor.DOMS.BODY.on(io.github.shunshun94.trpg.logEditor.EVENTS.FILE_LOADED, (e, domList)=>{
 	io.github.shunshun94.trpg.logEditor.export.htmlExporter.download(io.github.shunshun94.trpg.logEditor.export.htmlExporter.domListToHtml(domList));
-	io.github.shunshun94.trpg.logEditor.bindInitialEvents(io.github.shunshun94.trpg.logEditor.DOMS.BODY);
+	io.github.shunshun94.trpg.logEditor.FileLoader.bindInitialEvents(io.github.shunshun94.trpg.logEditor.DOMS.BODY);
 });
 </script>
 

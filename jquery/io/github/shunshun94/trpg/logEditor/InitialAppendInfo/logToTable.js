@@ -26,11 +26,7 @@ io.github.shunshun94.trpg.logEditor.LogToTable.buildHtml = () => {
     const list = document.createElement('ul');
     list.id = 'importedFileList';
 
-    [
-        {id: 'importedFileList-download-html',text: 'HTMLでダウンロード', clicked: io.github.shunshun94.trpg.logEditor.LogToTable.onDlHtml},
-        {id: 'importedFileList-download-json', text: 'JSONでダウンロード', clicked: io.github.shunshun94.trpg.logEditor.LogToTable.onDlJson},
-        {id: 'importedFileList-download-json-dice', text: 'ダイス結果のみJSONでダウンロード', clicked: io.github.shunshun94.trpg.logEditor.LogToTable.onDlJsonDice}
-    ].forEach((d)=>{
+    io.github.shunshun94.trpg.logEditor.LogToTable.BUTTON_LIST.forEach((d)=>{
         const button = document.createElement('button');
         button.setAttribute('style', 'display:none;');
         button.className = 'ltt-download';
@@ -79,3 +75,9 @@ io.github.shunshun94.trpg.logEditor.LogToTable.onFileLoad = (targetFile) => {
 		});
 	});
 };
+
+io.github.shunshun94.trpg.logEditor.LogToTable.BUTTON_LIST = [
+    {id: 'importedFileList-download-html', text: 'HTMLでダウンロード', clicked: io.github.shunshun94.trpg.logEditor.LogToTable.onDlHtml},
+    {id: 'importedFileList-download-json', text: 'JSONでダウンロード', clicked: io.github.shunshun94.trpg.logEditor.LogToTable.onDlJson},
+    {id: 'importedFileList-download-json-dice', text: 'ダイス結果のみJSONでダウンロード', clicked: io.github.shunshun94.trpg.logEditor.LogToTable.onDlJsonDice}
+];

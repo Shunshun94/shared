@@ -3,6 +3,7 @@
 <head>
   <meta charset="utf-8">
   <title>ログと分析用 json に変換する</title>
+  <link rel="stylesheet" href="css/relatedTools.css" type="text/css" />
 </head>
 <body>
 
@@ -31,5 +32,12 @@
 <script src="./InitialAppendInfo/link.js"></script>
 <script src="./InitialAppendInfo/logToTable.js"></script>
 <script src="./fileLoad.js"></script>
+<script>
+  io.github.shunshun94.trpg.logEditor.DOMS.BODY.click((e)=>{
+    const button = io.github.shunshun94.trpg.logEditor.LogToTable.BUTTON_LIST.find((btn)=>{return btn.id === e.target.id});
+    console.log(button);
+    if(button) {button.clicked();}
+  });
+</script>
 </body>
 </html>
