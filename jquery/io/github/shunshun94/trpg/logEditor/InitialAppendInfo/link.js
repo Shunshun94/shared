@@ -22,6 +22,10 @@ io.github.shunshun94.trpg.logEditor.Link.LIST = [
         name: 'ログと分析用 json に変換',
         path: 'logToTableJson.html',
         desc: '読み込んだファイルを表形式に変換するツール'
+    }, {
+        name: 'GitHub',
+        path: 'https://github.com/Shunshun94/shared/tree/master/jquery/io/github/shunshun94/trpg/logEditor/',
+        desc: 'ソースコードをこちらで公開しています'
     }
 ];
 
