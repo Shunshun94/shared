@@ -15,6 +15,7 @@ io.github.shunshun94.trpg.logEditor.DOMS.BODY.append(`<div style="padding:2em;po
 <li>Flocon のログ（シンプル）の HTML</li>
 <li>LINE からダウンロードしたログのテキストファイル</li>
 </ul>
+${[io.github.shunshun94.trpg.logEditor.LogToTable, io.github.shunshun94.trpg.logEditor.Link].filter((d)=>{return d}).map((d)=>{return d.buildHtml().outerHTML}).join('')}
 </div>`);
 
 io.github.shunshun94.trpg.logEditor.FileLoader = io.github.shunshun94.trpg.logEditor.FileLoader || {};
