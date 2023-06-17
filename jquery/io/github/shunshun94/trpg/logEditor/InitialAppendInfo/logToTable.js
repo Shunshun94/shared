@@ -13,6 +13,7 @@ io.github.shunshun94.trpg.logEditor.DOMS.BODY.on(io.github.shunshun94.trpg.logEd
     io.github.shunshun94.trpg.logEditor.LogToTable.STOCKED_LIST = io.github.shunshun94.trpg.logEditor.LogToTable.STOCKED_LIST.concat(
         io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.fileLoaderResultToJson(domList)
     );
+    io.github.shunshun94.trpg.logEditor.FileLoader.bindInitialEvents(io.github.shunshun94.trpg.logEditor.DOMS.BODY);
 });
 
 io.github.shunshun94.trpg.logEditor.LogToTable.buildHtml = () => {
@@ -25,6 +26,7 @@ io.github.shunshun94.trpg.logEditor.LogToTable.buildHtml = () => {
 
     const list = document.createElement('ul');
     list.id = 'importedFileList';
+    result.append(list);
 
     io.github.shunshun94.trpg.logEditor.LogToTable.BUTTON_LIST.forEach((d)=>{
         const button = document.createElement('button');

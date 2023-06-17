@@ -35,7 +35,6 @@
 <script>
   io.github.shunshun94.trpg.logEditor.DOMS.BODY.click((e)=>{
     const button = io.github.shunshun94.trpg.logEditor.LogToTable.BUTTON_LIST.find((btn)=>{return btn.id === e.target.id});
-    console.log(button);
     if(button) {button.clicked();}
   });
 </script>
