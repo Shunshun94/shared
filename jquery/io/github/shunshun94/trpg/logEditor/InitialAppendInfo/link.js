@@ -17,11 +17,11 @@ io.github.shunshun94.trpg.logEditor.Link.LIST = [
     }, {
         name: 'Log to CSS',
         path: 'LogToCSS.html',
-        desc: 'アップロードしたログの各要素のクラスから CSS を生成するツール'
+        desc: '編集してクラス情報が挿入されたログから CSS を生成するツール'
     }, {
         name: 'ログと分析用 json に変換',
         path: 'logToTableJson.html',
-        desc: '読み込んだファイルを表形式に変換するツール'
+        desc: '読み込んだファイルを表形式に変換するツール（CoC と SW2.0、SW2.5 にのみ対応）'
     }, {
         name: 'GitHub',
         path: 'https://github.com/Shunshun94/shared/tree/master/jquery/io/github/shunshun94/trpg/logEditor/',
