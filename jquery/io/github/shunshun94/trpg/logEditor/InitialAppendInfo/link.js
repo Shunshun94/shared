@@ -11,7 +11,7 @@ io.github.shunshun94.trpg.logEditor.Link.LIST = [
         path: 'LogEditor.html',
         desc: 'ココフォリア、ユドナリウム、Tekey、Flocon、どどんとふむせる、LINE のログを並び替えたり編集したりするツール'
     }, {
-        name: 'Log to HTML',
+        name: 'TRPG テキストセッションのログを変換するやつ',
         path: 'LogConverter.html',
         desc: 'ココフォリア、ユドナリウム、Tekey、Flocon、どどんとふむせる、LINE のログをログエディタの出力に変換するツール'
     }, {
