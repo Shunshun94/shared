@@ -35,10 +35,11 @@ io.github.shunshun94.trpg.logEditor.convertors.UdonariumConvertor.dropEventToJso
 					for(var j = 0; j < posts.length; j++) {
 						const targetPost = posts[j];
 						const rawName = targetPost.getAttribute('name');
+						const color = targetPost.getAttribute('messColor');
 						const tmpName = /<BCDice：(.+)>/.exec(rawName);
 						list.push({
 							title: '',
-							style: '',
+							style: color ? `color:${color};` : '',
 							id: '',
 							class: tabClass,
 							tag: 'p',
