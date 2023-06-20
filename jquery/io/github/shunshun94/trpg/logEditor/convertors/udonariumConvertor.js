@@ -52,7 +52,8 @@ io.github.shunshun94.trpg.logEditor.convertors.UdonariumConvertor.dropEventToJso
 				resolve({
 					doms: list.sort((a,b)=>{return a.ts - b.ts}),
 					omitted: [],
-					head: ''
+					head: '',
+					tabs: tabsName
 				});
 			});
 		});

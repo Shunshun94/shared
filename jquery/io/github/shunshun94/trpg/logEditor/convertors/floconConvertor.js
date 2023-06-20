@@ -68,6 +68,7 @@ io.github.shunshun94.trpg.logEditor.convertors.FloconSimpleConvertor.htmlToJson 
 	return {
 		doms: list,
 		omitted: [],
-		head: ''
+		head: '',
+		tabs: io.github.shunshun94.trpg.logEditor.convertors.FloconSimpleConvertor.DEFAULT_TABS_CLASS
 	};
 };

@@ -87,6 +87,7 @@ io.github.shunshun94.trpg.logEditor.convertors.TekeyV2Converter.htmlToJson =(raw
 	return {
 		doms: list,
 		omitted: [],
-		head: ''
+		head: '',
+		tabs: io.github.shunshun94.trpg.logEditor.convertors.TekeyV1Converter.DEFAULT_TABS_CLASS
 	};
 };

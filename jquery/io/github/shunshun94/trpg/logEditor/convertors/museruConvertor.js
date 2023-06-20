@@ -41,6 +41,7 @@ io.github.shunshun94.trpg.logEditor.convertors.MuseruConvertor.htmlToJson = (raw
 	return {
 		doms: nodes.map(io.github.shunshun94.trpg.logEditor.convertors.MuseruConvertor.postToJson),
 		omitted: [],
-		head: ''
+		head: '',
+		tabs: io.github.shunshun94.trpg.logEditor.convertors.MuseruConvertor.DEFAULT_TABS_CLASS
 	};
 };

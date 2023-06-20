@@ -37,6 +37,7 @@ io.github.shunshun94.trpg.logEditor.convertors.RawTextConvertor.lineToJson = (te
 	return {
 		doms: posts,
 		omitted: [],
-		head: ''
+		head: '',
+		tabs: {}
 	};
 };
