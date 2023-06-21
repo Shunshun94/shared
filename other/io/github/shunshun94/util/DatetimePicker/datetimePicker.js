@@ -4,7 +4,7 @@ io.github.shunshun94 = io.github.shunshun94 || {};
 io.github.shunshun94.util = io.github.shunshun94.util || {};
 io.github.shunshun94.util.DateTimePicker = io.github.shunshun94.util.DateTimePicker || {};
 
-io.github.shunshun94.util.DateTimePicker.DATE_REGEXP = /([01]?[0-9])\s*[\/／月\-・]\s*([0-3]?[0-9])\s*日?[日月火水木金土\s\　]*/;
+io.github.shunshun94.util.DateTimePicker.DATE_REGEXP = /([\^\-―～]?)([01]?[0-9])\s*[\/／月\-・]\s*([0-3]?[0-9])\s*日?([\^\-―～]?)[日月火水木金土\s\　]*/;
 io.github.shunshun94.util.DateTimePicker.TIME_REGEXP = /([012]?[0-9])\s*[\:：時]\s*([0-5][0-9])?\s*[分～~]*/
 
 io.github.shunshun94.util.DateTimePicker.pick = (input) => {
@@ -22,14 +22,14 @@ io.github.shunshun94.util.DateTimePicker.pick = (input) => {
             return {
                 dateRegExp: dateRegexpResult,
                 timeRegExp: timeRegexpResult,
-                text: `${dateRegexpResult[1].padStart(2, 0)}/${dateRegexpResult[2].padStart(2, 0)} ${timeRegexpResult[1].padStart(2, 0)}:${timeRegexpResult[2].padStart(2, 0)}`,
+                text: `${dateRegexpResult[2].padStart(2, 0)}/${dateRegexpResult[3].padStart(2, 0)} ${timeRegexpResult[1].padStart(2, 0)}:${timeRegexpResult[2].padStart(2, 0)}`,
                 datetimeRevmoed: textRemovedTime
             };
         } else {
             return {
                 dateRegExp: dateRegexpResult,
                 timeRegExp: timeRegexpResult,
-                text: `${dateRegexpResult[1].padStart(2, 0)}/${dateRegexpResult[2].padStart(2, 0)} ${timeRegexpResult[1].padStart(2, 0)}:00`,
+                text: `${dateRegexpResult[2].padStart(2, 0)}/${dateRegexpResult[3].padStart(2, 0)} ${timeRegexpResult[1].padStart(2, 0)}:00`,
                 datetimeRevmoed: textRemovedTime
             };
         }
@@ -38,7 +38,7 @@ io.github.shunshun94.util.DateTimePicker.pick = (input) => {
         return {
             dateRegExp: dateRegexpResult,
             timeRegExp: timeRegexpResult,
-            text: `${dateRegexpResult[1].padStart(2, 0)}/${dateRegexpResult[2].padStart(2, 0)}`,
+            text: `${dateRegexpResult[2].padStart(2, 0)}/${dateRegexpResult[3].padStart(2, 0)}`,
             datetimeRevmoed: textRemovedTime
         };
     }

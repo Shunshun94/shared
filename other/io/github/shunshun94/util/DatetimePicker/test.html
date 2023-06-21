@@ -117,6 +117,18 @@
                 {
                     "name": "【募集中】3／26　蛮族殺し",
                     "expected": "03/26"
+                },
+                {
+                    "name": "【募集中】6月26～30日いずれか　20時～『駆け出し冒険者』",
+                    "expected": "06/26～06/30 20:00"
+                },
+                {
+                    "name": "【募集中】6/26～どこか　20時～『駆け出し冒険者』",
+                    "expected": "06/26～ 20:00"
+                },
+                {
+                    "name": "【募集中】～6月30日 20時～『駆け出し冒険者』",
+                    "expected": "～06/30 20:00"
                 }
             ].map((pattern, i)=>{
                 const actual = io.github.shunshun94.util.DateTimePicker.pick(pattern.name);
