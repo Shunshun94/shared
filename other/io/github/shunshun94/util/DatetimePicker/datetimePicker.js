@@ -17,19 +17,21 @@ io.github.shunshun94.util.DateTimePicker.pick = (input) => {
     const timeRegexpResult = io.github.shunshun94.util.DateTimePicker.TIME_REGEXP.exec(textRemovedDate);
     const textRemovedTime = (timeRegexpResult ? textRemovedDate.replace(timeRegexpResult[0], '') : textRemovedDate).trim();
 
+    const untilSign = (dateRegexpResult || [0,0])[1] ? '～' : '';
+
     if(timeRegexpResult && dateRegexpResult) {
         if(timeRegexpResult[2]) {
             return {
                 dateRegExp: dateRegexpResult,
                 timeRegExp: timeRegexpResult,
-                text: `${dateRegexpResult[2].padStart(2, 0)}/${dateRegexpResult[3].padStart(2, 0)} ${timeRegexpResult[1].padStart(2, 0)}:${timeRegexpResult[2].padStart(2, 0)}`,
+                text: `${untilSign}${dateRegexpResult[2].padStart(2, 0)}/${dateRegexpResult[3].padStart(2, 0)} ${timeRegexpResult[1].padStart(2, 0)}:${timeRegexpResult[2].padStart(2, 0)}`,
                 datetimeRevmoed: textRemovedTime
             };
         } else {
             return {
                 dateRegExp: dateRegexpResult,
                 timeRegExp: timeRegexpResult,
-                text: `${dateRegexpResult[2].padStart(2, 0)}/${dateRegexpResult[3].padStart(2, 0)} ${timeRegexpResult[1].padStart(2, 0)}:00`,
+                text: `${untilSign}${dateRegexpResult[2].padStart(2, 0)}/${dateRegexpResult[3].padStart(2, 0)} ${timeRegexpResult[1].padStart(2, 0)}:00`,
                 datetimeRevmoed: textRemovedTime
             };
         }
@@ -38,7 +40,7 @@ io.github.shunshun94.util.DateTimePicker.pick = (input) => {
         return {
             dateRegExp: dateRegexpResult,
             timeRegExp: timeRegexpResult,
-            text: `${dateRegexpResult[2].padStart(2, 0)}/${dateRegexpResult[3].padStart(2, 0)}`,
+            text: `${untilSign}${dateRegexpResult[2].padStart(2, 0)}/${dateRegexpResult[3].padStart(2, 0)}`,
             datetimeRevmoed: textRemovedTime
         };
     }
