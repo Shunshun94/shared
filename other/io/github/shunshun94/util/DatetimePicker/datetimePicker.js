@@ -10,7 +10,8 @@ io.github.shunshun94.util.DateTimePicker.TIME_REGEXP = /([012]?[0-9])\s*[\:：�
 io.github.shunshun94.util.DateTimePicker.pickDate = (dateRegexpResult) => {
     if(dateRegexpResult) {
         const untilSign = dateRegexpResult[1] ? '～' : '';
-        return `${untilSign}${dateRegexpResult[2].padStart(2, 0)}/${dateRegexpResult[3].padStart(2, 0)}`
+        const afterSign = dateRegexpResult[4] ? '～' : '';
+        return `${untilSign}${dateRegexpResult[2].padStart(2, 0)}/${dateRegexpResult[3].padStart(2, 0)}${afterSign}`;
     } else {
         return '';
     }
