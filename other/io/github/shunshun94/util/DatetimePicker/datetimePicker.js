@@ -4,14 +4,19 @@ io.github.shunshun94 = io.github.shunshun94 || {};
 io.github.shunshun94.util = io.github.shunshun94.util || {};
 io.github.shunshun94.util.DateTimePicker = io.github.shunshun94.util.DateTimePicker || {};
 
-io.github.shunshun94.util.DateTimePicker.DATE_REGEXP = /([\^\-―～]?)([01]?[0-9])\s*[\/／月\-・]\s*([0-3]?[0-9])\s*日?([\^\-―～]?)[日月火水木金土\s\　]*/;
+io.github.shunshun94.util.DateTimePicker.DATE_REGEXP = /([\^\-―～]?)([01]?[0-9])[\/／月\-・]([0-3]?[0-9])日?[\s\　]*([\^\-―～]?)/;
+io.github.shunshun94.util.DateTimePicker.DATE_REGEXP_RANGE = /([\^\-―～]?)([01]?[0-9])[\/／月\-・]([0-3]?[0-9])日?[\s\　]*([\^\-―～])[\s\　]*([01]?[0-9][\/／月\-・])?([0-3]?[0-9])日?/;
 io.github.shunshun94.util.DateTimePicker.TIME_REGEXP = /([012]?[0-9])\s*[\:：時]\s*([0-5][0-9])?\s*[分～~]*/
 
 io.github.shunshun94.util.DateTimePicker.pickDate = (dateRegexpResult) => {
     if(dateRegexpResult) {
         const untilSign = dateRegexpResult[1] ? '～' : '';
         const afterSign = dateRegexpResult[4] ? '～' : '';
-        return `${untilSign}${dateRegexpResult[2].padStart(2, 0)}/${dateRegexpResult[3].padStart(2, 0)}${afterSign}`;
+        if(dateRegexpResult.length > 5) {
+            return `${dateRegexpResult[2].padStart(2, 0)}/${dateRegexpResult[3].padStart(2, 0)}${afterSign}${dateRegexpResult[5] ? dateRegexpResult[5].match(/\d+/)[0].padStart(2, 0) : dateRegexpResult[2].padStart(2, 0)}/${dateRegexpResult[6].padStart(2, 0)}`;
+        } else {
+            return `${untilSign}${dateRegexpResult[2].padStart(2, 0)}/${dateRegexpResult[3].padStart(2, 0)}${afterSign}`;
+        }
     } else {
         return '';
     }
@@ -68,8 +73,13 @@ io.github.shunshun94.util.DateTimePicker.applyTimeRegExp = (currentMap) => {
 };
 
 io.github.shunshun94.util.DateTimePicker.applyDateRegExp = (currentMap) => {
-    const dateRegexpResult = io.github.shunshun94.util.DateTimePicker.DATE_REGEXP.exec(currentMap.text);
+    const dateRegexpResultA = io.github.shunshun94.util.DateTimePicker.DATE_REGEXP.exec(currentMap.text);
+    const dateRegexpResultB = io.github.shunshun94.util.DateTimePicker.DATE_REGEXP_RANGE.exec(currentMap.text);
+    const shouldUsedPatternB = dateRegexpResultA && dateRegexpResultA[4] && dateRegexpResultB;
+    const dateRegexpResult = shouldUsedPatternB ? dateRegexpResultB : dateRegexpResultA;
     const textRemovedDate = (dateRegexpResult ? currentMap.text.replace(dateRegexpResult[0], '') : currentMap.text).trim();
+
+
     currentMap.text = textRemovedDate;
     currentMap.dateRegexpResult = dateRegexpResult;
     currentMap.date = io.github.shunshun94.util.DateTimePicker.pickDate(dateRegexpResult);
