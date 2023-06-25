@@ -12,10 +12,12 @@ io.github.shunshun94.util.DateTimePicker.pickDate = (dateRegexpResult) => {
     if(dateRegexpResult) {
         const untilSign = dateRegexpResult[1] ? '～' : '';
         const afterSign = dateRegexpResult[4] ? '～' : '';
+        const startDate = `${dateRegexpResult[2].padStart(2, 0)}/${dateRegexpResult[3].padStart(2, 0)}`;
         if(dateRegexpResult.length > 5) {
-            return `${dateRegexpResult[2].padStart(2, 0)}/${dateRegexpResult[3].padStart(2, 0)}${afterSign}${dateRegexpResult[5] ? dateRegexpResult[5].match(/\d+/)[0].padStart(2, 0) : dateRegexpResult[2].padStart(2, 0)}/${dateRegexpResult[6].padStart(2, 0)}`;
+            const afterDate = `${dateRegexpResult[5] ? dateRegexpResult[5].match(/\d+/)[0].padStart(2, 0) : dateRegexpResult[2].padStart(2, 0)}/${dateRegexpResult[6].padStart(2, 0)}`;
+            return `${startDate}${afterSign}${afterDate}`;
         } else {
-            return `${untilSign}${dateRegexpResult[2].padStart(2, 0)}/${dateRegexpResult[3].padStart(2, 0)}${afterSign}`;
+            return `${untilSign}${startDate}${afterSign}`;
         }
     } else {
         return '';
