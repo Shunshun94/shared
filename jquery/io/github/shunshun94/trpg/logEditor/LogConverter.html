@@ -47,6 +47,7 @@ io.github.shunshun94.trpg.logEditor.EVENTS = {
 <script src="exporter/htmlExporter.js"></script>
 <script src="./InitialAppendInfo/link.js"></script>
 <script src="./FileLoader/fileLoad.js"></script>
+<script src="./FileLoader/tabFilter.js"></script>
 <script>
 io.github.shunshun94.trpg.logEditor.DOMS.BODY.on(io.github.shunshun94.trpg.logEditor.EVENTS.FILE_LOADED, (e, domList)=>{
 	io.github.shunshun94.trpg.logEditor.export.htmlExporter.download(io.github.shunshun94.trpg.logEditor.export.htmlExporter.domListToHtml(domList));
