@@ -86,6 +86,10 @@ io.github.shunshun94.trpg.logEditor.FileLoader.openBackScreen = () => {
 	io.github.shunshun94.trpg.logEditor.DOMS.BODY.append(`<div class="${io.github.shunshun94.trpg.logEditor.CLASSES.BACKSCREEN}"></div>`);
 };
 
+io.github.shunshun94.trpg.logEditor.FileLoader.closeBackScreen = () => {
+	$(`.${io.github.shunshun94.trpg.logEditor.CLASSES.BACKSCREEN}`).remove();
+};
+
 io.github.shunshun94.trpg.logEditor.FileLoader.resetFiltEvents = ()=>{
 	$(`.${io.github.shunshun94.trpg.logEditor.CLASSES.FILTER} > button`).off('click');
 };
