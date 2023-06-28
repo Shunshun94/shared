@@ -22,6 +22,10 @@ io.github.shunshun94.trpg.logEditor.FileLoader.filtTabs = (data) => {
                 resolve(data);
                 io.github.shunshun94.trpg.logEditor.FileLoader.closeTabManageWindow();
             });
+            $(`.${io.github.shunshun94.trpg.logEditor.CLASSES.FILTER} .tab1`).click((e)=>{
+                const tr = e.target.parentElement.parentElement;
+                tr.getElementsByTagName('input')[1].value = 'tab1';
+            });
         } else {
             data.tabList = [];
             resolve(data);
