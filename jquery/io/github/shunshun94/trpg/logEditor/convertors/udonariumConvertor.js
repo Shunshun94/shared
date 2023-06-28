@@ -45,14 +45,16 @@ io.github.shunshun94.trpg.logEditor.convertors.UdonariumConvertor.dropEventToJso
 							tag: 'p',
 							name: tmpName ? tmpName[1] : rawName,
 							content: targetPost.innerHTML.replace(/\n/gm, '<br/>'),
-							ts: Number(targetPost.getAttribute('timestamp'))
+							ts: Number(targetPost.getAttribute('timestamp')),
+							tabName: tabName
 						});
 					}
 				}
 				resolve({
 					doms: list.sort((a,b)=>{return a.ts - b.ts}),
 					omitted: [],
-					head: ''
+					head: '',
+					tabs: tabsName
 				});
 			});
 		});

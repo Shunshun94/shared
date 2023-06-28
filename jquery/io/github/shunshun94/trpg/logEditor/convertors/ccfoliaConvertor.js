@@ -67,13 +67,18 @@ io.github.shunshun94.trpg.logEditor.convertors.CcfoliaConvertor.htmlToJson = (ra
 	const omit = [];
 	for(var i = 0; i < bodyChildrenLength; i++) {
 		const json = io.github.shunshun94.trpg.logEditor.convertors.CcfoliaConvertor.elementToJson(bodyChildren[i]);
-		if(json) { list.push(json) } else { omit.push(bodyChildren[i].outerHTML); }
+		if(json) {
+			list.push(json)
+		} else {
+			omit.push(bodyChildren[i].outerHTML);
+		}
 	}
 	const header = io.github.shunshun94.trpg.logEditor.convertors.CcfoliaConvertor.isDefaultHead(dom.head.outerHTML) ? '' : dom.head.outerHTML;
 	
 	return {
 		doms: list,
 		omitted: omit,
-		head: header
+		head: header,
+		tabs: io.github.shunshun94.trpg.logEditor.convertors.CcfoliaConvertor.DEFAULT_TABS_CLASS
 	};
 };

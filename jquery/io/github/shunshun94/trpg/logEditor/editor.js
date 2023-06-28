@@ -9,6 +9,7 @@ io.github.shunshun94.trpg.logEditor.Editor = class {
 		const htmls = this.domsToPost(data.doms);
 		this.head = data.head;
 		this.omit = data.omitted;
+		this.tabList = data.tabList || [];
 		this.initPosts(htmls);
 		this.activateSort();
 		io.github.shunshun94.trpg.logEditor.export.htmlExporter.setLastHash(
@@ -190,13 +191,10 @@ io.github.shunshun94.trpg.logEditor.Editor = class {
 			}
 			if(target.class) {
 				target.list.find(`.io-github-shunshun94-trpg-logEditor-Post-params-param-input-class`).each((i,v)=>{
-					const currentValue = $(v).val();
-					const isIncludeTabX = /tab\d+/.exec(currentValue)
-					if (isIncludeTabX) {
-						$(v).val(`${isIncludeTabX[0]} ${target.class}`);
-					} else {
-						$(v).val(target.class);
-					}
+					const keptValues = $(v).val().split(' ').filter((c)=>{
+						return this.tabList.includes(c) || /tab\d+/.exec(c);
+					}).join(' ');
+					$(v).val(`${keptValues} ${target.class}`.trim());
 				});
 			}
 		}

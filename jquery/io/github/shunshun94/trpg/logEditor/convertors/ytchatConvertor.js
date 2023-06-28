@@ -29,22 +29,27 @@ io.github.shunshun94.trpg.logEditor.convertors.ytchatConvertor.toTextFromSplited
 };
 
 io.github.shunshun94.trpg.logEditor.convertors.ytchatConvertor.rawTextToJson = (rawText) => {
+    const tabs = {};
     const posts = rawText.split('\n').filter((d)=>{return d;}).map((line)=>{
         const splitedPost = line.split('<>');
+        const tabClass = `tab${Number(splitedPost[2])-1}`;
+        if(! tabs[tabClass]) { tabs[tabClass] = tabClass; }
 
         return {
             tag: 'p',
             name: (splitedPost[3] === '!SYSTEM') ? 'YTCHAT_SYSTEM' : splitedPost[3],
             content: io.github.shunshun94.trpg.logEditor.convertors.ytchatConvertor.toTextFromSplitedPost(splitedPost),
-            class: `tab${Number(splitedPost[2])-1}`,
+            class: tabClass,
             title: '',
             style: splitedPost[4] ? `color:${splitedPost[4]}` : '',
-            id: ''
+            id: '',
+            tabName: tabClass
         };
     });
 	return {
 		doms: posts,
 		omitted: [],
-		head: ''
+		head: '',
+        tabs: tabs
 	};
 };
