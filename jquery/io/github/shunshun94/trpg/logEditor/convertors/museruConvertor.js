@@ -25,6 +25,7 @@ io.github.shunshun94.trpg.logEditor.convertors.MuseruConvertor.postToJson = (pos
 		id: '',
 	};
 	const postElements = post.childNodes;
+	result.tabName = postElements[0].textContent;
     result.class = io.github.shunshun94.trpg.logEditor.convertors.MuseruConvertor.DEFAULT_TABS_CLASS[postElements[0].textContent] || 'tab1';
 
     const postBodyElement = postElements[1];

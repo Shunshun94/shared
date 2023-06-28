@@ -40,6 +40,7 @@ io.github.shunshun94.trpg.logEditor.convertors.FloconSimpleConvertor.elementToJs
 		});
 		if(tabCandidate.length) {
 			const tabName = /\((.+)\)/.exec(tabCandidate[0])[1];
+			result.tabName = result;
 			if(io.github.shunshun94.trpg.logEditor.convertors.FloconSimpleConvertor.DEFAULT_TABS_CLASS[tabName]) {
 				result.class = io.github.shunshun94.trpg.logEditor.convertors.FloconSimpleConvertor.DEFAULT_TABS_CLASS[tabName];
 			} else {

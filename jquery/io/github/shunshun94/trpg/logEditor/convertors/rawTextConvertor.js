@@ -28,6 +28,7 @@ io.github.shunshun94.trpg.logEditor.convertors.RawTextConvertor.lineToJson = (te
 				const lineParts = line.split(' ');
 				result.name = lineParts[1];
 				result.content = lineParts.slice(2).join(' ');
+				result.tabName = '';
 				posts.push(result);
 			} else {
 				posts[posts.length - 1].content += `<br/>${line}`;

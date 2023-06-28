@@ -39,7 +39,8 @@ io.github.shunshun94.trpg.logEditor.convertors.TekeyV1Converter.htmlToJson = (ra
 	nodes.forEach((n, i)=>{
 		if( i % 3 === 0) {
 			posts.push({
-				class: io.github.shunshun94.trpg.logEditor.convertors.TekeyV1Converter.DEFAULT_TABS_CLASS[n.textContent.trim()] || 'tab1'
+				class: io.github.shunshun94.trpg.logEditor.convertors.TekeyV1Converter.DEFAULT_TABS_CLASS[n.textContent.trim()] || 'tab1',
+				tabName: n.textContent.trim()
 			});
 		}
 		if( i % 3 === 1) {

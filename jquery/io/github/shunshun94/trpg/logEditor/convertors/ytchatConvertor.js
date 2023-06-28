@@ -42,7 +42,8 @@ io.github.shunshun94.trpg.logEditor.convertors.ytchatConvertor.rawTextToJson = (
             class: tabClass,
             title: '',
             style: splitedPost[4] ? `color:${splitedPost[4]}` : '',
-            id: ''
+            id: '',
+            tabName: tabClass
         };
     });
 	return {
