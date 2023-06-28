@@ -14,7 +14,9 @@
 <meta name="twitter:image" content="https://shunshun94.github.io/shared/jquery/io/github/shunshun94/trpg/logEditor/resources/converter_ogp.png" />
 <meta name="twitter:title" content="TRPG テキストセッションのログを変換するやつ" />
 <meta name="twitter:description" content="ココフォリア、ユドナリウム、Tekey、Flocon、どどんとふむせる、LINE のテキストログを変換するツール" />
-<link rel="stylesheet" href="css/relatedTools.css" type="text/css" />
+<link rel="stylesheet" href="css/logEditor.css" type="text/css" />
+<link rel="stylesheet" href="css/darkmode.css" type="text/css" />
+<link rel="stylesheet" href="css/experimentalMode.css" type="text/css" />
 </head>
 <body>
 <script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script>
@@ -34,6 +36,7 @@ io.github.shunshun94.trpg.logEditor.EVENTS = {
 };
 </script>
 <script src="https://cdn.jsdelivr.net/npm/jszip@3.2.1/dist/jszip.js"></script>
+<script src="./consts.js"></script>
 <script src="./convertors/ccfoliaConvertor.js"></script>
 <script src="./convertors/udonariumConvertor.js"></script>
 <script src="./convertors/rawTextConvertor.js"></script>
@@ -50,8 +53,10 @@ io.github.shunshun94.trpg.logEditor.EVENTS = {
 <script src="./FileLoader/tabFilter.js"></script>
 <script>
 io.github.shunshun94.trpg.logEditor.DOMS.BODY.on(io.github.shunshun94.trpg.logEditor.EVENTS.FILE_LOADED, (e, domList)=>{
-	io.github.shunshun94.trpg.logEditor.export.htmlExporter.download(io.github.shunshun94.trpg.logEditor.export.htmlExporter.domListToHtml(domList));
-	io.github.shunshun94.trpg.logEditor.FileLoader.bindInitialEvents(io.github.shunshun94.trpg.logEditor.DOMS.BODY);
+	io.github.shunshun94.trpg.logEditor.FileLoader.filtTabs(domList).then((filteredDomList)=>{
+		io.github.shunshun94.trpg.logEditor.export.htmlExporter.download(io.github.shunshun94.trpg.logEditor.export.htmlExporter.domListToHtml(filteredDomList));
+		io.github.shunshun94.trpg.logEditor.FileLoader.bindInitialEvents(io.github.shunshun94.trpg.logEditor.DOMS.BODY);
+	});
 });
 </script>
 

@@ -16,20 +16,15 @@ io.github.shunshun94.trpg.logEditor.DOMS.BODY.on(io.github.shunshun94.trpg.logEd
 	console.log(rawDomList);
 	if(io.github.shunshun94.trpg.logEditor.LogEditorObject)	 {
 		// 追加読み込み
-		io.github.shunshun94.trpg.logEditor.LogEditorObject.additionalLoad({
-			doms: rawDomList.doms,
-			head: rawDomList.head,
-			omitted: rawDomList.omitted
+		io.github.shunshun94.trpg.logEditor.FileLoader.filtTabs(rawDomList).then((domList)=>{
+			io.github.shunshun94.trpg.logEditor.LogEditorObject.additionalLoad(domList);
 		});
 	} else {
 		// 初回読み込み
 		io.github.shunshun94.trpg.logEditor.FileLoader.filtTabs(rawDomList).then((domList)=>{
 			io.github.shunshun94.trpg.logEditor.FileLoader.filtLongFile(domList.doms).then((filteredList)=>{
-				io.github.shunshun94.trpg.logEditor.LogEditorObject = new io.github.shunshun94.trpg.logEditor.Editor({
-					doms: filteredList,
-					head: domList.head,
-					omitted: domList.omitted
-				});
+				domList.doms = filteredList;
+				io.github.shunshun94.trpg.logEditor.LogEditorObject = new io.github.shunshun94.trpg.logEditor.Editor(domList);
 			});
 		});
 	}
