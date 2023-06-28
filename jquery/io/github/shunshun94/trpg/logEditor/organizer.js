@@ -12,22 +12,19 @@ io.github.shunshun94.trpg.logEditor.hashFunc = (text)=>{
 
 io.github.shunshun94.trpg.logEditor.LogEditorObject = null;
 
-io.github.shunshun94.trpg.logEditor.DOMS.BODY.on(io.github.shunshun94.trpg.logEditor.EVENTS.FILE_LOADED, (e, domList)=>{
-	console.log(domList);
+io.github.shunshun94.trpg.logEditor.DOMS.BODY.on(io.github.shunshun94.trpg.logEditor.EVENTS.FILE_LOADED, (e, rawDomList)=>{
+	console.log(rawDomList);
 	if(io.github.shunshun94.trpg.logEditor.LogEditorObject)	 {
 		// 追加読み込み
-		io.github.shunshun94.trpg.logEditor.LogEditorObject.additionalLoad({
-			doms: domList.doms,
-			head: domList.head,
-			omitted: domList.omitted
+		io.github.shunshun94.trpg.logEditor.FileLoader.filtTabs(rawDomList).then((domList)=>{
+			io.github.shunshun94.trpg.logEditor.LogEditorObject.additionalLoad(domList);
 		});
 	} else {
 		// 初回読み込み
-		io.github.shunshun94.trpg.logEditor.FileLoader.filtLongFile(domList.doms).then((filteredList)=>{
-			io.github.shunshun94.trpg.logEditor.LogEditorObject = new io.github.shunshun94.trpg.logEditor.Editor({
-				doms: filteredList,
-				head: domList.head,
-				omitted: domList.omitted
+		io.github.shunshun94.trpg.logEditor.FileLoader.filtTabs(rawDomList).then((domList)=>{
+			io.github.shunshun94.trpg.logEditor.FileLoader.filtLongFile(domList.doms).then((filteredList)=>{
+				domList.doms = filteredList;
+				io.github.shunshun94.trpg.logEditor.LogEditorObject = new io.github.shunshun94.trpg.logEditor.Editor(domList);
 			});
 		});
 	}
