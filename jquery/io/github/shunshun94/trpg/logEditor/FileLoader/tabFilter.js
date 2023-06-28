@@ -19,8 +19,9 @@ io.github.shunshun94.trpg.logEditor.FileLoader.filtTabs = (data) => {
                 const collectedTabs = io.github.shunshun94.trpg.logEditor.FileLoader.collectTabManageInputInfo();
                 data.doms = io.github.shunshun94.trpg.logEditor.FileLoader.filterDoms(data.doms, collectedTabs);
                 data.tabList = io.github.shunshun94.trpg.logEditor.FileLoader.collectUsedTabsClasses(collectedTabs);
-                resolve(data);
+                io.github.shunshun94.trpg.logEditor.FileLoader.closeBackScreen();
                 io.github.shunshun94.trpg.logEditor.FileLoader.closeTabManageWindow();
+                resolve(data);
             });
             $(`.${io.github.shunshun94.trpg.logEditor.CLASSES.FILTER} .tab1`).click((e)=>{
                 const tr = e.target.parentElement.parentElement;
