@@ -39,44 +39,26 @@ io.github.shunshun94.trpg.logEditor.IGNORE_CLASSES = ['tab1'];
 <script src="./convertors/tekeyConvertor.js"></script>
 <script src="./convertors/museruConvertor.js"></script>
 <script src="./convertors/convertorFactory.js"></script>
+<script src="./exporter/cssExporter.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/encoding-japanese/1.0.30/encoding.min.js"></script>
 <script src="../../../../../../external/jsSHA/sha256.js"></script>
 <script src="./InitialAppendInfo/link.js"></script>
 <script src="./FileLoader/fileLoad.js"></script>
 <script>
 io.github.shunshun94.trpg.logEditor.DOMS.BODY.on(io.github.shunshun94.trpg.logEditor.EVENTS.FILE_LOADED, (e, domList)=>{
-	const classes = {};
+	const classes = io.github.shunshun94.trpg.logEditor.export.cssExporter.domJsonToCSS(domList.doms);
+    const resultTextArray = [];
+    for(var className in classes) {
+        resultTextArray.push('/*********************');
+        resultTextArray.push(classes[className].map((name)=>{
+            return ` * ${name}`;
+        }));
+        resultTextArray.push(' *********************/');
+        resultTextArray.push(`.${className} {\n  \n}`);
+        resultTextArray.push('');
+    }
 	$('div').remove();
-	domList.doms.forEach((v, i)=>{
-		if(v.class) {
-			v.class.split(' ').filter((c)=>{
-				return c;
-			}).filter((c)=>{
-				return ! io.github.shunshun94.trpg.logEditor.IGNORE_CLASSES.includes(c);
-			}).forEach((c, j)=>{
-				if(! Boolean(classes[c])) {
-					classes[c] = [];
-				}
-				if( v.name ) {
-					if( (! classes[c].includes(v.name)) ) {
-						classes[c].push(v.name);
-					}
-				} else if(! classes[c].includes(`Elem: ${v.tag}`)) {
-					classes[c].push(`Elem: ${v.tag}`);
-				}
-			});
-		}
-	});
-	let str = [];
-	for(const className in classes) {
-		classes[className].forEach((n, i)=>{
-			str.push(`/* ${n} */`);
-		});
-		str.push(`.${className} {`);
-		str.push(`	`);
-		str.push(`}`);
-	}
-	$('#result').val(str.join('\n'));
+	$('#result').val(resultTextArray.flat().join('\n'));
 	$('#result').toggle();
 });
 </script>
