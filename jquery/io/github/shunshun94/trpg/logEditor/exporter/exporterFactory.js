@@ -9,6 +9,7 @@ io.github.shunshun94.trpg.logEditor.export.default = io.github.shunshun94.trpg.l
 io.github.shunshun94.trpg.logEditor.export.ExpoterMap = {
     html: io.github.shunshun94.trpg.logEditor.export.htmlExporter,
     css: io.github.shunshun94.trpg.logEditor.export.cssExporter,
+    htmlCss: io.github.shunshun94.trpg.logEditor.export.htmlWithCssExporter,
     ytchat: io.github.shunshun94.trpg.logEditor.export.ytchatExporter,
 
     pixiv: io.github.shunshun94.trpg.logEditor.export.pixivExporter,

@@ -11,6 +11,11 @@ io.github.shunshun94.trpg.logEditor.export.cssExporter.IGNORE_CLASSES = ['tab1']
 io.github.shunshun94.trpg.logEditor.export.cssExporter.exec = (doms) => {
     const array = io.github.shunshun94.trpg.logEditor.export.cssExporter.domsToJson(doms);
     const classes = io.github.shunshun94.trpg.logEditor.export.cssExporter.domJsonToCSS(array);
+    const text = io.github.shunshun94.trpg.logEditor.export.cssExporter.convertClassesToText(classes);
+    io.github.shunshun94.trpg.logEditor.export.cssExporter.download(text);
+};
+
+io.github.shunshun94.trpg.logEditor.export.cssExporter.convertClassesToText = (classes) => {
     const resultTextArray = [];
     for(var className in classes) {
         resultTextArray.push('/*********************');
@@ -21,7 +26,7 @@ io.github.shunshun94.trpg.logEditor.export.cssExporter.exec = (doms) => {
         resultTextArray.push(`.${className} {\n  \n}`);
         resultTextArray.push('');
     }
-    io.github.shunshun94.trpg.logEditor.export.cssExporter.download(resultTextArray.flat().join('\n'));
+    return resultTextArray.flat().join('\n');
 };
 
 io.github.shunshun94.trpg.logEditor.export.cssExporter.domToJson = (dummy, jqDom) => {
