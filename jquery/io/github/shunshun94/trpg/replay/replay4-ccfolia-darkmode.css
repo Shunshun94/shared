@@ -21,30 +21,20 @@ p:nth-child(even) {
 
 p.tab1 {
 	background-color: #202020;
-	font-size:70%;
 }
 
 
 .note {
-	display:none;
-	position:absolute;
 	background-color: #EEFFEE;
 	color: #000000;
-	max-width: 400px;
-	padding: 4px;
-	z-index:1;
 }
 .note a {
 	color: black;
 }
 
 .io-github-shunshun94-trpg-ReplayV3-removetab1 {
-	position: absolute;
-	right:4px;
-	top: 4px;
 	background-color:tomato;
 	color:white;
-	border-radius:4px;
 }
 
 .io-github-shunshun94-trpg-ReplayV3-removetab1:hover {

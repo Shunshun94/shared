@@ -2,11 +2,6 @@
 
 @import url("./default.css");
 
-* {
-	box-sizing:border-box;
-	font-family: "BIZ UDゴシック","UD Shin Go NT Light JIS2004","UD デジタル 教科書体 N-R", Verdana, Roboto, "Droid Sans", "游ゴシック", YuGothic, "メイリオ", Meiryo, "ヒラギノ角ゴ ProN W3", "Hiragino Kaku Gothic ProN", "ＭＳ Ｐゴシック", sans-serif;
-}
-
 body {
 	color: white;
 	background-color:black;
@@ -35,5 +30,4 @@ p:nth-child(even) {
 
 p.tab1 {
 	background-color: #202020;
-	font-size:70%;
 }
