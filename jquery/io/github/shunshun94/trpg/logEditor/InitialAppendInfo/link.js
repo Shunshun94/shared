@@ -26,11 +26,16 @@ io.github.shunshun94.trpg.logEditor.Link.LIST = [
         name: 'GitHub',
         path: 'https://github.com/Shunshun94/shared/tree/master/jquery/io/github/shunshun94/trpg/logEditor/',
         desc: 'ソースコードをこちらで公開しています'
+    }, {
+        name: 'ほしいものリスト',
+        path: 'http://amzn.asia/8mNqdKy',
+        desc: '支援などはこちらにお願いします'
     }
 ];
 
 io.github.shunshun94.trpg.logEditor.Link.buildHtml = (list = io.github.shunshun94.trpg.logEditor.Link.getList()) => {
     const result = document.createElement('dl');
+    result.className = 'io-github-shunshun94-trpg-logEditor-Link';
     list.map((elem)=>{
         const title = document.createElement('dt');
         const titleLink = document.createElement('a');

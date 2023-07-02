@@ -412,6 +412,10 @@ h2 {
 	background-color: rgba(200, 200, 200, 0.5);
 }
 
+.io-github-shunshun94-trpg-logEditor-Link dt {
+	padding-top:8px;
+}
+
 footer {
 	position:absolute;
 	bottom:0px;

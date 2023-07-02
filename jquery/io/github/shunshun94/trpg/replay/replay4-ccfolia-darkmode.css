@@ -1,19 +1,11 @@
 @charset "utf-8";
-* {
-	box-sizing:border-box;
-	font-family: "BIZ UDゴシック","UD Shin Go NT Light JIS2004","UD デジタル 教科書体 N-R", Verdana, Roboto, "Droid Sans", "游ゴシック", YuGothic, "メイリオ", Meiryo, "ヒラギノ角ゴ ProN W3", "Hiragino Kaku Gothic ProN", "ＭＳ Ｐゴシック", sans-serif;
-}
+
+@import url("./replay4-ccfolia.css");
 
 body {
 	background-color: #FFFFFF;
 }
 
-h1, h2, h3, h4, h5 {
-	width: 800px;
-	margin:auto;
-	margin-top: 12px;
-	padding-left: 12px;
-}
 h2, h3 {
 	border-bottom: black 3px double;
 	border-top: black 1px solid;
@@ -23,86 +15,26 @@ h4 {
 	border-bottom: black 3px double;
 }
 
-body>p, footer>p, header>p {
-	margin-top:0px;
-	margin-bottom:0px;
-	margin:auto;
-	padding-top:4px;
-	padding-bottom:4px;
-	width: 800px;
-	line-height: 130%;
-	position: relative;
-}
-
 p:nth-child(even) {
 	background-color: #000020;
 }
 
-hr {
-	width: 800px;
-}
-
-sup {
-	color:blue;
-	font-weight: bold;
-	font-size: 80%;
-}
-sup:hover {
-	color:skyblue;
-}
-
 p.tab1 {
 	background-color: #202020;
-	font-size:70%;
 }
 
-.tab1 .name:before{
-	content:"【雑談】"
-}
-
-p > span:nth-child(1) {
-	display:none;
-}
-
-p > span:nth-child(2) {
-	display:block;
-	font-weight: bold;
-	vertical-align:top;
-}
-p > span:nth-child(3) {
-	display: block;
-	padding-left:1em;
-}
-
-header, footer {
-	font-size: 80%;
-	width: 800px;
-	margin:auto;
-}
-footer {
-	text-align: right;
-}
 
 .note {
-	display:none;
-	position:absolute;
 	background-color: #EEFFEE;
 	color: #000000;
-	max-width: 400px;
-	padding: 4px;
-	z-index:1;
 }
 .note a {
 	color: black;
 }
 
 .io-github-shunshun94-trpg-ReplayV3-removetab1 {
-	position: absolute;
-	right:4px;
-	top: 4px;
 	background-color:tomato;
 	color:white;
-	border-radius:4px;
 }
 
 .io-github-shunshun94-trpg-ReplayV3-removetab1:hover {

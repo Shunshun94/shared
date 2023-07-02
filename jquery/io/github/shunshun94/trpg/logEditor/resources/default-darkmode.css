@@ -1,18 +1,12 @@
 @charset "utf-8";
-* {
-	box-sizing:border-box;
-	font-family: "BIZ UDゴシック","UD Shin Go NT Light JIS2004","UD デジタル 教科書体 N-R", Verdana, Roboto, "Droid Sans", "游ゴシック", YuGothic, "メイリオ", Meiryo, "ヒラギノ角ゴ ProN W3", "Hiragino Kaku Gothic ProN", "ＭＳ Ｐゴシック", sans-serif;
-}
+
+@import url("./default.css");
 
 body {
 	color: white;
 	background-color:black;
 }
 
-h1, h2, h3, h4, h5 {
-	margin-top: 12px;
-	padding-left: 12px;
-}
 h2, h3 {
 	border-bottom: white 3px double;
 	border-top: white 1px solid;
@@ -20,17 +14,6 @@ h2, h3 {
 
 h4 {
 	border-bottom: white 3px double;
-}
-
-body>* {
-	margin-top:0px;
-	margin-bottom:0px;
-	margin:auto;
-	padding-top:4px;
-	padding-bottom:4px;
-	width: 800px;
-	line-height: 130%;
-	position: relative;
 }
 
 a:link {
@@ -45,57 +28,6 @@ p:nth-child(even) {
 	background-color: #000020;
 }
 
-hr {
-	width: 800px;
-}
-
-sup {
-	color:blue;
-	font-weight: bold;
-	font-size: 80%;
-}
-sup:hover {
-	color:skyblue;
-}
-
 p.tab1 {
 	background-color: #202020;
-	font-size:70%;
-}
-
-.tab1 .name:before{
-	content:"【雑談】"
-}
-
-p > span:nth-child(1) {
-	display:none;
-}
-
-p > span:nth-child(2) {
-	display:block;
-	font-weight: bold;
-}
-p > span:nth-child(3) {
-	display: block;
-	padding-left:1em;
-}
-
-.resource-table-no_info {
-    background-color:gray;
-}
-
-.resource-table-updated {
-    font-weight: bold;
-}
-
-.resource-table-columnName::after {
-    content: ' : ';
-}
-
-.resource-table-value-before::after {
-    content: ' → ';
-}
-
-.resource-table-value-max::before {
-    content: ' / ';
 }
