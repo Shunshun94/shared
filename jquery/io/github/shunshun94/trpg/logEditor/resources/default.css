@@ -86,3 +86,33 @@ p > span:nth-child(3) {
 .resource-table-value-max::before {
     content: ' / ';
 }
+
+@media screen and (max-width:800px) {
+	body>* {
+		width: 90%;
+		min-width:320px;
+	}
+	p {
+		font-size: 80%;
+	}
+
+	hr {
+		width: 90%;
+	}
+
+	h1 {
+		font-size:1.6em;
+	}
+
+	h2 {
+		font-size:1.4em;
+	}
+
+	h3 {
+		font-size:1.2em;
+	}
+
+	h4 {
+		font-size:1em;
+	}
+}
