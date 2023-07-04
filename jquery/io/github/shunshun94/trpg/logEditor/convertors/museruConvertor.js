@@ -26,7 +26,10 @@ io.github.shunshun94.trpg.logEditor.convertors.MuseruConvertor.postToJson = (pos
 	};
 	const postElements = post.childNodes;
 	result.tabName = postElements[0].textContent;
-    result.class = io.github.shunshun94.trpg.logEditor.convertors.MuseruConvertor.DEFAULT_TABS_CLASS[postElements[0].textContent] || 'tab1';
+	if(! io.github.shunshun94.trpg.logEditor.convertors.MuseruConvertor.DEFAULT_TABS_CLASS[result.tabName]) {
+		io.github.shunshun94.trpg.logEditor.convertors.MuseruConvertor.DEFAULT_TABS_CLASS[result.tabName] = `tab${Object.keys(io.github.shunshun94.trpg.logEditor.convertors.MuseruConvertor.DEFAULT_TABS_CLASS).length}`;
+	}
+    result.class = io.github.shunshun94.trpg.logEditor.convertors.MuseruConvertor.DEFAULT_TABS_CLASS[result.tabName];
 
     const postBodyElement = postElements[1];
 	result.name = postBodyElement.childNodes[0].textContent;
