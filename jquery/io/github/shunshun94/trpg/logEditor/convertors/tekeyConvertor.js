@@ -24,7 +24,8 @@ io.github.shunshun94.trpg.logEditor.convertors.TekeyV1Converter.postToJson = (po
 		tag: 'p',
 		style: post.element.getAttribute('style') || '',
 		id: '',
-		class: post.class
+		class: post.class,
+		tabName: post.tabName
 	};
 	const postElements = post.element.childNodes;
 	result.name = postElements[0].textContent;
@@ -38,8 +39,12 @@ io.github.shunshun94.trpg.logEditor.convertors.TekeyV1Converter.htmlToJson = (ra
 	const posts = [];
 	nodes.forEach((n, i)=>{
 		if( i % 3 === 0) {
+			const tabName = n.textContent.trim() || '[システム]';
+			if(! io.github.shunshun94.trpg.logEditor.convertors.TekeyV1Converter.DEFAULT_TABS_CLASS[tabName]) {
+				io.github.shunshun94.trpg.logEditor.convertors.TekeyV1Converter.DEFAULT_TABS_CLASS[tabName] = `tab${Object.keys(io.github.shunshun94.trpg.logEditor.convertors.TekeyV1Converter.DEFAULT_TABS_CLASS).length}`;
+			}
 			posts.push({
-				class: io.github.shunshun94.trpg.logEditor.convertors.TekeyV1Converter.DEFAULT_TABS_CLASS[n.textContent.trim()] || 'tab1',
+				class: io.github.shunshun94.trpg.logEditor.convertors.TekeyV1Converter.DEFAULT_TABS_CLASS[tabName] || 'tab1',
 				tabName: n.textContent.trim()
 			});
 		}
@@ -50,7 +55,8 @@ io.github.shunshun94.trpg.logEditor.convertors.TekeyV1Converter.htmlToJson = (ra
 	return {
 		doms: posts.filter((p)=>{return p.class && p.element}).map(io.github.shunshun94.trpg.logEditor.convertors.TekeyV1Converter.postToJson),
 		omitted: [],
-		head: ''
+		head: '',
+		tabs: io.github.shunshun94.trpg.logEditor.convertors.TekeyV1Converter.DEFAULT_TABS_CLASS
 	};
 };
 
@@ -68,11 +74,13 @@ io.github.shunshun94.trpg.logEditor.convertors.TekeyV2Converter.dropEventToJson 
 io.github.shunshun94.trpg.logEditor.convertors.TekeyV2Converter.postToJson = (post) => {
 	const rawClassNameNumberExec = /tab(\d+)/.exec(post.className);
 	const rawClassNameNumber = rawClassNameNumberExec ? (Number(rawClassNameNumberExec[1]) - 1) : 0;
+	const tabName = `${rawClassNameNumber + 1}番目のタブ`;
 	const result = {
 		tag: 'p',
 		style: post.getAttribute('style') || '',
 		id: '',
-		class: rawClassNameNumber ? `tab${rawClassNameNumber}` : ''
+		class: rawClassNameNumber ? `tab${rawClassNameNumber}` : '',
+		tabName: tabName
 	};
 	post.removeChild(post.lastChild);
 	const postElements = post.childNodes;
