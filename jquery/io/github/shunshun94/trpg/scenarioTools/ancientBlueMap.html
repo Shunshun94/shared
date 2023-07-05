@@ -193,8 +193,38 @@ $('#dl_picture').click((e)=>{
 	});
 });
 
-
 $('.paragraph').off('contextmenu');
+
+const getHighlightedParagraphs = () => {
+	const query = viceCity.getQuery();
+	return (query['highlight'] || '').split(',');
+};
+
+const handleHighlight = (e)=>{
+	e.preventDefault();
+	const clicked = $(e.target);
+	if(clicked.hasClass('paragraph-code')) {
+		handleHighlight({target: clicked.parent(), preventDefault:()=>{}});
+		return;
+	}
+	const paragraphNum = /\d+/.exec($(clicked).attr('id'))[0];
+	const tag = $(`#paragraph-${paragraphNum}`);
+	const query = viceCity.getQuery();
+	const highlightedParagraphs = getHighlightedParagraphs();
+
+	if(highlightedParagraphs.includes(paragraphNum) ) {
+		viceCity.updatePage('highlight', highlightedParagraphs.filter((d)=>{return d !== paragraphNum}).join(','));
+	} else {
+		highlightedParagraphs.push(paragraphNum);
+		viceCity.updatePage('highlight', highlightedParagraphs.join(','));
+	}
+};
+
+getHighlightedParagraphs().forEach((d)=>{
+	$(`#paragraph-${d}`).addClass('paragraph-highlight');
+});
+
+$('.paragraph').on('contextmenu', handleHighlight);
 </script>
 
 </body>
