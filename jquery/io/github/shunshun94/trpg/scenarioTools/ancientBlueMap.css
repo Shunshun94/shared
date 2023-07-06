@@ -77,7 +77,19 @@ footer {
     background-repeat: no-repeat;
     background-size: contain;
     border:1px green solid;
+}
 
+.paragraph-highlight {
+    background-color:mistyrose;
+    background-image: url("./img/pin.png");
+    background-position: bottom;
+    background-repeat: no-repeat;
+    background-size: 20px 20px;
+    border:1px hotpink solid;
+}
+
+dt {
+    padding-top:8px;
 }
 
 #io-github-shunshun94-trpg-scenarioTools-AncientBlue > div {

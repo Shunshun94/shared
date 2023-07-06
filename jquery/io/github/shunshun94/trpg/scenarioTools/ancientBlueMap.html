@@ -92,17 +92,19 @@
 <div id="how_to_use">
 <h2>マップを共有する</h2>
 <p>このページのアドレスをそのままコピーして共有すれば同じマップを他の人も見ることができます</p>
-<h2>パラグラフを配置する</h2>
-<p>パラグラフが決定したブロックのドロップダウンリスト (<select><option>こんな感じの物</option></select>) からパラグラフを選択すればそのブロックが書き換わります</p>
+<h2>エリアを配置する</h2>
+<p>エリアが決定したブロックのドロップダウンリスト (<select><option>こんな感じの物</option></select>) からエリアを選択すればそのブロックが書き換わります</p>
 <h2>ブロックを移動する</h2>
 <p>移動先のブロックをクリックするとそのブロックが緑色になります。<br/>緑色のブロックを再度クリックすると現在位置が非表示になります。現在位置を表示したくない場合にご利用ください</p>
+<h2>ブロックをピン留めする</h2>
+<p>強調したいブロックを右クリックするとそのブロックが赤色になります。<br/>赤色のブロックを再度クリックするとピン留が外されます。特定の場所を強調表示したい場合にご利用ください。強調表示は複数のブロックについて行うことができます</p>
 <h2>変更を元に戻す</h2>
 <p>ブラウザの戻る機能を使えばひとつ前の状態に戻ります</p>
 <h2>リセット</h2>
 <p>ページ下部のリセットを押せば地図が初期化されます。</p>
 <h2>その他参照項</h2>
 <dl>
-	<dt>パラグラフ決定のルール</dt>
+	<dt>エリア決定のルール</dt>
 	<dd>18, 19頁（決定の手順）</dd>
 	<dd>143頁（ブロック決定表）</dd>
 	<dt>移動に関するルール</dt>
@@ -114,6 +116,14 @@
 ゆとシート用：<input type="text" readonly id="url_ytsheet"/><br/>
 　ＨＴＭＬ用：<input type="text" readonly id="url_html"/><br/>
 ダウンロード：<button id="dl_picture">地図を画像形式で取得</button></p>
+<h2>素材</h2>
+<dl>
+	<dt>現在位置のアイコン</dt>
+	<dd>illustAC で nobunobu さんが公開なさっている素材を利用しています（<a href="https://www.ac-illust.com/main/detail.php?id=94581" target="_blank" rel="noopener noreferrer">DL</a>）</dd>
+
+	<dt>ピン留した位置のアイコン</dt>
+	<dd>ICOOON MONO で opeconHeroes さんが公開なさっている素材を利用しています（<a href="https://icooon-mono.com/12716-%e6%8a%bc%e3%81%97%e3%83%94%e3%83%b3%e3%81%ae%e3%83%95%e3%83%aa%e3%83%bc%e3%82%a2%e3%82%a4%e3%82%b3%e3%83%b38/" target="_blank" rel="noopener noreferrer">DL</a>）</dd>
+</dl>
 
 <h2>作者連絡先</h2>
 <p><a href="https://twitter.com/Shunshun94">Twitter @Shunshun94</a> / <a href="http://amzn.asia/8mNqdKy">作者欲しいものリスト</a> / <a href="https://github.com/Shunshun94/shared/tree/master/jquery/io/github/shunshun94/trpg/scenarioTools">ソースコード</a></p>
@@ -207,7 +217,7 @@ const handleHighlight = (e)=>{
 		handleHighlight({target: clicked.parent(), preventDefault:()=>{}});
 		return;
 	}
-	const paragraphNum = /\d+/.exec($(clicked).attr('id'))[0];
+	const paragraphNum = /(fixed)?\d+/.exec($(clicked).attr('id'))[0];
 	const tag = $(`#paragraph-${paragraphNum}`);
 	const query = viceCity.getQuery();
 	const highlightedParagraphs = getHighlightedParagraphs();
@@ -225,6 +235,7 @@ getHighlightedParagraphs().forEach((d)=>{
 });
 
 $('.paragraph').on('contextmenu', handleHighlight);
+$('.paragraph-fixed').on('contextmenu', handleHighlight);
 </script>
 
 </body>
