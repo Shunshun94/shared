@@ -23,7 +23,7 @@ io.github.shunshun94.trpg.logEditor.FileLoader = io.github.shunshun94.trpg.logEd
 io.github.shunshun94.trpg.logEditor.FileLoader.bindInitialEvents = (body, input) => {
 	if(body) {
 		body.on('drop', (e) => {
-			io.github.shunshun94.trpg.logEditor.DOMS.BODY.css('background-color', '');
+			body.addClass('ondrop');
 			const targetFile = e.originalEvent.dataTransfer.files[0];
 			body.trigger(
 				io.github.shunshun94.trpg.logEditor.EVENTS.FILE_DROPED,
@@ -34,10 +34,10 @@ io.github.shunshun94.trpg.logEditor.FileLoader.bindInitialEvents = (body, input)
 		});
 		
 		body.on('dragleave', (e) => {
-			body.css('background-color', 'white');
+			body.removeClass('ondrop');
 		});
 		body.on('dragover', (e) => {
-			body.css('background-color', 'lightyellow');
+			body.addClass('ondrop');
 			e.preventDefault();
 		});
 	}

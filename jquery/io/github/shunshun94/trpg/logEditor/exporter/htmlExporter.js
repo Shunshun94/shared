@@ -143,8 +143,8 @@ io.github.shunshun94.trpg.logEditor.export.htmlExporter.domJsonToHtml = (json) =
 	return result.join('\n');
 };
 
-io.github.shunshun94.trpg.logEditor.export.htmlExporter.domListToHtml = (domList) => {
-	return (domList.head ? `<!DOCTYPE html>\n<html>\n${domList.head}\n<body>\n` : io.github.shunshun94.trpg.logEditor.export.htmlExporter.getPrefix('')) +
+io.github.shunshun94.trpg.logEditor.export.htmlExporter.domListToHtml = (domList, mode = '') => {
+	return (domList.head ? `<!DOCTYPE html>\n<html>\n${domList.head}\n<body>\n` : io.github.shunshun94.trpg.logEditor.export.htmlExporter.getPrefix(mode)) +
 			domList.doms.map(io.github.shunshun94.trpg.logEditor.export.htmlExporter.domJsonToHtml).join('\n') +
 			domList.omitted.join('\n') +
 			io.github.shunshun94.trpg.logEditor.export.htmlExporter.SUFFIX;
