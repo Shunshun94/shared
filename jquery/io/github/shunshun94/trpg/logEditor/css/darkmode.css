@@ -33,3 +33,11 @@ body.darkmode.ondrop {
 .darkmode .io-github-shunshun94-trpg-logEditor-preview p.tab1 {
 	background-color: #101010;
 }
+
+.darkmode a:link {
+	color: skyblue;
+}
+
+.darkmode a:visited {
+	color: pink;
+}
