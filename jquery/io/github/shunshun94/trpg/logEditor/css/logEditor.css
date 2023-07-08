@@ -8,6 +8,10 @@ body {
 	height:100%;
 }
 
+body.ondrop {
+	background-color: lightyellow;
+}
+
 .io-github-shunshun94-trpg-logEditor-save,
 .io-github-shunshun94-trpg-logEditor-deleteAll {
 	position:absolute;

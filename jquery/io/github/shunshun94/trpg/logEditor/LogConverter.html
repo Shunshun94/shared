@@ -17,10 +17,18 @@
 <link rel="stylesheet" href="css/logEditor.css" type="text/css" />
 <link rel="stylesheet" href="css/darkmode.css" type="text/css" />
 <link rel="stylesheet" href="css/experimentalMode.css" type="text/css" />
+<style>
+	#switch-darkmode:after {
+		content: '出力の背景色を黒に変える';
+	}
+	.darkmode #switch-darkmode:after {
+		content: '出力の背景色を白に変える';
+	}
+</style>
 </head>
 <body>
 <script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script>
-
+<button id="switch-darkmode" style="z-index:2;position:absolute;top:8px;right:8px;"></button>
 <script>
 var io = io || {};
 io.github = io.github || {};
@@ -54,12 +62,15 @@ io.github.shunshun94.trpg.logEditor.EVENTS = {
 <script>
 io.github.shunshun94.trpg.logEditor.DOMS.BODY.on(io.github.shunshun94.trpg.logEditor.EVENTS.FILE_LOADED, (e, domList)=>{
 	io.github.shunshun94.trpg.logEditor.FileLoader.filtTabs(domList).then((filteredDomList)=>{
-		io.github.shunshun94.trpg.logEditor.export.htmlExporter.download(io.github.shunshun94.trpg.logEditor.export.htmlExporter.domListToHtml(filteredDomList));
+		const appendClass = ((io.github.shunshun94.trpg.logEditor.DOMS.BODY.attr('class') || '').match(/[a-z0-9A-Z]+mode/) || [''])[0];
+		io.github.shunshun94.trpg.logEditor.export.htmlExporter.download(io.github.shunshun94.trpg.logEditor.export.htmlExporter.domListToHtml(filteredDomList, appendClass));
 		io.github.shunshun94.trpg.logEditor.FileLoader.bindInitialEvents(io.github.shunshun94.trpg.logEditor.DOMS.BODY);
 	});
 });
+
+$('#switch-darkmode').click((e)=>{
+	io.github.shunshun94.trpg.logEditor.DOMS.BODY.toggleClass('darkmode');
+});
 </script>
-
-
 </body>
 </html>
