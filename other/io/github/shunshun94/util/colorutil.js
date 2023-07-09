@@ -122,6 +122,35 @@ io.github.shunshun94.util.Color.fitNumber = function(val, opt_min, opt_max) {
 	return val;
 };
 
+io.github.shunshun94.util.Color.RgbToHsl = function(red, green, blue) {
+	const rgbArray = [red, green, blue];
+	const rgbMax = Math.max.apply(this, rgbArray);
+	const rgbMin = Math.min.apply(this, rgbArray);
+	const r = 0, g = 1, b = 2;
+
+	var h = 0;
+	if(rgbArray[r] === rgbArray[g] && rgbArray[r] === rgbArray[b]) {
+		// noaction
+	} else if ( rgbArray[r] >= rgbArray[g] && rgbArray[r] >= rgbArray[b] ) {
+		h = 60 * ( (rgbArray[g] - rgbArray[b] ) / (rgbMax - rgbMin) );
+	} else if ( rgbArray[g] >= rgbArray[r] && rgbArray[g] >= rgbArray[b] ) {
+		h = 60 * ( (rgbArray[b] - rgbArray[r] ) / (rgbMax - rgbMin) ) + 120;
+	} else if ( rgbArray[b] >= rgbArray[r] && rgbArray[b] >= rgbArray[g] ) {
+		h = 60 * ( (rgbArray[r] - rgbArray[g] ) / (rgbMax - rgbMin) ) + 240;
+	}
+	h = (h < 0) ? h + 360 : h;
+
+	var l = (rgbMax + rgbMin) / 2;
+
+	var s = 50;
+	if( l > 128 ) {
+		s = (rgbMax - rgbMin) / (510 - (rgbMax + rgbMin));
+	} else {
+		s = (rgbMax - rgbMin) / (rgbMax + rgbMin);
+	}
+
+	return {h: h, s: s * 100, l: l * 100 / 255};
+};
 io.github.shunshun94.util.Color.HslToRgb = function(h, s, l) {
 	// Copy from https://gist.github.com/mjackson/5311256
 	h = h / 360;
