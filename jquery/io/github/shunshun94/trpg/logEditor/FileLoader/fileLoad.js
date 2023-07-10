@@ -23,7 +23,7 @@ io.github.shunshun94.trpg.logEditor.FileLoader = io.github.shunshun94.trpg.logEd
 io.github.shunshun94.trpg.logEditor.FileLoader.bindInitialEvents = (body, input) => {
 	if(body) {
 		body.on('drop', (e) => {
-			body.addClass('ondrop');
+			body.removeClass('ondrop');
 			const targetFile = e.originalEvent.dataTransfer.files[0];
 			body.trigger(
 				io.github.shunshun94.trpg.logEditor.EVENTS.FILE_DROPED,
