@@ -22,7 +22,7 @@ io.github.shunshun94.trpg.logEditor.convertors.TekeyV1Converter.dropEventToJson 
 io.github.shunshun94.trpg.logEditor.convertors.TekeyV1Converter.postToJson = (post) => {
 	const result = {
 		tag: 'p',
-		style: post.element.getAttribute('style') || '',
+		style: (post.element.getAttribute('style') || '') + (post.element.getAttribute('color') ? `color: ${post.element.getAttribute('color')};` : ''),
 		id: '',
 		class: post.class,
 		tabName: post.tabName

@@ -44,6 +44,7 @@ io.github.shunshun94.trpg.logEditor.EVENTS = {
 };
 </script>
 <script src="https://cdn.jsdelivr.net/npm/jszip@3.2.1/dist/jszip.js"></script>
+<script src="../../../../../../other/io/github/shunshun94/util/colorutil.js"></script>
 <script src="./consts.js"></script>
 <script src="./convertors/ccfoliaConvertor.js"></script>
 <script src="./convertors/udonariumConvertor.js"></script>
@@ -60,16 +61,70 @@ io.github.shunshun94.trpg.logEditor.EVENTS = {
 <script src="./FileLoader/fileLoad.js"></script>
 <script src="./FileLoader/tabFilter.js"></script>
 <script>
+const darkmode = 'darkmode';
+const getBehaviorByMode = (mode) => {
+	if(mode === darkmode) {
+		return {
+			defaultColor: 'white',
+			modifyColor: (color)=>{
+				if(color.l < 30) {
+					color.l += 40;
+					return color;
+				} else {
+					return color;
+				}
+			}
+		}
+	} else {
+		return {
+			defaultColor: 'black',
+			modifyColor: (color)=>{
+				if(color.l > 70) {
+					color.l -= 40;
+					return color;
+				} else {
+					return color;
+				}
+			}
+		}
+	}
+};
+
+const modifyColors = (domList, mode) => {
+	const colorMap = {};
+	const behavior = getBehaviorByMode(mode);
+	const getModifiedColor = (baseColor) => {
+		if(colorMap[baseColor]) {return colorMap[baseColor];}
+		const rgbColor = io.github.shunshun94.util.Color.colorConvert(currentColor);
+		const hslColor = io.github.shunshun94.util.Color.RgbToHsl(rgbColor.r, rgbColor.g, rgbColor.b);
+		const modifiedColorObject = behavior.modifyColor(hslColor);
+		colorMap[baseColor] = `hsl(${Math.floor(modifiedColorObject.h)}, ${Math.floor(modifiedColorObject.s)}%, ${Math.floor(modifiedColorObject.l)}%)`;
+		return colorMap[baseColor];
+	};
+	return domList.doms.map((post)=>{
+		const execResult = /color:\s*([^;]*);?/.exec(post.style);
+		const currentColor = execResult ? execResult[1] : defaultColor;
+		const modifiedColor = getModifiedColor(currentColor);
+		const replaceTarget = execResult ? execResult[0] : '';
+		if(replaceTarget) {
+			post.style = post.style.replace(replaceTarget, `color: ${modifiedColor};`);
+		} else {
+			post.style = `color: ${modifiedColor};${post.style}`;
+		}
+		return post;
+	});
+};
 io.github.shunshun94.trpg.logEditor.DOMS.BODY.on(io.github.shunshun94.trpg.logEditor.EVENTS.FILE_LOADED, (e, domList)=>{
 	io.github.shunshun94.trpg.logEditor.FileLoader.filtTabs(domList).then((filteredDomList)=>{
 		const appendClass = ((io.github.shunshun94.trpg.logEditor.DOMS.BODY.attr('class') || '').match(/[a-z0-9A-Z]+mode/) || [''])[0];
+
 		io.github.shunshun94.trpg.logEditor.export.htmlExporter.download(io.github.shunshun94.trpg.logEditor.export.htmlExporter.domListToHtml(filteredDomList, appendClass));
 		io.github.shunshun94.trpg.logEditor.FileLoader.bindInitialEvents(io.github.shunshun94.trpg.logEditor.DOMS.BODY);
 	});
 });
 
 $('#switch-darkmode').click((e)=>{
-	io.github.shunshun94.trpg.logEditor.DOMS.BODY.toggleClass('darkmode');
+	io.github.shunshun94.trpg.logEditor.DOMS.BODY.toggleClass(darkmode);
 });
 </script>
 </body>
