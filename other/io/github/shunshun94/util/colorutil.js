@@ -142,11 +142,18 @@ io.github.shunshun94.util.Color.RgbToHsl = function(red, green, blue) {
 
 	var l = (rgbMax + rgbMin) / 2;
 
-	var s = 50;
 	if( l > 128 ) {
-		s = (rgbMax - rgbMin) / (510 - (rgbMax + rgbMin));
+		if((rgbMax === rgbMin) && (rgbMin === 255)) {
+			s = 1;
+		} else {
+			s = (rgbMax - rgbMin) / (510 - (rgbMax + rgbMin));
+		}
 	} else {
-		s = (rgbMax - rgbMin) / (rgbMax + rgbMin);
+		if(rgbMax === rgbMin) {
+			s = 1
+		} else {
+			s = (rgbMax - rgbMin) / (rgbMax + rgbMin);
+		}
 	}
 
 	return {h: h, s: s * 100, l: l * 100 / 255};
