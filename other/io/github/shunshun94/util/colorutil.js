@@ -144,13 +144,13 @@ io.github.shunshun94.util.Color.RgbToHsl = function(red, green, blue) {
 
 	if( l > 128 ) {
 		if((rgbMax === rgbMin) && (rgbMin === 255)) {
-			s = 1;
+			s = 0;
 		} else {
 			s = (rgbMax - rgbMin) / (510 - (rgbMax + rgbMin));
 		}
 	} else {
 		if(rgbMax === rgbMin) {
-			s = 1
+			s = 0;
 		} else {
 			s = (rgbMax - rgbMin) / (rgbMax + rgbMin);
 		}
