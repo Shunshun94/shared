@@ -28,7 +28,11 @@
 </head>
 <body>
 <script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script>
-<button id="switch-darkmode" style="z-index:2;position:absolute;top:8px;right:8px;"></button>
+<button id="switch-darkmode" style="z-index:2;position:absolute;top:8px;right:8px;width:180px;"></button>
+<div style="z-index:2;position:absolute;top:36px;right:8px;width:180px;">
+	<input id="switch-colormodify" type="checkbox"  style="position:relative;left:-4px;" checked/>
+	<label style="position:relative;left:-12px;">文字色を補正する</label>
+</div>
 <script>
 var io = io || {};
 io.github = io.github || {};
@@ -67,8 +71,8 @@ const getBehaviorByMode = (mode) => {
 		return {
 			defaultColor: 'white',
 			modifyColor: (color)=>{
-				if(color.l < 70) {
-					color.l = 70;
+				if(color.l < 60) {
+					color.l = 60;
 					return color;
 				} else {
 					return color;
@@ -79,8 +83,8 @@ const getBehaviorByMode = (mode) => {
 		return {
 			defaultColor: 'black',
 			modifyColor: (color)=>{
-				if(color.l > 30) {
-					color.l = 30;
+				if(color.l > 40) {
+					color.l = 40;
 					return color;
 				} else {
 					return color;
@@ -99,7 +103,6 @@ const modifyColors = (doms, mode) => {
 		const hslColor = io.github.shunshun94.util.Color.RgbToHsl(rgbColor.r, rgbColor.g, rgbColor.b);
 		const modifiedColorObject = behavior.modifyColor(hslColor);
 		colorMap[baseColor] = `hsl(${Math.floor(modifiedColorObject.h)}, ${Math.floor(modifiedColorObject.s)}%, ${Math.floor(modifiedColorObject.l)}%)`;
-		console.log(colorMap, rgbColor, hslColor, modifiedColorObject);
 		return colorMap[baseColor];
 	};
 	return doms.map((post)=>{
@@ -118,7 +121,9 @@ const modifyColors = (doms, mode) => {
 io.github.shunshun94.trpg.logEditor.DOMS.BODY.on(io.github.shunshun94.trpg.logEditor.EVENTS.FILE_LOADED, (e, domList)=>{
 	io.github.shunshun94.trpg.logEditor.FileLoader.filtTabs(domList).then((filteredDomList)=>{
 		const appendClass = ((io.github.shunshun94.trpg.logEditor.DOMS.BODY.attr('class') || '').match(/[a-z0-9A-Z]+mode/) || [''])[0];
-		domList.doms = modifyColors(domList.doms, appendClass);
+		if(document.getElementById('switch-colormodify').checked) {
+			domList.doms = modifyColors(domList.doms, appendClass);
+		}
 		io.github.shunshun94.trpg.logEditor.export.htmlExporter.download(io.github.shunshun94.trpg.logEditor.export.htmlExporter.domListToHtml(filteredDomList, appendClass));
 		io.github.shunshun94.trpg.logEditor.FileLoader.bindInitialEvents(io.github.shunshun94.trpg.logEditor.DOMS.BODY);
 	});
