@@ -1,0 +1,13 @@
+<script src=".//colorutil.js"></script>
+<script>
+    Object.keys(io.github.shunshun94.util.Color.ColorList).forEach((cname)=>{
+        const targetColor = io.github.shunshun94.util.Color.ColorList[cname];
+        const hsl = io.github.shunshun94.util.Color.RgbToHsl(targetColor.r, targetColor.g, targetColor.b);
+        const rgb = io.github.shunshun94.util.Color.HslToRgb(hsl.h, hsl.s, hsl.l);
+        if(rgb.code.toUpperCase() !== targetColor.code.toUpperCase()) {
+            console.error(`${cname}（${targetColor.code}） could not be converted.`,
+            targetColor.code.toUpperCase(),
+            rgb.code.toUpperCase(), hsl);
+        }
+    });
+</script>
