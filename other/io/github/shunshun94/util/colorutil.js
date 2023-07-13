@@ -190,9 +190,9 @@ io.github.shunshun94.util.Color.HslToRgb = function(h, s, l) {
 	}
 
 	var result = [
-	              Math.max(0, Math.min(Math.round(r * 256), 255)),
-	              Math.max(0, Math.min(Math.round(g * 256), 255)),
-	              Math.max(0, Math.min(Math.round(b * 256), 255)) ];
+	              Math.max(0, Math.min(Math.floor(r * 256), 255)),
+	              Math.max(0, Math.min(Math.floor(g * 256), 255)),
+	              Math.max(0, Math.min(Math.floor(b * 256), 255)) ];
 	return {
 		r: result[0], g: result[1], b: result[2],
 		code: io.github.shunshun94.util.Color.arrayToColorCode(result)
