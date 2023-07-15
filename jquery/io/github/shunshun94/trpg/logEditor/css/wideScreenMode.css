@@ -22,6 +22,10 @@
     padding-bottom:16px;
   }
 
+  #mainEditor .io-github-shunshun94-trpg-logEditor-Post-name {
+    width:400px;
+  }
+
   #mainEditor .io-github-shunshun94-trpg-logEditor-Post-parentheses {
     top:116px;
     bottom:auto;
