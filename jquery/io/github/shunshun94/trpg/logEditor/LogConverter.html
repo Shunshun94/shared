@@ -64,65 +64,13 @@ io.github.shunshun94.trpg.logEditor.EVENTS = {
 <script src="./InitialAppendInfo/link.js"></script>
 <script src="./FileLoader/fileLoad.js"></script>
 <script src="./FileLoader/tabFilter.js"></script>
+<script src="./color/contrastUtil.js"></script>
 <script>
-const darkmode = 'darkmode';
-const getBehaviorByMode = (mode) => {
-	if(mode === darkmode) {
-		return {
-			defaultColor: 'white',
-			modifyColor: (color)=>{
-				if(color.l < 60) {
-					color.l = 60;
-					return color;
-				} else {
-					return color;
-				}
-			}
-		};
-	} else {
-		return {
-			defaultColor: 'black',
-			modifyColor: (color)=>{
-				if(color.l > 40) {
-					color.l = 40;
-					return color;
-				} else {
-					return color;
-				}
-			}
-		};
-	}
-};
-
-const modifyColors = (doms, mode) => {
-	const colorMap = {};
-	const behavior = getBehaviorByMode(mode);
-	const getModifiedColor = (baseColor) => {
-		if(colorMap[baseColor]) {return colorMap[baseColor];}
-		const rgbColor = io.github.shunshun94.util.Color.colorConvert(baseColor);
-		const hslColor = io.github.shunshun94.util.Color.RgbToHsl(rgbColor.r, rgbColor.g, rgbColor.b);
-		const modifiedColorObject = behavior.modifyColor(hslColor);
-		colorMap[baseColor] = `hsl(${Math.floor(modifiedColorObject.h)}, ${Math.floor(modifiedColorObject.s)}%, ${Math.floor(modifiedColorObject.l)}%)`;
-		return colorMap[baseColor];
-	};
-	return doms.map((post)=>{
-		const execResult = /color:\s*([^;]*);?/.exec(post.style);
-		const currentColor = execResult ? execResult[1] : behavior.defaultColor;
-		const modifiedColor = getModifiedColor(currentColor);
-		const replaceTarget = execResult ? execResult[0] : '';
-		if(replaceTarget) {
-			post.style = post.style.replace(replaceTarget, `color: ${modifiedColor};`);
-		} else {
-			post.style = `color: ${modifiedColor};${post.style}`;
-		}
-		return post;
-	});
-};
 io.github.shunshun94.trpg.logEditor.DOMS.BODY.on(io.github.shunshun94.trpg.logEditor.EVENTS.FILE_LOADED, (e, domList)=>{
 	io.github.shunshun94.trpg.logEditor.FileLoader.filtTabs(domList).then((filteredDomList)=>{
 		const appendClass = ((io.github.shunshun94.trpg.logEditor.DOMS.BODY.attr('class') || '').match(/[a-z0-9A-Z]+mode/) || [''])[0];
 		if(document.getElementById('switch-colormodify').checked) {
-			domList.doms = modifyColors(domList.doms, appendClass);
+			domList.doms = io.github.shunshun94.trpg.logEditor.color.contrastUtil.modifyColors(domList.doms, appendClass);
 		}
 		io.github.shunshun94.trpg.logEditor.export.htmlExporter.download(io.github.shunshun94.trpg.logEditor.export.htmlExporter.domListToHtml(filteredDomList, appendClass));
 		io.github.shunshun94.trpg.logEditor.FileLoader.bindInitialEvents(io.github.shunshun94.trpg.logEditor.DOMS.BODY);
