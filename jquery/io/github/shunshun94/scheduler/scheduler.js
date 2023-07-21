@@ -569,9 +569,9 @@ io.github.shunshun94.scheduler.Scheduler.generateSchedule = (
 	id,
 	label,
 	startDate,
-	length = 540,
-	prepare = 0,
-	tidyUp = 0
+	length  = io.github.shunshun94.scheduler.Scheduler.DEFAULT_VALUE.LENGTH,
+	prepare = io.github.shunshun94.scheduler.Scheduler.DEFAULT_VALUE.PREPARE,
+	tidyUp  = io.github.shunshun94.scheduler.Scheduler.DEFAULT_VALUE.TIDY_UP
 ) => {
 	var result = {};
 	startDateNum = Number(startDate);
@@ -721,6 +721,15 @@ io.github.shunshun94.scheduler.Scheduler.INITIAL_EXPIRE_DATE.VALUES = {
 	HOUR: 9, MIN: 0
 };
 
+io.github.shunshun94.scheduler.Scheduler.MESSAGE = {
+	EXPIRED: 'This environment has expired. Environment cannot be started'
+};
+io.github.shunshun94.scheduler.Scheduler.DEFAULT_VALUE = {
+	PREPARE: 120,
+	TIDY_UP: 30,
+	LENGTH: 240
+};
+
 io.github.shunshun94.scheduler.Scheduler.INITIAL_SCHEDULE = [0,1,3,7].map((diff, i) => {
 	const startDate = new Date(
 			io.github.shunshun94.scheduler.Scheduler.INITIAL_SCHEDULE_BASEDATE.VALUES.YEAR,
@@ -735,16 +744,6 @@ io.github.shunshun94.scheduler.Scheduler.INITIAL_SCHEDULE = [0,1,3,7].map((diff,
 			`${(io.github.shunshun94.scheduler.Scheduler.INITIAL_SCHEDULE_BASEDATE.VALUES.HOUR + 9 + (24 * i)) % 24}:` +
 			`${String((io.github.shunshun94.scheduler.Scheduler.INITIAL_SCHEDULE_BASEDATE.VALUES.MIN + 540 + 60 * 24 * i) % 60).padStart(2, '0')}`,
 			startDate,
-			540 + (60 * 24 * i), 120, 30
+			540 + (60 * 24 * i)
 	);
 });
-
-io.github.shunshun94.scheduler.Scheduler.MESSAGE = {
-	EXPIRED: 'This environment has expired. Environment cannot be started'
-};
-io.github.shunshun94.scheduler.Scheduler.DEFAULT_VALUE = {
-	PREPARE: 120,
-	TIDY_UP: 30,
-	LENGTH: 240
-	
-};
