@@ -133,14 +133,18 @@
                 {
                     "name": "【募集中】～6月30日 20時～『駆け出し冒険者』",
                     "expected": "～06/30 20:00"
+                },
+                {
+                    "name": "【募集中】8/18（金）20:00~　魔動機技師捜索",
+                    "expected": "08/18 20:00"
                 }
             ].map((pattern, i)=>{
                 const actual = io.github.shunshun94.util.DateTimePicker.pick(pattern.name);
                 if(actual.text === pattern.expected) {
-                    return `<div class="passed">PASSED:    ${pattern.name}<br/>OUTPUT: 　${actual.text}<br/>D_REGEXP: ${JSON.stringify(actual.dateRegExp)}<br/>T_REGEXP: ${JSON.stringify(actual.timeRegExp)}</div>`;
+                    return `<div class="passed">PASSED:    ${pattern.name}<br/>TEXT:   　${actual.datetimeRevmoed}<br/>OUTPUT: 　${actual.text}<br/>D_REGEXP: ${JSON.stringify(actual.dateRegExp)}<br/>T_REGEXP: ${JSON.stringify(actual.timeRegExp)}</div>`;
                     report.passed++;
                 } else {
-                    return `<div class="failed">FAILED:    ${pattern.name}<br/>EXPECTED: ${pattern.expected}<br/>ACTUAL: 　${actual.text}<br/>D_REGEXP: ${JSON.stringify(actual.dateRegExp)}<br/>T_REGEXP: ${JSON.stringify(actual.timeRegExp)}</div>`;
+                    return `<div class="failed">FAILED:    ${pattern.name}<br/>TEXT:   　${actual.datetimeRevmoed}<br/>EXPECTED: ${pattern.expected}<br/>ACTUAL: 　${actual.text}<br/>D_REGEXP: ${JSON.stringify(actual.dateRegExp)}<br/>T_REGEXP: ${JSON.stringify(actual.timeRegExp)}</div>`;
                     report.failed++;
                 }
             }).join('\n');
