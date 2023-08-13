@@ -39,21 +39,49 @@ io.github.shunshun94.trpg.logEditor.color.contrastUtil.getBehaviorByMode = (mode
 	}
 };
 
-io.github.shunshun94.trpg.logEditor.color.contrastUtil.modifyColors = (doms, mode) => {
+io.github.shunshun94.trpg.logEditor.color.contrastUtil.generateInitColorMap = (doms, behavior) => {
 	const colorMap = {};
-	const behavior = io.github.shunshun94.trpg.logEditor.color.contrastUtil.getBehaviorByMode(mode);
-	const getModifiedColor = (baseColor) => {
-		if(colorMap[baseColor]) {return colorMap[baseColor];}
-		const rgbColor = io.github.shunshun94.util.Color.colorConvert(baseColor);
-		const hslColor = io.github.shunshun94.util.Color.RgbToHsl(rgbColor.r, rgbColor.g, rgbColor.b);
-		const modifiedLightnessColorObject = behavior.modifyLightnessColor(hslColor);
-		colorMap[baseColor] = `hsl(${Math.floor(modifiedLightnessColorObject.h)}, ${Math.floor(modifiedLightnessColorObject.s)}%, ${Math.floor(modifiedLightnessColorObject.l)}%)`;
-		return colorMap[baseColor];
-	};
-	const tmpResult = doms.map((post)=>{
+
+	doms.forEach((post)=>{
 		const execResult = /color:\s*([^;]*);?/.exec(post.style);
 		const currentColor = execResult ? execResult[1] : behavior.defaultColor;
-		const modifiedColor = getModifiedColor(currentColor);
+		const rgbColor = io.github.shunshun94.util.Color.colorConvert(currentColor);
+		const hslColor = io.github.shunshun94.util.Color.RgbToHsl(rgbColor.r, rgbColor.g, rgbColor.b);
+		colorMap[currentColor] = hslColor;
+	});
+	return colorMap;
+};
+
+io.github.shunshun94.trpg.logEditor.color.contrastUtil.modifyLightnessColor = (colorMap, behavior) => {
+	const result = {};
+	for(var key in colorMap) {
+		result[key] = behavior.modifyLightnessColor(colorMap[key]);
+	}
+	return result;
+};
+
+io.github.shunshun94.trpg.logEditor.color.contrastUtil.modifyColorMapToTextFormat = (colorMap) => {
+	const result = {};
+	for(var key in colorMap) {
+		modifiedLightnessColorObject = colorMap[key]
+		result[key] = `hsl(${Math.floor(modifiedLightnessColorObject.h)}, ${Math.floor(modifiedLightnessColorObject.s)}%, ${Math.floor(modifiedLightnessColorObject.l)}%)`;
+	}
+	return result;
+};
+
+io.github.shunshun94.trpg.logEditor.color.contrastUtil.modifyColors = (doms, mode) => {
+	const behavior = io.github.shunshun94.trpg.logEditor.color.contrastUtil.getBehaviorByMode(mode);
+	const colorMap = [
+		io.github.shunshun94.trpg.logEditor.color.contrastUtil.modifyLightnessColor,
+		io.github.shunshun94.trpg.logEditor.color.contrastUtil.modifyColorMapToTextFormat
+	].reduce((currentColorMap, func)=>{
+		return func(currentColorMap, behavior)
+	}, io.github.shunshun94.trpg.logEditor.color.contrastUtil.generateInitColorMap(doms, behavior));
+
+	return doms.map((post)=>{
+		const execResult = /color:\s*([^;]*);?/.exec(post.style);
+		const currentColor = execResult ? execResult[1] : behavior.defaultColor;
+		const modifiedColor = colorMap[currentColor];
 		const replaceTarget = execResult ? execResult[0] : '';
 		if(replaceTarget) {
 			post.style = post.style.replace(replaceTarget, `color: ${modifiedColor};`);
@@ -62,6 +90,4 @@ io.github.shunshun94.trpg.logEditor.color.contrastUtil.modifyColors = (doms, mod
 		}
 		return post;
 	});
-
-	return tmpResult;
 };
