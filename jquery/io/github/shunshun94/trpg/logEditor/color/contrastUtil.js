@@ -78,7 +78,7 @@ io.github.shunshun94.trpg.logEditor.color.contrastUtil.modifyColors = (doms, mod
 		return func(currentColorMap, behavior)
 	}, io.github.shunshun94.trpg.logEditor.color.contrastUtil.generateInitColorMap(doms, behavior));
 
-	const tmpResult = doms.map((post)=>{
+	return doms.map((post)=>{
 		const execResult = /color:\s*([^;]*);?/.exec(post.style);
 		const currentColor = execResult ? execResult[1] : behavior.defaultColor;
 		const modifiedColor = colorMap[currentColor];
@@ -90,6 +90,4 @@ io.github.shunshun94.trpg.logEditor.color.contrastUtil.modifyColors = (doms, mod
 		}
 		return post;
 	});
-
-	return tmpResult;
 };
