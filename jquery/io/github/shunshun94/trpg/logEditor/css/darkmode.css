@@ -41,3 +41,7 @@ body.darkmode.ondrop {
 .darkmode a:visited {
 	color: pink;
 }
+
+.darkmode .io-github-shunshun94-trpg-logEditor-FileLoader-filter {
+	background-color: rgba(0, 0, 0, 0.5);
+}

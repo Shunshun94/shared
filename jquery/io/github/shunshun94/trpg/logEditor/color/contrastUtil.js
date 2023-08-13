@@ -60,6 +60,30 @@ io.github.shunshun94.trpg.logEditor.color.contrastUtil.modifyLightnessColor = (c
 	return result;
 };
 
+io.github.shunshun94.trpg.logEditor.color.contrastUtil.modifyDistanceColor = (colorMap) => {
+	const keysList = Object.keys(colorMap).map((key)=>{return {key: key, value: colorMap[key]}}).sort((a,b)=>{return a.value.h - b.value.h});
+	const minDistance = Math.min(360 / keysList.length, io.github.shunshun94.trpg.logEditor.color.contrastUtil.CONSTS.hueSmallestLength);
+	if(keysList.length < 2) {
+		return colorMap;
+	}
+	for(var i = 1; i < keysList.length; i++) {
+		if(keysList[i].value.h - keysList[i - 1].value.h < minDistance) {
+			keysList[i].value.h = keysList[i - 1].value.h + minDistance;
+			if(keysList[i].value.h > 360) {
+				keysList[i].value.h -= 360;
+			}
+		}
+	}
+	if(360 + keysList[0].value.h - keysList.at(-1).value.h < minDistance) {
+		keysList[0].value.h = keysList.at(-1).value.h + minDistance - 360;
+	}
+	const result = {};
+	keysList.forEach((d)=>{
+		result[d.key] = d.value;
+	});
+	return result;
+};
+
 io.github.shunshun94.trpg.logEditor.color.contrastUtil.modifyColorMapToTextFormat = (colorMap) => {
 	const result = {};
 	for(var key in colorMap) {
@@ -69,12 +93,11 @@ io.github.shunshun94.trpg.logEditor.color.contrastUtil.modifyColorMapToTextForma
 	return result;
 };
 
-io.github.shunshun94.trpg.logEditor.color.contrastUtil.modifyColors = (doms, mode) => {
+io.github.shunshun94.trpg.logEditor.color.contrastUtil.modifyColors = (doms, mode, actions) => {
 	const behavior = io.github.shunshun94.trpg.logEditor.color.contrastUtil.getBehaviorByMode(mode);
-	const colorMap = [
-		io.github.shunshun94.trpg.logEditor.color.contrastUtil.modifyLightnessColor,
+	const colorMap = actions.concat([
 		io.github.shunshun94.trpg.logEditor.color.contrastUtil.modifyColorMapToTextFormat
-	].reduce((currentColorMap, func)=>{
+	]).reduce((currentColorMap, func)=>{
 		return func(currentColorMap, behavior)
 	}, io.github.shunshun94.trpg.logEditor.color.contrastUtil.generateInitColorMap(doms, behavior));
 
