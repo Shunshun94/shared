@@ -60,6 +60,85 @@ io.github.shunshun94.trpg.logEditor.color.contrastUtil.modifyLightnessColor = (c
 	return result;
 };
 
+io.github.shunshun94.trpg.logEditor.color.contrastUtil.modifyDistanceColor = (colorMap) => {
+	const keysList = Object.keys(colorMap).map((key)=>{return {key: key, value: colorMap[key]}}).sort((a,b)=>{return a.value.h - b.value.h});
+	const minDistance = Math.min(360 / keysList.length, io.github.shunshun94.trpg.logEditor.color.contrastUtil.CONSTS.hueSmallestLength);
+	console.log(colorMap, keysList, minDistance);
+	if(keysList.length < 2) {
+		return colorMap;
+	}
+	for(var i = 1; i < keysList.length; i++) {
+		if(keysList[i].value.h - keysList[i - 1].value.h < minDistance) {
+			keysList[i].value.h = keysList[i - 1].value.h + minDistance;
+			if(keysList[i].value.h > 360) {
+				keysList[i].value.h -= 360;
+			}
+		}
+	}
+	if(360 + keysList[0].value.h - keysList.at(-1).value.h < minDistance) {
+		keysList[0].value.h = keysList.at(-1).value.h + minDistance - 360;
+	}
+	console.log(keysList);
+	const result = {};
+	keysList.forEach((d)=>{
+		result[d.key] = d.value;
+	});
+	return result;
+};
+
+io.github.shunshun94.trpg.logEditor.color.contrastUtil.modifyDistanceColor({
+    "#000000": {
+        "h": 0,
+        "s": 0,
+        "l": 0
+    },
+    "#808080": {
+        "h": 0,
+        "s": 0,
+        "l": 40
+    },
+    "#ff9900": {
+        "h": 36,
+        "s": 100,
+        "l": 40
+    },
+    "#0000ff": {
+        "h": 240,
+        "s": 100,
+        "l": 40
+    },
+    "#00662c": {
+        "h": 145.88235294117646,
+        "s": 100,
+        "l": 20
+    },
+    "#669933": {
+        "h": 90,
+        "s": 50,
+        "l": 40
+    },
+    "#006633": {
+        "h": 150,
+        "s": 100,
+        "l": 20
+    },
+    "#32e232": {
+        "h": 120,
+        "s": 75.21367521367522,
+        "l": 40
+    },
+    "#2e8b57": {
+        "h": 146.4516129032258,
+        "s": 50.27027027027027,
+        "l": 36.27450980392157
+    },
+    "#e28903": {
+        "h": 36.053811659192824,
+        "s": 97.37991266375546,
+        "l": 40
+    }
+});
+
 io.github.shunshun94.trpg.logEditor.color.contrastUtil.modifyColorMapToTextFormat = (colorMap) => {
 	const result = {};
 	for(var key in colorMap) {
@@ -73,6 +152,7 @@ io.github.shunshun94.trpg.logEditor.color.contrastUtil.modifyColors = (doms, mod
 	const behavior = io.github.shunshun94.trpg.logEditor.color.contrastUtil.getBehaviorByMode(mode);
 	const colorMap = [
 		io.github.shunshun94.trpg.logEditor.color.contrastUtil.modifyLightnessColor,
+		io.github.shunshun94.trpg.logEditor.color.contrastUtil.modifyDistanceColor,
 		io.github.shunshun94.trpg.logEditor.color.contrastUtil.modifyColorMapToTextFormat
 	].reduce((currentColorMap, func)=>{
 		return func(currentColorMap, behavior)
