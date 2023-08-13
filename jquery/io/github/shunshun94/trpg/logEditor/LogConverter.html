@@ -29,9 +29,11 @@
 <body>
 <script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script>
 <button id="switch-darkmode" style="z-index:2;position:absolute;top:8px;right:8px;width:180px;"></button>
-<div style="z-index:2;position:absolute;top:36px;right:8px;width:180px;">
-	<input id="switch-colormodify" type="checkbox"  style="position:relative;left:-4px;" checked/>
-	<label style="position:relative;left:-12px;">文字色を補正する</label>
+<div style="z-index:2;position:absolute;top:36px;right:8px;width:268px;">
+	<input id="switch-lightness" type="checkbox"  style="position:relative;left:-4px;" checked/>
+	<label style="position:relative;left:-12px;">文字色と背景の明るさを補正する</label><br/>
+	<input id="switch-distance" type="checkbox"  style="position:relative;left:-4px;" checked/>
+	<label style="position:relative;left:-12px;">文字色間の色の違いを補正する</label>
 </div>
 <script>
 const darkmode = 'darkmode';
@@ -70,9 +72,14 @@ io.github.shunshun94.trpg.logEditor.EVENTS = {
 io.github.shunshun94.trpg.logEditor.DOMS.BODY.on(io.github.shunshun94.trpg.logEditor.EVENTS.FILE_LOADED, (e, domList)=>{
 	io.github.shunshun94.trpg.logEditor.FileLoader.filtTabs(domList).then((filteredDomList)=>{
 		const appendClass = ((io.github.shunshun94.trpg.logEditor.DOMS.BODY.attr('class') || '').match(/[a-z0-9A-Z]+mode/) || [''])[0];
-		if(document.getElementById('switch-colormodify').checked) {
-			domList.doms = io.github.shunshun94.trpg.logEditor.color.contrastUtil.modifyColors(domList.doms, appendClass);
+		const actions = [];
+		if(document.getElementById('switch-lightness').checked) {
+			actions.push(io.github.shunshun94.trpg.logEditor.color.contrastUtil.modifyLightnessColor);
 		}
+		if(document.getElementById('switch-distance').checked) {
+			actions.push(io.github.shunshun94.trpg.logEditor.color.contrastUtil.modifyDistanceColor);
+		}
+		domList.doms = io.github.shunshun94.trpg.logEditor.color.contrastUtil.modifyColors(domList.doms, appendClass, actions);
 		io.github.shunshun94.trpg.logEditor.export.htmlExporter.download(io.github.shunshun94.trpg.logEditor.export.htmlExporter.domListToHtml(filteredDomList, appendClass));
 		io.github.shunshun94.trpg.logEditor.FileLoader.bindInitialEvents(io.github.shunshun94.trpg.logEditor.DOMS.BODY);
 	});

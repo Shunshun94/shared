@@ -93,13 +93,11 @@ io.github.shunshun94.trpg.logEditor.color.contrastUtil.modifyColorMapToTextForma
 	return result;
 };
 
-io.github.shunshun94.trpg.logEditor.color.contrastUtil.modifyColors = (doms, mode) => {
+io.github.shunshun94.trpg.logEditor.color.contrastUtil.modifyColors = (doms, mode, actions) => {
 	const behavior = io.github.shunshun94.trpg.logEditor.color.contrastUtil.getBehaviorByMode(mode);
-	const colorMap = [
-		io.github.shunshun94.trpg.logEditor.color.contrastUtil.modifyLightnessColor,
-		io.github.shunshun94.trpg.logEditor.color.contrastUtil.modifyDistanceColor,
+	const colorMap = actions.concat([
 		io.github.shunshun94.trpg.logEditor.color.contrastUtil.modifyColorMapToTextFormat
-	].reduce((currentColorMap, func)=>{
+	]).reduce((currentColorMap, func)=>{
 		return func(currentColorMap, behavior)
 	}, io.github.shunshun94.trpg.logEditor.color.contrastUtil.generateInitColorMap(doms, behavior));
 
