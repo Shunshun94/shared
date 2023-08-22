@@ -5,6 +5,10 @@ io.github.shunshun94.trpg = io.github.shunshun94.trpg || {};
 io.github.shunshun94.trpg.Ccfolia2Udonarium = io.github.shunshun94.trpg.Ccfolia2Udonarium || {};
 io.github.shunshun94.trpg.Ccfolia2Udonarium.builder = io.github.shunshun94.trpg.Ccfolia2Udonarium.builder || {};
 
+io.github.shunshun94.trpg.Ccfolia2Udonarium.builder.buildImage = () => {
+    return io.github.shunshun94.trpg.Ccfolia2Udonarium.builder.buildData('image');
+};
+
 io.github.shunshun94.trpg.Ccfolia2Udonarium.builder.buildCommon = (json) => {
     const base = io.github.shunshun94.trpg.Ccfolia2Udonarium.builder.buildData('common');
     base.append(io.github.shunshun94.trpg.Ccfolia2Udonarium.builder.buildData({name: 'name', textContent: json.name}));
@@ -18,15 +22,17 @@ io.github.shunshun94.trpg.Ccfolia2Udonarium.builder.buildDetail = (json) => {
     const resources = io.github.shunshun94.trpg.Ccfolia2Udonarium.builder.buildData('リソース');
     json.status.forEach((status)=>{
         resources.append(io.github.shunshun94.trpg.Ccfolia2Udonarium.builder.buildData({
-            type: 'numberResource', currentValue: status.value, textContent: status.max, name: status.label
+            type: 'numberResource', 'currentValue': status.value, textContent: status.max, name: status.label
         }));
     });
     base.append(resources);
 
     const static = io.github.shunshun94.trpg.Ccfolia2Udonarium.builder.buildData('params');
-    static.append(io.github.shunshun94.trpg.Ccfolia2Udonarium.builder.buildData({
-        'name': json.label, textContent: json.value
-    }));
+    json.params.forEach((param)=>{
+        static.append(io.github.shunshun94.trpg.Ccfolia2Udonarium.builder.buildData({
+            'name': param.label, textContent: param.value
+        }));
+    });
     base.append(static);
 
     const info = io.github.shunshun94.trpg.Ccfolia2Udonarium.builder.buildData('情報');
@@ -74,6 +80,7 @@ io.github.shunshun94.trpg.Ccfolia2Udonarium.builder.buildData = (info) => {
 io.github.shunshun94.trpg.Ccfolia2Udonarium.builder.build = (json) => {
     const package = io.github.shunshun94.trpg.Ccfolia2Udonarium.builder.buildPackage();
     const base = io.github.shunshun94.trpg.Ccfolia2Udonarium.builder.buildData('character');
+    // base.append(io.github.shunshun94.trpg.Ccfolia2Udonarium.builder.buildImage(json));
     base.append(io.github.shunshun94.trpg.Ccfolia2Udonarium.builder.buildCommon(json));
     base.append(io.github.shunshun94.trpg.Ccfolia2Udonarium.builder.buildDetail(json));
     package.append(base);
@@ -93,5 +100,5 @@ io.github.shunshun94.trpg.Ccfolia2Udonarium.builder.download = (text, opt_name) 
 };
 
 io.github.shunshun94.trpg.Ccfolia2Udonarium.builder.buildAsText = (json) => {
-    return io.github.shunshun94.trpg.Ccfolia2Udonarium.builder.build(json).outerHTML;
+    return io.github.shunshun94.trpg.Ccfolia2Udonarium.builder.build(json).outerHTML.replaceAll('currentvalue', 'currentValue').replaceAll('posz', 'posZ');
 };
