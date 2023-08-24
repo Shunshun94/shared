@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <title>ココフォリアのクリップボード API を貼り付けるとユドナリウムの駒作成ファイルを作ってくれるやつ</title>
+    <meta charset="UTF-8">
+</head>
+<body>
+    <p>ココフォリアのクリップボード API の内容を貼り付けてください</p>
+    <script src="../ccfolia/clipboardApiUtil.js"></script>
+    <script src="./builder.js"></script>
+    <script>
+        document.getElementsByTagName('body')[0].addEventListener('keydown', (e)=>{
+            if(e.ctrlKey && e.code === 'KeyV') {
+                navigator.clipboard.readText().then((text)=>{
+                    const data = io.github.shunshun94.trpg.ccfolia.ClipboardApiUtil.v1_19.format(text);
+                    const xmlText = io.github.shunshun94.trpg.Ccfolia2Udonarium.builder.buildAsText(data);
+                    io.github.shunshun94.trpg.Ccfolia2Udonarium.builder.download(xmlText, data.name);
+
+                });
+            }
+        });
+    </script>
+</body>
+</html>
