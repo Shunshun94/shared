@@ -6,7 +6,9 @@ io.github.shunshun94.trpg.Ccfolia2Udonarium = io.github.shunshun94.trpg.Ccfolia2
 io.github.shunshun94.trpg.Ccfolia2Udonarium.builder = io.github.shunshun94.trpg.Ccfolia2Udonarium.builder || {};
 
 io.github.shunshun94.trpg.Ccfolia2Udonarium.builder.buildImage = () => {
-    return io.github.shunshun94.trpg.Ccfolia2Udonarium.builder.buildData('image');
+    const base = io.github.shunshun94.trpg.Ccfolia2Udonarium.builder.buildData('image');
+    base.append(io.github.shunshun94.trpg.Ccfolia2Udonarium.builder.buildData({type: 'image', name: 'imageIdentifier', textContent: 'dummy'}));
+    return base;
 };
 
 io.github.shunshun94.trpg.Ccfolia2Udonarium.builder.buildCommon = (json) => {
@@ -27,7 +29,7 @@ io.github.shunshun94.trpg.Ccfolia2Udonarium.builder.buildDetail = (json) => {
     });
     base.append(resources);
 
-    const static = io.github.shunshun94.trpg.Ccfolia2Udonarium.builder.buildData('params');
+    const static = io.github.shunshun94.trpg.Ccfolia2Udonarium.builder.buildData('パラメータ');
     json.params.forEach((param)=>{
         static.append(io.github.shunshun94.trpg.Ccfolia2Udonarium.builder.buildData({
             'name': param.label, textContent: param.value
@@ -80,7 +82,7 @@ io.github.shunshun94.trpg.Ccfolia2Udonarium.builder.buildData = (info) => {
 io.github.shunshun94.trpg.Ccfolia2Udonarium.builder.build = (json) => {
     const package = io.github.shunshun94.trpg.Ccfolia2Udonarium.builder.buildPackage();
     const base = io.github.shunshun94.trpg.Ccfolia2Udonarium.builder.buildData('character');
-    // base.append(io.github.shunshun94.trpg.Ccfolia2Udonarium.builder.buildImage(json));
+    base.append(io.github.shunshun94.trpg.Ccfolia2Udonarium.builder.buildImage(json));
     base.append(io.github.shunshun94.trpg.Ccfolia2Udonarium.builder.buildCommon(json));
     base.append(io.github.shunshun94.trpg.Ccfolia2Udonarium.builder.buildDetail(json));
     package.append(base);
