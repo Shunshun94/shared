@@ -1,11 +1,28 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <title>ココフォリアのクリップボード API を貼り付けるとユドナリウムの駒作成ファイルを作ってくれるやつ</title>
-    <meta charset="UTF-8">
+    <title>ユドナリウムの駒データをココフォリア用のデータから作るやつ</title>
+<meta charset="UTF-8">
+<meta property="og:title" content="ユドナリウムの駒データをココフォリア用の駒データから作るやつ" />
+<meta property="og:type" content="website" />
+<meta property="og:image" content="hhttps://shunshun94.github.io/shared/pics/ogp.jpg" />
+<meta property="og:site_name" content="https://github.com/Shunshun94/shared/" />
+<meta property="og:description" content="ココフォリアのクリップボード API を貼り付けるとユドナリウムの駒作成ファイルを作ってくれます" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:site" content="@Shunshun94" />
+<meta name="twitter:domain" content="shunshun94.github.io" />
+<meta name="twitter:title" content="ユドナリウムの駒データをココフォリア用の駒データから作るやつ" />
+<meta name="twitter:description" content="ココフォリアのクリップボード API を貼り付けるとユドナリウムの駒作成ファイルを作ってくれます" />
+<meta name="twitter:image" content="https://shunshun94.github.io/shared/pics/ogp.jpg" />
 </head>
 <body>
-    <p>ココフォリアのクリップボード API の内容を貼り付けてください</p>
+    <p>ココフォリアの駒データの内容を貼り付けてください。<br/>
+（キーボードの ctrl キーと V キーを同時に押すことで貼り付けることができます）<br/>
+ユドナリウム用の駒データのダウンロードが始まります。<br/>
+ダウンロードできたらダウンロードしたファイルをユドナリウムにドラッグ＆ドロップしてください</p>
+    <footer
+        style="position:absolute;bottom:0px;left:0px;right:0px;height:2em;padding:1em;background-color:azure;border-top:1px black solid;"
+    ><p><a href="https://twitter.com/Shunshun94">作者 Twitter</a> | <a href="https://github.com/Shunshun94/shared/tree/master/other/io/github/shunshun94/trpg/Ccfolia2Udonarium">説明書</a> | <a href="http://amzn.asia/8mNqdKy">ひよこのほしい物りすと</a></p></footer>
     <script src="../ccfolia/clipboardApiUtil.js"></script>
     <script src="./builder.js"></script>
     <script>
@@ -15,7 +32,6 @@
                     const data = io.github.shunshun94.trpg.ccfolia.ClipboardApiUtil.v1_19.format(text);
                     const xmlText = io.github.shunshun94.trpg.Ccfolia2Udonarium.builder.buildAsText(data);
                     io.github.shunshun94.trpg.Ccfolia2Udonarium.builder.download(xmlText, data.name);
-
                 });
             }
         });
