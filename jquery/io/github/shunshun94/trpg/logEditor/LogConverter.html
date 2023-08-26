@@ -70,6 +70,7 @@ io.github.shunshun94.trpg.logEditor.EVENTS = {
 <script src="./color/contrastUtil.js"></script>
 <script>
 io.github.shunshun94.trpg.logEditor.DOMS.BODY.on(io.github.shunshun94.trpg.logEditor.EVENTS.FILE_LOADED, (e, domList)=>{
+	io.github.shunshun94.trpg.logEditor.FileLoader.bindInitialEvents(io.github.shunshun94.trpg.logEditor.DOMS.BODY);
 	io.github.shunshun94.trpg.logEditor.FileLoader.filtTabs(domList).then((filteredDomList)=>{
 		const appendClass = ((io.github.shunshun94.trpg.logEditor.DOMS.BODY.attr('class') || '').match(/[a-z0-9A-Z]+mode/) || [''])[0];
 		const actions = [];
@@ -79,11 +80,14 @@ io.github.shunshun94.trpg.logEditor.DOMS.BODY.on(io.github.shunshun94.trpg.logEd
 		if(document.getElementById('switch-distance').checked) {
 			actions.push(io.github.shunshun94.trpg.logEditor.color.contrastUtil.modifyDistanceColor);
 		}
-		domList.doms = io.github.shunshun94.trpg.logEditor.color.contrastUtil.modifyColors(domList.doms, appendClass, actions);
-		io.github.shunshun94.trpg.logEditor.export.htmlExporter.download(io.github.shunshun94.trpg.logEditor.export.htmlExporter.domListToHtml(filteredDomList, appendClass));
-		io.github.shunshun94.trpg.logEditor.FileLoader.bindInitialEvents(io.github.shunshun94.trpg.logEditor.DOMS.BODY);
+		filteredDomList.doms = io.github.shunshun94.trpg.logEditor.color.contrastUtil.modifyColors(filteredDomList.doms, appendClass, actions);
+		executeDomListToOutput(io.github.shunshun94.trpg.logEditor.export.htmlExporter, filteredDomList, appendClass);
 	});
 });
+
+const executeDomListToOutput = (exporter, filteredDomList, appendClass) => {
+	exporter.download(exporter.domListToOutput(filteredDomList, appendClass));
+};
 
 $('#switch-darkmode').click((e)=>{
 	io.github.shunshun94.trpg.logEditor.DOMS.BODY.toggleClass(darkmode);

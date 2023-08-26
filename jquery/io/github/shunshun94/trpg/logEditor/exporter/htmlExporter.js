@@ -143,7 +143,7 @@ io.github.shunshun94.trpg.logEditor.export.htmlExporter.domJsonToHtml = (json) =
 	return result.join('\n');
 };
 
-io.github.shunshun94.trpg.logEditor.export.htmlExporter.domListToHtml = (domList, mode = '') => {
+io.github.shunshun94.trpg.logEditor.export.htmlExporter.domListToOutput = (domList, mode = '') => {
 	return (domList.head ? `<!DOCTYPE html>\n<html>\n${domList.head}\n<body>\n` : io.github.shunshun94.trpg.logEditor.export.htmlExporter.getPrefix(mode)) +
 			domList.doms.map(io.github.shunshun94.trpg.logEditor.export.htmlExporter.domJsonToHtml).join('\n') +
 			domList.omitted.join('\n') +
