@@ -13,7 +13,7 @@ io.github.shunshun94.trpg.Ccfolia2Udonarium.builder.buildImage = () => {
 
 io.github.shunshun94.trpg.Ccfolia2Udonarium.builder.buildCommon = (json) => {
     const base = io.github.shunshun94.trpg.Ccfolia2Udonarium.builder.buildData('common');
-    base.append(io.github.shunshun94.trpg.Ccfolia2Udonarium.builder.buildData({name: 'name', textContent: json.name}));
+    base.append(io.github.shunshun94.trpg.Ccfolia2Udonarium.builder.buildData({name: 'name', textContent: json.name || 'おなまえ'}));
     base.append(io.github.shunshun94.trpg.Ccfolia2Udonarium.builder.buildData({name: 'size', textContent: '1'}));
     return base;
 };
@@ -21,34 +21,40 @@ io.github.shunshun94.trpg.Ccfolia2Udonarium.builder.buildCommon = (json) => {
 io.github.shunshun94.trpg.Ccfolia2Udonarium.builder.buildDetail = (json) => {
     const base = io.github.shunshun94.trpg.Ccfolia2Udonarium.builder.buildData('detail');
 
-    const resources = io.github.shunshun94.trpg.Ccfolia2Udonarium.builder.buildData('リソース');
-    json.status.forEach((status)=>{
-        resources.append(io.github.shunshun94.trpg.Ccfolia2Udonarium.builder.buildData({
-            type: 'numberResource', 'currentValue': status.value, textContent: status.max, name: status.label
-        }));
-    });
-    base.append(resources);
+    if(json.status && json.status.length) {
+        const resources = io.github.shunshun94.trpg.Ccfolia2Udonarium.builder.buildData('リソース');
+        json.status.forEach((status)=>{
+            resources.append(io.github.shunshun94.trpg.Ccfolia2Udonarium.builder.buildData({
+                type: 'numberResource', 'currentValue': status.value, textContent: status.max, name: status.label
+            }));
+        });
+        base.append(resources);
+    }
 
-    const static = io.github.shunshun94.trpg.Ccfolia2Udonarium.builder.buildData('パラメータ');
-    json.params.forEach((param)=>{
-        static.append(io.github.shunshun94.trpg.Ccfolia2Udonarium.builder.buildData({
-            'name': param.label, textContent: param.value
-        }));
-    });
-    base.append(static);
+    if(json.params && json.params.length) {
+        const static = io.github.shunshun94.trpg.Ccfolia2Udonarium.builder.buildData('パラメータ');
+        json.params.forEach((param)=>{
+            static.append(io.github.shunshun94.trpg.Ccfolia2Udonarium.builder.buildData({
+                'name': param.label, textContent: param.value
+            }));
+        });
+        base.append(static);
+    }
 
-    const info = io.github.shunshun94.trpg.Ccfolia2Udonarium.builder.buildData('情報');
-    info.append(io.github.shunshun94.trpg.Ccfolia2Udonarium.builder.buildData({
-        type: 'note', 'name': '説明', textContent: json.memo
-    }));
-    base.append(info);
+    if(json.memo) {
+        const info = io.github.shunshun94.trpg.Ccfolia2Udonarium.builder.buildData('情報');
+        info.append(io.github.shunshun94.trpg.Ccfolia2Udonarium.builder.buildData({
+            type: 'note', 'name': '説明', textContent: json.memo
+        }));
+        base.append(info);
+    }
 
     return base;
 };
 
 io.github.shunshun94.trpg.Ccfolia2Udonarium.builder.buildPalette = (json) => {
     const base = document.createElement('chat-palette');
-    base.textContent = json.commands;
+    base.textContent = json.commands || '';
     return base;
 };
 
