@@ -81,6 +81,7 @@ io.github.shunshun94.trpg.logEditor.DOMS.BODY.on(io.github.shunshun94.trpg.logEd
 			actions.push(io.github.shunshun94.trpg.logEditor.color.contrastUtil.modifyDistanceColor);
 		}
 		filteredDomList.doms = io.github.shunshun94.trpg.logEditor.color.contrastUtil.modifyColors(filteredDomList.doms, appendClass, actions);
+		// io.github.shunshun94.trpg.logEditor.DOMS.BODY.append(io.github.shunshun94.trpg.logEditor.menu.saveMenu.generateDom(targetBlock));
 		executeDomListToOutput(io.github.shunshun94.trpg.logEditor.export.htmlExporter, filteredDomList, appendClass);
 	});
 });
@@ -89,9 +90,11 @@ const executeDomListToOutput = (exporter, filteredDomList, appendClass) => {
 	exporter.download(exporter.domListToOutput(filteredDomList, appendClass));
 };
 
-$('#switch-darkmode').click((e)=>{
-	io.github.shunshun94.trpg.logEditor.DOMS.BODY.toggleClass(darkmode);
+io.github.shunshun94.trpg.logEditor.DOMS.BODY.click((e)=>{
+	const target = $(e.target);
+	if(target.hasClass('switch-darkmode')) {io.github.shunshun94.trpg.logEditor.DOMS.BODY.toggleClass(darkmode);}
 });
+
 </script>
 </body>
 </html>
