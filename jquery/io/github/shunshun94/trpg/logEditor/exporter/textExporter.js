@@ -66,18 +66,26 @@ io.github.shunshun94.trpg.logEditor.export.hamelnExporter.exec = (doms, dummy1, 
 
 io.github.shunshun94.trpg.logEditor.export.pixivExporter = io.github.shunshun94.trpg.logEditor.export.pixivExporter || {};
 
+io.github.shunshun94.trpg.logEditor.export.pixivExporter.simpleObjectToText = (p) => {
+    if(['h1', 'h2', 'h3', 'h4', 'h5', 'h6'].includes(p.tag)) {
+        return `[chapter:${p.content}]`;
+    }
+    if(p.tag === 'hr') {
+        return '◆　　　◆　　　◆　　　◆　　　◆　　　◆　　　◆';
+    }
+    if(p.name) {
+        return `【${p.name}】\n${p.content}`;
+    }
+    return p.content;
+};
+
 io.github.shunshun94.trpg.logEditor.export.pixivExporter.exec = (doms, dummy1, dummy2, dummy3) => {
-    const exportResultArray = Array.from(doms.children()).map(jQuery).map(io.github.shunshun94.trpg.logEditor.export.commonTextExporter.convertDomToElements).map((p)=>{
-        if(['h1', 'h2', 'h3', 'h4', 'h5', 'h6'].includes(p.tag)) {
-            return `[chapter:${p.content}]`;
-        }
-        if(p.tag === 'hr') {
-            return '◆　　　◆　　　◆　　　◆　　　◆　　　◆　　　◆';
-        }
-        if(p.name) {
-            return `【${p.name}】\n${p.content}`;
-        }
-        return p.content;
-    });
+    const exportResultArray = Array.from(doms.children()).map(jQuery).map(io.github.shunshun94.trpg.logEditor.export.commonTextExporter.convertDomToElements).map(io.github.shunshun94.trpg.logEditor.export.pixivExporter.simpleObjectToText);
     io.github.shunshun94.trpg.logEditor.export.commonTextExporter.download(exportResultArray.join('\n\n'));
 };
+
+io.github.shunshun94.trpg.logEditor.export.pixivExporter.domListToOutput = (doms) => {
+    return doms.doms.map(io.github.shunshun94.trpg.logEditor.export.pixivExporter.simpleObjectToText).join('\n\n');
+};
+
+io.github.shunshun94.trpg.logEditor.export.pixivExporter.download = io.github.shunshun94.trpg.logEditor.export.commonTextExporter.download;
