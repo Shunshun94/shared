@@ -8,7 +8,7 @@ io.github.shunshun94.trpg.logEditor.export.OperationTableExporter = io.github.sh
 io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.CONSTS = io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.CONSTS || {};
 io.github.shunshun94.trpg.logEditor.export.OperationJsonExporter = io.github.shunshun94.trpg.logEditor.export.OperationJsonExporter || {};
 io.github.shunshun94.trpg.logEditor.export.UniCoeExporter = io.github.shunshun94.trpg.logEditor.export.UniCoeExporter || {};
-io.github.shunshun94.trpg.logEditor.export.YukkuriMovieMakerExporter = io.github.shunshun94.trpg.logEditor.export.UniCoeExporter || {};
+io.github.shunshun94.trpg.logEditor.export.YukkuriMovieMakerExporter = io.github.shunshun94.trpg.logEditor.export.YukkuriMovieMakerExporter|| {};
 
 io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.getSessionElement = (post, handlers) => {
     const filteredElement = handlers.map((element)=>{
