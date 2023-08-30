@@ -115,7 +115,7 @@ const exportHandlerClass = class {
 	}
 	downloadGeneratedFile(generateFileResult, opt_mode) {
 		const exporter = opt_mode ? io.github.shunshun94.trpg.logEditor.export.getExporter(opt_mode) : this.exporter;
-		exporter.download(generateFileResult);
+		exporter.download(generateFileResult, `saved_${Number(new Date())}.txt`);
 	}
 };
 
@@ -135,9 +135,8 @@ io.github.shunshun94.trpg.logEditor.DOMS.BODY.on(io.github.shunshun94.trpg.logEd
 		}
 		filteredDomList.doms = io.github.shunshun94.trpg.logEditor.color.contrastUtil.modifyColors(filteredDomList.doms, appendClass, actions);
 		exportHandler.setImportedFile(filteredDomList);
-		exportHandler.downloadGeneratedFile(exportHandler.generateFile(filteredDomList, 'html', appendClass), 'html');
-		//io.github.shunshun94.trpg.logEditor.FileLoader.openBackScreen();
-		//io.github.shunshun94.trpg.logEditor.DOMS.BODY.append(io.github.shunshun94.trpg.logEditor.menu.saveMenu.generateDom(appendClass));
+		io.github.shunshun94.trpg.logEditor.FileLoader.openBackScreen();
+		io.github.shunshun94.trpg.logEditor.DOMS.BODY.append(io.github.shunshun94.trpg.logEditor.menu.saveMenu.generateDom(appendClass));
 	});
 });
 
