@@ -22,6 +22,7 @@ https://shunshun94.github.io/shared/jquery/io/github/shunshun94/trpg/logEditor/L
 * 名前の一括置換
 * 名前毎に文字色を一括で変更
 * 名前毎に HTML の class を適用
+* 複数のログを連結
 * 編集内容の保存
 
 ## 使ったライブラリ
