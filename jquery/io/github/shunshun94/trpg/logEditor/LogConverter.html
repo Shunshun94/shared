@@ -24,6 +24,18 @@
 	.darkmode #switch-darkmode:after {
 		content: '出力の背景色を白に変える';
 	}
+	.io-github-shunshun94-trpg-logEditor-menu-SaveMenu br{
+		display:none;
+	}
+	.io-github-shunshun94-trpg-logEditor-menu-SaveMenu-save {
+		display:block;
+		margin-top:1em;
+		margin-bottom:1em;
+		
+	}
+	.disableInConvert {
+		display:none;
+	}
 </style>
 </head>
 <body>
@@ -68,10 +80,52 @@ io.github.shunshun94.trpg.logEditor.EVENTS = {
 <script src="./FileLoader/fileLoad.js"></script>
 <script src="./FileLoader/tabFilter.js"></script>
 <script src="./color/contrastUtil.js"></script>
+<script src="./menu/saveMenu.js"></script>
+<script src="./exporter/htmlExporter.js"></script>
+<script src="./exporter/textExporter.js"></script>
+<script src="./exporter/ytchatExporter.js"></script>
+<script src="./exporter/sessionElementHandler/systemMap.js"></script>
+<script src="./exporter/sessionElementHandler/commonSessionElementHandler.js"></script>
+<script src="./exporter/sessionElementHandler/cocElementHandler.js"></script>
+<script src="./exporter/sessionElementHandler/swordWorld_2_5ElementHandler.js"></script>
+<script src="./exporter/operationTable.js"></script>
+<script src="./exporter/exporterFactory.js"></script>
 <script>
+const exportHandlerClass = class {
+	constructor() {
+		this.importedFile = null;
+		this.exporter = null;
+		this.appendClassName = '';
+	}
+	setExporter(mode) {
+		this.exporter = io.github.shunshun94.trpg.logEditor.export.getExporter(mode);
+		return this.exporter;
+	}
+	setImportedFile(fileInfo) {
+		this.importedFile = fileInfo;
+		return this.importedFile;
+	}
+	setAppendClassName(appendClassName = '') {
+		this.appendClassName = appendClassName;
+		return this.appendClassName;
+	}
+	generateFile(opt_importedFile, opt_mode, opt_appendClassName) {
+		const exporter = opt_mode ? io.github.shunshun94.trpg.logEditor.export.getExporter(opt_mode) : this.exporter;
+		return exporter.domListToOutput(opt_importedFile || this.importedFile, opt_appendClassName || this.appendClassName);
+	}
+	downloadGeneratedFile(generateFileResult, opt_mode) {
+		const exporter = opt_mode ? io.github.shunshun94.trpg.logEditor.export.getExporter(opt_mode) : this.exporter;
+		exporter.download(generateFileResult, `saved_${Number(new Date())}.txt`);
+	}
+};
+
+const exportHandler = new exportHandlerClass();
+
 io.github.shunshun94.trpg.logEditor.DOMS.BODY.on(io.github.shunshun94.trpg.logEditor.EVENTS.FILE_LOADED, (e, domList)=>{
+	io.github.shunshun94.trpg.logEditor.FileLoader.bindInitialEvents(io.github.shunshun94.trpg.logEditor.DOMS.BODY);
 	io.github.shunshun94.trpg.logEditor.FileLoader.filtTabs(domList).then((filteredDomList)=>{
 		const appendClass = ((io.github.shunshun94.trpg.logEditor.DOMS.BODY.attr('class') || '').match(/[a-z0-9A-Z]+mode/) || [''])[0];
+		exportHandler.setAppendClassName(appendClass);
 		const actions = [];
 		if(document.getElementById('switch-lightness').checked) {
 			actions.push(io.github.shunshun94.trpg.logEditor.color.contrastUtil.modifyLightnessColor);
@@ -79,15 +133,28 @@ io.github.shunshun94.trpg.logEditor.DOMS.BODY.on(io.github.shunshun94.trpg.logEd
 		if(document.getElementById('switch-distance').checked) {
 			actions.push(io.github.shunshun94.trpg.logEditor.color.contrastUtil.modifyDistanceColor);
 		}
-		domList.doms = io.github.shunshun94.trpg.logEditor.color.contrastUtil.modifyColors(domList.doms, appendClass, actions);
-		io.github.shunshun94.trpg.logEditor.export.htmlExporter.download(io.github.shunshun94.trpg.logEditor.export.htmlExporter.domListToHtml(filteredDomList, appendClass));
-		io.github.shunshun94.trpg.logEditor.FileLoader.bindInitialEvents(io.github.shunshun94.trpg.logEditor.DOMS.BODY);
+		filteredDomList.doms = io.github.shunshun94.trpg.logEditor.color.contrastUtil.modifyColors(filteredDomList.doms, appendClass, actions);
+		exportHandler.setImportedFile(filteredDomList);
+		io.github.shunshun94.trpg.logEditor.FileLoader.openBackScreen();
+		io.github.shunshun94.trpg.logEditor.DOMS.BODY.append(io.github.shunshun94.trpg.logEditor.menu.saveMenu.generateDom(appendClass));
 	});
 });
 
-$('#switch-darkmode').click((e)=>{
-	io.github.shunshun94.trpg.logEditor.DOMS.BODY.toggleClass(darkmode);
+const executeDomListToOutput = (exporter, filteredDomList, appendClass) => {
+	exporter.download(exporter.domListToOutput(filteredDomList, appendClass));
+};
+
+io.github.shunshun94.trpg.logEditor.DOMS.BODY.click((e)=>{
+	const target = $(e.target);
+	if(target.hasClass('switch-darkmode')) {io.github.shunshun94.trpg.logEditor.DOMS.BODY.toggleClass(darkmode);}
+	if(target.hasClass(`${io.github.shunshun94.trpg.logEditor.CLASSES.SAVE_MENU_WINDOW}-save`)) {
+		$(`.${io.github.shunshun94.trpg.logEditor.CLASSES.BACKSCREEN}`).remove();
+		$(`.${io.github.shunshun94.trpg.logEditor.CLASSES.TMP_WINDOW}`).remove();
+		exportHandler.setExporter(target[0].value.split(' ')[1]);
+		exportHandler.downloadGeneratedFile(exportHandler.generateFile());
+	};
 });
+
 </script>
 </body>
 </html>
