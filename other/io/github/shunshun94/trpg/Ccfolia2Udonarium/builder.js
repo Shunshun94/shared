@@ -88,7 +88,7 @@ io.github.shunshun94.trpg.Ccfolia2Udonarium.builder.buildData = (info) => {
 io.github.shunshun94.trpg.Ccfolia2Udonarium.builder.build = (json) => {
     const package = io.github.shunshun94.trpg.Ccfolia2Udonarium.builder.buildPackage();
     const base = io.github.shunshun94.trpg.Ccfolia2Udonarium.builder.buildData('character');
-    // base.append(io.github.shunshun94.trpg.Ccfolia2Udonarium.builder.buildImage(json));
+    base.append(io.github.shunshun94.trpg.Ccfolia2Udonarium.builder.buildImage(json));
     base.append(io.github.shunshun94.trpg.Ccfolia2Udonarium.builder.buildCommon(json));
     base.append(io.github.shunshun94.trpg.Ccfolia2Udonarium.builder.buildDetail(json));
     package.append(base);

@@ -7,8 +7,12 @@
 ## 使い方
 
 https://shunshun94.github.io/shared/jquery/io/github/shunshun94/trpg/logEditor/LogEditor.html を開き、
-手元にあるココフォリアのセッションログまたはユドナリウムの保存した部屋の zip をドラッグ・ドロップすればログを編集できる。
+手元にあるテキストセッションのログをドラッグ・ドロップすればログを編集できる。
 ないし、このツールで編集したログを保存したモノでもドラッグ・ドロップすれば再編集できる。
+
+## 入出力されるファイル
+
+![入出力図](./resources/image/in-and-out.drawio.svg)
 
 ## 主な機能
 
@@ -22,6 +26,7 @@ https://shunshun94.github.io/shared/jquery/io/github/shunshun94/trpg/logEditor/L
 * 名前の一括置換
 * 名前毎に文字色を一括で変更
 * 名前毎に HTML の class を適用
+* 複数のログを連結
 * 編集内容の保存
 
 ## 使ったライブラリ
