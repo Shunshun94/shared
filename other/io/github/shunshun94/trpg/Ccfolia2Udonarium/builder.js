@@ -31,14 +31,25 @@ io.github.shunshun94.trpg.Ccfolia2Udonarium.builder.buildDetail = (json) => {
         base.append(resources);
     }
 
-    if(json.params && json.params.length) {
+    if(json.params && json.params.length || json.initiative) {
         const static = io.github.shunshun94.trpg.Ccfolia2Udonarium.builder.buildData('パラメータ');
-        json.params.forEach((param)=>{
+        (json.params || []).forEach((param)=>{
             static.append(io.github.shunshun94.trpg.Ccfolia2Udonarium.builder.buildData({
                 'name': param.label, textContent: param.value
             }));
         });
+        if(json.initiative) {
+            static.append(io.github.shunshun94.trpg.Ccfolia2Udonarium.builder.buildData({
+                'name': 'initiative', textContent: json.initiative
+            }));
+        }
         base.append(static);
+    }
+
+    if(json.externalUrl) {
+        base.append(io.github.shunshun94.trpg.Ccfolia2Udonarium.builder.buildData({
+            type: 'note', 'name': 'URL', textContent: json.externalUrl
+        }));
     }
 
     if(json.memo) {
