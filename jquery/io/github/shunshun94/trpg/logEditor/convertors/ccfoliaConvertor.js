@@ -56,7 +56,7 @@ io.github.shunshun94.trpg.logEditor.convertors.CcfoliaConvertor.dropEventToJson 
 };
 
 io.github.shunshun94.trpg.logEditor.convertors.CcfoliaConvertor.isDefaultHead = (headRawHtml) => {
-	return headRawHtml.includes(`<title>ccfolia - `);
+	return headRawHtml.includes(`<title>ccfolia - `) || headRawHtml.includes(`<title>udonaliumlily - logs`);
 };
 
 io.github.shunshun94.trpg.logEditor.convertors.CcfoliaConvertor.htmlToJson = (rawDom) => {
