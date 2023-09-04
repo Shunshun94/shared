@@ -10,6 +10,7 @@ io.github.shunshun94.trpg.logEditor.DOMS.BODY.append(`<div style="padding:2em;po
 <ul>
 <li>ココフォリアのログの HTML</li>
 <li>ユドナリウムの部屋の zip</li>
+<li>ユドナリウムリリィの HTML</li>
 <li>Tecky の部屋のログの HTML</li>
 <li>どどんとふむせるのログの HTML</li>
 <li>Flocon のログ（シンプル）の HTML</li>
