@@ -1055,6 +1055,16 @@ io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.RACE_ABILITY.LIST = {
   },
   "毒の血液": {},
   "剛力": {skip: true},
+  "巨人化": {
+    replaceFunction: (json) => {
+      const level = Number(json.level);
+      if(level < 11) {
+        return `＞巨人化&lt;br&gt;巨人化し、巨人形態となります。巨人形態になると回避力判定に-1のペナルティ修正を受けますが、打撃点とHPの現在値・最大値が12点上昇します。および生命抵抗力判定に+2のボーナス修正を受けます。`;
+      } else {
+        return `△≫巨人化&lt;br&gt;巨人化し、巨人形態となります。巨人形態になると回避力判定に-1のペナルティ修正を受けますが、打撃点とHPの現在値・最大値が12点上昇します。および生命抵抗力判定に+2のボーナス修正を受けます。`;
+      }
+    }
+  },
   "水・氷耐性": {},
   "バブルフォーム": {},
   "妖精の加護": {},
