@@ -117,12 +117,15 @@ io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.getAbilityInfo = (json) => {
     return {
         texts: list.map((ability)=>{
             const target = map[ability];
-            if(target.skip) {return '';}
-            if(target.replaceFunction) {
-                return target.replaceFunction(json);
-            }
-            if(target.replace) {
-                return target.replace;
+            console.log(ability, target);
+            if(target) {
+                if(target.skip) {return '';}
+                if(target.replaceFunction) {
+                    return target.replaceFunction(json);
+                }
+                if(target.replace) {
+                    return target.replace;
+                }
             }
             return '○' + ability;
         }).filter((d)=>{return d})
@@ -259,7 +262,8 @@ io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.getAttackWay = (json) => {
 
 io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.getLanguage = (json) => {
     const languageCount = Number(json.languageNum);
-    const list = io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.RACE_LANGUAGE.LIST[json.race].language;
+    console.log('種族', json.race, io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.RACE_LANGUAGE.LIST[json.race]);
+    const list = io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.RACE_LANGUAGE.LIST[json.race] ? io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.RACE_LANGUAGE.LIST[json.race].language : [];
     for(var i = 0; i < languageCount; i++) {
         if(json[`language${i + 1}Talk`]) { list.push(json[`language${i + 1}`]) }
     }
