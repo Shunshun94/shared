@@ -1067,6 +1067,24 @@ io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.RACE_ABILITY.LIST = {
   },
   "奈落の落とし子": {skip: true},
   "奈落の身体／アビストランク": {skip: true},
+  "奈落の身体／アビスアーム": {
+    modifyStatus: (json) => {
+      const level = Number(json.level);
+      return {status1Damage: (level < 6) ? '+2' : ((level < 11) ? '+3' : '+4')};
+    },
+    replaceFunction: ()=>{return '';}
+  },
+  "奈落の身体／アビスアイ": {
+    modifyStatus: (json) => {
+      const level = Number(json.level);
+      return {
+        status1Accuracy:    (level < 6) ? 2 : 1,
+        status1AccuracyFix: (level < 6) ? 2 : 1
+
+      };
+    },
+    replaceFunction: ()=>{return '';}
+  },
   "水・氷耐性": {},
   "バブルフォーム": {},
   "妖精の加護": {},
