@@ -976,9 +976,9 @@ io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.RACE_ABILITY.LIST = {
       if(level < 6) {
         return '≫異貌';
       } else if(level < 11) {
-        return '≫異貌&lt;br&gt;使用持の打撃点は+1点されます';
+        return '≫異貌&lt;br&gt;使用時の打撃点は+1点されます';
       } else {
-        return '≫異貌&lt;br&gt;使用持の打撃点は+1点され、命中力判定に+1のボーナス修正を受け、さらに魔力に+1のボーナス修正を受けます';
+        return '≫異貌&lt;br&gt;使用時の打撃点は+1点され、命中力判定に+1のボーナス修正を受け、さらに魔力に+1のボーナス修正を受けます';
       }
     }
   },
@@ -1064,6 +1064,26 @@ io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.RACE_ABILITY.LIST = {
         return `△≫巨人化&lt;br&gt;巨人化し、巨人形態となります。巨人形態になると回避力判定に-1のペナルティ修正を受けますが、打撃点とHPの現在値・最大値が12点上昇します。および生命抵抗力判定に+2のボーナス修正を受けます。`;
       }
     }
+  },
+  "奈落の落とし子": {skip: true},
+  "奈落の身体／アビストランク": {skip: true},
+  "奈落の身体／アビスアーム": {
+    modifyStatus: (json) => {
+      const level = Number(json.level);
+      return {status1Damage: (level < 6) ? '+2' : ((level < 11) ? '+3' : '+4')};
+    },
+    replaceFunction: ()=>{return '';}
+  },
+  "奈落の身体／アビスアイ": {
+    modifyStatus: (json) => {
+      const level = Number(json.level);
+      return {
+        status1Accuracy:    (level < 6) ? 2 : 1,
+        status1AccuracyFix: (level < 6) ? 2 : 1
+
+      };
+    },
+    replaceFunction: ()=>{return '';}
   },
   "水・氷耐性": {},
   "バブルフォーム": {},

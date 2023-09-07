@@ -35,8 +35,10 @@ io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.exec = (json) => {
     for(var key in weapon) {
         result[key] = weapon[key];
     }
-    result.skills = io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.generateSkills(json);
-    return result;
+    const skills = io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.generateSkills(json);
+    result.skills = skills.text;
+
+    return io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.mergeMap(result, skills.modifyStatus);
 };
 
 io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.baseAppendCalcInitiative = (json) => {
@@ -96,40 +98,65 @@ io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.calcExpectedDamage = (w) => {
     return w.dmgTotal + Math.round(((w.rate + 10) / 6) * (io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.CRITICAL_COEFFCIENTS[w.crit] || 1));
 };
 
+io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.mergeMap = (base, append) => {
+    for(var key in append) {
+        if(base[key]) {
+            base[key] += append[key];
+        } else {
+            base[key] = append[key];
+        }
+    }
+    return base;
+};
+
 io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.generateSkills = (json) => {
-    let result = [];
+    let resultText = [];
+    let resultModifyStatus = {};
 
     const abilities = io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.getAbilityInfo(json);
-    result = result.concat(abilities.texts);
+    resultText = resultText.concat(abilities.texts);
+    resultModifyStatus = io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.mergeMap(resultModifyStatus, abilities.modifyStatus);
     const magics = io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.getMagicInfo(json);
-    result = result.concat(magics.texts);
+    resultText = resultText.concat(magics.texts);
+    resultModifyStatus = io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.mergeMap(resultModifyStatus, magics.modifyStatus);
     const magicLikes = io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.getMagicLikeInfo(json);
-    result = result.concat(magicLikes.texts);
+    resultText = resultText.concat(magicLikes.texts);
+    resultModifyStatus = io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.mergeMap(resultModifyStatus, magicLikes.modifyStatus);
     const battleSkills = io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.getBattleSkillsInfo(json);
-    result = result.concat(battleSkills.texts);
+    resultText = resultText.concat(battleSkills.texts);
+    resultModifyStatus = io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.mergeMap(resultModifyStatus, battleSkills.modifyStatus);
 
-    return result.join('&lt;br&gt;&lt;br&gt;').trim();
+    return {
+        text: resultText.join('&lt;br&gt;&lt;br&gt;').trim(),
+        modifyStatus: resultModifyStatus
+    };
 };
 
 io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.getAbilityInfo = (json) => {
     const list = json.raceAbility.substr(1, json.raceAbility.length - 2).split('］［');
     const map = io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.RACE_ABILITY.LIST;
-    return {
-        texts: list.map((ability)=>{
-            const target = map[ability];
-            console.log(ability, target);
-            if(target) {
-                if(target.skip) {return '';}
-                if(target.replaceFunction) {
-                    return target.replaceFunction(json);
-                }
-                if(target.replace) {
-                    return target.replace;
-                }
+    let modifyStatus = {};
+    const textsArray = list.map((ability)=>{
+        const target = map[ability];
+        console.log(ability, target);
+        if(target) {
+            if(target.skip) {return '';}
+            if(target.modifyStatus) {
+                modifyStatus = io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.mergeMap(modifyStatus, target.modifyStatus(json));
             }
-            return '○' + ability;
-        }).filter((d)=>{return d})
-    }
+            if(target.replaceFunction) {
+                return target.replaceFunction(json);
+            }
+            if(target.replace) {
+                return target.replace;
+            }
+        }
+        return '○' + ability;
+    }).filter((d)=>{return d});
+    return {
+        texts: textsArray,
+        modifyStatus: modifyStatus
+    };
 };
 
 io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.getBattleSkillList = (json) => {
