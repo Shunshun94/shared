@@ -35,7 +35,8 @@ io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.exec = (json) => {
     for(var key in weapon) {
         result[key] = weapon[key];
     }
-    result.skills = io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.generateSkills(json);
+    const skills = io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.generateSkills(json);
+    result.skills = skills.text;
     return result;
 };
 
@@ -97,18 +98,22 @@ io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.calcExpectedDamage = (w) => {
 };
 
 io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.generateSkills = (json) => {
-    let result = [];
+    let resultText = [];
+    let resultModifyStatus = {};
 
     const abilities = io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.getAbilityInfo(json);
-    result = result.concat(abilities.texts);
+    resultText = resultText.concat(abilities.texts);
     const magics = io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.getMagicInfo(json);
-    result = result.concat(magics.texts);
+    resultText = resultText.concat(magics.texts);
     const magicLikes = io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.getMagicLikeInfo(json);
-    result = result.concat(magicLikes.texts);
+    resultText = resultText.concat(magicLikes.texts);
     const battleSkills = io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.getBattleSkillsInfo(json);
-    result = result.concat(battleSkills.texts);
+    resultText = resultText.concat(battleSkills.texts);
 
-    return result.join('&lt;br&gt;&lt;br&gt;').trim();
+    return {
+        text: resultText.join('&lt;br&gt;&lt;br&gt;').trim(),
+        modifyStatus: resultModifyStatus
+    };
 };
 
 io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.getAbilityInfo = (json) => {
