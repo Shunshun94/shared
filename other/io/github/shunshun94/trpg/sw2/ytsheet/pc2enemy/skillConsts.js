@@ -976,9 +976,9 @@ io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.RACE_ABILITY.LIST = {
       if(level < 6) {
         return '≫異貌';
       } else if(level < 11) {
-        return '≫異貌&lt;br&gt;使用持の打撃点は+1点されます';
+        return '≫異貌&lt;br&gt;使用時の打撃点は+1点されます';
       } else {
-        return '≫異貌&lt;br&gt;使用持の打撃点は+1点され、命中力判定に+1のボーナス修正を受け、さらに魔力に+1のボーナス修正を受けます';
+        return '≫異貌&lt;br&gt;使用時の打撃点は+1点され、命中力判定に+1のボーナス修正を受け、さらに魔力に+1のボーナス修正を受けます';
       }
     }
   },
