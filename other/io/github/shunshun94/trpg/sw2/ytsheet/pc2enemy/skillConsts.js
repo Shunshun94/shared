@@ -1065,6 +1065,8 @@ io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.RACE_ABILITY.LIST = {
       }
     }
   },
+  "奈落の落とし子": {skip: true},
+  "奈落の身体／アビストランク": {skip: true},
   "水・氷耐性": {},
   "バブルフォーム": {},
   "妖精の加護": {},
