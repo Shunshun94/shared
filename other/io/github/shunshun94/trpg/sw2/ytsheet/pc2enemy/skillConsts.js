@@ -945,6 +945,24 @@ io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.RACE_ABILITY.LIST = {
       }
     }
   },
+  "剣の加護／厳つき氷": {
+    replaceFunction: (json) => {
+      const level = Number(json.level);
+      const major = `＞厳つき氷／必中&lt;br&gt;「射程／形状：2（30m）／起点指定」で「対象1体」に「${level}」点の水・氷属性の確定ダメージを与えます。この効果を使用すると、MPを1点消費します。この効果は1ラウンドに1回だけ使えます。`;
+      if(level < 6) {
+        return major;
+      } else if(level < 11) {
+        return [
+          major, `≫厳つき氷／必中&lt;br&gt;「射程／形状：2（30m）／起点指定」で「対象1体」に「3」点の水・氷属性の確定ダメージを与えます。この効果を使用すると、MPを1点消費します。この効果は同名の主動作の能力と合わせて1ラウンドに1回だけ使えます。`
+        ].join('&lt;br&gt;&lt;br&gt;');
+      } else {
+        return [
+          major, `≫厳つき氷／必中&lt;br&gt;「射程／形状：2（30m）／起点指定」で「対象1体」に「5」点の水・氷属性の確定ダメージを与えます。この効果を使用すると、MPを1点消費します。この効果は同名の主動作の能力と合わせて1ラウンドに1回だけ使えます。`
+        ].join('&lt;br&gt;&lt;br&gt;');
+      }
+    }
+  },
+  "剣の加護／厳つき氷": {},
   "剣の加護／炎身": {
     replaceFunction: (json) => {
       const level = Number(json.level);
@@ -958,6 +976,7 @@ io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.RACE_ABILITY.LIST = {
     }
   },
   "第六感": {skip: true},
+  "ホイッスル": {skip: true},
   "HP変換": {
     replaceFunction: (json) => {
       const level = Number(json.level);
@@ -1008,7 +1027,21 @@ io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.RACE_ABILITY.LIST = {
   "通じ合う意識": {},
   "見えざる手": {skip: true},
   "姿なき職人": {},
-  "吸精": {},
+  "吸精": {
+    replaceFunction: (json) => {
+      const level = Number(json.level);
+      const mndB = Number(json.bonusMnd);
+      const base = mndB+Number(json.sin);
+      const suffix = `この効果は1日で${mndB}回までしか行えません。また、MPを持つ「分類：人族（アルヴ以外）」「分類：蛮族」のキャラクターにしか使用できず、効果はありません。`;
+      if(level < 6) {
+        return `＞吸精／必中&lt;br&gt;「射程／形状：接触／―」で「対象1体」のマナを吸い取り、自らのものとします。対象のMPに「${base}」点の確定ダメージを与え、同時に使用者のMPをその適用ダメージと同じ値だけ回復します。${suffix}`;
+      } else if(level < 11) {
+        return `＞吸精／必中&lt;br&gt;「射程／形状：1（10m）／起点指定」で「対象1体」のマナを吸い取り、自らのものとします。対象のMPに「${base}」点の確定ダメージを与え、同時に使用者のMPをその適用ダメージと同じ値だけ回復します。${suffix}`;
+      } else {
+        return `＞吸精／必中&lt;br&gt;「射程／形状：1（10m）／起点指定」で「対象1体」のマナを吸い取り、自らのものとします。対象のMPに「${base+2}」点の確定ダメージを与え、同時に使用者のMPをその適用ダメージと同じ値だけ回復します。${suffix}`;
+      }
+    }
+  },
   "月光の守り": {
     replaceFunction: (json) => {
       const level = Number(json.level);
@@ -1021,7 +1054,7 @@ io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.RACE_ABILITY.LIST = {
       }
     }
   },
-  "輝く肉体": {},
+  "輝く肉体": { replace: '≫輝く肉体' },
   "太陽の再生": {skip: true},
   "太陽の子": {},
   "蛮族の身体": {skip: true},
@@ -1080,7 +1113,6 @@ io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.RACE_ABILITY.LIST = {
       return {
         status1Accuracy:    (level < 6) ? 2 : 1,
         status1AccuracyFix: (level < 6) ? 2 : 1
-
       };
     },
     replaceFunction: ()=>{return '';}
@@ -1089,10 +1121,19 @@ io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.RACE_ABILITY.LIST = {
   "バブルフォーム": {},
   "妖精の加護": {},
   "浮遊": {},
-  "魂の輝き": {},
+  "魂の輝き": { replace: '≫魂の輝き' },
   "鉱石の生命": {},
   "晶石の身体": {skip: true},
-  "魔法の申し子": {},
+  "魔法の申し子": {
+    replaceFunction: (json) => {
+      const level = Number(json.level);
+      if(level < 6) {
+        return `○魔法の申し子&lt;br&gt;行使判定で自動成功した場合、行使した魔法の「消費MP」が「0」になります`;
+      } else {
+        return `○魔法の申し子&lt;br&gt;行使判定で自動成功または自動失敗した場合、行使した魔法の「消費MP」が「0」になります`;
+      }
+    }
+  },
   "デジャヴ": {skip: true},
   "猫変化": {},
   "獣性の発露": {},
@@ -1113,7 +1154,22 @@ io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.RACE_ABILITY.LIST = {
   "造られし強さ": {},
   "鋼鉄の翼": {},
   "契約の絆": {},
-  "黒炎の遣い手": {},
+  "黒炎の遣い手": {
+    replaceFunction: (json) => {
+      const level = Number(json.level);
+      const useTemplate = (n, d, c, t='') => { return `≫黒煙の使い手${n}&lt;br&gt;自身の近接攻撃・遠隔攻撃で発生させる物理ダメージ・魔法ダメージ1回を炎属性とし、追加ダメージを+${d}点します。${t}この効果は例外的に「◯炎無効」や「剣の加護／炎身」を持つ対象にも有効となります。同時に複数の対象にダメージを与えた場合、その中の任意の1体を選んで効果を適用します。使用するとMPを${c}点消費します。`; };
+      const level1 = useTemplate(1, 3, 3);
+      const level2 = useTemplate(2, 5, 5);
+      const level3 = useTemplate(1, 10, 10, 'さらに、このダメージを適用した対象は10秒（1ラウンド）の間防護点が-2点（最低0）されます。');
+      if(level < 6) {
+        return [level1].join('&lt;br&gt;&lt;br&gt;');
+      } else if(level < 11) {
+        return [level1, level2].join('&lt;br&gt;&lt;br&gt;');
+      } else {
+        return [level1, level2, level3].join('&lt;br&gt;&lt;br&gt;');
+      }
+    }
+  },
   "魔剣の所持": {skip: true},
   "飛行（飛翔）": {
     replace: `○飛行（飛翔）&lt;br&gt;近接攻撃における命中力・回避力判定に+1のボーナス修正を得ます`
@@ -1549,7 +1605,8 @@ io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.RACE_LANGUAGE.LIST = {
   },
   "タビット（パイカ種タビット）": {
     "language": [
-      "交易共通語"
+      "交易共通語",
+      "パイカ語"
     ]
   }
 };
