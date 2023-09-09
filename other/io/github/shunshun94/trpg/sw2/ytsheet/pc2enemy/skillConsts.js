@@ -1008,7 +1008,21 @@ io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.RACE_ABILITY.LIST = {
   "通じ合う意識": {},
   "見えざる手": {skip: true},
   "姿なき職人": {},
-  "吸精": {},
+  "吸精": {
+    replaceFunction: (json) => {
+      const level = Number(json.level);
+      const mndB = Number(json.bonusMnd);
+      const base = mndB+Number(json.sin);
+      const suffix = `この効果は1日で${mndB}回までしか行えません。また、MPを持つ「分類：人族（アルヴ以外）」「分類：蛮族」のキャラクターにしか使用できず、効果はありません。`;
+      if(level < 6) {
+        return `＞吸精／必中&lt;br&gt;「射程／形状：接触／―」で「対象1体」のマナを吸い取り、自らのものとします。対象のMPに「${base}」点の確定ダメージを与え、同時に使用者のMPをその適用ダメージと同じ値だけ回復します。${suffix}`;
+      } else if(level < 11) {
+        return `＞吸精／必中&lt;br&gt;「射程／形状：1（10m）／起点指定」で「対象1体」のマナを吸い取り、自らのものとします。対象のMPに「${base}」点の確定ダメージを与え、同時に使用者のMPをその適用ダメージと同じ値だけ回復します。${suffix}`;
+      } else {
+        return `＞吸精／必中&lt;br&gt;「射程／形状：1（10m）／起点指定」で「対象1体」のマナを吸い取り、自らのものとします。対象のMPに「${base+2}」点の確定ダメージを与え、同時に使用者のMPをその適用ダメージと同じ値だけ回復します。${suffix}`;
+      }
+    }
+  },
   "月光の守り": {
     replaceFunction: (json) => {
       const level = Number(json.level);
