@@ -962,6 +962,7 @@ io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.RACE_ABILITY.LIST = {
       }
     }
   },
+  "剣の加護／厳つき氷": {},
   "剣の加護／炎身": {
     replaceFunction: (json) => {
       const level = Number(json.level);
