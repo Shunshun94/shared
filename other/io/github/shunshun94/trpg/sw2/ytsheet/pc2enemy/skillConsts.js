@@ -1112,7 +1112,6 @@ io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.RACE_ABILITY.LIST = {
       return {
         status1Accuracy:    (level < 6) ? 2 : 1,
         status1AccuracyFix: (level < 6) ? 2 : 1
-
       };
     },
     replaceFunction: ()=>{return '';}
@@ -1121,10 +1120,19 @@ io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.RACE_ABILITY.LIST = {
   "バブルフォーム": {},
   "妖精の加護": {},
   "浮遊": {},
-  "魂の輝き": {},
+  "魂の輝き": { replace: '≫魂の輝き' },
   "鉱石の生命": {},
   "晶石の身体": {skip: true},
-  "魔法の申し子": {},
+  "魔法の申し子": {
+    replaceFunction: (json) => {
+      const level = Number(json.level);
+      if(level < 6) {
+        return `○魔法の申し子&lt;br&gt;行使判定で自動成功した場合、行使した魔法の「消費MP」が「0」になります`;
+      } else {
+        return `○魔法の申し子&lt;br&gt;行使判定で自動成功または自動失敗した場合、行使した魔法の「消費MP」が「0」になります`;
+      }
+    }
+  },
   "デジャヴ": {skip: true},
   "猫変化": {},
   "獣性の発露": {},
