@@ -976,6 +976,7 @@ io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.RACE_ABILITY.LIST = {
     }
   },
   "第六感": {skip: true},
+  "ホイッスル": {skip: true},
   "HP変換": {
     replaceFunction: (json) => {
       const level = Number(json.level);
@@ -1153,7 +1154,22 @@ io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.RACE_ABILITY.LIST = {
   "造られし強さ": {},
   "鋼鉄の翼": {},
   "契約の絆": {},
-  "黒炎の遣い手": {},
+  "黒炎の遣い手": {
+    replaceFunction: (json) => {
+      const level = Number(json.level);
+      const useTemplate = (n, d, c, t='') => { return `≫黒煙の使い手${n}&lt;br&gt;自身の近接攻撃・遠隔攻撃で発生させる物理ダメージ・魔法ダメージ1回を炎属性とし、追加ダメージを+${d}点します。${t}この効果は例外的に「◯炎無効」や「剣の加護／炎身」を持つ対象にも有効となります。同時に複数の対象にダメージを与えた場合、その中の任意の1体を選んで効果を適用します。使用するとMPを${c}点消費します。`; };
+      const level1 = useTemplate(1, 3, 3);
+      const level2 = useTemplate(2, 5, 5);
+      const level3 = useTemplate(1, 10, 10, 'さらに、このダメージを適用した対象は10秒（1ラウンド）の間防護点が-2点（最低0）されます。');
+      if(level < 6) {
+        return [level1].join('&lt;br&gt;&lt;br&gt;');
+      } else if(level < 11) {
+        return [level1, level2].join('&lt;br&gt;&lt;br&gt;');
+      } else {
+        return [level1, level2, level3].join('&lt;br&gt;&lt;br&gt;');
+      }
+    }
+  },
   "魔剣の所持": {skip: true},
   "飛行（飛翔）": {
     replace: `○飛行（飛翔）&lt;br&gt;近接攻撃における命中力・回避力判定に+1のボーナス修正を得ます`
@@ -1589,7 +1605,8 @@ io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.RACE_LANGUAGE.LIST = {
   },
   "タビット（パイカ種タビット）": {
     "language": [
-      "交易共通語"
+      "交易共通語",
+      "パイカ語"
     ]
   }
 };
