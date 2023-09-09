@@ -1035,7 +1035,7 @@ io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.RACE_ABILITY.LIST = {
       }
     }
   },
-  "輝く肉体": {},
+  "輝く肉体": { replace: '≫輝く肉体' },
   "太陽の再生": {skip: true},
   "太陽の子": {},
   "蛮族の身体": {skip: true},
