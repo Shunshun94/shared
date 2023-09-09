@@ -945,6 +945,23 @@ io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.RACE_ABILITY.LIST = {
       }
     }
   },
+  "剣の加護／厳つき氷": {
+    replaceFunction: (json) => {
+      const level = Number(json.level);
+      const major = `＞厳つき氷／必中&lt;br&gt;「射程／形状：2（30m）／起点指定」で「対象1体」に「${level}」点の水・氷属性の確定ダメージを与えます。この効果を使用すると、MPを1点消費します。この効果は1ラウンドに1回だけ使えます。`;
+      if(level < 6) {
+        return major;
+      } else if(level < 11) {
+        return [
+          major, `≫厳つき氷／必中&lt;br&gt;「射程／形状：2（30m）／起点指定」で「対象1体」に「3」点の水・氷属性の確定ダメージを与えます。この効果を使用すると、MPを1点消費します。この効果は同名の主動作の能力と合わせて1ラウンドに1回だけ使えます。`
+        ].join('&lt;br&gt;&lt;br&gt;');
+      } else {
+        return [
+          major, `≫厳つき氷／必中&lt;br&gt;「射程／形状：2（30m）／起点指定」で「対象1体」に「5」点の水・氷属性の確定ダメージを与えます。この効果を使用すると、MPを1点消費します。この効果は同名の主動作の能力と合わせて1ラウンドに1回だけ使えます。`
+        ].join('&lt;br&gt;&lt;br&gt;');
+      }
+    }
+  },
   "剣の加護／炎身": {
     replaceFunction: (json) => {
       const level = Number(json.level);
