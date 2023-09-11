@@ -8,6 +8,38 @@ io.github.shunshun94.util.DateTimePicker.DATE_REGEXP = /([\^\-―～]?)([01]?[0-
 io.github.shunshun94.util.DateTimePicker.DATE_REGEXP_RANGE = /([\^\-―～]?)([01]?[0-9])[\/／月\-・]([0-3]?[0-9])日?[\s\　]*[(（)]?[日月火水木金土]?[)）)]?[\s\　]*([\^\-―～])[\s\　]*([01]?[0-9][\/／月\-・])?([0-3]?[0-9])日?[\s\　]*[(（)]?[日月火水木金土]?[)）)]?/;
 io.github.shunshun94.util.DateTimePicker.TIME_REGEXP = /([012]?[0-9])\s*[\:：時]\s*([0-5][0-9])?\s*[分～~]*/
 
+io.github.shunshun94.util.DateTimePicker.parse = (input) => {
+    const result = io.github.shunshun94.util.DateTimePicker.isNotDecided(input);
+    if(result.text) {
+        return result;
+    }
+    return io.github.shunshun94.util.DateTimePicker.pick(input);
+};
+
+io.github.shunshun94.util.DateTimePicker.isNotDecided = (input) => {
+    const regexpResult = [
+        /日[程時付][相未][談定]/,
+        /日?[程時付]?[す擦摺刷]り?[合あ]わ?せ/
+    ].map((regexp)=>{
+        return regexp.exec(input);
+    }).filter((regexp)=>{
+        return regexp;
+    });
+    if(regexpResult.length) {
+        return {
+            isNotDecided: regexpResult[0],
+            text: '日時未定',
+            datetimeRevmoed: input.replace(regexpResult[0][0], '')
+        };
+    } else {
+        return {
+            isNotDecided: false,
+            text: '',
+            datetimeRevmoed: input
+        };
+    }
+};
+
 io.github.shunshun94.util.DateTimePicker.pickDate = (dateRegexpResult) => {
     if(dateRegexpResult) {
         const untilSign = dateRegexpResult[1] ? '～' : '';
