@@ -1014,6 +1014,8 @@ io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.RACE_ABILITY.LIST = {
   "弱点／水・氷": {},
   "弱点／炎": {},
   "弱点／風": {},
+  "弱点／精神効果": {},
+  "弱点／純エネルギー": {},
   "暗視(獣変貌)": {skip: true},
   "獣変貌": {
     replaceFunction: (json) => {
