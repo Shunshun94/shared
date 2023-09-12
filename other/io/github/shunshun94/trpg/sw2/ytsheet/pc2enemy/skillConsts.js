@@ -1121,7 +1121,18 @@ io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.RACE_ABILITY.LIST = {
       return `≫石化の視線／${base}（${base + 7}）／精神抵抗力／消滅&lt;br&gt;「射程／形状：2（30m）／起点指定」で対象1体に石化進行（『Ⅱ』368項／『ML』65項）。使用するとMPを5点消費します。`;
     }
   },
-  "毒の血液": {},
+  "毒の血液": {
+    replaceFunction: (json) => {
+      const level = Number(json.level);
+      if(level < 6) {
+        return '○毒の血液&lt;br&gt;この魔物が存在する乱戦エリア内で、この魔物にダメージを与えたものは、自身の手番の終了時に「1d-2（最低1）」点の毒属性の魔法ダメージを受けます。';
+      } else if(level < 11) {
+        return '○毒の血液&lt;br&gt;この魔物が存在する乱戦エリア内で、この魔物にダメージを与えたものは、自身の手番の終了時に「1d」点の毒属性の魔法ダメージを受けます。';
+      } else {
+        return '○毒の血液&lt;br&gt;この魔物が存在する乱戦エリア内で、この魔物にダメージを与えたものは、自身の手番の終了時に「1d+2」点の毒属性の魔法ダメージを受けます。';
+      }
+    }
+  },
   "剛力": {skip: true},
   "巨人化": {
     replaceFunction: (json) => {
