@@ -1021,11 +1021,35 @@ io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.RACE_ABILITY.LIST = {
     replaceFunction: (json) => {
       const level = Number(json.level);
       if(level < 6) {
-        return '▶獣変貌';
+        return '▶獣変貌;br&gt;使用時の打撃点は+2点されます';
       } else if(level < 11) {
-        return '△≫獣変貌';
+        return '△≫獣変貌;br&gt;使用時の打撃点は+2点されます';
       } else {
-        return '△≫獣変貌&lt;br&gt;使用時はさらに回避力判定と先制判定に+1のボーナス修正を受けます';
+        return '△≫獣変貌&lt;br&gt;使用時は打撃点は+2点され、さらに回避力判定と先制判定に+1のボーナス修正を受けます';
+      }
+    }
+  },
+  "獣変貌(大型草食獣)": {
+    replaceFunction: (json) => {
+      const level = Number(json.level);
+      if(level < 6) {
+        return '▶獣変貌(大型草食獣)&lt;br&gt;&lt;br&gt;≫頭突き&lt;br&gt;「射程／形状：接触／―」で対象1体に「2」点の確定ダメージを与えます。この能力は獣変貌中しか使用できず、1ラウンドに1回しか使用できません。';
+      } else if(level < 11) {
+        return '△≫獣変貌(大型草食獣)&lt;br&gt;&lt;br&gt;≫頭突き&lt;br&gt;「射程／形状：接触／―」で対象1体に「2」点の確定ダメージを与えます。この能力は獣変貌中しか使用できず、1ラウンドに1回しか使用できません。';
+      } else {
+        return '△≫獣変貌(大型草食獣)&lt;br&gt;&lt;br&gt;≫頭突き&lt;br&gt;「射程／形状：接触／―」で対象1体に「4」点の確定ダメージを与えます。この能力は獣変貌中しか使用できず、1ラウンドに1回しか使用できません。';
+      }
+    }
+  },
+  "獣変貌(小型草食獣)": {
+    replaceFunction: (json) => {
+      const level = Number(json.level);
+      if(level < 6) {
+        return '▶獣変貌(小型草食獣)&lt;br&gt;使用時は回避力判定と先制判定に+1のボーナス修正を受けます';
+      } else if(level < 11) {
+        return '△≫獣変貌(小型草食獣)&lt;br&gt;使用時は回避力判定と先制判定に+1のボーナス修正を受けます';
+      } else {
+        return '△≫獣変貌(小型草食獣)&lt;br&gt;使用時は回避力判定と先制判定に+2のボーナス修正を受けます';
       }
     }
   },
