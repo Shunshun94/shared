@@ -966,9 +966,9 @@ io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.RACE_ABILITY.LIST = {
     replaceFunction: (json) => {
       const level = Number(json.level);
       if(level < 6) {
-        return '○剣の加護／惑いの霧&lt;br&gt;「知覚：五感」「知覚：機械」のキャラクターは、このキャラクターを対象にした近接攻撃・遠隔攻撃の命中力判定に-1のペナルティ修正を受けます。';
+        return '○惑いの霧&lt;br&gt;「知覚：五感」「知覚：機械」のキャラクターは、このキャラクターを対象にした近接攻撃・遠隔攻撃の命中力判定に-1のペナルティ修正を受けます。';
       } else {
-        return '○剣の加護／惑いの霧&lt;br&gt;この魔物に近接攻撃・遠隔攻撃を試みるキャラクターはその命中力判定に-1のペナルティ修正を受けます。';
+        return '○惑いの霧&lt;br&gt;この魔物に近接攻撃・遠隔攻撃を試みるキャラクターはその命中力判定に-1のペナルティ修正を受けます。';
       }
     }
   },
