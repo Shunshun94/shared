@@ -34,10 +34,10 @@ io.github.shunshun94.trpg.logEditor.Editor = class {
 					this.getMainDom().append(htmls.join(''));
 				}
 				if(action === 'tmpA') {
-					$(this.getTmpDoms()[0]).append(htmls.join(''));
+					$(this.getTmpDoms()[1]).append(htmls.join(''));
 				}
 				if(action === 'tmpB') {
-					$(this.getTmpDoms()[1]).append(htmls.join(''));
+					$(this.getTmpDoms()[0]).append(htmls.join(''));
 				}
 				io.github.shunshun94.trpg.logEditor.menu.AppendMenu.close();
 			}, (cancel)=>{
@@ -406,19 +406,13 @@ io.github.shunshun94.trpg.logEditor.Editor = class {
 	generateBaseEditor() {
 		io.github.shunshun94.trpg.logEditor.DOMS.BODY.empty();
 		io.github.shunshun94.trpg.logEditor.DOMS.BODY.append(`
-			<div class="editBlock" id="mainEditor">
-				<h2>出力</h2><button class="${io.github.shunshun94.trpg.logEditor.CLASSES.SAVE}">保存する(Ctrl+S)</button>
-				<div class="logList"></div>
-			</div>
-		`);
-		io.github.shunshun94.trpg.logEditor.DOMS.BODY.append(`
 			<div id="tmpEditor">
-				<div class="editBlock" id="tmpEditorA">
-					<h2>一時置き場A</h2><button class="${io.github.shunshun94.trpg.logEditor.CLASSES.SAVE}">保存する</button>
-					<div class="logList"></div>
-				</div>
 				<div class="editBlock" id="tmpEditorB">
 					<h2>一次置き場B</h2><button class="${io.github.shunshun94.trpg.logEditor.CLASSES.SAVE}">保存する</button>
+					<div class="logList"></div>
+				</div>
+				<div class="editBlock" id="tmpEditorA">
+					<h2>一時置き場A</h2><button class="${io.github.shunshun94.trpg.logEditor.CLASSES.SAVE}">保存する</button>
 					<div class="logList"></div>
 				</div>
 				<div class="trashBlock" id="trashbox">
@@ -427,6 +421,12 @@ io.github.shunshun94.trpg.logEditor.Editor = class {
 					<button class="${io.github.shunshun94.trpg.logEditor.CLASSES.DELETE_ALL}">空にする</button>
 					<div class="logList"></div>
 				</div>
+			</div>
+		`);
+		io.github.shunshun94.trpg.logEditor.DOMS.BODY.append(`
+			<div class="editBlock" id="mainEditor">
+				<h2>出力</h2><button class="${io.github.shunshun94.trpg.logEditor.CLASSES.SAVE}">保存する(Ctrl+S)</button>
+				<div class="logList"></div>
 			</div>
 		`);
 		io.github.shunshun94.trpg.logEditor.DOMS.BODY.append(`
