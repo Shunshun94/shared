@@ -77,6 +77,14 @@ io.github.shunshun94.trpg.logEditor.Editor = class {
 		post.find(`.${io.github.shunshun94.trpg.logEditor.CLASSES.NAME}`).text(nameList[currentNameIndex + 1] || nameList[0]);
 	}
 
+	changePostNameReversed(post) {
+		const nameList = this.getNameList().sort().reverse();
+		const currentName = post.find(`.${io.github.shunshun94.trpg.logEditor.CLASSES.NAME}`).text();
+		const currentNameIndex = nameList.indexOf(currentName);
+		console.log(currentNameIndex, currentName);
+		post.find(`.${io.github.shunshun94.trpg.logEditor.CLASSES.NAME}`).text(nameList[currentNameIndex + 1] || nameList[0]);
+	}
+
 	duplicate(post) {
 		post.after(post.clone());
 	}
@@ -371,6 +379,17 @@ io.github.shunshun94.trpg.logEditor.Editor = class {
 				io.github.shunshun94.trpg.logEditor.kickPostClickedEvents(this, clicked, targetPost);
 			} else {
 				io.github.shunshun94.trpg.logEditor.kickGeneralClicedEvents(this, clicked);
+			}
+		});
+
+		io.github.shunshun94.trpg.logEditor.DOMS.BODY.contextmenu((e)=>{
+			const clicked = $(e.target);
+			const targetPost = clicked.parents(`.${io.github.shunshun94.trpg.logEditor.CLASSES.POST}`);
+			if(targetPost.length) {
+				const result = io.github.shunshun94.trpg.logEditor.kickPostRightClickedEvents(this, clicked, targetPost);
+				if(result) {
+					e.preventDefault();
+				}
 			}
 		});
 	}

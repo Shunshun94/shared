@@ -211,13 +211,31 @@ io.github.shunshun94.trpg.logEditor.GeneralClicedEvents = [
             $('#trashbox .logList .io-github-shunshun94-trpg-logEditor-Post').remove();
         }
     }
-]
+];
+
+io.github.shunshun94.trpg.logEditor.PostRightClickedEvents = [
+    {
+        class: io.github.shunshun94.trpg.logEditor.CLASSES.NAMECYCLE,
+        action: (self, clicked, targetPost) => {
+            self.changePostNameReversed(targetPost);
+        }
+    }
+];
 
 io.github.shunshun94.trpg.logEditor.kickPostClickedEvents = (self, clicked, targetPost) => {
     for(const pair of io.github.shunshun94.trpg.logEditor.PostClickedEvents) {
         if( clicked.hasClass(pair.class) ) {
             pair.action(self, clicked, targetPost);
             return;
+        }
+    }
+};
+
+io.github.shunshun94.trpg.logEditor.kickPostRightClickedEvents = (self, clicked, targetPost) => {
+    for(const pair of io.github.shunshun94.trpg.logEditor.PostRightClickedEvents) {
+        if( clicked.hasClass(pair.class) ) {
+            pair.action(self, clicked, targetPost);
+            return true;
         }
     }
 };
