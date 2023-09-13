@@ -1105,7 +1105,39 @@ io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.RACE_ABILITY.LIST = {
     }
   },
   "マナ不干渉": {
-
+    replaceFunction: (json) => {
+      const mndResist    = Number(json.mndResistTotal);
+      const mndResistFix = Number(json.mndResistTotal) + 7;
+      const level        = Number(json.level);
+      if(level < 6) {
+        return `◯マナ不干渉&lt;br&gt;精神抵抗力判定に成功すると、どのような効果でも「抵抗：消滅」として扱います。`;
+      }
+      if(level < 11) {
+        if(json.race.includes('クリメノス')) {
+          // 知覚：魔法に対する能力は『ML』216頁で略されているのでなし
+          return `◯マナ不干渉&lt;br&gt;精神抵抗力判定に成功すると、どのような効果でも「抵抗：消滅」として扱います。`;
+        } else { // 通常種とアリーシャ
+          return [
+            `◯マナ不干渉&lt;br&gt;精神抵抗力判定に成功すると、どのような効果でも「抵抗：消滅」として扱います。`,
+            `▶魔法破り／${mndResist}（${mndResistFix}）&lt;br&gt;1日に1回、「射程：接触」「対象：魔法1つ」を解除します。対象とした魔法と達成値の比べあいが必要です。`
+          ].join('&lt;br&gt;&lt;br&gt;');
+        }
+      } else {
+        if(json.race.includes('クリメノス')) {
+          return `◯マナ不干渉&lt;br&gt;精神抵抗力判定に成功すると、どのような効果でも「抵抗：消滅」として扱います。`;
+        } else if((json.race.includes('アリーシャ'))) {
+          return [
+            `◯マナ不干渉&lt;br&gt;精神抵抗力判定に成功すると、どのような効果でも「抵抗：消滅」として扱います。`,
+            `▶魔法破り／${mndResist + 4}（${mndResistFix + 4}）&lt;br&gt;1日に1回、「射程／形状：1（10m）／起点指定」「対象：魔法1つ」を解除します。対象とした魔法と達成値の比べあいが必要です。`
+          ].join('&lt;br&gt;&lt;br&gt;');
+        } else {
+          return [
+            `◯マナ不干渉&lt;br&gt;精神抵抗力判定に成功すると、どのような効果でも「抵抗：消滅」として扱います。`,
+            `▶魔法破り／${mndResist}（${mndResistFix}）&lt;br&gt;1日に1回、「射程：接触」「対象：魔法1つ」を解除します。対象とした魔法と達成値の比べあいが必要です。`
+          ].join('&lt;br&gt;&lt;br&gt;');
+        }
+      }
+    }
   },
   "虫や植物との意思疎通": {skip: true},
   "繁茂する生命": {skip: true},
