@@ -178,6 +178,9 @@ io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.getBattleSkillList = (json) => {
     if(json.lvGra) {
         list.push('投げ攻撃');
     }
+    if(json.combatFeatsLv1bat) {
+        list.push(json.combatFeatsLv1bat);
+    }
     for(var i = 0; i < io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.MAX_LEVEL; i++) {
         if(json[`combatFeatsLv${i + 1}`]) {
             list.push(json[`combatFeatsLv${i + 1}`]);
