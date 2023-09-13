@@ -1092,6 +1092,18 @@ io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.RACE_ABILITY.LIST = {
       }
     }
   },
+  "暖かき風": {
+    replaceFunction: (json) => {
+      const level = Number(json.level);
+      if(level < 6) {
+        return '◯暖かき風&lt;br&gt;自身が与える風属性の物理ダメージ・魔法ダメージを常に「+2」点します。また、自身が受ける風属性の物理ダメージ・魔法ダメージを常に「2」点現象します。';
+      } else if(level < 11) {
+        return '◯暖かき風&lt;br&gt;自身が与える風属性の物理ダメージ・魔法ダメージを常に「+2」点します。また、自身が受ける風属性と水・氷属性の物理ダメージ・魔法ダメージを常に「2」点現象します。';
+      } else {
+        return '◯暖かき風&lt;br&gt;自身が与える風属性の物理ダメージ・魔法ダメージを常に「+3」点します。また、自身が受ける風属性と水・氷属性の物理ダメージ・魔法ダメージを常に「3」点現象します。';
+      }
+    }
+  },
   "マナ不干渉": {},
   "虫や植物との意思疎通": {skip: true},
   "繁茂する生命": {skip: true},
