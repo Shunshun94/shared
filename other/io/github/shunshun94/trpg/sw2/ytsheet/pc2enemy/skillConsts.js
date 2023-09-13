@@ -1104,7 +1104,9 @@ io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.RACE_ABILITY.LIST = {
       }
     }
   },
-  "マナ不干渉": {},
+  "マナ不干渉": {
+
+  },
   "虫や植物との意思疎通": {skip: true},
   "繁茂する生命": {skip: true},
   "通じ合う意識": {},
@@ -1162,12 +1164,12 @@ io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.RACE_ABILITY.LIST = {
       let weakness = '';
       for(var key in weeklingMap) {
         if(json.race.includes(key)) {
-          weekness = weeklingMap[key];
+          weakness = weeklingMap[key];
         }
       }
       return {
         "reputation+": Number(json.level) + Number(json.bonusInt) + 7,
-        'weakness': weekness,
+        'weakness': weakness,
         taxa: '=蛮族'
       };
     }
