@@ -998,6 +998,18 @@ io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.RACE_ABILITY.LIST = {
       }
     }
   },
+  "仲間との絆": {
+    replaceFunction: (json) => {
+      const level = Number(json.level);
+      if(level < 6) {
+        return '◯仲間との絆&lt;br&gt;自らを中心に「半径5m（1エリア）」の範囲内で、自身以外のキャラクターが物理ダメージ・魔法ダメージを受ける場合、そのダメージを「3」点軽減します。この能力を使用すると「ダメージを軽減したキャラクターの数（部位）×3」点のMPを消費します。この効果は1日に1回しか使えません。';
+      } else if(level < 11) {
+        return '◯仲間との絆&lt;br&gt;自らを中心に「半径5m（1エリア）」の範囲内で、自身以外のキャラクターが物理ダメージ・魔法ダメージを受ける場合、そのダメージを「5」点軽減します。この能力を使用すると「ダメージを軽減したキャラクターの数（部位）×5」点のMPを消費します。この効果は1日に1回しか使えません。';
+      } else {
+        return '◯仲間との絆&lt;br&gt;自らを中心に「半径5m（1エリア）」の範囲内で、自身以外のキャラクターが物理ダメージ・魔法ダメージを受ける場合、そのダメージを「5」点軽減します。この能力を使用すると「ダメージを軽減したキャラクターの数（部位）×5」点のMPを消費します。この効果は1日に2回しか使えません。';
+      }
+    }
+  },
   "異貌": {
     replaceFunction: (json) => {
       const level = Number(json.level);
@@ -1103,7 +1115,27 @@ io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.RACE_ABILITY.LIST = {
    },
   "太陽の再生": {skip: true},
   "太陽の子": {},
-  "蛮族の身体": {skip: true},
+  "蛮族の身体": {
+    modifyStatus: (json) => {
+      const weeklingMap = {
+        'ガルーダ': '衝撃属性ダメージ+3点',
+        'タノンズ': '物理ダメージ+2点',
+        'バジリスク': '水・氷属性ダメージ+3点',
+        'ミノタウロス': '魔法ダメージ+2点'
+      };
+      let weakness = '';
+      for(var key in weeklingMap) {
+        if(json.race.includes(key)) {
+          weekness = weeklingMap[key];
+        }
+      }
+      return {
+        "reputation+": Number(json.level) + Number(json.bonusInt) + 7,
+        'weakness': weekness,
+        taxa: '=蛮族'
+      };
+    }
+  },
   "未熟な翼": {},
   "切り裂く風": {
     replaceFunction: (json) => {
