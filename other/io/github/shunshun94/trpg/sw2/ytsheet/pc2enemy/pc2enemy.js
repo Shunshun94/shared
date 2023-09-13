@@ -100,7 +100,20 @@ io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.calcExpectedDamage = (w) => {
 
 io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.mergeMap = (base, append) => {
     for(var key in append) {
-        if(base[key]) {
+        if (append[key].startsWith && append[key].startsWith('=')) {
+            base[key] = append[key].slice(1);
+        } else if(base[key])  {
+            base[key] += append[key];
+        } else {
+            base[key] = append[key];
+        }
+    }
+    return base;
+};
+
+io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.mergeMapSimplyOverride = (base, append) => {
+    for(var key in append) {
+        if (base[key])  {
             base[key] += append[key];
         } else {
             base[key] = append[key];
@@ -115,16 +128,17 @@ io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.generateSkills = (json) => {
 
     const abilities = io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.getAbilityInfo(json);
     resultText = resultText.concat(abilities.texts);
-    resultModifyStatus = io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.mergeMap(resultModifyStatus, abilities.modifyStatus);
+    resultModifyStatus = io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.mergeMapSimplyOverride(resultModifyStatus, abilities.modifyStatus);
+    console.log(resultModifyStatus);
     const magics = io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.getMagicInfo(json);
     resultText = resultText.concat(magics.texts);
-    resultModifyStatus = io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.mergeMap(resultModifyStatus, magics.modifyStatus);
+    resultModifyStatus = io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.mergeMapSimplyOverride(resultModifyStatus, magics.modifyStatus);
     const magicLikes = io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.getMagicLikeInfo(json);
     resultText = resultText.concat(magicLikes.texts);
-    resultModifyStatus = io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.mergeMap(resultModifyStatus, magicLikes.modifyStatus);
+    resultModifyStatus = io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.mergeMapSimplyOverride(resultModifyStatus, magicLikes.modifyStatus);
     const battleSkills = io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.getBattleSkillsInfo(json);
     resultText = resultText.concat(battleSkills.texts);
-    resultModifyStatus = io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.mergeMap(resultModifyStatus, battleSkills.modifyStatus);
+    resultModifyStatus = io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.mergeMapSimplyOverride(resultModifyStatus, battleSkills.modifyStatus);
 
     return {
         text: resultText.join('&lt;br&gt;&lt;br&gt;').trim(),
@@ -142,7 +156,7 @@ io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.getAbilityInfo = (json) => {
         if(target) {
             if(target.skip) {return '';}
             if(target.modifyStatus) {
-                modifyStatus = io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.mergeMap(modifyStatus, target.modifyStatus(json));
+                modifyStatus = io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.mergeMapSimplyOverride(modifyStatus, target.modifyStatus(json));
             }
             if(target.replaceFunction) {
                 return target.replaceFunction(json);
