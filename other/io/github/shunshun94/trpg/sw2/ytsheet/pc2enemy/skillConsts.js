@@ -998,6 +998,30 @@ io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.RACE_ABILITY.LIST = {
       }
     }
   },
+  "仲間との絆": {
+    replaceFunction: (json) => {
+      const level = Number(json.level);
+      if(level < 6) {
+        return '◯仲間との絆&lt;br&gt;自らを中心に「半径5m（1エリア）」の範囲内で、自身以外のキャラクターが物理ダメージ・魔法ダメージを受ける場合、そのダメージを「3」点軽減します。この能力を使用すると「ダメージを軽減したキャラクターの数（部位）×3」点のMPを消費します。この効果は1日に1回しか使えません。';
+      } else if(level < 11) {
+        return '◯仲間との絆&lt;br&gt;自らを中心に「半径5m（1エリア）」の範囲内で、自身以外のキャラクターが物理ダメージ・魔法ダメージを受ける場合、そのダメージを「5」点軽減します。この能力を使用すると「ダメージを軽減したキャラクターの数（部位）×5」点のMPを消費します。この効果は1日に1回しか使えません。';
+      } else {
+        return '◯仲間との絆&lt;br&gt;自らを中心に「半径5m（1エリア）」の範囲内で、自身以外のキャラクターが物理ダメージ・魔法ダメージを受ける場合、そのダメージを「5」点軽減します。この能力を使用すると「ダメージを軽減したキャラクターの数（部位）×5」点のMPを消費します。この効果は1日に2回しか使えません。';
+      }
+    }
+  },
+  "任務遂行の意志": {
+    replaceFunction: (json) => {
+      const level = Number(json.level);
+      if(level < 6) {
+        return '◯任務遂行の意志&lt;br&gt;打撃点または「威力表」を振った際にその出目が「3以下」だった場合、そのダイスを振りなおすことができます。この効果はクリティカルが発生した後の出目には適用ができず、1日に1回しか使えません。';
+      } else if(level < 11) {
+        return '◯任務遂行の意志&lt;br&gt;打撃点または「威力表」を振った際にその出目が「4以下」だった場合、そのダイスを振りなおすことができます。この効果はクリティカルが発生した後の出目には適用ができず、1日に1回しか使えません。';
+      } else {
+        return '◯任務遂行の意志&lt;br&gt;打撃点または「威力表」を振った際にその出目が「4以下」だった場合、そのダイスを振りなおすことができます。この効果はクリティカルが発生した後の出目には適用ができず、1日に2回しか使えません。';
+      }
+    }
+  },
   "異貌": {
     replaceFunction: (json) => {
       const level = Number(json.level);
@@ -1056,7 +1080,65 @@ io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.RACE_ABILITY.LIST = {
   "鱗の皮膚": {skip: true},
   "尻尾が武器": {skip: true},
   "剣の加護／風の翼": {},
-  "マナ不干渉": {},
+  "剣の加護／竜の咆哮": {
+    replaceFunction: (json) => {
+      const level = Number(json.level);
+      if(level < 6) {
+        return '△≫剣の加護／竜の咆哮&lt;br&gt;自らを中心に「半径10m（2～3エリア）」の範囲内の任意の対象（自身を含む）に10秒（1ラウンド）の間、生命・精神抵抗力判定に+2のボーナス修正を与え、与える物理ダメージを+2します。この効果は1日に1回しか使えません。';
+      } else if(level < 11) {
+        return '△≫剣の加護／竜の咆哮&lt;br&gt;自らを中心に「半径10m（2～3エリア）」の範囲内の任意の対象（自身を含む）に10秒（1ラウンド）の間、生命・精神抵抗力判定に+2のボーナス修正を与え、与える物理ダメージを+2します。この効果は1日に2回しか使えません。';
+      } else {
+        return '△≫剣の加護／竜の咆哮&lt;br&gt;自らを中心に「半径10m（2～3エリア）」の範囲内の任意の対象（自身を含む）に10秒（1ラウンド）の間、生命・精神抵抗力判定に+4のボーナス修正を与え、与える物理ダメージを+4します。この効果は1日に2回しか使えません。';
+      }
+    }
+  },
+  "暖かき風": {
+    replaceFunction: (json) => {
+      const level = Number(json.level);
+      if(level < 6) {
+        return '◯暖かき風&lt;br&gt;自身が与える風属性の物理ダメージ・魔法ダメージを常に「+2」点します。また、自身が受ける風属性の物理ダメージ・魔法ダメージを常に「2」点現象します。';
+      } else if(level < 11) {
+        return '◯暖かき風&lt;br&gt;自身が与える風属性の物理ダメージ・魔法ダメージを常に「+2」点します。また、自身が受ける風属性と水・氷属性の物理ダメージ・魔法ダメージを常に「2」点現象します。';
+      } else {
+        return '◯暖かき風&lt;br&gt;自身が与える風属性の物理ダメージ・魔法ダメージを常に「+3」点します。また、自身が受ける風属性と水・氷属性の物理ダメージ・魔法ダメージを常に「3」点現象します。';
+      }
+    }
+  },
+  "マナ不干渉": {
+    replaceFunction: (json) => {
+      const mndResist    = Number(json.mndResistTotal);
+      const mndResistFix = Number(json.mndResistTotal) + 7;
+      const level        = Number(json.level);
+      if(level < 6) {
+        return `◯マナ不干渉&lt;br&gt;精神抵抗力判定に成功すると、どのような効果でも「抵抗：消滅」として扱います。`;
+      }
+      if(level < 11) {
+        if(json.race.includes('クリメノス')) {
+          // 知覚：魔法に対する能力は『ML』216頁で略されているのでなし
+          return `◯マナ不干渉&lt;br&gt;精神抵抗力判定に成功すると、どのような効果でも「抵抗：消滅」として扱います。`;
+        } else { // 通常種とアリーシャ
+          return [
+            `◯マナ不干渉&lt;br&gt;精神抵抗力判定に成功すると、どのような効果でも「抵抗：消滅」として扱います。`,
+            `▶魔法破り／${mndResist}（${mndResistFix}）&lt;br&gt;1日に1回、「射程：接触」「対象：魔法1つ」を解除します。対象とした魔法と達成値の比べあいが必要です。`
+          ].join('&lt;br&gt;&lt;br&gt;');
+        }
+      } else {
+        if(json.race.includes('クリメノス')) {
+          return `◯マナ不干渉&lt;br&gt;精神抵抗力判定に成功すると、どのような効果でも「抵抗：消滅」として扱います。`;
+        } else if((json.race.includes('アリーシャ'))) {
+          return [
+            `◯マナ不干渉&lt;br&gt;精神抵抗力判定に成功すると、どのような効果でも「抵抗：消滅」として扱います。`,
+            `▶魔法破り／${mndResist + 4}（${mndResistFix + 4}）&lt;br&gt;1日に1回、「射程／形状：1（10m）／起点指定」「対象：魔法1つ」を解除します。対象とした魔法と達成値の比べあいが必要です。`
+          ].join('&lt;br&gt;&lt;br&gt;');
+        } else {
+          return [
+            `◯マナ不干渉&lt;br&gt;精神抵抗力判定に成功すると、どのような効果でも「抵抗：消滅」として扱います。`,
+            `▶魔法破り／${mndResist}（${mndResistFix}）&lt;br&gt;1日に1回、「射程：接触」「対象：魔法1つ」を解除します。対象とした魔法と達成値の比べあいが必要です。`
+          ].join('&lt;br&gt;&lt;br&gt;');
+        }
+      }
+    }
+  },
   "虫や植物との意思疎通": {skip: true},
   "繁茂する生命": {skip: true},
   "通じ合う意識": {},
@@ -1089,10 +1171,41 @@ io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.RACE_ABILITY.LIST = {
       }
     }
   },
-  "輝く肉体": { replace: '≫輝く肉体' },
+  "輝く肉体": {
+    replaceFunction: (json) => {
+      const level = Number(json.level);
+      if(level < 6) {
+        return '≫輝く肉体／必中&lt;br&gt;「射程／形状：接触／―」で、キャラクター1体もしくは任意の一部位を対象に選び、10秒（1ラウンド）の間、対象の命中力・回避力・魔法行使判定に-2のペナルティ修正を与えます。この効果は1日に1回しか使えません。';
+      } else if(level < 11) {
+        return '≫輝く肉体／必中&lt;br&gt;自らを中心に「1エリア（半径6m）／20」の範囲内の任意の対象を選び、そのすべてに10秒（1ラウンド）の間、対象の命中力・回避力・魔法行使判定に-2のペナルティ修正を与えます。この効果は1日に1回しか使えません。';
+      } else {
+        return '≫輝く肉体／必中&lt;br&gt;自らを中心に「1エリア（半径6m）／20」の範囲内の任意の対象を選び、そのすべてに10秒（1ラウンド）の間、対象の命中力・回避力・魔法行使判定に-2のペナルティ修正を与えます。この効果は1日に2回しか使えません。';
+      }
+    }
+   },
   "太陽の再生": {skip: true},
   "太陽の子": {},
-  "蛮族の身体": {skip: true},
+  "蛮族の身体": {
+    modifyStatus: (json) => {
+      const weeklingMap = {
+        'ガルーダ': '衝撃属性ダメージ+3点',
+        'タノンズ': '物理ダメージ+2点',
+        'バジリスク': '水・氷属性ダメージ+3点',
+        'ミノタウロス': '魔法ダメージ+2点'
+      };
+      let weakness = '';
+      for(var key in weeklingMap) {
+        if(json.race.includes(key)) {
+          weakness = weeklingMap[key];
+        }
+      }
+      return {
+        "reputation+": Number(json.level) + Number(json.bonusInt) + 7,
+        'weakness': weakness,
+        taxa: '=蛮族'
+      };
+    }
+  },
   "未熟な翼": {},
   "切り裂く風": {
     replaceFunction: (json) => {
@@ -1121,7 +1234,18 @@ io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.RACE_ABILITY.LIST = {
       return `≫石化の視線／${base}（${base + 7}）／精神抵抗力／消滅&lt;br&gt;「射程／形状：2（30m）／起点指定」で対象1体に石化進行（『Ⅱ』368項／『ML』65項）。使用するとMPを5点消費します。`;
     }
   },
-  "毒の血液": {},
+  "毒の血液": {
+    replaceFunction: (json) => {
+      const level = Number(json.level);
+      if(level < 6) {
+        return '○毒の血液&lt;br&gt;この魔物が存在する乱戦エリア内で、この魔物にダメージを与えたものは、自身の手番の終了時に「1d-2（最低1）」点の毒属性の魔法ダメージを受けます。';
+      } else if(level < 11) {
+        return '○毒の血液&lt;br&gt;この魔物が存在する乱戦エリア内で、この魔物にダメージを与えたものは、自身の手番の終了時に「1d」点の毒属性の魔法ダメージを受けます。';
+      } else {
+        return '○毒の血液&lt;br&gt;この魔物が存在する乱戦エリア内で、この魔物にダメージを与えたものは、自身の手番の終了時に「1d+2」点の毒属性の魔法ダメージを受けます。';
+      }
+    }
+  },
   "剛力": {skip: true},
   "巨人化": {
     replaceFunction: (json) => {
