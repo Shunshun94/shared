@@ -1193,6 +1193,8 @@ io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.RACE_ABILITY.LIST = {
   "魔神と通じ合う意識": {skip: true /* 魔神を運用するならデーモンルーラーのルールではなく魔神のエネミーデータを運用する（『ML』31頁）からオミット */},
   "見えざる手": {skip: true},
   "姿なき職人": { replace: '＞姿なき職人' },
+  "姿消す職人": { replace: '＞姿消す職人' },
+  "群れなす職人": { replace: '＞群れなす職人' },
   "吸精": {
     replaceFunction: (json) => {
       const level = Number(json.level);
