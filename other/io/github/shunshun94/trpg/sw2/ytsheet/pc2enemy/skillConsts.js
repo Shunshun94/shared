@@ -53,6 +53,7 @@ io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.MAGIC_SUFFIX = {
 
 io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.NOMAGIC_SUFFIX = {
   'Enh': {name:'練技', skill:'craftEnhance',    mark:'▶≫△'},
+  'Bar': {name:'呪歌', skill:'craftSong',       mark:'▶'},
   'Alc': {name:'賦術', skill:'craftAlchemy',    mark:'≫△'},
   'Geo': {name:'相域', skill:'craftGeomancy',   mark:'≫'},
   'War': {name:'鼓咆', skill:'craftCommand',    mark:'≫'},

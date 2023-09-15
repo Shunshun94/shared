@@ -129,13 +129,15 @@ io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.generateSkills = (json) => {
     const abilities = io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.getAbilityInfo(json);
     resultText = resultText.concat(abilities.texts);
     resultModifyStatus = io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.mergeMapSimplyOverride(resultModifyStatus, abilities.modifyStatus);
-    console.log(resultModifyStatus);
+
     const magics = io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.getMagicInfo(json);
     resultText = resultText.concat(magics.texts);
     resultModifyStatus = io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.mergeMapSimplyOverride(resultModifyStatus, magics.modifyStatus);
+
     const magicLikes = io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.getMagicLikeInfo(json);
     resultText = resultText.concat(magicLikes.texts);
     resultModifyStatus = io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.mergeMapSimplyOverride(resultModifyStatus, magicLikes.modifyStatus);
+
     const battleSkills = io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.getBattleSkillsInfo(json);
     resultText = resultText.concat(battleSkills.texts);
     resultModifyStatus = io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.mergeMapSimplyOverride(resultModifyStatus, battleSkills.modifyStatus);
@@ -178,10 +180,11 @@ io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.getBattleSkillList = (json) => {
     if(json.lvGra) {
         list.push('投げ攻撃');
     }
-    if(json.combatFeatsLv1bat) {
+    if(json.combatFeatsLv1bat && json.lvBat) {
         list.push(json.combatFeatsLv1bat);
     }
-    for(var i = 0; i < io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.MAX_LEVEL; i++) {
+    const level = Math.max(Number(json.level));
+    for(var i = 0; i < level; i++) {
         if(json[`combatFeatsLv${i + 1}`]) {
             list.push(json[`combatFeatsLv${i + 1}`]);
         }
@@ -261,6 +264,28 @@ io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.getMagicInfo = (json) => {
     return result;
 };
 
+io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.ADDTIONAL_SKILL_COUNT_MAP = {
+    "Ⅰ": 1,
+    "Ⅱ": 2,
+    "Ⅲ": 3,
+    "Ⅳ": 4,
+    "Ⅴ": 5,
+};
+
+io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.countHowManyAdditionalskills = (json, skillName) => {
+    const levelCap  = Number(json.level) + 1;
+    const regexp    = new RegExp(skillName + '.*追加([ⅠⅡⅢⅣⅤ])');
+    for(var i = 1; i < levelCap; i++) {
+        if(json[`combatFeatsLv${i}`]) {
+            const execResult = regexp.exec(json[`combatFeatsLv${i}`]);
+            if(execResult) {
+                return io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.ADDTIONAL_SKILL_COUNT_MAP[execResult[1]];
+            }
+        }
+    }
+    return 0;
+};
+
 io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.getMagicLikeInfo = (json) => {
     const result = {
         max: 0,
@@ -270,13 +295,14 @@ io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.getMagicLikeInfo = (json) => {
     for(var key in magicList) {
         if(json[`lv${key}`]) {
             const category = magicList[key];
+            const skillCount = Number(json[`lv${key}`]) + io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.countHowManyAdditionalskills(json, category.name);
             const power = Number(json[`magicPower${key}`] || '0');
             if( power > result.max) {
                 result.max = power;
             }
             let i = 1;
             const skillList = [];
-            while(json[`${category.skill}${i}`]) {
+            while(json[`${category.skill}${i}`] && i <= skillCount ) {
                 skillList.push(`【${json[`${category.skill}${i}`]}】`);
                 i++;
             }
