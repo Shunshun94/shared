@@ -90,7 +90,7 @@ io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.DEFAULT_WEAPON = {
   name: 'ナイフ',
   expected: 8,
   acc: 3,
-  accTotal: 10
+  accTotal: 3
 };
 
 io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.BATTLE_SKILLS.FILTER = {
