@@ -87,10 +87,13 @@ io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.getWeaponList = (json) => {
             usage:           json[`weapon${id}Usage`],
         });
     }
-    return list.map((w)=>{
+    const weapons = list.map((w)=>{
         w.expected = io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.calcExpectedDamage(w);
-        return w;
+        const func = io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.ARROW_CATEGORY_WEAPON[w.category];
+        return io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.mergeMapSimplyOverride(
+            w, func ? func(w) : {});
     });
+    return weapons;
 };
 
 io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.calcExpectedDamage = (w) => {

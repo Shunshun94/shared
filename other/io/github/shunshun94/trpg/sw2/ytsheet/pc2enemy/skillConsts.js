@@ -60,6 +60,31 @@ io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.NOMAGIC_SUFFIX = {
   'Mys': {name:'占瞳', skill:'craftDivination', mark:'▶'}
 };
 
+io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.ARROW_CATEGORY_WEAPON = {
+  'ボウ':       (weapon)=>{ return {
+    modifyStatus: {
+      skills: `&lt;br&gt;&lt;br&gt;◯弓&lt;br&gt;${weapon.name}での攻撃は「射程：2（30m）」の射撃攻撃として扱います。`
+    }
+  };},
+  'クロスボウ': (weapon)=>{return {
+    modifyStatus: {
+      skills: `&lt;br&gt;&lt;br&gt;◯孥&lt;br&gt;${weapon.name}での攻撃は「射程：2（30m）」の射撃攻撃として扱います。`
+    }
+  };},
+  'ガン':       (weapon)=>{return {
+    notMain: true,
+    modifyStatus: {
+      skills: `&lt;br&gt;&lt;br&gt;＞銃撃／${weapon.accTotal}（${weapon.accTotal + 7}）／回避力／消滅&lt;br&gt;「射程：2（30m）」で、最大装填数は４です。`
+    }
+  };},
+  '投擲':       (weapon)=>{return {
+    notMain: true,
+    modifyStatus: {
+      skills: `&lt;br&gt;&lt;br&gt;＞${weapon.name}投擲／${weapon.accTotal}（${weapon.accTotal + 7}）／回避力／消滅&lt;br&gt;${weapon.name}を投擲して攻撃します。「射程：1（10m）」で「対象：1体」に「2d+${weapon.expected - 7}」点の物理ダメージを与えます。この効果は1回の戦闘で2回まで使用できます。`
+    }
+  };}
+};
+
 // コボルドの攻撃能力そのまんま
 io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.DEFAULT_WEAPON = {
   name: 'ナイフ',
