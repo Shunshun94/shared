@@ -7,7 +7,7 @@ io.github.shunshun94.trpg.sw2.ytsheet = io.github.shunshun94.trpg.sw2.ytsheet ||
 io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY = io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY || {};
 io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS = io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS || {};
 io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.exec = (json) => {
-    const result = {
+    let result = {
         author: json.playerName,
         initiative: Number(json.initiative) + 7 + io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.baseAppendCalcInitiative(json),
         intellect: (Number(json.sttInt) > 29) ? '高い' : '人間並み',
@@ -33,11 +33,12 @@ io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.exec = (json) => {
     };
     const weapon = io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.getAttackWay(json);
     for(var key in weapon) {
-        result[key] = weapon[key];
+        if(key.startsWith('status1')) { result[key] = weapon[key]; }
     }
+
     const skills = io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.generateSkills(json);
     result.skills = skills.text;
-
+    result = io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.mergeMap(result, weapon.modifyStatus);
     return io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.mergeMap(result, skills.modifyStatus);
 };
 
@@ -87,10 +88,13 @@ io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.getWeaponList = (json) => {
             usage:           json[`weapon${id}Usage`],
         });
     }
-    return list.map((w)=>{
-        w.expected = io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.calcExpectedDamage(w);
-        return w;
+    const weapons = list.map((w)=>{
+        w.expected = (w.rate && w.dmgTotal) ? io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.calcExpectedDamage(w) : 0;
+        const func = io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.ARROW_CATEGORY_WEAPON[w.category];
+        return io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.mergeMapSimplyOverride(
+            w, func ? func(w) : {});
     });
+    return weapons;
 };
 
 io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.calcExpectedDamage = (w) => {
@@ -314,19 +318,20 @@ io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.getMagicLikeInfo = (json) => {
 
 io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.getAttackWay = (json) => {
     const weapons = io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.getWeaponList(json);
-    const expectedWeapons = weapons.reduce((c, w)=>{
-        console.log(c,w);
-        if( w.expected >= c.expected) {
-            return w;
-        } else {
-            return c;
+    let modifyStatus = {};
+    weapons.push(io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.DEFAULT_WEAPON);
+    weapons.forEach((w)=>{
+        if(w.notMain && w.modifyStatus) {
+            modifyStatus = io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.mergeMapSimplyOverride(modifyStatus, w.modifyStatus);
         }
-    }, io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.DEFAULT_WEAPON);
+    });
+    const expectedWeapons = weapons.sort((a,b)=>{return b.expected - a.expected;})[0];
     return {
         status1Accuracy:   expectedWeapons.accTotal,
         status1AccuracyFix:expectedWeapons.accTotal + 7,
-        status1Damage:     `2d6+${expectedWeapons.expected - 7}`,
-        status1Style:      expectedWeapons.name
+        status1Damage:     `2d+${expectedWeapons.expected - 7}`,
+        status1Style:      expectedWeapons.name,
+        modifyStatus:      io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.mergeMapSimplyOverride(modifyStatus, expectedWeapons.modifyStatus || {})
     };
 };
 
