@@ -247,11 +247,12 @@ io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.getMagicInfo = (json) => {
         if(json[`lv${key}`]) {
             const category = magicList[key];
             const power = Number(json[`magicPower${key}`]);
+            const level = category.calcLevel ? category.calcLevel(json) : json[`lv${key}`];
             if( power > result.max) {
                 result.max = power;
             }
             if(category.secondLine) {
-                result.texts.push(`▶${category.name}${json[`lv${key}`]}レベル／魔力${power}（${power + 7}）&lt;br&gt;${category.secondLine(json)}`);
+                result.texts.push(`▶${category.name}${level}レベル／魔力${power}（${power + 7}）&lt;br&gt;${category.secondLine(json)}`);
             }else if(category.skill) {
                 let i = 1;
                 const skillList = [];
@@ -259,9 +260,9 @@ io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.getMagicInfo = (json) => {
                     skillList.push(`【${json[`${category.skill}${i}`]}】`);
                     i++;
                 }
-                result.texts.push(`▶${category.name}${json[`lv${key}`]}レベル／魔力${power}（${power + 7}）&lt;br&gt;${skillList.join('')}の${category.name}を使用します。`);
+                result.texts.push(`▶${category.name}${level}レベル／魔力${power}（${power + 7}）&lt;br&gt;${skillList.join('')}の${category.name}を使用します。`);
             } else {
-                result.texts.push(`▶${category.name}${json[`lv${key}`]}レベル／魔力${power}（${power + 7}）`);
+                result.texts.push(`▶${category.name}${level}レベル／魔力${power}（${power + 7}）`);
             }
         }
     }

@@ -35,6 +35,7 @@ io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.FAIRY_ELEMENTS = {
 io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.MAGIC_SUFFIX = {
   'Sor': {name:'真語魔法'},
   'Con': {name:'操霊魔法'},
+  'Wiz': {name:'深智魔法', calcLevel: (json)=>{ return Math.min(Number(json.lvSor), Number(json.lvCon)); }},
   'Pri': {name:'神聖魔法'},
   'Mag': {name:'魔動機術'},
   'Fai': {name:'妖精魔法', secondLine: (json)=>{
