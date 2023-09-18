@@ -162,7 +162,7 @@ io.github.shunshun94.trpg.logEditor.Editor = class {
 	insertNewElement() {
 		const post = io.github.shunshun94.trpg.logEditor.menu.AddNewElementMenu.getPostObject();
 		const dom = io.github.shunshun94.trpg.logEditor.jsonToEditorHtml(post);
-		$(this.getTmpDoms()[0]).append(dom);
+		$(this.getTmpDoms()[1]).append(dom);
 	}
 
 	insertResourceModifyTables() {
