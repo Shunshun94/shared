@@ -10,6 +10,9 @@ io.github.shunshun94.trpg.logEditor.convertors.TekeyV1Converter.DEFAULT_TABS_CLA
 	'[メイン]': ' ',
 	'[雑談]': 'tab1 '
 };
+io.github.shunshun94.trpg.logEditor.convertors.TekeyV1Converter.REGEXP = {
+	MODIFY_RESOURCE: /(.*)の(.*)を(-?\d?[dD]?\d+)\(?-?\d*\s*→?\s*-?\d*\)?に?[増減変][加少更]\s*\((-?\d+)\s→\s(-?\d+)\)/
+};
 
 io.github.shunshun94.trpg.logEditor.convertors.TekeyV1Converter.dropEventToJson = (file) => {
 	return new Promise((resolve, reject)=>{
@@ -29,7 +32,7 @@ io.github.shunshun94.trpg.logEditor.convertors.TekeyV1Converter.postToJson = (po
 	};
 	const postElements = post.element.childNodes;
 	result.name = postElements[0].textContent;
-	result.content = post.element.innerHTML.replace(`<b>${result.name}</b>：`, '');
+	result.content = post.element.innerHTML.replace(`<b>${result.name}</b>：`, '').replaceAll(`&nbsp;`, ' ');;
 	return result;
 };
 
@@ -53,7 +56,9 @@ io.github.shunshun94.trpg.logEditor.convertors.TekeyV1Converter.htmlToJson = (ra
 		}
 	});
 	return {
-		doms: posts.filter((p)=>{return p.class && p.element}).map(io.github.shunshun94.trpg.logEditor.convertors.TekeyV1Converter.postToJson),
+		doms: io.github.shunshun94.trpg.logEditor.convertors.TekeyV1Converter.modifyResrouceToOriginalFormat(
+			posts.filter((p)=>{return p.class && p.element}).map(io.github.shunshun94.trpg.logEditor.convertors.TekeyV1Converter.postToJson)
+		),
 		omitted: [],
 		head: '',
 		tabs: io.github.shunshun94.trpg.logEditor.convertors.TekeyV1Converter.DEFAULT_TABS_CLASS
@@ -85,7 +90,7 @@ io.github.shunshun94.trpg.logEditor.convertors.TekeyV2Converter.postToJson = (po
 	post.removeChild(post.lastChild);
 	const postElements = post.childNodes;
 	result.name = postElements[0].textContent.slice(0, -1);
-	result.content = post.innerHTML.replace(`<b>${result.name}：</b>`, '');
+	result.content = post.innerHTML.replace(`<b>${result.name}：</b>`, '').replaceAll(`&nbsp;`, ' ');
 	return result;
 };
 
@@ -94,9 +99,22 @@ io.github.shunshun94.trpg.logEditor.convertors.TekeyV2Converter.htmlToJson =(raw
 	const posts = Array.from(dom.body.children[0].children[0].children);
 	const list = posts.map(io.github.shunshun94.trpg.logEditor.convertors.TekeyV2Converter.postToJson);
 	return {
-		doms: list,
+		doms: io.github.shunshun94.trpg.logEditor.convertors.TekeyV1Converter.modifyResrouceToOriginalFormat(list),
 		omitted: [],
 		head: '',
 		tabs: io.github.shunshun94.trpg.logEditor.convertors.TekeyV1Converter.DEFAULT_TABS_CLASS
 	};
+};
+
+io.github.shunshun94.trpg.logEditor.convertors.TekeyV1Converter.modifyResrouceToOriginalFormat = (posts) => {
+	const regexp = io.github.shunshun94.trpg.logEditor.convertors.TekeyV1Converter.REGEXP.MODIFY_RESOURCE;
+	return posts.map((post)=>{
+		const reResult = regexp.exec(post.content || '');
+		console.log(reResult, post.content);
+		if(reResult) {
+			post.name = 'system';
+			post.content = `[ ${reResult[1]} ] ${reResult[2]} : ${reResult[4]} → ${reResult[5]}`;
+		}
+		return post;
+	});
 };
