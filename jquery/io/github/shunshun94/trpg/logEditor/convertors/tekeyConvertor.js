@@ -110,7 +110,6 @@ io.github.shunshun94.trpg.logEditor.convertors.TekeyV1Converter.modifyResrouceTo
 	const regexp = io.github.shunshun94.trpg.logEditor.convertors.TekeyV1Converter.REGEXP.MODIFY_RESOURCE;
 	return posts.map((post)=>{
 		const reResult = regexp.exec(post.content || '');
-		console.log(reResult, post.content);
 		if(reResult) {
 			post.name = 'system';
 			post.content = `[ ${reResult[1]} ] ${reResult[2]} : ${reResult[4]} → ${reResult[5]}`;
