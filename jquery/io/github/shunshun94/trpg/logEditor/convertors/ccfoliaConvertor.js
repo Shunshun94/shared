@@ -76,9 +76,22 @@ io.github.shunshun94.trpg.logEditor.convertors.CcfoliaConvertor.htmlToJson = (ra
 	const header = io.github.shunshun94.trpg.logEditor.convertors.CcfoliaConvertor.isDefaultHead(dom.head.outerHTML) ? '' : dom.head.outerHTML;
 	
 	return {
-		doms: list,
+		doms: io.github.shunshun94.trpg.logEditor.convertors.CcfoliaConvertor.modifyResrouceToOriginalFormat(list),
 		omitted: omit,
 		head: header,
 		tabs: io.github.shunshun94.trpg.logEditor.convertors.CcfoliaConvertor.DEFAULT_TABS_CLASS
 	};
+};
+
+io.github.shunshun94.trpg.logEditor.convertors.CcfoliaConvertor.modifyResrouceToOriginalFormat = (posts) => {
+	return posts.map((post)=>{
+		if(post.name === 'system') {
+			const nameExecResult = /^\[\s+(.+)\s+\]\s*/.exec(post.content);
+			if(nameExecResult) {
+				post.name = nameExecResult[1];
+				post.content = post.content.replace(nameExecResult[0], '').trim();
+			}
+		}
+		return post;
+	});
 };

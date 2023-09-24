@@ -316,3 +316,10 @@ io.github.shunshun94.trpg.logEditor.resources.generateresourcesInfoTables = (dom
     return resourceHistory;
 };
 
+io.github.shunshun94.trpg.logEditor.resources.generateresourcesInfoTablesFromObject = (list) => {
+    const modifiedPosts = Array.from(doms.children()).map(io.github.shunshun94.trpg.logEditor.resources.postToPostElements);
+    const resourceModificationHistory = modifiedPosts.map(io.github.shunshun94.trpg.logEditor.resources.pickResourceModificationLog).filter((element)=>{return element.resources});
+    const resourceHistory = io.github.shunshun94.trpg.logEditor.resources.appendkMemberJoinLeaveLog(modifiedPosts, resourceModificationHistory);
+    return resourceHistory;
+};
+
