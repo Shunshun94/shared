@@ -111,8 +111,8 @@ io.github.shunshun94.trpg.logEditor.convertors.TekeyV1Converter.modifyResrouceTo
 	return posts.map((post)=>{
 		const reResult = regexp.exec(post.content || '');
 		if(reResult) {
-			post.name = 'system';
-			post.content = `[ ${reResult[1]} ] ${reResult[2]} : ${reResult[4]} → ${reResult[5]}`;
+			post.name = reResult[1];
+			post.content = `${reResult[2]} : ${reResult[4]} → ${reResult[5]}`;
 		}
 		return post;
 	});

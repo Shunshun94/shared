@@ -230,59 +230,6 @@ io.github.shunshun94.trpg.logEditor.Editor = class {
 		});
 	}
 
-	convertUdonariumStatusModifyToCommonStyle() {
-		const regexp = /([^:]*):(\d+)[\+\-=](\d+)＞(\d+)/;
-		const targetList = io.github.shunshun94.trpg.logEditor.getPostsByContentRegExp(regexp);
-		console.log()
-		targetList.each((i, v)=>{
-			const target = $(v);
-			const contentDom = target.find(`.${io.github.shunshun94.trpg.logEditor.CLASSES.CONTENT}`);
-			const nameDom = target.find(`.${io.github.shunshun94.trpg.logEditor.CLASSES.NAME}`);
-			const regexpResult = regexp.exec(contentDom.text());
-			if(regexpResult) {
-				contentDom.html(`[ ${nameDom.text()} ] ${regexpResult[1]} : ${regexpResult[2]} → ${regexpResult[4]}`);
-				nameDom.text('system');
-			} else {
-				console.error(i, 'failed to get regexpResult', contentDom.text());
-			}
-		});
-	}
-
-	convertTekeyStatusModifyToCommonStyle() {
-		const regexp = /(.*)の(.*)を(-?\d?[dD]?\d+)\(?-?\d*\s*→?\s*-?\d*\)?に?[増減変][加少更]\s*\((-?\d+)\s→\s(-?\d+)\)/;
-		const targetList = io.github.shunshun94.trpg.logEditor.getPostsByContentRegExp(regexp);
-		targetList.each((i, v)=>{
-			const target = $(v);
-			const contentDom = target.find(`.${io.github.shunshun94.trpg.logEditor.CLASSES.CONTENT}`);
-			const nameDom = target.find(`.${io.github.shunshun94.trpg.logEditor.CLASSES.NAME}`);
-			const regexpResult = regexp.exec(contentDom.text());
-			if(regexpResult) {
-				nameDom.text('system');
-				contentDom.html(`[ ${regexpResult[1]} ] ${regexpResult[2]} : ${regexpResult[4]} → ${regexpResult[5]}`);
-			} else {
-				console.error(i, 'failed to get regexpResult', contentDom.text());
-			}
-		});
-	}
-
-	convertSystemToPost() {
-		const targetList = io.github.shunshun94.trpg.logEditor.getPostsByName('system');
-		targetList.each((i, v)=>{
-			const target = $(v);
-			const contentDom = target.find(`.${io.github.shunshun94.trpg.logEditor.CLASSES.CONTENT}`);
-			const nameDom = target.find(`.${io.github.shunshun94.trpg.logEditor.CLASSES.NAME}`);
-			const nameExecResult = /\[\s+(.+)\s+\]\s*/.exec(contentDom.text());
-			if(nameExecResult) {
-				const name = nameExecResult[1];
-				const newContent = contentDom.text().replace(nameExecResult[0], '');
-				contentDom.html(newContent);
-				nameDom.html(name); 
-			} else {
-				console.error(i, 'failed to get execResult', contentDom.text());
-			}
-		});
-	}
-
 	searchSameMemberDoublePost() {
 		const doms = Array.from(this.getMainDom().children());
 		let cursor = this.getRndId();

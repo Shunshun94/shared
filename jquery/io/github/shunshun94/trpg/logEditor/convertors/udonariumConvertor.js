@@ -51,7 +51,9 @@ io.github.shunshun94.trpg.logEditor.convertors.UdonariumConvertor.dropEventToJso
 					}
 				}
 				resolve({
-					doms: io.github.shunshun94.trpg.logEditor.convertors.UdonariumConvertor.modifyResrouceToOriginalFormat(list.sort((a,b)=>{return a.ts - b.ts})),
+					doms: io.github.shunshun94.trpg.logEditor.convertors.UdonariumConvertor.modifyResrouceToOriginalFormat(
+						list.sort((a,b)=>{return a.ts - b.ts})
+					),
 					omitted: [],
 					head: '',
 					tabs: tabsName
@@ -67,8 +69,7 @@ io.github.shunshun94.trpg.logEditor.convertors.UdonariumConvertor.modifyResrouce
 		const content = post.content || '';
 		const regexpResult = regexp.exec(content);
 		if(regexpResult) {
-			post.content = `[ ${post.name} ] ${regexpResult[1]} : ${regexpResult[2]} → ${regexpResult[4]}`;
-			post.name = 'system';
+			post.content = `${regexpResult[1]} : ${regexpResult[2]} → ${regexpResult[4]}`;
 		}
 		return post;
 	});
