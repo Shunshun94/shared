@@ -70,11 +70,13 @@ io.github.shunshun94.trpg.logEditor.FileLoader.kickOneTimeSave = () => {
 };
 
 io.github.shunshun94.trpg.logEditor.FileLoader.readFile = (targetFile) => {
+	const fileTitle = targetFile.name;
 	io.github.shunshun94.trpg.logEditor.convertors.ConvertorFactory.getConvertor(targetFile).then((convertor)=>{
 		convertor.dropEventToJson(targetFile).then((parsedTarget)=>{
 			io.github.shunshun94.trpg.logEditor.DOMS.BODY.off('drop');
 			io.github.shunshun94.trpg.logEditor.DOMS.BODY.off('dragleave');
 			io.github.shunshun94.trpg.logEditor.DOMS.BODY.off('dragover');
+			parsedTarget.fileTitle = targetFile.name;
 			io.github.shunshun94.trpg.logEditor.DOMS.BODY.trigger(
 				io.github.shunshun94.trpg.logEditor.EVENTS.FILE_LOADED,
 				parsedTarget
