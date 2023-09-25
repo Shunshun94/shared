@@ -100,7 +100,8 @@ io.github.shunshun94.trpg.logEditor.GeneralClicedEvents = [
                 $(`#${targetBlockType}`).find('.logList'),
                 self.head,
                 self.omit,
-                io.github.shunshun94.trpg.logEditor.DOMS.BODY.attr('class'));
+                io.github.shunshun94.trpg.logEditor.DOMS.BODY.attr('class'),
+                self.originalFileName);
         }
     }, {
         class: `${io.github.shunshun94.trpg.logEditor.CLASSES.ADD_ELEMENT_MENU_WINDOW}-exec`,
