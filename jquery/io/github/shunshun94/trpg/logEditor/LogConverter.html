@@ -118,7 +118,7 @@ const exportHandlerClass = class {
 	}
 	downloadGeneratedFile(generateFileResult, opt_mode) {
 		const exporter = opt_mode ? io.github.shunshun94.trpg.logEditor.export.getExporter(opt_mode) : this.exporter;
-		exporter.download(generateFileResult, `saved_${Number(new Date())}.txt`);
+		exporter.download(generateFileResult, this.importedFile.fileTitle);
 	}
 };
 
