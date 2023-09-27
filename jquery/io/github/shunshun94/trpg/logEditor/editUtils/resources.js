@@ -66,7 +66,7 @@ io.github.shunshun94.trpg.logEditor.resources.pickResourceModificationLog = (pos
 io.github.shunshun94.trpg.logEditor.resources.appendkMemberJoinLeaveLog = (posts, history) => {
     const memberList = {};
     history.forEach((post, i)=>{
-        for(var name in post.resources) {
+        for(var name in (post.resources || {})) {
             if(! memberList[name]) { memberList[name] = {resources:{}}; }
             for(var statusName in post.resources[name]) {
                 if(! memberList[name].resources[statusName]) { memberList[name].resources[statusName] = {after: post.resources[name][statusName].before, max: post.resources[name][statusName].before}; }
@@ -118,7 +118,7 @@ io.github.shunshun94.trpg.logEditor.resources.generateTableObject = (history, id
         if(updatedColumnList.length) {
             updatedColumnList.forEach((column)=>{
                 try {
-                    if(history.resources[name][column].before !== tableObject[name][column].after) {
+                    if(history.resources[name][column].before && history.resources[name][column].before !== tableObject[name][column].after) {
                         console.warn(index, `${name} の ${column} が更新されますが更新前の値が一致しません（元々：${tableObject[name][column].after} / 更新時：${history.resources[name][column].before}）`);
                     }
                 } catch (e) {
@@ -312,13 +312,14 @@ io.github.shunshun94.trpg.logEditor.resources.convertResourceHistoryToTableHtmls
 io.github.shunshun94.trpg.logEditor.resources.generateresourcesInfoTables = (doms) => {
     const modifiedPosts = Array.from(doms.children()).map(io.github.shunshun94.trpg.logEditor.resources.postToPostElements);
     const resourceModificationHistory = modifiedPosts.map(io.github.shunshun94.trpg.logEditor.resources.pickResourceModificationLog).filter((element)=>{return element.resources});
+    console.log(resourceModificationHistory);
     const resourceHistory = io.github.shunshun94.trpg.logEditor.resources.appendkMemberJoinLeaveLog(modifiedPosts, resourceModificationHistory);
+    console.log(resourceHistory);
     return resourceHistory;
 };
 
 io.github.shunshun94.trpg.logEditor.resources.generateresourcesInfoTablesFromObject = (list) => {
-    const modifiedPosts = Array.from(doms.children()).map(io.github.shunshun94.trpg.logEditor.resources.postToPostElements);
-    const resourceModificationHistory = modifiedPosts.map(io.github.shunshun94.trpg.logEditor.resources.pickResourceModificationLog).filter((element)=>{return element.resources});
+    const resourceModificationHistory = list.map(io.github.shunshun94.trpg.logEditor.resources.pickResourceModificationLog);
     const resourceHistory = io.github.shunshun94.trpg.logEditor.resources.appendkMemberJoinLeaveLog(modifiedPosts, resourceModificationHistory);
     return resourceHistory;
 };
