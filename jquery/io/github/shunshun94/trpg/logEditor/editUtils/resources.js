@@ -312,9 +312,7 @@ io.github.shunshun94.trpg.logEditor.resources.convertResourceHistoryToTableHtmls
 io.github.shunshun94.trpg.logEditor.resources.generateresourcesInfoTables = (doms) => {
     const modifiedPosts = Array.from(doms.children()).map(io.github.shunshun94.trpg.logEditor.resources.postToPostElements);
     const resourceModificationHistory = modifiedPosts.map(io.github.shunshun94.trpg.logEditor.resources.pickResourceModificationLog).filter((element)=>{return element.resources});
-    console.log(resourceModificationHistory);
     const resourceHistory = io.github.shunshun94.trpg.logEditor.resources.appendkMemberJoinLeaveLog(modifiedPosts, resourceModificationHistory);
-    console.log(resourceHistory);
     return resourceHistory;
 };
 
