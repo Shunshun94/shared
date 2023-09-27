@@ -40,7 +40,7 @@
 </head>
 <body>
 <script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script>
-<button id="switch-darkmode" style="z-index:2;position:absolute;top:8px;right:8px;width:180px;"></button>
+<button class="switch-darkmode" id="switch-darkmode" style="z-index:2;position:absolute;top:8px;right:8px;width:180px;"></button>
 <div style="z-index:2;position:absolute;top:36px;right:8px;width:320px;">
 	<span>以下は HTML で出力する時のみ有効</span><br/>
 	<input id="switch-lightness" type="checkbox"  style="position:relative;left:-4px;" checked/>
@@ -155,7 +155,7 @@ io.github.shunshun94.trpg.logEditor.DOMS.BODY.click((e)=>{
 		$(`.${io.github.shunshun94.trpg.logEditor.CLASSES.TMP_WINDOW}`).remove();
 		exportHandler.setExporter(target[0].value.split(' ')[1]);
 		exportHandler.downloadGeneratedFile(exportHandler.generateFile());
-	};
+	}
 });
 
 </script>
