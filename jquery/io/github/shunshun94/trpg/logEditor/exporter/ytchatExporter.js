@@ -196,7 +196,7 @@ io.github.shunshun94.trpg.logEditor.export.ytchatExporter.postToHtml = (post, tm
 
 };
 
-io.github.shunshun94.trpg.logEditor.export.ytchatExporter.exec = (doms, head, omit, mode) => {
+io.github.shunshun94.trpg.logEditor.export.ytchatExporter.exec = (doms, head, omit, mode, title) => {
     const postData = Array.from(doms.children()).map(jQuery)
         .map((dom, id)=>{
             try {
@@ -217,9 +217,9 @@ io.github.shunshun94.trpg.logEditor.export.ytchatExporter.exec = (doms, head, om
         const titleCandidate = postData.filter((p)=>{
           return p.tag === 'h1' || p.tag === 'h2';
         });
-        const title = (titleCandidate.length) ? titleCandidate[0].content.trim() : `saved_${Number(new Date())}`;
+        const h1Content = (titleCandidate.length) ? titleCandidate[0].content.trim() : title;
         io.github.shunshun94.trpg.logEditor.export.ytchatExporter.download(
-            io.github.shunshun94.trpg.logEditor.export.ytchatExporter.getPrefix(title) +
+            io.github.shunshun94.trpg.logEditor.export.ytchatExporter.getPrefix(h1Content) +
             posts +
             io.github.shunshun94.trpg.logEditor.export.ytchatExporter.getSuffix(), title);
 };
@@ -252,7 +252,7 @@ io.github.shunshun94.trpg.logEditor.export.ytchatExporter.download = (html, titl
 	const url = window.URL.createObjectURL(new Blob([ html ], { "type" : 'text/html;charset=utf-8;' }));
 	const dlLink = document.createElement("a");
 	document.body.appendChild(dlLink);
-	dlLink.download = title;
+	dlLink.download = `${title}_${Number(new Date())}.html`;
 	dlLink.href = url;
 	dlLink.click();
 	dlLink.remove();

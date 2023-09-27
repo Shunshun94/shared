@@ -39,7 +39,7 @@ io.github.shunshun94.trpg.logEditor.export.htmlExporter.calcCurrentHash = (doms,
 	return newHash;
 };
 
-io.github.shunshun94.trpg.logEditor.export.htmlExporter.exec = (doms, head, omit, mode) => {
+io.github.shunshun94.trpg.logEditor.export.htmlExporter.exec = (doms, head, omit, mode, title) => {
 	const body = io.github.shunshun94.trpg.logEditor.export.htmlExporter.generateBody(doms);
 	const html = (head ? `<!DOCTYPE html>\n<html>\n${head}\n<body>\n` : io.github.shunshun94.trpg.logEditor.export.htmlExporter.getPrefix(mode)) +
 				body + omit.join('\n') + io.github.shunshun94.trpg.logEditor.export.htmlExporter.SUFFIX;
@@ -47,7 +47,7 @@ io.github.shunshun94.trpg.logEditor.export.htmlExporter.exec = (doms, head, omit
 	hash.update(html);
 	const newHash = hash.getHash("HEX");
 	io.github.shunshun94.trpg.logEditor.export.htmlExporter.setLastHash(newHash);
-	io.github.shunshun94.trpg.logEditor.export.htmlExporter.download(html);
+	io.github.shunshun94.trpg.logEditor.export.htmlExporter.download(html, title);
 };
 
 io.github.shunshun94.trpg.logEditor.export.htmlExporter.generateExportPostTopAttributes = (dom) => {
@@ -104,11 +104,11 @@ io.github.shunshun94.trpg.logEditor.export.htmlExporter.generateBody = (doms) =>
 	return result.join('\n\n');
 };
 
-io.github.shunshun94.trpg.logEditor.export.htmlExporter.download = (html) => {
+io.github.shunshun94.trpg.logEditor.export.htmlExporter.download = (html, title) => {
 	const url = window.URL.createObjectURL(new Blob([ html ], { "type" : 'text/html;charset=utf-8;' }));
 	const dlLink = document.createElement("a");
 	document.body.appendChild(dlLink);
-	dlLink.download = `saved_${Number(new Date())}.html`;
+	dlLink.download = `${title}_${Number(new Date())}.html`;
 	dlLink.href = url;
 	dlLink.click();
 	dlLink.remove();

@@ -69,12 +69,20 @@ io.github.shunshun94.trpg.logEditor.FileLoader.kickOneTimeSave = () => {
 	upload.remove();
 };
 
+io.github.shunshun94.trpg.logEditor.FileLoader.getFileTitle = (rawTitle) => {
+	const splited = rawTitle.split('\.');
+	if(splited.length === 1) { return rawTitle; }
+	if(splited.length === 2) { return splited[0]; }
+	return splited.slice(0,-1).join('.');
+};
+
 io.github.shunshun94.trpg.logEditor.FileLoader.readFile = (targetFile) => {
 	io.github.shunshun94.trpg.logEditor.convertors.ConvertorFactory.getConvertor(targetFile).then((convertor)=>{
 		convertor.dropEventToJson(targetFile).then((parsedTarget)=>{
 			io.github.shunshun94.trpg.logEditor.DOMS.BODY.off('drop');
 			io.github.shunshun94.trpg.logEditor.DOMS.BODY.off('dragleave');
 			io.github.shunshun94.trpg.logEditor.DOMS.BODY.off('dragover');
+			parsedTarget.fileTitle = io.github.shunshun94.trpg.logEditor.FileLoader.getFileTitle(targetFile.name);
 			io.github.shunshun94.trpg.logEditor.DOMS.BODY.trigger(
 				io.github.shunshun94.trpg.logEditor.EVENTS.FILE_LOADED,
 				parsedTarget

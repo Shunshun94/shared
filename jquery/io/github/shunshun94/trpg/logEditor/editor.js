@@ -10,6 +10,7 @@ io.github.shunshun94.trpg.logEditor.Editor = class {
 		this.head = data.head;
 		this.omit = data.omitted;
 		this.tabList = data.tabList || [];
+		this.originalFileName = data.fileTitle;
 		this.initPosts(htmls);
 		this.activateSort();
 		io.github.shunshun94.trpg.logEditor.export.htmlExporter.setLastHash(
