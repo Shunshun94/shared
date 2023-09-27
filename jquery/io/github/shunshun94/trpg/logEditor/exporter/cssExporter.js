@@ -8,11 +8,11 @@ io.github.shunshun94.trpg.logEditor.export.cssExporter = io.github.shunshun94.tr
 
 io.github.shunshun94.trpg.logEditor.export.cssExporter.IGNORE_CLASSES = ['tab1'];
 
-io.github.shunshun94.trpg.logEditor.export.cssExporter.exec = (doms) => {
+io.github.shunshun94.trpg.logEditor.export.cssExporter.exec = (doms, dummy1, dummy2, dummy3, title) => {
     const array = io.github.shunshun94.trpg.logEditor.export.cssExporter.domsToJson(doms);
     const classes = io.github.shunshun94.trpg.logEditor.export.cssExporter.domJsonToCSS(array);
     const text = io.github.shunshun94.trpg.logEditor.export.cssExporter.convertClassesToText(classes);
-    io.github.shunshun94.trpg.logEditor.export.cssExporter.download(text);
+    io.github.shunshun94.trpg.logEditor.export.cssExporter.download(text, title);
 };
 
 io.github.shunshun94.trpg.logEditor.export.cssExporter.convertClassesToText = (classes) => {
@@ -61,11 +61,11 @@ io.github.shunshun94.trpg.logEditor.export.cssExporter.domJsonToCSS = (doms) => 
     return classes;
 };
 
-io.github.shunshun94.trpg.logEditor.export.cssExporter.download = (text) => {
+io.github.shunshun94.trpg.logEditor.export.cssExporter.download = (text, title) => {
     const url = window.URL.createObjectURL(new Blob([ text ], { "type" : 'text/css;charset=utf-8;' }));
     const dlLink = document.createElement("a");
     document.body.appendChild(dlLink);
-    dlLink.download = `${Number(new Date())}.css`;
+    dlLink.download = `${title}_${Number(new Date())}.css`;
     dlLink.href = url;
     dlLink.click();
     dlLink.remove();

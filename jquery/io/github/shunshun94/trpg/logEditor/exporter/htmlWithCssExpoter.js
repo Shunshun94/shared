@@ -23,12 +23,14 @@ io.github.shunshun94.trpg.logEditor.export.htmlWithCssExporter.getPrefix = (mode
 	<body>`;
 };
 
-io.github.shunshun94.trpg.logEditor.export.htmlWithCssExporter.exec = (doms, head, omit, mode) => {
+io.github.shunshun94.trpg.logEditor.export.htmlWithCssExporter.exec = (doms, head, omit, mode, title) => {
 	const array = io.github.shunshun94.trpg.logEditor.export.cssExporter.domsToJson(doms);
     const classes = io.github.shunshun94.trpg.logEditor.export.cssExporter.domJsonToCSS(array);
     const css = io.github.shunshun94.trpg.logEditor.export.cssExporter.convertClassesToText(classes);
 	const body = io.github.shunshun94.trpg.logEditor.export.htmlExporter.generateBody(doms);
 	const html = io.github.shunshun94.trpg.logEditor.export.htmlWithCssExporter.getPrefix(mode, css) +
 				body + omit.join('\n') + io.github.shunshun94.trpg.logEditor.export.htmlExporter.SUFFIX;
-	io.github.shunshun94.trpg.logEditor.export.htmlExporter.download(html);
+	io.github.shunshun94.trpg.logEditor.export.htmlWithCssExporter.download(html, title);
 };
+
+io.github.shunshun94.trpg.logEditor.export.htmlWithCssExporter.download = io.github.shunshun94.trpg.logEditor.export.htmlExporter.download;

@@ -31,17 +31,17 @@ io.github.shunshun94.trpg.logEditor.export.IdLogExporter.generateIdListJson = (d
     return result;
 };
 
-io.github.shunshun94.trpg.logEditor.export.IdLogExporter.exec = (doms) => {
-    const download = (text) => {
-        const url = window.URL.createObjectURL(new Blob([ text ], { "type" : 'text/json;charset=utf-8;' }));
-        const dlLink = document.createElement("a");
-        document.body.appendChild(dlLink);
-        dlLink.download = `id_list_json_saved_${Number(new Date())}.json`;
-        dlLink.href = url;
-        dlLink.click();
-        dlLink.remove();
-        URL.revokeObjectURL(url);
-    };
+io.github.shunshun94.trpg.logEditor.export.IdLogExporter.exec = (doms, dummy1, dummy2, dummy3, title) => {
+    io.github.shunshun94.trpg.logEditor.export.IdLogExporter.download(JSON.stringify(io.github.shunshun94.trpg.logEditor.export.IdLogExporter.generateIdListJson(doms), null, 2));
+};
 
-    download(JSON.stringify(io.github.shunshun94.trpg.logEditor.export.IdLogExporter.generateIdListJson(doms), null, 2));
+io.github.shunshun94.trpg.logEditor.export.IdLogExporter.download = (text, title) => {
+    const url = window.URL.createObjectURL(new Blob([ text ], { "type" : 'text/json;charset=utf-8;' }));
+    const dlLink = document.createElement("a");
+    document.body.appendChild(dlLink);
+    dlLink.download = `id_list_json_${title}_${Number(new Date())}.json`;
+    dlLink.href = url;
+    dlLink.click();
+    dlLink.remove();
+    URL.revokeObjectURL(url);
 };
