@@ -233,14 +233,12 @@ io.github.shunshun94.trpg.logEditor.export.UniCoeExporter.exec = (doms, head, om
 };
 
 io.github.shunshun94.trpg.logEditor.export.UniCoeExporter.download = (text, title) => {
-    io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.sharedDownload(text, `table_${title}_${Number(new Date())}.json`, 'text/plain;charset=utf-8;');
+    io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.sharedDownload(text, `unicoe_${title}_${Number(new Date())}.txt`, 'text/plain;charset=utf-8;');
 };
 
 io.github.shunshun94.trpg.logEditor.export.UniCoeExporter.domListToOutput = (doms) => {
     return io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.plainJsonToOperationTableJson(doms.doms).map(io.github.shunshun94.trpg.logEditor.export.UniCoeExporter.simpleObjectToText).filter((d)=>{return d;}).join('\n');
 };
-
-io.github.shunshun94.trpg.logEditor.export.UniCoeExporter.download = io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.download;
 
 io.github.shunshun94.trpg.logEditor.export.YukkuriMovieMakerExporter.SimpleObjectToText = (d)=>{
     if(d.paramUpdate) {
@@ -260,7 +258,7 @@ io.github.shunshun94.trpg.logEditor.export.YukkuriMovieMakerExporter.exec = (dom
 };
 
 io.github.shunshun94.trpg.logEditor.export.YukkuriMovieMakerExporter.download = (text, title) => {
-    io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.sharedDownload(text, `table_${title}_${Number(new Date())}.json`, 'text/plain;charset=utf-8;');
+    io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.sharedDownload(text, `ymm_${title}_${Number(new Date())}.txt`, 'text/plain;charset=utf-8;');
 };
 
 io.github.shunshun94.trpg.logEditor.export.YukkuriMovieMakerExporter.domListToOutput = (doms) => {
