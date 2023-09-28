@@ -318,7 +318,7 @@ io.github.shunshun94.trpg.logEditor.resources.generateresourcesInfoTables = (dom
 
 io.github.shunshun94.trpg.logEditor.resources.generateresourcesInfoTablesFromObject = (list) => {
     const resourceModificationHistory = list.map(io.github.shunshun94.trpg.logEditor.resources.pickResourceModificationLog);
-    const resourceHistory = io.github.shunshun94.trpg.logEditor.resources.appendkMemberJoinLeaveLog(modifiedPosts, resourceModificationHistory);
+    const resourceHistory = io.github.shunshun94.trpg.logEditor.resources.appendkMemberJoinLeaveLog(list, resourceModificationHistory);
     return resourceHistory;
 };
 
