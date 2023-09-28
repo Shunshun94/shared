@@ -129,7 +129,7 @@ io.github.shunshun94.trpg.logEditor.export.htmlExporter.domJsonToHtml = (json) =
 	}
 	const name = (json.name || '').trim();
 	// contenteditable で改行すると div 要素が入るので除く
-	const content = json.content.trim();
+	const content = (json.content || '').trim();
 	if((tag !== 'p') || (name === '')) {
 		return `<${tag} ${topAttributes}>${content}</${tag}>`
 	}
