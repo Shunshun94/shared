@@ -93,12 +93,14 @@ io.github.shunshun94.trpg.logEditor.EVENTS = {
 <script src="./exporter/sessionElementHandler/swordWorld_2_5ElementHandler.js"></script>
 <script src="./exporter/operationTable.js"></script>
 <script src="./exporter/exporterFactory.js"></script>
+<script src="./editUtils/resources.js"></script>
 <script>
 const exportHandlerClass = class {
 	constructor() {
 		this.importedFile = null;
 		this.exporter = null;
 		this.appendClassName = '';
+		this.actionsForHtmlDoms = [];
 	}
 	setExporter(mode) {
 		this.exporter = io.github.shunshun94.trpg.logEditor.export.getExporter(mode);
@@ -112,9 +114,17 @@ const exportHandlerClass = class {
 		this.appendClassName = appendClassName;
 		return this.appendClassName;
 	}
+	setActionsForHtmlDom(actionList=[]) {
+		this.actionsForHtmlDoms = actionList;
+		return this.actionsForHtmlDoms;
+	}
 	generateFile(opt_importedFile, opt_mode, opt_appendClassName) {
 		const exporter = opt_mode ? io.github.shunshun94.trpg.logEditor.export.getExporter(opt_mode) : this.exporter;
-		return exporter.domListToOutput(opt_importedFile || this.importedFile, opt_appendClassName || this.appendClassName);
+		this.importedFile = opt_importedFile || this.importedFile;
+		this.importedFile.doms = this.actionsForHtmlDoms.reduce((currentList, func)=>{
+			return func(currentList);
+		}, this.importedFile.doms);
+		return exporter.domListToOutput(this.importedFile, opt_appendClassName || this.appendClassName);
 	}
 	downloadGeneratedFile(generateFileResult, opt_mode) {
 		const exporter = opt_mode ? io.github.shunshun94.trpg.logEditor.export.getExporter(opt_mode) : this.exporter;
@@ -124,22 +134,35 @@ const exportHandlerClass = class {
 
 const exportHandler = new exportHandlerClass();
 
+const getModifyLogActions = (appendClass) => {
+	const result = [];
+	const modifyColorActions = [];
+	if(document.getElementById('switch-lightness').checked) {
+		modifyColorActions.push(io.github.shunshun94.trpg.logEditor.color.contrastUtil.modifyLightnessColor);
+	}
+	if(document.getElementById('switch-distance').checked) {
+		modifyColorActions.push(io.github.shunshun94.trpg.logEditor.color.contrastUtil.modifyDistanceColor);
+	}
+	if(modifyColorActions.length) {
+		result.push((list)=>{
+			return io.github.shunshun94.trpg.logEditor.color.contrastUtil.modifyColors(list, appendClass, modifyColorActions);
+		});
+	}
+
+	if(document.getElementById('resource-table').checked) {
+		result.push((list)=>{
+			return io.github.shunshun94.trpg.logEditor.resources.generateresourcesInfoTablesFromObject(list);
+		});
+	}
+	return result;
+};
+
 io.github.shunshun94.trpg.logEditor.DOMS.BODY.on(io.github.shunshun94.trpg.logEditor.EVENTS.FILE_LOADED, (e, domList)=>{
 	io.github.shunshun94.trpg.logEditor.FileLoader.bindInitialEvents(io.github.shunshun94.trpg.logEditor.DOMS.BODY);
 	io.github.shunshun94.trpg.logEditor.FileLoader.filtTabs(domList).then((filteredDomList)=>{
-		const appendClass = ((io.github.shunshun94.trpg.logEditor.DOMS.BODY.attr('class') || '').match(/[a-z0-9A-Z]+mode/) || [''])[0];
-		exportHandler.setAppendClassName(appendClass);
-		const actions = [];
-		if(document.getElementById('switch-lightness').checked) {
-			actions.push(io.github.shunshun94.trpg.logEditor.color.contrastUtil.modifyLightnessColor);
-		}
-		if(document.getElementById('switch-distance').checked) {
-			actions.push(io.github.shunshun94.trpg.logEditor.color.contrastUtil.modifyDistanceColor);
-		}
-		filteredDomList.doms = io.github.shunshun94.trpg.logEditor.color.contrastUtil.modifyColors(filteredDomList.doms, appendClass, actions);
 		exportHandler.setImportedFile(filteredDomList);
 		io.github.shunshun94.trpg.logEditor.FileLoader.openBackScreen();
-		io.github.shunshun94.trpg.logEditor.DOMS.BODY.append(io.github.shunshun94.trpg.logEditor.menu.saveMenu.generateDom(appendClass));
+		io.github.shunshun94.trpg.logEditor.DOMS.BODY.append(io.github.shunshun94.trpg.logEditor.menu.saveMenu.generateDom(''));
 	});
 });
 
@@ -153,7 +176,17 @@ io.github.shunshun94.trpg.logEditor.DOMS.BODY.click((e)=>{
 	if(target.hasClass(`${io.github.shunshun94.trpg.logEditor.CLASSES.SAVE_MENU_WINDOW}-save`)) {
 		$(`.${io.github.shunshun94.trpg.logEditor.CLASSES.BACKSCREEN}`).remove();
 		$(`.${io.github.shunshun94.trpg.logEditor.CLASSES.TMP_WINDOW}`).remove();
-		exportHandler.setExporter(target[0].value.split(' ')[1]);
+
+		const exportHandlerName = target[0].value.split(' ')[1];
+		exportHandler.setExporter(exportHandlerName);
+		if(exportHandlerName.startsWith('html')) {
+			const appendClass = ((io.github.shunshun94.trpg.logEditor.DOMS.BODY.attr('class') || '').match(/[a-z0-9A-Z]+mode/) || [''])[0];
+			const actions = getModifyLogActions(appendClass);
+			exportHandler.setActionsForHtmlDom(actions);
+			exportHandler.setAppendClassName(appendClass);
+		} else {
+			exportHandler.setActionsForHtmlDom();
+		}
 		exportHandler.downloadGeneratedFile(exportHandler.generateFile());
 	}
 });
