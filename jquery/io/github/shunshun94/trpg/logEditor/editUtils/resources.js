@@ -45,7 +45,8 @@ io.github.shunshun94.trpg.logEditor.resources.getFirstResourceModificationLogFro
 };
 
 io.github.shunshun94.trpg.logEditor.resources.pickResourceModificationLog = (postElement, postIndex) => {
-    const result = {index: postIndex};
+    const result = postElement
+    result.index = postIndex;
     let rd;
     while(rd = io.github.shunshun94.trpg.logEditor.resources.getFirstResourceModificationLogFrom(postElement.content, postElement.name)) {
         if(! result.resources) { result.resources = {}; }
@@ -58,7 +59,7 @@ io.github.shunshun94.trpg.logEditor.resources.pickResourceModificationLog = (pos
             result.resources[rd.name][rd.status].after = rd.after;
         }
 
-        postElement.content = postElement.content.replace(rd.body, '');
+        result.content = result.content.replace(rd.body, '');
     }
     return result;
 };
@@ -83,9 +84,9 @@ io.github.shunshun94.trpg.logEditor.resources.appendkMemberJoinLeaveLog = (posts
     const joinLeaveMap = {};
     for(var name in memberList) {
         const target = memberList[name];
-        if(! joinLeaveMap[target.join]) { joinLeaveMap[target.join] = { index: target.join - 1, resources: {} }; }
+        if(! joinLeaveMap[target.join]) { joinLeaveMap[target.join] = { index: target.join - 0.1, resources: {} }; }
         joinLeaveMap[target.join].resources[name] = target.resources;
-        if(! joinLeaveMap[target.leave]) { joinLeaveMap[target.leave] = { index: target.leave + 1, resources: {} }; }
+        if(! joinLeaveMap[target.leave]) { joinLeaveMap[target.leave] = { index: target.leave + 0.1, resources: {} }; }
         joinLeaveMap[target.leave].resources[name] = {};
     }
     const joinLeaveList = [];
