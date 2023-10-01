@@ -44,6 +44,35 @@ io.github.shunshun94.trpg.logEditor.resources.getFirstResourceModificationLogFro
     return null;
 };
 
+io.github.shunshun94.trpg.logEditor.resources.mergeAdjacentPosts = (list) => {
+    let cursor = -2;
+    return list.map((post, idx, array)=>{
+        if(post.resources) {
+            if(idx - 1 === cursor) {
+                let target = cursor;
+                while(! array[target].resources) {
+                    target--;
+                }
+                console.log(JSON.stringify(array[idx].resources), idx, JSON.stringify(array[target].resources), target);
+                for(var name in array[idx].resources) {
+                    for(var column in array[idx].resources[name]) {
+                        if(! array[target].resources[name]        ) { array[target].resources[name] = {}; }
+                        if(! array[target].resources[name][column]) {
+                            array[target].resources[name][column] = {};
+                            array[target].resources[name][column].before = array[idx].resources[name][column].before;
+                        }
+                        array[target].resources[name][column].after = array[idx].resources[name][column].after;
+                    }
+                }
+                array[idx].resources = false;
+                array[idx].shouldRemove = true;
+            }
+            cursor = idx;
+        }
+        return array[idx];
+    }).filter((post)=>{return ! (post.shouldRemove || false);});
+};
+
 io.github.shunshun94.trpg.logEditor.resources.pickResourceModificationLog = (postElement, postIndex) => {
     const result = postElement
     result.index = postIndex;
@@ -61,7 +90,13 @@ io.github.shunshun94.trpg.logEditor.resources.pickResourceModificationLog = (pos
 
         result.content = result.content.replace(rd.body, '');
     }
-    return result;
+    if(result.resources && result.content) {
+        const content1 = JSON.parse(JSON.stringify(result));
+        delete content1.resources;
+        return [content1, { resources: result.resources, index: postIndex + 0.5 }];
+    } else {
+        return result;
+    }
 };
 
 io.github.shunshun94.trpg.logEditor.resources.appendkMemberJoinLeaveLog = (posts, history) => {
@@ -318,15 +353,15 @@ io.github.shunshun94.trpg.logEditor.resources.convertResourceHistoryToTableHtmls
 };
 
 io.github.shunshun94.trpg.logEditor.resources.generateresourcesInfoTables = (doms) => {
-    const modifiedPosts = Array.from(doms.children()).map(io.github.shunshun94.trpg.logEditor.resources.postToPostElements);
+    const modifiedPosts = Array.from(doms.children()).map(io.github.shunshun94.trpg.logEditor.resources.postToPostElements).flat();
     const resourceModificationHistory = modifiedPosts.map(io.github.shunshun94.trpg.logEditor.resources.pickResourceModificationLog).filter((element)=>{return element.resources});
     const resourceHistory = io.github.shunshun94.trpg.logEditor.resources.appendkMemberJoinLeaveLog(modifiedPosts, resourceModificationHistory);
     return resourceHistory;
 };
 
 io.github.shunshun94.trpg.logEditor.resources.generateresourcesInfoTablesFromObject = (list) => {
-    const resourceModificationHistory = list.map(io.github.shunshun94.trpg.logEditor.resources.pickResourceModificationLog);
+    const resourceModificationHistory = list.map(io.github.shunshun94.trpg.logEditor.resources.pickResourceModificationLog).flat();
     const resourceHistory = io.github.shunshun94.trpg.logEditor.resources.appendkMemberJoinLeaveLog(list, resourceModificationHistory);
-    return resourceHistory;
+    return io.github.shunshun94.trpg.logEditor.resources.mergeAdjacentPosts(resourceHistory);
 };
 
