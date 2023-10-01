@@ -279,25 +279,32 @@ io.github.shunshun94.trpg.logEditor.resources.separateColumnOrder = (rawColumnOr
 };
 
 io.github.shunshun94.trpg.logEditor.resources.convertResourceObjectToTableHtml = (history, idx, pastTableObject = {}, columnOrder) => {
-    const tableObject = io.github.shunshun94.trpg.logEditor.resources.generateTableObject(history, idx, (pastTableObject.tableObject || {}));
-    let htmlObject;
-    if( columnOrder.sharedColumns && columnOrder.partsColumns ) {
-        htmlObject = io.github.shunshun94.trpg.logEditor.resources.convertTableObjectToTableHtmlV2(tableObject, columnOrder);
-    } else {
-        htmlObject = io.github.shunshun94.trpg.logEditor.resources.convertTableObjectToTableHtmlV1(tableObject, columnOrder);
-    }
-
-    return {
-        tableObject: tableObject,
-        domSeed: {
-            tag: 'div',
-            name: '',
-            content: htmlObject.content.outerHTML,
-            id: '',
-            class: '',
-            style: ''
+    if(history.resources) {
+        const tableObject = io.github.shunshun94.trpg.logEditor.resources.generateTableObject(history, idx, (pastTableObject.tableObject));
+        let htmlObject;
+        if( columnOrder.sharedColumns && columnOrder.partsColumns ) {
+            htmlObject = io.github.shunshun94.trpg.logEditor.resources.convertTableObjectToTableHtmlV2(tableObject, columnOrder);
+        } else {
+            htmlObject = io.github.shunshun94.trpg.logEditor.resources.convertTableObjectToTableHtmlV1(tableObject, columnOrder);
         }
-    };
+    
+        return {
+            tableObject: tableObject,
+            domSeed: {
+                tag: 'div',
+                name: '',
+                content: htmlObject.content.outerHTML,
+                id: '',
+                class: '',
+                style: ''
+            }
+        };
+    } else {
+        return {
+            tableObject: pastTableObject.tableObject,
+            domSeed: history
+        };
+    }
 };
 
 io.github.shunshun94.trpg.logEditor.resources.convertResourceHistoryToTableHtmls = (history, tmp_columnOrder = io.github.shunshun94.trpg.logEditor.resources.CONSTS.DEFAULT_COLUMN_ORDER) => {
