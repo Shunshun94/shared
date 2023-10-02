@@ -8,8 +8,11 @@ io.github.shunshun94.trpg.logEditor.resources = io.github.shunshun94.trpg.logEdi
 io.github.shunshun94.trpg.logEditor.resources.CONSTS = io.github.shunshun94.trpg.logEditor.resources.CONSTS || {};
 
 io.github.shunshun94.trpg.logEditor.resources.CONSTS.REGEXPS = {
-    ResourceModify: (io.github.shunshun94.trpg.logEditor.export.OperationTableExporter) ? io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.CONSTS.REGEXP.ResourceManage : /\[\s(.+)\s\]\s(.+)\s:\s(-?\d+)\s→\s(-?\d+)/gm,
-    EditedResourceModify: (io.github.shunshun94.trpg.logEditor.export.OperationTableExporter) ? io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.CONSTS.REGEXP.EditedResourceManage : /([^\t\n\r]+)\s:\s(-?\d+)\s→\s(-?\d+)/gm,
+    ResourceModify: [
+        /([^\t\n\r]+)\s:\s(-?\d+)\s→\s(-?\d+)<br\/?>/gm,
+        /<br\/?>([^\t\n\r]+)\s:\s(-?\d+)\s→\s(-?\d+)/gm,
+        /([^\t\n\r]+)\s:\s(-?\d+)\s→\s(-?\d+)/gm
+    ],
     ResourceWithPartsName: {
         back: /([^\*]+)\*$/,
         front: /^\*([^\*]+)/
@@ -31,14 +34,11 @@ io.github.shunshun94.trpg.logEditor.resources.postToPostElements = (tmp_dom) => 
 };
 
 io.github.shunshun94.trpg.logEditor.resources.getFirstResourceModificationLogFrom = (content, name) => {
-    const regexpA = io.github.shunshun94.trpg.logEditor.resources.CONSTS.REGEXPS.ResourceModify.exec(content);
-    if(regexpA) {
-        return { body: regexpA[0], name: regexpA[1], status: regexpA[2], before: Number(regexpA[3]), after: Number(regexpA[4]) };
-    }
-
-    const regexpB = io.github.shunshun94.trpg.logEditor.resources.CONSTS.REGEXPS.EditedResourceModify.exec(content);
-    if(regexpB) {
-        return { body: regexpB[0], name: name, status: regexpB[1], before: Number(regexpB[2]), after: Number(regexpB[3])};
+     for (var regexp of io.github.shunshun94.trpg.logEditor.resources.CONSTS.REGEXPS.ResourceModify) {
+        const result = regexp.exec(content);
+        if(result) {
+            return { body: result[0], name: name, status: result[1], before: Number(result[2]), after: Number(result[3]) };
+        }
     }
 
     return null;
@@ -53,7 +53,6 @@ io.github.shunshun94.trpg.logEditor.resources.mergeAdjacentPosts = (list) => {
                 while(! array[target].resources) {
                     target--;
                 }
-                console.log(JSON.stringify(array[idx].resources), idx, JSON.stringify(array[target].resources), target);
                 for(var name in array[idx].resources) {
                     for(var column in array[idx].resources[name]) {
                         if(! array[target].resources[name]        ) { array[target].resources[name] = {}; }
