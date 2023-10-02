@@ -61,6 +61,7 @@ io.github.shunshun94.trpg.logEditor.resources.mergeAdjacentPosts = (list) => {
                             array[target].resources[name][column].before = array[idx].resources[name][column].before;
                         }
                         array[target].resources[name][column].after = array[idx].resources[name][column].after;
+                        array[target].resources[name][column].max   = array[idx].resources[name][column].max;
                     }
                 }
                 array[idx].resources = false;
