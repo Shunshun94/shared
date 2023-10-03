@@ -101,20 +101,26 @@ io.github.shunshun94.trpg.logEditor.resources.pickResourceModificationLog = (pos
 
 io.github.shunshun94.trpg.logEditor.resources.appendkMemberJoinLeaveLog = (posts, history) => {
     const memberList = {};
-    history.forEach((post, i)=>{
+    history.forEach((post, idx)=>{
         for(var name in (post.resources || {})) {
             if(! memberList[name]) { memberList[name] = {resources:{}}; }
+            memberList[name][memberList[name].join ? 'leave' : 'join'] = post.index;
             for(var statusName in post.resources[name]) {
-                if(! memberList[name].resources[statusName]) { memberList[name].resources[statusName] = {after: post.resources[name][statusName].before, max: post.resources[name][statusName].before}; }
+                if(! memberList[name].resources[statusName]) {
+                    memberList[name].resources[statusName] = {
+                        after: post.resources[name][statusName].before,
+                        max: post.resources[name][statusName].before
+                    };
+                }
             }
         }
     });
-
+    /*
     posts.forEach((post, idx)=>{
         if(memberList[post.name]) {
             memberList[post.name][memberList[post.name].join ? 'leave' : 'join'] = idx;
         }
-    });
+    });*/
 
     const joinLeaveMap = {};
     for(var name in memberList) {
@@ -124,6 +130,7 @@ io.github.shunshun94.trpg.logEditor.resources.appendkMemberJoinLeaveLog = (posts
         if(! joinLeaveMap[target.leave]) { joinLeaveMap[target.leave] = { index: target.leave + 0.1, resources: {} }; }
         joinLeaveMap[target.leave].resources[name] = {};
     }
+    console.log(JSON.stringify(joinLeaveMap, null, 2));
     const joinLeaveList = [];
     for(var index in joinLeaveMap) {
         joinLeaveList.push(joinLeaveMap[index]);
@@ -157,12 +164,19 @@ io.github.shunshun94.trpg.logEditor.resources.generateTableObject = (history, id
                     if(history.resources[name][column].before && history.resources[name][column].before !== tableObject[name][column].after) {
                         console.warn(index, `${name} の ${column} が更新されますが更新前の値が一致しません（元々：${tableObject[name][column].after} / 更新時：${history.resources[name][column].before}）`);
                     }
+                    tableObject[name][column].before = history.resources[name][column].before;
+                    tableObject[name][column].after  = history.resources[name][column].after;
                 } catch (e) {
-                    console.error(e, name, column, history, idx, tableObject);
+                    console.error(e);
+                    throw {
+                        error: e,
+                        history: history,
+                        tableObject: tableObject,
+                        name: name,
+                        column: column,
+                        idx: idx
+                    };
                 }
-
-                tableObject[name][column].before = history.resources[name][column].before;
-                tableObject[name][column].after  = history.resources[name][column].after;
             });
         } else {
             delete tableObject[name];
@@ -362,6 +376,7 @@ io.github.shunshun94.trpg.logEditor.resources.generateresourcesInfoTables = (dom
 io.github.shunshun94.trpg.logEditor.resources.generateresourcesInfoTablesFromObject = (list) => {
     const resourceModificationHistory = list.map(io.github.shunshun94.trpg.logEditor.resources.pickResourceModificationLog).flat();
     const resourceHistory = io.github.shunshun94.trpg.logEditor.resources.appendkMemberJoinLeaveLog(list, resourceModificationHistory);
+    console.log(resourceHistory);
     return io.github.shunshun94.trpg.logEditor.resources.mergeAdjacentPosts(resourceHistory);
 };
 
