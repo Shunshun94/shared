@@ -107,7 +107,9 @@ io.github.shunshun94.trpg.logEditor.resources.appendkMemberJoinLeaveLog = (posts
             memberList[name][memberList[name].join ? 'leave' : 'join'] = post.index;
             for(var statusName in post.resources[name]) {
                 if(! memberList[name].resources[statusName]) {
+                    console.log(name, statusName, memberList[name].resources[statusName])
                     memberList[name].resources[statusName] = {
+                        before: post.resources[name][statusName].before,
                         after: post.resources[name][statusName].before,
                         max: post.resources[name][statusName].before
                     };
@@ -115,12 +117,6 @@ io.github.shunshun94.trpg.logEditor.resources.appendkMemberJoinLeaveLog = (posts
             }
         }
     });
-    /*
-    posts.forEach((post, idx)=>{
-        if(memberList[post.name]) {
-            memberList[post.name][memberList[post.name].join ? 'leave' : 'join'] = idx;
-        }
-    });*/
 
     const joinLeaveMap = {};
     for(var name in memberList) {
@@ -243,7 +239,7 @@ io.github.shunshun94.trpg.logEditor.resources.convertTableObjectToTableHtmlV2 = 
                 const columnName = column.name;
                 const statusTd = document.createElement('td');
                 if(part[columnName]) {
-                    if(part[columnName].before) {
+                    if(part[columnName].before && part[columnName].before !== part[columnName].after) {
                         statusTd.innerHTML = `<span class="resource-table-columnName">${columnName}</span><span class="resource-table-value resource-table-value-before">${part[columnName].before}</span><span class="resource-table-value resource-table-value-after">${part[columnName].after}</span><span class="resource-table-value resource-table-value-max">${part[columnName].max}</span>`;
                         statusTd.className = 'resource-table-updated';
                     } else {
