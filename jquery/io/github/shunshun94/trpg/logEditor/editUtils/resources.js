@@ -107,7 +107,6 @@ io.github.shunshun94.trpg.logEditor.resources.appendkMemberJoinLeaveLog = (posts
             memberList[name][memberList[name].join ? 'leave' : 'join'] = post.index;
             for(var statusName in post.resources[name]) {
                 if(! memberList[name].resources[statusName]) {
-                    console.log(name, statusName, post.resources[name][statusName]);
                     memberList[name].resources[statusName] = {
                         before: post.resources[name][statusName].before,
                         after: post.resources[name][statusName].before,
@@ -155,7 +154,6 @@ io.github.shunshun94.trpg.logEditor.resources.generateTableObject = (history, id
             tableObject[name] = JSON.parse(JSON.stringify(history.resources[name]));
         }
         const updatedColumnList = Object.keys(history.resources[name]);
-        console.log('generateTableObject', idx, JSON.stringify(history), pastTableObject, updatedColumnList);
         if(updatedColumnList.length) {
             updatedColumnList.forEach((column)=>{
                 try {
@@ -357,7 +355,6 @@ io.github.shunshun94.trpg.logEditor.resources.convertResourceObjectToTableHtml =
 
 io.github.shunshun94.trpg.logEditor.resources.convertResourceHistoryToTableHtmls = (history, tmp_columnOrder = io.github.shunshun94.trpg.logEditor.resources.CONSTS.DEFAULT_COLUMN_ORDER) => {
     const columnOrder = io.github.shunshun94.trpg.logEditor.resources.separateColumnOrder(tmp_columnOrder);
-    console.log(columnOrder);
     let lastTableObject = {tableObject: {}};
     return history.map((log, idx)=>{
         lastTableObject = io.github.shunshun94.trpg.logEditor.resources.convertResourceObjectToTableHtml(log, idx, lastTableObject, columnOrder);
@@ -375,7 +372,6 @@ io.github.shunshun94.trpg.logEditor.resources.generateresourcesInfoTables = (dom
 io.github.shunshun94.trpg.logEditor.resources.generateresourcesInfoTablesFromObject = (list) => {
     const resourceModificationHistory = list.map(io.github.shunshun94.trpg.logEditor.resources.pickResourceModificationLog).flat();
     const resourceHistory = io.github.shunshun94.trpg.logEditor.resources.appendkMemberJoinLeaveLog(list, resourceModificationHistory);
-    console.log(JSON.stringify(resourceHistory[576]));
     return io.github.shunshun94.trpg.logEditor.resources.mergeAdjacentPosts(resourceHistory);
 };
 
