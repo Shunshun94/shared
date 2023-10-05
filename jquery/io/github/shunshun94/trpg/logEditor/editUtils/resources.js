@@ -101,18 +101,19 @@ io.github.shunshun94.trpg.logEditor.resources.pickResourceModificationLog = (pos
 
 io.github.shunshun94.trpg.logEditor.resources.appendkMemberJoinLeaveLog = (posts, history) => {
     const memberList = {};
-    history.forEach((post, i)=>{
+    history.forEach((post, idx)=>{
         for(var name in (post.resources || {})) {
             if(! memberList[name]) { memberList[name] = {resources:{}}; }
+            memberList[name][memberList[name].join ? 'leave' : 'join'] = post.index;
             for(var statusName in post.resources[name]) {
-                if(! memberList[name].resources[statusName]) { memberList[name].resources[statusName] = {after: post.resources[name][statusName].before, max: post.resources[name][statusName].before}; }
+                if(! memberList[name].resources[statusName]) {
+                    memberList[name].resources[statusName] = {
+                        before: post.resources[name][statusName].before,
+                        after: post.resources[name][statusName].before,
+                        max: post.resources[name][statusName].before
+                    };
+                }
             }
-        }
-    });
-
-    posts.forEach((post, idx)=>{
-        if(memberList[post.name]) {
-            memberList[post.name][memberList[post.name].join ? 'leave' : 'join'] = idx;
         }
     });
 
@@ -124,10 +125,12 @@ io.github.shunshun94.trpg.logEditor.resources.appendkMemberJoinLeaveLog = (posts
         if(! joinLeaveMap[target.leave]) { joinLeaveMap[target.leave] = { index: target.leave + 0.1, resources: {} }; }
         joinLeaveMap[target.leave].resources[name] = {};
     }
+
     const joinLeaveList = [];
     for(var index in joinLeaveMap) {
         joinLeaveList.push(joinLeaveMap[index]);
     }
+    joinLeaveList.sort((a,b)=>{return a.index - b.index;});
 
     return history.concat(joinLeaveList).sort((a,b)=>{return a.index - b.index;});
 };
@@ -157,12 +160,20 @@ io.github.shunshun94.trpg.logEditor.resources.generateTableObject = (history, id
                     if(history.resources[name][column].before && history.resources[name][column].before !== tableObject[name][column].after) {
                         console.warn(index, `${name} の ${column} が更新されますが更新前の値が一致しません（元々：${tableObject[name][column].after} / 更新時：${history.resources[name][column].before}）`);
                     }
+                    tableObject[name][column].before = history.resources[name][column].before;
+                    tableObject[name][column].after  = history.resources[name][column].after;
+                    tableObject[name][column].max    = tableObject[name][column].max || history.resources[name][column].before;
                 } catch (e) {
-                    console.error(e, name, column, history, idx, tableObject);
+                    console.error(e);
+                    throw {
+                        error: e,
+                        history: history,
+                        tableObject: tableObject,
+                        name: name,
+                        column: column,
+                        idx: idx
+                    };
                 }
-
-                tableObject[name][column].before = history.resources[name][column].before;
-                tableObject[name][column].after  = history.resources[name][column].after;
             });
         } else {
             delete tableObject[name];
@@ -229,7 +240,7 @@ io.github.shunshun94.trpg.logEditor.resources.convertTableObjectToTableHtmlV2 = 
                 const columnName = column.name;
                 const statusTd = document.createElement('td');
                 if(part[columnName]) {
-                    if(part[columnName].before) {
+                    if(part[columnName].before && part[columnName].before !== part[columnName].after) {
                         statusTd.innerHTML = `<span class="resource-table-columnName">${columnName}</span><span class="resource-table-value resource-table-value-before">${part[columnName].before}</span><span class="resource-table-value resource-table-value-after">${part[columnName].after}</span><span class="resource-table-value resource-table-value-max">${part[columnName].max}</span>`;
                         statusTd.className = 'resource-table-updated';
                     } else {
@@ -344,7 +355,6 @@ io.github.shunshun94.trpg.logEditor.resources.convertResourceObjectToTableHtml =
 
 io.github.shunshun94.trpg.logEditor.resources.convertResourceHistoryToTableHtmls = (history, tmp_columnOrder = io.github.shunshun94.trpg.logEditor.resources.CONSTS.DEFAULT_COLUMN_ORDER) => {
     const columnOrder = io.github.shunshun94.trpg.logEditor.resources.separateColumnOrder(tmp_columnOrder);
-    console.log(columnOrder);
     let lastTableObject = {tableObject: {}};
     return history.map((log, idx)=>{
         lastTableObject = io.github.shunshun94.trpg.logEditor.resources.convertResourceObjectToTableHtml(log, idx, lastTableObject, columnOrder);
