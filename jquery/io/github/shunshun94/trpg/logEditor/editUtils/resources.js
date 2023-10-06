@@ -9,9 +9,7 @@ io.github.shunshun94.trpg.logEditor.resources.CONSTS = io.github.shunshun94.trpg
 
 io.github.shunshun94.trpg.logEditor.resources.CONSTS.REGEXPS = {
     ResourceModify: [
-        /([^\t\n\r<>]+)\s:\s(-?\d+)\s→\s(-?\d+)<?b?r?\/?>?/gm,
-        /<?b?r?\/?>?([^\t\n\r<>]+)\s:\s(-?\d+)\s→\s(-?\d+)/gm,
-        /([^\t\n\r]+)\s:\s(-?\d+)\s→\s(-?\d+)/gm
+        /<?b?r?\/?>?([^\t\n\r<>]+)\s:\s(-?\d+)\s→\s(-?\d+)<?b?r?\/?>?/gm
     ],
     ResourceWithPartsName: {
         back: /([^\*]+)\*$/,
