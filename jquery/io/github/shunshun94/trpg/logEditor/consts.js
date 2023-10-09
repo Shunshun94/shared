@@ -8,7 +8,8 @@ io.github.shunshun94.trpg.logEditor.DOMS = {
 };
 io.github.shunshun94.trpg.logEditor.EVENTS = {
 	FILE_LOADED: 'io-github-shunshun94-trpg-logEditor-file-loaded',
-	FILE_DROPED: 'io-github-shunshun94-trpg-logEditor-file-droped'
+	FILE_DROPED: 'io-github-shunshun94-trpg-logEditor-file-droped',
+	RESOURCE_TABLE_COLUMN_CONFIG_DECIDED: 'io-github-shunshun94-trpg-logEditor-resource-table-column-config-decided'
 };
 io.github.shunshun94.trpg.logEditor.CLASSES = {
 	FILTER: 'io-github-shunshun94-trpg-logEditor-FileLoader-filter',
