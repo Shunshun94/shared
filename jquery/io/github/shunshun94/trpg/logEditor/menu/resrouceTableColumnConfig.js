@@ -23,3 +23,9 @@ io.github.shunshun94.trpg.logEditor.menu.ResrouceTableColumnConfig.generateDom =
 	<button class="${io.github.shunshun94.trpg.logEditor.CLASSES.RESOURCE_TABLE_COLUMN_CONFIG_WINDOW_EXEC}">決定</button>
 	</div>`;
 };
+
+io.github.shunshun94.trpg.logEditor.menu.ResrouceTableColumnConfig.getInputValues = () => {
+    return {
+        columns: document.getElementById(`${io.github.shunshun94.trpg.logEditor.CLASSES.RESOURCE_TABLE_COLUMN_CONFIG_WINDOW}-input`).value.split(' ')
+    };
+};
