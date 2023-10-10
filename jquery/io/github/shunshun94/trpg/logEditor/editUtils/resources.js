@@ -235,7 +235,7 @@ io.github.shunshun94.trpg.logEditor.resources.convertTableObjectToTableHtmlV2 = 
             }
 
             currentColumns.forEach((column, columnIndex)=>{
-                const columnName = column.name;
+                const columnName = column.name || column;
                 const statusTd = document.createElement('td');
                 if(part[columnName]) {
                     if(part[columnName].before && part[columnName].before !== part[columnName].after) {
@@ -390,7 +390,6 @@ io.github.shunshun94.trpg.logEditor.resources.generateresourcesInfoTablesFromObj
     const resourceModificationHistory = list.map(io.github.shunshun94.trpg.logEditor.resources.pickResourceModificationLog).flat();
     const resourceHistory = io.github.shunshun94.trpg.logEditor.resources.appendkMemberJoinLeaveLog(list, resourceModificationHistory);
     const result = io.github.shunshun94.trpg.logEditor.resources.mergeAdjacentPosts(resourceHistory);
-    console.log(io.github.shunshun94.trpg.logEditor.resources.getColumnsFromResourceInfoTables(result));
     return result;
 };
 
