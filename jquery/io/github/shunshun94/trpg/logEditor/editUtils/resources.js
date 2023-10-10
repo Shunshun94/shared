@@ -186,7 +186,7 @@ io.github.shunshun94.trpg.logEditor.resources.convertRawTableToTableWithParts = 
         const characterResult = {};
         Object.keys(tableObject[name]).forEach((column)=>{
             columnOrder.partsColumns.forEach((masterColumn)=>{
-                if(column[masterColumn.method](masterColumn.name)) {
+                if(masterColumn.regexp.test(column)) {
                     const partsName = column.replace(masterColumn.name, '');
                     if(partsName) { // 羽HP とか HP羽 とかだった場合
                         if(! characterResult[partsName]) { characterResult[partsName] = {}; }
@@ -303,10 +303,12 @@ io.github.shunshun94.trpg.logEditor.resources.separateColumnOrder = (rawColumnOr
     rawColumnOrder.forEach((rawColumn)=>{
         const front = regexps.front.exec(rawColumn);
         const back  = regexps.back.exec(rawColumn);
-        if(front) {
-            result.partsColumns.push({ name: front[1], method: 'endsWith' });
+        if (front && back) {
+            result.partsColumns.push({ name: front[1], regexp: new RegExp(`.*` + front[1] + `.*`) });
+        } else if(front) {
+            result.partsColumns.push({ name: front[1], regexp: new RegExp(`.*` + front[1]), method: 'endsWith' });
         } else if(back) {
-            result.partsColumns.push({ name: back[1], method: 'startsWith'});
+            result.partsColumns.push({ name: back[1],  regexp: new RegExp(back[1] + `.*`),  method: 'startsWith'});
         } else {
             result.sharedColumns.push(rawColumn);
         }
