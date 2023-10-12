@@ -104,7 +104,12 @@ io.github.shunshun94.trpg.logEditor.resources.appendkMemberJoinLeaveLog = (posts
     history.forEach((post, idx)=>{
         for(var name in (post.resources || {})) {
             if(! memberList[name]) { memberList[name] = {resources:{}}; }
-            memberList[name][memberList[name].join ? 'leave' : 'join'] = post.index;
+            if(memberList[name].join) {
+                memberList[name].leave = post.index;
+            } else {
+                memberList[name].join = post.index;
+                memberList[name].leave = post.index;
+            }
             for(var statusName in post.resources[name]) {
                 if(! memberList[name].resources[statusName]) {
                     memberList[name].resources[statusName] = {
@@ -116,6 +121,7 @@ io.github.shunshun94.trpg.logEditor.resources.appendkMemberJoinLeaveLog = (posts
             }
         }
     });
+    console.log('memberList', memberList)
 
     const joinLeaveMap = {};
     for(var name in memberList) {
@@ -394,6 +400,7 @@ io.github.shunshun94.trpg.logEditor.resources.generateresourcesInfoTablesFromObj
     const resourceModificationHistory = list.map(io.github.shunshun94.trpg.logEditor.resources.pickResourceModificationLog).flat();
     const resourceHistory = io.github.shunshun94.trpg.logEditor.resources.appendkMemberJoinLeaveLog(list, resourceModificationHistory);
     const result = io.github.shunshun94.trpg.logEditor.resources.mergeAdjacentPosts(resourceHistory);
+    console.log(result);
     return result;
 };
 
