@@ -9,7 +9,7 @@ io.github.shunshun94.trpg.logEditor.resources.CONSTS = io.github.shunshun94.trpg
 
 io.github.shunshun94.trpg.logEditor.resources.CONSTS.REGEXPS = {
     ResourceModify: [
-        /<?b?r?\/?>?([^\t\n\r<>]+)\s:\s(-?\d+)\s→\s(-?\d+)<?b?r?\/?>?/gm
+        /<?b?r?\/?>?([^\t\n\r<>]+)\s:\s(-?\d+)\s→\s(-?\d+)<?b?r?\/?>?/m
     ],
     ResourceWithPartsName: {
         back: /([^\*]+)\*$/,
@@ -35,7 +35,7 @@ io.github.shunshun94.trpg.logEditor.resources.getFirstResourceModificationLogFro
      for (var regexp of io.github.shunshun94.trpg.logEditor.resources.CONSTS.REGEXPS.ResourceModify) {
         const result = regexp.exec(content);
         if(result) {
-            return { body: result[0], name: name, status: result[1], before: Number(result[2]), after: Number(result[3]) };
+            return { body: result[0], name: name, status: result[1].trim(), before: Number(result[2]), after: Number(result[3]) };
         }
     }
 
@@ -74,8 +74,9 @@ io.github.shunshun94.trpg.logEditor.resources.mergeAdjacentPosts = (list) => {
 io.github.shunshun94.trpg.logEditor.resources.pickResourceModificationLog = (postElement, postIndex) => {
     const result = postElement
     result.index = postIndex;
+    let content = postElement.content.split('\n').map((d)=>{return d.trim();}).join('\n');
     let rd;
-    while(rd = io.github.shunshun94.trpg.logEditor.resources.getFirstResourceModificationLogFrom(postElement.content, postElement.name)) {
+    while(rd = io.github.shunshun94.trpg.logEditor.resources.getFirstResourceModificationLogFrom(content, result.name)) {
         if(! result.resources) { result.resources = {}; }
         if(! result.resources[rd.name]) { result.resources[rd.name] = {}; }
 
@@ -86,8 +87,9 @@ io.github.shunshun94.trpg.logEditor.resources.pickResourceModificationLog = (pos
             result.resources[rd.name][rd.status].after = rd.after;
         }
 
-        result.content = result.content.replace(rd.body, '');
+        content = content.replace(rd.body, '');
     }
+    result.content = content;
     if(result.resources && result.content) {
         const content1 = JSON.parse(JSON.stringify(result));
         delete content1.resources;
