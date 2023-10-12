@@ -89,7 +89,7 @@ io.github.shunshun94.trpg.logEditor.resources.pickResourceModificationLog = (pos
 
         content = content.replace(rd.body, '');
     }
-    result.content = content;
+    result.content = content.trim();
     if(result.resources && result.content) {
         const content1 = JSON.parse(JSON.stringify(result));
         delete content1.resources;
