@@ -240,7 +240,7 @@ io.github.shunshun94.trpg.logEditor.resources.convertTableObjectToTableHtmlV2 = 
                 tr.append(partsNameTh);
             }
 
-            currentColumns.forEach((column, columnIndex)=>{
+            currentColumns.forEach((column)=>{
                 const columnName = column.name || column;
                 const statusTd = document.createElement('td');
                 if(part[columnName]) {
@@ -339,23 +339,32 @@ io.github.shunshun94.trpg.logEditor.resources.convertResourceObjectToTableHtml =
         } else {
             htmlObject = io.github.shunshun94.trpg.logEditor.resources.convertTableObjectToTableHtmlV1(tableObject, columnOrder);
         }
+        if(htmlObject.content.getElementsByClassName('resource-table-updated').length) {
+            return {
+                tableObject: tableObject,
+                domSeed: {
+                    tag: 'div',
+                    name: '',
+                    content: htmlObject.content.outerHTML,
+                    id: '',
+                    class: '',
+                    style: ''
+                },
+                isTable: true,
+                hasInfo: true
+            };
+        } else {
+            return {
+                tableObject: tableObject
+            };
+        }
     
-        return {
-            tableObject: tableObject,
-            domSeed: {
-                tag: 'div',
-                name: '',
-                content: htmlObject.content.outerHTML,
-                id: '',
-                class: '',
-                style: ''
-            },
-            isTable: true
-        };
+
     } else {
         return {
             tableObject: pastTableObject.tableObject,
-            domSeed: history
+            domSeed: history,
+            hasInfo: true
         };
     }
 };
@@ -366,7 +375,7 @@ io.github.shunshun94.trpg.logEditor.resources.convertResourceHistoryToTableHtmls
     const result = history.map((log, idx)=>{
         lastTableObject = io.github.shunshun94.trpg.logEditor.resources.convertResourceObjectToTableHtml(log, idx, lastTableObject, columnOrder);
         return lastTableObject;
-    });
+    }).filter((post)=>{ return post.hasInfo; });
     if(filter) {
         return result.filter((post)=>{ return post.isTable; });
     } else {
