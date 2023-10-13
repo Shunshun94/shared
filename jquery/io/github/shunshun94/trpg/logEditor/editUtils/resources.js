@@ -398,7 +398,6 @@ io.github.shunshun94.trpg.logEditor.resources.generateresourcesInfoTablesFromObj
     const resourceModificationHistory = list.map(io.github.shunshun94.trpg.logEditor.resources.pickResourceModificationLog).flat();
     const resourceHistory = io.github.shunshun94.trpg.logEditor.resources.appendkMemberJoinLeaveLog(list, resourceModificationHistory);
     const result = io.github.shunshun94.trpg.logEditor.resources.mergeAdjacentPosts(resourceHistory);
-    console.log(result);
     return result;
 };
 
