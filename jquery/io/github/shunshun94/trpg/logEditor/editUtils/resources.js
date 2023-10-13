@@ -121,7 +121,6 @@ io.github.shunshun94.trpg.logEditor.resources.appendkMemberJoinLeaveLog = (posts
             }
         }
     });
-    console.log('memberList', memberList)
 
     const joinLeaveMap = {};
     for(var name in memberList) {
@@ -136,7 +135,6 @@ io.github.shunshun94.trpg.logEditor.resources.appendkMemberJoinLeaveLog = (posts
     for(var index in joinLeaveMap) {
         joinLeaveList.push(joinLeaveMap[index]);
     }
-    joinLeaveList.sort((a,b)=>{return a.index - b.index;});
 
     return history.concat(joinLeaveList).sort((a,b)=>{return a.index - b.index;}).flat();
 };
