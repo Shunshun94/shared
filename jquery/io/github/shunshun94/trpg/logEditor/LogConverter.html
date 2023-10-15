@@ -46,9 +46,9 @@
 	<input id="switch-lightness" type="checkbox"  style="position:relative;left:-4px;" checked/>
 	<label style="position:relative;left:-12px;">背景色に対する文字の明るさを補正する</label><br/>
 	<input id="switch-distance" type="checkbox"  style="position:relative;left:-4px;" checked/>
-	<label style="position:relative;left:-12px;">文字色間の色の違いを補正する</label><!--<br/>
+	<label style="position:relative;left:-12px;">文字色間の色の違いを補正する</label><br/>
 	<input id="resource-table" type="checkbox"  style="position:relative;left:-4px;" checked/>
-	<label style="position:relative;left:-12px;">リソースの推移を表として出力する</label>-->
+	<label style="position:relative;left:-12px;">リソースの推移を表として出力する</label>
 </div>
 <script>
 const darkmode = 'darkmode';
@@ -84,6 +84,7 @@ io.github.shunshun94.trpg.logEditor.EVENTS = {
 <script src="./FileLoader/tabFilter.js"></script>
 <script src="./color/contrastUtil.js"></script>
 <script src="./menu/saveMenu.js"></script>
+<script src="./menu/resrouceTableColumnConfig.js"></script>
 <script src="./exporter/htmlExporter.js"></script>
 <script src="./exporter/textExporter.js"></script>
 <script src="./exporter/ytchatExporter.js"></script>
@@ -108,6 +109,9 @@ const exportHandlerClass = class {
 	}
 	setImportedFile(fileInfo) {
 		this.importedFile = fileInfo;
+		return this.importedFile;
+	}
+	getImportedFile() {
 		return this.importedFile;
 	}
 	setAppendClassName(appendClassName = '') {
@@ -148,12 +152,6 @@ const getModifyLogActions = (appendClass) => {
 			return io.github.shunshun94.trpg.logEditor.color.contrastUtil.modifyColors(list, appendClass, modifyColorActions);
 		});
 	}
-
-	if(document.getElementById('resource-table').checked) {
-		result.push((list)=>{
-			return io.github.shunshun94.trpg.logEditor.resources.generateresourcesInfoTablesFromObject(list);
-		});
-	}
 	return result;
 };
 
@@ -164,6 +162,17 @@ io.github.shunshun94.trpg.logEditor.DOMS.BODY.on(io.github.shunshun94.trpg.logEd
 		io.github.shunshun94.trpg.logEditor.FileLoader.openBackScreen();
 		io.github.shunshun94.trpg.logEditor.DOMS.BODY.append(io.github.shunshun94.trpg.logEditor.menu.saveMenu.generateDom(''));
 	});
+});
+
+io.github.shunshun94.trpg.logEditor.DOMS.BODY.on(io.github.shunshun94.trpg.logEditor.EVENTS.RESOURCE_TABLE_COLUMN_CONFIG_DECIDED, (e, columnInfo)=>{
+	$(`.${io.github.shunshun94.trpg.logEditor.CLASSES.BACKSCREEN}`).remove();
+	$(`.${io.github.shunshun94.trpg.logEditor.CLASSES.TMP_WINDOW}`).remove();
+	const d = exportHandler.getImportedFile();
+	d.doms = io.github.shunshun94.trpg.logEditor.resources.convertResourceHistoryToTableHtmls(d.doms, columnInfo).map((d)=>{
+		return d.domSeed;
+	});
+	exportHandler.setImportedFile(d);
+	exportHandler.downloadGeneratedFile(exportHandler.generateFile());
 });
 
 const executeDomListToOutput = (exporter, filteredDomList, appendClass) => {
@@ -184,10 +193,26 @@ io.github.shunshun94.trpg.logEditor.DOMS.BODY.click((e)=>{
 			const actions = getModifyLogActions(appendClass);
 			exportHandler.setActionsForHtmlDom(actions);
 			exportHandler.setAppendClassName(appendClass);
+			if(document.getElementById('resource-table').checked) {
+				const d = exportHandler.getImportedFile();
+				d.doms = io.github.shunshun94.trpg.logEditor.resources.generateresourcesInfoTablesFromObject(d.doms);
+				exportHandler.setImportedFile(d);
+				const columns = io.github.shunshun94.trpg.logEditor.resources.getColumnsFromResourceInfoTables(d.doms);
+				io.github.shunshun94.trpg.logEditor.FileLoader.openBackScreen();
+				io.github.shunshun94.trpg.logEditor.DOMS.BODY.append(io.github.shunshun94.trpg.logEditor.menu.ResrouceTableColumnConfig.generateDom(columns));
+			} else {
+				exportHandler.downloadGeneratedFile(exportHandler.generateFile());
+			}
 		} else {
 			exportHandler.setActionsForHtmlDom();
+			exportHandler.downloadGeneratedFile(exportHandler.generateFile());
 		}
-		exportHandler.downloadGeneratedFile(exportHandler.generateFile());
+	}
+	if(target.hasClass(io.github.shunshun94.trpg.logEditor.CLASSES.RESOURCE_TABLE_COLUMN_CONFIG_WINDOW_EXEC)) {
+		io.github.shunshun94.trpg.logEditor.DOMS.BODY.trigger(
+			io.github.shunshun94.trpg.logEditor.EVENTS.RESOURCE_TABLE_COLUMN_CONFIG_DECIDED,
+			io.github.shunshun94.trpg.logEditor.menu.ResrouceTableColumnConfig.getInputValues()
+		);
 	}
 });
 

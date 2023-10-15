@@ -17,7 +17,7 @@ io.github.shunshun94.trpg.logEditor.resources.CONSTS.REGEXPS = {
     }
 };
 
-io.github.shunshun94.trpg.logEditor.resources.CONSTS.DEFAULT_COLUMN_ORDER = ['*HP','*MP'];
+io.github.shunshun94.trpg.logEditor.resources.CONSTS.DEFAULT_COLUMN_ORDER = { columns: ['*HP','*MP'], nomax:[] };
 
 io.github.shunshun94.trpg.logEditor.resources.getNameList = (doms) => {
     return (new Set($.makeArray(doms.find(`.${io.github.shunshun94.trpg.logEditor.CLASSES.NAME}`).map((i,v)=>{return $(v).text()})))).filter((n)=>{return n;});
@@ -213,7 +213,7 @@ io.github.shunshun94.trpg.logEditor.resources.convertRawTableToTableWithParts = 
     return result;
 };
 
-io.github.shunshun94.trpg.logEditor.resources.convertTableObjectToTableHtmlV2 = (rawTableObject, columnOrder) => {
+io.github.shunshun94.trpg.logEditor.resources.convertTableObjectToTableHtmlV2 = (rawTableObject, columnOrder, nomaxColumns) => {
     const tableObject = io.github.shunshun94.trpg.logEditor.resources.convertRawTableToTableWithParts(rawTableObject, columnOrder);
     const result = document.createElement('table');
     result.setAttribute('border', 1);
@@ -245,10 +245,12 @@ io.github.shunshun94.trpg.logEditor.resources.convertTableObjectToTableHtmlV2 = 
                 const statusTd = document.createElement('td');
                 if(part[columnName]) {
                     if(part[columnName].before && part[columnName].before !== part[columnName].after) {
-                        statusTd.innerHTML = `<span class="resource-table-columnName">${columnName}</span><span class="resource-table-value resource-table-value-before">${part[columnName].before}</span><span class="resource-table-value resource-table-value-after">${part[columnName].after}</span><span class="resource-table-value resource-table-value-max">${part[columnName].max}</span>`;
+                        statusTd.innerHTML = `<span class="resource-table-columnName">${columnName}</span><span class="resource-table-value resource-table-value-before">${part[columnName].before}</span><span class="resource-table-value resource-table-value-after">${part[columnName].after}</span>`
+                                           + (nomaxColumns.includes(columnName) ? '' : `<span class="resource-table-value resource-table-value-max">${part[columnName].max}</span>`);
                         statusTd.className = 'resource-table-updated';
                     } else {
-                        statusTd.innerHTML = `<span class="resource-table-columnName">${columnName}</span><span class="resource-table-value resource-table-value-after">${part[columnName].after}</span><span class="resource-table-value resource-table-value-max">${part[columnName].max}</span>`;
+                        statusTd.innerHTML = `<span class="resource-table-columnName">${columnName}</span><span class="resource-table-value resource-table-value-after">${part[columnName].after}</span>`
+                                           + (nomaxColumns.includes(columnName) ? '' : `<span class="resource-table-value resource-table-value-max">${part[columnName].max}</span>`);
                     }
                 } else {
                     statusTd.className = 'resource-table-no_info';
@@ -330,12 +332,12 @@ io.github.shunshun94.trpg.logEditor.resources.separateColumnOrder = (rawColumnOr
     return result;
 };
 
-io.github.shunshun94.trpg.logEditor.resources.convertResourceObjectToTableHtml = (history, idx, pastTableObject = {}, columnOrder) => {
+io.github.shunshun94.trpg.logEditor.resources.convertResourceObjectToTableHtml = (history, idx, pastTableObject = {}, columnOrder, nomax) => {
     if(history.resources) {
         const tableObject = io.github.shunshun94.trpg.logEditor.resources.generateTableObject(history, idx, (pastTableObject.tableObject));
         let htmlObject;
         if( columnOrder.sharedColumns && columnOrder.partsColumns ) {
-            htmlObject = io.github.shunshun94.trpg.logEditor.resources.convertTableObjectToTableHtmlV2(tableObject, columnOrder);
+            htmlObject = io.github.shunshun94.trpg.logEditor.resources.convertTableObjectToTableHtmlV2(tableObject, columnOrder, nomax);
         } else {
             htmlObject = io.github.shunshun94.trpg.logEditor.resources.convertTableObjectToTableHtmlV1(tableObject, columnOrder);
         }
@@ -369,11 +371,11 @@ io.github.shunshun94.trpg.logEditor.resources.convertResourceObjectToTableHtml =
     }
 };
 
-io.github.shunshun94.trpg.logEditor.resources.convertResourceHistoryToTableHtmls = (history, tmp_columnOrder = io.github.shunshun94.trpg.logEditor.resources.CONSTS.DEFAULT_COLUMN_ORDER, filter = false) => {
-    const columnOrder = io.github.shunshun94.trpg.logEditor.resources.separateColumnOrder(tmp_columnOrder);
+io.github.shunshun94.trpg.logEditor.resources.convertResourceHistoryToTableHtmls = (history, columnMap = io.github.shunshun94.trpg.logEditor.resources.CONSTS.DEFAULT_COLUMN_ORDER, filter = false) => {
+    const columnOrder = io.github.shunshun94.trpg.logEditor.resources.separateColumnOrder(columnMap.columns);
     let lastTableObject = {tableObject: {}};
     const result = history.map((log, idx)=>{
-        lastTableObject = io.github.shunshun94.trpg.logEditor.resources.convertResourceObjectToTableHtml(log, idx, lastTableObject, columnOrder);
+        lastTableObject = io.github.shunshun94.trpg.logEditor.resources.convertResourceObjectToTableHtml(log, idx, lastTableObject, columnOrder, columnMap.nomax);
         return lastTableObject;
     }).filter((post)=>{ return post.hasInfo; });
     if(filter) {

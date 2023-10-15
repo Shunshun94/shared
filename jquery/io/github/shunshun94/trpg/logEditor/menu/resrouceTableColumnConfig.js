@@ -20,12 +20,21 @@ io.github.shunshun94.trpg.logEditor.menu.ResrouceTableColumnConfig.generateDom =
         id="${io.github.shunshun94.trpg.logEditor.CLASSES.RESOURCE_TABLE_COLUMN_CONFIG_WINDOW}-input"
         class="${io.github.shunshun94.trpg.logEditor.CLASSES.RESOURCE_TABLE_COLUMN_CONFIG_WINDOW}-input"
         />
+    <p>ダブルクロスの侵蝕率やステラナイツのブーケ等、<br/>最大値がないステータスの項目を半角スペース区切りで入力してください<br/>
+    ここに記載された値は表を生成する際に最大値を出力しません</p>
+    <input
+        type="text"
+        value=""
+        id="${io.github.shunshun94.trpg.logEditor.CLASSES.RESOURCE_TABLE_COLUMN_CONFIG_WINDOW}-nomax-input"
+        class="${io.github.shunshun94.trpg.logEditor.CLASSES.RESOURCE_TABLE_COLUMN_CONFIG_WINDOW}-nomax-input"
+        /><br/>
 	<button class="${io.github.shunshun94.trpg.logEditor.CLASSES.RESOURCE_TABLE_COLUMN_CONFIG_WINDOW_EXEC}">決定</button>
 	</div>`;
 };
 
 io.github.shunshun94.trpg.logEditor.menu.ResrouceTableColumnConfig.getInputValues = () => {
     return {
-        columns: document.getElementById(`${io.github.shunshun94.trpg.logEditor.CLASSES.RESOURCE_TABLE_COLUMN_CONFIG_WINDOW}-input`).value.split(' ')
+        columns: document.getElementById(`${io.github.shunshun94.trpg.logEditor.CLASSES.RESOURCE_TABLE_COLUMN_CONFIG_WINDOW}-input`).value.split(' '),
+        nomax:   document.getElementById(`${io.github.shunshun94.trpg.logEditor.CLASSES.RESOURCE_TABLE_COLUMN_CONFIG_WINDOW}-nomax-input`).value.split(' '),
     };
 };
