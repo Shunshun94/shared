@@ -14,7 +14,7 @@ io.github.shunshun94.trpg.dx3.FairyHands.REGEXPS = {
     CRITICAL_VALUE: /\(\d+DX(\d+)[\+\-]?\d*\)/,
     CURRENT_RESULT: /＞ (\d+)$/,
     TMP_FUMBLE: /1\[[1,]+\]\+?(\d*) ＞ 0 \(ファンブル\)$/,
-    LAST_DICE_RESULT: /(\d+)\[[\d,]+\]\+?\d* ＞ \d+$/
+    LAST_DICE_RESULT: /(\d+)\[[\d,]+\][\+-]?\d* ＞ \d+$/
 };
 
 io.github.shunshun94.trpg.dx3.FairyHands.fumbleToCommonResult = (input) => {
