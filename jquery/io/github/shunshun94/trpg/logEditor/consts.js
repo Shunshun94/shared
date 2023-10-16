@@ -8,7 +8,8 @@ io.github.shunshun94.trpg.logEditor.DOMS = {
 };
 io.github.shunshun94.trpg.logEditor.EVENTS = {
 	FILE_LOADED: 'io-github-shunshun94-trpg-logEditor-file-loaded',
-	FILE_DROPED: 'io-github-shunshun94-trpg-logEditor-file-droped'
+	FILE_DROPED: 'io-github-shunshun94-trpg-logEditor-file-droped',
+	RESOURCE_TABLE_COLUMN_CONFIG_DECIDED: 'io-github-shunshun94-trpg-logEditor-resource-table-column-config-decided'
 };
 io.github.shunshun94.trpg.logEditor.CLASSES = {
 	FILTER: 'io-github-shunshun94-trpg-logEditor-FileLoader-filter',
@@ -36,6 +37,8 @@ io.github.shunshun94.trpg.logEditor.CLASSES = {
 	POPUP_MENU_TOGGLE: 'io-github-shunshun94-trpg-logEditor-menu-PopupMenuToggle',
 	NAME_MENU_WINDOW: 'io-github-shunshun94-trpg-logEditor-menu-NameConfig',
 	NAME_MENU_EXEC: 'io-github-shunshun94-trpg-logEditor-menu-NameConfig-exec',
+	RESOURCE_TABLE_COLUMN_CONFIG_WINDOW: 'io-github-shunshun94-trpg-logEditor-menu-ResrouceTableColumn',
+	RESOURCE_TABLE_COLUMN_CONFIG_WINDOW_EXEC: 'io-github-shunshun94-trpg-logEditor-menu-ResrouceTableColumn-exec',
 	SAVE_MENU_WINDOW: 'io-github-shunshun94-trpg-logEditor-menu-SaveMenu',
 	APPEND_MENU_WINDOW: 'io-github-shunshun94-trpg-logEditor-menu-AppendMenu',
 	ADD_ELEMENT_MENU_WINDOW: 'io-github-shunshun94-trpg-logEditor-menu-AddElementMenu',
@@ -54,6 +57,7 @@ io.github.shunshun94.trpg.logEditor.CLASSES = {
 	TMP_WINDOW: 'io-github-shunshun94-trpg-logEditor-tmpWindow',
 	PREVIEW: 'io-github-shunshun94-trpg-logEditor-preview'
 };
+io.github.shunshun94.trpg.logEditor.CLASSES.RESOURCE_TABLE_COLUMN_CONFIG_WINDOW
 
 io.github.shunshun94.trpg.logEditor.EXPERIMENTAL_FUNC_PASSWORD = 'c74ffc7879c92accd74d76359b085d3883a02b65de892203c2191090c1cd6407';
 io.github.shunshun94.trpg.logEditor.HOSTPLAYER = localStorage.getItem('io.github.shunshun94.trpg.logEditor.HOSTPLAYER') || 'GM';

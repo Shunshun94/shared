@@ -8,15 +8,16 @@ io.github.shunshun94.trpg.logEditor.resources = io.github.shunshun94.trpg.logEdi
 io.github.shunshun94.trpg.logEditor.resources.CONSTS = io.github.shunshun94.trpg.logEditor.resources.CONSTS || {};
 
 io.github.shunshun94.trpg.logEditor.resources.CONSTS.REGEXPS = {
-    ResourceModify: (io.github.shunshun94.trpg.logEditor.export.OperationTableExporter) ? io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.CONSTS.REGEXP.ResourceManage : /\[\s(.+)\s\]\s(.+)\s:\s(-?\d+)\s→\s(-?\d+)/gm,
-    EditedResourceModify: (io.github.shunshun94.trpg.logEditor.export.OperationTableExporter) ? io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.CONSTS.REGEXP.EditedResourceManage : /([^\t\n\r]+)\s:\s(-?\d+)\s→\s(-?\d+)/gm,
+    ResourceModify: [
+        /<?b?r?\/?>?([^\t\n\r<>]+)\s:\s(-?\d+)\s→\s(-?\d+)<?b?r?\/?>?/m
+    ],
     ResourceWithPartsName: {
         back: /([^\*]+)\*$/,
         front: /^\*([^\*]+)/
     }
 };
 
-io.github.shunshun94.trpg.logEditor.resources.CONSTS.DEFAULT_COLUMN_ORDER = ['*HP','*MP'];
+io.github.shunshun94.trpg.logEditor.resources.CONSTS.DEFAULT_COLUMN_ORDER = { columns: ['*HP','*MP'], nomax:[] };
 
 io.github.shunshun94.trpg.logEditor.resources.getNameList = (doms) => {
     return (new Set($.makeArray(doms.find(`.${io.github.shunshun94.trpg.logEditor.CLASSES.NAME}`).map((i,v)=>{return $(v).text()})))).filter((n)=>{return n;});
@@ -31,23 +32,51 @@ io.github.shunshun94.trpg.logEditor.resources.postToPostElements = (tmp_dom) => 
 };
 
 io.github.shunshun94.trpg.logEditor.resources.getFirstResourceModificationLogFrom = (content, name) => {
-    const regexpA = io.github.shunshun94.trpg.logEditor.resources.CONSTS.REGEXPS.ResourceModify.exec(content);
-    if(regexpA) {
-        return { body: regexpA[0], name: regexpA[1], status: regexpA[2], before: Number(regexpA[3]), after: Number(regexpA[4]) };
-    }
-
-    const regexpB = io.github.shunshun94.trpg.logEditor.resources.CONSTS.REGEXPS.EditedResourceModify.exec(content);
-    if(regexpB) {
-        return { body: regexpB[0], name: name, status: regexpB[1], before: Number(regexpB[2]), after: Number(regexpB[3])};
+     for (var regexp of io.github.shunshun94.trpg.logEditor.resources.CONSTS.REGEXPS.ResourceModify) {
+        const result = regexp.exec(content);
+        if(result) {
+            return { body: result[0], name: name, status: result[1].trim(), before: Number(result[2]), after: Number(result[3]) };
+        }
     }
 
     return null;
 };
 
+io.github.shunshun94.trpg.logEditor.resources.mergeAdjacentPosts = (list) => {
+    let cursor = -2;
+    return list.map((post, idx, array)=>{
+        if(post.resources) {
+            if(idx - 1 === cursor) {
+                let target = cursor;
+                while(! array[target].resources) {
+                    target--;
+                }
+                for(var name in array[idx].resources) {
+                    for(var column in array[idx].resources[name]) {
+                        if(! array[target].resources[name]        ) { array[target].resources[name] = {}; }
+                        if(! array[target].resources[name][column]) {
+                            array[target].resources[name][column] = {};
+                            array[target].resources[name][column].before = array[idx].resources[name][column].before;
+                        }
+                        array[target].resources[name][column].after = array[idx].resources[name][column].after;
+                        array[target].resources[name][column].max   = array[idx].resources[name][column].max;
+                    }
+                }
+                array[idx].resources = false;
+                array[idx].shouldRemove = true;
+            }
+            cursor = idx;
+        }
+        return array[idx];
+    }).filter((post)=>{return ! (post.shouldRemove || false);});
+};
+
 io.github.shunshun94.trpg.logEditor.resources.pickResourceModificationLog = (postElement, postIndex) => {
-    const result = {index: postIndex};
+    const result = postElement
+    result.index = postIndex;
+    let content = postElement.content.split('\n').map((d)=>{return d.trim();}).join('\n');
     let rd;
-    while(rd = io.github.shunshun94.trpg.logEditor.resources.getFirstResourceModificationLogFrom(postElement.content, postElement.name)) {
+    while(rd = io.github.shunshun94.trpg.logEditor.resources.getFirstResourceModificationLogFrom(content, result.name)) {
         if(! result.resources) { result.resources = {}; }
         if(! result.resources[rd.name]) { result.resources[rd.name] = {}; }
 
@@ -58,42 +87,56 @@ io.github.shunshun94.trpg.logEditor.resources.pickResourceModificationLog = (pos
             result.resources[rd.name][rd.status].after = rd.after;
         }
 
-        postElement.content = postElement.content.replace(rd.body, '');
+        content = content.replace(rd.body, '');
     }
-    return result;
+    result.content = content.trim();
+    if(result.resources && result.content) {
+        const content1 = JSON.parse(JSON.stringify(result));
+        delete content1.resources;
+        return [content1, { resources: result.resources, index: postIndex + 0.5 }];
+    } else {
+        return result;
+    }
 };
 
 io.github.shunshun94.trpg.logEditor.resources.appendkMemberJoinLeaveLog = (posts, history) => {
     const memberList = {};
-    history.forEach((post, i)=>{
+    history.forEach((post, idx)=>{
         for(var name in (post.resources || {})) {
             if(! memberList[name]) { memberList[name] = {resources:{}}; }
-            for(var statusName in post.resources[name]) {
-                if(! memberList[name].resources[statusName]) { memberList[name].resources[statusName] = {after: post.resources[name][statusName].before, max: post.resources[name][statusName].before}; }
+            if(memberList[name].join) {
+                memberList[name].leave = post.index;
+            } else {
+                memberList[name].join = post.index;
+                memberList[name].leave = post.index;
             }
-        }
-    });
-
-    posts.forEach((post, idx)=>{
-        if(memberList[post.name]) {
-            memberList[post.name][memberList[post.name].join ? 'leave' : 'join'] = idx;
+            for(var statusName in post.resources[name]) {
+                if(! memberList[name].resources[statusName]) {
+                    memberList[name].resources[statusName] = {
+                        before: post.resources[name][statusName].before,
+                        after: post.resources[name][statusName].before,
+                        max: post.resources[name][statusName].before
+                    };
+                }
+            }
         }
     });
 
     const joinLeaveMap = {};
     for(var name in memberList) {
         const target = memberList[name];
-        if(! joinLeaveMap[target.join]) { joinLeaveMap[target.join] = { index: target.join - 1, resources: {} }; }
+        if(! joinLeaveMap[target.join]) { joinLeaveMap[target.join] = { index: target.join - 0.1, resources: {} }; }
         joinLeaveMap[target.join].resources[name] = target.resources;
-        if(! joinLeaveMap[target.leave]) { joinLeaveMap[target.leave] = { index: target.leave + 1, resources: {} }; }
+        if(! joinLeaveMap[target.leave]) { joinLeaveMap[target.leave] = { index: target.leave + 0.1, resources: {} }; }
         joinLeaveMap[target.leave].resources[name] = {};
     }
+
     const joinLeaveList = [];
     for(var index in joinLeaveMap) {
         joinLeaveList.push(joinLeaveMap[index]);
     }
 
-    return history.concat(joinLeaveList).sort((a,b)=>{return a.index - b.index;});
+    return history.concat(joinLeaveList).sort((a,b)=>{return a.index - b.index;}).flat();
 };
 
 io.github.shunshun94.trpg.logEditor.resources.removeBeforeFromEachColumns = (tableObject) => {
@@ -119,14 +162,22 @@ io.github.shunshun94.trpg.logEditor.resources.generateTableObject = (history, id
             updatedColumnList.forEach((column)=>{
                 try {
                     if(history.resources[name][column].before && history.resources[name][column].before !== tableObject[name][column].after) {
-                        console.warn(index, `${name} の ${column} が更新されますが更新前の値が一致しません（元々：${tableObject[name][column].after} / 更新時：${history.resources[name][column].before}）`);
+                        console.warn(index, `${name} の ${column} が更新されますが更新前の値が一致しません（元々：${tableObject[name][column].after} / 更新時：${history.resources[name][column].before}）`, tableObject);
                     }
+                    tableObject[name][column].before = history.resources[name][column].before;
+                    tableObject[name][column].after  = history.resources[name][column].after;
+                    tableObject[name][column].max    = tableObject[name][column].max || history.resources[name][column].before;
                 } catch (e) {
-                    console.error(e, name, column, history, idx, tableObject);
+                    console.error(e);
+                    throw {
+                        error: e,
+                        history: history,
+                        tableObject: tableObject,
+                        name: name,
+                        column: column,
+                        idx: idx
+                    };
                 }
-
-                tableObject[name][column].before = history.resources[name][column].before;
-                tableObject[name][column].after  = history.resources[name][column].after;
             });
         } else {
             delete tableObject[name];
@@ -141,7 +192,7 @@ io.github.shunshun94.trpg.logEditor.resources.convertRawTableToTableWithParts = 
         const characterResult = {};
         Object.keys(tableObject[name]).forEach((column)=>{
             columnOrder.partsColumns.forEach((masterColumn)=>{
-                if(column[masterColumn.method](masterColumn.name)) {
+                if(masterColumn.regexp.test(column)) {
                     const partsName = column.replace(masterColumn.name, '');
                     if(partsName) { // 羽HP とか HP羽 とかだった場合
                         if(! characterResult[partsName]) { characterResult[partsName] = {}; }
@@ -162,7 +213,7 @@ io.github.shunshun94.trpg.logEditor.resources.convertRawTableToTableWithParts = 
     return result;
 };
 
-io.github.shunshun94.trpg.logEditor.resources.convertTableObjectToTableHtmlV2 = (rawTableObject, columnOrder) => {
+io.github.shunshun94.trpg.logEditor.resources.convertTableObjectToTableHtmlV2 = (rawTableObject, columnOrder, nomaxColumns) => {
     const tableObject = io.github.shunshun94.trpg.logEditor.resources.convertRawTableToTableWithParts(rawTableObject, columnOrder);
     const result = document.createElement('table');
     result.setAttribute('border', 1);
@@ -189,15 +240,17 @@ io.github.shunshun94.trpg.logEditor.resources.convertTableObjectToTableHtmlV2 = 
                 tr.append(partsNameTh);
             }
 
-            currentColumns.forEach((column, columnIndex)=>{
-                const columnName = column.name;
+            currentColumns.forEach((column)=>{
+                const columnName = column.name || column;
                 const statusTd = document.createElement('td');
                 if(part[columnName]) {
-                    if(part[columnName].before) {
-                        statusTd.innerHTML = `<span class="resource-table-columnName">${columnName}</span><span class="resource-table-value resource-table-value-before">${part[columnName].before}</span><span class="resource-table-value resource-table-value-after">${part[columnName].after}</span><span class="resource-table-value resource-table-value-max">${part[columnName].max}</span>`;
+                    if(part[columnName].before && part[columnName].before !== part[columnName].after) {
+                        statusTd.innerHTML = `<span class="resource-table-columnName">${columnName}</span><span class="resource-table-value resource-table-value-before">${part[columnName].before}</span><span class="resource-table-value resource-table-value-after">${part[columnName].after}</span>`
+                                           + (nomaxColumns.includes(columnName) ? '' : `<span class="resource-table-value resource-table-value-max">${part[columnName].max}</span>`);
                         statusTd.className = 'resource-table-updated';
                     } else {
-                        statusTd.innerHTML = `<span class="resource-table-columnName">${columnName}</span><span class="resource-table-value resource-table-value-after">${part[columnName].after}</span><span class="resource-table-value resource-table-value-max">${part[columnName].max}</span>`;
+                        statusTd.innerHTML = `<span class="resource-table-columnName">${columnName}</span><span class="resource-table-value resource-table-value-after">${part[columnName].after}</span>`
+                                           + (nomaxColumns.includes(columnName) ? '' : `<span class="resource-table-value resource-table-value-max">${part[columnName].max}</span>`);
                     }
                 } else {
                     statusTd.className = 'resource-table-no_info';
@@ -258,10 +311,12 @@ io.github.shunshun94.trpg.logEditor.resources.separateColumnOrder = (rawColumnOr
     rawColumnOrder.forEach((rawColumn)=>{
         const front = regexps.front.exec(rawColumn);
         const back  = regexps.back.exec(rawColumn);
-        if(front) {
-            result.partsColumns.push({ name: front[1], method: 'endsWith' });
+        if (front && back) {
+            result.partsColumns.push({ name: front[1], regexp: new RegExp(`.*` + front[1] + `.*`) });
+        } else if(front) {
+            result.partsColumns.push({ name: front[1], regexp: new RegExp(`.*` + front[1]), method: 'endsWith' });
         } else if(back) {
-            result.partsColumns.push({ name: back[1], method: 'startsWith'});
+            result.partsColumns.push({ name: back[1],  regexp: new RegExp(back[1] + `.*`),  method: 'startsWith'});
         } else {
             result.sharedColumns.push(rawColumn);
         }
@@ -277,48 +332,83 @@ io.github.shunshun94.trpg.logEditor.resources.separateColumnOrder = (rawColumnOr
     return result;
 };
 
-io.github.shunshun94.trpg.logEditor.resources.convertResourceObjectToTableHtml = (history, idx, pastTableObject = {}, columnOrder) => {
-    const tableObject = io.github.shunshun94.trpg.logEditor.resources.generateTableObject(history, idx, (pastTableObject.tableObject || {}));
-    let htmlObject;
-    if( columnOrder.sharedColumns && columnOrder.partsColumns ) {
-        htmlObject = io.github.shunshun94.trpg.logEditor.resources.convertTableObjectToTableHtmlV2(tableObject, columnOrder);
-    } else {
-        htmlObject = io.github.shunshun94.trpg.logEditor.resources.convertTableObjectToTableHtmlV1(tableObject, columnOrder);
-    }
-
-    return {
-        tableObject: tableObject,
-        domSeed: {
-            tag: 'div',
-            name: '',
-            content: htmlObject.content.outerHTML,
-            id: '',
-            class: '',
-            style: ''
+io.github.shunshun94.trpg.logEditor.resources.convertResourceObjectToTableHtml = (history, idx, pastTableObject = {}, columnOrder, nomax) => {
+    if(history.resources) {
+        const tableObject = io.github.shunshun94.trpg.logEditor.resources.generateTableObject(history, idx, (pastTableObject.tableObject));
+        let htmlObject;
+        if( columnOrder.sharedColumns && columnOrder.partsColumns ) {
+            htmlObject = io.github.shunshun94.trpg.logEditor.resources.convertTableObjectToTableHtmlV2(tableObject, columnOrder, nomax);
+        } else {
+            htmlObject = io.github.shunshun94.trpg.logEditor.resources.convertTableObjectToTableHtmlV1(tableObject, columnOrder);
         }
-    };
+        if(htmlObject.content.getElementsByClassName('resource-table-updated').length) {
+            return {
+                tableObject: tableObject,
+                domSeed: {
+                    tag: 'div',
+                    name: '',
+                    content: htmlObject.content.outerHTML,
+                    id: '',
+                    class: '',
+                    style: ''
+                },
+                isTable: true,
+                hasInfo: true
+            };
+        } else {
+            return {
+                tableObject: tableObject
+            };
+        }
+    
+
+    } else {
+        return {
+            tableObject: pastTableObject.tableObject,
+            domSeed: history,
+            hasInfo: true
+        };
+    }
 };
 
-io.github.shunshun94.trpg.logEditor.resources.convertResourceHistoryToTableHtmls = (history, tmp_columnOrder = io.github.shunshun94.trpg.logEditor.resources.CONSTS.DEFAULT_COLUMN_ORDER) => {
-    const columnOrder = io.github.shunshun94.trpg.logEditor.resources.separateColumnOrder(tmp_columnOrder);
-    console.log(columnOrder);
+io.github.shunshun94.trpg.logEditor.resources.convertResourceHistoryToTableHtmls = (history, columnMap = io.github.shunshun94.trpg.logEditor.resources.CONSTS.DEFAULT_COLUMN_ORDER, filter = false) => {
+    const columnOrder = io.github.shunshun94.trpg.logEditor.resources.separateColumnOrder(columnMap.columns);
     let lastTableObject = {tableObject: {}};
-    return history.map((log, idx)=>{
-        lastTableObject = io.github.shunshun94.trpg.logEditor.resources.convertResourceObjectToTableHtml(log, idx, lastTableObject, columnOrder);
+    const result = history.map((log, idx)=>{
+        lastTableObject = io.github.shunshun94.trpg.logEditor.resources.convertResourceObjectToTableHtml(log, idx, lastTableObject, columnOrder, columnMap.nomax);
         return lastTableObject;
+    }).filter((post)=>{ return post.hasInfo; });
+    if(filter) {
+        return result.filter((post)=>{ return post.isTable; });
+    } else {
+        return result;
+    }
+};
+
+io.github.shunshun94.trpg.logEditor.resources.getColumnsFromResourceInfoTables = (history) => {
+    const columns = {};
+    history.forEach((post)=>{
+        for(var name in post.resources) {
+            for(var column in post.resources[name]) {
+                columns[column] = true;
+            }
+        }
     });
+    return Object.keys(columns);
 };
 
 io.github.shunshun94.trpg.logEditor.resources.generateresourcesInfoTables = (doms) => {
     const modifiedPosts = Array.from(doms.children()).map(io.github.shunshun94.trpg.logEditor.resources.postToPostElements);
-    const resourceModificationHistory = modifiedPosts.map(io.github.shunshun94.trpg.logEditor.resources.pickResourceModificationLog).filter((element)=>{return element.resources});
+    const resourceModificationHistory = modifiedPosts.map(io.github.shunshun94.trpg.logEditor.resources.pickResourceModificationLog).flat();
     const resourceHistory = io.github.shunshun94.trpg.logEditor.resources.appendkMemberJoinLeaveLog(modifiedPosts, resourceModificationHistory);
-    return resourceHistory;
+    const result = io.github.shunshun94.trpg.logEditor.resources.mergeAdjacentPosts(resourceHistory);
+    return result;
 };
 
 io.github.shunshun94.trpg.logEditor.resources.generateresourcesInfoTablesFromObject = (list) => {
-    const resourceModificationHistory = list.map(io.github.shunshun94.trpg.logEditor.resources.pickResourceModificationLog);
-    const resourceHistory = io.github.shunshun94.trpg.logEditor.resources.appendkMemberJoinLeaveLog(modifiedPosts, resourceModificationHistory);
-    return resourceHistory;
+    const resourceModificationHistory = list.map(io.github.shunshun94.trpg.logEditor.resources.pickResourceModificationLog).flat();
+    const resourceHistory = io.github.shunshun94.trpg.logEditor.resources.appendkMemberJoinLeaveLog(list, resourceModificationHistory);
+    const result = io.github.shunshun94.trpg.logEditor.resources.mergeAdjacentPosts(resourceHistory);
+    return result;
 };
 

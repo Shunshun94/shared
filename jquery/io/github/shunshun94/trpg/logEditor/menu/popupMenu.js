@@ -14,7 +14,7 @@ io.github.shunshun94.trpg.logEditor.menu.PopupMenu.generateHtml = () => {
         <hr/>
         <div class="${io.github.shunshun94.trpg.logEditor.CLASSES.STYLE_RESET_MENU}">style を全削除</div>
         <div class="${io.github.shunshun94.trpg.logEditor.CLASSES.ID_INSERTION_MENU}">全ての見出しにランダムな ID を挿入</div>
-        <div class="${io.github.shunshun94.trpg.logEditor.CLASSES.INSERT_RESOURCE_MODIFICATION_LOGS} experimentalfunction">リソース操作のログを表形式で挿入</div>        
+        <div class="${io.github.shunshun94.trpg.logEditor.CLASSES.INSERT_RESOURCE_MODIFICATION_LOGS}">リソース操作のログを表形式で挿入</div>        
     </div>
     <button class="${io.github.shunshun94.trpg.logEditor.CLASSES.POPUP_MENU_TOGGLE}">メニュー(Alt+M)</button>`;
 };

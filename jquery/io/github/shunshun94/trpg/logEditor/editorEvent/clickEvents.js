@@ -146,7 +146,8 @@ io.github.shunshun94.trpg.logEditor.GeneralClicedEvents = [
     }, {
         class: io.github.shunshun94.trpg.logEditor.CLASSES.INSERT_RESOURCE_MODIFICATION_LOGS,
         action: (self, clicked) => {
-            self.insertResourceModifyTables();
+            self.openBackScreen();
+            self.triggerResourceModifyTables();
             io.github.shunshun94.trpg.logEditor.menu.PopupMenu.toggle();
         }
     }, {
@@ -192,6 +193,12 @@ io.github.shunshun94.trpg.logEditor.GeneralClicedEvents = [
         class: io.github.shunshun94.trpg.logEditor.CLASSES.DELETE_ALL,
         action: (self, clicked) => {
             $('#trashbox .logList .io-github-shunshun94-trpg-logEditor-Post').remove();
+        }
+    }, {
+        class: io.github.shunshun94.trpg.logEditor.CLASSES.RESOURCE_TABLE_COLUMN_CONFIG_WINDOW_EXEC,
+        action: (self, clicked) => {
+            self.insertResourceModifyTables(io.github.shunshun94.trpg.logEditor.menu.ResrouceTableColumnConfig.getInputValues());
+            self.closeTmpWindow(clicked);
         }
     }
 ];

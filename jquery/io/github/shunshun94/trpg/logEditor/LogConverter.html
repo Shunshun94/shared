@@ -46,9 +46,9 @@
 	<input id="switch-lightness" type="checkbox"  style="position:relative;left:-4px;" checked/>
 	<label style="position:relative;left:-12px;">背景色に対する文字の明るさを補正する</label><br/>
 	<input id="switch-distance" type="checkbox"  style="position:relative;left:-4px;" checked/>
-	<label style="position:relative;left:-12px;">文字色間の色の違いを補正する</label><!--<br/>
+	<label style="position:relative;left:-12px;">文字色間の色の違いを補正する</label><br/>
 	<input id="resource-table" type="checkbox"  style="position:relative;left:-4px;" checked/>
-	<label style="position:relative;left:-12px;">リソースの推移を表として出力する</label>-->
+	<label style="position:relative;left:-12px;">リソースの推移を表として出力する</label>
 </div>
 <script>
 const darkmode = 'darkmode';
@@ -84,6 +84,7 @@ io.github.shunshun94.trpg.logEditor.EVENTS = {
 <script src="./FileLoader/tabFilter.js"></script>
 <script src="./color/contrastUtil.js"></script>
 <script src="./menu/saveMenu.js"></script>
+<script src="./menu/resrouceTableColumnConfig.js"></script>
 <script src="./exporter/htmlExporter.js"></script>
 <script src="./exporter/textExporter.js"></script>
 <script src="./exporter/ytchatExporter.js"></script>
@@ -93,12 +94,14 @@ io.github.shunshun94.trpg.logEditor.EVENTS = {
 <script src="./exporter/sessionElementHandler/swordWorld_2_5ElementHandler.js"></script>
 <script src="./exporter/operationTable.js"></script>
 <script src="./exporter/exporterFactory.js"></script>
+<script src="./editUtils/resources.js"></script>
 <script>
 const exportHandlerClass = class {
 	constructor() {
 		this.importedFile = null;
 		this.exporter = null;
 		this.appendClassName = '';
+		this.actionsForHtmlDoms = [];
 	}
 	setExporter(mode) {
 		this.exporter = io.github.shunshun94.trpg.logEditor.export.getExporter(mode);
@@ -108,13 +111,24 @@ const exportHandlerClass = class {
 		this.importedFile = fileInfo;
 		return this.importedFile;
 	}
+	getImportedFile() {
+		return this.importedFile;
+	}
 	setAppendClassName(appendClassName = '') {
 		this.appendClassName = appendClassName;
 		return this.appendClassName;
 	}
+	setActionsForHtmlDom(actionList=[]) {
+		this.actionsForHtmlDoms = actionList;
+		return this.actionsForHtmlDoms;
+	}
 	generateFile(opt_importedFile, opt_mode, opt_appendClassName) {
 		const exporter = opt_mode ? io.github.shunshun94.trpg.logEditor.export.getExporter(opt_mode) : this.exporter;
-		return exporter.domListToOutput(opt_importedFile || this.importedFile, opt_appendClassName || this.appendClassName);
+		this.importedFile = opt_importedFile || this.importedFile;
+		this.importedFile.doms = this.actionsForHtmlDoms.reduce((currentList, func)=>{
+			return func(currentList);
+		}, this.importedFile.doms);
+		return exporter.domListToOutput(this.importedFile, opt_appendClassName || this.appendClassName);
 	}
 	downloadGeneratedFile(generateFileResult, opt_mode) {
 		const exporter = opt_mode ? io.github.shunshun94.trpg.logEditor.export.getExporter(opt_mode) : this.exporter;
@@ -124,23 +138,41 @@ const exportHandlerClass = class {
 
 const exportHandler = new exportHandlerClass();
 
+const getModifyLogActions = (appendClass) => {
+	const result = [];
+	const modifyColorActions = [];
+	if(document.getElementById('switch-lightness').checked) {
+		modifyColorActions.push(io.github.shunshun94.trpg.logEditor.color.contrastUtil.modifyLightnessColor);
+	}
+	if(document.getElementById('switch-distance').checked) {
+		modifyColorActions.push(io.github.shunshun94.trpg.logEditor.color.contrastUtil.modifyDistanceColor);
+	}
+	if(modifyColorActions.length) {
+		result.push((list)=>{
+			return io.github.shunshun94.trpg.logEditor.color.contrastUtil.modifyColors(list, appendClass, modifyColorActions);
+		});
+	}
+	return result;
+};
+
 io.github.shunshun94.trpg.logEditor.DOMS.BODY.on(io.github.shunshun94.trpg.logEditor.EVENTS.FILE_LOADED, (e, domList)=>{
 	io.github.shunshun94.trpg.logEditor.FileLoader.bindInitialEvents(io.github.shunshun94.trpg.logEditor.DOMS.BODY);
 	io.github.shunshun94.trpg.logEditor.FileLoader.filtTabs(domList).then((filteredDomList)=>{
-		const appendClass = ((io.github.shunshun94.trpg.logEditor.DOMS.BODY.attr('class') || '').match(/[a-z0-9A-Z]+mode/) || [''])[0];
-		exportHandler.setAppendClassName(appendClass);
-		const actions = [];
-		if(document.getElementById('switch-lightness').checked) {
-			actions.push(io.github.shunshun94.trpg.logEditor.color.contrastUtil.modifyLightnessColor);
-		}
-		if(document.getElementById('switch-distance').checked) {
-			actions.push(io.github.shunshun94.trpg.logEditor.color.contrastUtil.modifyDistanceColor);
-		}
-		filteredDomList.doms = io.github.shunshun94.trpg.logEditor.color.contrastUtil.modifyColors(filteredDomList.doms, appendClass, actions);
 		exportHandler.setImportedFile(filteredDomList);
 		io.github.shunshun94.trpg.logEditor.FileLoader.openBackScreen();
-		io.github.shunshun94.trpg.logEditor.DOMS.BODY.append(io.github.shunshun94.trpg.logEditor.menu.saveMenu.generateDom(appendClass));
+		io.github.shunshun94.trpg.logEditor.DOMS.BODY.append(io.github.shunshun94.trpg.logEditor.menu.saveMenu.generateDom(''));
 	});
+});
+
+io.github.shunshun94.trpg.logEditor.DOMS.BODY.on(io.github.shunshun94.trpg.logEditor.EVENTS.RESOURCE_TABLE_COLUMN_CONFIG_DECIDED, (e, columnInfo)=>{
+	$(`.${io.github.shunshun94.trpg.logEditor.CLASSES.BACKSCREEN}`).remove();
+	$(`.${io.github.shunshun94.trpg.logEditor.CLASSES.TMP_WINDOW}`).remove();
+	const d = exportHandler.getImportedFile();
+	d.doms = io.github.shunshun94.trpg.logEditor.resources.convertResourceHistoryToTableHtmls(d.doms, columnInfo).map((d)=>{
+		return d.domSeed;
+	});
+	exportHandler.setImportedFile(d);
+	exportHandler.downloadGeneratedFile(exportHandler.generateFile());
 });
 
 const executeDomListToOutput = (exporter, filteredDomList, appendClass) => {
@@ -153,8 +185,34 @@ io.github.shunshun94.trpg.logEditor.DOMS.BODY.click((e)=>{
 	if(target.hasClass(`${io.github.shunshun94.trpg.logEditor.CLASSES.SAVE_MENU_WINDOW}-save`)) {
 		$(`.${io.github.shunshun94.trpg.logEditor.CLASSES.BACKSCREEN}`).remove();
 		$(`.${io.github.shunshun94.trpg.logEditor.CLASSES.TMP_WINDOW}`).remove();
-		exportHandler.setExporter(target[0].value.split(' ')[1]);
-		exportHandler.downloadGeneratedFile(exportHandler.generateFile());
+
+		const exportHandlerName = target[0].value.split(' ')[1];
+		exportHandler.setExporter(exportHandlerName);
+		if(exportHandlerName.startsWith('html')) {
+			const appendClass = ((io.github.shunshun94.trpg.logEditor.DOMS.BODY.attr('class') || '').match(/[a-z0-9A-Z]+mode/) || [''])[0];
+			const actions = getModifyLogActions(appendClass);
+			exportHandler.setActionsForHtmlDom(actions);
+			exportHandler.setAppendClassName(appendClass);
+			if(document.getElementById('resource-table').checked) {
+				const d = exportHandler.getImportedFile();
+				d.doms = io.github.shunshun94.trpg.logEditor.resources.generateresourcesInfoTablesFromObject(d.doms);
+				exportHandler.setImportedFile(d);
+				const columns = io.github.shunshun94.trpg.logEditor.resources.getColumnsFromResourceInfoTables(d.doms);
+				io.github.shunshun94.trpg.logEditor.FileLoader.openBackScreen();
+				io.github.shunshun94.trpg.logEditor.DOMS.BODY.append(io.github.shunshun94.trpg.logEditor.menu.ResrouceTableColumnConfig.generateDom(columns));
+			} else {
+				exportHandler.downloadGeneratedFile(exportHandler.generateFile());
+			}
+		} else {
+			exportHandler.setActionsForHtmlDom();
+			exportHandler.downloadGeneratedFile(exportHandler.generateFile());
+		}
+	}
+	if(target.hasClass(io.github.shunshun94.trpg.logEditor.CLASSES.RESOURCE_TABLE_COLUMN_CONFIG_WINDOW_EXEC)) {
+		io.github.shunshun94.trpg.logEditor.DOMS.BODY.trigger(
+			io.github.shunshun94.trpg.logEditor.EVENTS.RESOURCE_TABLE_COLUMN_CONFIG_DECIDED,
+			io.github.shunshun94.trpg.logEditor.menu.ResrouceTableColumnConfig.getInputValues()
+		);
 	}
 });
 

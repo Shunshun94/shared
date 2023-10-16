@@ -166,9 +166,16 @@ io.github.shunshun94.trpg.logEditor.Editor = class {
 		$(this.getTmpDoms()[1]).append(dom);
 	}
 
-	insertResourceModifyTables() {
+	triggerResourceModifyTables() {
 		const modifyHistory = io.github.shunshun94.trpg.logEditor.resources.generateresourcesInfoTables(this.getMainDom());
-		const htmls = io.github.shunshun94.trpg.logEditor.resources.convertResourceHistoryToTableHtmls(modifyHistory);
+		const columns = io.github.shunshun94.trpg.logEditor.resources.getColumnsFromResourceInfoTables(modifyHistory);
+
+		io.github.shunshun94.trpg.logEditor.DOMS.BODY.append(io.github.shunshun94.trpg.logEditor.menu.ResrouceTableColumnConfig.generateDom(columns));
+	}
+
+	insertResourceModifyTables(columns) {
+		const modifyHistory = io.github.shunshun94.trpg.logEditor.resources.generateresourcesInfoTables(this.getMainDom());
+		const htmls = io.github.shunshun94.trpg.logEditor.resources.convertResourceHistoryToTableHtmls(modifyHistory, columns, true);
 		htmls.forEach((post)=>{
 			$(this.getTmpDoms()[0]).append(io.github.shunshun94.trpg.logEditor.jsonToEditorHtml(post.domSeed));
 		});
