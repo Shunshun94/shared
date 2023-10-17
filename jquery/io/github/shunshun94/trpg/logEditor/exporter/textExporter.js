@@ -17,6 +17,11 @@ io.github.shunshun94.trpg.logEditor.export.commonTextExporter.convertDomToElemen
     };
 };
 
+io.github.shunshun94.trpg.logEditor.export.commonTextExporter.removeUnnecessaryElements = (object) => {
+    object.content = object.content.replaceAll(/<br\/?>/gm, '').split('\n').map((d)=>{return d.trim()}).join('\n');
+    return object;
+};
+
 io.github.shunshun94.trpg.logEditor.export.commonTextExporter.download = (text, title) => {
 	const url = window.URL.createObjectURL(new Blob([ text ], { "type" : 'text/plain;charset=utf-8;' }));
 	const dlLink = document.createElement("a");
@@ -48,7 +53,7 @@ io.github.shunshun94.trpg.logEditor.export.commonTextExporter.exec = (doms, dumm
 };
 
 io.github.shunshun94.trpg.logEditor.export.commonTextExporter.domListToOutput = (doms) => {
-    return doms.doms.map(io.github.shunshun94.trpg.logEditor.export.commonTextExporter.simpleObjectToText).join('\n\n');
+    return doms.doms.map(io.github.shunshun94.trpg.logEditor.export.commonTextExporter.removeUnnecessaryElements).map(io.github.shunshun94.trpg.logEditor.export.commonTextExporter.simpleObjectToText).join('\n\n');
 };
 
 io.github.shunshun94.trpg.logEditor.export.hamelnExporter = io.github.shunshun94.trpg.logEditor.export.hamelnExporter || {};
@@ -73,7 +78,7 @@ io.github.shunshun94.trpg.logEditor.export.hamelnExporter.exec = (doms, dummy1, 
 };
 
 io.github.shunshun94.trpg.logEditor.export.hamelnExporter.domListToOutput = (doms) => {
-    return doms.doms.map(io.github.shunshun94.trpg.logEditor.export.hamelnExporter.simpleObjectToText).join('\n\n');
+    return doms.doms.map(io.github.shunshun94.trpg.logEditor.export.commonTextExporter.removeUnnecessaryElements).map(io.github.shunshun94.trpg.logEditor.export.hamelnExporter.simpleObjectToText).join('\n\n');
 };
 
 io.github.shunshun94.trpg.logEditor.export.hamelnExporter.download = io.github.shunshun94.trpg.logEditor.export.commonTextExporter.download;
@@ -99,7 +104,7 @@ io.github.shunshun94.trpg.logEditor.export.pixivExporter.exec = (doms, dummy1, d
 };
 
 io.github.shunshun94.trpg.logEditor.export.pixivExporter.domListToOutput = (doms) => {
-    return doms.doms.map(io.github.shunshun94.trpg.logEditor.export.pixivExporter.simpleObjectToText).join('\n\n');
+    return doms.doms.map(io.github.shunshun94.trpg.logEditor.export.commonTextExporter.removeUnnecessaryElements).map(io.github.shunshun94.trpg.logEditor.export.pixivExporter.simpleObjectToText).join('\n\n');
 };
 
 io.github.shunshun94.trpg.logEditor.export.pixivExporter.download = io.github.shunshun94.trpg.logEditor.export.commonTextExporter.download;
