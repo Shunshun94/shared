@@ -1329,9 +1329,9 @@ io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.RACE_ABILITY.LIST = {
     replaceFunction: (json) => {
       const level = Number(json.level);
       if(level < 11) {
-        return `＞巨人化&lt;br&gt;巨人化し、巨人形態となります。巨人形態になると回避力判定に-1のペナルティ修正を受けますが、打撃点とHPの現在値・最大値が12点上昇し、生命抵抗力判定に+2のボーナス修正を受けます。`;
+        return `＞巨人化&lt;br&gt;巨人化し、巨人形態となります。巨人形態になると回避力判定に-1のペナルティ修正を受けますが、打撃点が2点上昇し、HPの現在値・最大値が12点上昇し、生命抵抗力判定に+2のボーナス修正を受けます。`;
       } else {
-        return `△≫巨人化&lt;br&gt;巨人化し、巨人形態となります。巨人形態になると回避力判定に-1のペナルティ修正を受けますが、打撃点とHPの現在値・最大値が12点上昇し、生命抵抗力判定に+2のボーナス修正を受けます。`;
+        return `△≫巨人化&lt;br&gt;巨人化し、巨人形態となります。巨人形態になると回避力判定に-1のペナルティ修正を受けますが、打撃点が2点上昇し、HPの現在値・最大値が12点上昇し、生命抵抗力判定に+2のボーナス修正を受けます。`;
       }
     }
   },
@@ -1397,7 +1397,7 @@ io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.RACE_ABILITY.LIST = {
       const useTemplate = (n, d, c, t='') => { return `≫黒煙の使い手${n}&lt;br&gt;自身の近接攻撃・遠隔攻撃で発生させる物理ダメージ・魔法ダメージ1回を炎属性とし、追加ダメージを+${d}点します。${t}この効果は例外的に「◯炎無効」や「剣の加護／炎身」を持つ対象にも有効となります。同時に複数の対象にダメージを与えた場合、その中の任意の1体を選んで効果を適用します。使用するとMPを${c}点消費します。`; };
       const level1 = useTemplate(1, 3, 3);
       const level2 = useTemplate(2, 5, 5);
-      const level3 = useTemplate(1, 10, 10, 'さらに、このダメージを適用した対象は10秒（1ラウンド）の間防護点が-2点（最低0）されます。');
+      const level3 = useTemplate(3, 10, 10, 'さらに、このダメージを適用した対象は10秒（1ラウンド）の間防護点が-2点（最低0）されます。');
       if(level < 6) {
         return [level1].join('&lt;br&gt;&lt;br&gt;');
       } else if(level < 11) {
