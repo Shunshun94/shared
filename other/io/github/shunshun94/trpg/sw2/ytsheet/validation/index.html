@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title></title>
+<style>
+</style>
+</head>
+<body>
+    <h1></h1>
+    <div id="input"></div>
+    <div id="request"></div>
+    <p><a href="https://github.com/Shunshun94/shared/tree/master/other/io/github/shunshun94/trpg/sw2/ytsheet/validation" target="_blank">ソースコード</a></p>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="../../../../../../../../other/io/github/shunshun94/util/common.js"></script>
+    <script src="../../component/SheetInput/sheetInputComponent.js"></script>
+    <script src="./validationList.js"></script>
+    <script src="./validator.js"></script>
+    <script>
+        document.getElementById('input').addEventListener(
+            io.github.shunshun94.trpg.sw2.component.SheetInput.EVENTS.SHEET_URL_INPUT,
+            (e) => {
+                const url = e.url;
+                request(url).then((json)=>{
+                    io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_LIST.forEach((topic)=>{
+                        console.log(
+                            topic.ifNot,
+                            'ismatch', io.github.shunshun94.trpg.sw2.ytsheet.validation.isMatch(json, topic))
+                    });
+                })
+            }
+        );
+        const request = (url) => {
+            return new Promise((resolve, reject)=>{
+                $.ajax({
+                    type:'get',
+                    url: `${url}&mode=json`,
+                    async:true,
+                    dataType:'jsonp'
+                }).done(resolve);
+            });
+        };
+        io.github.shunshun94.trpg.sw2.component.SheetInput.build(document.getElementById('input'), {characterSheetFilter: 'ytsheet'});
+    </script>
+</body>
