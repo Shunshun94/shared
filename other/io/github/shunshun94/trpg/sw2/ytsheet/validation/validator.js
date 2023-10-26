@@ -15,7 +15,7 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.isMatch = (json, conditions) =>
     } else {
         const list = conditions.or || conditions;
         for(var key in list) {
-            if( io.github.shunshun94.trpg.sw2.ytsheet.validation.isMatch(json, {key: list[key]}) ) {
+            if( json[key] ) {
                 return true;
             }
         }
