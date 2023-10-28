@@ -22,10 +22,11 @@
             (e) => {
                 const url = e.url;
                 request(url).then((json)=>{
+                    console.log(json);
                     io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_LIST.forEach((topic)=>{
                         console.log(
                             topic.ifNot,
-                            'ismatch', io.github.shunshun94.trpg.sw2.ytsheet.validation.isMatch(json, topic))
+                            'ismatch', io.github.shunshun94.trpg.sw2.ytsheet.validation.isMatch(json, topic.when))
                     });
                 })
             }
