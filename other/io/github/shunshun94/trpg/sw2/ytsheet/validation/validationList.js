@@ -15,11 +15,11 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_LIST = [
                 'lvCon': 1
             }
         },
-        must: {
+        expect: {
             'or': {
-                'weapon\d+Category': 'スタッフ',
-                'weapon\d+Note': '発動体',
-                'accessory.*Name':  ['発動体', 'マナリング']
+                'weapon\\d+Category': {includes: 'スタッフ'},
+                'weapon\\d+Note': {includes: '発動体'},
+                'accessory.*Name': {includes: ['発動体', 'マナリング']}
             }
         },
         ifNot: 'ソーサラー技能またはコンジャラー技能を習得している者は魔法の発動体を装備している必要があります（『1』196頁）'
