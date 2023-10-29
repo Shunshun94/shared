@@ -16,8 +16,10 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.isMatch = (json, conditions) =>
         const list = conditions.or || conditions;
         for(var key in list) {
             if( json[key] ) {
-                console.log(key, json[key]);
-                return true;
+                const map = io.github.shunshun94.trpg.sw2.ytsheet.validation.getKeyValues(key, json);
+                for(var key2 in map) {
+                    return io.github.shunshun94.trpg.sw2.ytsheet.validation.isMatchSingle(key2, map[key2], list[key], json);
+                }
             }
         }
     }
@@ -26,7 +28,17 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.isMatch = (json, conditions) =>
 
 io.github.shunshun94.trpg.sw2.ytsheet.validation.when = io.github.shunshun94.trpg.sw2.ytsheet.validation.isMatch;
 
-io.github.shunshun94.trpg.sw2.ytsheet.validation.getKeyValues = (json, key) => {
+io.github.shunshun94.trpg.sw2.ytsheet.validation.isMatchSingle = (key, value, action, json) => {
+    if(action.ormore) { return Number(value) >= Number(action.oremove);  }
+    if(action.morethan) { return Number(value) > Number(action.oremove); }
+    if(action.orless) { return Number(value) <= Number(action.oremove);  }
+    if(action.lessthan) { return Number(value) < Number(action.oremove); }
+    if(action.includes) { return action.includes.some((d)=>{ value.includes(d); }); }
+    if(action.func) { return action.func(key, value, json); }
+    return true;
+};
+
+io.github.shunshun94.trpg.sw2.ytsheet.validation.getKeyValues = (key, json) => {
     if(json[key]) {
         return { key: json[key] };
     }
