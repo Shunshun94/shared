@@ -15,10 +15,11 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.isMatch = (json, conditions) =>
     } else {
         const list = conditions.or || conditions;
         for(var key in list) {
-            if( json[key] ) {
-                const map = io.github.shunshun94.trpg.sw2.ytsheet.validation.getKeyValues(key, json);
-                for(var key2 in map) {
-                    return io.github.shunshun94.trpg.sw2.ytsheet.validation.isMatchSingle(key2, map[key2], list[key], json);
+            const map = io.github.shunshun94.trpg.sw2.ytsheet.validation.getKeyValues(key, json);
+            console.log(key, map);
+            for(var key2 in map) {
+                if(io.github.shunshun94.trpg.sw2.ytsheet.validation.isMatchSingle(key2, map[key2], list[key], json)) {
+                    return true;
                 }
             }
         }
@@ -26,6 +27,7 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.isMatch = (json, conditions) =>
     return false;
 };
 
+io.github.shunshun94.trpg.sw2.ytsheet.validation.isValid = io.github.shunshun94.trpg.sw2.ytsheet.validation.isMatch;
 io.github.shunshun94.trpg.sw2.ytsheet.validation.when = io.github.shunshun94.trpg.sw2.ytsheet.validation.isMatch;
 
 io.github.shunshun94.trpg.sw2.ytsheet.validation.isMatchSingle = (key, value, action, json) => {
@@ -33,17 +35,25 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.isMatchSingle = (key, value, ac
     if(action.morethan) { return Number(value) > Number(action.oremove); }
     if(action.orless) { return Number(value) <= Number(action.oremove);  }
     if(action.lessthan) { return Number(value) < Number(action.oremove); }
-    if(action.includes) { return action.includes.some((d)=>{ value.includes(d); }); }
+    if(action.includes) { 
+        if( action.includes.some ) {
+            return action.includes.some((d)=>{ return value.includes(d); });
+        } else {
+            return value.includes(action.includes);
+        }
+     }
     if(action.func) { return action.func(key, value, json); }
     return true;
 };
 
 io.github.shunshun94.trpg.sw2.ytsheet.validation.getKeyValues = (key, json) => {
+    const result = {};
     if(json[key]) {
-        return { key: json[key] };
+        result[key] = json[key];
+        return result;
     }
     const re = new RegExp(key);
-    const result = {};
+    
     for(var key in json) {
         if(re.test(key)) { result[key] = json[key]; }
     }
