@@ -20,8 +20,9 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_LIST = [
                 'weapon\\d+Category': {includes: 'スタッフ'},
                 'weapon\\d+Note': {includes: '発動体'},
                 'accessoryHand[LR]_*Name': {includes: ['発動体', 'マナリング']},
-                'accessoryOther\d*Name': {includes: ['発動体', 'マナリング']}
-
+                'accessoryOther\d*Name': {includes: ['発動体', 'マナリング']},
+                'items': {includes: '発動体'},
+                'weapon\\d+Name': {includes: '発動体'}
             }
         },
         ifNot: 'ソーサラー技能またはコンジャラー技能による魔法を行使するには魔法の発動体を装備している必要があります（『1』196頁）'
@@ -53,5 +54,18 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_LIST = [
             'accessory.*Name': {includes: '宝石'}
         },
         ifNot: 'フェアリーテイマー技能による魔法を行使するには対応する宝石を装備している必要があります（『2』112頁）'
+    }, {
+        level: 'error',
+        when: {
+            'lvAlc': 1
+        },
+        expect: {
+            'accessoryHand[LR]_*Name': {includes: 'アルケミーキット'},
+            'accessoryWaist_*Name': {includes: 'アルケミーキット'},
+            'accessoryOther_*Name': {includes: 'アルケミーキット'},
+            'items': {includes: 'カードシューター'},
+            'weapon\\d+Name': {includes: 'カードシューター'}
+        },
+        ifNot: 'アルケミスト技能による賦術を行使するにはアルケミーキットを適切な部位に装備している必要があります（『3』114頁）'
     }
 ];
