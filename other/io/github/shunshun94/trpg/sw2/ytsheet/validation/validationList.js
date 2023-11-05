@@ -67,5 +67,28 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_LIST = [
             'weapon\\d+Name': {includes: 'カードシューター'}
         },
         ifNot: 'アルケミスト技能による賦術を行使するにはアルケミーキットを適切な部位に装備している必要があります（『3』114頁）'
+    }, {
+        level: 'warn',
+        when: {
+            'lvSco': 1
+        },
+        expect: {
+            'items': { includes: ['スカウト用ツール', '精密ツールセット'] }
+        },
+        ifNot: 'スカウト用ツールを持っていない場合、一部の判定にペナルティ修正を受けます（『1』109頁）'
+    }, {
+        level: 'info',
+        when: {
+            'id': 1
+        },
+        expect: {
+            'items': {
+                func: (key, value, json) => {
+                    if(json.lvPri) { return true; }
+                    return (value || '').includes('アウェイクポーション');
+                }
+            }
+        },
+        ifNot: '万が一の時のためにアウェイクポーション（『1』325頁）を持っておくことをおすすめします'
     }
 ];
