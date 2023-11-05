@@ -10,6 +10,7 @@
     <h1></h1>
     <div id="input"></div>
     <div id="request"></div>
+    <pre id="result"></pre>
     <p><a href="https://github.com/Shunshun94/shared/tree/master/other/io/github/shunshun94/trpg/sw2/ytsheet/validation" target="_blank">ソースコード</a></p>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="../../../../../../../../other/io/github/shunshun94/util/common.js"></script>
@@ -17,18 +18,36 @@
     <script src="./validationList.js"></script>
     <script src="./validator.js"></script>
     <script>
+        const report = (topic) => {
+            const message = document.createElement('p');
+            message.className = `alert-${topic.level}`;
+            message.textContent = `* ${topic.ifNot}`;
+            document.getElementById('result').append(message);
+        };
         document.getElementById('input').addEventListener(
             io.github.shunshun94.trpg.sw2.component.SheetInput.EVENTS.SHEET_URL_INPUT,
             (e) => {
                 const url = e.url;
                 request(url).then((json)=>{
+                    document.getElementById('result').innerHTML = '';
                     io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_LIST.forEach((topic)=>{
+                        console.log(topic);
                         if(io.github.shunshun94.trpg.sw2.ytsheet.validation.when(json, topic.when)) {
                             if(! io.github.shunshun94.trpg.sw2.ytsheet.validation.isValid(json, topic.expect)) {
-                                console[topic.level](topic.ifNot);
+                                report(topic);
+                            } else {
+                                console.log('ok');
                             }
+                        } else {
+                            console.log('チェック対象外');
                         }
                     });
+                    if( document.getElementById('result').innerHTML === '' ) {
+                        report({
+                            level: 'info',
+                            ifNot: '指摘事項は見つかりませんでした'
+                        });
+                    }
                 })
             }
         );
