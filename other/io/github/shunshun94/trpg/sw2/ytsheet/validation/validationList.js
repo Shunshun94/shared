@@ -68,6 +68,29 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_LIST = [
         },
         ifNot: 'アルケミスト技能による賦術を行使するにはアルケミーキットを適切な部位に装備している必要があります（『3』114頁）'
     }, {
+        level: 'error',
+        when: {
+            'lvDru': 1
+        },
+        expect: {            
+            'items': {includes: ['宿り木', '宿木', 'ヤドリギ']},
+            'weapon\\d+Name': {includes: ['宿り木', '宿木', 'ヤドリギ']},
+            'weapon\\d+Note': {includes: ['宿り木', '宿木', 'ヤドリギ', 'ドルイド', '森羅']}
+        },
+        ifNot: 'ドルイド技能による魔法を行使するには宿り木の棒杖またはそれを兼ねたスタッフを装備している必要があります（『ML』10頁）'
+    }, {
+        level: 'error',
+        when: {
+            'lvDem': 1
+        },
+        expect: {            
+            'items': {includes: ['召異の刺青', '悪魔の印', '大型容器', '小型容器', '召異の刺繍']},
+            'accessory.*Name': {includes: ['召異の徽章', '召異の微章']},
+            'weapon\\d+Name': {includes: '小魔'},
+            'weapon\\d+Note': {includes: ['小魔', 'デーモンルーラー', 'デモル', '召異']}
+        },
+        ifNot: 'デーモンルーラー技能による魔法を行使するには小魔の封入具を装備している必要があります（『ML』29頁）'
+    }, {
         level: 'warn',
         when: {
             'lvSco': 1
