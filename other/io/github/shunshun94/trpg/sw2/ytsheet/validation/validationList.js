@@ -93,6 +93,22 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_LIST = [
     }, {
         level: 'warn',
         when: {
+            'and': {
+                "armour\\d+Category": { includes: '金属鎧' },
+                'or': {
+                    'lvSor': 1,
+                    'lvCon': 1,
+                    'lvFai': 1
+                }
+            }
+        },
+        expect: {
+            'race': { includes: 'ナイトメア' }
+        },
+        ifNot: '金属鎧を着ている場合にソーサラー技能、コンジャラー技能、フェアリーテイマー技能またはデーモンルーラー技能による魔法を行使するとペナルティ修正を受けます'
+    }, {
+        level: 'warn',
+        when: {
             'lvSco': 1
         },
         expect: {
