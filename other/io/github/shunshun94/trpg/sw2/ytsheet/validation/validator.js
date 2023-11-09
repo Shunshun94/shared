@@ -10,8 +10,12 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.isMatch = (json, conditions) =>
     if( conditions.and ) {
         let result = true;
         for(var key in conditions.and) {
-            result = result && io.github.shunshun94.trpg.sw2.ytsheet.validation.isMatch(json, {key: conditions[key]});
+            const tmpMap = {};
+            tmpMap[key] = conditions.and[key];
+            console.log(tmpMap);
+            result = result && io.github.shunshun94.trpg.sw2.ytsheet.validation.isMatch(json, tmpMap);
         }
+        return result;
     } else {
         const list = conditions.or || conditions;
         for(var key in list) {
@@ -31,19 +35,25 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.isValid = io.github.shunshun94.
 io.github.shunshun94.trpg.sw2.ytsheet.validation.when = io.github.shunshun94.trpg.sw2.ytsheet.validation.isMatch;
 
 io.github.shunshun94.trpg.sw2.ytsheet.validation.isMatchSingle = (key, value, action, json) => {
-    if(action.ormore) { return Number(value) >= Number(action.oremove);  }
-    if(action.morethan) { return Number(value) > Number(action.oremove); }
-    if(action.orless) { return Number(value) <= Number(action.oremove);  }
-    if(action.lessthan) { return Number(value) < Number(action.oremove); }
-    if(action.includes) { 
-        if( action.includes.some ) {
-            return action.includes.some((d)=>{ return value.includes(d); });
-        } else {
-            return value.includes(action.includes);
-        }
-     }
-    if(action.func) { return action.func(key, value, json); }
-    return true;
+    try {
+        if(action.ormore) { return Number(value) >= Number(action.oremove);  }
+        if(action.morethan) { return Number(value) > Number(action.oremove); }
+        if(action.orless) { return Number(value) <= Number(action.oremove);  }
+        if(action.lessthan) { return Number(value) < Number(action.oremove); }
+        if(action.includes) { 
+            if( action.includes.some ) {
+                return action.includes.some((d)=>{ return value.includes(d); });
+            } else {
+                return value.includes(action.includes);
+            }
+         }
+        if(action.func) { return action.func(key, value, json); }
+        return true;
+    } catch (e) {
+        console.error(e, key, value, action, json);
+        throw e;
+    }
+
 };
 
 io.github.shunshun94.trpg.sw2.ytsheet.validation.getKeyValues = (key, json) => {
