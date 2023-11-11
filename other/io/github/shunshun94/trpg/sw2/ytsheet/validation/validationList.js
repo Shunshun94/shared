@@ -114,7 +114,7 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_LIST = [
             'and': {
                 "armour\\d+Category": { 
                     func: (key, value, json) => {
-                        if( value !== '非金属鎧' ) { return true; }
+                        if( value !== '非金属鎧' ) { return false; }
                         const keyPrefix = /(armour\d+)Category/.exec(key)[1];
                         return Number(json[`${keyPrefix}Reqd`]) >= 10;
                     }
