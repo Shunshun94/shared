@@ -112,8 +112,13 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_LIST = [
         level: 'warn',
         when: {
             'and': {
-                "armour\\d+Category": { equal: '非金属鎧' },
-                "armour\\d+Reqd": { ormore: 10 },
+                "armour\\d+Category": { 
+                    func: (key, value, json) => {
+                        if( value !== '非金属鎧' ) { return true; }
+                        const keyPrefix = /(armour\d+)Category/.exec(key)[1];
+                        return Number(json[`${keyPrefix}Reqd`]) >= 10;
+                    }
+                },
                 'or': {
                     'lvSor': 1,
                     'lvCon': 1,
