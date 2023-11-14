@@ -99,6 +99,28 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_LIST = [
         },
         ifNot: 'デーモンルーラー技能による魔法を行使するには小魔の封入具を装備している必要があります（『ML』29頁）'
     }, {
+        level: 'error',
+        when: {
+            'lvGeo': 1
+        },
+        expect: {            
+            'accessory.*Name': {includes: 'ジオグラフ'}
+        },
+        ifNot: 'ジオマンサー技能による相域を使用するにはジオグラフを装備している必要があります（『MA』8頁）'
+    }, {
+        level: 'error',
+        when: {
+            'lvWar': 1
+        },
+        expect: {            
+            'accessory.*Name': {includes: '軍師徽章'},
+            "armour\\d+Name":  { includes: '盾徽章' },
+            "armour\\d+Note":  { includes: ['盾徽章', '軍師徽章'] },
+            'weapon\\d+Name': {includes: '戦旗章'},
+            'weapon\\d+Note': {includes: ['戦旗章', '軍師徽章']}
+        },
+        ifNot: 'ウォーリーダー技能による鼓咆と陣率を使用するには軍師徽章、戦旗章または盾徽章を装備している必要があります（『MA』19頁）'
+    }, {
         level: 'warn',
         when: {
             'and': {
