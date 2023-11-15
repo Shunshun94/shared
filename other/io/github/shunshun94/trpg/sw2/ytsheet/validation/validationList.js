@@ -175,6 +175,25 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_LIST = [
             'id': 1
         },
         expect: {
+            'lvSco': 1,
+            'lvRan': 1,
+            'lvSag': 1,
+            'lvGeo': 1,
+            'lvRid': {func: (key, value, json) => {
+                const level = Number(value);
+                for(var i = 0; i < level; i++) {
+                    if(json[`craftRiding${i + 1}`] === '探索指令' ) { return true; }
+                }
+                return false;
+            }}
+        },
+        ifNot: '探索に用いる技能を持っていないようですが他のメンバーとのコンセンサスは取れているでしょうか？'
+    }, {
+        level: 'info',
+        when: {
+            'id': 1
+        },
+        expect: {
             'items': {
                 func: (key, value, json) => {
                     if(json.lvPri) { return true; }
