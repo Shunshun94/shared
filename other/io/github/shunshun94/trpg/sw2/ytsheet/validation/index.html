@@ -19,6 +19,7 @@
     <h1>ゆとシート2で作られた SW2.5 のキャラクターシートチェッカー</h1>
     <div id="input"></div>
     <div id="request"></div>
+    <p id="link"><a id="linkToSheet" href="" target="_blank" rel="noopener noreferrer"></a></p>
     <pre id="result"></pre>
     <p><a href="https://github.com/Shunshun94/shared/tree/master/other/io/github/shunshun94/trpg/sw2/ytsheet/validation" target="_blank">ソースコード</a></p>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -37,6 +38,8 @@
             io.github.shunshun94.trpg.sw2.component.SheetInput.EVENTS.SHEET_URL_INPUT,
             (e) => {
                 const url = e.url;
+                document.getElementById('linkToSheet').href = url.replace('&mode=json', '');
+                document.getElementById('linkToSheet').textContent = `キャラクターシート：${url.replace('&mode=json', '')}`;
                 request(url).then((json)=>{
                     io.github.shunshun94.util.updateLocalStorage('com-hiyoko-sample-sw2sheetparse-index', url, json.characterName || '');
                     document.getElementById('result').innerHTML = '';
@@ -58,7 +61,7 @@
                             ifNot: '指摘事項は見つかりませんでした'
                         });
                     }
-                })
+                });
             }
         );
         const request = (url) => {
