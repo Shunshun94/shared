@@ -26,6 +26,7 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_LIST = [
         expect: {
             'or': {
                 'weapon\\d+Category': {includes: 'スタッフ'},
+                'weapon\\d+Name': {includes: 'スタッフ'},
                 'weapon\\d+Note': {includes: '発動体'},
                 'accessoryHand[LR]_*Name': {includes: ['発動体', 'マナリング']},
                 'accessoryOther\d*Name': {includes: ['発動体', 'マナリング']},
@@ -175,19 +176,38 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_LIST = [
             'id': 1
         },
         expect: {
-            'lvSco': 1,
-            'lvRan': 1,
-            'lvSag': 1,
-            'lvGeo': 1,
+            'lvSco': {func: (key, value, json) => {
+                const advLevel = Number(json.level);
+                const skiLevel = Number(value);
+                return ( skiLevel >= (Math.floor(Math.min(advLevel * 0.8, advLevel - 2)) || 1) );
+            }},
+            'lvRan': {func: (key, value, json) => {
+                const advLevel = Number(json.level);
+                const skiLevel = Number(value);
+                return ( skiLevel >= (Math.floor(Math.min(advLevel * 0.8, advLevel - 2)) || 1) );
+            }},
+            'lvSag': {func: (key, value, json) => {
+                const advLevel = Number(json.level);
+                const skiLevel = Number(value);
+                return ( skiLevel >= (Math.floor(Math.min(advLevel * 0.8, advLevel - 2)) || 1) );
+            }},
+            'lvGeo': {func: (key, value, json) => {
+                const advLevel = Number(json.level);
+                const skiLevel = Number(value);
+                return ( skiLevel >= (Math.floor(Math.min(advLevel * 0.8, advLevel - 2)) || 1) );
+            }},
             'lvRid': {func: (key, value, json) => {
-                const level = Number(value);
-                for(var i = 0; i < level; i++) {
-                    if(json[`craftRiding${i + 1}`] === '探索指令' ) { return true; }
+                const advLevel = Number(json.level);
+                const skiLevel = Number(value);
+                for(var i = 0; i < skiLevel; i++) {
+                    if(json[`craftRiding${i + 1}`] === '探索指令' ) {
+                        return ( skiLevel >= (Math.floor(Math.min(advLevel * 0.8, advLevel - 2)) || 1) );
+                    }
                 }
                 return false;
             }}
         },
-        ifNot: '探索に用いる技能を持っていないようですが他のメンバーとのコンセンサスは取れているでしょうか？'
+        ifNot: '探索に用いる技能のレベルに比して冒険者レベルが高いようですがバランスは大丈夫でしょうか？（『3』75頁）'
     }, {
         level: 'info',
         when: {
