@@ -171,6 +171,26 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_LIST = [
         },
         ifNot: 'スカウト用ツールを持っていない場合、一部の判定にペナルティ修正を受けます（『1』109頁）'
     }, {
+        level: 'warn',
+        when: {
+            'craftAlchemy\\d+': { includes: [
+                'インスタントウェポン',
+                'パラライズミスト',
+                'ポイズンニードル',
+                'ヒールスプレー',
+                'アーマーラスト',
+                'ディスペルニードル',
+                'マナスプラウト'
+            ] }
+        },
+        expect: {
+                'combatFeatsLv\\d+': { includes: 'ターゲッティング' },
+                'lvSor': { func: (key, value, json) =>{
+                    return (Number(json.lvSor) >= 2) && (Number(json.lvCon) >= 2);
+                }}
+        },
+        ifNot: '形状が射撃の賦術を習得しているようですが、戦闘特技 ターゲッティングを習得していないため対象との位置関係によっては誤射が発生します'
+    }, {
         level: 'info',
         when: {
             'id': 1
