@@ -1,0 +1,82 @@
+@charset "utf-8";
+* {
+	box-sizing: border-box;
+	font-family: "BIZ UDゴシック","UD Shin Go NT Light JIS2004","UD デジタル 教科書体 N-R", Verdana, Roboto, "Droid Sans", "游ゴシック", YuGothic, "メイリオ", Meiryo, "ヒラギノ角ゴ ProN W3", "Hiragino Kaku Gothic ProN", "ＭＳ Ｐゴシック", sans-serif;
+    margin:0px;
+}
+
+body {
+    padding:0px;
+    position:relative;
+    background-color: #45474B;
+    color: #F5F7F8;
+}
+
+h1 {
+    position:absolute;
+    top:0px;
+    left:0px;
+    right:0px;
+    height:64px;
+    border: 8px #F4CE14 solid;
+    background-color:#495E57;
+    padding:8px;
+}
+
+#content {
+    border-left: 8px #F4CE14 solid;
+    border-right: 8px #F4CE14 solid;
+    border-bottom: 8px #F4CE14 solid;
+    left:0px;
+    right:0px;
+    position:absolute;
+    top:64px;
+    min-height: 300px;
+}
+
+#input, #link {
+    margin-top:8px;
+    margin-bottom:12px;
+    margin-left:8px;
+    margin-right:8px;
+}
+
+a, a:visited {
+    color: #F4CE14;
+}
+
+#result {
+    border: #495E57 inset 4px;
+    user-select: all;
+    padding: 4px;
+    background-color:#F5F7F8;
+    color: #495E57;
+    margin-bottom:88px;
+    margin-left:8px;
+    margin-right:8px;
+}
+
+#result span {
+    margin-top:4px;
+    margin-bottom:4px;
+    display:block;
+}
+
+footer {
+    position:absolute;
+    bottom:0px;
+    left:0px;
+    right:0px;
+    background-color: #495E57;
+    padding:8px;
+}
+
+
+
+
+.alert-error {
+    color:red;
+}
+.alert-warn {
+    color:darkorange;
+}

@@ -3,25 +3,22 @@
 <head>
 <meta charset="UTF-8">
 <title>ゆとシート2で作られた SW2.5 のキャラクターシートチェッカー</title>
-<style>
-    .alert-error {
-        color:red;
-    }
-    .alert-warn {
-        color:orange;
-    }
-    #result {
-        user-select: all;
-    }
-</style>
+<link rel="stylesheet" href="css.css" type="text/css" />
 </head>
 <body>
     <h1>ゆとシート2で作られた SW2.5 のキャラクターシートチェッカー</h1>
-    <div id="input"></div>
-    <div id="request"></div>
-    <p id="link"><a id="linkToSheet" href="" target="_blank" rel="noopener noreferrer"></a></p>
-    <pre id="result"></pre>
-    <p><a href="https://github.com/Shunshun94/shared/tree/master/other/io/github/shunshun94/trpg/sw2/ytsheet/validation" target="_blank">ソースコード</a></p>
+    <div id="content">
+        <div id="input"></div>
+        <p id="link"><a id="linkToSheet" href="" target="_blank" rel="noopener noreferrer"></a></p>
+        <div id="result"></div>
+        <footer>
+            <p>本作は、「グループＳＮＥ」及び「株式会社ＫＡＤＯＫＡＷＡ」が権利を有する『ソード・ワールド2.5』のために作られたツールです。<br/>(C)GroupSNE<br/>(C)KADOKAWA</p>
+            <p>作者連絡先: <a href="https://twitter.com/Shunshun94" target="_blank">@Shunshun94</a> /
+            ソースコード: <a href="https://github.com/Shunshun94/shared/tree/master/other/io/github/shunshun94/trpg/sw2/ytsheet/validation" target="_blank">GitHub</a> /
+            作者欲しい物リスト: <a href="https://amzn.asia/8mNqdKy" target="_blank">Amazon</a></p>
+        </footer>
+    </div>
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="../../../../util/common.js"></script>
     <script src="../../component/SheetInput/sheetInputComponent.js"></script>
@@ -29,8 +26,8 @@
     <script src="./validator.js"></script>
     <script>
         const report = (topic) => {
-            const message = document.createElement('p');
-            message.className = `alert-${topic.level}`;
+            const message = document.createElement('span');
+            message.className = `alert-${topic.level} alert`;
             message.textContent = `* ${topic.ifNot}`;
             document.getElementById('result').append(message);
         };
@@ -41,6 +38,7 @@
                 document.getElementById('linkToSheet').href = url.replace('&mode=json', '');
                 document.getElementById('linkToSheet').textContent = `キャラクターシート：${url.replace('&mode=json', '')}`;
                 request(url).then((json)=>{
+                    e.resolve();
                     io.github.shunshun94.util.updateLocalStorage('com-hiyoko-sample-sw2sheetparse-index', url, json.characterName || '');
                     document.getElementById('result').innerHTML = '';
                     io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_LIST.forEach((topic)=>{
