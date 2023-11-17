@@ -8,9 +8,12 @@
 <body>
     <h1>ゆとシート2で作られた SW2.5 のキャラクターシートチェッカー</h1>
     <div id="content">
-        <div id="input"></div>
-        <p id="link"><a id="linkToSheet" href="" target="_blank" rel="noopener noreferrer"></a></p>
-        <div id="result"></div>
+        <p>キャラクターシートのデータを読み込み、装備などに不足がないかを確認するためのツールです<br/>ゆとらいず工房の『<a target="_blank" rel="noopener noreferrer" href="https://yutorize.2-d.jp/ytsheet/sw2.5/">ゆとシート</a>』で作成されたキャラクターシートに対応しています</p>
+        <div id="apps">
+            <div id="input"></div>
+            <p id="link">キャラクターシート：<a id="linkToSheet" href="" target="_blank" rel="noopener noreferrer"></a></p>
+            <div id="result"></div>
+        </div>
         <footer>
             <p>本作は、「グループＳＮＥ」及び「株式会社ＫＡＤＯＫＡＷＡ」が権利を有する『ソード・ワールド2.5』のために作られたツールです。<br/>(C)GroupSNE<br/>(C)KADOKAWA</p>
             <p>作者連絡先: <a href="https://twitter.com/Shunshun94" target="_blank">@Shunshun94</a> /
@@ -36,7 +39,7 @@
             (e) => {
                 const url = e.url;
                 document.getElementById('linkToSheet').href = url.replace('&mode=json', '');
-                document.getElementById('linkToSheet').textContent = `キャラクターシート：${url.replace('&mode=json', '')}`;
+                document.getElementById('linkToSheet').textContent = `${url.replace('&mode=json', '')}`;
                 request(url).then((json)=>{
                     e.resolve();
                     io.github.shunshun94.util.updateLocalStorage('com-hiyoko-sample-sw2sheetparse-index', url, json.characterName || '');

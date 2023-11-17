@@ -8,8 +8,8 @@
 body {
     padding:0px;
     position:relative;
-    background-color: #45474B;
-    color: #F5F7F8;
+    background-color: darkturquoise;
+    color: darkslategray;
 }
 
 h1 {
@@ -18,20 +18,28 @@ h1 {
     left:0px;
     right:0px;
     height:64px;
-    border: 8px #F4CE14 solid;
-    background-color:#495E57;
     padding:8px;
 }
 
 #content {
-    border-left: 8px #F4CE14 solid;
-    border-right: 8px #F4CE14 solid;
-    border-bottom: 8px #F4CE14 solid;
+    margin:12px;
     left:0px;
     right:0px;
-    position:absolute;
+    position:relative;
     top:64px;
+    padding:12px;
     min-height: 300px;
+    background-color:gold;
+}
+
+#apps {
+    margin:12px;
+    padding:12px;
+    left:0px;
+    right:0px;
+    background-color:lemonchiffon;
+    border-radius: 12px;
+    margin-bottom:88px;
 }
 
 #input, #link {
@@ -41,17 +49,18 @@ h1 {
     margin-right:8px;
 }
 
+#link {
+    text-indent: 1.5em;
+}
+
 a, a:visited {
-    color: #F4CE14;
+    color: darkslategray;
 }
 
 #result {
-    border: #495E57 inset 4px;
     user-select: all;
     padding: 4px;
     background-color:#F5F7F8;
-    color: #495E57;
-    margin-bottom:88px;
     margin-left:8px;
     margin-right:8px;
 }
@@ -67,8 +76,7 @@ footer {
     bottom:0px;
     left:0px;
     right:0px;
-    background-color: #495E57;
-    padding:8px;
+    padding:12px;
 }
 
 
