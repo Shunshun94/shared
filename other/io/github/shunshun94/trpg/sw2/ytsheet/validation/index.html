@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+    <head　prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# article: http://ogp.me/ns/article#">
+    <meta property="og:title" content="ゆとシート2 for SW2.5 キャラシチェックポイント確認ツール ひよキャラチェッカー" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://shunshun94.github.io/shared/other/io/github/shunshun94/trpg/sw2/ytsheet/validation/image/title.png" />
+    <meta property="og:site_name" content="ゆとシート2 for SW2.5 キャラシチェックポイント確認ツール ひよキャラチェッカー" />
+    <meta property="og:description" content="キャラクターシートのデータを読み込み、装備などに不足がないかを確認するためのツールです。ゆとらいず工房の『ゆとシート』で作成されたキャラクターシートに対応しています" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@Shunshun94" />
+    <meta name="twitter:text:title" content="ゆとシート2 for SW2.5 キャラシチェックポイント確認ツール ひよキャラチェッカー" />
+    <meta name="twitter:description" content="キャラクターシートのデータを読み込み、装備などに不足がないかを確認するためのツールです。ゆとらいず工房の『ゆとシート』で作成されたキャラクターシートに対応しています" />
+    <meta name="twitter:image" content="https://shunshun94.github.io/shared/other/io/github/shunshun94/trpg/sw2/ytsheet/validation/image/title.png" />
+    <meta charset="UTF-8">
+    <title>ゆとシート2 for SW2.5 キャラシチェックポイント確認ツール ひよキャラチェッカー</title>
+    <link rel="stylesheet" href="css.css" type="text/css" />
+</head>
+<body>
+    <h1>ゆとシート2 for SW2.5 キャラシチェックポイント確認ツール ひよキャラチェッカー</h1>
+    <div id="content">
+        <p id="guide">キャラクターシートのデータを読み込み、装備などに不足がないかを確認するためのツールです<br/>ゆとらいず工房の『<a target="_blank" rel="noopener noreferrer" href="https://yutorize.2-d.jp/ytsheet/sw2.5/">ゆとシート</a>』で作成されたキャラクターシートに対応しています</p>
+        <div id="apps">
+            <div id="input"></div>
+            <p id="link">キャラクターシート：<a id="linkToSheet" href="" target="_blank" rel="noopener noreferrer"></a></p>
+            <div id="result"></div>
+        </div>
+        <footer>
+            <p>本作は、「グループＳＮＥ」及び「株式会社ＫＡＤＯＫＡＷＡ」が権利を有する『ソード・ワールド2.5』のために作られたツールです。<br/>(C)GroupSNE<br/>(C)KADOKAWA</p>
+            <p>作者連絡先: <a href="https://twitter.com/Shunshun94" target="_blank" rel="noopener noreferrer">@Shunshun94</a> /
+            ソースコード: <a href="https://github.com/Shunshun94/shared/tree/master/other/io/github/shunshun94/trpg/sw2/ytsheet/validation" target="_blank" rel="noopener noreferrer">GitHub</a> /
+            作者欲しい物リスト: <a href="https://amzn.asia/8mNqdKy" target="_blank" rel="noopener noreferrer">Amazon</a> / <a href="./validationList.html" target="_blank" rel="noopener noreferrer">チェックしている内容リスト</a></p>
+        </footer>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="../../../../util/common.js"></script>
+    <script src="../../component/SheetInput/sheetInputComponent.js"></script>
+    <script src="./validationList.js"></script>
+    <script src="./validator.js"></script>
+    <script>
+        const report = (topic) => {
+            const message = document.createElement('span');
+            message.className = `alert-${topic.level} alert`;
+            message.textContent = `* ${topic.ifNot}`;
+            document.getElementById('result').append(message);
+        };
+        document.getElementById('input').addEventListener(
+            io.github.shunshun94.trpg.sw2.component.SheetInput.EVENTS.SHEET_URL_INPUT,
+            (e) => {
+                const url = e.url;
+                document.getElementById('linkToSheet').href = url.replace('&mode=json', '');
+                document.getElementById('linkToSheet').textContent = `${url.replace('&mode=json', '')}`;
+                request(url).then((json)=>{
+                    e.resolve();
+                    io.github.shunshun94.util.updateLocalStorage('com-hiyoko-sample-sw2sheetparse-index', url, json.characterName || '');
+                    document.getElementById('result').innerHTML = '';
+                    io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_LIST.forEach((topic)=>{
+                        console.log(topic);
+                        if(io.github.shunshun94.trpg.sw2.ytsheet.validation.when(json, topic.when)) {
+                            if(! io.github.shunshun94.trpg.sw2.ytsheet.validation.isValid(json, topic.expect)) {
+                                report(topic);
+                            } else {
+                                console.log('ok');
+                            }
+                        } else {
+                            console.log('チェック対象外');
+                        }
+                    });
+                    if( document.getElementById('result').innerHTML === '' ) {
+                        report({
+                            level: 'info',
+                            ifNot: '指摘事項は見つかりませんでした'
+                        });
+                    }
+                });
+            }
+        );
+        const request = (url) => {
+            return new Promise((resolve, reject)=>{
+                $.ajax({
+                    type:'get',
+                    url: `${url}&mode=json`,
+                    async:true,
+                    dataType:'jsonp'
+                }).done(resolve);
+            });
+        };
+        io.github.shunshun94.trpg.sw2.component.SheetInput.build(document.getElementById('input'), {characterSheetFilter: 'ytsheet'});
+    </script>
+</body>

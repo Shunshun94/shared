@@ -1,0 +1,16 @@
+<html>
+    <head><title>チェックしている内容リスト</title></head>
+    <body>
+        <p><a href="./index.html" target="_blank" rel="noopener noreferrer">ひよキャラチェッカー</a>がチェックしている内容の一覧です</p>
+        <ul id="list"></ul>
+        <script src="./validationList.js"></script>
+        <script>
+            const list = document.getElementById('list');
+            io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_LIST.forEach((item)=>{
+                const li = document.createElement('li');
+                li.textContent = item.ifNot;
+                list.append(li);
+            });
+        </script>
+    </body>
+</html>
