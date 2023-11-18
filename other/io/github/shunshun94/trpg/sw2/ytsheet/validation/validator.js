@@ -34,8 +34,19 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.isMatch = (json, conditions) =>
 io.github.shunshun94.trpg.sw2.ytsheet.validation.isValid = io.github.shunshun94.trpg.sw2.ytsheet.validation.isMatch;
 io.github.shunshun94.trpg.sw2.ytsheet.validation.when = io.github.shunshun94.trpg.sw2.ytsheet.validation.isMatch;
 
+io.github.shunshun94.trpg.sw2.ytsheet.validation.appendSkillCountBattleSkill = (skillPrefix, json) => {
+
+};
+
 io.github.shunshun94.trpg.sw2.ytsheet.validation.isMatchSingle = (key, value, action, json) => {
     try {
+        if(action.levelLimitaion) {
+            const level = Number(json[action.levelLimitaion.level]);
+            const itemNumber = Number(key.match(/\d+/));
+            if(itemNumber > level) {
+                return false;
+            }
+        }
         if(action.ormore) { return Number(value) >= Number(action.ormore);  }
         if(action.morethan) { return Number(value) > Number(action.morethan); }
         if(action.orless) { return Number(value) <= Number(action.orless);  }
