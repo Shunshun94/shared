@@ -6,12 +6,11 @@ io.github.shunshun94.trpg.sw2 = io.github.shunshun94.trpg.sw2 || {};
 io.github.shunshun94.trpg.sw2.ytsheet = io.github.shunshun94.trpg.sw2.ytsheet || {};
 io.github.shunshun94.trpg.sw2.ytsheet.validation = io.github.shunshun94.trpg.sw2.ytsheet.validation || {};
 
-io.github.shunshun94.trpg.sw2.ytsheet.validation.CONSTS = {
-    LEVEL: {
+io.github.shunshun94.trpg.sw2.ytsheet.validation.CONSTS = io.github.shunshun94.trpg.sw2.ytsheet.validation.CONSTS || {};
+io.github.shunshun94.trpg.sw2.ytsheet.validation.CONSTS.LEVEL = {
         error: 5,
         warn: 3,
         info: 1
-    }
 };
 
 io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_LIST = [
@@ -173,15 +172,20 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_LIST = [
     }, {
         level: 'warn',
         when: {
-            'craftAlchemy\\d+': { includes: [
-                'インスタントウェポン',
-                'パラライズミスト',
-                'ポイズンニードル',
-                'ヒールスプレー',
-                'アーマーラスト',
-                'ディスペルニードル',
-                'マナスプラウト'
-            ] }
+            'craftAlchemy\\d+': { 
+                includes: [
+                    'インスタントウェポン',
+                    'パラライズミスト',
+                    'ポイズンニードル',
+                    'ヒールスプレー',
+                    'アーマーラスト',
+                    'ディスペルニードル',
+                    'マナスプラウト'
+                ],
+                levelLimitaion: {
+                    level: 'lvAlc'
+                }
+            }
         },
         expect: {
                 'combatFeatsLv\\d+': { includes: 'ターゲッティング' },
