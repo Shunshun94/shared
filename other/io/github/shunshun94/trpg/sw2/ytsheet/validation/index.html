@@ -41,7 +41,7 @@
         const report = (topic) => {
             const message = document.createElement('span');
             message.className = `alert-${topic.level} alert`;
-            message.textContent = `* ${topic.ifNot}`;
+            message.textContent = `* ${topic.system ? '' : io.github.shunshun94.trpg.sw2.ytsheet.validation.CONSTS.LEVEL[topic.level].prefix}${topic.ifNot}`;
             document.getElementById('result').append(message);
         };
         document.getElementById('input').addEventListener(
@@ -69,7 +69,8 @@
                     if( document.getElementById('result').innerHTML === '' ) {
                         report({
                             level: 'info',
-                            ifNot: '指摘事項は見つかりませんでした'
+                            ifNot: '指摘事項は見つかりませんでした',
+                            system: true
                         });
                     }
                 });

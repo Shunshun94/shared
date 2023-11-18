@@ -8,9 +8,9 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation = io.github.shunshun94.trpg.sw2
 
 io.github.shunshun94.trpg.sw2.ytsheet.validation.CONSTS = {
     LEVEL: {
-        error: 5,
-        warn: 3,
-        info: 1
+        error: { weight: 5, prefix: '【要確認】' },
+        warn:  { weight: 3, prefix: '【確認推奨】' },
+        info:  { weight: 1, prefix: '【情報共有】' }
     }
 };
 
@@ -244,5 +244,5 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_LIST = [
         ifNot: '万が一の時のためにアウェイクポーション（『1』325頁）を持っておくことをおすすめします'
     }
 ].sort((a, b)=>{
-    return io.github.shunshun94.trpg.sw2.ytsheet.validation.CONSTS.LEVEL[b.level] - io.github.shunshun94.trpg.sw2.ytsheet.validation.CONSTS.LEVEL[a.level];
+    return io.github.shunshun94.trpg.sw2.ytsheet.validation.CONSTS.LEVEL[b.level].weight - io.github.shunshun94.trpg.sw2.ytsheet.validation.CONSTS.LEVEL[a.level].weight;
 });
