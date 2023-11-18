@@ -138,7 +138,7 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_LIST = [
         expect: {
             'race': { includes: 'ナイトメア' }
         },
-        ifNot: '金属鎧を着ている場合にソーサラー技能、コンジャラー技能またはデーモンルーラー技能による魔法を行使するとペナルティ修正を受けます'
+        ifNot: '金属鎧を着ている場合にソーサラー、コンジャラー、フェアリーテイマー、ドルイドまたはデーモンルーラーの各技能による魔法を行使するとペナルティ修正を受けます'
     }, {
         level: 'warn',
         when: {
