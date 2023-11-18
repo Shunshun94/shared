@@ -6,12 +6,11 @@ io.github.shunshun94.trpg.sw2 = io.github.shunshun94.trpg.sw2 || {};
 io.github.shunshun94.trpg.sw2.ytsheet = io.github.shunshun94.trpg.sw2.ytsheet || {};
 io.github.shunshun94.trpg.sw2.ytsheet.validation = io.github.shunshun94.trpg.sw2.ytsheet.validation || {};
 
-io.github.shunshun94.trpg.sw2.ytsheet.validation.CONSTS = {
-    LEVEL: {
+io.github.shunshun94.trpg.sw2.ytsheet.validation.CONSTS = io.github.shunshun94.trpg.sw2.ytsheet.validation.CONSTS || {};
+io.github.shunshun94.trpg.sw2.ytsheet.validation.CONSTS.LEVEL = {
         error: 5,
         warn: 3,
         info: 1
-    }
 };
 
 io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_LIST = [
@@ -184,8 +183,7 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_LIST = [
                     'マナスプラウト'
                 ],
                 levelLimitaion: {
-                    level: 'lvAlc',
-                    
+                    level: 'lvAlc'
                 }
             }
         },

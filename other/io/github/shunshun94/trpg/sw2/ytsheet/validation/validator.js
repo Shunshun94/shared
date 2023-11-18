@@ -34,14 +34,32 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.isMatch = (json, conditions) =>
 io.github.shunshun94.trpg.sw2.ytsheet.validation.isValid = io.github.shunshun94.trpg.sw2.ytsheet.validation.isMatch;
 io.github.shunshun94.trpg.sw2.ytsheet.validation.when = io.github.shunshun94.trpg.sw2.ytsheet.validation.isMatch;
 
-io.github.shunshun94.trpg.sw2.ytsheet.validation.appendSkillCountBattleSkill = (skillPrefix, json) => {
+io.github.shunshun94.trpg.sw2.ytsheet.validation.CONSTS = io.github.shunshun94.trpg.sw2.ytsheet.validation.CONSTS || {};
+io.github.shunshun94.trpg.sw2.ytsheet.validation.CONSTS.ADDTIONAL_SKILL_COUNT_MAP = {
+    "NONE": 0,
+    "Ⅰ": 1,
+    "Ⅱ": 2,
+    "Ⅲ": 3,
+    "Ⅳ": 4,
+    "Ⅴ": 5,
+};
 
+io.github.shunshun94.trpg.sw2.ytsheet.validation.appendSkillCountBattleSkill = (skillPrefix, json) => {
+    if(! skillPrefix) {return 0;}
+    const level = Number(json.level);
+    for(var i = 0; i < level; i += 2) {
+        if( json[`combatFeatsLv${ i + 1}`].startsWith(skillPrefix) ) {
+            return io.github.shunshun94.trpg.sw2.ytsheet.validation.CONSTS.ADDTIONAL_SKILL_COUNT_MAP[(json[`combatFeatsLv${ i + 1}`].match(/ⅠⅡⅢⅣⅤ/) || ['NONE'])[0]];
+        }
+    }
+    return 0;
+    
 };
 
 io.github.shunshun94.trpg.sw2.ytsheet.validation.isMatchSingle = (key, value, action, json) => {
     try {
         if(action.levelLimitaion) {
-            const level = Number(json[action.levelLimitaion.level]);
+            const level = Number(json[action.levelLimitaion.level]) + io.github.shunshun94.trpg.sw2.ytsheet.validation.appendSkillCountBattleSkill(action.levelLimitaion.skillPrefix, json);
             const itemNumber = Number(key.match(/\d+/));
             if(itemNumber > level) {
                 return false;
