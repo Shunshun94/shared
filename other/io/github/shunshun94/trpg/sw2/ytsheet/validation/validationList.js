@@ -6,12 +6,11 @@ io.github.shunshun94.trpg.sw2 = io.github.shunshun94.trpg.sw2 || {};
 io.github.shunshun94.trpg.sw2.ytsheet = io.github.shunshun94.trpg.sw2.ytsheet || {};
 io.github.shunshun94.trpg.sw2.ytsheet.validation = io.github.shunshun94.trpg.sw2.ytsheet.validation || {};
 
-io.github.shunshun94.trpg.sw2.ytsheet.validation.CONSTS = {
-    LEVEL: {
-        error: { weight: 5, prefix: '【要確認】' },
-        warn:  { weight: 3, prefix: '【確認推奨】' },
-        info:  { weight: 1, prefix: '【情報共有】' }
-    }
+io.github.shunshun94.trpg.sw2.ytsheet.validation.CONSTS = io.github.shunshun94.trpg.sw2.ytsheet.validation.CONSTS || {};
+io.github.shunshun94.trpg.sw2.ytsheet.validation.CONSTS.LEVEL =  {
+    error: { weight: 5, prefix: '【要確認】' },
+    warn:  { weight: 3, prefix: '【確認推奨】' },
+    info:  { weight: 1, prefix: '【情報共有】' }
 };
 
 io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_LIST = [
@@ -173,15 +172,20 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_LIST = [
     }, {
         level: 'warn',
         when: {
-            'craftAlchemy\\d+': { includes: [
-                'インスタントウェポン',
-                'パラライズミスト',
-                'ポイズンニードル',
-                'ヒールスプレー',
-                'アーマーラスト',
-                'ディスペルニードル',
-                'マナスプラウト'
-            ] }
+            'craftAlchemy\\d+': { 
+                includes: [
+                    'インスタントウェポン',
+                    'パラライズミスト',
+                    'ポイズンニードル',
+                    'ヒールスプレー',
+                    'アーマーラスト',
+                    'ディスペルニードル',
+                    'マナスプラウト'
+                ],
+                levelLimitaion: {
+                    level: 'lvAlc'
+                }
+            }
         },
         expect: {
                 'combatFeatsLv\\d+': { includes: 'ターゲッティング' },
