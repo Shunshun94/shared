@@ -8,9 +8,9 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation = io.github.shunshun94.trpg.sw2
 
 io.github.shunshun94.trpg.sw2.ytsheet.validation.CONSTS = io.github.shunshun94.trpg.sw2.ytsheet.validation.CONSTS || {};
 io.github.shunshun94.trpg.sw2.ytsheet.validation.CONSTS.LEVEL =  {
-    error: { weight: 5, prefix: '【要確認】' },
-    warn:  { weight: 3, prefix: '【確認推奨】' },
-    info:  { weight: 1, prefix: '【情報共有】' }
+    error: { weight: 5, prefix: '【重要】' },
+    warn:  { weight: 3, prefix: '【確認】' },
+    info:  { weight: 1, prefix: '【共有】' }
 };
 
 io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_LIST = [
