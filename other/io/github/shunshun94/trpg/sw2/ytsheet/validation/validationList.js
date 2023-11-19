@@ -58,6 +58,7 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_LIST = [
             'weapon\\d+Note': {includes: 'マギスフィア'},
             'armour\\d+Name': {includes: '機動外骨格'},
             'armour\\d+Note': {includes: 'マギスフィア'},
+            'items': {includes: '機動外骨格'},
             'cashbook': {includes: '機動外骨格'}
 
         },
