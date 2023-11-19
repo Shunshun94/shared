@@ -75,15 +75,16 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.isMatchSingle = (key, value, ac
             } else {
                 return value === (action.equal);
             }
-         }
+        }
         if(action.includes) { 
             if( action.includes.some ) {
                 return action.includes.some((d)=>{ return value.includes(d); });
             } else {
                 return value.includes(action.includes);
             }
-         }
+        }
         if(action.func) { return action.func(key, value, json); }
+        if(key.startsWith('lv') && value === '0') { return false; }
         return true;
     } catch (e) {
         console.error(e, key, value, action, json);
