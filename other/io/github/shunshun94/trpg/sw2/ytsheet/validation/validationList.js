@@ -41,7 +41,10 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_LIST = [
         },
         expect: {
             'accessory.*Name': {includes: '聖印'},
-            'race': {includes: 'センティアン'}
+            'race': {includes: 'センティアン'},
+            'accessory.*Note': {includes: '聖印'},
+            'weapon\\d+Note': {includes: '聖印'},
+
         },
         ifNot: 'プリースト技能による魔法を行使するには聖印を装備している必要があります（『1』198頁）'
     }, {
@@ -50,7 +53,14 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_LIST = [
             'lvMag': 1
         },
         expect: {
-            'accessory.*Name': {includes: 'マギスフィア'}
+            'accessory.*Name': {includes: 'マギスフィア'},
+            'accessory.*Note': {includes: 'マギスフィア'},
+            'weapon\\d+Note': {includes: 'マギスフィア'},
+            'armour\\d+Name': {includes: '機動外骨格'},
+            'armour\\d+Note': {includes: 'マギスフィア'},
+            'items': {includes: '機動外骨格'},
+            'cashbook': {includes: '機動外骨格'}
+
         },
         ifNot: 'マギテック技能による魔法を行使するにはマギスフィアを装備している必要があります（『1』198頁）'
     }, {
@@ -72,7 +82,8 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_LIST = [
             'accessoryWaist_*Name': {includes: 'アルケミーキット'},
             'accessoryOther_*Name': {includes: 'アルケミーキット'},
             'items': {includes: 'カードシューター'},
-            'weapon\\d+Name': {includes: 'カードシューター'}
+            'weapon\\d+Name': {includes: 'カードシューター'},
+            'weapon\\d+Note': {includes: 'アルケミーキット'}
         },
         ifNot: 'アルケミスト技能による賦術を行使するにはアルケミーキットを適切な部位に装備している必要があります（『3』114頁）'
     }, {
@@ -95,7 +106,9 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_LIST = [
             'items': {includes: ['召異の刺青', '悪魔の印', '大型容器', '小型容器', '召異の刺繍']},
             'accessory.*Name': {includes: ['召異の徽章', '召異の微章']},
             'weapon\\d+Name': {includes: '小魔'},
-            'weapon\\d+Note': {includes: ['小魔', 'デーモンルーラー', 'デモル', '召異']}
+            'weapon\\d+Note': {includes: ['小魔', 'デーモンルーラー', 'デモル', '召異']},
+            'accessory.*Note': {includes: ['召異の徽章', '召異の微章']},
+            'cashbook': {includes: ['召異の刺青', '悪魔の印', '召異の刺繍']}
         },
         ifNot: 'デーモンルーラー技能による魔法を行使するには小魔の封入具を装備している必要があります（『ML』29頁）'
     }, {
@@ -240,8 +253,7 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_LIST = [
         expect: {
             'items': {
                 func: (key, value, json) => {
-                    if(json.lvPri) { return true; }
-                    return (value || '').includes('アウェイクポーション');
+                    return (Number(json.lvPri) >= 2) || (value || '').includes('アウェイクポーション');
                 }
             }
         },
