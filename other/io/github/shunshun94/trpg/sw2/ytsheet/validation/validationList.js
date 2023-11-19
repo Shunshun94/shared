@@ -253,7 +253,6 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_LIST = [
         expect: {
             'items': {
                 func: (key, value, json) => {
-                    console.log(Number(json.lvPri), value)
                     return (Number(json.lvPri) >= 2) || (value || '').includes('アウェイクポーション');
                 }
             }
