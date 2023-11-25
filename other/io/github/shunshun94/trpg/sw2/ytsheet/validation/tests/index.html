@@ -1,0 +1,49 @@
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <script src="../validationList.js"></script>
+        <script src="../validator.js"></script>
+        <script src="./input.js"></script>
+        <style>
+            .error {
+                background-color:#FFDDDD;
+                color:#440000;
+                border:solid #440000 2px;
+                padding:4px;
+                border-radius: 4px;
+                margin-bottom:4px;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="result"></div>
+        <script>
+            const errorHandle = (validation, testTarget, overwriteMessage) => {
+                const message = document.createElement('div');
+                message.className = 'error';
+                message.textContent = overwriteMessage || `${testTarget.testName}の結果は${testTarget.expect ? 'パス' : '失敗'}することが望まれていますが実際にはそうなってません`;
+                document.getElementById('result').append(message);
+            }
+            const validations = io.github.shunshun94.trpg.sw2.ytsheet.validation.getValidationListAsMap();
+            for(var validationName in validations) {
+                const validation = validations[validationName];
+                const tests = io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_TEST_LIST[validationName];
+                if((! tests) || (tests.length === 0)) {
+                    errorHandle(false, false, `${validationName}のテストが書かれていません`);
+                } else {
+                    tests.forEach((test)=>{
+                        try {
+                            if(io.github.shunshun94.trpg.sw2.ytsheet.validation.when(test, validation.when)) {
+                                if( test.expect != io.github.shunshun94.trpg.sw2.ytsheet.validation.isValid(test, validation.expect) ) {
+                                    errorHandle(validation, test);
+                                }
+                            }
+                        } catch (e) {
+
+                        }
+                    });
+                }
+            }
+        </script>
+    </body>
+</html>
