@@ -25,15 +25,15 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_LIST = [
         expect: {
             'or': {
                 'weapon\\d+Category': {includes: 'スタッフ'},
-                'weapon\\d+Name': {includes: 'スタッフ'},
+                'weapon\\d+Name': {includes: ['スタッフ', '発動体']},
                 'weapon\\d+Note': {includes: '発動体'},
                 'accessoryHand[LR]_*Name': {includes: ['発動体', 'マナリング']},
                 'accessoryOther\d*Name': {includes: ['発動体', 'マナリング']},
-                'items': {includes: '発動体'},
-                'weapon\\d+Name': {includes: '発動体'}
+                'items': {includes: '発動体'}
             }
         },
-        ifNot: 'ソーサラー技能またはコンジャラー技能による魔法を行使するには魔法の発動体を装備している必要があります（『1』196頁）'
+        ifNot: 'ソーサラー技能またはコンジャラー技能による魔法を行使するには魔法の発動体を装備している必要があります（『1』196頁）',
+        label: 'sorcererRequiresDevice'
     }, {
         level: 'error',
         when: {
@@ -46,7 +46,8 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_LIST = [
             'weapon\\d+Note': {includes: '聖印'},
 
         },
-        ifNot: 'プリースト技能による魔法を行使するには聖印を装備している必要があります（『1』198頁）'
+        ifNot: 'プリースト技能による魔法を行使するには聖印を装備している必要があります（『1』198頁）',
+        label: 'priestRequiresSymbol'
     }, {
         level: 'error',
         when: {
@@ -62,7 +63,8 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_LIST = [
             'cashbook': {includes: '機動外骨格'}
 
         },
-        ifNot: 'マギテック技能による魔法を行使するにはマギスフィアを装備している必要があります（『1』198頁）'
+        ifNot: 'マギテック技能による魔法を行使するにはマギスフィアを装備している必要があります（『1』198頁）',
+        label: 'magitecRequiresMagisphere'
     }, {
         level: 'error',
         when: {
@@ -71,7 +73,8 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_LIST = [
         expect: {
             'accessory.*Name': {includes: '宝石'}
         },
-        ifNot: 'フェアリーテイマー技能による魔法を行使するには対応する宝石を装備している必要があります（『2』112頁）'
+        ifNot: 'フェアリーテイマー技能による魔法を行使するには対応する宝石を装備している必要があります（『2』112頁）',
+        label: 'fairytamerRequiresGems'
     }, {
         level: 'error',
         when: {
@@ -86,7 +89,8 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_LIST = [
             'weapon\\d+Note': {includes: 'アルケミーキット'},
             'accessory[^_]*_+Name': {includes: 'アルケミーキット'}
         },
-        ifNot: 'アルケミスト技能による賦術を行使するにはアルケミーキットを適切な部位に装備している必要があります（『3』114頁）'
+        ifNot: 'アルケミスト技能による賦術を行使するにはアルケミーキットを適切な部位に装備している必要があります（『3』114頁）',
+        label: 'alchemiestRequiresAlchemyKit'
     }, {
         level: 'error',
         when: {
@@ -97,7 +101,8 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_LIST = [
             'weapon\\d+Name': {includes: ['宿り木', '宿木', 'ヤドリギ']},
             'weapon\\d+Note': {includes: ['宿り木', '宿木', 'ヤドリギ', 'ドルイド', '森羅']}
         },
-        ifNot: 'ドルイド技能による魔法を行使するには宿り木の棒杖またはそれを兼ねたスタッフを装備している必要があります（『ML』10頁）'
+        ifNot: 'ドルイド技能による魔法を行使するには宿り木の棒杖またはそれを兼ねたスタッフを装備している必要があります（『ML』10頁）',
+        label: 'druidRequiresMistletoe'
     }, {
         level: 'error',
         when: {
@@ -111,7 +116,8 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_LIST = [
             'accessory.*Note': {includes: ['召異の徽章', '召異の微章']},
             'cashbook': {includes: ['召異の刺青', '悪魔の印', '召異の刺繍']}
         },
-        ifNot: 'デーモンルーラー技能による魔法を行使するには小魔の封入具を装備している必要があります（『ML』29頁）'
+        ifNot: 'デーモンルーラー技能による魔法を行使するには小魔の封入具を装備している必要があります（『ML』29頁）',
+        label: 'demonRulerRequiresDemonSeal'
     }, {
         level: 'error',
         when: {
@@ -120,7 +126,8 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_LIST = [
         expect: {            
             'accessory.*Name': {includes: 'ジオグラフ'}
         },
-        ifNot: 'ジオマンサー技能による相域を使用するにはジオグラフを装備している必要があります（『MA』8頁）'
+        ifNot: 'ジオマンサー技能による相域を使用するにはジオグラフを装備している必要があります（『MA』8頁）',
+        label: 'geomancerRequiresGeograph'
     }, {
         level: 'error',
         when: {
@@ -133,7 +140,8 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_LIST = [
             'weapon\\d+Name': {includes: '戦旗章'},
             'weapon\\d+Note': {includes: ['戦旗章', '軍師徽章']}
         },
-        ifNot: 'ウォーリーダー技能による鼓咆と陣率を使用するには軍師徽章、戦旗章または盾徽章を装備している必要があります（『MA』19頁）'
+        ifNot: 'ウォーリーダー技能による鼓咆と陣率を使用するには軍師徽章、戦旗章または盾徽章を装備している必要があります（『MA』19頁）',
+        label: 'warleaderRequiresGeneralEmblem'
     }, {
         level: 'warn',
         when: {
@@ -151,7 +159,8 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_LIST = [
         expect: {
             'race': { includes: 'ナイトメア' }
         },
-        ifNot: '金属鎧を着ている場合にソーサラー、コンジャラー、フェアリーテイマー、ドルイドまたはデーモンルーラーの各技能による魔法を行使するとペナルティ修正を受けます'
+        ifNot: '金属鎧を着ている場合にソーサラー、コンジャラー、フェアリーテイマー、ドルイドまたはデーモンルーラーの各技能による魔法を行使するとペナルティ修正を受けます',
+        label: 'metalArmorLimitatesMagics'
     }, {
         level: 'warn',
         when: {
@@ -173,7 +182,8 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_LIST = [
         expect: {
             'race': { includes: 'ナイトメア' }
         },
-        ifNot: '必要筋力が10以上の非金属鎧を着ている場合にソーサラー技能、コンジャラー技能、フェアリーテイマー技能、ドルイド技能またはデーモンルーラー技能による魔法を行使するとペナルティ修正を受けます'
+        ifNot: '必要筋力が10以上の非金属鎧を着ている場合にソーサラー技能、コンジャラー技能、フェアリーテイマー技能、ドルイド技能またはデーモンルーラー技能による魔法を行使するとペナルティ修正を受けます',
+        label: 'heavyArmorLimitatesMagics'
     }, {
         level: 'warn',
         when: {
@@ -182,7 +192,8 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_LIST = [
         expect: {
             'items': { includes: ['スカウト用ツール', '精密ツールセット'] }
         },
-        ifNot: 'スカウト用ツールを持っていない場合、一部の判定にペナルティ修正を受けます（『1』109頁）'
+        ifNot: 'スカウト用ツールを持っていない場合、一部の判定にペナルティ修正を受けます（『1』109頁）',
+        label: 'scountRequiresScoutTools'
     }, {
         level: 'warn',
         when: {
@@ -207,7 +218,8 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_LIST = [
                     return (Number(json.lvSor) >= 2) && (Number(json.lvCon) >= 2);
                 }}
         },
-        ifNot: '形状が射撃の賦術を習得しているようですが、戦闘特技 ターゲッティングを習得していないため対象との位置関係によっては誤射が発生します'
+        ifNot: '形状が射撃の賦術を習得しているようですが、戦闘特技 ターゲッティングを習得していないため対象との位置関係によっては誤射が発生します',
+        label: 'healSprayRequiresTargetting'
     }, {
         level: 'info',
         when: {
@@ -245,7 +257,8 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_LIST = [
                 return false;
             }}
         },
-        ifNot: '探索に用いる技能のレベルに比して冒険者レベルが高いようですがバランスは大丈夫でしょうか？（『3』75頁）'
+        ifNot: '探索に用いる技能のレベルに比して冒険者レベルが高いようですがバランスは大丈夫でしょうか？（『3』75頁）',
+        label: 'adventurerRequiresSearchingSkills'
     }, {
         level: 'info',
         when: {
@@ -258,8 +271,22 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_LIST = [
                 }
             }
         },
-        ifNot: '万が一の時のためにアウェイクポーション（『1』325頁）を持っておくことをおすすめします'
+        ifNot: '万が一の時のためにアウェイクポーション（『1』325頁）を持っておくことをおすすめします',
+        label: 'adventurerRequiresAwakePotion'
     }
 ].sort((a, b)=>{
     return io.github.shunshun94.trpg.sw2.ytsheet.validation.CONSTS.LEVEL[b.level].weight - io.github.shunshun94.trpg.sw2.ytsheet.validation.CONSTS.LEVEL[a.level].weight;
 });
+
+io.github.shunshun94.trpg.sw2.ytsheet.validation.getValidationListAsMap = () => {
+    const result = {};
+    io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_LIST.forEach((d)=>{
+        if(result[d.label]) {
+            const msg = `label ${d.label} が重複して宣言されています`;
+            console.error(msg, result[d.label], d);
+            throw msg;
+        }
+        result[d.label] = d;
+    });
+    return result;
+};
