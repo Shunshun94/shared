@@ -62,11 +62,114 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_TEST_LIST = {
             'lvPri': '1',
             'weapon1Note': '聖印を兼ねる',
             'expect': true
+        }, {
+            'testName': 'プリーストで種族がセンティアンな場合',
+            'lvPri': '1',
+            'race': 'センティアン',
+            'expect': true
         }
     ],
-    "magitecRequiresMagisphere": [],
-    "fairytamerRequiresGems": [],
-    "alchemiestRequiresAlchemyKit": [],
+    "magitecRequiresMagisphere": [
+        {
+            'testName': 'マギテックでマギスフィアを持っていない場合',
+            'lvMag': '1',
+            'expect': false
+        }, {
+            'testName': 'マギテックでマギスフィアを持っている場合（名前欄）',
+            'lvMag': '1',
+            'accessoryHeadName': 'マギスフィア（小）',
+            'expect': true
+        }, {
+            'testName': 'マギテックでマギスフィアを持っている場合（効果欄）',
+            'lvMag': '1',
+            'accessoryHeadNote': 'マギスフィアを兼用',
+            'expect': true
+        }, {
+            'testName': 'マギテックでマギスフィアを持っている場合（武器効果欄）',
+            'lvMag': '1',
+            'weapon1Note': 'マギスフィアを兼用',
+            'expect': true
+        }, {
+            'testName': 'マギテックでマギスフィアを持っている場合（防具効果欄）',
+            'lvMag': '1',
+            'armour1Note': 'マギスフィアを兼用',
+            'expect': true
+        }, {
+            'testName': 'マギテックで機動外骨格を持っている場合（防具名前欄）',
+            'lvMag': '1',
+            'armour1Name': '機動外骨格',
+            'expect': true
+        }, {
+            'testName': 'マギテックで機動外骨格を持っている場合（アイテム欄）',
+            'lvMag': '1',
+            'items': '機動外骨格',
+            'expect': true
+        }, {
+            'testName': 'マギテックで機動外骨格を持っている場合（収支欄）',
+            'lvMag': '1',
+            'cashbook': '機動外骨格',
+            'expect': true
+        }
+    ],
+    "fairytamerRequiresGems": [
+        {
+            'testName': 'フェアリーテイマーで宝石を持っていない場合',
+            'lvFai': '1',
+            'expect': false
+        }, {
+            'testName': 'フェアリーテイマーで宝石を持っている場合（素の宝石）',
+            'lvFai': '1',
+            'accessoryHeadName': '妖精使いの宝石',
+            'expect': true
+        }, {
+            'testName': 'フェアリーテイマーで宝石を持っている場合（宝石ケース）',
+            'lvFai': '1',
+            'accessoryHeadName': '宝石ケース',
+            'expect': true
+        }, {
+            'testName': 'フェアリーテイマーで宝石を持っている場合（華美なる宝石飾り）',
+            'lvFai': '1',
+            'accessoryHeadName': '華美なる宝石飾り',
+            'expect': true
+        }
+    ],
+    "alchemiestRequiresAlchemyKit": [
+        {
+            'testName': 'アルケミストでアルケミーキットを持っていない場合',
+            'lvAlc': '1',
+            'expect': false
+        }, {
+            'testName': 'アルケミストでアルケミーキットを適切な部位に持っていない場合',
+            'lvAlc': '1',
+            'accessoryHeadName': 'アルケミーキット',
+            'expect': false
+        }, {
+            'testName': 'アルケミストでアルケミーキットを持っている場合',
+            'lvAlc': '1',
+            'accessoryWaistName': 'アルケミーキット',
+            'expect': true
+        }, {
+            'testName': 'アルケミストでアルケミーキットを持っている場合（多機能ベルト）',
+            'lvAlc': '1',
+            'accessoryWaist_Name': 'アルケミーキット',
+            'expect': true
+        }, {
+            'testName': 'アルケミストでカードシューターを持っている場合（アイテム欄）',
+            'lvAlc': '1',
+            'items': 'カードシューター',
+            'expect': true
+        }, {
+            'testName': 'アルケミストでカードシューターを持っている場合（武器名前欄）',
+            'lvAlc': '1',
+            'weapon1Name': 'カードシューター',
+            'expect': true
+        }, {
+            'testName': 'アルケミストでアルケミーキットを兼ねる武器を持っている場合',
+            'lvAlc': '1',
+            'weapon1Note': 'アルケミーキット',
+            'expect': true
+        }
+    ],
     "druidRequiresMistletoe": [],
     "demonRulerRequiresDemonSeal": [],
     "geomancerRequiresGeograph": [],
