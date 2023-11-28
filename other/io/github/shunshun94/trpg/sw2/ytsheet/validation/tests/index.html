@@ -13,6 +13,14 @@
                 border-radius: 4px;
                 margin-bottom:4px;
             }
+            .pass {
+                background-color:#DDFFDD;
+                color:#004400;
+                border:solid #004400 2px;
+                padding:4px;
+                border-radius: 4px;
+                margin-bottom:4px;
+            }
         </style>
     </head>
     <body>
@@ -24,6 +32,12 @@
                 message.textContent = overwriteMessage || `${testTarget.testName}の結果は${testTarget.expect ? 'パス' : '失敗'}することが望まれていますが実際にはそうなってません`;
                 document.getElementById('result').append(message);
             }
+            const passHandle = (validation, testTarget, overwriteMessage) => {
+                const message = document.createElement('div');
+                message.className = 'pass';
+                message.textContent = overwriteMessage || `${testTarget.testName}：OK（期待される結果：${testTarget.expect ? 'パス' : '失敗'}）`;
+                document.getElementById('result').append(message);
+            }
             const validations = io.github.shunshun94.trpg.sw2.ytsheet.validation.getValidationListAsMap();
             for(var validationName in validations) {
                 const validation = validations[validationName];
@@ -33,10 +47,11 @@
                 } else {
                     tests.forEach((test)=>{
                         try {
-                            if(io.github.shunshun94.trpg.sw2.ytsheet.validation.when(test, validation.when)) {
-                                if( test.expect != io.github.shunshun94.trpg.sw2.ytsheet.validation.isValid(test, validation.expect) ) {
-                                    errorHandle(validation, test);
-                                }
+                            if( io.github.shunshun94.trpg.sw2.ytsheet.validation.when(test, validation.when) &&
+                               (test.expect != io.github.shunshun94.trpg.sw2.ytsheet.validation.isValid(test, validation.expect))) {
+                                errorHandle(validation, test);
+                            } else {
+                                passHandle(validation, test);
                             }
                         } catch (e) {
 
