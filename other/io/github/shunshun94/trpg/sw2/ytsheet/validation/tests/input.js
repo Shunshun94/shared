@@ -170,7 +170,28 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_TEST_LIST = {
             'expect': true
         }
     ],
-    "druidRequiresMistletoe": [],
+    "druidRequiresMistletoe": [
+        {
+            'testName': 'ドルイドで宿り木の棒杖を持っていない場合',
+            'lvDru': '1',
+            'expect': false
+        }, {
+            'testName': 'ドルイドで宿り木の棒杖を武器として持っている場合（備考欄）',
+            'lvDru': '1',
+            'weapon1Note': '宿り木の棒杖加工',
+            'expect': true
+        }, {
+            'testName': 'ドルイドで宿り木の棒杖を武器として持っている場合（名前欄）',
+            'lvDru': '1',
+            'weapon1Note': '宿木マナスタッフ',
+            'expect': true
+        }, {
+            'testName': 'ドルイドで宿り木の棒杖を道具として持っている場合',
+            'lvDru': '1',
+            'items': '宿り木の棒杖',
+            'expect': true
+        }
+    ],
     "demonRulerRequiresDemonSeal": [],
     "geomancerRequiresGeograph": [],
     "warleaderRequiresGeneralEmblem": [],
