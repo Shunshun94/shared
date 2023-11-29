@@ -111,7 +111,7 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_LIST = [
         expect: {            
             'items': {includes: ['召異の刺青', '悪魔の印', '大型容器', '小型容器', '召異の刺繍']},
             'accessory.*Name': {includes: ['召異の徽章', '召異の微章']},
-            'weapon\\d+Name': {includes: '小魔'},
+            'weapon\\d+Name': {includes: ['小魔', '召異']},
             'weapon\\d+Note': {includes: ['小魔', 'デーモンルーラー', 'デモル', '召異']},
             'accessory.*Note': {includes: ['召異の徽章', '召異の微章']},
             'cashbook': {includes: ['召異の刺青', '悪魔の印', '召異の刺繍']}
