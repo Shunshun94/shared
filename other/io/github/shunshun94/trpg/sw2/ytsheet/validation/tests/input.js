@@ -192,7 +192,48 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_TEST_LIST = {
             'expect': true
         }
     ],
-    "demonRulerRequiresDemonSeal": [],
+    "demonRulerRequiresDemonSeal": [
+        {
+            'testName': 'デーモンルーラーで小魔の封入具を持っていない場合',
+            'lvDem': '1',
+            'expect': false
+        }, {
+            'testName': 'デーモンルーラーで召異の刺青を持っている場合（持ち物）',
+            'lvDem': '1',
+            'items': '召異の刺青',
+            'expect': true
+        }, {
+            'testName': 'デーモンルーラーで召異の刺青を持っている場合（武器欄）',
+            'lvDem': '1',
+            'weapon1Name': '召異の刺青',
+            'expect': true
+        }, {
+            'testName': 'デーモンルーラーで召異の徽章を持っている場合（名前欄）',
+            'lvDem': '1',
+            'accessoryNeckName': '召異の徽章',
+            'expect': true
+        }, {
+            'testName': 'デーモンルーラーで召異の徽章を持っている場合（効果欄）',
+            'lvDem': '1',
+            'accessoryNeckNote': '召異の徽章',
+            'expect': true
+        }, {
+            'testName': 'デーモンルーラーで小魔の封入具加工済みの武器を持っている場合（名前欄）',
+            'lvDem': '1',
+            'weapon1Name': '小魔の封入具ロングソード',
+            'expect': true
+        }, {
+            'testName': 'デーモンルーラーで小魔の封入具加工済みの武器を持っている場合（備考欄）',
+            'lvDem': '1',
+            'weapon1Name': '小魔の封入具',
+            'expect': true
+        }, {
+            'testName': 'デーモンルーラーで悪魔の印を持っている場合（収支欄）',
+            'lvDem': '1',
+            'cashbook': '悪魔の印',
+            'expect': true
+        }
+    ],
     "geomancerRequiresGeograph": [],
     "warleaderRequiresGeneralEmblem": [],
     "metalArmorLimitatesMagics": [],
