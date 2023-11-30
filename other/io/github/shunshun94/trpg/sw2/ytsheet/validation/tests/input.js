@@ -234,7 +234,23 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_TEST_LIST = {
             'expect': true
         }
     ],
-    "geomancerRequiresGeograph": [],
+    "geomancerRequiresGeograph": [
+        {
+            'testName': 'ジオマンサーでジオグラフを持っていない場合',
+            'lvGeo': '1',
+            'expect': false
+        }, {
+            'testName': 'ジオマンサーでジオグラフを持っている場合',
+            'lvGeo': '1',
+            'accessoryHeadName': 'ジオグラフ',
+            'expect': true
+        }, {
+            'testName': 'ジオマンサーでジオグラフを持っている場合（追加部位）',
+            'lvGeo': '1',
+            'accessoryHead_Name': 'ジオグラフ',
+            'expect': true
+        }
+    ],
     "warleaderRequiresGeneralEmblem": [],
     "metalArmorLimitatesMagics": [],
     "heavyArmorLimitatesMagics": [],
