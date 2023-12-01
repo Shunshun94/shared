@@ -248,10 +248,51 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_TEST_LIST = {
             'testName': 'ジオマンサーでジオグラフを持っている場合（追加部位）',
             'lvGeo': '1',
             'accessoryHead_Name': 'ジオグラフ',
+            'expect': true 
+        }
+    ],
+    "warleaderRequiresGeneralEmblem": [
+        {
+            'testName': 'ウォーリーダーで軍師徽章を持っていない場合',
+            'lvWar': '1',
+            'expect': false
+        }, {
+            'testName': 'ウォーリーダーで軍師徽章を持っている場合',
+            'lvWar': '1',
+            'accessoryHeadName': '軍師徽章',
+            'expect': true
+        }, {
+            'testName': 'ウォーリーダーで盾徽章を持っている場合（名前欄）',
+            'lvWar': '1',
+            'armour2Name': '盾徽章',
+            'expect': true
+        }, {
+            'testName': 'ウォーリーダーで盾徽章を持っている場合（効果欄・記載が盾徽章）',
+            'lvWar': '1',
+            'armour2Note': '盾徽章',
+            'expect': true
+        }, {
+            'testName': 'ウォーリーダーで盾徽章を持っている場合（効果欄・記載が軍師徽章）',
+            'lvWar': '1',
+            'armour2Note': '軍師徽章',
+            'expect': true
+        }, {
+            'testName': 'ウォーリーダーで戦旗章を持っている場合（名前欄）',
+            'lvWar': '1',
+            'weapon2Name': '戦旗章',
+            'expect': true
+        }, {
+            'testName': 'ウォーリーダーで戦旗章を持っている場合（効果欄・記載が戦旗章）',
+            'lvWar': '1',
+            'weapon2Note': '戦旗章',
+            'expect': true
+        }, {
+            'testName': 'ウォーリーダーで戦旗章を持っている場合（効果欄・記載が軍師徽章）',
+            'lvWar': '1',
+            'weapon2Note': '軍師徽章',
             'expect': true
         }
     ],
-    "warleaderRequiresGeneralEmblem": [],
     "metalArmorLimitatesMagics": [],
     "heavyArmorLimitatesMagics": [],
     "scountRequiresScoutTools": [],
