@@ -293,7 +293,29 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_TEST_LIST = {
             'expect': true
         }
     ],
-    "metalArmorLimitatesMagics": [],
+    "metalArmorLimitatesMagics": [
+        {
+            'testName': 'ソーサラーで金属鎧を着ている場合',
+            'lvSor': '1',
+            "armour1Category": '金属鎧',
+            "armour2Category": '盾',
+            'expect': false
+        }, {
+            'testName': 'ソーサラーで金属鎧を着ていない場合',
+            'lvSor': '1',
+            "armour1Category": '非金属鎧',
+            "armour2Category": '盾',
+            "armour3Category": 'その他',
+            'expect': true
+        }, {
+            'testName': 'ソーサラーで金属鎧を着ているがナイトメアな場合',
+            'lvSor': '1',
+            "armour1Category": '金属鎧',
+            "armour2Category": '盾',
+            "race": 'ナイトメア（人間）',
+            'expect': true
+        }
+    ],
     "heavyArmorLimitatesMagics": [],
     "scountRequiresScoutTools": [],
     "healSprayRequiresTargetting": [],
