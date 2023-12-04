@@ -293,8 +293,73 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_TEST_LIST = {
             'expect': true
         }
     ],
-    "metalArmorLimitatesMagics": [],
-    "heavyArmorLimitatesMagics": [],
+    "metalArmorLimitatesMagics": [
+        {
+            'testName': 'ソーサラーで金属鎧を着ている場合',
+            'lvSor': '1',
+            "armour1Category": '金属鎧',
+            "armour2Category": '盾',
+            'expect': false
+        }, {
+            'testName': 'ソーサラーで金属鎧を着ていない場合',
+            'lvSor': '1',
+            "armour1Category": '非金属鎧',
+            "armour2Category": '盾',
+            "armour3Category": 'その他',
+            'expect': true
+        }, {
+            'testName': 'ソーサラーで金属鎧を着ているがナイトメアな場合',
+            'lvSor': '1',
+            "armour1Category": '金属鎧',
+            "armour2Category": '盾',
+            "race": 'ナイトメア（人間）',
+            'expect': true
+        }
+    ],
+    "heavyArmorLimitatesMagics": [
+        {
+            'testName': 'ソーサラーで必筋10以上の非金属鎧を着ている場合',
+            'lvSor': '1',
+            "armour1Category": '非金属鎧',
+            "armour1Reqd": "10",
+            "armour2Category": '盾',
+            "armour2Reqd": "9",
+            "armour3Category": 'その他',
+            "armour3Reqd": "9",
+            'expect': false
+        }, {
+            'testName': 'ソーサラーで必筋9以下の非金属鎧を着ている場合',
+            'lvSor': '1',
+            "armour1Category": '非金属鎧',
+            "armour1Reqd": "9",
+            "armour2Category": '盾',
+            "armour2Reqd": "9",
+            "armour3Category": 'その他',
+            "armour3Reqd": "9",
+            'expect': true
+        }, {
+            'testName': 'ソーサラーで必筋10以上の盾を持っている場合',
+            'lvSor': '1',
+            "armour1Category": '非金属鎧',
+            "armour1Reqd": "9",
+            "armour2Category": '盾',
+            "armour2Reqd": "10",
+            "armour3Category": 'その他',
+            "armour3Reqd": "9",
+            'expect': true
+        }, {
+            'testName': 'ソーサラーで必筋10以上の非金属鎧を着ているがナイトメアな場合',
+            'lvSor': '1',
+            "armour1Category": '非金属鎧',
+            "armour1Reqd": "10",
+            "armour2Category": '盾',
+            "armour2Reqd": "9",
+            "armour3Category": 'その他',
+            "armour3Reqd": "9",
+            "race": 'ナイトメア（人間）',
+            'expect': true
+        }
+    ],
     "scountRequiresScoutTools": [],
     "healSprayRequiresTargetting": [],
     "adventurerRequiresSearchingSkills": [],
