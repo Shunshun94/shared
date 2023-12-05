@@ -190,7 +190,7 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_LIST = [
             'lvSco': 1
         },
         expect: {
-            'items': { includes: ['スカウト用ツール', '精密ツールセット'] }
+            'items': { includes: ['スカウト用ツール', '精密ツールセット', '機械仕掛けの指'] }
         },
         ifNot: 'スカウト用ツールを持っていない場合、一部の判定にペナルティ修正を受けます（『1』109頁）',
         label: 'scountRequiresScoutTools'

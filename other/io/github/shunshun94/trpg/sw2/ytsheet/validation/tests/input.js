@@ -360,7 +360,28 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_TEST_LIST = {
             'expect': true
         }
     ],
-    "scountRequiresScoutTools": [],
+    "scountRequiresScoutTools": [
+        {
+            'testName': 'スカウト技能でスカウト用ツールを持っていない場合',
+            'lvSco': '1',
+            'expect': false
+        }, {
+            'testName': 'スカウト技能でスカウト用ツールを持っている場合',
+            'lvSco': '1',
+            'items': 'スカウト用ツール',
+            'expect': true
+        }, {
+            'testName': 'スカウト技能で精密ツールセットを持っている場合',
+            'lvSco': '1',
+            'items': '精密ツールセット',
+            'expect': true
+        }, {
+            'testName': 'スカウト技能で機械仕掛けの指を持っている場合',
+            'lvSco': '1',
+            'items': '機械仕掛けの指',
+            'expect': true
+        }
+    ],
     "healSprayRequiresTargetting": [],
     "adventurerRequiresSearchingSkills": [],
     "adventurerRequiresAwakePotion": []
