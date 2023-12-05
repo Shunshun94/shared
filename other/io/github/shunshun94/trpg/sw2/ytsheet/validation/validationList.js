@@ -182,7 +182,7 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_LIST = [
         expect: {
             'race': { includes: 'ナイトメア' }
         },
-        ifNot: '必要筋力が10以上の非金属鎧を着ている場合にソーサラー技能、コンジャラー技能、フェアリーテイマー技能、ドルイド技能またはデーモンルーラー技能による魔法を行使するとペナルティ修正を受けます',
+        ifNot: '必要筋力が10以上の非金属鎧を着ている場合にソーサラー、コンジャラー、またはデーモンルーラーの各技能による魔法による魔法を行使するとペナルティ修正を受けます',
         label: 'heavyArmorLimitatesMagics'
     }, {
         level: 'warn',
