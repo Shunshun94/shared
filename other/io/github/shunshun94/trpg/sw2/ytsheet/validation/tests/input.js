@@ -382,7 +382,53 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_TEST_LIST = {
             'expect': true
         }
     ],
-    "healSprayRequiresTargetting": [],
+    "healSprayRequiresTargetting": [
+        {
+            'testName': 'ヒールスプレーを習得していてターゲッティングを持っていない場合',
+            'lvAlc': '1',
+            'craftAlchemy1': 'ヒールスプレー',
+            'expect': false
+        }, {
+            'testName': 'ヒールスプレーを習得していてターゲッティングを持っている場合',
+            'lvAlc': '3',
+            'craftAlchemy1': 'ヒールスプレー',
+            'combatFeatsLv3': 'ターゲッティング',
+            'expect': true
+        }, {
+            'testName': 'ヒールスプレーを予約していてターゲッティングを持っていない場合',
+            'lvAlc': '1',
+            'craftAlchemy2': 'ヒールスプレー',
+            'expect': true
+        }, {
+            'testName': 'ヒールスプレーを習得していてウィザードがレベル2の場合',
+            'lvAlc': '1',
+            'lvSor': '2',
+            'lvCon': '2',
+            'craftAlchemy1': 'ヒールスプレー',
+            'expect': true
+        }, {
+            'testName': 'ヒールスプレーを習得していてウィザードがレベル3以上の場合',
+            'lvAlc': '1',
+            'lvSor': '3',
+            'lvCon': '3',
+            'craftAlchemy1': 'ヒールスプレー',
+            'expect': true
+        }, {
+            'testName': 'ヒールスプレーを習得していてソーサラーがレベル2だがコンジャラーがレベル1の場合',
+            'lvAlc': '1',
+            'lvSor': '2',
+            'lvCon': '1',
+            'craftAlchemy1': 'ヒールスプレー',
+            'expect': false
+        }, {
+            'testName': 'ヒールスプレーを習得していてコンジャラーがレベル2だがソーサラーがレベル1の場合',
+            'lvAlc': '1',
+            'lvSor': '1',
+            'lvCon': '2',
+            'craftAlchemy1': 'ヒールスプレー',
+            'expect': false
+        }
+    ],
     "adventurerRequiresSearchingSkills": [],
     "adventurerRequiresAwakePotion": []
 };
