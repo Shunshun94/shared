@@ -429,7 +429,85 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_TEST_LIST = {
             'expect': false
         }
     ],
-    "adventurerRequiresSearchingSkills": [],
+    "adventurerRequiresSearchingSkills": [
+        {
+            'testName': '探索技能を全くを持っていない場合',
+            'level': '5',
+            'expect': false
+        }, {
+            'testName': 'レベル5でスカウトがレベル2の場合',
+            'level': '5',
+            'lvSco': '2',
+            'expect': false
+        }, {
+            'testName': 'レベル5でスカウトがレベル3の場合',
+            'level': '5',
+            'lvSco': '3',
+            'expect': true
+        }, {
+            'testName': 'レベル1でスカウトがレベル1の場合',
+            'level': '1',
+            'lvSco': '1',
+            'expect': true
+        }, {
+            'testName': 'レベル2でスカウトがレベル1の場合',
+            'level': '2',
+            'lvSco': '1',
+            'expect': true
+        }, {
+            'testName': 'レベル10でスカウトがレベル7の場合',
+            'level': '10',
+            'lvSco': '7',
+            'expect': false
+        }, {
+            'testName': 'レベル10でスカウトがレベル8の場合',
+            'level': '10',
+            'lvSco': '8',
+            'expect': true
+        }, {
+            'testName': 'レベル11でスカウトがレベル8の場合',
+            'level': '11',
+            'lvSco': '8',
+            'expect': true
+        }, {
+            'testName': 'レベル15でスカウトがレベル11の場合',
+            'level': '15',
+            'lvSco': '11',
+            'expect': false
+        }, {
+            'testName': 'レベル15でスカウトがレベル12の場合',
+            'level': '15',
+            'lvSco': '12',
+            'expect': true
+        }, {
+            'testName': 'レベル5でレンジャーがレベル3の場合',
+            'level': '5',
+            'lvRan': '3',
+            'expect': true
+        }, {
+            'testName': 'レベル5でセージがレベル3の場合',
+            'level': '5',
+            'lvSag': '3',
+            'expect': true
+        }, {
+            'testName': 'レベル5でジオマンサーがレベル3の場合',
+            'level': '5',
+            'lvGeo': '3',
+            'expect': true
+        }, {
+            'testName': 'レベル5でライダーがレベル3で探索指令を持っていない場合',
+            'level': '5',
+            'lvRid': '3',
+            'craftRiding1': '高所攻撃',
+            'expect': false
+        }, {
+            'testName': 'レベル5でライダーがレベル3で探索指令を持っている場合',
+            'level': '5',
+            'lvRid': '3',
+            'craftRiding1': '探索指令',
+            'expect': true
+        }
+    ],
     "adventurerRequiresAwakePotion": []
 };
 
