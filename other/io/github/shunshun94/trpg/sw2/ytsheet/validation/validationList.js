@@ -222,36 +222,34 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_LIST = [
         label: 'healSprayRequiresTargetting'
     }, {
         level: 'info',
-        when: {
-            'id': 1
-        },
+        when: 'always',
         expect: {
             'lvSco': {func: (key, value, json) => {
                 const advLevel = Number(json.level);
                 const skiLevel = Number(value);
-                return ( skiLevel >= (Math.floor(Math.min(advLevel * 0.8, advLevel - 2)) || 1) );
+                return ( skiLevel >= Math.max(Math.floor(Math.min(advLevel * 0.8, advLevel - 2)), 1) );
             }},
             'lvRan': {func: (key, value, json) => {
                 const advLevel = Number(json.level);
                 const skiLevel = Number(value);
-                return ( skiLevel >= (Math.floor(Math.min(advLevel * 0.8, advLevel - 2)) || 1) );
+                return ( skiLevel >= Math.max(Math.floor(Math.min(advLevel * 0.8, advLevel - 2)), 1) );
             }},
             'lvSag': {func: (key, value, json) => {
                 const advLevel = Number(json.level);
                 const skiLevel = Number(value);
-                return ( skiLevel >= (Math.floor(Math.min(advLevel * 0.8, advLevel - 2)) || 1) );
+                return ( skiLevel >= Math.max(Math.floor(Math.min(advLevel * 0.8, advLevel - 2)), 1) );
             }},
             'lvGeo': {func: (key, value, json) => {
                 const advLevel = Number(json.level);
                 const skiLevel = Number(value);
-                return ( skiLevel >= (Math.floor(Math.min(advLevel * 0.8, advLevel - 2)) || 1) );
+                return ( skiLevel >= Math.max(Math.floor(Math.min(advLevel * 0.8, advLevel - 2)), 1) );
             }},
             'lvRid': {func: (key, value, json) => {
                 const advLevel = Number(json.level);
                 const skiLevel = Number(value);
                 for(var i = 0; i < skiLevel; i++) {
                     if(json[`craftRiding${i + 1}`] === '探索指令' ) {
-                        return ( skiLevel >= (Math.floor(Math.min(advLevel * 0.8, advLevel - 2)) || 1) );
+                        return ( skiLevel >= Math.max(Math.floor(Math.min(advLevel * 0.8, advLevel - 2)), 1) );
                     }
                 }
                 return false;
@@ -261,9 +259,7 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_LIST = [
         label: 'adventurerRequiresSearchingSkills'
     }, {
         level: 'info',
-        when: {
-            'id': 1
-        },
+        when: 'always',
         expect: {
             'items': {
                 func: (key, value, json) => {
