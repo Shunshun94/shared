@@ -5,6 +5,9 @@ io.github.shunshun94.trpg = io.github.shunshun94.trpg || {};
 io.github.shunshun94.trpg.sw2 = io.github.shunshun94.trpg.sw2 || {};
 io.github.shunshun94.trpg.sw2.ytsheet = io.github.shunshun94.trpg.sw2.ytsheet || {};
 io.github.shunshun94.trpg.sw2.ytsheet.validation = io.github.shunshun94.trpg.sw2.ytsheet.validation || {};
+
+io.github.shunshun94.trpg.sw2.ytsheet.validation.FUNCTIONS_TEST_LIST = [];
+
 io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_TEST_LIST = {
     "sorcererRequiresDevice": [
         {
