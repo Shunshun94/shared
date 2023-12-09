@@ -261,11 +261,8 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_LIST = [
         level: 'info',
         when: 'always',
         expect: {
-            'items': {
-                func: (key, value, json) => {
-                    return (Number(json.lvPri) >= 2) || (value || '').includes('アウェイクポーション');
-                }
-            }
+            'items': { includes: 'アウェイクポーション' },
+            'lvPri': { ormore: 2 }
         },
         ifNot: '万が一の時のためにアウェイクポーション（『1』325頁）を持っておくことをおすすめします',
         label: 'adventurerRequiresAwakePotion'

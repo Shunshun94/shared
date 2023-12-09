@@ -508,7 +508,34 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_TEST_LIST = {
             'expect': true
         }
     ],
-    "adventurerRequiresAwakePotion": []
+    "adventurerRequiresAwakePotion": [
+        {
+            'testName': 'プリーストでもなければアウェイクポーションも持っていない場合',
+            'level': '5',
+            'expect': false
+        }, {
+            'testName': 'プリーストがレベル1の場合',
+            'level': '5',
+            'lvPri': '1',
+            'expect': false
+        }, {
+            'testName': 'プリーストがレベル1でアウェイクポーションを持っている場合',
+            'level': '5',
+            'lvPri': '1',
+            'items': 'アウェイクポーション3本',
+            'expect': true
+        }, {
+            'testName': 'プリーストがレベル2の場合',
+            'level': '5',
+            'lvPri': '2',
+            'expect': true
+        }, {
+            'testName': 'プリーストがレベル3の場合',
+            'level': '5',
+            'lvPri': '3',
+            'expect': true
+        }
+    ]
 };
 
 
