@@ -5,6 +5,9 @@ io.github.shunshun94.trpg = io.github.shunshun94.trpg || {};
 io.github.shunshun94.trpg.sw2 = io.github.shunshun94.trpg.sw2 || {};
 io.github.shunshun94.trpg.sw2.ytsheet = io.github.shunshun94.trpg.sw2.ytsheet || {};
 io.github.shunshun94.trpg.sw2.ytsheet.validation = io.github.shunshun94.trpg.sw2.ytsheet.validation || {};
+
+io.github.shunshun94.trpg.sw2.ytsheet.validation.FUNCTIONS_TEST_LIST = [];
+
 io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_TEST_LIST = {
     "sorcererRequiresDevice": [
         {
@@ -382,9 +385,160 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_TEST_LIST = {
             'expect': true
         }
     ],
-    "healSprayRequiresTargetting": [],
-    "adventurerRequiresSearchingSkills": [],
-    "adventurerRequiresAwakePotion": []
+    "healSprayRequiresTargetting": [
+        {
+            'testName': 'ヒールスプレーを習得していてターゲッティングを持っていない場合',
+            'lvAlc': '1',
+            'craftAlchemy1': 'ヒールスプレー',
+            'expect': false
+        }, {
+            'testName': 'ヒールスプレーを習得していてターゲッティングを持っている場合',
+            'lvAlc': '3',
+            'craftAlchemy1': 'ヒールスプレー',
+            'combatFeatsLv3': 'ターゲッティング',
+            'expect': true
+        }, {
+            'testName': 'ヒールスプレーを予約していてターゲッティングを持っていない場合',
+            'lvAlc': '1',
+            'craftAlchemy2': 'ヒールスプレー',
+            'expect': true
+        }, {
+            'testName': 'ヒールスプレーを習得していてウィザードがレベル2の場合',
+            'lvAlc': '1',
+            'lvSor': '2',
+            'lvCon': '2',
+            'craftAlchemy1': 'ヒールスプレー',
+            'expect': true
+        }, {
+            'testName': 'ヒールスプレーを習得していてウィザードがレベル3以上の場合',
+            'lvAlc': '1',
+            'lvSor': '3',
+            'lvCon': '3',
+            'craftAlchemy1': 'ヒールスプレー',
+            'expect': true
+        }, {
+            'testName': 'ヒールスプレーを習得していてソーサラーがレベル2だがコンジャラーがレベル1の場合',
+            'lvAlc': '1',
+            'lvSor': '2',
+            'lvCon': '1',
+            'craftAlchemy1': 'ヒールスプレー',
+            'expect': false
+        }, {
+            'testName': 'ヒールスプレーを習得していてコンジャラーがレベル2だがソーサラーがレベル1の場合',
+            'lvAlc': '1',
+            'lvSor': '1',
+            'lvCon': '2',
+            'craftAlchemy1': 'ヒールスプレー',
+            'expect': false
+        }
+    ],
+    "adventurerRequiresSearchingSkills": [
+        {
+            'testName': '探索技能を全くを持っていない場合',
+            'level': '5',
+            'expect': false
+        }, {
+            'testName': 'レベル5でスカウトがレベル2の場合',
+            'level': '5',
+            'lvSco': '2',
+            'expect': false
+        }, {
+            'testName': 'レベル5でスカウトがレベル3の場合',
+            'level': '5',
+            'lvSco': '3',
+            'expect': true
+        }, {
+            'testName': 'レベル1でスカウトがレベル1の場合',
+            'level': '1',
+            'lvSco': '1',
+            'expect': true
+        }, {
+            'testName': 'レベル2でスカウトがレベル1の場合',
+            'level': '2',
+            'lvSco': '1',
+            'expect': true
+        }, {
+            'testName': 'レベル10でスカウトがレベル7の場合',
+            'level': '10',
+            'lvSco': '7',
+            'expect': false
+        }, {
+            'testName': 'レベル10でスカウトがレベル8の場合',
+            'level': '10',
+            'lvSco': '8',
+            'expect': true
+        }, {
+            'testName': 'レベル11でスカウトがレベル8の場合',
+            'level': '11',
+            'lvSco': '8',
+            'expect': true
+        }, {
+            'testName': 'レベル15でスカウトがレベル11の場合',
+            'level': '15',
+            'lvSco': '11',
+            'expect': false
+        }, {
+            'testName': 'レベル15でスカウトがレベル12の場合',
+            'level': '15',
+            'lvSco': '12',
+            'expect': true
+        }, {
+            'testName': 'レベル5でレンジャーがレベル3の場合',
+            'level': '5',
+            'lvRan': '3',
+            'expect': true
+        }, {
+            'testName': 'レベル5でセージがレベル3の場合',
+            'level': '5',
+            'lvSag': '3',
+            'expect': true
+        }, {
+            'testName': 'レベル5でジオマンサーがレベル3の場合',
+            'level': '5',
+            'lvGeo': '3',
+            'expect': true
+        }, {
+            'testName': 'レベル5でライダーがレベル3で探索指令を持っていない場合',
+            'level': '5',
+            'lvRid': '3',
+            'craftRiding1': '高所攻撃',
+            'expect': false
+        }, {
+            'testName': 'レベル5でライダーがレベル3で探索指令を持っている場合',
+            'level': '5',
+            'lvRid': '3',
+            'craftRiding1': '探索指令',
+            'expect': true
+        }
+    ],
+    "adventurerRequiresAwakePotion": [
+        {
+            'testName': 'プリーストでもなければアウェイクポーションも持っていない場合',
+            'level': '5',
+            'expect': false
+        }, {
+            'testName': 'プリーストがレベル1の場合',
+            'level': '5',
+            'lvPri': '1',
+            'expect': false
+        }, {
+            'testName': 'プリーストがレベル1でアウェイクポーションを持っている場合',
+            'level': '5',
+            'lvPri': '1',
+            'items': 'アウェイクポーション3本',
+            'expect': true
+        }, {
+            'testName': 'プリーストがレベル2の場合',
+            'level': '5',
+            'lvPri': '2',
+            'expect': true
+        }, {
+            'testName': 'プリーストがレベル3の場合',
+            'level': '5',
+            'lvPri': '3',
+            'expect': true
+        }
+    ]
 };
 
 
