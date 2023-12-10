@@ -6,7 +6,27 @@ io.github.shunshun94.trpg.sw2 = io.github.shunshun94.trpg.sw2 || {};
 io.github.shunshun94.trpg.sw2.ytsheet = io.github.shunshun94.trpg.sw2.ytsheet || {};
 io.github.shunshun94.trpg.sw2.ytsheet.validation = io.github.shunshun94.trpg.sw2.ytsheet.validation || {};
 
-io.github.shunshun94.trpg.sw2.ytsheet.validation.FUNCTIONS_TEST_LIST = [];
+io.github.shunshun94.trpg.sw2.ytsheet.validation.FUNCTIONS_TEST_LIST = [
+    {
+        testName: 'always の場合',
+        conditions: 'always',
+        expect: true,
+    }, {
+        testName: 'lvSor が条件にあるが、値が 0 の場合',
+        lvSor: "0",
+        conditions: {
+            lvSor: 1
+        },
+        expect: false,
+    }, {
+        testName: 'lvSor が条件にあるが、値が 1 の場合',
+        lvSor: "1",
+        conditions: {
+            lvSor: 1
+        },
+        expect: true,
+    }
+];
 
 io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_TEST_LIST = {
     "sorcererRequiresDevice": [
