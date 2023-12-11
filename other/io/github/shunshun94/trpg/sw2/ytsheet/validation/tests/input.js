@@ -10,21 +10,52 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.FUNCTIONS_TEST_LIST = [
     {
         testName: 'always の場合',
         conditions: 'always',
-        expect: true,
+        expect: true
     }, {
         testName: 'lvSor が条件にあるが、値が 0 の場合',
         lvSor: "0",
         conditions: {
             lvSor: 1
         },
-        expect: false,
+        expect: false
     }, {
         testName: 'lvSor が条件にあるが、値が 1 の場合',
         lvSor: "1",
         conditions: {
             lvSor: 1
         },
-        expect: true,
+        expect: true
+    }, {
+        testName: 'lvSor と lvCon が and で条件にあるが、 lvSol のみ場合',
+        lvSor: "1",
+        conditions: {
+            and: {
+                lvSor: 1,
+                lvCon: 1
+            }
+        },
+        expect: false
+    }, {
+        testName: 'lvSor と lvCon が and で条件にあるが、 lvCon のみ場合',
+        lvCon: "1",
+        conditions: {
+            and: {
+                lvSor: 1,
+                lvCon: 1
+            }
+        },
+        expect: false
+    }, {
+        testName: 'lvSor と lvCon が and で条件にあるが、 両方ある場合',
+        lvSor: "4",
+        lvCon: "3",
+        conditions: {
+            and: {
+                lvSor: 1,
+                lvCon: 1
+            }
+        },
+        expect: true
     }
 ];
 
