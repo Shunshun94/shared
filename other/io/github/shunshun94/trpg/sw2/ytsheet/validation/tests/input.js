@@ -56,6 +56,62 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.FUNCTIONS_TEST_LIST = [
             }
         },
         expect: true
+    }, {
+        testName: 'lvSor と lvCon が or で条件にあるが、 lvSol のみ場合',
+        lvSor: "1",
+        conditions: {
+            or: {
+                lvSor: 1,
+                lvCon: 1
+            }
+        },
+        expect: true
+    }, {
+        testName: 'lvSor と lvCon が or で条件にあるが、 lvCon のみ場合',
+        lvCon: "1",
+        conditions: {
+            or: {
+                lvSor: 1,
+                lvCon: 1
+            }
+        },
+        expect: true
+    }, {
+        testName: 'lvSor と lvCon が or で条件にあるが、 両方ある場合',
+        lvSor: "4",
+        lvCon: "3",
+        conditions: {
+            or: {
+                lvSor: 1,
+                lvCon: 1
+            }
+        },
+        expect: true
+    }, {
+        testName: 'lv.* があり lvSor がある場合',
+        lvSor: "4",
+        conditions: {
+            "lv.*": 1
+        },
+        expect: true
+    }, {
+        testName: 'lv.* が 3 以上で求められており、 lvSor が3、ほかが2の場合',
+        lvDru: "2",
+        lvSor: "3",
+        lvCon: "2",
+        conditions: {
+            "lv.*": { ormore: 3 }
+        },
+        expect: true
+    }, {
+        testName: 'lv.* が 3 以上で求められておるが、 lv.* がすべて2の場合',
+        lvDru: "2",
+        lvSor: "2",
+        lvCon: "2",
+        conditions: {
+            "lv.*": { ormore: 3 }
+        },
+        expect: false
     }
 ];
 
