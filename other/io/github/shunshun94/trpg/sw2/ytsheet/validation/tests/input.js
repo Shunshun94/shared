@@ -6,7 +6,114 @@ io.github.shunshun94.trpg.sw2 = io.github.shunshun94.trpg.sw2 || {};
 io.github.shunshun94.trpg.sw2.ytsheet = io.github.shunshun94.trpg.sw2.ytsheet || {};
 io.github.shunshun94.trpg.sw2.ytsheet.validation = io.github.shunshun94.trpg.sw2.ytsheet.validation || {};
 
-io.github.shunshun94.trpg.sw2.ytsheet.validation.FUNCTIONS_TEST_LIST = [];
+io.github.shunshun94.trpg.sw2.ytsheet.validation.FUNCTIONS_TEST_LIST = [
+    {
+        testName: 'always の場合',
+        conditions: 'always',
+        expect: true
+    }, {
+        testName: 'lvSor が条件にあるが、値が 0 の場合',
+        lvSor: "0",
+        conditions: {
+            lvSor: 1
+        },
+        expect: false
+    }, {
+        testName: 'lvSor が条件にあるが、値が 1 の場合',
+        lvSor: "1",
+        conditions: {
+            lvSor: 1
+        },
+        expect: true
+    }, {
+        testName: 'lvSor と lvCon が and で条件にあるが、 lvSol のみ場合',
+        lvSor: "1",
+        conditions: {
+            and: {
+                lvSor: 1,
+                lvCon: 1
+            }
+        },
+        expect: false
+    }, {
+        testName: 'lvSor と lvCon が and で条件にあるが、 lvCon のみ場合',
+        lvCon: "1",
+        conditions: {
+            and: {
+                lvSor: 1,
+                lvCon: 1
+            }
+        },
+        expect: false
+    }, {
+        testName: 'lvSor と lvCon が and で条件にあるが、 両方ある場合',
+        lvSor: "4",
+        lvCon: "3",
+        conditions: {
+            and: {
+                lvSor: 1,
+                lvCon: 1
+            }
+        },
+        expect: true
+    }, {
+        testName: 'lvSor と lvCon が or で条件にあるが、 lvSol のみ場合',
+        lvSor: "1",
+        conditions: {
+            or: {
+                lvSor: 1,
+                lvCon: 1
+            }
+        },
+        expect: true
+    }, {
+        testName: 'lvSor と lvCon が or で条件にあるが、 lvCon のみ場合',
+        lvCon: "1",
+        conditions: {
+            or: {
+                lvSor: 1,
+                lvCon: 1
+            }
+        },
+        expect: true
+    }, {
+        testName: 'lvSor と lvCon が or で条件にあるが、 両方ある場合',
+        lvSor: "4",
+        lvCon: "3",
+        conditions: {
+            or: {
+                lvSor: 1,
+                lvCon: 1
+            }
+        },
+        expect: true
+    }, {
+        testName: 'lv.* があり lvSor がある場合',
+        lvSor: "4",
+        conditions: {
+            "lv.*": 1
+        },
+        expect: true
+    }, {
+        testName: 'lv.* が 3 以上で求められており、 lvSor が3、ほかが2の場合',
+        lvDru: "2",
+        lvSor: "3",
+        lvCon: "2",
+        conditions: {
+            "lv.*": { ormore: 3 }
+        },
+        expect: true
+    }, {
+        testName: 'lv.* が 3 以上で求められておるが、 lv.* がすべて2の場合',
+        lvDru: "2",
+        lvSor: "2",
+        lvCon: "2",
+        conditions: {
+            "lv.*": { ormore: 3 }
+        },
+        expect: false
+    }
+];
 
 io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_TEST_LIST = {
     "sorcererRequiresDevice": [

@@ -42,10 +42,10 @@
                 errorHandle(false, false, `関数群のテストが書かれていません`);
             }
             io.github.shunshun94.trpg.sw2.ytsheet.validation.FUNCTIONS_TEST_LIST.forEach((test)=>{
-                if( result != io.github.shunshun94.trpg.sw2.ytsheet.validation.isMatch(test, test.conditions) ) {
-                    errorHandle(validation, test);
+                if( test.expect !== io.github.shunshun94.trpg.sw2.ytsheet.validation.isMatch(test, test.conditions) ) {
+                    errorHandle({}, test);
                 } else {
-                    passHandle(validation, test);
+                    passHandle({}, test);
                 }
             });
             const validations = io.github.shunshun94.trpg.sw2.ytsheet.validation.getValidationListAsMap();
