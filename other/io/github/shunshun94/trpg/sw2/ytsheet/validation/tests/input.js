@@ -104,7 +104,7 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.FUNCTIONS_TEST_LIST = [
         },
         expect: true
     }, {
-        testName: 'lv.* が 3 以上で求められておるが、 lv.* がすべて2の場合',
+        testName: 'lv.* が 3 以上で求められているが、 lv.* がすべて2の場合',
         lvDru: "2",
         lvSor: "2",
         lvCon: "2",
@@ -112,6 +112,48 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.FUNCTIONS_TEST_LIST = [
             "lv.*": { ormore: 3 }
         },
         expect: false
+    }, {
+        testName: 'lvCon が 3 より大きい値であること求められていて、4の場合',
+        lvCon: "4",
+        conditions: {
+            "lvCon": { morethan: 3 }
+        },
+        expect: true
+    }, {
+        testName: 'lvCon が 3 より大きい値であること求められていて、3の場合',
+        lvCon: "3",
+        conditions: {
+            "lv.*": { morethan: 3 }
+        },
+        expect: false
+    }, {
+        testName: 'lvCon が 3 以下であること求められていて、4の場合',
+        lvCon: "4",
+        conditions: {
+            "lvCon": { orless: 3 }
+        },
+        expect: false
+    }, {
+        testName: 'lvCon が 3 以下であること求められていて、3の場合',
+        lvCon: "3",
+        conditions: {
+            "lvCon": { orless: 3 }
+        },
+        expect: true
+    }, {
+        testName: 'lvCon が 3 未満であること求められていて、3の場合',
+        lvCon: "3",
+        conditions: {
+            "lvCon": { lessthan: 3 }
+        },
+        expect: false
+    }, {
+        testName: 'lvCon が 3 未満であること求められていて、2の場合',
+        lvCon: "2",
+        conditions: {
+            "lvCon": { lessthan: 3 }
+        },
+        expect: true
     }
 ];
 
