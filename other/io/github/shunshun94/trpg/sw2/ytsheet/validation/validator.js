@@ -7,7 +7,6 @@ io.github.shunshun94.trpg.sw2.ytsheet = io.github.shunshun94.trpg.sw2.ytsheet ||
 io.github.shunshun94.trpg.sw2.ytsheet.validation = io.github.shunshun94.trpg.sw2.ytsheet.validation || {};
 
 io.github.shunshun94.trpg.sw2.ytsheet.validation.isMatch = (json, conditions) => {
-    console.log(json, conditions);
     if( conditions === 'always' ) { return true; }
     if( conditions.and ) {
         let result = true;
