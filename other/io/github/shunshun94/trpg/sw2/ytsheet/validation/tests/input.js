@@ -241,6 +241,17 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.FUNCTIONS_TEST_LIST = [
             }
         },
         expect: true
+    }, {
+        testName: '関数による指定の場合（key, value, json が格納されていることの確認）',
+        name: "うさぎ",
+        conditions: {
+            "name": {
+                func: (key, value, json) => {
+                    return value === json[key];
+                }
+            }
+        },
+        expect: true
     }
 ];
 
