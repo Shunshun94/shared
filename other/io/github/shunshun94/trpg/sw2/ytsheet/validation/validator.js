@@ -11,7 +11,6 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.isMatch = (json, conditions) =>
     if( conditions.and ) {
         let result = true;
         for(var key in conditions.and) {
-            console.log(result, key);
             const tmpMap = {};
             tmpMap[key] = conditions.and[key];
             result = result && io.github.shunshun94.trpg.sw2.ytsheet.validation.isMatch(json, tmpMap);
@@ -69,11 +68,14 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.isMatchSingle = (key, value, ac
         if(action.morethan) { return Number(value) > Number(action.morethan); }
         if(action.orless) { return Number(value) <= Number(action.orless);  }
         if(action.lessthan) { return Number(value) < Number(action.lessthan); }
-        if(action.equal) { 
-            if( action.equal.some ) {
-                return action.equal.some((d)=>{ return value === d; });
+        if(action.equal || action.equals) {
+            if( action.equal && action.equals ) {
+                console.warn('action includes equal and equals. In this case, Application use only equal', action);
+            }
+            if( (action.equal || action.equals).some ) {
+                return (action.equal || action.equals).some((d)=>{ return value === d; });
             } else {
-                return value === (action.equal);
+                return value === ((action.equal || action.equals));
             }
         }
         if(action.includes) { 

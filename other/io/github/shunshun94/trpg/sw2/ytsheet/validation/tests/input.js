@@ -154,6 +154,104 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.FUNCTIONS_TEST_LIST = [
             "lvCon": { lessthan: 3 }
         },
         expect: true
+    }, {
+        testName: '名前にぱんだが含まれていることを求められていて、うさぎさんの場合',
+        name: "うさぎさん",
+        conditions: {
+            "name": { includes: 'ぱんだ' }
+        },
+        expect: false
+    }, {
+        testName: '名前にぱんだが含まれていることを求められていて、ぱんださんの場合',
+        name: "ぱんださん",
+        conditions: {
+            "name": { includes: 'ぱんだ' }
+        },
+        expect: true
+    }, {
+        testName: '名前にぱんだが含まれていることを求められていて、ぱんの場合',
+        name: "ぱん",
+        conditions: {
+            "name": { includes: 'ぱんだ' }
+        },
+        expect: false
+    }, {
+        testName: '名前にうさぎまたはこあらが含まれていることを求められていて、ぱんださんの場合',
+        name: "ぱんださん",
+        conditions: {
+            "name": { includes: ['うさぎ', 'こあら'] }
+        },
+        expect: false
+    }, {
+        testName: '名前にぱんだ、うさぎまたはこあらが含まれていることを求められていて、こあらさんの場合',
+        name: "こあらさん",
+        conditions: {
+            "name": { includes: ['ぱんだ', 'うさぎ', 'こあら'] }
+        },
+        expect: true
+    }, {
+        testName: '名前がうさぎであることを求められていて、うさぎさんの場合',
+        name: "うさぎさん",
+        conditions: {
+            "name": { equal: 'うさぎ' }
+        },
+        expect: false
+    }, {
+        testName: '名前がうさぎであることを求められていて、うさぎの場合',
+        name: "うさぎ",
+        conditions: {
+            "name": { equal: 'うさぎ' }
+        },
+        expect: true
+    }, {
+        testName: '名前がうさぎまたはこあらであることを求められていて、ぱんだの場合',
+        name: "ぱんだ",
+        conditions: {
+            "name": { equal: ['うさぎ', 'こあら'] }
+        },
+        expect: false
+    }, {
+        testName: '名前がぱんだ、うさぎまたはこあらであることを求められていて、こあらの場合',
+        name: "こあら",
+        conditions: {
+            "name": { equal: ['ぱんだ', 'うさぎ', 'こあら'] }
+        },
+        expect: true
+    }, {
+        testName: '名前がうさぎであることを求められていて、うさぎの場合（equals）',
+        name: "うさぎ",
+        conditions: {
+            "name": { equals: 'うさぎ' }
+        },
+        expect: true
+    }, {
+        testName: '名前がぱんだ、うさぎまたはこあらであることを求められていて、こあらの場合（equals）',
+        name: "こあら",
+        conditions: {
+            "name": { equals: ['ぱんだ', 'うさぎ', 'こあら'] }
+        },
+        expect: true
+    }, {
+        testName: '名前がうさぎであることを求められていて、うさぎの場合（equals と equal の両方が設定されている）',
+        name: "うさぎ",
+        conditions: {
+            "name": {
+                equals: 'こあら',
+                equal: 'うさぎ'
+            }
+        },
+        expect: true
+    }, {
+        testName: '関数による指定の場合（key, value, json が格納されていることの確認）',
+        name: "うさぎ",
+        conditions: {
+            "name": {
+                func: (key, value, json) => {
+                    return value === json[key];
+                }
+            }
+        },
+        expect: true
     }
 ];
 
