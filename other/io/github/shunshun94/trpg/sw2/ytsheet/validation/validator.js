@@ -68,6 +68,11 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.isMatchSingle = (key, value, ac
         if(action.morethan) { return Number(value) > Number(action.morethan); }
         if(action.orless) { return Number(value) <= Number(action.orless);  }
         if(action.lessthan) { return Number(value) < Number(action.lessthan); }
+        if(action.isEnoughLevel && key.startsWith('lv')) {
+            const advLevel = Number(json.level);
+            const skiLevel = Number(value);
+            return io.github.shunshun94.trpg.sw2.ytsheet.validation.isEnoughLevel(advLevel, skiLevel);
+         }
         if(action.equal || action.equals) {
             if( action.equal && action.equals ) {
                 console.warn('action includes equal and equals. In this case, Application use only equal', action);
@@ -107,4 +112,8 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.getKeyValues = (key, json) => {
         if(re.test(key)) { result[key] = json[key]; }
     }
     return result;
+};
+
+io.github.shunshun94.trpg.sw2.ytsheet.validation.isEnoughLevel = (adventurerLevel, skillLevel) => {
+    return ( skillLevel >= Math.max(Math.floor(Math.min(adventurerLevel * 0.8, adventurerLevel - 2)), 1) );
 };

@@ -224,26 +224,10 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_LIST = [
         level: 'info',
         when: 'always',
         expect: {
-            'lvSco': {func: (key, value, json) => {
-                const advLevel = Number(json.level);
-                const skiLevel = Number(value);
-                return io.github.shunshun94.trpg.sw2.ytsheet.validation.isEnoughLevel(advLevel, skiLevel);
-            }},
-            'lvRan': {func: (key, value, json) => {
-                const advLevel = Number(json.level);
-                const skiLevel = Number(value);
-                return io.github.shunshun94.trpg.sw2.ytsheet.validation.isEnoughLevel(advLevel, skiLevel);
-            }},
-            'lvSag': {func: (key, value, json) => {
-                const advLevel = Number(json.level);
-                const skiLevel = Number(value);
-                return io.github.shunshun94.trpg.sw2.ytsheet.validation.isEnoughLevel(advLevel, skiLevel);
-            }},
-            'lvGeo': {func: (key, value, json) => {
-                const advLevel = Number(json.level);
-                const skiLevel = Number(value);
-                return io.github.shunshun94.trpg.sw2.ytsheet.validation.isEnoughLevel(advLevel, skiLevel);
-            }},
+            'lvSco': { isEnoughLevel: true },
+            'lvRan': { isEnoughLevel: true },
+            'lvSag': { isEnoughLevel: true },
+            'lvGeo': { isEnoughLevel: true },
             'lvRid': {func: (key, value, json) => {
                 const advLevel = Number(json.level);
                 const skiLevel = Number(value);
@@ -271,8 +255,8 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_LIST = [
     return io.github.shunshun94.trpg.sw2.ytsheet.validation.CONSTS.LEVEL[b.level].weight - io.github.shunshun94.trpg.sw2.ytsheet.validation.CONSTS.LEVEL[a.level].weight;
 });
 
-io.github.shunshun94.trpg.sw2.ytsheet.validation.isEnoughLevel = (adventurerLevel, skillLevel) => {
-    return ( skillLevel >= Math.max(Math.floor(Math.min(adventurerLevel * 0.8, adventurerLevel - 2)), 1) );
+io.github.shunshun94.trpg.sw2.ytsheet.validation.isFrontMember = (json) => {
+
 };
 
 io.github.shunshun94.trpg.sw2.ytsheet.validation.getValidationListAsMap = () => {
