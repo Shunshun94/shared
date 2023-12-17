@@ -214,9 +214,10 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_LIST = [
         },
         expect: {
                 'combatFeatsLv\\d+': { includes: 'ターゲッティング' },
-                'lvSor': { func: (key, value, json) =>{
-                    return (Number(json.lvSor) >= 2) && (Number(json.lvCon) >= 2);
-                }}
+                'and': {
+                    'lvSor': { ormore: 2 },
+                    'lvCon': { ormore: 2 }
+                }
         },
         ifNot: '形状が射撃の賦術を習得しているようですが、戦闘特技 ターゲッティングを習得していないため対象との位置関係によっては誤射が発生します',
         label: 'healSprayRequiresTargetting'
@@ -224,36 +225,16 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_LIST = [
         level: 'info',
         when: 'always',
         expect: {
-            'lvSco': {func: (key, value, json) => {
-                const advLevel = Number(json.level);
-                const skiLevel = Number(value);
-                return ( skiLevel >= Math.max(Math.floor(Math.min(advLevel * 0.8, advLevel - 2)), 1) );
-            }},
-            'lvRan': {func: (key, value, json) => {
-                const advLevel = Number(json.level);
-                const skiLevel = Number(value);
-                return ( skiLevel >= Math.max(Math.floor(Math.min(advLevel * 0.8, advLevel - 2)), 1) );
-            }},
-            'lvSag': {func: (key, value, json) => {
-                const advLevel = Number(json.level);
-                const skiLevel = Number(value);
-                return ( skiLevel >= Math.max(Math.floor(Math.min(advLevel * 0.8, advLevel - 2)), 1) );
-            }},
-            'lvGeo': {func: (key, value, json) => {
-                const advLevel = Number(json.level);
-                const skiLevel = Number(value);
-                return ( skiLevel >= Math.max(Math.floor(Math.min(advLevel * 0.8, advLevel - 2)), 1) );
-            }},
-            'lvRid': {func: (key, value, json) => {
-                const advLevel = Number(json.level);
-                const skiLevel = Number(value);
-                for(var i = 0; i < skiLevel; i++) {
-                    if(json[`craftRiding${i + 1}`] === '探索指令' ) {
-                        return ( skiLevel >= Math.max(Math.floor(Math.min(advLevel * 0.8, advLevel - 2)), 1) );
-                    }
+            'lvSco': { isEnoughLevel: true },
+            'lvRan': { isEnoughLevel: true },
+            'lvSag': { isEnoughLevel: true },
+            'lvGeo': { isEnoughLevel: true },
+            'lvRid': {
+                and: {
+                    'lvRid': { isEnoughLevel: true },
+                    'craftRiding\\d': { includes:  '探索指令' }
                 }
-                return false;
-            }}
+            }
         },
         ifNot: '探索に用いる技能のレベルに比して冒険者レベルが高いようですがバランスは大丈夫でしょうか？（『3』75頁）',
         label: 'adventurerRequiresSearchingSkills'
