@@ -57,6 +57,9 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.appendSkillCountBattleSkill = (
 
 io.github.shunshun94.trpg.sw2.ytsheet.validation.isMatchSingle = (key, value, action, json) => {
     try {
+        if(action.and) {
+            return io.github.shunshun94.trpg.sw2.ytsheet.validation.isMatch(json, action);
+        }
         if(action.levelLimitaion) {
             const level = Number(json[action.levelLimitaion.level]) + io.github.shunshun94.trpg.sw2.ytsheet.validation.appendSkillCountBattleSkill(action.levelLimitaion.skillPrefix, json);
             const itemNumber = Number(key.match(/\d+/));

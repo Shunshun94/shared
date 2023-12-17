@@ -228,16 +228,12 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_LIST = [
             'lvRan': { isEnoughLevel: true },
             'lvSag': { isEnoughLevel: true },
             'lvGeo': { isEnoughLevel: true },
-            'lvRid': {func: (key, value, json) => {
-                const advLevel = Number(json.level);
-                const skiLevel = Number(value);
-                for(var i = 0; i < skiLevel; i++) {
-                    if(json[`craftRiding${i + 1}`] === '探索指令' ) {
-                        return io.github.shunshun94.trpg.sw2.ytsheet.validation.isEnoughLevel(advLevel, skiLevel);
-                    }
+            'lvRid': {
+                and: {
+                    'lvRid': { isEnoughLevel: true },
+                    'craftRiding\\d': { includes:  '探索指令' }
                 }
-                return false;
-            }}
+            }
         },
         ifNot: '探索に用いる技能のレベルに比して冒険者レベルが高いようですがバランスは大丈夫でしょうか？（『3』75頁）',
         label: 'adventurerRequiresSearchingSkills'
