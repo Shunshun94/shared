@@ -8,17 +8,17 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation = io.github.shunshun94.trpg.sw2
 
 io.github.shunshun94.trpg.sw2.ytsheet.validation.isMatch = (json, conditions) => {
     if( conditions === 'always' ) { return true; }
-    if( conditions.and ) {
-        let result = true;
-        for(var key in conditions.and) {
-            const tmpMap = {};
-            tmpMap[key] = conditions.and[key];
-            result = result && io.github.shunshun94.trpg.sw2.ytsheet.validation.isMatch(json, tmpMap);
-        }
-        return result;
-    } else {
-        const list = conditions.or || conditions;
-        for(var key in list) {
+    const list = conditions.or || conditions;
+    for(var key in list) {
+        if( key === 'and') {
+            let result = true;
+            for(var keyInAnd in  list[key]) {
+                const tmpMap = {};
+                tmpMap[keyInAnd] = list[key][keyInAnd];
+                result = result && io.github.shunshun94.trpg.sw2.ytsheet.validation.isMatch(json, tmpMap);
+            }
+            return result;
+        } else {
             const map = io.github.shunshun94.trpg.sw2.ytsheet.validation.getKeyValues(key, json);
             for(var key2 in map) {
                 if(io.github.shunshun94.trpg.sw2.ytsheet.validation.isMatchSingle(key2, map[key2], list[key], json)) {
@@ -52,7 +52,6 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.appendSkillCountBattleSkill = (
         }
     }
     return 0;
-    
 };
 
 io.github.shunshun94.trpg.sw2.ytsheet.validation.isMatchSingle = (key, value, action, json) => {
@@ -120,3 +119,9 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.getKeyValues = (key, json) => {
 io.github.shunshun94.trpg.sw2.ytsheet.validation.isEnoughLevel = (adventurerLevel, skillLevel) => {
     return ( skillLevel >= Math.max(Math.floor(Math.min(adventurerLevel * 0.8, adventurerLevel - 2)), 1) );
 };
+
+
+io.github.shunshun94.trpg.sw2.ytsheet.validation.isFrontMember = (json) => {
+
+};
+

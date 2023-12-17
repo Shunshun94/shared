@@ -214,9 +214,10 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_LIST = [
         },
         expect: {
                 'combatFeatsLv\\d+': { includes: 'ターゲッティング' },
-                'lvSor': { func: (key, value, json) =>{
-                    return (Number(json.lvSor) >= 2) && (Number(json.lvCon) >= 2);
-                }}
+                'and': {
+                    'lvSor': { ormore: 2 },
+                    'lvCon': { ormore: 2 }
+                }
         },
         ifNot: '形状が射撃の賦術を習得しているようですが、戦闘特技 ターゲッティングを習得していないため対象との位置関係によっては誤射が発生します',
         label: 'healSprayRequiresTargetting'
@@ -250,10 +251,6 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_LIST = [
 ].sort((a, b)=>{
     return io.github.shunshun94.trpg.sw2.ytsheet.validation.CONSTS.LEVEL[b.level].weight - io.github.shunshun94.trpg.sw2.ytsheet.validation.CONSTS.LEVEL[a.level].weight;
 });
-
-io.github.shunshun94.trpg.sw2.ytsheet.validation.isFrontMember = (json) => {
-
-};
 
 io.github.shunshun94.trpg.sw2.ytsheet.validation.getValidationListAsMap = () => {
     const result = {};
