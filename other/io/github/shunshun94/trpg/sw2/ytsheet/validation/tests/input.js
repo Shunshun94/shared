@@ -57,6 +57,121 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.FUNCTIONS_TEST_LIST = [
         },
         expect: true
     }, {
+        testName: 'lvSor と lvCon が and で条件にあるが、 両方ある場合（and が入れ子になっている）',
+        lvSor: "4",
+        lvCon: "3",
+        conditions: {
+            and: {
+				and: {
+					and: {
+						and: {
+							and: {
+								lvSor: 1,
+								lvCon: 1
+							}
+						}
+					}
+				}
+            }
+        },
+        expect: true
+	}, {
+        testName: 'lvSor と lvCon が and で条件にあるが、 lvSor のみの場合（and が入れ子になっている）',
+        lvSor: "4",
+        conditions: {
+            and: {
+				and: {
+					and: {
+						and: {
+							and: {
+								lvSor: 1,
+								lvCon: 1
+							}
+						}
+					}
+				}
+            }
+        },
+        expect: false
+	}, {
+        testName: 'lvSor と lvCon が and で条件にあるが、 両方ある場合（and が入れ子になっている・途中の and の中に lvCon）',
+        lvSor: "4",
+        conditions: {
+            and: {
+				and: {
+					and: {
+						and: {
+							and: {
+								lvSor: 1
+							}
+						}
+					},
+					lvCon: 1
+				}
+            }
+        },
+        expect: false
+	}, {
+        testName: 'lvSor と lvCon が and で条件にあるが、 lvSor のみの場合（and が入れ子になっている・途中の and の中に lvCon）',
+        lvSor: "4",
+        lvCon: "3",
+        conditions: {
+            and: {
+				and: {
+					and: {
+						and: {
+							and: {
+								lvSor: 1
+							}
+						}
+					},
+					lvCon: 1
+				}
+            }
+        },
+        expect: true
+	}, {
+        testName: 'lvSor と lvCon が and で条件にあるが、 両方ある場合（and が入れ子になっている・途中の lvSor の中に and）',
+        lvSor: "4",
+        lvCon: "3",
+        conditions: {
+            and: {
+				and: {
+					and: {
+						lvSor: {
+							and: {
+								and: {
+									lvSor: 1,
+									lvCon: 1
+								}
+							}
+						}
+					}
+				}
+            }
+        },
+        expect: true
+	}, {
+        testName: 'lvSor と lvCon が and で条件にあるが、 lvSor のみの場合（and が入れ子になっている・途中の lvSor の中に and）',
+        lvSor: "4",
+        conditions: {
+            and: {
+				and: {
+					and: {
+						lvSor: {
+							and: {
+								and: {
+									lvSor: 1,
+									lvCon: 1
+								}
+							}
+						}
+					}
+				}
+            }
+        },
+        expect: false
+	}, {
         testName: 'lvSor と lvCon が or で条件にあるが、 lvSol のみ場合',
         lvSor: "1",
         conditions: {
