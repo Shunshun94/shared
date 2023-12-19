@@ -213,7 +213,10 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_LIST = [
             }
         },
         expect: {
-                'combatFeatsLv\\d+': { includes: 'ターゲッティング' },
+                'combatFeatsLv\\d+': {
+                    includes: 'ターゲッティング',
+                    levelLimitaion: { level: 'level' }
+                },
                 'and': {
                     'lvSor': { ormore: 2 },
                     'lvCon': { ormore: 2 }
