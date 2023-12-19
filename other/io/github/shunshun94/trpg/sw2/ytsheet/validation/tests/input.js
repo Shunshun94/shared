@@ -760,6 +760,13 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_TEST_LIST = {
             'combatFeatsLv3': 'ターゲッティング',
             'expect': true
         }, {
+            'testName': 'ヒールスプレーを習得していてターゲッティングを Lv.3 で習得予定だが今 Lv.2 の場合持っている場合',
+            'level': '2',
+            'lvAlc': '2',
+            'craftAlchemy1': 'ヒールスプレー',
+            'combatFeatsLv3': 'ターゲッティング',
+            'expect': false
+        }, {
             'testName': 'ヒールスプレーを予約していてターゲッティングを持っていない場合',
             'lvAlc': '1',
             'craftAlchemy2': 'ヒールスプレー',
