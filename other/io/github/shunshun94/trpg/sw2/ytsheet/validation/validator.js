@@ -122,6 +122,26 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.isEnoughLevel = (adventurerLeve
 
 
 io.github.shunshun94.trpg.sw2.ytsheet.validation.isFrontMember = (json) => {
-
+    return io.github.shunshun94.trpg.sw2.ytsheet.validation.isMatch(json, {
+        'lvFig': { isEnoughLevel: true },
+        'lvGra': { isEnoughLevel: true },
+        'lvFen': { isEnoughLevel: true },
+        'lvBat': { isEnoughLevel: true },
+        'lvSho': {
+            and: {
+                'lvSho': { isEnoughLevel: true },
+                'combatFeatsLv\\d+': {
+                    levelLimitaion: {level: 'level'},
+                    includes: '射手の体術'
+                }
+            }
+        },
+        'lvDem': {
+            and: {
+                'lvDem': { isEnoughLevel: true },
+                and: { 'lvDem': { ormore: 2 } }
+            }
+        }
+    });
 };
 
