@@ -74,7 +74,11 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.isMatchSingle = (key, value, ac
             const advLevel = Number(json.level);
             const skiLevel = Number(value);
             return io.github.shunshun94.trpg.sw2.ytsheet.validation.isEnoughLevel(advLevel, skiLevel);
-         }
+        }
+        if(action.isFrontMember) {
+            console.log('kita');
+            return io.github.shunshun94.trpg.sw2.ytsheet.validation.isFrontMember(json);
+        }
         if(action.equal || action.equals) {
             if( action.equal && action.equals ) {
                 console.warn('action includes equal and equals. In this case, Application use only equal', action);
