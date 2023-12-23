@@ -1,0 +1,34 @@
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <script src="./questions/fourArithmeticOperations.js"></script>
+        <style>
+            body {
+                font-size: 6em;
+            }
+            #answer_base {
+                background-color:bisque;
+            }
+            #next {
+                margin-top:3em;
+                width:100%;
+                font-size:0.5em;
+                height:2em;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="question_base">問題：<span id="question"></span></div>
+        <div id="answer_base">正答：<span id="answer"></span></div>
+        <button id="next">つぎ</button>
+        <script>
+            const generate = () => {
+                const pair = io.github.shunshun94.study.math.questions.generate();
+                document.getElementById('question').textContent = pair.text;
+                document.getElementById('answer').textContent = pair.answer;
+            };
+            document.getElementById('next').onclick = generate;
+            generate();
+        </script>
+    </body>
+</html>
