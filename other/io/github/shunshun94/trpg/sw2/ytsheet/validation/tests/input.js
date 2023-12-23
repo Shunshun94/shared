@@ -367,6 +367,22 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.FUNCTIONS_TEST_LIST = [
             }
         },
         expect: true
+    }, {
+        testName: 'Lv.15 でファイターが7の場合に前衛として適しているかの確認',
+        level: 15,
+        lvFig: 7,
+        conditions: {
+            lvFig: { isFrontMember: 1 }
+        },
+        expect: false
+    }, {
+        testName: 'Lv.15 でファイターが13の場合に前衛として適しているかの確認',
+        level: 15,
+        lvFig: 13,
+        conditions: {
+            lvFig: { isFrontMember: 1 }
+        },
+        expect: true
     }
 ];
 

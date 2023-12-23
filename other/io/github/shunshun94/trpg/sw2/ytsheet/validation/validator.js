@@ -74,7 +74,11 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.isMatchSingle = (key, value, ac
             const advLevel = Number(json.level);
             const skiLevel = Number(value);
             return io.github.shunshun94.trpg.sw2.ytsheet.validation.isEnoughLevel(advLevel, skiLevel);
-         }
+        }
+        if(action.isFrontMember) {
+            console.log('kita');
+            return io.github.shunshun94.trpg.sw2.ytsheet.validation.isFrontMember(json);
+        }
         if(action.equal || action.equals) {
             if( action.equal && action.equals ) {
                 console.warn('action includes equal and equals. In this case, Application use only equal', action);
@@ -122,6 +126,26 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.isEnoughLevel = (adventurerLeve
 
 
 io.github.shunshun94.trpg.sw2.ytsheet.validation.isFrontMember = (json) => {
-
+    return io.github.shunshun94.trpg.sw2.ytsheet.validation.isMatch(json, {
+        'lvFig': { isEnoughLevel: true },
+        'lvGra': { isEnoughLevel: true },
+        'lvFen': { isEnoughLevel: true },
+        'lvBat': { isEnoughLevel: true },
+        'lvSho': {
+            and: {
+                'lvSho': { isEnoughLevel: true },
+                'combatFeatsLv\\d+': {
+                    levelLimitaion: {level: 'level'},
+                    includes: '射手の体術'
+                }
+            }
+        },
+        'lvDem': {
+            and: {
+                'lvDem': { isEnoughLevel: true },
+                and: { 'lvDem': { ormore: 2 } }
+            }
+        }
+    });
 };
 
