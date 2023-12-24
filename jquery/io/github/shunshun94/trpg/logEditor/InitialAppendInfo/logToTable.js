@@ -54,17 +54,17 @@ io.github.shunshun94.trpg.logEditor.DOMS.BODY.on(io.github.shunshun94.trpg.logEd
 
 io.github.shunshun94.trpg.logEditor.LogToTable.onDlHtml = (e)=>{
     const html = io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.jsonToHtml(io.github.shunshun94.trpg.logEditor.LogToTable.STOCKED_LIST);
-    io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.download(html, `saved_${Number(new Date())}.html`, 'text/html;charset=utf-8;');
+    io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.download(html, `log-as-table`, 'text/html;charset=utf-8;');
 };
 
 io.github.shunshun94.trpg.logEditor.LogToTable.onDlJson = (e)=>{
-    io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.download(JSON.stringify(io.github.shunshun94.trpg.logEditor.LogToTable.STOCKED_LIST), `saved_${Number(new Date())}.json`, 'text/json;charset=utf-8;');
+    io.github.shunshun94.trpg.logEditor.export.OperationJsonExporter.download(JSON.stringify(io.github.shunshun94.trpg.logEditor.LogToTable.STOCKED_LIST), `log-as-json`, 'text/json;charset=utf-8;');
 };
 
 io.github.shunshun94.trpg.logEditor.LogToTable.onDlJsonDice = (e)=>{
-    io.github.shunshun94.trpg.logEditor.export.OperationTableExporter.download(JSON.stringify(io.github.shunshun94.trpg.logEditor.LogToTable.STOCKED_LIST.filter((d)=>{
+    io.github.shunshun94.trpg.logEditor.export.OperationJsonExporter.download(JSON.stringify(io.github.shunshun94.trpg.logEditor.LogToTable.STOCKED_LIST.filter((d)=>{
         return d.dice;
-    })), `saved_${Number(new Date())}.json`, 'text/json;charset=utf-8;');
+    })), `dice-log-as-json`, 'text/json;charset=utf-8;');
 };
 
 io.github.shunshun94.trpg.logEditor.LogToTable.onFileLoad = (targetFile) => {
