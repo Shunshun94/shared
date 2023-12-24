@@ -162,5 +162,5 @@ io.github.shunshun94.trpg.logEditor.LogToTable.BUTTON_LIST = [
     {id: 'importedFileList-download-html', text: 'HTMLでダウンロード', clicked: io.github.shunshun94.trpg.logEditor.LogToTable.onDlHtml},
     {id: 'importedFileList-download-json', text: 'JSONでダウンロード', clicked: io.github.shunshun94.trpg.logEditor.LogToTable.onDlJson},
     {id: 'importedFileList-download-json-dice', text: 'ダイス結果のみJSONでダウンロード', clicked: io.github.shunshun94.trpg.logEditor.LogToTable.onDlJsonDice},
-    {id: 'importedFileList-download-html-dice-report', text: 'ダイスの統計情報をHTMLでダウンロード', clicked: io.github.shunshun94.trpg.logEditor.LogToTable.onDlHtmlDiceReport, when: 'sw2'}
+    {id: 'importedFileList-download-html-dice-report', text: 'ダイスの統計情報を画像でダウンロード', clicked: io.github.shunshun94.trpg.logEditor.LogToTable.onDlHtmlDiceReport, when: 'sw2'}
 ];
