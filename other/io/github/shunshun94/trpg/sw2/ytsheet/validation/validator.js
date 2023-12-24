@@ -17,7 +17,7 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.isMatch = (json, conditions) =>
                 tmpMap[keyInAnd] = list[key][keyInAnd];
                 result = result && io.github.shunshun94.trpg.sw2.ytsheet.validation.isMatch(json, tmpMap);
             }
-            return result;
+            if(result) { return true; }
         } else {
             const map = io.github.shunshun94.trpg.sw2.ytsheet.validation.getKeyValues(key, json);
             for(var key2 in map) {

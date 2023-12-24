@@ -220,6 +220,9 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_LIST = [
                 'and': {
                     'lvSor': { ormore: 2 },
                     'lvCon': { ormore: 2 }
+                },
+                'craftAlchemy1': {
+                    isFrontMember: 1
                 }
         },
         ifNot: '形状が射撃の賦術を習得しているようですが、戦闘特技 ターゲッティングを習得していないため対象との位置関係によっては誤射が発生します',
