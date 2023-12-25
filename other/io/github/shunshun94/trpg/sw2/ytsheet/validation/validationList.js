@@ -228,6 +228,29 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_LIST = [
         ifNot: '形状が射撃の賦術を習得しているようですが、戦闘特技 ターゲッティングを習得していないため対象との位置関係によっては誤射が発生します',
         label: 'healSprayRequiresTargetting'
     }, {
+        level: 'warn',
+        when: {
+            'lvFig': { isEnoughLevel: true },
+            'lvGra': { isEnoughLevel: true },
+            'lvFen': { isEnoughLevel: true },
+            'lvBat': { isEnoughLevel: true },
+            'lvSho': {
+                and: {
+                    'lvSho': { isEnoughLevel: true },
+                    'combatFeatsLv\\d+': {
+                        levelLimitaion: {level: 'level'},
+                        includes: '射手の体術'
+                    }
+                }
+            },
+            'lvDem': { isEnoughLevel: true }
+        },
+        expect: {
+            'evasionClass': true
+        },
+    ifNot: '回避に用いる技能を指定することでチャットパレットやキャラクターシートの表示に反映されます',
+    label: 'noEvasionClassEmpty'
+    }, {
         level: 'info',
         when: 'always',
         expect: {
