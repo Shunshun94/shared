@@ -251,6 +251,26 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_LIST = [
     ifNot: '回避に用いる技能を指定することでチャットパレットやキャラクターシートの表示に反映されます',
     label: 'noEvasionClassEmpty'
     }, {
+        level: 'warn',
+        when: {
+            'lvFig': { isEnoughLevel: true },
+            'lvGra': { isEnoughLevel: true },
+            'lvFen': { isEnoughLevel: true },
+            'lvBat': { isEnoughLevel: true },
+            'lvSho': { isEnoughLevel: true },
+            'lvDem': { 
+                and: {
+                    'lvDem': { ormore: 11 },
+                    'weapon\\dName': { includes: 'デモンズブレード' }
+                }
+            }
+        },
+        expect: {
+            'weapon\\dClass': true
+        },
+    ifNot: '武器攻撃に用いる技能を指定することでチャットパレットやキャラクターシートの表示に反映されます',
+    label: 'noWeaponClassEmpty'
+    }, {
         level: 'info',
         when: 'always',
         expect: {
