@@ -817,6 +817,49 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_TEST_LIST = {
             'expect': false
         }
     ],
+    "noEvasionClassEmpty": [
+        {
+            'testName': 'Lv.5 の PC がファイター Lv.3 で回避技能欄に記入がない場合（空文字列）',
+            'level': 5,
+            'lvFig': 3,
+            'evasionClass': '',
+            'expect': false
+        }, {
+            'testName': 'Lv.5 の PC がファイター Lv.3 で回避技能欄に記入がない場合（要素がない）',
+            'level': 5,
+            'lvFig': 3,
+            'expect': false
+        }, {
+            'testName': 'Lv.5 の PC がファイター Lv.2 で回避技能欄に記入がない場合',
+            'level': 5,
+            'lvFig': 2,
+            'expect': true
+        }, {
+            'testName': 'Lv.5 の PC がファイター Lv.3 で回避技能欄にファイターが記入されている場合',
+            'level': 5,
+            'lvFig': 3,
+            'evasionClass': 'ファイター',
+            'expect': true
+        }, {
+            'testName': 'Lv.7 の PC でシューター Lv.7 で射手の体術を履っていて回避技能欄にシューターが記入されている場合',
+            'level': 7,
+            'lvSho': 7,
+            'evasionClass': 'シューター',
+            'combatFeatsLv7': '射手の体術',
+            'expect': true
+        }, {
+            'testName': 'Lv.7 の PC でシューター Lv.7 で射手の体術を履っていて回避技能欄に記入がない場合',
+            'level': 7,
+            'lvSho': 7,
+            'combatFeatsLv7': '射手の体術',
+            'expect': false
+        }, {
+            'testName': 'Lv.7 の PC でシューター Lv.7 で射手の体術を履っておらず回避技能欄に記入がない場合',
+            'level': 7,
+            'lvSho': 7,
+            'expect': true
+        }
+    ],
     "adventurerRequiresSearchingSkills": [
         {
             'testName': '探索技能を全くを持っていない場合',
