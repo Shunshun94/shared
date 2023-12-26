@@ -17,7 +17,7 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.isMatch = (json, conditions) =>
                 tmpMap[keyInAnd] = list[key][keyInAnd];
                 result = result && io.github.shunshun94.trpg.sw2.ytsheet.validation.isMatch(json, tmpMap);
             }
-            return result;
+            if(result) { return true; }
         } else {
             const map = io.github.shunshun94.trpg.sw2.ytsheet.validation.getKeyValues(key, json);
             for(var key2 in map) {
@@ -98,7 +98,7 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.isMatchSingle = (key, value, ac
         }
         if(action.func) { return action.func(key, value, json); }
         if(key.startsWith('lv') && value === '0') { return false; }
-        return true;
+        return Boolean(value);
     } catch (e) {
         console.error(e, key, value, action, json);
         throw e;
