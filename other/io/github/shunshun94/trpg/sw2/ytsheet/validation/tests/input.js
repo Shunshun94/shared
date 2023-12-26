@@ -860,6 +860,83 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_TEST_LIST = {
             'expect': true
         }
     ],
+    "noWeaponClassEmpty": [
+        {
+            'testName': 'Lv.5 の PC がファイター Lv.3 で武器技能欄に記入がない場合（空文字列）',
+            'level': 5,
+            'lvFig': 3,
+            'weapon1Name': 'ひのきのぼう',
+            'weapon1Class': '',
+            'expect': false
+        }, {
+            'testName': 'Lv.5 の PC がファイター Lv.3 で武器技能欄に記入がない場合（要素がない）',
+            'level': 5,
+            'lvFig': 3,
+            'weapon1Name': 'ひのきのぼう',
+            'expect': false
+        }, {
+            'testName': 'Lv.5 の PC がファイター Lv.3 で1つ目の武器技能欄に記入がないが2つ目の武器技能欄にファイターが記入されている場合',
+            'level': 5,
+            'lvFig': 3,
+            'weapon1Name': 'カードシューター',
+            'weapon2Name': 'ひのきのぼう',
+            'weapon2Class': 'ファイター',
+            'expect': true
+        }, {
+            'testName': 'Lv.5 の PC がファイター Lv.3 で2つ目の武器技能欄に記入がないが1つ目の武器技能欄にファイターが記入されている場合',
+            'level': 5,
+            'lvFig': 3,
+            'weapon1Name': 'ひのきのぼう',
+            'weapon1Class': 'ファイター',
+            'weapon2Name': 'カードシューター',
+            'expect': true
+        }, {
+            'testName': 'Lv.5 の PC がファイター Lv.2 で武器技能欄に記入がない場合',
+            'level': 5,
+            'lvFig': 2,
+            'weapon1Name': 'ひのきのぼう',
+            'expect': true
+        }, {
+            'testName': 'Lv.5 の PC がファイター Lv.3 で武器技能欄にファイターが記入されている場合（要素がない）',
+            'level': 5,
+            'lvFig': 3,
+            'weapon1Name': 'ひのきのぼう',
+            'weapon1Class': 'ファイター',
+            'expect': true
+        }, {
+            'testName': 'Lv.11 の PC がデーモンルーラー Lv.10 で武器技能欄に記入がない場合',
+            'level': 11,
+            'lvDem': 10,
+            'weapon1Name': 'ひのきのぼう',
+            'expect': true
+        }, {
+            'testName': 'Lv.11 の PC がデーモンルーラー Lv.11 で武器技能欄に記入がない場合',
+            'level': 11,
+            'lvDem': 11,
+            'weapon1Name': 'ひのきのぼう',
+            'expect': true
+        }, {
+            'testName': 'Lv.11 の PC がデーモンルーラー Lv.11 で武器がデモンズブレードで技能欄に記入がない場合',
+            'level': 11,
+            'lvDem': 11,
+            'weapon1Name': 'デモンズブレード',
+            'expect': false
+        }, {
+            'testName': 'Lv.11 の PC がデーモンルーラー Lv.11 で武器がデモンズブレードで武器技能欄にデーモンルーラーが記入されている場合',
+            'level': 11,
+            'lvDem': 11,
+            'weapon1Name': 'デモンズブレード',
+            'weapon1Class': 'ファイター',
+            'expect': true
+        }, {
+            'testName': 'Lv.11 の PC がデーモンルーラー Lv.11 で武器がデモンズブレードで武器技能欄にファイターが記入されている場合',
+            'level': 11,
+            'lvDem': 11,
+            'weapon1Name': 'デモンズブレード',
+            'weapon1Class': 'デーモンルーラー',
+            'expect': true
+        }
+    ],
     "adventurerRequiresSearchingSkills": [
         {
             'testName': '探索技能を全くを持っていない場合',
