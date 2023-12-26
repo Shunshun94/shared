@@ -266,7 +266,10 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_LIST = [
             }
         },
         expect: {
-            'weapon\\dClass': true
+            'weapon\\d+Name': { func: (key, value, json) => {
+                const keyPrefix = /(weapon\d+)Name/.exec(key)[1];
+                return Boolean(json[`${keyPrefix}Class`] || '');
+            }}
         },
     ifNot: '武器攻撃に用いる技能を指定することでチャットパレットやキャラクターシートの表示に反映されます',
     label: 'noWeaponClassEmpty'
