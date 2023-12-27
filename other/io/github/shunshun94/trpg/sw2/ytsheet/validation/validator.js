@@ -76,7 +76,6 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.isMatchSingle = (key, value, ac
             return io.github.shunshun94.trpg.sw2.ytsheet.validation.isEnoughLevel(advLevel, skiLevel);
         }
         if(action.isFrontMember) {
-            console.log('kita');
             return io.github.shunshun94.trpg.sw2.ytsheet.validation.isFrontMember(json);
         }
         if(action.equal || action.equals) {
