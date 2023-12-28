@@ -674,6 +674,49 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_TEST_LIST = {
             'expect': true
         }
     ],
+    "hasArrowHolders": [
+        {
+            'testName': 'ボウ装備のシューターでえびらも矢筒も持っていない',
+            'lvSho': '1',
+            'weapon1Name': '弓',
+            'weapon1Category': 'ボウ',
+            'expect': false
+        }, {
+            'testName': 'クロスボウ装備のシューターでえびらも矢筒も持っていない',
+            'lvSho': '1',
+            'weapon1Name': 'ボウガン',
+            'weapon1Category': 'クロスボウ',
+            'expect': false
+        }, {
+            'testName': 'ボウ装備のシューターでえびらを持っている',
+            'lvSho': '1',
+            'weapon1Name': '弓',
+            'weapon1Category': 'ボウ',
+            'accessoryBackName': 'えびら',
+            'expect': true
+        }, {
+            'testName': 'ボウ装備のシューターで箙（えびら）を持っている',
+            'lvSho': '1',
+            'weapon1Name': '弓',
+            'weapon1Category': 'ボウ',
+            'accessoryBackName': '箙',
+            'expect': true
+        }, {
+            'testName': 'ボウ装備のシューターで矢筒を持っている',
+            'lvSho': '1',
+            'weapon1Name': '弓',
+            'weapon1Category': 'ボウ',
+            'accessoryBackName': '矢筒',
+            'expect': true
+        }, {
+            'testName': 'クロスボウ装備のシューターで矢筒を持っている',
+            'lvSho': '1',
+            'weapon1Name': 'ボウガン',
+            'weapon1Category': 'クロスボウ',
+            'accessoryBackName': '矢筒',
+            'expect': true
+        }
+    ],
     "metalArmorLimitatesMagics": [
         {
             'testName': 'ソーサラーで金属鎧を着ている場合',
