@@ -688,32 +688,97 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_TEST_LIST = {
             'weapon1Category': 'クロスボウ',
             'expect': false
         }, {
-            'testName': 'ボウ装備のシューターでえびらを持っている',
+            'testName': 'ボウ装備のシューターでえびらを背中に持っている',
             'lvSho': '1',
             'weapon1Name': '弓',
             'weapon1Category': 'ボウ',
             'accessoryBackName': 'えびら',
             'expect': true
         }, {
-            'testName': 'ボウ装備のシューターで箙（えびら）を持っている',
+            'testName': 'ボウ装備のシューターで箙（えびら）を背中に持っている',
             'lvSho': '1',
             'weapon1Name': '弓',
             'weapon1Category': 'ボウ',
             'accessoryBackName': '箙',
             'expect': true
         }, {
-            'testName': 'ボウ装備のシューターで矢筒を持っている',
+            'testName': 'ボウ装備のシューターで矢筒を背中に持っている',
             'lvSho': '1',
             'weapon1Name': '弓',
             'weapon1Category': 'ボウ',
             'accessoryBackName': '矢筒',
             'expect': true
         }, {
-            'testName': 'クロスボウ装備のシューターで矢筒を持っている',
+            'testName': 'クロスボウ装備のシューターで矢筒を背中に持っている',
             'lvSho': '1',
             'weapon1Name': 'ボウガン',
             'weapon1Category': 'クロスボウ',
             'accessoryBackName': '矢筒',
+            'expect': true
+        }, {
+            'testName': 'クロスボウ装備のシューターで矢筒を腰に持っている',
+            'lvSho': '1',
+            'weapon1Name': 'ボウガン',
+            'weapon1Category': 'クロスボウ',
+            'accessoryWaistName': '矢筒',
+            'expect': true
+        }, {
+            'testName': 'クロスボウ装備のシューターで矢筒をその他部位に持っている',
+            'lvSho': '1',
+            'weapon1Name': 'ボウガン',
+            'weapon1Category': 'クロスボウ',
+            'accessoryOtherName': '矢筒',
+            'expect': true
+        }, {
+            'testName': 'クロスボウ装備のシューターで矢筒を足に持っている',
+            'lvSho': '1',
+            'weapon1Name': 'ボウガン',
+            'weapon1Category': 'クロスボウ',
+            'accessoryLegName': '矢筒',
+            'expect': false
+        }, {
+            'testName': 'クロスボウ装備のシューターで矢筒をスマルティエの銀鈴で耳に持っている',
+            'lvSho': '1',
+            'weapon1Name': 'ボウガン',
+            'weapon1Category': 'クロスボウ',
+            'accessoryEar_Name': '矢筒',
+            'expect': true
+        }
+    ],
+    "hasBulletHolders": [
+        {
+            'testName': 'ガン装備のシューターでガンベルトもバレットスリンガーもバレットポーチも持っていない',
+            'lvSho': '1',
+            'weapon1Name': 'じゅう',
+            'weapon1Category': 'ガン',
+            'expect': false
+        }, {
+            'testName': 'ガン装備のシューターでガンベルトを足に持っている',
+            'lvSho': '1',
+            'weapon1Name': 'じゅう',
+            'weapon1Category': 'ガン',
+            'accessoryBackName': 'ガンベルト',
+            'expect': true
+        }, {
+            'testName': 'ガン装備のシューターでガンベルトを足に持っている',
+            'lvSho': '1',
+            'weapon1Name': 'じゅう',
+            'weapon1Category': 'ガン',
+            'accessoryLegName': 'ガンベルト',
+            'expect': false
+        }, {
+            'testName': 'ガン装備のシューターでバレットスリンガーを足に持っている',
+            'lvSho': '1',
+            'weapon1Name': 'じゅう',
+            'weapon1Category': 'ガン',
+            'accessoryLegName': 'ガンベルト',
+            'expect': true
+        }, {
+            'testName': 'ガン装備のシューターでバレットポーチを足に持っている',
+            'lvSho': '1',
+            'weapon1Name': 'じゅう',
+            'weapon1Category': 'ガン',
+            'accessoryLegName': 'バレットポーチ',
             'expect': true
         }
     ],
