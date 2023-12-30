@@ -827,34 +827,34 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_TEST_LIST = {
     ],
     "hasBulletHolders": [
         {
-            'testName': 'ガン装備のシューターでガンベルトもバレットスリンガーもバレットポーチも持っていない',
+            'testName': 'ガン装備のシューターでガンベルトもバレットスリンガーもバレットポーチも持っていない場合',
             'lvSho': '1',
             'weapon1Name': 'じゅう',
             'weapon1Category': 'ガン',
             'expect': false
         }, {
-            'testName': 'ガン装備のシューターでガンベルトを足に持っている',
+            'testName': 'ガン装備のシューターでガンベルトを背中に持っている場合',
             'lvSho': '1',
             'weapon1Name': 'じゅう',
             'weapon1Category': 'ガン',
             'accessoryBackName': 'ガンベルト',
             'expect': true
         }, {
-            'testName': 'ガン装備のシューターでガンベルトを足に持っている',
+            'testName': 'ガン装備のシューターでガンベルトを足に持っている場合',
             'lvSho': '1',
             'weapon1Name': 'じゅう',
             'weapon1Category': 'ガン',
             'accessoryLegName': 'ガンベルト',
             'expect': false
         }, {
-            'testName': 'ガン装備のシューターでバレットスリンガーを足に持っている',
+            'testName': 'ガン装備のシューターでバレットスリンガーを足に持っている場合',
             'lvSho': '1',
             'weapon1Name': 'じゅう',
             'weapon1Category': 'ガン',
-            'accessoryLegName': 'ガンベルト',
+            'accessoryLegName': 'バレットスリンガー',
             'expect': true
         }, {
-            'testName': 'ガン装備のシューターでバレットポーチを足に持っている',
+            'testName': 'ガン装備のシューターでバレットポーチを足に持っている場合',
             'lvSho': '1',
             'weapon1Name': 'じゅう',
             'weapon1Category': 'ガン',

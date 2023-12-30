@@ -180,6 +180,20 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_LIST = [
     }, {
         level: 'warn',
         when: {
+            'weapon\\dCategory': { equal: 'ガン' }
+        },
+        expect: {            
+            'accessoryOtherName': { includes: ['ガンベルト', 'バレットスリンガー', 'バレットポーチ'] },
+            'accessoryWaistName': { includes: ['ガンベルト', 'バレットポーチ'] },
+            'accessoryBackName': { includes: ['ガンベルト', 'バレットポーチ'] },
+            'accessoryLegName': { includes: ['バレットスリンガー', 'バレットポーチ'] },
+            'accessory[a-zA-Z]+_+Name': { includes: ['ガンベルト', 'バレットスリンガー', 'バレットポーチ'] }
+        },
+        ifNot: 'ガンベルト、バレットスリンガーまたはバレットポーチを装備していないと主動作で銃弾を装填することができません（『1』163頁）',
+        label: 'hasBulletHolders'
+    }, {
+        level: 'warn',
+        when: {
             'and': {
                 "armour\\d+Category": { equal: '金属鎧' },
                 'or': {
