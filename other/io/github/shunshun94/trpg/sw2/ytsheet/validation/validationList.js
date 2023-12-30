@@ -143,6 +143,41 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_LIST = [
         ifNot: 'ウォーリーダー技能による鼓咆と陣率を使用するには軍師徽章、戦旗章または盾徽章を装備している必要があります（『MA』19頁）',
         label: 'warleaderRequiresGeneralEmblem'
     }, {
+        level: 'error',
+        when: {
+            'weapon\\dCategory': { equal: ['ボウ', 'クロスボウ'] }
+        },
+        expect: {            
+            'accessoryOtherName': { includes: ['えびら', '矢筒', '箙'] },
+            'accessoryWaistName': { includes: ['えびら', '矢筒', '箙'] },
+            'accessoryBackName': { includes: ['えびら', '矢筒', '箙'] },
+            'accessory[a-zA-Z]+_+Name': { includes: ['えびら', '矢筒', '箙'] }
+        },
+        ifNot: 'えびらまたは矢筒を装備していないと補助動作で矢・太矢をつがえることができません（『1』163頁）',
+        label: 'hasArrowHolders'
+    }, {
+        level: 'warn',
+        when: {
+            'fairyContractWind': { func: (key, value, json)=>{
+                const contractCount = ['fairyContractDark', 'fairyContractEarth', 'fairyContractFire', 'fairyContractLight', 'fairyContractWater', 'fairyContractWind'].filter((contract)=>{
+                    return json[contract];
+                }).length;
+                console.log('contract', contractCount, 'level', json.lvFai);
+                if( contractCount === 6 ) { return Number(json.lvFai) >= 10; }
+                if( contractCount === 4 ) { return Number(json.lvFai) >= 7;  }
+                if( contractCount <=  3 ) { return Number(json.lvFai) >= 6;  }
+                return false
+            }}
+        },
+        expect: {            
+            'accessoryOtherName': { includes: ['えびら', '矢筒', '箙'] },
+            'accessoryWaistName': { includes: ['えびら', '矢筒', '箙'] },
+            'accessoryBackName': { includes: ['えびら', '矢筒', '箙'] },
+            'accessory[a-zA-Z]+_+Name': { includes: ['えびら', '矢筒', '箙'] }
+        },
+        ifNot: 'えびらまたは矢筒を装備していないと【シュートアロー】のために矢・太矢を取り出すことができません（『1』163頁）',
+        label: 'hasShootArrowArrowHolders'
+    }, {
         level: 'warn',
         when: {
             'and': {
