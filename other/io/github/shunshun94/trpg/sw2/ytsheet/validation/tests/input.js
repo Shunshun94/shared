@@ -676,72 +676,150 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_TEST_LIST = {
     ],
     "hasArrowHolders": [
         {
-            'testName': 'ボウ装備のシューターでえびらも矢筒も持っていない',
+            'testName': 'ボウ装備のシューターでえびらも矢筒も持っていない場合',
             'lvSho': '1',
             'weapon1Name': '弓',
             'weapon1Category': 'ボウ',
             'expect': false
         }, {
-            'testName': 'クロスボウ装備のシューターでえびらも矢筒も持っていない',
+            'testName': 'クロスボウ装備のシューターでえびらも矢筒も持っていない場合',
             'lvSho': '1',
             'weapon1Name': 'ボウガン',
             'weapon1Category': 'クロスボウ',
             'expect': false
         }, {
-            'testName': 'ボウ装備のシューターでえびらを背中に持っている',
+            'testName': 'ボウ装備のシューターでえびらを背中に持っている場合',
             'lvSho': '1',
             'weapon1Name': '弓',
             'weapon1Category': 'ボウ',
             'accessoryBackName': 'えびら',
             'expect': true
         }, {
-            'testName': 'ボウ装備のシューターで箙（えびら）を背中に持っている',
+            'testName': 'ボウ装備のシューターで箙（えびら）を背中に持っている場合',
             'lvSho': '1',
             'weapon1Name': '弓',
             'weapon1Category': 'ボウ',
             'accessoryBackName': '箙',
             'expect': true
         }, {
-            'testName': 'ボウ装備のシューターで矢筒を背中に持っている',
+            'testName': 'ボウ装備のシューターで矢筒を背中に持っている場合',
             'lvSho': '1',
             'weapon1Name': '弓',
             'weapon1Category': 'ボウ',
             'accessoryBackName': '矢筒',
             'expect': true
         }, {
-            'testName': 'クロスボウ装備のシューターで矢筒を背中に持っている',
+            'testName': 'クロスボウ装備のシューターで矢筒を背中に持っている場合',
             'lvSho': '1',
             'weapon1Name': 'ボウガン',
             'weapon1Category': 'クロスボウ',
             'accessoryBackName': '矢筒',
             'expect': true
         }, {
-            'testName': 'クロスボウ装備のシューターで矢筒を腰に持っている',
+            'testName': 'クロスボウ装備のシューターで矢筒を腰に持っている場合',
             'lvSho': '1',
             'weapon1Name': 'ボウガン',
             'weapon1Category': 'クロスボウ',
             'accessoryWaistName': '矢筒',
             'expect': true
         }, {
-            'testName': 'クロスボウ装備のシューターで矢筒をその他部位に持っている',
+            'testName': 'クロスボウ装備のシューターで矢筒をその他部位に持っている場合',
             'lvSho': '1',
             'weapon1Name': 'ボウガン',
             'weapon1Category': 'クロスボウ',
             'accessoryOtherName': '矢筒',
             'expect': true
         }, {
-            'testName': 'クロスボウ装備のシューターで矢筒を足に持っている',
+            'testName': 'クロスボウ装備のシューターで矢筒を足に持っている場合',
             'lvSho': '1',
             'weapon1Name': 'ボウガン',
             'weapon1Category': 'クロスボウ',
             'accessoryLegName': '矢筒',
             'expect': false
         }, {
-            'testName': 'クロスボウ装備のシューターで矢筒をスマルティエの銀鈴で耳に持っている',
+            'testName': 'クロスボウ装備のシューターで矢筒をスマルティエの銀鈴で耳に持っている場合',
             'lvSho': '1',
             'weapon1Name': 'ボウガン',
             'weapon1Category': 'クロスボウ',
             'accessoryEar_Name': '矢筒',
+            'expect': true
+        }, {
+            'testName': 'フェアリーテイマー Lv.6、風を含む3属性契約で矢筒を装備していない場合',
+            'lvFai': '6',
+            "fairyContractFire":"1",
+            "fairyContractLight":"1",
+            "fairyContractWind":"1",
+            'expect': false
+        }, {
+            'testName': 'フェアリーテイマー Lv.5、風を含む3属性契約で矢筒を装備していない場合',
+            'lvFai': '5',
+            "fairyContractFire":"1",
+            "fairyContractLight":"1",
+            "fairyContractWind":"1",
+            'expect': true
+        }, {
+            'testName': 'フェアリーテイマー Lv.6、風を含む3属性契約で矢筒を装備している場合',
+            'lvFai': '6',
+            "fairyContractFire":"1",
+            "fairyContractLight":"1",
+            "fairyContractWind":"1",
+            'accessoryOtherName': '矢筒',
+            'expect': true
+        }, {
+            'testName': 'フェアリーテイマー Lv.6、風を含む4属性契約で矢筒を装備していない場合',
+            'lvFai': '6',
+            "fairyContractFire":"1",
+            "fairyContractLight":"1",
+            "fairyContractWind":"1",
+            "fairyContractWater":"1",
+            'expect': true
+        }, {
+            'testName': 'フェアリーテイマー Lv.7、風を含む4属性契約で矢筒を装備していない場合',
+            'lvFai': '7',
+            "fairyContractFire":"1",
+            "fairyContractLight":"1",
+            "fairyContractWind":"1",
+            "fairyContractWater":"1",
+            'expect': false
+        }, {
+            'testName': 'フェアリーテイマー Lv.7、風を含む4属性契約で矢筒を装備している場合',
+            'lvFai': '7',
+            "fairyContractFire":"1",
+            "fairyContractLight":"1",
+            "fairyContractWind":"1",
+            "fairyContractWater":"1",
+            'accessoryOtherName': '矢筒',
+            'expect': true
+        }, {
+            'testName': 'フェアリーテイマー Lv.9、6属性契約で矢筒を装備していない場合',
+            'lvFai': '9',
+            "fairyContractDark":"1",
+            "fairyContractEarth":"1",
+            "fairyContractFire":"1",
+            "fairyContractLight":"1",
+            "fairyContractWater":"1",
+            "fairyContractWind":"1",
+            'expect': true
+        }, {
+            'testName': 'フェアリーテイマー Lv.10、6属性契約で矢筒を装備していない場合',
+            'lvFai': '10',
+            "fairyContractDark":"1",
+            "fairyContractEarth":"1",
+            "fairyContractFire":"1",
+            "fairyContractLight":"1",
+            "fairyContractWater":"1",
+            "fairyContractWind":"1",
+            'expect': false
+        }, {
+            'testName': 'フェアリーテイマー Lv.10、6属性契約で矢筒を装備している場合',
+            'lvFai': '10',
+            "fairyContractDark":"1",
+            "fairyContractEarth":"1",
+            "fairyContractFire":"1",
+            "fairyContractLight":"1",
+            "fairyContractWater":"1",
+            "fairyContractWind":"1",
+            'accessoryOtherName': '矢筒',
             'expect': true
         }
     ],
