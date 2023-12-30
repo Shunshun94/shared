@@ -743,7 +743,9 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_TEST_LIST = {
             'weapon1Category': 'クロスボウ',
             'accessoryEar_Name': '矢筒',
             'expect': true
-        }, {
+        }
+    ],
+    "hasShootArrowArrowHolders": [{
             'testName': 'フェアリーテイマー Lv.6、風を含む3属性契約で矢筒を装備していない場合',
             'lvFai': '6',
             "fairyContractFire":"1",
