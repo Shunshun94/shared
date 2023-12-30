@@ -57,11 +57,18 @@
                 } else {
                     tests.forEach((test)=>{
                         try {
-                            if( io.github.shunshun94.trpg.sw2.ytsheet.validation.when(test, validation.when) &&
-                               (test.expect != io.github.shunshun94.trpg.sw2.ytsheet.validation.isValid(test, validation.expect))) {
-                                errorHandle(validation, test);
+                            if( io.github.shunshun94.trpg.sw2.ytsheet.validation.when(test, validation.when) ) {
+                                if( test.expect != io.github.shunshun94.trpg.sw2.ytsheet.validation.isValid(test, validation.expect) ) {
+                                    errorHandle(validation, test);
+                                } else {
+                                    passHandle(validation, test);
+                                }
                             } else {
-                                passHandle(validation, test);
+                                if( test.expect ) {
+                                    passHandle(validation, test);
+                                } else {
+                                    errorHandle(validation, test);
+                                }
                             }
                         } catch (e) {
 
