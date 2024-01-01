@@ -748,13 +748,22 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_TEST_LIST = {
     "hasShootArrowArrowHolders": [{
             'testName': 'フェアリーテイマー Lv.6、風を含む3属性契約で矢筒を装備していない場合',
             'lvFai': '6',
+            'combatFeatsLv3': '魔法拡大／数',
             "fairyContractFire":"1",
             "fairyContractLight":"1",
             "fairyContractWind":"1",
             'expect': false
         }, {
+            'testName': 'フェアリーテイマー Lv.6、風を含む3属性契約で矢筒を装備していないが魔法拡大／数を習得していない場合',
+            'lvFai': '6',
+            "fairyContractFire":"1",
+            "fairyContractLight":"1",
+            "fairyContractWind":"1",
+            'expect': true
+        }, {
             'testName': 'フェアリーテイマー Lv.5、風を含む3属性契約で矢筒を装備していない場合',
             'lvFai': '5',
+            'combatFeatsLv3': '魔法拡大／数',
             "fairyContractFire":"1",
             "fairyContractLight":"1",
             "fairyContractWind":"1",
@@ -762,6 +771,7 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_TEST_LIST = {
         }, {
             'testName': 'フェアリーテイマー Lv.6、風を含む3属性契約で矢筒を装備している場合',
             'lvFai': '6',
+            'combatFeatsLv3': '魔法拡大／数',
             "fairyContractFire":"1",
             "fairyContractLight":"1",
             "fairyContractWind":"1",
@@ -770,6 +780,7 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_TEST_LIST = {
         }, {
             'testName': 'フェアリーテイマー Lv.6、風を含む4属性契約で矢筒を装備していない場合',
             'lvFai': '6',
+            'combatFeatsLv3': '魔法拡大／数',
             "fairyContractFire":"1",
             "fairyContractLight":"1",
             "fairyContractWind":"1",
@@ -778,6 +789,7 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_TEST_LIST = {
         }, {
             'testName': 'フェアリーテイマー Lv.7、風を含む4属性契約で矢筒を装備していない場合',
             'lvFai': '7',
+            'combatFeatsLv3': '魔法拡大／数',
             "fairyContractFire":"1",
             "fairyContractLight":"1",
             "fairyContractWind":"1",
@@ -786,6 +798,7 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_TEST_LIST = {
         }, {
             'testName': 'フェアリーテイマー Lv.7、風を含む4属性契約で矢筒を装備している場合',
             'lvFai': '7',
+            'combatFeatsLv3': '魔法拡大／数',
             "fairyContractFire":"1",
             "fairyContractLight":"1",
             "fairyContractWind":"1",
@@ -795,6 +808,7 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_TEST_LIST = {
         }, {
             'testName': 'フェアリーテイマー Lv.9、6属性契約で矢筒を装備していない場合',
             'lvFai': '9',
+            'combatFeatsLv3': '魔法拡大／数',
             "fairyContractDark":"1",
             "fairyContractEarth":"1",
             "fairyContractFire":"1",
@@ -805,6 +819,7 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_TEST_LIST = {
         }, {
             'testName': 'フェアリーテイマー Lv.10、6属性契約で矢筒を装備していない場合',
             'lvFai': '10',
+            'combatFeatsLv3': '魔法拡大／数',
             "fairyContractDark":"1",
             "fairyContractEarth":"1",
             "fairyContractFire":"1",
@@ -815,6 +830,7 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_TEST_LIST = {
         }, {
             'testName': 'フェアリーテイマー Lv.10、6属性契約で矢筒を装備している場合',
             'lvFai': '10',
+            'combatFeatsLv3': '魔法拡大／数',
             "fairyContractDark":"1",
             "fairyContractEarth":"1",
             "fairyContractFire":"1",

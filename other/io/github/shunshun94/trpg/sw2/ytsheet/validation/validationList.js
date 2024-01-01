@@ -158,24 +158,30 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_LIST = [
     }, {
         level: 'warn',
         when: {
-            'fairyContractWind': { func: (key, value, json)=>{
-                const contractCount = ['fairyContractDark', 'fairyContractEarth', 'fairyContractFire', 'fairyContractLight', 'fairyContractWater', 'fairyContractWind'].filter((contract)=>{
-                    return json[contract];
-                }).length;
-                console.log('contract', contractCount, 'level', json.lvFai);
-                if( contractCount === 6 ) { return Number(json.lvFai) >= 10; }
-                if( contractCount === 4 ) { return Number(json.lvFai) >= 7;  }
-                if( contractCount <=  3 ) { return Number(json.lvFai) >= 6;  }
-                return false
-            }}
+            and: {
+                'combatFeatsLv\\d+': {
+                    includes: '魔法拡大／数',
+                    levelLimitaion: { level: 'level' }
+                },
+                'fairyContractWind': { func: (key, value, json)=>{
+                    const contractCount = ['fairyContractDark', 'fairyContractEarth', 'fairyContractFire', 'fairyContractLight', 'fairyContractWater', 'fairyContractWind'].filter((contract)=>{
+                        return json[contract];
+                    }).length;
+                    console.log('contract', contractCount, 'level', json.lvFai);
+                    if( contractCount === 6 ) { return Number(json.lvFai) >= 10; }
+                    if( contractCount === 4 ) { return Number(json.lvFai) >= 7;  }
+                    if( contractCount <=  3 ) { return Number(json.lvFai) >= 6;  }
+                    return false
+                }}
+            }
         },
-        expect: {            
+        expect: {           
             'accessoryOtherName': { includes: ['えびら', '矢筒', '箙'] },
             'accessoryWaistName': { includes: ['えびら', '矢筒', '箙'] },
             'accessoryBackName': { includes: ['えびら', '矢筒', '箙'] },
             'accessory[a-zA-Z]+_+Name': { includes: ['えびら', '矢筒', '箙'] }
         },
-        ifNot: 'えびらまたは矢筒を装備していないと【シュートアロー】のために矢・太矢を取り出すことができません（『1』163頁）',
+        ifNot: 'えびらまたは矢筒を装備していないと【シュートアロー】の際に魔法拡大／数を使用することができません（『2』201頁）',
         label: 'hasShootArrowArrowHolders'
     }, {
         level: 'warn',
