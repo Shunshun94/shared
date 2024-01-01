@@ -167,7 +167,6 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_LIST = [
                     const contractCount = ['fairyContractDark', 'fairyContractEarth', 'fairyContractFire', 'fairyContractLight', 'fairyContractWater', 'fairyContractWind'].filter((contract)=>{
                         return json[contract];
                     }).length;
-                    console.log('contract', contractCount, 'level', json.lvFai);
                     if( contractCount === 6 ) { return Number(json.lvFai) >= 10; }
                     if( contractCount === 4 ) { return Number(json.lvFai) >= 7;  }
                     if( contractCount <=  3 ) { return Number(json.lvFai) >= 6;  }
