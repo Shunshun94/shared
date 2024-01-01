@@ -383,6 +383,121 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.FUNCTIONS_TEST_LIST = [
             lvFig: { isFrontMember: 1 }
         },
         expect: true
+    }, {
+        testName: 'スマルティエの装飾品を4つ装備している場合に3つ以上持っていることの確認',
+        "accessoryBack_Name":"スマルティエのポンチョ",
+        "accessoryEarName":"石人の耳飾り",
+        "accessoryFaceName":"アイソアーマスク",
+        "accessoryHandLName":"信念のリング",
+        "accessoryHeadName":"スマルティエのターバン",
+        "accessoryLegName":"韋駄天ブーツ",
+        "accessoryNeckName":"スマルティエの銀鈴",
+        "accessoryOtherName":"アルケミーキット",
+        "accessoryOther_Name":"スマルティエの腕輪（筋）",
+        "accessoryWaistName":"多機能ブラックベルト",
+        "accessoryWaist_Name":"レースアップコルセット",
+        conditions: {
+            testName: {
+                count: {
+                    key: 'accessory.*',
+                    includes: 'スマルティエ',
+                    required: { ormore: 3 }
+                }
+            }
+        },
+        expect: true
+    }, {
+        testName: 'スマルティエの装飾品を4つ装備している場合に5つ以上持っていることの確認',
+        "accessoryBack_Name":"スマルティエのポンチョ",
+        "accessoryEarName":"石人の耳飾り",
+        "accessoryFaceName":"アイソアーマスク",
+        "accessoryHandLName":"信念のリング",
+        "accessoryHeadName":"スマルティエのターバン",
+        "accessoryLegName":"韋駄天ブーツ",
+        "accessoryNeckName":"スマルティエの銀鈴",
+        "accessoryOtherName":"アルケミーキット",
+        "accessoryOther_Name":"スマルティエの腕輪（筋）",
+        "accessoryWaistName":"多機能ブラックベルト",
+        "accessoryWaist_Name":"レースアップコルセット",
+        conditions: {
+            testName: {
+                count: {
+                    key: 'accessory.*',
+                    includes: 'スマルティエ',
+                    required: { ormore: 5 }
+                }
+            }
+        },
+        expect: false
+    }, {
+        testName: 'スマルティエの装飾品を4つ装備している場合に4つ持っていることの確認',
+        "accessoryBack_Name":"スマルティエのポンチョ",
+        "accessoryEarName":"石人の耳飾り",
+        "accessoryFaceName":"アイソアーマスク",
+        "accessoryHandLName":"信念のリング",
+        "accessoryHeadName":"スマルティエのターバン",
+        "accessoryLegName":"韋駄天ブーツ",
+        "accessoryNeckName":"スマルティエの銀鈴",
+        "accessoryOtherName":"アルケミーキット",
+        "accessoryOther_Name":"スマルティエの腕輪（筋）",
+        "accessoryWaistName":"多機能ブラックベルト",
+        "accessoryWaist_Name":"レースアップコルセット",
+        conditions: {
+            testName: {
+                count: {
+                    key: 'accessory.*',
+                    includes: 'スマルティエ',
+                    required: { equal: 4 }
+                }
+            }
+        },
+        expect: true
+    }, {
+        testName: 'スマルティエの装飾品を4つ装備している場合に5つ持っていることの確認',
+        "accessoryBack_Name":"スマルティエのポンチョ",
+        "accessoryEarName":"石人の耳飾り",
+        "accessoryFaceName":"アイソアーマスク",
+        "accessoryHandLName":"信念のリング",
+        "accessoryHeadName":"スマルティエのターバン",
+        "accessoryLegName":"韋駄天ブーツ",
+        "accessoryNeckName":"スマルティエの銀鈴",
+        "accessoryOtherName":"アルケミーキット",
+        "accessoryOther_Name":"スマルティエの腕輪（筋）",
+        "accessoryWaistName":"多機能ブラックベルト",
+        "accessoryWaist_Name":"レースアップコルセット",
+        conditions: {
+            testName: {
+                count: {
+                    key: 'accessory.*',
+                    includes: 'スマルティエ',
+                    required: { equal: 5 }
+                }
+            }
+        },
+        expect: false
+    }, {
+        testName: 'スマルティエの装飾品を4つ装備している場合に3つ持っていることの確認',
+        "accessoryBack_Name":"スマルティエのポンチョ",
+        "accessoryEarName":"石人の耳飾り",
+        "accessoryFaceName":"アイソアーマスク",
+        "accessoryHandLName":"信念のリング",
+        "accessoryHeadName":"スマルティエのターバン",
+        "accessoryLegName":"韋駄天ブーツ",
+        "accessoryNeckName":"スマルティエの銀鈴",
+        "accessoryOtherName":"アルケミーキット",
+        "accessoryOther_Name":"スマルティエの腕輪（筋）",
+        "accessoryWaistName":"多機能ブラックベルト",
+        "accessoryWaist_Name":"レースアップコルセット",
+        conditions: {
+            testName: {
+                count: {
+                    key: 'accessory.*',
+                    includes: 'スマルティエ',
+                    required: { equal: 3 }
+                }
+            }
+        },
+        expect: false
     }
 ];
 

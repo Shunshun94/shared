@@ -95,6 +95,15 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.isMatchSingle = (key, value, ac
                 return value.includes(action.includes);
             }
         }
+        if(action.count || action.counts) {
+            console.log('count に in');
+            const countTargetValues = io.github.shunshun94.trpg.sw2.ytsheet.validation.getKeyValues((action.count || action.counts).key, json);
+            const countResult = Object.keys(countTargetValues).filter((internalKey)=>{
+                return io.github.shunshun94.trpg.sw2.ytsheet.validation.isMatchSingle(internalKey, countTargetValues[internalKey], (action.count || action.counts), json);
+            }).length;
+            console.log(countResult);
+            return io.github.shunshun94.trpg.sw2.ytsheet.validation.isMatchSingle('', countResult, (action.count || action.counts).required, json);
+        }
         if(action.func) { return action.func(key, value, json); }
         if(key.startsWith('lv') && value === '0') { return false; }
         return Boolean(value);
