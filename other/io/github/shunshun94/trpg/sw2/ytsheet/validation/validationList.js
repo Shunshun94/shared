@@ -156,6 +156,20 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_LIST = [
         ifNot: 'えびらまたは矢筒を装備していないと補助動作で矢・太矢をつがえることができません（『1』163頁）',
         label: 'hasArrowHolders'
     }, {
+        level: 'error',
+        when: 'always',
+        expect: {
+            'id': {
+                count: {
+                    key: 'accessory.*',
+                    includes: ['えびら', '矢筒', '箙', 'ガンベルト', 'バレットスリンガー', 'バレットポーチ'],
+                    required: { orless: 2 }
+                }
+            }
+        },
+        ifNot: '矢弾の収納具は一度に2つまでしか装備できません（『1』163頁）',
+        label: 'arrowHoldersLimitation'
+    }, {
         level: 'warn',
         when: {
             and: {
