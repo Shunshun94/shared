@@ -860,6 +860,31 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_TEST_LIST = {
             'expect': true
         }
     ],
+    "arrowHoldersLimitation": [{
+            'id': '_',
+            'testName': '矢弾入れを何も装備していない場合',
+            'accessoryEar_Name': '耳飾り',
+            'expect': true
+        }, {
+            'id': '_',
+            'testName': '矢弾入れを1つ装備している場合',
+            'accessoryWaistName': '矢筒',
+            'expect': true
+        }, {
+            'id': '_',
+            'testName': '矢弾入れを2つ装備している場合',
+            'accessoryWaistName': '矢筒',
+            'accessoryLegName': 'バレットポーチ',
+            'expect': true
+        }, {
+            'id': '_',
+            'testName': '矢弾入れを3つ装備している場合',
+            'accessoryWaistName': '矢筒',
+            'accessoryLegName': 'バレットポーチ',
+            'accessoryBackName': 'えびら',
+            'expect': false
+        }
+    ],
     "hasShootArrowArrowHolders": [{
             'testName': 'フェアリーテイマー Lv.6、風を含む3属性契約で矢筒を装備していない場合',
             'lvFai': '6',
