@@ -1377,6 +1377,12 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_TEST_LIST = {
             'items': 'アウェイクポーション3本',
             'expect': true
         }, {
+            'testName': 'プリーストがレベル1で気付け薬を持っている場合',
+            'level': '5',
+            'lvPri': '1',
+            'items': '気付け薬2本',
+            'expect': true
+        }, {
             'testName': 'プリーストがレベル2の場合',
             'level': '5',
             'lvPri': '2',
