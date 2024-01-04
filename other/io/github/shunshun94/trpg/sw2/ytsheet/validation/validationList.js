@@ -362,7 +362,7 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_LIST = [
         level: 'info',
         when: 'always',
         expect: {
-            'items': { includes: 'アウェイクポーション' },
+            'items': { includes: ['アウェイクポーション', '気付け薬', '気づけ薬'] },
             'lvPri': { ormore: 2 }
         },
         ifNot: '万が一の時のためにアウェイクポーション（『1』325頁）を持っておくことをおすすめします',
