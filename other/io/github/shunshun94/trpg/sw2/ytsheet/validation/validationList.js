@@ -342,6 +342,36 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_LIST = [
     ifNot: '武器攻撃に用いる技能を指定することでチャットパレットやキャラクターシートの表示に反映されます',
     label: 'noWeaponClassEmpty'
     }, {
+        level: 'warn',
+        when: {
+            'accessory.*Name': {includes: '集中の鉢巻き'}
+        },
+        expect: {
+            'lvSag': { ormore: 3 }
+        },
+        ifNot: '集中の鉢巻きの効果を得るにはセージ技能が3レベル以上である必要があります（『2』262頁）',
+        label: 'headbandOfConcentrateRequiresSageLevel'
+    }, {
+        level: 'warn',
+        when: {
+            'accessory.*Name': {includes: '野伏の'}
+        },
+        expect: {
+            'lvRan': { ormore: 3 }
+        },
+        ifNot: '野伏の＊＊マントの効果を得るにはレンジャー技能が3レベル以上である必要があります（『2』266頁）',
+        label: 'manteauOfNobushiRequiresRangerLevel'
+    }, {
+        level: 'warn',
+        when: {
+            'accessory.*Name': {includes: '多機能'}
+        },
+        expect: {
+            'lvSco': { ormore: 3 }
+        },
+        ifNot: '多機能の＊＊ベルトの効果を得るにはスカウト技能が3レベル以上である必要があります（『2』267頁）',
+        label: 'multipleUseBeltRequiresScoutLevel'
+    }, {
         level: 'info',
         when: 'always',
         expect: {

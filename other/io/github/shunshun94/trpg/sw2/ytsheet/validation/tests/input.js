@@ -1281,6 +1281,39 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_TEST_LIST = {
             'expect': true
         }
     ],
+    "headbandOfConcentrateRequiresSageLevel": [{
+        'testName': 'セージがレベル2で集中の鉢巻きを装備している場合',
+        'lvSag': '2',
+        'accessoryHeadName': '集中の鉢巻き',
+        'expect': false
+    }, {
+        'testName': 'セージがレベル3で集中の鉢巻きを装備している場合',
+        'lvSag': '3',
+        'accessoryHeadName': '集中の鉢巻き',
+        'expect': true
+    }],
+    "manteauOfNobushiRequiresRangerLevel": [{
+        'testName': 'レンジャーがレベル2で野伏のマントを装備している場合',
+        'lvRan': '2',
+        'accessoryBackName': '野伏のおしゃれなマント',
+        'expect': false
+    }, {
+        'testName': 'レンジャーがレベル3で野伏のマントを装備している場合',
+        'lvRan': '3',
+        'accessoryBackName': '野伏のおしゃれなマント',
+        'expect': true
+    }],
+    "multipleUseBeltRequiresScoutLevel": [{
+        'testName': 'スカウトがレベル2で多機能ベルトを装備している場合',
+        'lvSco': '2',
+        'accessoryWaistName': '多機能ガーターベルト',
+        'expect': false
+    }, {
+        'testName': 'スカウトがレベル3で多機能ベルトを装備している場合',
+        'lvSco': '3',
+        'accessoryWaistName': '多機能ガーターベルト',
+        'expect': true
+    }],
     "adventurerRequiresSearchingSkills": [
         {
             'testName': '探索技能を全くを持っていない場合',
