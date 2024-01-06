@@ -1314,6 +1314,17 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_TEST_LIST = {
         'accessoryWaistName': '多機能ガーターベルト',
         'expect': true
     }],
+    "gorgeousJwelRequiresFairyTamerLevel": [{
+        'testName': 'フェアリーテイマーがレベル2で華美なる宝石飾りを装備している場合',
+        'lvFai': '2',
+        'accessoryWaistName': '華美なる宝石飾り',
+        'expect': false
+    }, {
+        'testName': 'フェアリーテイマーがレベル3で華美なる宝石飾りを装備している場合',
+        'lvFai': '3',
+        'accessoryWaistName': '華美なる宝石飾り',
+        'expect': true
+    }],
     "adventurerRequiresSearchingSkills": [
         {
             'testName': '探索技能を全くを持っていない場合',
