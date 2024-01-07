@@ -382,6 +382,16 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_LIST = [
         ifNot: '華美なる宝石飾りの効果を得るにはフェアリーテイマー技能が3レベル以上である必要があります（『2』249頁）',
         label: 'gorgeousJwelRequiresFairyTamerLevel'
     }, {
+        level: 'warn',
+        when: {
+            'accessory.*Name': {includes: ['真ブラックベルト', '真・ブラックベルト']}
+        },
+        expect: {
+            'lvGra': { ormore: 3 }
+        },
+        ifNot: '真・ブラックベルトの効果を得るにはグラップラー技能が3レベル以上である必要があります（『2』269頁）',
+		label: 'trueBlackBeltRequiresGrapplerLevel'
+	}, {
         level: 'info',
         when: 'always',
         expect: {

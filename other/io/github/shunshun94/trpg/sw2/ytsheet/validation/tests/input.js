@@ -1325,6 +1325,22 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_TEST_LIST = {
         'accessoryWaistName': '華美なる宝石飾り',
         'expect': true
     }],
+    "trueBlackBeltRequiresGrapplerLevel": [{
+        'testName': 'グラップラーがレベル2で真ブラックベルトを装備している場合',
+        'lvGra': '2',
+        'accessoryWaistName': '真・ブラックベルト',
+        'expect': false
+    }, {
+        'testName': 'グラップラーがレベル2で真ブラックベルトを装備している場合',
+        'lvGra': '2',
+        'accessoryWaistName': '真ブラックベルト',
+        'expect': false
+    }, {
+        'testName': 'グラップラーがレベル3で真ブラックベルトを装備している場合',
+        'lvGra': '3',
+        'accessoryWaistName': '真・ブラックベルト',
+        'expect': true
+    }],
     "adventurerRequiresSearchingSkills": [
         {
             'testName': '探索技能を全くを持っていない場合',
