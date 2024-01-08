@@ -392,6 +392,16 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_LIST = [
         ifNot: '真・ブラックベルトの効果を得るにはグラップラー技能が3レベル以上である必要があります（『2』269頁）',
 		label: 'trueBlackBeltRequiresGrapplerLevel'
 	}, {
+        level: 'warn',
+        when: {
+            'accessory.*Name': {includes: 'レースアップコルセット'}
+        },
+        expect: {
+            'lvBat': { ormore: 3 }
+        },
+        ifNot: 'レースアップコルセットの効果を得るにはバトルダンサー技能が3レベル以上である必要があります（『BM』84頁）',
+		label: 'corsetRequiresBattleDancerLevel'
+	}, {
         level: 'info',
         when: 'always',
         expect: {

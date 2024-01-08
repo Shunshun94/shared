@@ -1282,6 +1282,10 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_TEST_LIST = {
         }
     ],
     "headbandOfConcentrateRequiresSageLevel": [{
+        'testName': 'セージがないが集中の鉢巻きを装備している場合',
+        'accessoryHeadName': '集中の鉢巻き',
+        'expect': false
+    }, {
         'testName': 'セージがレベル2で集中の鉢巻きを装備している場合',
         'lvSag': '2',
         'accessoryHeadName': '集中の鉢巻き',
@@ -1293,6 +1297,10 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_TEST_LIST = {
         'expect': true
     }],
     "manteauOfNobushiRequiresRangerLevel": [{
+        'testName': 'レンジャーがないが野伏のマントを装備している場合',
+        'accessoryBackName': '野伏のおしゃれなマント',
+        'expect': false
+    }, {
         'testName': 'レンジャーがレベル2で野伏のマントを装備している場合',
         'lvRan': '2',
         'accessoryBackName': '野伏のおしゃれなマント',
@@ -1304,6 +1312,10 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_TEST_LIST = {
         'expect': true
     }],
     "multipleUseBeltRequiresScoutLevel": [{
+        'testName': 'スカウトがないが多機能ベルトを装備している場合',
+        'accessoryWaistName': '多機能ガーターベルト',
+        'expect': false
+    }, {
         'testName': 'スカウトがレベル2で多機能ベルトを装備している場合',
         'lvSco': '2',
         'accessoryWaistName': '多機能ガーターベルト',
@@ -1315,6 +1327,10 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_TEST_LIST = {
         'expect': true
     }],
     "gorgeousJwelRequiresFairyTamerLevel": [{
+        'testName': 'フェアリーテイマーがないが華美なる宝石飾りを装備している場合',
+        'accessoryWaistName': '華美なる宝石飾り',
+        'expect': false
+    }, {
         'testName': 'フェアリーテイマーがレベル2で華美なる宝石飾りを装備している場合',
         'lvFai': '2',
         'accessoryWaistName': '華美なる宝石飾り',
@@ -1326,6 +1342,10 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_TEST_LIST = {
         'expect': true
     }],
     "trueBlackBeltRequiresGrapplerLevel": [{
+        'testName': 'グラップラーがないのに真・ブラックベルトを装備している場合',
+        'accessoryWaistName': '真・ブラックベルト',
+        'expect': false
+    }, {
         'testName': 'グラップラーがレベル2で真ブラックベルトを装備している場合',
         'lvGra': '2',
         'accessoryWaistName': '真・ブラックベルト',
@@ -1339,6 +1359,21 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_TEST_LIST = {
         'testName': 'グラップラーがレベル3で真ブラックベルトを装備している場合',
         'lvGra': '3',
         'accessoryWaistName': '真・ブラックベルト',
+        'expect': true
+    }],
+    "corsetRequiresBattleDancerLevel": [{
+        'testName': 'バトルダンサーがないのに装備している場合',
+        'accessoryWaist_Name': 'レースアップコルセット',
+        'expect': false
+    }, {
+        'testName': 'バトルダンサーがレベル2でレースアップコルセットを装備している場合',
+        'lvBat': '2',
+        'accessoryWaist_Name': 'レースアップコルセット',
+        'expect': false
+    }, {
+        'testName': 'バトルダンサーがレベル3でレースアップコルセットを装備している場合',
+        'lvBat': '3',
+        'accessoryWaist_Name': 'レースアップコルセット',
         'expect': true
     }],
     "adventurerRequiresSearchingSkills": [
