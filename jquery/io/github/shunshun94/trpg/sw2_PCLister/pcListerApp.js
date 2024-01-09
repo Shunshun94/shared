@@ -223,7 +223,7 @@ io.github.shunshun94.trpg.SW2_PCListerApp.onloadJson = (json) => {
             characterMap[d.name] = d.id;
         });
         json.forEach((c)=>{
-            c.buffs.forEach((b)=>{
+            (c.buffs || []).forEach((b)=>{
                 $(`input[value=${buffMap[b.name]}-${characterMap[c.name]}]`).prop('checked', true);
             });
         });
