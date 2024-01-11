@@ -306,3 +306,7 @@ JSON.parse(localStorage.getItem('io-github-shunshun94-trpg-sw2_pclister-buffs') 
         $(v).val(d[io.github.shunshun94.trpg.SW2_PCListerApp.CONSTS.BUFF_COLOMN_INDEX[dom.prop('class')]]);
     });
 });
+
+(com.hiyoko.util.getQueriesV3().sheets || '').split(',').filter((d)=>{return d.trim()}).forEach((url)=>{
+    io.github.shunshun94.trpg.SW2_PCLister.getSheet(url).then(io.github.shunshun94.trpg.SW2_PCListerApp.handleLoadedCharacterSheet);
+});
