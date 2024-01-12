@@ -99,6 +99,10 @@ a, a:visited {
     display:block;
 }
 
+#linkToList {
+    text-align:right;
+}
+
 footer {
     margin-left:12px;
     margin-right:12px;
