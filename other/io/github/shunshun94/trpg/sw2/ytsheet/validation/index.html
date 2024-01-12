@@ -24,6 +24,7 @@
             <p id="link">キャラクターシート：<a id="linkToSheet" href="" target="_blank" rel="noopener noreferrer"></a></p>
             <div id="result"></div>
         </div>
+        <p id="linkToList" style="display:none;"><a href=""></a></p>
     </div>
     <footer>
         <p>本作は、「グループＳＮＥ」及び「株式会社ＫＡＤＯＫＡＷＡ」が権利を有する『ソード・ワールド2.5』のために作られたツールです。<br/>(C)GroupSNE<br/>(C)KADOKAWA</p>
@@ -44,6 +45,7 @@
             message.textContent = `* ${topic.system ? '' : io.github.shunshun94.trpg.sw2.ytsheet.validation.CONSTS.LEVEL[topic.level].prefix}${topic.ifNot}`;
             document.getElementById('result').append(message);
         };
+        const urlList = [];
         document.getElementById('input').addEventListener(
             io.github.shunshun94.trpg.sw2.component.SheetInput.EVENTS.SHEET_URL_INPUT,
             (e) => {
@@ -74,6 +76,11 @@
                         });
                     }
                 });
+                urlList.push(url);
+                const a = document.getElementById('linkToList').children[0];
+                a.textContent = `ここまでで確認した${urlList.length}人について一覧で能力を確認する`;
+                a.href = `../../../../../../../../jquery/io/github/shunshun94/trpg/sw2_PCLister/lister.html?sheets=${urlList.join(',')}`;
+                document.getElementById('linkToList').style = '';
             }
         );
         const request = (url) => {
