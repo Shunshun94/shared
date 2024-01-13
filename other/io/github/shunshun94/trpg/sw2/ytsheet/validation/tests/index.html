@@ -41,12 +41,17 @@
             if(io.github.shunshun94.trpg.sw2.ytsheet.validation.FUNCTIONS_TEST_LIST.length === 0) {
                 errorHandle(false, false, `関数群のテストが書かれていません`);
             }
-            io.github.shunshun94.trpg.sw2.ytsheet.validation.FUNCTIONS_TEST_LIST.forEach((test)=>{
-                if( test.expect !== io.github.shunshun94.trpg.sw2.ytsheet.validation.isMatch(test, test.conditions) ) {
-                    errorHandle({}, test);
-                } else {
-                    passHandle({}, test);
+            io.github.shunshun94.trpg.sw2.ytsheet.validation.FUNCTIONS_TEST_LIST.forEach((test, num)=>{
+                try {
+                    if( test.expect !== io.github.shunshun94.trpg.sw2.ytsheet.validation.isMatch(test, test.conditions) ) {
+                        errorHandle({}, test);
+                    } else {
+                        passHandle({}, test);
+                    }
+                } catch (e) {
+                    errorHandle(false, false, `${test.testName}のテストで例外が発生しました`);
                 }
+
             });
             const validations = io.github.shunshun94.trpg.sw2.ytsheet.validation.getValidationListAsMap();
             for(var validationName in validations) {
@@ -55,7 +60,7 @@
                 if((! tests) || (tests.length === 0)) {
                     errorHandle(false, false, `${validationName}のテストが書かれていません`);
                 } else {
-                    tests.forEach((test)=>{
+                    tests.forEach((test, num)=>{
                         try {
                             if( io.github.shunshun94.trpg.sw2.ytsheet.validation.when(test, validation.when) ) {
                                 if( test.expect != io.github.shunshun94.trpg.sw2.ytsheet.validation.isValid(test, validation.expect) ) {
@@ -71,7 +76,7 @@
                                 }
                             }
                         } catch (e) {
-
+                            errorHandle(false, false, `${validationName}の${test.testName}で例外が発生しました`);
                         }
                     });
                 }
