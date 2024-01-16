@@ -11,6 +11,8 @@ io.github.shunshun94.trpg.logEditor.menu.NameConfig.generateDom = (names) => {
 	return `<div
 		class="${io.github.shunshun94.trpg.logEditor.CLASSES.TMP_WINDOW} ${io.github.shunshun94.trpg.logEditor.CLASSES.NAME_MENU_WINDOW}"
 	>
+	<input id="${io.github.shunshun94.trpg.logEditor.CLASSES.NAME_MENU_WINDOW}-tab-simpleMode" type="radio" name="tab_item" checked><label class="tab_item" for="all">簡単モードで編集</label>
+	<input id="${io.github.shunshun94.trpg.logEditor.CLASSES.NAME_MENU_WINDOW}-tab-detailMode" type="radio" name="tab_item"         ><label class="tab_item" for="all">詳細モードで編集</label>
 	<table>
 	<tr><th>今の名前</th><th>変更後の名前</th><th>class一括変更</th><th>style一括変更</th></tr>
 	${io.github.shunshun94.trpg.logEditor.menu.NameConfig.generateListByNames(names)}
