@@ -11,10 +11,18 @@ io.github.shunshun94.trpg.logEditor.menu.NameConfig.generateDom = (names) => {
 	return `<div
 		class="${io.github.shunshun94.trpg.logEditor.CLASSES.TMP_WINDOW} ${io.github.shunshun94.trpg.logEditor.CLASSES.NAME_MENU_WINDOW}"
 	>
-	<input id="${io.github.shunshun94.trpg.logEditor.CLASSES.NAME_MENU_WINDOW}-tab-simpleMode" type="radio" name="tab_item" checked><label class="tab_item" for="all">簡単モードで編集</label>
-	<input id="${io.github.shunshun94.trpg.logEditor.CLASSES.NAME_MENU_WINDOW}-tab-detailMode" type="radio" name="tab_item"         ><label class="tab_item" for="all">詳細モードで編集</label>
+	<input id="${io.github.shunshun94.trpg.logEditor.CLASSES.NAME_MENU_WINDOW}-tab-simpleMode" type="radio" name="tab_item" checked>
+	<label class="tab_item" for="simpleMode">簡単モードで編集</label>
+	<input id="${io.github.shunshun94.trpg.logEditor.CLASSES.NAME_MENU_WINDOW}-tab-detailMode" type="radio" name="tab_item">
+	<label class="tab_item" for="detailMode">詳細モードで編集</label>
 	<table>
-	<tr><th>今の名前</th><th>変更後の名前</th><th>class一括変更</th><th>style一括変更</th></tr>
+	<tr>
+		<th>今の名前</th>
+		<th class="${io.github.shunshun94.trpg.logEditor.CLASSES.NAME_MENU_WINDOW}-simpleHide">変更後の名前</th>
+		<th class="${io.github.shunshun94.trpg.logEditor.CLASSES.NAME_MENU_WINDOW}-simpleHide">class一括変更</th>
+		<th class="${io.github.shunshun94.trpg.logEditor.CLASSES.NAME_MENU_WINDOW}-simpleHide">style一括変更</th>
+		<th class="${io.github.shunshun94.trpg.logEditor.CLASSES.NAME_MENU_WINDOW}-detailHide">文字色設定</th>
+	</tr>
 	${io.github.shunshun94.trpg.logEditor.menu.NameConfig.generateListByNames(names)}
 	</table>
 	<button class="${io.github.shunshun94.trpg.logEditor.CLASSES.NAME_MENU_EXEC}">決定</button>
@@ -25,15 +33,18 @@ io.github.shunshun94.trpg.logEditor.menu.NameConfig.generateListByNames = (names
 	return names.map((name)=>{
 		return `<tr class="${io.github.shunshun94.trpg.logEditor.CLASSES.NAME_MENU_WINDOW}-tr">
 			<th>${name}</th>
-			<td class="${io.github.shunshun94.trpg.logEditor.CLASSES.NAME_MENU_WINDOW}-td">
-				<input type="text" class="${io.github.shunshun94.trpg.logEditor.CLASSES.NAME_MENU_WINDOW}-name"　 placeholder="空白の場合は特に設定しません" />
+			<td class="${io.github.shunshun94.trpg.logEditor.CLASSES.NAME_MENU_WINDOW}-td ${io.github.shunshun94.trpg.logEditor.CLASSES.NAME_MENU_WINDOW}-simpleHide">
+				<input type="text" class="${io.github.shunshun94.trpg.logEditor.CLASSES.NAME_MENU_WINDOW}-name" placeholder="空白の場合は特に設定しません" />
 			</td>
-			<td class="${io.github.shunshun94.trpg.logEditor.CLASSES.NAME_MENU_WINDOW}-td">
-				<input type="text" class="${io.github.shunshun94.trpg.logEditor.CLASSES.NAME_MENU_WINDOW}-class"　placeholder="空白の場合は特に設定しません" />
+			<td class="${io.github.shunshun94.trpg.logEditor.CLASSES.NAME_MENU_WINDOW}-td ${io.github.shunshun94.trpg.logEditor.CLASSES.NAME_MENU_WINDOW}-simpleHide">
+				<input type="text" class="${io.github.shunshun94.trpg.logEditor.CLASSES.NAME_MENU_WINDOW}-class" placeholder="空白の場合は特に設定しません" />
 				<button class="${io.github.shunshun94.trpg.logEditor.CLASSES.NAME_MENU_WINDOW}-classInsert">自動生成</button>
 			</td>
-			<td class="${io.github.shunshun94.trpg.logEditor.CLASSES.NAME_MENU_WINDOW}-td">
-				<input type="text" class="${io.github.shunshun94.trpg.logEditor.CLASSES.NAME_MENU_WINDOW}-style"　placeholder="空白の場合は特に設定しません" />
+			<td class="${io.github.shunshun94.trpg.logEditor.CLASSES.NAME_MENU_WINDOW}-td ${io.github.shunshun94.trpg.logEditor.CLASSES.NAME_MENU_WINDOW}-simpleHide">
+				<input type="text" class="${io.github.shunshun94.trpg.logEditor.CLASSES.NAME_MENU_WINDOW}-style" placeholder="空白の場合は特に設定しません" />
+			</td>
+			<td class="${io.github.shunshun94.trpg.logEditor.CLASSES.NAME_MENU_WINDOW}-td ${io.github.shunshun94.trpg.logEditor.CLASSES.NAME_MENU_WINDOW}-detailHide">
+				<input type="color" class="${io.github.shunshun94.trpg.logEditor.CLASSES.NAME_MENU_WINDOW}-color" />
 			</td>
 		</tr>`
 	}).join('\n');
