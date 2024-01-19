@@ -185,8 +185,20 @@ io.github.shunshun94.trpg.logEditor.Editor = class {
 		return Array.from(new Set($.makeArray($(`.${io.github.shunshun94.trpg.logEditor.CLASSES.NAME}`).map((i,v)=>{return $(v).text()})))).filter((n)=>{return n;});
 	}
 
+	getNameColorList() {
+		const result = {};
+		const names =  $.makeArray( $(`.${io.github.shunshun94.trpg.logEditor.CLASSES.NAME}`).map((i,v)=>{return $(v).text()}) );
+		const styles = $.makeArray( $(`.${io.github.shunshun94.trpg.logEditor.CLASSES.INPUTS}-style`).map((i,v)=>{return $(v).val().trim().replaceAll('"', '')}) );
+		names.forEach((name, i)=>{
+			if( name && (! result[name]) && styles[i] ) {
+				result[name] = styles[i];
+			}
+		});
+		return result;
+	}
+
 	openNameConfigScreen() {
-		io.github.shunshun94.trpg.logEditor.DOMS.BODY.append(io.github.shunshun94.trpg.logEditor.menu.NameConfig.generateDom(this.getNameList()));
+		io.github.shunshun94.trpg.logEditor.DOMS.BODY.append(io.github.shunshun94.trpg.logEditor.menu.NameConfig.generateDom(this.getNameColorList(), io.github.shunshun94.trpg.logEditor.DOMS.BODY.attr('class')));
 	}
 
 	insertClassToNameConfig(tr) {

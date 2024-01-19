@@ -7,7 +7,7 @@ io.github.shunshun94.trpg.logEditor.menu = io.github.shunshun94.trpg.logEditor.m
 
 io.github.shunshun94.trpg.logEditor.menu.NameConfig = io.github.shunshun94.trpg.logEditor.menu.NameConfig || {};
 
-io.github.shunshun94.trpg.logEditor.menu.NameConfig.generateDom = (names) => {
+io.github.shunshun94.trpg.logEditor.menu.NameConfig.generateDom = (nameStyleMap, isDarkMode) => {
 	return `<div
 		class="${io.github.shunshun94.trpg.logEditor.CLASSES.TMP_WINDOW} ${io.github.shunshun94.trpg.logEditor.CLASSES.NAME_MENU_WINDOW}"
 	>
@@ -23,14 +23,18 @@ io.github.shunshun94.trpg.logEditor.menu.NameConfig.generateDom = (names) => {
 		<th class="${io.github.shunshun94.trpg.logEditor.CLASSES.NAME_MENU_WINDOW}-simpleHide">style一括変更</th>
 		<th class="${io.github.shunshun94.trpg.logEditor.CLASSES.NAME_MENU_WINDOW}-detailHide">文字色設定</th>
 	</tr>
-	${io.github.shunshun94.trpg.logEditor.menu.NameConfig.generateListByNames(names)}
+	${io.github.shunshun94.trpg.logEditor.menu.NameConfig.generateListByNames(nameStyleMap, isDarkMode)}
 	</table>
 	<button class="${io.github.shunshun94.trpg.logEditor.CLASSES.NAME_MENU_EXEC}">決定</button>
 	</div>`;
 };
 
-io.github.shunshun94.trpg.logEditor.menu.NameConfig.generateListByNames = (names) => {
-	return names.map((name)=>{
+io.github.shunshun94.trpg.logEditor.menu.NameConfig.generateListByNames = (nameStyleMap, isDarkMode) => {
+	const nameList = Object.keys(nameStyleMap);
+	return nameList.map((name)=>{
+		const style = nameStyleMap[name];
+		const colorExecResult = /color:(#[a-fA-F0-9][a-fA-F0-9][a-fA-F0-9][a-fA-F0-9][a-fA-F0-9][a-fA-F0-9])/.exec(style);
+		const color = colorExecResult ? colorExecResult[1] : ( isDarkMode ? '#FFFFFF' : '#000000' );
 		return `<tr class="${io.github.shunshun94.trpg.logEditor.CLASSES.NAME_MENU_WINDOW}-tr">
 			<th>${name}</th>
 			<td class="${io.github.shunshun94.trpg.logEditor.CLASSES.NAME_MENU_WINDOW}-td ${io.github.shunshun94.trpg.logEditor.CLASSES.NAME_MENU_WINDOW}-simpleHide">
@@ -41,10 +45,10 @@ io.github.shunshun94.trpg.logEditor.menu.NameConfig.generateListByNames = (names
 				<button class="${io.github.shunshun94.trpg.logEditor.CLASSES.NAME_MENU_WINDOW}-classInsert">自動生成</button>
 			</td>
 			<td class="${io.github.shunshun94.trpg.logEditor.CLASSES.NAME_MENU_WINDOW}-td ${io.github.shunshun94.trpg.logEditor.CLASSES.NAME_MENU_WINDOW}-simpleHide">
-				<input type="text" class="${io.github.shunshun94.trpg.logEditor.CLASSES.NAME_MENU_WINDOW}-style" placeholder="空白の場合は特に設定しません" />
+				<input type="text" class="${io.github.shunshun94.trpg.logEditor.CLASSES.NAME_MENU_WINDOW}-style" placeholder="空白の場合は特に設定しません" value="${style}" />
 			</td>
 			<td class="${io.github.shunshun94.trpg.logEditor.CLASSES.NAME_MENU_WINDOW}-td ${io.github.shunshun94.trpg.logEditor.CLASSES.NAME_MENU_WINDOW}-detailHide">
-				<input type="color" class="${io.github.shunshun94.trpg.logEditor.CLASSES.NAME_MENU_WINDOW}-color" />
+				<input type="color" class="${io.github.shunshun94.trpg.logEditor.CLASSES.NAME_MENU_WINDOW}-color" value="${color}" />
 			</td>
 		</tr>`
 	}).join('\n');
