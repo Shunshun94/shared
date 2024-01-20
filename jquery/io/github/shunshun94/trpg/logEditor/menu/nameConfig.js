@@ -32,7 +32,7 @@ io.github.shunshun94.trpg.logEditor.menu.NameConfig.generateDom = (nameStyleMap,
 io.github.shunshun94.trpg.logEditor.menu.NameConfig.generateListByNames = (nameStyleMap, isDarkMode) => {
 	const nameList = Object.keys(nameStyleMap);
 	return nameList.map((name)=>{
-		const style = nameStyleMap[name];
+		const style = nameStyleMap[name].style;
 		const colorExecResult = /color:(#[a-fA-F0-9][a-fA-F0-9][a-fA-F0-9][a-fA-F0-9][a-fA-F0-9][a-fA-F0-9])/.exec(style);
 		const color = colorExecResult ? colorExecResult[1] : ( isDarkMode ? '#FFFFFF' : '#000000' );
 		return `<tr class="${io.github.shunshun94.trpg.logEditor.CLASSES.NAME_MENU_WINDOW}-tr">
