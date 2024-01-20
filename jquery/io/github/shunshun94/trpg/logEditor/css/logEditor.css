@@ -369,6 +369,11 @@ input[name="tab_item"] {
 	display:none;
 }
 
+.io-github-shunshun94-trpg-logEditor-menu-NameConfig-tr th {
+	padding-left:1em;
+	padding-right:1em;
+}
+
 .io-github-shunshun94-trpg-logEditor-menu-AddElementMenu-table {
 	width:320px;	
 }

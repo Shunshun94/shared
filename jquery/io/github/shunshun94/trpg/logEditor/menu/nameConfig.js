@@ -12,9 +12,9 @@ io.github.shunshun94.trpg.logEditor.menu.NameConfig.generateDom = (nameStyleMap,
 		class="${io.github.shunshun94.trpg.logEditor.CLASSES.TMP_WINDOW} ${io.github.shunshun94.trpg.logEditor.CLASSES.NAME_MENU_WINDOW}"
 	>
 	<input id="${io.github.shunshun94.trpg.logEditor.CLASSES.NAME_MENU_WINDOW}-tab-simpleMode" type="radio" name="tab_item" checked>
-	<label class="tab_item" for="simpleMode">簡単モードで編集</label>
+	<label class="tab_item" for="${io.github.shunshun94.trpg.logEditor.CLASSES.NAME_MENU_WINDOW}-tab-simpleMode">簡単モードで編集</label>
 	<input id="${io.github.shunshun94.trpg.logEditor.CLASSES.NAME_MENU_WINDOW}-tab-detailMode" type="radio" name="tab_item">
-	<label class="tab_item" for="detailMode">詳細モードで編集</label>
+	<label class="tab_item" for="${io.github.shunshun94.trpg.logEditor.CLASSES.NAME_MENU_WINDOW}-tab-detailMode">詳細モードで編集</label>
 	<table>
 	<tr>
 		<th>今の名前</th>
