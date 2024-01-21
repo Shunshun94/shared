@@ -11,9 +11,9 @@ io.github.shunshun94.trpg.logEditor.menu.NameConfig.generateDom = (nameStyleMap,
 	return `<div
 		class="${io.github.shunshun94.trpg.logEditor.CLASSES.TMP_WINDOW} ${io.github.shunshun94.trpg.logEditor.CLASSES.NAME_MENU_WINDOW}"
 	>
-	<input id="${io.github.shunshun94.trpg.logEditor.CLASSES.NAME_MENU_WINDOW}-tab-simpleMode" type="radio" name="tab_item" checked>
-	<label class="tab_item" for="${io.github.shunshun94.trpg.logEditor.CLASSES.NAME_MENU_WINDOW}-tab-simpleMode">色だけ変えるモードで編集</label>
-	<input id="${io.github.shunshun94.trpg.logEditor.CLASSES.NAME_MENU_WINDOW}-tab-detailMode" type="radio" name="tab_item">
+	<input id="${io.github.shunshun94.trpg.logEditor.CLASSES.NAME_MENU_WINDOW}-tab-simpleMode" type="radio" name="tab_item">
+	<label class="tab_item" for="${io.github.shunshun94.trpg.logEditor.CLASSES.NAME_MENU_WINDOW}-tab-simpleMode">色だけ変えるモードで編集（試験運転中）</label>
+	<input id="${io.github.shunshun94.trpg.logEditor.CLASSES.NAME_MENU_WINDOW}-tab-detailMode" type="radio" name="tab_item" checked>
 	<label class="tab_item" for="${io.github.shunshun94.trpg.logEditor.CLASSES.NAME_MENU_WINDOW}-tab-detailMode">詳細モードで編集</label>
 	<table>
 	<tr>
@@ -32,7 +32,7 @@ io.github.shunshun94.trpg.logEditor.menu.NameConfig.generateDom = (nameStyleMap,
 io.github.shunshun94.trpg.logEditor.menu.NameConfig.generateListByNames = (nameStyleMap, isDarkMode) => {
 	const nameList = Object.keys(nameStyleMap);
 	return nameList.map((name, num)=>{
-		const style = nameStyleMap[name].style;
+		const style = nameStyleMap[name].style || '';
 		const colorExecResult = /color:(#[a-fA-F0-9][a-fA-F0-9][a-fA-F0-9][a-fA-F0-9][a-fA-F0-9][a-fA-F0-9])/.exec(style);
 		const color = colorExecResult ? colorExecResult[1] : ( isDarkMode ? '#FFFFFF' : '#000000' );
 		return `<tr class="${io.github.shunshun94.trpg.logEditor.CLASSES.NAME_MENU_WINDOW}-tr">
