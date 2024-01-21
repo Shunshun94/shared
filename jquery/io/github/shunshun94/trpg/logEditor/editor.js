@@ -340,6 +340,12 @@ io.github.shunshun94.trpg.logEditor.Editor = class {
 			if(inputted.hasClass(`${io.github.shunshun94.trpg.logEditor.CLASSES.ADD_ELEMENT_MENU_WINDOW}-ytsheetOptions-url`)) {
 				io.github.shunshun94.trpg.logEditor.menu.AddNewElementMenu.insertByUrl(inputted);
 			}
+			if(inputted.hasClass(`${io.github.shunshun94.trpg.logEditor.CLASSES.NAME_MENU_WINDOW}-style`)) {
+				io.github.shunshun94.trpg.logEditor.menu.NameConfig.onModifyStyle(inputted, io.github.shunshun94.trpg.logEditor.DOMS.BODY.attr('class'));
+			}
+			if(inputted.hasClass(`${io.github.shunshun94.trpg.logEditor.CLASSES.NAME_MENU_WINDOW}-color`)) {
+				io.github.shunshun94.trpg.logEditor.menu.NameConfig.onModifyColor(inputted, io.github.shunshun94.trpg.logEditor.DOMS.BODY.attr('class'));
+			}
 		});
 
 		io.github.shunshun94.trpg.logEditor.DOMS.BODY.click((e)=>{

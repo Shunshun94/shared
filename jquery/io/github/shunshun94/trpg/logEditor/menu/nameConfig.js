@@ -12,7 +12,7 @@ io.github.shunshun94.trpg.logEditor.menu.NameConfig.generateDom = (nameStyleMap,
 		class="${io.github.shunshun94.trpg.logEditor.CLASSES.TMP_WINDOW} ${io.github.shunshun94.trpg.logEditor.CLASSES.NAME_MENU_WINDOW}"
 	>
 	<input id="${io.github.shunshun94.trpg.logEditor.CLASSES.NAME_MENU_WINDOW}-tab-simpleMode" type="radio" name="tab_item" checked>
-	<label class="tab_item" for="${io.github.shunshun94.trpg.logEditor.CLASSES.NAME_MENU_WINDOW}-tab-simpleMode">簡単モードで編集</label>
+	<label class="tab_item" for="${io.github.shunshun94.trpg.logEditor.CLASSES.NAME_MENU_WINDOW}-tab-simpleMode">色だけ変えるモードで編集</label>
 	<input id="${io.github.shunshun94.trpg.logEditor.CLASSES.NAME_MENU_WINDOW}-tab-detailMode" type="radio" name="tab_item">
 	<label class="tab_item" for="${io.github.shunshun94.trpg.logEditor.CLASSES.NAME_MENU_WINDOW}-tab-detailMode">詳細モードで編集</label>
 	<table>
@@ -31,7 +31,7 @@ io.github.shunshun94.trpg.logEditor.menu.NameConfig.generateDom = (nameStyleMap,
 
 io.github.shunshun94.trpg.logEditor.menu.NameConfig.generateListByNames = (nameStyleMap, isDarkMode) => {
 	const nameList = Object.keys(nameStyleMap);
-	return nameList.map((name)=>{
+	return nameList.map((name, num)=>{
 		const style = nameStyleMap[name].style;
 		const colorExecResult = /color:(#[a-fA-F0-9][a-fA-F0-9][a-fA-F0-9][a-fA-F0-9][a-fA-F0-9][a-fA-F0-9])/.exec(style);
 		const color = colorExecResult ? colorExecResult[1] : ( isDarkMode ? '#FFFFFF' : '#000000' );
@@ -45,10 +45,17 @@ io.github.shunshun94.trpg.logEditor.menu.NameConfig.generateListByNames = (nameS
 				<button class="${io.github.shunshun94.trpg.logEditor.CLASSES.NAME_MENU_WINDOW}-classInsert">自動生成</button>
 			</td>
 			<td class="${io.github.shunshun94.trpg.logEditor.CLASSES.NAME_MENU_WINDOW}-td ${io.github.shunshun94.trpg.logEditor.CLASSES.NAME_MENU_WINDOW}-simpleHide">
-				<input type="text" class="${io.github.shunshun94.trpg.logEditor.CLASSES.NAME_MENU_WINDOW}-style" placeholder="空白の場合は特に設定しません" value="${style}" />
+				<input type="text"
+					id="${io.github.shunshun94.trpg.logEditor.CLASSES.NAME_MENU_WINDOW}-style-${num}"
+					class="${io.github.shunshun94.trpg.logEditor.CLASSES.NAME_MENU_WINDOW}-style"
+					placeholder="空白の場合は特に設定しません"
+					value="${style}" />
 			</td>
 			<td class="${io.github.shunshun94.trpg.logEditor.CLASSES.NAME_MENU_WINDOW}-td ${io.github.shunshun94.trpg.logEditor.CLASSES.NAME_MENU_WINDOW}-detailHide">
-				<input type="color" class="${io.github.shunshun94.trpg.logEditor.CLASSES.NAME_MENU_WINDOW}-color" value="${color}" />
+				<input type="color"
+					id="${io.github.shunshun94.trpg.logEditor.CLASSES.NAME_MENU_WINDOW}-color-${num}"
+					class="${io.github.shunshun94.trpg.logEditor.CLASSES.NAME_MENU_WINDOW}-color"
+					value="${color}" />
 			</td>
 		</tr>`
 	}).join('\n');
@@ -62,6 +69,25 @@ io.github.shunshun94.trpg.logEditor.menu.NameConfig.generateClass = (seed) => {
 		str += String(seed.charCodeAt(i));
 	}
 	return `_${str}`;
+};
+
+io.github.shunshun94.trpg.logEditor.menu.NameConfig.onModifyStyle = (targetStyleDom, isDarkMode) => {
+	const num = /\d+$/.exec(targetStyleDom.attr('id'));
+	const colorExecResult = /color:(#[a-fA-F0-9][a-fA-F0-9][a-fA-F0-9][a-fA-F0-9][a-fA-F0-9][a-fA-F0-9])/.exec(targetStyleDom.val());
+	const color = colorExecResult ? colorExecResult[1] : ( isDarkMode ? '#FFFFFF' : '#000000' );
+	$(`#${io.github.shunshun94.trpg.logEditor.CLASSES.NAME_MENU_WINDOW}-color-${num}`).val(color);
+	return color;
+};
+
+io.github.shunshun94.trpg.logEditor.menu.NameConfig.onModifyColor = (targetColorDom, isDarkMode) => {
+	const num = /\d+$/.exec(targetColorDom.attr('id'));
+	const newColor = targetColorDom.val();
+	const cuurentStyle = $(`#${io.github.shunshun94.trpg.logEditor.CLASSES.NAME_MENU_WINDOW}-style-${num}`).val();
+	const newStyle = cuurentStyle.split(';').filter((attribute)=>{
+		return ! (attribute.trim().startsWith('color'));
+	}).join(';') + `color:${newColor};`;
+	$(`#${io.github.shunshun94.trpg.logEditor.CLASSES.NAME_MENU_WINDOW}-style-${num}`).val(newStyle);
+	return newStyle;
 };
 
 io.github.shunshun94.trpg.logEditor.menu.NameConfig.getInputInfo = () => {
