@@ -185,8 +185,23 @@ io.github.shunshun94.trpg.logEditor.Editor = class {
 		return Array.from(new Set($.makeArray($(`.${io.github.shunshun94.trpg.logEditor.CLASSES.NAME}`).map((i,v)=>{return $(v).text()})))).filter((n)=>{return n;});
 	}
 
+	getNameStyleList() {
+		const result = {};
+		const names =   $.makeArray( $(`.${io.github.shunshun94.trpg.logEditor.CLASSES.NAME}`).map((i,v)=>{return $(v).text()}) );
+		const styles =  $.makeArray( $(`.${io.github.shunshun94.trpg.logEditor.CLASSES.INPUTS}-style`).map((i,v)=>{return $(v).val().trim().replaceAll('"', '')}) );
+		const classes = $.makeArray( $(`.${io.github.shunshun94.trpg.logEditor.CLASSES.INPUTS}-class`).map((i,v)=>{return $(v).val().replaceAll(/tab\d+/g, '').trim()}) );
+		names.forEach((name, i)=>{
+			if( name && (styles[i] || classes[i]) ) {
+				if(  ! result[name] ) { result[name] = {}; }
+				if( (! result[name].style) && styles[i]  ) { result[name].style = styles[i];  }
+				if( (! result[name].class) && classes[i] ) { result[name].class = classes[i]; }
+			}
+		});
+		return result;
+	}
+
 	openNameConfigScreen() {
-		io.github.shunshun94.trpg.logEditor.DOMS.BODY.append(io.github.shunshun94.trpg.logEditor.menu.NameConfig.generateDom(this.getNameList()));
+		io.github.shunshun94.trpg.logEditor.DOMS.BODY.append(io.github.shunshun94.trpg.logEditor.menu.NameConfig.generateDom(this.getNameStyleList(), io.github.shunshun94.trpg.logEditor.DOMS.BODY.attr('class')));
 	}
 
 	insertClassToNameConfig(tr) {
@@ -324,6 +339,12 @@ io.github.shunshun94.trpg.logEditor.Editor = class {
 			const inputted = $(e.target);
 			if(inputted.hasClass(`${io.github.shunshun94.trpg.logEditor.CLASSES.ADD_ELEMENT_MENU_WINDOW}-ytsheetOptions-url`)) {
 				io.github.shunshun94.trpg.logEditor.menu.AddNewElementMenu.insertByUrl(inputted);
+			}
+			if(inputted.hasClass(`${io.github.shunshun94.trpg.logEditor.CLASSES.NAME_MENU_WINDOW}-style`)) {
+				io.github.shunshun94.trpg.logEditor.menu.NameConfig.onModifyStyle(inputted, io.github.shunshun94.trpg.logEditor.DOMS.BODY.attr('class'));
+			}
+			if(inputted.hasClass(`${io.github.shunshun94.trpg.logEditor.CLASSES.NAME_MENU_WINDOW}-color`)) {
+				io.github.shunshun94.trpg.logEditor.menu.NameConfig.onModifyColor(inputted, io.github.shunshun94.trpg.logEditor.DOMS.BODY.attr('class'));
 			}
 		});
 
