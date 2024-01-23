@@ -72,18 +72,26 @@ io.github.shunshun94.trpg.logEditor.Editor = class {
 
 	changePostName(post) {
 		const nameList = this.getNameList().sort();
+		const nameMap  = this.getNameStyleList();
 		const currentName = post.find(`.${io.github.shunshun94.trpg.logEditor.CLASSES.NAME}`).text();
 		const currentNameIndex = nameList.indexOf(currentName);
-		console.log(currentNameIndex, currentName);
-		post.find(`.${io.github.shunshun94.trpg.logEditor.CLASSES.NAME}`).text(nameList[currentNameIndex + 1] || nameList[0]);
+		const newName = nameList[currentNameIndex + 1] || nameList[0];
+		console.log(newName, nameMap[newName], post.find(`.${io.github.shunshun94.trpg.logEditor.CLASSES.INPUTS}-style`));
+		console.log((nameMap[newName] || {}), (nameMap[newName] || {}).class || '');
+		post.find(`.${io.github.shunshun94.trpg.logEditor.CLASSES.NAME}`).text(newName);
+		post.find(`.${io.github.shunshun94.trpg.logEditor.CLASSES.INPUTS}-style`).val((nameMap[newName] || {}).style || '');
+		post.find(`.${io.github.shunshun94.trpg.logEditor.CLASSES.INPUTS}-class`).val((nameMap[newName] || {}).class || '');
 	}
 
 	changePostNameReversed(post) {
 		const nameList = this.getNameList().sort().reverse();
+		const nameMap  = this.getNameStyleList();
 		const currentName = post.find(`.${io.github.shunshun94.trpg.logEditor.CLASSES.NAME}`).text();
 		const currentNameIndex = nameList.indexOf(currentName);
-		console.log(currentNameIndex, currentName);
-		post.find(`.${io.github.shunshun94.trpg.logEditor.CLASSES.NAME}`).text(nameList[currentNameIndex + 1] || nameList[0]);
+		const newName = nameList[currentNameIndex + 1] || nameList[0];
+		post.find(`.${io.github.shunshun94.trpg.logEditor.CLASSES.NAME}`).text(newName);
+		post.find(`.${io.github.shunshun94.trpg.logEditor.CLASSES.INPUTS}-style`).val((nameMap[newName] || {}).style || '');
+		post.find(`.${io.github.shunshun94.trpg.logEditor.CLASSES.INPUTS}-class`).val((nameMap[newName] || {}).class || '');
 	}
 
 	duplicate(post) {
