@@ -76,11 +76,14 @@ io.github.shunshun94.trpg.logEditor.Editor = class {
 		const currentName = post.find(`.${io.github.shunshun94.trpg.logEditor.CLASSES.NAME}`).text();
 		const currentNameIndex = nameList.indexOf(currentName);
 		const newName = nameList[currentNameIndex + 1] || nameList[0];
-		console.log(newName, nameMap[newName], post.find(`.${io.github.shunshun94.trpg.logEditor.CLASSES.INPUTS}-style`));
-		console.log((nameMap[newName] || {}), (nameMap[newName] || {}).class || '');
 		post.find(`.${io.github.shunshun94.trpg.logEditor.CLASSES.NAME}`).text(newName);
 		post.find(`.${io.github.shunshun94.trpg.logEditor.CLASSES.INPUTS}-style`).val((nameMap[newName] || {}).style || '');
-		post.find(`.${io.github.shunshun94.trpg.logEditor.CLASSES.INPUTS}-class`).val((nameMap[newName] || {}).class || '');
+		const keptClasses = [];
+		const keptClassesRegExpResult = post.find(`.${io.github.shunshun94.trpg.logEditor.CLASSES.INPUTS}-class`).val().matchAll(/tab\d+/g);
+		for(const match of keptClassesRegExpResult) {
+			keptClasses.push(match[0])
+		}
+		post.find(`.${io.github.shunshun94.trpg.logEditor.CLASSES.INPUTS}-class`).val((keptClasses.join(' ') + ' ' + ((nameMap[newName] || {}).class || '')).trim());
 	}
 
 	changePostNameReversed(post) {
@@ -91,7 +94,12 @@ io.github.shunshun94.trpg.logEditor.Editor = class {
 		const newName = nameList[currentNameIndex + 1] || nameList[0];
 		post.find(`.${io.github.shunshun94.trpg.logEditor.CLASSES.NAME}`).text(newName);
 		post.find(`.${io.github.shunshun94.trpg.logEditor.CLASSES.INPUTS}-style`).val((nameMap[newName] || {}).style || '');
-		post.find(`.${io.github.shunshun94.trpg.logEditor.CLASSES.INPUTS}-class`).val((nameMap[newName] || {}).class || '');
+		const keptClasses = [];
+		const keptClassesRegExpResult = post.find(`.${io.github.shunshun94.trpg.logEditor.CLASSES.INPUTS}-class`).val().matchAll(/tab\d+/g);
+		for(const match of keptClassesRegExpResult) {
+			keptClasses.push(match[0])
+		}
+		post.find(`.${io.github.shunshun94.trpg.logEditor.CLASSES.INPUTS}-class`).val((keptClasses.join(' ') + ' ' + ((nameMap[newName] || {}).class || '')).trim());
 	}
 
 	duplicate(post) {
