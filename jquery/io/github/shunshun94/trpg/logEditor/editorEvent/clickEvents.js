@@ -207,7 +207,7 @@ io.github.shunshun94.trpg.logEditor.PostRightClickedEvents = [
     {
         class: io.github.shunshun94.trpg.logEditor.CLASSES.NAMECYCLE,
         action: (self, clicked, targetPost) => {
-            self.changePostNameReversed(targetPost);
+            self.changePostName(targetPost, 'reverse');
         }
     }
 ];

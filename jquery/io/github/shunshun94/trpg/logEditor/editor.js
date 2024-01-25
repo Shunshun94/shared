@@ -70,24 +70,8 @@ io.github.shunshun94.trpg.logEditor.Editor = class {
 		post.find(`.${io.github.shunshun94.trpg.logEditor.CLASSES.NAME}`).text(io.github.shunshun94.trpg.logEditor.HOSTPLAYER);
 	}
 
-	changePostName(post) {
-		const nameList = this.getNameList().sort();
-		const nameMap  = this.getNameStyleList();
-		const currentName = post.find(`.${io.github.shunshun94.trpg.logEditor.CLASSES.NAME}`).text();
-		const currentNameIndex = nameList.indexOf(currentName);
-		const newName = nameList[currentNameIndex + 1] || nameList[0];
-		post.find(`.${io.github.shunshun94.trpg.logEditor.CLASSES.NAME}`).text(newName);
-		post.find(`.${io.github.shunshun94.trpg.logEditor.CLASSES.INPUTS}-style`).val((nameMap[newName] || {}).style || '');
-		const keptClasses = [];
-		const keptClassesRegExpResult = post.find(`.${io.github.shunshun94.trpg.logEditor.CLASSES.INPUTS}-class`).val().matchAll(/tab\d+/g);
-		for(const match of keptClassesRegExpResult) {
-			keptClasses.push(match[0])
-		}
-		post.find(`.${io.github.shunshun94.trpg.logEditor.CLASSES.INPUTS}-class`).val((keptClasses.join(' ') + ' ' + ((nameMap[newName] || {}).class || '')).trim());
-	}
-
-	changePostNameReversed(post) {
-		const nameList = this.getNameList().sort().reverse();
+	changePostName(post, isReverse) {
+		const nameList = isReverse ? this.getNameList().sort().reverse() : this.getNameList().sort();
 		const nameMap  = this.getNameStyleList();
 		const currentName = post.find(`.${io.github.shunshun94.trpg.logEditor.CLASSES.NAME}`).text();
 		const currentNameIndex = nameList.indexOf(currentName);
