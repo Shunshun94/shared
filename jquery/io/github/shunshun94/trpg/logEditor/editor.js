@@ -214,12 +214,8 @@ io.github.shunshun94.trpg.logEditor.Editor = class {
 		const configResult = io.github.shunshun94.trpg.logEditor.menu.NameConfig.getInputInfo();
 		for(const name in configResult) {
 			const target = configResult[name];
-			if(target.style || target.class || target.name) {
-				target.list = io.github.shunshun94.trpg.logEditor.getPostsByName(name);
-			}
-			if(target.style) {
-				target.list.find(`.io-github-shunshun94-trpg-logEditor-Post-params-param-input-style`).val(target.style);
-			}
+			target.list = io.github.shunshun94.trpg.logEditor.getPostsByName(name);
+			target.list.find(`.io-github-shunshun94-trpg-logEditor-Post-params-param-input-style`).val(target.style || ' ');
 			if(target.class) {
 				target.list.find(`.io-github-shunshun94-trpg-logEditor-Post-params-param-input-class`).each((i,v)=>{
 					const keptValues = $(v).val().split(' ').filter((c)=>{
