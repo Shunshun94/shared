@@ -214,6 +214,7 @@ io.github.shunshun94.trpg.logEditor.Editor = class {
 		const configResult = io.github.shunshun94.trpg.logEditor.menu.NameConfig.getInputInfo();
 		for(const name in configResult) {
 			const target = configResult[name];
+			console.log(target);
 			target.list = io.github.shunshun94.trpg.logEditor.getPostsByName(name);
 			target.list.find(`.io-github-shunshun94-trpg-logEditor-Post-params-param-input-style`).val(target.style || ' ');
 			if(target.class) {

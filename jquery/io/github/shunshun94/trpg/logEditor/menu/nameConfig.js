@@ -48,7 +48,6 @@ io.github.shunshun94.trpg.logEditor.menu.NameConfig.generateListByNames = (nameS
 				<input type="text"
 					id="${io.github.shunshun94.trpg.logEditor.CLASSES.NAME_MENU_WINDOW}-style-${num}"
 					class="${io.github.shunshun94.trpg.logEditor.CLASSES.NAME_MENU_WINDOW}-style"
-					placeholder="空白の場合は特に設定しません"
 					value="${style}" />
 			</td>
 			<td class="${io.github.shunshun94.trpg.logEditor.CLASSES.NAME_MENU_WINDOW}-td ${io.github.shunshun94.trpg.logEditor.CLASSES.NAME_MENU_WINDOW}-detailHide">
@@ -96,14 +95,11 @@ io.github.shunshun94.trpg.logEditor.menu.NameConfig.getInputInfo = () => {
 		if(i === 0) {return;}
 		const memberResult = {}; 
 		const name = $(tr).find('th').text();
-		const isActive = io.github.shunshun94.trpg.logEditor.menu.NameConfig.PARAMS.filter((column)=>{
+		io.github.shunshun94.trpg.logEditor.menu.NameConfig.PARAMS.forEach((column)=>{
 			const value = $(tr).find(`.${io.github.shunshun94.trpg.logEditor.CLASSES.NAME_MENU_WINDOW}-${column}`).val().trim();
 			if(value) {memberResult[column] = value; }
-			return value;
 		});
-		if(isActive.length) {
-			result[name] = memberResult;
-		}
+		result[name] = memberResult;
 	});
 	return result;
 };
