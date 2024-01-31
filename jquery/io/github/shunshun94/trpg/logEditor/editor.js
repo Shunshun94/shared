@@ -191,10 +191,10 @@ io.github.shunshun94.trpg.logEditor.Editor = class {
 		const styles =  $.makeArray( $(`.${io.github.shunshun94.trpg.logEditor.CLASSES.INPUTS}-style`).map((i,v)=>{return $(v).val().trim().replaceAll('"', '')}) );
 		const classes = $.makeArray( $(`.${io.github.shunshun94.trpg.logEditor.CLASSES.INPUTS}-class`).map((i,v)=>{return $(v).val().replaceAll(/tab\d+/g, '').trim()}) );
 		names.forEach((name, i)=>{
-			if( name && (styles[i] || classes[i]) ) {
-				if(  ! result[name] ) { result[name] = {}; }
-				if( (! result[name].style) && styles[i]  ) { result[name].style = styles[i];  }
-				if( (! result[name].class) && classes[i] ) { result[name].class = classes[i]; }
+			if( name ) {
+				if(                ! result[name] )        { result[name] = {}; }
+				if( styles[i]  && (! result[name].style) ) { result[name].style = styles[i];  }
+				if( classes[i] && (! result[name].class) ) { result[name].class = classes[i]; }
 			}
 		});
 		return result;
@@ -214,7 +214,6 @@ io.github.shunshun94.trpg.logEditor.Editor = class {
 		const configResult = io.github.shunshun94.trpg.logEditor.menu.NameConfig.getInputInfo();
 		for(const name in configResult) {
 			const target = configResult[name];
-			console.log(target);
 			target.list = io.github.shunshun94.trpg.logEditor.getPostsByName(name);
 			target.list.find(`.io-github-shunshun94-trpg-logEditor-Post-params-param-input-style`).val(target.style || ' ');
 			if(target.class) {
