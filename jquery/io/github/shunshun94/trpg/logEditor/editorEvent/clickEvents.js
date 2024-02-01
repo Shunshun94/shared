@@ -207,7 +207,7 @@ io.github.shunshun94.trpg.logEditor.PostRightClickedEvents = [
     {
         class: io.github.shunshun94.trpg.logEditor.CLASSES.NAMECYCLE,
         action: (self, clicked, targetPost) => {
-            self.changePostNameReversed(targetPost);
+            self.changePostName(targetPost, 'reverse');
         }
     }
 ];
@@ -234,7 +234,8 @@ io.github.shunshun94.trpg.logEditor.kickGeneralClicedEvents = (self, clicked) =>
     for(const pair of io.github.shunshun94.trpg.logEditor.GeneralClicedEvents) {
         if( clicked.hasClass(pair.class) ) {
             pair.action(self, clicked);
-            return;
+            return true;
         }
     }
+    return false;
 };

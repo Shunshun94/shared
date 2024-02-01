@@ -70,20 +70,20 @@ io.github.shunshun94.trpg.logEditor.Editor = class {
 		post.find(`.${io.github.shunshun94.trpg.logEditor.CLASSES.NAME}`).text(io.github.shunshun94.trpg.logEditor.HOSTPLAYER);
 	}
 
-	changePostName(post) {
-		const nameList = this.getNameList().sort();
+	changePostName(post, isReverse) {
+		const nameList = isReverse ? this.getNameList().sort().reverse() : this.getNameList().sort();
+		const nameMap  = this.getNameStyleList();
 		const currentName = post.find(`.${io.github.shunshun94.trpg.logEditor.CLASSES.NAME}`).text();
 		const currentNameIndex = nameList.indexOf(currentName);
-		console.log(currentNameIndex, currentName);
-		post.find(`.${io.github.shunshun94.trpg.logEditor.CLASSES.NAME}`).text(nameList[currentNameIndex + 1] || nameList[0]);
-	}
-
-	changePostNameReversed(post) {
-		const nameList = this.getNameList().sort().reverse();
-		const currentName = post.find(`.${io.github.shunshun94.trpg.logEditor.CLASSES.NAME}`).text();
-		const currentNameIndex = nameList.indexOf(currentName);
-		console.log(currentNameIndex, currentName);
-		post.find(`.${io.github.shunshun94.trpg.logEditor.CLASSES.NAME}`).text(nameList[currentNameIndex + 1] || nameList[0]);
+		const newName = nameList[currentNameIndex + 1] || nameList[0];
+		post.find(`.${io.github.shunshun94.trpg.logEditor.CLASSES.NAME}`).text(newName);
+		post.find(`.${io.github.shunshun94.trpg.logEditor.CLASSES.INPUTS}-style`).val((nameMap[newName] || {}).style || '');
+		const keptClasses = [];
+		const keptClassesRegExpResult = post.find(`.${io.github.shunshun94.trpg.logEditor.CLASSES.INPUTS}-class`).val().matchAll(/tab\d+/g);
+		for(const match of keptClassesRegExpResult) {
+			keptClasses.push(match[0])
+		}
+		post.find(`.${io.github.shunshun94.trpg.logEditor.CLASSES.INPUTS}-class`).val((keptClasses.join(' ') + ' ' + ((nameMap[newName] || {}).class || '')).trim());
 	}
 
 	duplicate(post) {
@@ -185,8 +185,23 @@ io.github.shunshun94.trpg.logEditor.Editor = class {
 		return Array.from(new Set($.makeArray($(`.${io.github.shunshun94.trpg.logEditor.CLASSES.NAME}`).map((i,v)=>{return $(v).text()})))).filter((n)=>{return n;});
 	}
 
+	getNameStyleList() {
+		const result = {};
+		const names =   $.makeArray( $(`.${io.github.shunshun94.trpg.logEditor.CLASSES.NAME}`).map((i,v)=>{return $(v).text()}) );
+		const styles =  $.makeArray( $(`.${io.github.shunshun94.trpg.logEditor.CLASSES.INPUTS}-style`).map((i,v)=>{return $(v).val().trim().replaceAll('"', '')}) );
+		const classes = $.makeArray( $(`.${io.github.shunshun94.trpg.logEditor.CLASSES.INPUTS}-class`).map((i,v)=>{return $(v).val().replaceAll(/tab\d+/g, '').trim()}) );
+		names.forEach((name, i)=>{
+			if( name ) {
+				if(                ! result[name] )        { result[name] = {}; }
+				if( styles[i]  && (! result[name].style) ) { result[name].style = styles[i];  }
+				if( classes[i] && (! result[name].class) ) { result[name].class = classes[i]; }
+			}
+		});
+		return result;
+	}
+
 	openNameConfigScreen() {
-		io.github.shunshun94.trpg.logEditor.DOMS.BODY.append(io.github.shunshun94.trpg.logEditor.menu.NameConfig.generateDom(this.getNameList()));
+		io.github.shunshun94.trpg.logEditor.DOMS.BODY.append(io.github.shunshun94.trpg.logEditor.menu.NameConfig.generateDom(this.getNameStyleList(), io.github.shunshun94.trpg.logEditor.DOMS.BODY.attr('class')));
 	}
 
 	insertClassToNameConfig(tr) {
@@ -199,12 +214,8 @@ io.github.shunshun94.trpg.logEditor.Editor = class {
 		const configResult = io.github.shunshun94.trpg.logEditor.menu.NameConfig.getInputInfo();
 		for(const name in configResult) {
 			const target = configResult[name];
-			if(target.style || target.class || target.name) {
-				target.list = io.github.shunshun94.trpg.logEditor.getPostsByName(name);
-			}
-			if(target.style) {
-				target.list.find(`.io-github-shunshun94-trpg-logEditor-Post-params-param-input-style`).val(target.style);
-			}
+			target.list = io.github.shunshun94.trpg.logEditor.getPostsByName(name);
+			target.list.find(`.io-github-shunshun94-trpg-logEditor-Post-params-param-input-style`).val(target.style || ' ');
 			if(target.class) {
 				target.list.find(`.io-github-shunshun94-trpg-logEditor-Post-params-param-input-class`).each((i,v)=>{
 					const keptValues = $(v).val().split(' ').filter((c)=>{
@@ -324,6 +335,12 @@ io.github.shunshun94.trpg.logEditor.Editor = class {
 			const inputted = $(e.target);
 			if(inputted.hasClass(`${io.github.shunshun94.trpg.logEditor.CLASSES.ADD_ELEMENT_MENU_WINDOW}-ytsheetOptions-url`)) {
 				io.github.shunshun94.trpg.logEditor.menu.AddNewElementMenu.insertByUrl(inputted);
+			}
+			if(inputted.hasClass(`${io.github.shunshun94.trpg.logEditor.CLASSES.NAME_MENU_WINDOW}-style`)) {
+				io.github.shunshun94.trpg.logEditor.menu.NameConfig.onModifyStyle(inputted, io.github.shunshun94.trpg.logEditor.DOMS.BODY.attr('class'));
+			}
+			if(inputted.hasClass(`${io.github.shunshun94.trpg.logEditor.CLASSES.NAME_MENU_WINDOW}-color`)) {
+				io.github.shunshun94.trpg.logEditor.menu.NameConfig.onModifyColor(inputted, io.github.shunshun94.trpg.logEditor.DOMS.BODY.attr('class'));
 			}
 		});
 

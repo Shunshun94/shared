@@ -331,6 +331,49 @@ h2 {
 	bottom:16px;
 }
 
+.io-github-shunshun94-trpg-logEditor-menu-NameConfig .tab_item {
+	width: calc(100%/2);
+	height: 50px;
+	border-bottom: 3px solid #5ab4bd;
+	background-color: #d9d9d9;
+	line-height: 50px;
+	font-size: 16px;
+	text-align: center;
+	color: #565656;
+	display: block;
+	float: left;
+	text-align: center;
+	font-weight: bold;
+	transition: all 0.2s ease;
+	user-select: none;
+}
+
+.io-github-shunshun94-trpg-logEditor-menu-NameConfig .tab_item:hover {
+	opacity: 0.75;
+}
+
+.io-github-shunshun94-trpg-logEditor-menu-NameConfig input:checked + .tab_item {
+	background-color: #5ab4bd;
+	color: #fff;
+}
+
+input[name="tab_item"] {
+	display: none;
+}
+
+#io-github-shunshun94-trpg-logEditor-menu-NameConfig-tab-simpleMode:checked ~ table .io-github-shunshun94-trpg-logEditor-menu-NameConfig-simpleHide {
+	display:none;
+}
+
+#io-github-shunshun94-trpg-logEditor-menu-NameConfig-tab-detailMode:checked ~ table .io-github-shunshun94-trpg-logEditor-menu-NameConfig-detailHide {
+	display:none;
+}
+
+.io-github-shunshun94-trpg-logEditor-menu-NameConfig-tr th {
+	padding-left:1em;
+	padding-right:1em;
+}
+
 .io-github-shunshun94-trpg-logEditor-menu-AddElementMenu-table {
 	width:320px;	
 }
