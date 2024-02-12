@@ -67,7 +67,7 @@ io.github.shunshun94.trpg.logEditor.Editor = class {
 	}
 
 	beHostPlayer(post) {
-		this.changePostName(post, false, io.github.shunshun94.trpg.logEditor.HOSTPLAYER);
+		this.changePostName(post, false, io.github.shunshun94.trpg.logEditor.WORDS.HOSTPLAYER);
 	}
 
 	changePostName(post, isReverse = false, opt_newName = false) {

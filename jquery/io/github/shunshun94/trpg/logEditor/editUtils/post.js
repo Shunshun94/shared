@@ -15,7 +15,7 @@ io.github.shunshun94.trpg.logEditor.jsonToEditorHtml = (json) => {
 	  	contenteditable="true">${json.name || ''}</span>
 		<button
 		title="名前をGMにする"
-		class="${io.github.shunshun94.trpg.logEditor.CLASSES.NAMECHANGE}">${io.github.shunshun94.trpg.logEditor.HOSTPLAYER}</button>
+		class="${io.github.shunshun94.trpg.logEditor.CLASSES.NAMECHANGE}">${io.github.shunshun94.trpg.logEditor.WORDS.HOSTPLAYER}</button>
 		<button
 		title="他の発言で使われている名前に変更する（右クリックで逆順序で変更）"
 		class="${io.github.shunshun94.trpg.logEditor.CLASSES.NAMECYCLE}">🔁</button>

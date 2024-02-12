@@ -60,4 +60,6 @@ io.github.shunshun94.trpg.logEditor.CLASSES = {
 io.github.shunshun94.trpg.logEditor.CLASSES.RESOURCE_TABLE_COLUMN_CONFIG_WINDOW
 
 io.github.shunshun94.trpg.logEditor.EXPERIMENTAL_FUNC_PASSWORD = 'c74ffc7879c92accd74d76359b085d3883a02b65de892203c2191090c1cd6407';
-io.github.shunshun94.trpg.logEditor.HOSTPLAYER = localStorage.getItem('io.github.shunshun94.trpg.logEditor.HOSTPLAYER') || 'GM';
+io.github.shunshun94.trpg.logEditor.WORDS = {
+	HOSTPLAYER: localStorage.getItem('io.github.shunshun94.trpg.logEditor.HOSTPLAYER') || 'GM'
+};
