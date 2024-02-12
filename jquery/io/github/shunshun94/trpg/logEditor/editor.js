@@ -67,15 +67,15 @@ io.github.shunshun94.trpg.logEditor.Editor = class {
 	}
 
 	beHostPlayer(post) {
-		post.find(`.${io.github.shunshun94.trpg.logEditor.CLASSES.NAME}`).text(io.github.shunshun94.trpg.logEditor.HOSTPLAYER);
+		this.changePostName(post, false, io.github.shunshun94.trpg.logEditor.HOSTPLAYER);
 	}
 
-	changePostName(post, isReverse) {
+	changePostName(post, isReverse = false, opt_newName = false) {
 		const nameList = isReverse ? this.getNameList().sort().reverse() : this.getNameList().sort();
 		const nameMap  = this.getNameStyleList();
 		const currentName = post.find(`.${io.github.shunshun94.trpg.logEditor.CLASSES.NAME}`).text();
 		const currentNameIndex = nameList.indexOf(currentName);
-		const newName = nameList[currentNameIndex + 1] || nameList[0];
+		const newName = opt_newName || nameList[currentNameIndex + 1] || nameList[0];
 		post.find(`.${io.github.shunshun94.trpg.logEditor.CLASSES.NAME}`).text(newName);
 		post.find(`.${io.github.shunshun94.trpg.logEditor.CLASSES.INPUTS}-style`).val((nameMap[newName] || {}).style || '');
 		const keptClasses = [];
