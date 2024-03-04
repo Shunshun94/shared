@@ -170,6 +170,17 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_LIST = [
         ifNot: '矢弾の収納具は一度に2つまでしか装備できません（『1』163頁）',
         label: 'arrowHoldersLimitation'
     }, {
+        level: 'error',
+        when: {
+            historyExpTotal: { equal: "3000" },
+            historyMoneyTotal: { equal: "1200" }
+        },
+        expect: {
+            level: { orless: 2 }
+        },
+        ifNot: '初期作成時点での冒険者レベルは2以下にしてください（『1』76頁）',
+        label: 'initialCharacterLevelLimitation'
+    }, {
         level: 'warn',
         when: {
             and: {

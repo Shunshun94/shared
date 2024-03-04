@@ -885,6 +885,26 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_TEST_LIST = {
             'expect': false
         }
     ],
+    "initialCharacterLevelLimitation": [{
+            'testName': '初期作成で冒険者レベルが3の場合',
+            'level': "3",
+            'historyExpTotal': "3000",
+            'historyMoneyTotal': "1200",
+            'expect': false
+        }, {
+            'testName': '成長済で冒険者レベルが3の場合',
+            'level': "3",
+            'historyExpTotal': "5500",
+            'historyMoneyTotal': "2500",
+            'expect': true
+        }, {
+            'testName': '初期作成で冒険者レベルが2の場合',
+            'level': "2",
+            'historyExpTotal': "3000",
+            'historyMoneyTotal': "1200",
+            'expect': true
+        }
+    ],
     "hasShootArrowArrowHolders": [{
             'testName': 'フェアリーテイマー Lv.6、風を含む3属性契約で矢筒を装備していない場合',
             'lvFai': '6',
