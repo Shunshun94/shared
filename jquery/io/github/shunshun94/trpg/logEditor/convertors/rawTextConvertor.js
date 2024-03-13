@@ -9,6 +9,7 @@ io.github.shunshun94.trpg.logEditor.convertors.RawTextConvertor = io.github.shun
 io.github.shunshun94.trpg.logEditor.convertors.RawTextConvertor.dropEventToJson = (file) => {
 	return new Promise((resolve, reject)=>{
 		io.github.shunshun94.trpg.logEditor.convertors.ConvertorFactory.fileToText(file).then((rawText)=>{
+			console.log(rawText.split(/^\d\d\d\d\.\d\d\.\d\d\s[日月火水木金土]曜日|^\[LINE\]\s+.*トーク履歴$|^\d\d\d\d\/\d\d?\/\d\d?\([日月火水木金土]\)$/gm));
 			resolve(io.github.shunshun94.trpg.logEditor.convertors.RawTextConvertor.lineToJson(rawText));
 		});
 	});
@@ -16,7 +17,7 @@ io.github.shunshun94.trpg.logEditor.convertors.RawTextConvertor.dropEventToJson 
 
 io.github.shunshun94.trpg.logEditor.convertors.RawTextConvertor.lineToJson = (text) => {
 	const posts = [];
-	text.split(/^\d\d\d\d\.\d\d\.\d\d\s[日月火水木金土]曜日/gm).filter((d)=>{
+	text.split(/^\d\d\d\d\.\d\d\.\d\d\s[日月火水木金土]曜日|^\[LINE\]\s+.*トーク履歴$|^\d\d\d\d\/\d\d?\/\d\d?\([日月火水木金土]\)$/gm).filter((d)=>{
 		return d;
 	}).map((d)=>{
 		return d.trim();
@@ -31,7 +32,13 @@ io.github.shunshun94.trpg.logEditor.convertors.RawTextConvertor.lineToJson = (te
 				result.tabName = '';
 				posts.push(result);
 			} else {
-				posts[posts.length - 1].content += `<br/>${line}`;
+				try {
+					posts[posts.length - 1].content += `<br/>${line}`;
+				} catch (e) {
+					console.error(line, posts);
+					throw e;
+				}
+				
 			}
 		}
 	});
