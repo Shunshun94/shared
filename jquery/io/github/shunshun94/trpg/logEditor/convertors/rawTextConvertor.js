@@ -23,6 +23,7 @@ io.github.shunshun94.trpg.logEditor.convertors.RawTextConvertor.dropEventToJson 
 
 io.github.shunshun94.trpg.logEditor.convertors.RawTextConvertor.lineToJson = (text, spliter) => {
 	const posts = [];
+	const lineGetRegExp = new RegExp(`^\\d?\\d:\\d?\\d${spliter}`);
 	text.split(io.github.shunshun94.trpg.logEditor.convertors.RawTextConvertor.CONSTS.LINE_Spliter).map((d)=>{
 		return d.trim();
 	}).filter((d)=>{
@@ -30,7 +31,7 @@ io.github.shunshun94.trpg.logEditor.convertors.RawTextConvertor.lineToJson = (te
 	}).map((d)=>{
 		const lines = d.split('\n');
 		for(const line of lines) {
-			if(/^\d?\d:\d?\d/.test(line)) {
+			if(lineGetRegExp.test(line)) {
 				const result = {tag: 'p', id:'', class:'', style:''};
 				const lineParts = line.split(spliter);
 				result.name = lineParts[1];
