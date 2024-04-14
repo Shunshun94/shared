@@ -4,7 +4,7 @@ io.github.shunshun94 = io.github.shunshun94 || {};
 io.github.shunshun94.util = io.github.shunshun94.util || {};
 io.github.shunshun94.util.DateTimePicker = io.github.shunshun94.util.DateTimePicker || {};
 
-io.github.shunshun94.util.DateTimePicker.DATE_REGEXP = /([\^\-―～]?)([01]?[0-9])[\/／月\-・]([0-3]?[0-9])日?[\s\　]*[(（)]?[日月火水木金土]?[)）)]?[\s\　]*([\^\-―～]?)/;
+io.github.shunshun94.util.DateTimePicker.DATE_REGEXP = /([\^\-―～]?)([01]?[0-9])[\.\/／月\-・]([0-3]?[0-9])[\.日]?[\s\　]*[(（)]?[日月火水木金土]?[)）)]?[\s\　]*([\^\-―～]?)/;
 io.github.shunshun94.util.DateTimePicker.DATE_REGEXP_RANGE = /([\^\-―～]?)([01]?[0-9])[\/／月\-・]([0-3]?[0-9])日?[\s\　]*[(（)]?[日月火水木金土]?[)）)]?[\s\　]*([\^\-―～])[\s\　]*([01]?[0-9][\/／月\-・])?([0-3]?[0-9])日?[\s\　]*[(（)]?[日月火水木金土]?[)）)]?/;
 io.github.shunshun94.util.DateTimePicker.TIME_REGEXP = /([012]?[0-9])\s*[\:：時]\s*([0-5][0-9])?\s*[分～~]*/
 
