@@ -34,6 +34,10 @@ io.github.shunshun94.trpg.logEditor.convertors.ConvertorFactory.isFloconSimpleLo
 	return false;
 };
 
+io.github.shunshun94.trpg.logEditor.convertors.ConvertorFactory.isTekeyV1WithTimestump = (rawHtml, dom) => {
+	return /<body>\r?\n?\d\d?:\d\d?：<font\scolor=/.test(rawHtml);
+};
+
 io.github.shunshun94.trpg.logEditor.convertors.ConvertorFactory.isTekeyV1 = (rawHtml, dom) => {
 	return /<body>\r?\n?\[[^\]]+\]<font\scolor=/.test(rawHtml);
 };
@@ -50,6 +54,10 @@ io.github.shunshun94.trpg.logEditor.convertors.ConvertorFactory.htmlHub = (file)
 	return new Promise((resolve, reject)=>{
 		io.github.shunshun94.trpg.logEditor.convertors.ConvertorFactory.fileToText(file).then((rawHtml)=>{
 			const dom = (new DOMParser()).parseFromString(rawHtml, 'text/html');
+			if(io.github.shunshun94.trpg.logEditor.convertors.ConvertorFactory.isTekeyV1WithTimestump(rawHtml, dom)) {
+				resolve(io.github.shunshun94.trpg.logEditor.convertors.TekeyV1WithTimestumpConverter);
+				return;
+			}
 			if(io.github.shunshun94.trpg.logEditor.convertors.ConvertorFactory.isTekeyV1(rawHtml, dom)) {
 				resolve(io.github.shunshun94.trpg.logEditor.convertors.TekeyV1Converter);
 				return;
