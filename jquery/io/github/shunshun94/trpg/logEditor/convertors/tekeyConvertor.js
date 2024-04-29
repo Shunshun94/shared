@@ -4,7 +4,7 @@ io.github.shunshun94 = io.github.shunshun94 || {};
 io.github.shunshun94.trpg = io.github.shunshun94.trpg || {};
 io.github.shunshun94.trpg.logEditor = io.github.shunshun94.trpg.logEditor || {};
 io.github.shunshun94.trpg.logEditor.convertors = io.github.shunshun94.trpg.logEditor.convertors || {};
-io.github.shunshun94.trpg.logEditor.convertors.TekeyV1Converter = io.github.shunshun94.trpg.logEditor.convertors.TekeyV2Converter || {};
+io.github.shunshun94.trpg.logEditor.convertors.TekeyV1Converter = io.github.shunshun94.trpg.logEditor.convertors.TekeyV1Converter || {};
 
 io.github.shunshun94.trpg.logEditor.convertors.TekeyV1Converter.DEFAULT_TABS_CLASS = {
 	'[メイン]': ' ',
@@ -65,6 +65,28 @@ io.github.shunshun94.trpg.logEditor.convertors.TekeyV1Converter.htmlToJson = (ra
 	};
 };
 
+io.github.shunshun94.trpg.logEditor.convertors.TekeyV1WithTimestumpConverter = io.github.shunshun94.trpg.logEditor.convertors.TekeyV1WithTimestumpConverter || {};
+io.github.shunshun94.trpg.logEditor.convertors.TekeyV1WithTimestumpConverter.dropEventToJson = (file) => {
+	return new Promise((resolve, reject)=>{
+		io.github.shunshun94.trpg.logEditor.convertors.ConvertorFactory.fileToText(file).then((rawHtml)=>{
+			resolve(io.github.shunshun94.trpg.logEditor.convertors.TekeyV1WithTimestumpConverter.htmlToJson(rawHtml));
+		});
+	});
+};
+
+io.github.shunshun94.trpg.logEditor.convertors.TekeyV1WithTimestumpConverter.htmlToJson = (rawHtml) => {
+	const dom = (new DOMParser()).parseFromString(rawHtml, 'text/html');
+	const nodes = Array.from(dom.body.childNodes);
+	const posts = nodes.filter((n, i)=>{ return i % 3 === 1 }).map((d)=>{ return { element: d, class:'', tabName:'' }} );
+	return {
+		doms: io.github.shunshun94.trpg.logEditor.convertors.TekeyV1Converter.modifyResrouceToOriginalFormat(
+			posts.map(io.github.shunshun94.trpg.logEditor.convertors.TekeyV1Converter.postToJson)
+		),
+		omitted: [],
+		head: '',
+		tabs: io.github.shunshun94.trpg.logEditor.convertors.TekeyV1Converter.DEFAULT_TABS_CLASS
+	};
+};
 
 io.github.shunshun94.trpg.logEditor.convertors.TekeyV2Converter = io.github.shunshun94.trpg.logEditor.convertors.TekeyV2Converter || {};
 
