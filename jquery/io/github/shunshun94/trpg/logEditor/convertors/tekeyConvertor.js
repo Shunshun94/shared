@@ -77,8 +77,7 @@ io.github.shunshun94.trpg.logEditor.convertors.TekeyV1WithTimestumpConverter.dro
 io.github.shunshun94.trpg.logEditor.convertors.TekeyV1WithTimestumpConverter.htmlToJson = (rawHtml) => {
 	const dom = (new DOMParser()).parseFromString(rawHtml, 'text/html');
 	const nodes = Array.from(dom.body.childNodes);
-	const posts = nodes.filter((n, i)=>{ return i % 3 === 1 });
-	console.log(posts);
+	const posts = nodes.filter((n, i)=>{ return i % 3 === 1 }).map((d)=>{ return { element: d, class:'', tabName:'' }} );
 	return {
 		doms: io.github.shunshun94.trpg.logEditor.convertors.TekeyV1Converter.modifyResrouceToOriginalFormat(
 			posts.map(io.github.shunshun94.trpg.logEditor.convertors.TekeyV1Converter.postToJson)
