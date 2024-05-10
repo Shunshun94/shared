@@ -129,7 +129,7 @@ io.github.shunshun94.trpg.SW2_PCLister.getYtSheetPC = (data) => {
         life:       Number(data.vitResistTotal    ),
         mental:     Number(data.mndResistTotal    ),
         dodge:      Number(data.defenseTotal1Eva  ),
-        guard:      Number(data.defenseTotalAllDef),
+        guard:      Number(data.defenseTotal1Def  ),
         enemy:      Number(data.monsterLore       ),
         initiative: Number(data.initiative        ),
         type:       'c'
