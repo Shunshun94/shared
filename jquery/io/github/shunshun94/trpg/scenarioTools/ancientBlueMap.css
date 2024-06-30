@@ -41,15 +41,19 @@ footer {
 
 .picture select,
 .picture footer,
-.picture #how_to_use {
+.picture #how_to_use,
+.viewMode #how_to_use {
     display:none;
 }
 
-.picture #map {
+.picture #map,
+.viewMode #map {
     padding-top:39px;
     padding-bottom:39px;
     width:1000px;
 }
+
+
 
 .paragraph, .paragraph-fixed {
     width:54px;
