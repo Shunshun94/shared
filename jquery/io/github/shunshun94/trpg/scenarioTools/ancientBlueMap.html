@@ -186,6 +186,10 @@ const copyText = (e)=>{
 	alert('クリップボードにコピーしました');
 };
 
+if(viceCity.getMode() === io.github.shunshun94.trpg.scenarioTools.ViceCity.CONSTS.MODES.VIEW) {
+	$('body').addClass('viewMode');
+}
+
 $('#url_plain').val(location.href);
 $('#url_plain').click(copyText)
 $('#url_ytsheet').val(`[[七王群島の地図>${location.href}]]`);

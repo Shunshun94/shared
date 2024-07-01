@@ -9,8 +9,13 @@ io.github.shunshun94.trpg.scenarioTools.ViceCity = class {
 		this.dom = opts.dom || $(`#${io.github.shunshun94.trpg.scenarioTools.ViceCity.CONSTS.ID}`);
 		this.decided = this.getQuery(opts.decided);
 		this.used = [];
+		this.mode = opts.mode || this.decided.mode || io.github.shunshun94.trpg.scenarioTools.ViceCity.CONSTS.MODES.EDIT;
 		this.buildMap();
-		this.bindEvents();
+		if( this.mode === io.github.shunshun94.trpg.scenarioTools.ViceCity.CONSTS.MODES.EDIT ) { this.bindEvents(); }
+	}
+
+	getMode() {
+		return this.decided.mode || 'edit';
 	}
 
 	getQuery(text = '') {
@@ -38,8 +43,8 @@ io.github.shunshun94.trpg.scenarioTools.ViceCity = class {
 		this.dom.find('.paragraph').each((i, v)=>{
 			const $dom = $(v);
 			$dom.attr('id', `paragraph-${i}`);
-			if(this.decided[i]) {
-				$dom.append(`<span class="paragraph-name" id="paragraph-name-${i}">${io.github.shunshun94.trpg.scenarioTools.ViceCity.CONSTS.AREAS[this.decided[i]]}</span>`);
+			if(this.decided[i] || this.mode === io.github.shunshun94.trpg.scenarioTools.ViceCity.CONSTS.MODES.VIEW) {
+				$dom.append(`<span class="paragraph-name" id="paragraph-name-${i}">${io.github.shunshun94.trpg.scenarioTools.ViceCity.CONSTS.AREAS[this.decided[i]] || '<br/>？'}</span>`);
 				this.used.push(this.decided[i]);
 			} else {
 				$dom.append(`<select class="paragraph-select" id="paragraph-select-${i}"></select>`);
@@ -152,6 +157,10 @@ io.github.shunshun94.trpg.scenarioTools.ViceCity.CONSTS = {
 		KEYS: {
 			CURRENT_PARAGRAPH: '_currentParagraph',
 			SPLITTER: '_splitter'
+		},
+		MODES: {
+			VIEW: 'view',
+			EDIT: 'edit'
 		},
 		ID: 'io-github-shunshun94-trpg-scenarioTools-ViceCity',
 		AREAS: {
