@@ -114,7 +114,9 @@
 <h2>共有用 URL・ダウンロード</h2>
 <p>　　　ＵＲＬ：<input type="text" readonly id="url_plain"/><br/>
 ゆとシート用：<input type="text" readonly id="url_ytsheet"/><br/>
-　ＨＴＭＬ用：<input type="text" readonly id="url_html"/><br/>
+ａ要素挿入用：<input type="text" readonly id="url_link"/><br/>
+iframe埋込用：<input type="text" readonly id="url_iframe"/><br/>
+
 ダウンロード：<button id="dl_picture">地図を画像形式で取得</button></p>
 <h2>素材</h2>
 <dl>
@@ -194,8 +196,10 @@ $('#url_plain').val(location.href);
 $('#url_plain').click(copyText)
 $('#url_ytsheet').val(`[[七王群島の地図>${location.href}]]`);
 $('#url_ytsheet').click(copyText);
-$('#url_html').val(`<a href="${location.href}" target="_blank" rel="noopener noreferrer">地図</a>`);
-$('#url_html').click(copyText);
+$('#url_link').val(`<a href="${location.href}" target="_blank" rel="noopener noreferrer">地図</a>`);
+$('#url_link').click(copyText);
+$('#url_iframe').val(`<div class="io-github-shunshun94-trpg-scenarioTools-AncientBlue-insert" style="width:540px;"><span class="io-github-shunshun94-trpg-scenarioTools-AncientBlue-link" style="text-align:right;font-size:80%;display:block;"><a href="${location.href}" target="_blank" rel="noopener noreferrer">編集する</a></span><<iframe class="io-github-shunshun94-trpg-scenarioTools-AncientBlue-insert-map" width="1040" height="834" style="transform-origin:0 0;transform:scale(0.5);" src="${location.href}&mode=view"></iframe>/div>`);
+$('#url_iframe').click(copyText);
 $('#dl_picture').click((e)=>{
 	$('body').addClass('picture');
 	html2canvas(document.getElementById('map')).then(canvas => {
