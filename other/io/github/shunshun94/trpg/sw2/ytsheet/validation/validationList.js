@@ -29,7 +29,8 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_LIST = [
                 'weapon\\d+Note': {includes: '発動体'},
                 'accessoryHand[LR]_*Name': {includes: ['発動体', 'マナリング']},
                 'accessoryOther\d*Name': {includes: ['発動体', 'マナリング']},
-                'items': {includes: '発動体'}
+                'items': {includes: '発動体'},
+                'race': { equal: ['バジリスク', 'ドレイク（ナイト）'] }
             }
         },
         ifNot: 'ソーサラー技能またはコンジャラー技能による魔法を行使するには魔法の発動体を装備している必要があります（『1』196頁）',

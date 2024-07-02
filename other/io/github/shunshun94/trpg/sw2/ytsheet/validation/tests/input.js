@@ -536,6 +536,26 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_TEST_LIST = {
             'lvSor': '1',
             'items': '発動体',
             'expect': true
+        }, {
+            'testName': 'ソーサラーでドレイク（ナイト）な場合',
+            'lvSor': '1',
+            'race': 'ドレイク（ナイト）',
+            'expect': true
+        }, {
+            'testName': 'ソーサラーでドレイク（ブロークン）な場合',
+            'lvSor': '1',
+            'race': 'ドレイク（ブロークン）',
+            'expect': false
+        }, {
+            'testName': 'ソーサラーでバジリスクな場合',
+            'lvSor': '1',
+            'race': 'バジリスク',
+            'expect': true
+        }, {
+            'testName': 'ソーサラーでウィークリング（バジリスク）な場合',
+            'lvSor': '1',
+            'race': 'ウィークリング（バジリスク）',
+            'expect': false
         }
     ],
     "priestRequiresSymbol": [
