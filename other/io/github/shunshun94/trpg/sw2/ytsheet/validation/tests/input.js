@@ -539,22 +539,22 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_TEST_LIST = {
         }, {
             'testName': 'ソーサラーでドレイク（ナイト）な場合',
             'lvSor': '1',
-            'race': 'ドレイク（ナイト）',
+            'raceAbility': '［暗視］［魔剣の所持］［飛行（飛翔）］［竜化］',
             'expect': true
         }, {
             'testName': 'ソーサラーでドレイク（ブロークン）な場合',
             'lvSor': '1',
-            'race': 'ドレイク（ブロークン）',
+            'raceAbility': '［暗視］［限定竜化］',
             'expect': false
         }, {
             'testName': 'ソーサラーでバジリスクな場合',
             'lvSor': '1',
-            'race': 'バジリスク',
+            'raceAbility': '［邪視と瞳石］［猛毒の血液］［魔物化］',
             'expect': true
         }, {
             'testName': 'ソーサラーでウィークリング（バジリスク）な場合',
             'lvSor': '1',
-            'race': 'ウィークリング（バジリスク）',
+            'raceAbility': '［蛮族の身体］［石化の視線］［毒の血液］',
             'expect': false
         }
     ],
