@@ -28,7 +28,7 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_LIST = [
                 'weapon\\d+Name': {includes: ['スタッフ', '発動体']},
                 'weapon\\d+Note': {includes: '発動体'},
                 'accessoryHand[LR]_*Name': {includes: ['発動体', 'マナリング']},
-                'accessoryOther\d*Name': {includes: ['発動体', 'マナリング']},
+                'accessoryOther\\d*_*Name': {includes: ['発動体', 'マナリング']},
                 'items': {includes: '発動体'},
                 'raceAbility': { includes: ['魔剣の所持', '邪視と瞳石'] }
             }
@@ -149,7 +149,7 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_LIST = [
             'weapon\\dCategory': { equal: ['ボウ', 'クロスボウ'] }
         },
         expect: {            
-            'accessoryOtherName': { includes: ['えびら', '矢筒', '箙'] },
+            'accessoryOther\\d*_*Name': { includes: ['えびら', '矢筒', '箙'] },
             'accessoryWaistName': { includes: ['えびら', '矢筒', '箙'] },
             'accessoryBackName': { includes: ['えびら', '矢筒', '箙'] },
             'accessory[a-zA-Z]+_+Name': { includes: ['えびら', '矢筒', '箙'] }
@@ -201,7 +201,7 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_LIST = [
             }
         },
         expect: {           
-            'accessoryOtherName': { includes: ['えびら', '矢筒', '箙'] },
+            'accessoryOther\\d*_*Name': { includes: ['えびら', '矢筒', '箙'] },
             'accessoryWaistName': { includes: ['えびら', '矢筒', '箙'] },
             'accessoryBackName': { includes: ['えびら', '矢筒', '箙'] },
             'accessory[a-zA-Z]+_+Name': { includes: ['えびら', '矢筒', '箙'] }
@@ -214,7 +214,7 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_LIST = [
             'weapon\\dCategory': { equal: 'ガン' }
         },
         expect: {            
-            'accessoryOtherName': { includes: ['ガンベルト', 'バレットスリンガー', 'バレットポーチ'] },
+            'accessoryOther\\d*_*Name': { includes: ['ガンベルト', 'バレットスリンガー', 'バレットポーチ'] },
             'accessoryWaistName': { includes: ['ガンベルト', 'バレットポーチ'] },
             'accessoryBackName': { includes: ['ガンベルト', 'バレットポーチ'] },
             'accessoryLegName': { includes: ['バレットスリンガー', 'バレットポーチ'] },
