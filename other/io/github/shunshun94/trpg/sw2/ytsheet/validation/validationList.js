@@ -84,7 +84,7 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_LIST = [
         expect: {
             'accessoryHand[LR]_*Name': {includes: 'アルケミーキット'},
             'accessoryWaist_*Name': {includes: 'アルケミーキット'},
-            'accessoryOther_*Name': {includes: 'アルケミーキット'},
+            'accessoryOther\\d*_*Name': {includes: 'アルケミーキット'},
             'items': {includes: 'カードシューター'},
             'weapon\\d+Name': {includes: 'カードシューター'},
             'weapon\\d+Note': {includes: 'アルケミーキット'},
