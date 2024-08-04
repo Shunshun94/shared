@@ -670,6 +670,21 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_TEST_LIST = {
             'accessoryWaist_Name': 'アルケミーキット',
             'expect': true
         }, {
+            'testName': 'アルケミストでアルケミーキットを持っている場合（その他部位3のチェック付）',
+            'lvAlc': '1',
+            'accessoryOther3_Name': 'アルケミーキット',
+            'expect': true
+        }, {
+            'testName': 'アルケミストでアルケミーキットを持っている場合（その他部位3）',
+            'lvAlc': '1',
+            'accessoryOther3Name': 'アルケミーキット',
+            'expect': true
+        }, {
+            'testName': 'アルケミストでアルケミーキットを持っている場合（その他部位のチェック付）',
+            'lvAlc': '1',
+            'accessoryOther__Name': 'アルケミーキット',
+            'expect': true
+        }, {
             'testName': 'アルケミストでカードシューターを持っている場合（アイテム欄）',
             'lvAlc': '1',
             'items': 'カードシューター',
