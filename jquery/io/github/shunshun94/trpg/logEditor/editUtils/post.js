@@ -42,8 +42,18 @@ io.github.shunshun94.trpg.logEditor.PARAMS = [
 		name:'tag',
 		attrs: {
 			list: io.github.shunshun94.trpg.logEditor.CLASSES.CAND_TAGS
+		},
+		shortcut: {
+			h3: {
+				text: 'H3',
+				class: io.github.shunshun94.trpg.logEditor.CLASSES.POST_TAG_H3 + ' experimentalfunction'
+			},
+			h4: {
+				text: 'H4',
+				class: io.github.shunshun94.trpg.logEditor.CLASSES.POST_TAG_H4 + ' experimentalfunction'
+			}
 		}
-	},　{
+	}, {
 		name:'id',
 		shortcut: {
 			rand: {
@@ -62,7 +72,7 @@ io.github.shunshun94.trpg.logEditor.PARAMS = [
 				class: io.github.shunshun94.trpg.logEditor.CLASSES.TOGGLE_SUB
 			}
 		}
-	},　{
+	}, {
 		name:'style'
 	}
 ];
@@ -102,7 +112,7 @@ io.github.shunshun94.trpg.logEditor.jsonToParams = (json) => {
 		    value="${json[param.name]}"
 		    ${io.github.shunshun94.trpg.logEditor.attrsJsonToHtml(param)}
 		    class="${io.github.shunshun94.trpg.logEditor.CLASSES.INPUTS} ${io.github.shunshun94.trpg.logEditor.CLASSES.INPUTS}-${param.name}" />
-		    ${io.github.shunshun94.trpg.logEditor.buttonJsonToHtml(param)}
+		    <span class="io-github-shunshun94-trpg-logEditor-Post-params-param-buttons">${io.github.shunshun94.trpg.logEditor.buttonJsonToHtml(param)}</span>
 		</span>`;
 	}).join('');
 };

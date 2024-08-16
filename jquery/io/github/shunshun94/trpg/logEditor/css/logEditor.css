@@ -84,9 +84,12 @@ body.ondrop {
 	height:17px;
 }
 
-.io-github-shunshun94-trpg-logEditor-Post-params-param-button {
+.io-github-shunshun94-trpg-logEditor-Post-params-param-buttons {
 	position:absolute;
 	left:202px;
+}
+
+.io-github-shunshun94-trpg-logEditor-Post-params-param-button {
 	padding-left: 2px;
 	padding-right: 2px;
 	height:17px;
