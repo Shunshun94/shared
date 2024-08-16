@@ -9,7 +9,8 @@ io.github.shunshun94.trpg.logEditor.export.htmlExporter = io.github.shunshun94.t
 io.github.shunshun94.trpg.logEditor.export.htmlExporter.SUFFIX = `</body></html>`;
 io.github.shunshun94.trpg.logEditor.export.htmlExporter.LAST_HASH = '';
 
-io.github.shunshun94.trpg.logEditor.export.htmlExporter.getPrefix = (mode) => {
+io.github.shunshun94.trpg.logEditor.export.htmlExporter.getPrefix = (rawMode) => {
+	const mode = (/[^\s]*mode/.exec(rawMode) || [''])[0];
 	return `<!DOCTYPE html>
 	<html>
 	<head>
@@ -29,12 +30,9 @@ io.github.shunshun94.trpg.logEditor.export.htmlExporter.setLastHash = (hash)=>{
 	io.github.shunshun94.trpg.logEditor.export.htmlExporter.LAST_HASH = hash;
 };
 
-io.github.shunshun94.trpg.logEditor.export.htmlExporter.calcCurrentHash = (doms, head, omit, mode) => {
-	const body = io.github.shunshun94.trpg.logEditor.export.htmlExporter.generateBody(doms);
-	const html = (head ? `<!DOCTYPE html>\n<html>\n${head}\n<body>\n` : io.github.shunshun94.trpg.logEditor.export.htmlExporter.getPrefix(mode)) +
-				body + omit.join('\n') + io.github.shunshun94.trpg.logEditor.export.htmlExporter.SUFFIX;
+io.github.shunshun94.trpg.logEditor.export.htmlExporter.calcCurrentHash = (doms) => {
 	const hash = new jsSHA("SHA-256", 'TEXT');
-	hash.update(html);
+	hash.update(io.github.shunshun94.trpg.logEditor.export.htmlExporter.generateBody(doms));
 	const newHash = hash.getHash("HEX");
 	return newHash;
 };
