@@ -48,7 +48,18 @@ io.github.shunshun94.trpg.logEditor.PostClickedEvents = [
         action: (self, clicked, targetPost) => {
             self.toggleSub(targetPost);
         }
+    }, {
+        class: io.github.shunshun94.trpg.logEditor.CLASSES.POST_TAG_H3,
+        action: (self, clicked, targetPost) => {
+            self.beHeader(targetPost, 'h3');
+        }
+    }, {
+        class: io.github.shunshun94.trpg.logEditor.CLASSES.POST_TAG_H4,
+        action: (self, clicked, targetPost) => {
+            self.beHeader(targetPost, 'h4');
+        }
     }
+
 ];
 
 io.github.shunshun94.trpg.logEditor.GeneralClicedEvents = [

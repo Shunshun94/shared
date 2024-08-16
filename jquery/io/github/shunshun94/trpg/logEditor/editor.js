@@ -118,6 +118,14 @@ io.github.shunshun94.trpg.logEditor.Editor = class {
 		}
 	}
 
+	beHeader(post, tagName) {
+		post.find(`.${io.github.shunshun94.trpg.logEditor.CLASSES.INPUTS}-tag`).val(tagName);
+		post.find(`.${io.github.shunshun94.trpg.logEditor.CLASSES.INPUTS}-class`).val('');
+		post.find(`.${io.github.shunshun94.trpg.logEditor.CLASSES.INPUTS}-style`).val('');
+		post.find(`.${io.github.shunshun94.trpg.logEditor.CLASSES.NAME}`).text('');
+		this.setRndId(post);
+	}
+
 	openSaveScreen(targetBlock = 'mainEditor') {
 		io.github.shunshun94.trpg.logEditor.DOMS.BODY.append(io.github.shunshun94.trpg.logEditor.menu.saveMenu.generateDom(targetBlock));
 	}
