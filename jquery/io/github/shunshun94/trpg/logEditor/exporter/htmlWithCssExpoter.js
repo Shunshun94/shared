@@ -8,7 +8,8 @@ io.github.shunshun94.trpg.logEditor.export.htmlWithCssExporter = io.github.shuns
 
 io.github.shunshun94.trpg.logEditor.export.htmlWithCssExporter.SUFFIX = `</body></html>`;
 
-io.github.shunshun94.trpg.logEditor.export.htmlWithCssExporter.getPrefix = (mode, css) => {
+io.github.shunshun94.trpg.logEditor.export.htmlWithCssExporter.getPrefix = (rawMode, css) => {
+	const mode = (/[^\s]*mode/.exec(rawMode) || [''])[0];
 	return `<!DOCTYPE html>
 	<html>
 	<head>
