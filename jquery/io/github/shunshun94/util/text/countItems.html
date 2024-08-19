@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml' lang='ja'>
+    <head>
+        <title>重複テキストを削除したりカウントしたり</title>
+    </head>
+    <body>
+        <textarea id="targetText" rows="20" cols="40"></textarea>
+        <p>
+            <input type="button" value="重複テキストを削除" id="exec1" />
+            <input type="button" value="重複テキストを数えて TSV 出力" id="exec2" />
+        </p>
+        <textarea id="result" rows="20" cols="120"></textarea>
+        <script>
+            const count = (baseText) => {
+                const result = {};
+                baseText.split('\n').forEach((line) => {
+                    if( result[line] ) { result[line]++; } else { result[line] = 1 };
+                });
+                return result;
+            }
+            document.getElementById('targetText').value = ["ひつじ","ひつじ","こひつじ","こねこ","わんこ","わんこ","こねこ","ひつじ","こひつじ","こいぬ","わんこ","わんこ","わんこ"].join('\n');
+            document.getElementById('exec1').onclick = (e) => {
+                const baseText = document.getElementById('targetText').value;
+                result = count(baseText);
+                document.getElementById('result').value = Object.keys(result).join('\n');
+            };
+            document.getElementById('exec2').onclick = (e) => {
+                const baseText = document.getElementById('targetText').value;
+                result = count(baseText);
+                document.getElementById('result').value = Object.keys(result).map((key)=>{
+                    return { name: key, count: result[key]};
+                }).sort((a,b)=>{ return b.count - a.count; }).map((d)=>{
+                    return `${d.name}\t${d.count}`;
+                }).join('\n')
+            };
+        </script>
+    </body>
+</html>
