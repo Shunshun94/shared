@@ -8,8 +8,10 @@ io.github.shunshun94.trpg.logEditor.convertors.CcfoliaConvertor = io.github.shun
 
 io.github.shunshun94.trpg.logEditor.convertors.CcfoliaConvertor.IGNORE_TAGS = ['script'];
 io.github.shunshun94.trpg.logEditor.convertors.CcfoliaConvertor.DEFAULT_TABS_CLASS = {
-	'[メイン]': ' ',
-	'[雑談]': 'tab1 '
+	// '[メイン]': ' ',
+	// '[雑談]': 'tab1 ',
+	'[main]': ' ',
+	'[other]': 'tab1 '
 };
 io.github.shunshun94.trpg.logEditor.convertors.CcfoliaConvertor.TAB_COUNTER = 2;
 
@@ -41,6 +43,7 @@ io.github.shunshun94.trpg.logEditor.convertors.CcfoliaConvertor.elementToJson = 
 
 	if(result.tabName && (! io.github.shunshun94.trpg.logEditor.convertors.CcfoliaConvertor.DEFAULT_TABS_CLASS[result.tabName])) {
 		io.github.shunshun94.trpg.logEditor.convertors.CcfoliaConvertor.DEFAULT_TABS_CLASS[result.tabName] = `tab${io.github.shunshun94.trpg.logEditor.convertors.CcfoliaConvertor.TAB_COUNTER} `;
+		console.log('new tab', result.tabName)
 	}
 	result.class = elem.getAttribute('class') || (result.tabName ? `${io.github.shunshun94.trpg.logEditor.convertors.CcfoliaConvertor.DEFAULT_TABS_CLASS[result.tabName]}${result.tabName.slice(1, -1)}` : '').trim();
 
