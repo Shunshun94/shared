@@ -45,11 +45,11 @@ io.github.shunshun94.trpg.logEditor.PARAMS = [
 		},
 		shortcut: {
 			h3: {
-				text: 'H3',
+				text: '',
 				class: io.github.shunshun94.trpg.logEditor.CLASSES.POST_TAG_H3 + ' experimentalfunction'
 			},
 			h4: {
-				text: 'H4',
+				text: '',
 				class: io.github.shunshun94.trpg.logEditor.CLASSES.POST_TAG_H4 + ' experimentalfunction'
 			}
 		}
