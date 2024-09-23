@@ -22,7 +22,7 @@ io.github.shunshun94.trpg.logEditor.CLASSES = {
 	MERGE: 'io-github-shunshun94-trpg-logEditor-Post-merge',
 	DELETE: 'io-github-shunshun94-trpg-logEditor-Post-delete',
 	POST_TAG_H3: 'io-github-shunshun94-trpg-logEditor-Post-params-param-button-postTagh3',
-	POST_TAG_H3: 'io-github-shunshun94-trpg-logEditor-Post-params-param-button-postTagh4',
+	POST_TAG_H4: 'io-github-shunshun94-trpg-logEditor-Post-params-param-button-postTagh4',
 	RANDOM_ID: 'io-github-shunshun94-trpg-logEditor-Post-params-param-button-random_id',
 	TOGGLE_SUB: 'io-github-shunshun94-trpg-logEditor-Post-params-param-button-toggle_sub',
 	CAND_TAGS: 'io-github-shunshun94-trpg-logEditor-candidates-tags',
