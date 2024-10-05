@@ -10,7 +10,7 @@
         d.result = io.github.shunshun94.trpg.dx3.FairyHands.calc(d.input, {});
         return d;
     }).map((d, i)=>{
-        return `<h2>ケース${i+1}</h2>
+        return `<h2>ケース${i+1}（${d.note}）</h2>
             <p>入力：<code>${d.input.replaceAll('\n', '<br/>')}</code></p>
             <p>結果：${ d.result === d.expected ?
                 '<span style="color:blue">OK（' + d.expected + '）</span>' :
