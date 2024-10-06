@@ -68,13 +68,16 @@
                 });
             }
         };
+        const setLinkToSheet = ( url ) => {
+            document.getElementById('linkToSheet').href = url.replace('&mode=json', '');
+            document.getElementById('linkToSheet').textContent = `${url.replace('&mode=json', '')}`;    
+        };
         const urlList = [];
         document.getElementById('input').addEventListener(
             io.github.shunshun94.trpg.sw2.component.SheetInput.EVENTS.SHEET_URL_INPUT,
             (e) => {
                 const url = e.url;
-                document.getElementById('linkToSheet').href = url.replace('&mode=json', '');
-                document.getElementById('linkToSheet').textContent = `${url.replace('&mode=json', '')}`;
+                setLinkToSheet(url);
                 request(url).then((json)=>{
                     e.resolve();
                     io.github.shunshun94.util.updateLocalStorage('com-hiyoko-sample-sw2sheetparse-index', url, json.characterName || '');
@@ -101,7 +104,7 @@
         io.github.shunshun94.trpg.sw2.component.SheetInput.build(document.getElementById('input'), {characterSheetFilter: 'ytsheet'});
         const param = io.github.shunshun94.util.getQueries();
         if(param.get('target')) {
-            request( decodeURIComponent(param.get('target')) ).then((json)=>{validateTarget(json, report); console.log(json);});
+            request( decodeURIComponent(param.get('target')) ).then((json)=>{validateTarget(json, report); setLinkToSheet(param.get('target'));});
         }
     </script>
 </body>
