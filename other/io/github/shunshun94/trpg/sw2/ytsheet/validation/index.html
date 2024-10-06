@@ -45,6 +45,29 @@
             message.textContent = `* ${topic.system ? '' : io.github.shunshun94.trpg.sw2.ytsheet.validation.CONSTS.LEVEL[topic.level].prefix}${topic.ifNot}`;
             document.getElementById('result').append(message);
         };
+        const validateTarget = (json, reportFunc) => {
+            let isNoProblem = true;
+            io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_LIST.forEach((topic)=>{
+                console.log(topic);
+                if(io.github.shunshun94.trpg.sw2.ytsheet.validation.when(json, topic.when)) {
+                    if(! io.github.shunshun94.trpg.sw2.ytsheet.validation.isValid(json, topic.expect)) {
+                        reportFunc(topic);
+                        isNoProblem = false;
+                    } else {
+                        console.log('ok');
+                    }
+                } else {
+                    console.log('チェック対象外');
+                }
+            });
+            if(isNoProblem) {
+                reportFunc({
+                    level: 'info',
+                    ifNot: '指摘事項は見つかりませんでした',
+                    system: true
+                });
+            }
+        };
         const urlList = [];
         document.getElementById('input').addEventListener(
             io.github.shunshun94.trpg.sw2.component.SheetInput.EVENTS.SHEET_URL_INPUT,
@@ -56,25 +79,7 @@
                     e.resolve();
                     io.github.shunshun94.util.updateLocalStorage('com-hiyoko-sample-sw2sheetparse-index', url, json.characterName || '');
                     document.getElementById('result').innerHTML = '';
-                    io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_LIST.forEach((topic)=>{
-                        console.log(topic);
-                        if(io.github.shunshun94.trpg.sw2.ytsheet.validation.when(json, topic.when)) {
-                            if(! io.github.shunshun94.trpg.sw2.ytsheet.validation.isValid(json, topic.expect)) {
-                                report(topic);
-                            } else {
-                                console.log('ok');
-                            }
-                        } else {
-                            console.log('チェック対象外');
-                        }
-                    });
-                    if( document.getElementById('result').innerHTML === '' ) {
-                        report({
-                            level: 'info',
-                            ifNot: '指摘事項は見つかりませんでした',
-                            system: true
-                        });
-                    }
+                    validateTarget(json, report);
                 });
                 urlList.push(url);
                 const a = document.getElementById('linkToList').children[0];
@@ -94,5 +99,9 @@
             });
         };
         io.github.shunshun94.trpg.sw2.component.SheetInput.build(document.getElementById('input'), {characterSheetFilter: 'ytsheet'});
+        const param = io.github.shunshun94.util.getQueries();
+        if(param.get('target')) {
+            request( decodeURIComponent(param.get('target')) ).then((json)=>{validateTarget(json, report); console.log(json);});
+        }
     </script>
 </body>
