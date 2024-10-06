@@ -100,7 +100,6 @@
         };
         io.github.shunshun94.trpg.sw2.component.SheetInput.build(document.getElementById('input'), {characterSheetFilter: 'ytsheet'});
         const param = io.github.shunshun94.util.getQueries();
-        console.log(param.get('target'));
         if(param.get('target')) {
             request( decodeURIComponent(param.get('target')) ).then((json)=>{validateTarget(json, report); console.log(json);});
         }
