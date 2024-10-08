@@ -95,22 +95,24 @@ io.github.shunshun94.trpg.SW2_PCLister.getYtSheetEnemy = (data) => {
     })) : 0;
 
     for(let i = 1; i < count; i++) {
+        const numberSuffix = ( (data.mount) && ( Number(data.lv) - Number(data.lvMin) ) ) ? `-${Number(data.lv) - Number(data.lvMin) + 1}` : '';
+        console.log(numberSuffix, data.mount, Number(data.lv), Number(data.lvMin), Number(data.lv) - Number(data.lvMin));
         const parts = {
             name:       `${name}: ${data[`status${i}Style`]}`,
-            hp:         Number(data[`status${i}Hp`]      ) || 0,
-            mp:         Number(data[`status${i}Hp`]      ) || 0,
-            life:       Number(data.vitResist            ) || 0,
-            mental:     Number(data.mndResist            ) || 0,
-            dodge:      Number(data[`status${i}Evasion`] ) || 0,
-            hit:        Number(data[`status${i}Accuracy`]) || 0,
+            hp:         Number(data[`status${i}${numberSuffix}Hp`]      ) || 0,
+            mp:         Number(data[`status${i}${numberSuffix}Mp`]      ) || 0,
+            life:       Number(data.vitResist                           ) || Number(data[`status${i}${numberSuffix}Vit`]) || 0,
+            mental:     Number(data.mndResist                           ) || Number(data[`status${i}${numberSuffix}Mnd`]) || 0,
+            dodge:      Number(data[`status${i}${numberSuffix}Evasion`] ) || 0,
+            hit:        Number(data[`status${i}${numberSuffix}Accuracy`]) || 0,
             magic:      magic,
-            guard:      Number(data[`status${i}Defense`] ) || 0,
-            enemy:      Number(data.reputation           ) || 0,
-            initiative: Number(data.initiative           ) || 0,
+            guard:      Number(data[`status${i}${numberSuffix}Defense`] ) || 0,
+            enemy:      Number(data.reputation                          ) || 0,
+            initiative: Number(data.initiative                          ) || 0,
             rate:       20,
             type:       'm'
         };
-        const damageRegExpResult = /2d6?([+-]\d+)/.exec(data[`status${i}Damage`]);
+        const damageRegExpResult = /2d6?([+-]\d+)/.exec(data[`status${i}${numberSuffix}Damage`]);
         if(damageRegExpResult) {
             parts.damage = Number(damageRegExpResult[1] - 2);
         } else {
