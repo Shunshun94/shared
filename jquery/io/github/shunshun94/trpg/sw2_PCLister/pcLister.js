@@ -94,9 +94,8 @@ io.github.shunshun94.trpg.SW2_PCLister.getYtSheetEnemy = (data) => {
         return Number(m[1]);
     })) : 0;
 
+    const numberSuffix = ( (data.mount) && ( Number(data.lv) - Number(data.lvMin) ) ) ? `-${Number(data.lv) - Number(data.lvMin) + 1}` : '';
     for(let i = 1; i < count; i++) {
-        const numberSuffix = ( (data.mount) && ( Number(data.lv) - Number(data.lvMin) ) ) ? `-${Number(data.lv) - Number(data.lvMin) + 1}` : '';
-        console.log(numberSuffix, data.mount, Number(data.lv), Number(data.lvMin), Number(data.lv) - Number(data.lvMin));
         const parts = {
             name:       `${name}: ${data[`status${i}Style`]}`,
             hp:         Number(data[`status${i}${numberSuffix}Hp`]      ) || 0,
