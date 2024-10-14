@@ -930,7 +930,7 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_TEST_LIST = {
             'testName': '成長済で冒険者レベルが3の場合',
             'level': "3",
             'historyExpTotal': "5500",
-            'historyMoneyTotal': "2500",
+            'historyMoneyTotal': "1200",
             'expect': true
         }, {
             'testName': '初期作成で冒険者レベルが2の場合',

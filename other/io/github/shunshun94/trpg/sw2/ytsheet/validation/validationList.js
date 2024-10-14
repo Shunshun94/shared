@@ -173,8 +173,10 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_LIST = [
     }, {
         level: 'error',
         when: {
-            historyExpTotal: { equal: "3000" },
-            historyMoneyTotal: { equal: "1200" }
+            and: {
+                historyExpTotal: { equal: "3000" },
+                historyMoneyTotal: { equal: "1200" }
+            }
         },
         expect: {
             level: { orless: 2 }
