@@ -930,7 +930,7 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_TEST_LIST = {
             'testName': '成長済で冒険者レベルが3の場合',
             'level': "3",
             'historyExpTotal': "5500",
-            'historyMoneyTotal': "2500",
+            'historyMoneyTotal': "1200",
             'expect': true
         }, {
             'testName': '初期作成で冒険者レベルが2の場合',
@@ -943,6 +943,7 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_TEST_LIST = {
     "hasShootArrowArrowHolders": [{
             'testName': 'フェアリーテイマー Lv.6、風を含む3属性契約で矢筒を装備していない場合',
             'lvFai': '6',
+            'level': '6',
             'combatFeatsLv3': '魔法拡大／数',
             "fairyContractFire":"1",
             "fairyContractLight":"1",
@@ -951,6 +952,7 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_TEST_LIST = {
         }, {
             'testName': 'フェアリーテイマー Lv.6、風を含む3属性契約で矢筒を装備していないが魔法拡大／数を習得していない場合',
             'lvFai': '6',
+            'level': '6',
             "fairyContractFire":"1",
             "fairyContractLight":"1",
             "fairyContractWind":"1",
@@ -958,6 +960,7 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_TEST_LIST = {
         }, {
             'testName': 'フェアリーテイマー Lv.5、風を含む3属性契約で矢筒を装備していない場合',
             'lvFai': '5',
+            'level': '5',
             'combatFeatsLv3': '魔法拡大／数',
             "fairyContractFire":"1",
             "fairyContractLight":"1",
@@ -966,6 +969,7 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_TEST_LIST = {
         }, {
             'testName': 'フェアリーテイマー Lv.6、風を含む3属性契約で矢筒を装備している場合',
             'lvFai': '6',
+            'level': '6',
             'combatFeatsLv3': '魔法拡大／数',
             "fairyContractFire":"1",
             "fairyContractLight":"1",
@@ -975,6 +979,7 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_TEST_LIST = {
         }, {
             'testName': 'フェアリーテイマー Lv.6、風を含む4属性契約で矢筒を装備していない場合',
             'lvFai': '6',
+            'level': '6',
             'combatFeatsLv3': '魔法拡大／数',
             "fairyContractFire":"1",
             "fairyContractLight":"1",
@@ -984,6 +989,7 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_TEST_LIST = {
         }, {
             'testName': 'フェアリーテイマー Lv.7、風を含む4属性契約で矢筒を装備していない場合',
             'lvFai': '7',
+            'level': '7',
             'combatFeatsLv3': '魔法拡大／数',
             "fairyContractFire":"1",
             "fairyContractLight":"1",
@@ -993,6 +999,7 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_TEST_LIST = {
         }, {
             'testName': 'フェアリーテイマー Lv.7、風を含む4属性契約で矢筒を装備している場合',
             'lvFai': '7',
+            'level': '7',
             'combatFeatsLv3': '魔法拡大／数',
             "fairyContractFire":"1",
             "fairyContractLight":"1",
@@ -1003,6 +1010,7 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_TEST_LIST = {
         }, {
             'testName': 'フェアリーテイマー Lv.9、6属性契約で矢筒を装備していない場合',
             'lvFai': '9',
+            'level': '9',
             'combatFeatsLv3': '魔法拡大／数',
             "fairyContractDark":"1",
             "fairyContractEarth":"1",
@@ -1014,6 +1022,7 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_TEST_LIST = {
         }, {
             'testName': 'フェアリーテイマー Lv.10、6属性契約で矢筒を装備していない場合',
             'lvFai': '10',
+            'level': '10',
             'combatFeatsLv3': '魔法拡大／数',
             "fairyContractDark":"1",
             "fairyContractEarth":"1",
@@ -1025,6 +1034,7 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_TEST_LIST = {
         }, {
             'testName': 'フェアリーテイマー Lv.10、6属性契約で矢筒を装備している場合',
             'lvFai': '10',
+            'level': '10',
             'combatFeatsLv3': '魔法拡大／数',
             "fairyContractDark":"1",
             "fairyContractEarth":"1",
@@ -1171,11 +1181,13 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_TEST_LIST = {
         {
             'testName': 'ヒールスプレーを習得していてターゲッティングを持っていない場合',
             'lvAlc': '1',
+            'level': '1',
             'craftAlchemy1': 'ヒールスプレー',
             'expect': false
         }, {
             'testName': 'ヒールスプレーを習得していてターゲッティングを持っている場合',
             'lvAlc': '3',
+            'level': '3',
             'craftAlchemy1': 'ヒールスプレー',
             'combatFeatsLv3': 'ターゲッティング',
             'expect': true
@@ -1189,6 +1201,7 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_TEST_LIST = {
         }, {
             'testName': 'ヒールスプレーを予約していてターゲッティングを持っていない場合',
             'lvAlc': '1',
+            'level': '1',
             'craftAlchemy2': 'ヒールスプレー',
             'expect': true
         }, {
@@ -1196,6 +1209,7 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_TEST_LIST = {
             'lvAlc': '1',
             'lvSor': '2',
             'lvCon': '2',
+            'level': '2',
             'craftAlchemy1': 'ヒールスプレー',
             'expect': true
         }, {
@@ -1203,6 +1217,7 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_TEST_LIST = {
             'lvAlc': '1',
             'lvSor': '3',
             'lvCon': '3',
+            'level': '3',
             'craftAlchemy1': 'ヒールスプレー',
             'expect': true
         }, {
@@ -1210,6 +1225,7 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_TEST_LIST = {
             'lvAlc': '1',
             'lvSor': '2',
             'lvCon': '1',
+            'level': '2',
             'craftAlchemy1': 'ヒールスプレー',
             'expect': false
         }, {
@@ -1217,8 +1233,22 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_TEST_LIST = {
             'lvAlc': '1',
             'lvSor': '1',
             'lvCon': '2',
+            'level': '2',
             'craftAlchemy1': 'ヒールスプレー',
             'expect': false
+        }, {
+            'testName': 'ヒールスプレーを習得する予定だがまだアルケミスト技能を取っていない場合',
+            'lvCon': '2',
+            'level': '2',
+            'craftAlchemy1': 'ヒールスプレー',
+            'expect': true
+        }, {
+            'testName': 'ヒールスプレーをアルケミスト技能 Lv.2 で習得予定だが今のアルケミスト技能は Lv.1 の場合',
+            'level': '2',
+            'lvAlc': '1',
+            'level': '2',
+            'craftAlchemy2': 'ヒールスプレー',
+            'expect': true
         }
     ],
     "noEvasionClassEmpty": [

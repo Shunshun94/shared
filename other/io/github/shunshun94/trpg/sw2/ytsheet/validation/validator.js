@@ -60,7 +60,7 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.isMatchSingle = (key, value, ac
             return io.github.shunshun94.trpg.sw2.ytsheet.validation.isMatch(json, action);
         }
         if(action.levelLimitaion) {
-            const level = Number(json[action.levelLimitaion.level]) + io.github.shunshun94.trpg.sw2.ytsheet.validation.appendSkillCountBattleSkill(action.levelLimitaion.skillPrefix, json);
+            const level = Number(json[action.levelLimitaion.level] || '0') + io.github.shunshun94.trpg.sw2.ytsheet.validation.appendSkillCountBattleSkill(action.levelLimitaion.skillPrefix, json);
             const itemNumber = Number(key.match(/\d+/));
             if(itemNumber > level) {
                 return false;
