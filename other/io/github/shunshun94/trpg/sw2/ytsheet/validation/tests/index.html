@@ -21,9 +21,16 @@
                 border-radius: 4px;
                 margin-bottom:4px;
             }
+            #shortReport {
+                position: fixed;
+                right: 8px;
+                top: 8px;
+                padding: 16px;
+            }
         </style>
     </head>
     <body>
+        <div id="shortReport"></div>
         <div id="result"></div>
         <script>
             const errorHandle = (validation, testTarget, overwriteMessage) => {
@@ -41,18 +48,22 @@
             if(io.github.shunshun94.trpg.sw2.ytsheet.validation.FUNCTIONS_TEST_LIST.length === 0) {
                 errorHandle(false, false, `関数群のテストが書かれていません`);
             }
+
+            let passScore = 0;
             io.github.shunshun94.trpg.sw2.ytsheet.validation.FUNCTIONS_TEST_LIST.forEach((test, num)=>{
                 try {
                     if( test.expect !== io.github.shunshun94.trpg.sw2.ytsheet.validation.isMatch(test, test.conditions) ) {
                         errorHandle({}, test);
                     } else {
                         passHandle({}, test);
+                        passScore++;
                     }
                 } catch (e) {
                     errorHandle(false, false, `${test.testName}のテストで例外が発生しました`);
                 }
-
             });
+            document.getElementById('shortReport').textContent = `PASS / FAIL / TOTAL = ${passScore} / ${io.github.shunshun94.trpg.sw2.ytsheet.validation.FUNCTIONS_TEST_LIST.length - passScore} / ${io.github.shunshun94.trpg.sw2.ytsheet.validation.FUNCTIONS_TEST_LIST.length}`;
+            document.getElementById('shortReport').className = (io.github.shunshun94.trpg.sw2.ytsheet.validation.FUNCTIONS_TEST_LIST.length - passScore) ? 'error' : 'pass';
             const validations = io.github.shunshun94.trpg.sw2.ytsheet.validation.getValidationListAsMap();
             for(var validationName in validations) {
                 const validation = validations[validationName];
