@@ -49,22 +49,20 @@
                 errorHandle(false, false, `関数群のテストが書かれていません`);
             }
 
-            let passScore = 0;
             io.github.shunshun94.trpg.sw2.ytsheet.validation.FUNCTIONS_TEST_LIST.forEach((test, num)=>{
                 try {
                     if( test.expect !== io.github.shunshun94.trpg.sw2.ytsheet.validation.isMatch(test, test.conditions) ) {
                         errorHandle({}, test);
                     } else {
                         passHandle({}, test);
-                        passScore++;
                     }
                 } catch (e) {
                     errorHandle(false, false, `${test.testName}のテストで例外が発生しました`);
                 }
             });
-            document.getElementById('shortReport').textContent = `PASS / FAIL / TOTAL = ${passScore} / ${io.github.shunshun94.trpg.sw2.ytsheet.validation.FUNCTIONS_TEST_LIST.length - passScore} / ${io.github.shunshun94.trpg.sw2.ytsheet.validation.FUNCTIONS_TEST_LIST.length}`;
-            document.getElementById('shortReport').className = (io.github.shunshun94.trpg.sw2.ytsheet.validation.FUNCTIONS_TEST_LIST.length - passScore) ? 'error' : 'pass';
             const validations = io.github.shunshun94.trpg.sw2.ytsheet.validation.getValidationListAsMap();
+            let totalTestCount = 0;
+            let passScore = 0;
             for(var validationName in validations) {
                 const validation = validations[validationName];
                 const tests = io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_TEST_LIST[validationName];
@@ -72,16 +70,19 @@
                     errorHandle(false, false, `${validationName}のテストが書かれていません`);
                 } else {
                     tests.forEach((test, num)=>{
+                        totalTestCount++;
                         try {
                             if( io.github.shunshun94.trpg.sw2.ytsheet.validation.when(test, validation.when) ) {
                                 if( test.expect != io.github.shunshun94.trpg.sw2.ytsheet.validation.isValid(test, validation.expect) ) {
                                     errorHandle(validation, test);
                                 } else {
                                     passHandle(validation, test);
+                                    passScore++;
                                 }
                             } else {
                                 if( test.expect ) {
                                     passHandle(validation, test);
+                                    passScore++;
                                 } else {
                                     errorHandle(validation, test);
                                 }
@@ -92,6 +93,8 @@
                     });
                 }
             }
+            document.getElementById('shortReport').textContent = `PASS / FAIL / TOTAL = ${passScore} / ${totalTestCount - passScore} / ${totalTestCount}`;
+            document.getElementById('shortReport').className = (totalTestCount - passScore) ? 'error' : 'pass';
         </script>
     </body>
 </html>
