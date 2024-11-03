@@ -1466,6 +1466,51 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_TEST_LIST = {
         'accessoryWaist_Name': 'レースアップコルセット',
         'expect': true
     }],
+    "fencerCriticalBonusShouldBeInputed": [
+        {
+            'testName': 'フェンサーが主技能かつソードを持っていてクリティカル値が10の場合',
+            'level': '5',
+            'lvFen': '5',
+            'weapon1Category': 'ソード',
+            'weapon1Crit': '10',
+            'expect': false
+        }, {
+            'testName': 'フェンサーが主技能かつソードを持っていてクリティカル値が9の場合',
+            'level': '5',
+            'lvFen': '5',
+            'weapon1Category': 'ソード',
+            'weapon1Crit': '9',
+            'expect': true
+        }, {
+            'testName': 'フェンサーが主技能かつたくさん武器をもっていて、その中にソードがあってクリティカル値が9の場合',
+            'level': '5',
+            'lvFen': '5',
+            'weapon19Category': 'ソード',
+            'weapon19Crit': '9',
+            'expect': true
+        }, {
+            'testName': 'フェンサーが主技能かつアックスを持っていてクリティカル値が10の場合',
+            'level': '5',
+            'lvFen': '5',
+            'weapon1Category': 'アックス',
+            'weapon1Crit': '10',
+            'expect': true
+        }, {
+            'testName': 'フェンサーが主技能かつガンを持っていてクリティカル値が10の場合',
+            'level': '5',
+            'lvFen': '5',
+            'weapon1Category': 'ガン',
+            'weapon1Crit': '10',
+            'expect': true
+        }, {
+            'testName': 'ファイターが主技能かつソードを持っていてクリティカル値が10の場合',
+            'level': '5',
+            'lvFig': '5',
+            'weapon1Category': 'ソード',
+            'weapon1Crit': '10',
+            'expect': true
+        }
+    ],
     "adventurerRequiresSearchingSkills": [
         {
             'testName': '探索技能を全くを持っていない場合',
@@ -1542,6 +1587,12 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_TEST_LIST = {
             'level': '5',
             'lvRid': '3',
             'craftRiding1': '探索指令',
+            'expect': true
+        }, {
+            'testName': 'レベル12でライダーがレベル10で探索指令を持っている場合',
+            'level': '12',
+            'lvRid': '10',
+            'craftRiding10': '探索指令',
             'expect': true
         }
     ],

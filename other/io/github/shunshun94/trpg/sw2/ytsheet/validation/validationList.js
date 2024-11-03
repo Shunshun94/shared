@@ -213,7 +213,7 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_LIST = [
     }, {
         level: 'warn',
         when: {
-            'weapon\\dCategory': { equal: 'ガン' }
+            'weapon\\d+Category': { equal: 'ガン' }
         },
         expect: {            
             'accessoryOther\\d*_*Name': { includes: ['ガンベルト', 'バレットスリンガー', 'バレットポーチ'] },
@@ -417,6 +417,30 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_LIST = [
 		label: 'corsetRequiresBattleDancerLevel'
 	}, {
         level: 'info',
+        when: {
+            'lvFen': { isEnoughLevel: true }
+        },
+        expect: {
+            'weapon\\d+Crit': { func: (key, value, json) =>{
+                const weaponCommonCriticalMap = {
+                    'ソード': 10, 'アックス': 11, 'スピア': 10, 'メイス': 12, 'スタッフ': 12, 'フレイル': 10, 'ウォーハンマー': 10
+                };
+                const weaponIndex = /weapon(\d+)Crit/.exec(key)[1];
+                const weaponCategory = `weapon${weaponIndex}Category`;
+                const commonCritical = weaponCommonCriticalMap[json[weaponCategory]];
+                console.log(key, value, weaponIndex, weaponCategory, commonCritical);
+                if(commonCritical) {
+                    return Number(value) < commonCritical;
+                } else {
+                    // 上述のもの以外は対象外・ケースバイケースなので判定対象外とする
+                    return true;
+                }
+            } }
+        },
+        ifNot: 'フェンサー技能で武器攻撃を行う場合、武器のクリティカル値の欄に -1 した値を入れておくことでチャットパレットにもクリティカル値が反映されます',
+        label: 'fencerCriticalBonusShouldBeInputed'
+    }, {
+        level: 'info',
         when: 'always',
         expect: {
             'lvSco': { isEnoughLevel: true },
@@ -426,7 +450,7 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_LIST = [
             'lvRid': {
                 and: {
                     'lvRid': { isEnoughLevel: true },
-                    'craftRiding\\d': { includes:  '探索指令' }
+                    'craftRiding\\d+': { includes:  '探索指令' }
                 }
             }
         },
