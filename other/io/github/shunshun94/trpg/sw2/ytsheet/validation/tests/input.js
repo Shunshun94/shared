@@ -824,6 +824,23 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_TEST_LIST = {
             'expect': true
         }
     ],
+    "hasAbyssknife": [
+        {
+            'testName': 'アビスゲイザーでアビスナイフを持っていない場合',
+            'lvAby': '1',
+            'expect': false
+        }, {
+            'testName': 'アビスゲイザーでアビスナイフをアイテムとして持っている場合',
+            'lvAby': '1',
+            'items': 'アビスナイフ',
+            'expect': true
+        }, {
+            'testName': 'アビスゲイザーでアビスナイフを武器として持っている場合',
+            'lvAby': '1',
+            'weapon1Note': 'アビスナイフだよ',
+            'expect': true
+        }
+    ],
     "hasArrowHolders": [
         {
             'testName': 'ボウ装備のシューターでえびらも矢筒も持っていない場合',
