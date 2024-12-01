@@ -246,14 +246,15 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_LIST = [
                     'lvCon': 1,
                     'lvFai': 1,
                     'lvDru': 1,
-                    'lvDem': 1
+                    'lvDem': 1,
+                    'lvAby': 1
                 }
             }
         },
         expect: {
             'race': { includes: 'ナイトメア' }
         },
-        ifNot: '金属鎧を着ている場合にソーサラー、コンジャラー、フェアリーテイマー、ドルイドまたはデーモンルーラーの各技能による魔法を行使するとペナルティ修正を受けます',
+        ifNot: '金属鎧を着ている場合にソーサラー、コンジャラー、フェアリーテイマー、ドルイド、デーモンルーラー、アビスゲイザーの各技能による魔法を行使するとペナルティ修正を受けます',
         label: 'metalArmorLimitatesMagics'
     }, {
         level: 'warn',
