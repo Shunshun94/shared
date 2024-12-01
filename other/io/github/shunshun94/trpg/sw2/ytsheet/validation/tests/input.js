@@ -1483,6 +1483,31 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_TEST_LIST = {
         'accessoryWaist_Name': 'レースアップコルセット',
         'expect': true
     }],
+    "abyssKnifeMustBeEdged": [
+        {
+            'testName': 'アビスナイフがソードな場合',
+            'weapon1Note': 'アビスナイフ加工済',
+            'weapon1Category': 'ソード',
+            'expect': true
+        }, {
+            'testName': 'アビスナイフがメイスな場合',
+            'weapon1Note': 'アビスナイフ加工済',
+            'weapon1Category': 'メイス',
+            'expect': false
+        }, {
+            'testName': 'アビスナイフが刃のついたメイスな場合',
+            'weapon1Note': 'アビスナイフ加工済',
+            'weapon1Category': 'メイス',
+            'weapon1Name': '謎に刃のついたメイス[刃]',
+            'expect': true
+        }, {
+            'testName': 'アビスナイフがエッジドアームな場合',
+            'weapon1Note': 'アビスナイフ加工済',
+            'weapon1Category': '格闘',
+            'weapon1Name': 'エッジドアーム',
+            'expect': true
+        }
+    ],
     "fencerCriticalBonusShouldBeInputed": [
         {
             'testName': 'フェンサーが主技能かつソードを持っていてクリティカル値が10の場合',

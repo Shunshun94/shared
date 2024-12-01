@@ -428,6 +428,18 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_LIST = [
         ifNot: 'レースアップコルセットの効果を得るにはバトルダンサー技能が3レベル以上である必要があります（『BM』84頁）',
 		label: 'corsetRequiresBattleDancerLevel'
 	}, {
+        level: 'warn',
+        when: {
+            'weapon\\d+Name': {includes: 'アビスナイフ'},
+            'weapon\\d+Note': {includes: 'アビスナイフ'}
+        },
+        expect: {
+            'weapon\\d+Name': {includes: ['[刃]', 'ライジングサン', 'タイラント', 'エッジドアーム']},
+            'weapon\\d+Category': { equal: ['ソード', 'アックス', 'スピア', 'ウォーハンマー', 'ボウ', 'クロスボウ'] }
+        },
+        ifNot: 'アビスナイフ加工を施す武器は刃のついた武器である必要があります',
+        label: 'abyssKnifeMustBeEdged'
+    }, {
         level: 'info',
         when: {
             'lvFen': { isEnoughLevel: true }
