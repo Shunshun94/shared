@@ -33,7 +33,7 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_LIST = [
                 'raceAbility': { includes: ['魔剣の所持', '邪視と瞳石'] }
             }
         },
-        ifNot: 'ソーサラー技能またはコンジャラー技能による魔法を行使するには魔法の発動体を装備している必要があります（『1』196頁）',
+        ifNot: 'ソーサラー技能またはコンジャラー技能による魔法を行使するには魔法の発動体を所持または装備している必要があります（『1』196頁）',
         label: 'sorcererRequiresDevice'
     }, {
         level: 'error',
@@ -102,7 +102,7 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_LIST = [
             'weapon\\d+Name': {includes: ['宿り木', '宿木', 'ヤドリギ']},
             'weapon\\d+Note': {includes: ['宿り木', '宿木', 'ヤドリギ', 'ドルイド', '森羅']}
         },
-        ifNot: 'ドルイド技能による魔法を行使するには宿り木の棒杖またはそれを兼ねたスタッフを装備している必要があります（『ML』10頁）',
+        ifNot: 'ドルイド技能による魔法を行使するには宿り木の棒杖を所持またはそれを兼ねたスタッフを装備している必要があります（『ML』10頁）',
         label: 'druidRequiresMistletoe'
     }, {
         level: 'error',
@@ -117,7 +117,7 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_LIST = [
             'accessory.*Note': {includes: ['召異の徽章', '召異の微章']},
             'cashbook': {includes: ['召異の刺青', '悪魔の印', '召異の刺繍']}
         },
-        ifNot: 'デーモンルーラー技能による魔法を行使するには小魔の封入具を装備している必要があります（『ML』29頁）',
+        ifNot: 'デーモンルーラー技能による魔法を行使するには小魔の封入具を所持ないし装備している必要があります（『ML』29頁）',
         label: 'demonRulerRequiresDemonSeal'
     }, {
         level: 'error',
@@ -143,6 +143,18 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_LIST = [
         },
         ifNot: 'ウォーリーダー技能による鼓咆と陣率を使用するには軍師徽章、戦旗章または盾徽章を装備している必要があります（『MA』19頁）',
         label: 'warleaderRequiresGeneralEmblem'
+    }, {
+        level: 'error',
+        when: {
+            'lvAby': 1
+        },
+        expect: {
+            'items': {includes: 'アビスナイフ'},
+            'weapon\\d+Name': {includes: 'アビスナイフ'},
+            'weapon\\d+Note': {includes: 'アビスナイフ'}
+        },
+        ifNot: 'アビスゲイザー技能による魔法を行使するにはアビスナイフを所持している必要があります',
+        label: 'hasAbyssknife'
     }, {
         level: 'error',
         when: {
@@ -234,14 +246,15 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_LIST = [
                     'lvCon': 1,
                     'lvFai': 1,
                     'lvDru': 1,
-                    'lvDem': 1
+                    'lvDem': 1,
+                    'lvAby': 1
                 }
             }
         },
         expect: {
             'race': { includes: 'ナイトメア' }
         },
-        ifNot: '金属鎧を着ている場合にソーサラー、コンジャラー、フェアリーテイマー、ドルイドまたはデーモンルーラーの各技能による魔法を行使するとペナルティ修正を受けます',
+        ifNot: '金属鎧を着ている場合にソーサラー、コンジャラー、フェアリーテイマー、ドルイド、デーモンルーラー、アビスゲイザーの各技能による魔法を行使するとペナルティ修正を受けます',
         label: 'metalArmorLimitatesMagics'
     }, {
         level: 'warn',
@@ -416,6 +429,18 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_LIST = [
         ifNot: 'レースアップコルセットの効果を得るにはバトルダンサー技能が3レベル以上である必要があります（『BM』84頁）',
 		label: 'corsetRequiresBattleDancerLevel'
 	}, {
+        level: 'warn',
+        when: {
+            'weapon\\d+Name': {includes: 'アビスナイフ'},
+            'weapon\\d+Note': {includes: 'アビスナイフ'}
+        },
+        expect: {
+            'weapon\\d+Name': {includes: ['[刃]', 'ライジングサン', 'タイラント', 'エッジドアーム']},
+            'weapon\\d+Category': { equal: ['ソード', 'アックス', 'スピア', 'ウォーハンマー', 'ボウ', 'クロスボウ'] }
+        },
+        ifNot: 'アビスナイフ加工を施す武器は刃のついた武器である必要があります',
+        label: 'abyssKnifeMustBeEdged'
+    }, {
         level: 'info',
         when: {
             'lvFen': { isEnoughLevel: true }
