@@ -21,7 +21,6 @@ io.github.shunshun94.trpg.sw2.ytsheet.countSession.countSession = (json, algorit
     for(var sessionCount = 1; sessionCount < max; sessionCount++) {
         if(io.github.shunshun94.trpg.sw2.ytsheet.countSession.isSessionAsPlayer[algorithm](json, sessionCount)){ result++; }
     }
-    console.log(result);
     return result;
 }
 
