@@ -1,0 +1,76 @@
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>ytsheet-sessin-count.js 動作確認</title>
+        <style>
+            .error {
+                background-color:#FFDDDD;
+                color:#440000;
+                border:solid #440000 2px;
+                padding:4px;
+                border-radius: 4px;
+                margin-bottom:4px;
+            }
+            .pass {
+                background-color:#DDFFDD;
+                color:#004400;
+                border:solid #004400 2px;
+                padding:4px;
+                border-radius: 4px;
+                margin-bottom:4px;
+            }
+            #shortReport {
+                position: fixed;
+                right: 8px;
+                top: 8px;
+                padding: 16px;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="shortReport"></div>
+        <div id="result"></div>
+        <script src="./ytsheet-session-count.js"></script>
+        <script src="./testInput.js"></script>
+        <script>
+            const errorHandle = (validation, testTarget, overwriteMessage) => {
+                const message = document.createElement('div');
+                message.className = 'error';
+                message.textContent = overwriteMessage || `${testTarget.Title}の結果は${testTarget.ExpectedResult ? '卓扱い' : '非卓扱い'}になることが望まれていますが実際にはそうなってません`;
+                document.getElementById('result').append(message);
+            }
+            const passHandle = (validation, testTarget, overwriteMessage) => {
+                const message = document.createElement('div');
+                message.className = 'pass';
+                message.textContent = overwriteMessage || `${testTarget.Title}：OK（期待される結果：${testTarget.ExpectedResult ? '卓扱い' : '非卓扱い'}）`;
+                document.getElementById('result').append(message);
+            }
+
+            let totalTestCount = 0;
+            let passScore = 0;
+            testsRaxiaLifeNeo.forEach((testCase, i) => {
+                totalTestCount++;
+                const result = io.github.shunshun94.trpg.sw2.ytsheet.countSession.isSessionAsPlayer.RaxiaLifeNeo(testDataRaxiaLifeNeo, i + 1);
+                if(result === testCase.ExpectedResult ) {
+                    passHandle(null, testCase);
+                    passScore++;
+                } else {
+                    errorHandle(null, testCase);
+                }
+            });
+
+            totalTestCount++;
+            const sessionCount = io.github.shunshun94.trpg.sw2.ytsheet.countSession.countSession(testDataRaxiaLifeNeo, 'RaxiaLifeNeo');
+            if(sessionCount === expectedSessionCount) {
+                passHandle(null, {}, `仮想キャラクターの卓数は予定通り${expectedSessionCount}件でした`);
+                passScore++;
+            } else {
+                errorHandle(null, {}, `仮想キャラクターの卓数は${expectedSessionCount}件であることが期待されますが、実際には${sessionCount}件でした`);
+                console.error('仮想キャラクターのデータ', testData);
+            }
+
+            document.getElementById('shortReport').textContent = `PASS / FAIL / TOTAL = ${passScore} / ${totalTestCount - passScore} / ${totalTestCount}`;
+            document.getElementById('shortReport').className = (totalTestCount - passScore) ? 'error' : 'pass';
+        </script>
+    </body>
+</html>
