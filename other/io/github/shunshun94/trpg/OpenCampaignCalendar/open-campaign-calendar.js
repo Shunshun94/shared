@@ -80,6 +80,19 @@ io.github.shunshun94.trpg.OpenCampaignCalendar.getMonthLength = (date) => {
     return (Number(io.github.shunshun94.trpg.OpenCampaignCalendar.getMonthLastDay(date)) - Number(io.github.shunshun94.trpg.OpenCampaignCalendar.getMonthFirstDay(date)) + 1) / (1000 * 60 * 60 * 24)
 };
 
+io.github.shunshun94.trpg.OpenCampaignCalendar.getSeason = (month) => {
+    if( 3 <= month && month <= 5 ) {
+        return 'spring';
+    }
+    if( 6 <= month && month <= 8 ) {
+        return 'summer';
+    }
+    if( 9 <= month && month <= 11 ) {
+        return 'autumn';
+    }
+    return 'winter';
+};
+
 /**
  * ラクシア時間で第二引数日だけ時計を進めた値を返却する
  * @param {Object} raxiaDate ラクシア時間のオブジェクト。year, month, day の値を持つ
@@ -92,7 +105,8 @@ io.github.shunshun94.trpg.OpenCampaignCalendar.proceedRaxiaTime = (raxiaDate, da
     raxiaDate.day    =           (raxiaDate.day         % 30) || 30;
     raxiaDate.year  += Math.floor((raxiaDate.month - 1) / 12);
     raxiaDate.month  =           (raxiaDate.month       % 12) || 12;
-    raxiaDate.text = `${raxiaDate.year}/${raxiaDate.month}/${Math.ceil(raxiaDate.day)}/`;
+    raxiaDate.text   = `${raxiaDate.year}/${raxiaDate.month}/${Math.ceil(raxiaDate.day)}/`;
+    raxiaDate.season = io.github.shunshun94.trpg.OpenCampaignCalendar.getSeason(raxiaDate.month);
     return raxiaDate;
 };
 
@@ -126,7 +140,8 @@ io.github.shunshun94.trpg.OpenCampaignCalendar.getDateArray = (tempDisplayFrom =
         while(Number(cursor) < nextMonth) {
             result.push({
                 real: cursor.toLocaleDateString('jp-JP'),
-                raxia: raxiaDate.text
+                raxia: raxiaDate.text,
+                season: raxiaDate.season
             })
             cursor = io.github.shunshun94.trpg.OpenCampaignCalendar.addDays(cursor, 1);
             raxiaDate = io.github.shunshun94.trpg.OpenCampaignCalendar.proceedRaxiaTime(raxiaDate, delta);
@@ -158,6 +173,7 @@ io.github.shunshun94.trpg.OpenCampaignCalendar.generateHtml = (dateArray = io.gi
         real.textContent = d.real;
         tr.append(real);
         const raxia = document.createElement('td');
+        raxia.className = d.season;
         raxia.textContent = d.raxia;
         tr.append(raxia);
         table.append(tr);
