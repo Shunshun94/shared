@@ -1,0 +1,28 @@
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <style>
+            @charset "utf-8";
+            * {
+                box-sizing: border-box;
+                font-family: "BIZ UDゴシック","UD Shin Go NT Light JIS2004","UD デジタル 教科書体 N-R", Verdana, Roboto, "Droid Sans", "游ゴシック", YuGothic, "メイリオ", Meiryo, "ヒラギノ角ゴ ProN W3", "Hiragino Kaku Gothic ProN", "ＭＳ Ｐゴシック", sans-serif;
+            }
+
+            #result tr:nth-child(odd) td {
+                background-color: #cfefe4;
+            }
+
+            #result tr {
+                padding: 2px;
+                text-align:center;
+            }
+        </style>
+        <title>Calendar - RaxiaLifeNeo</title>
+    </head>
+    <body>
+        <h1>RaxiaLifeNeo - RaxiaLifeNeo</h1>
+        <div id="result"></div>
+        <script src="./open-campaign-calendar.js"></script>
+        <script>document.getElementById('result').append(io.github.shunshun94.trpg.OpenCampaignCalendar.generateHtml());  </script>
+    </body>
+</html>
