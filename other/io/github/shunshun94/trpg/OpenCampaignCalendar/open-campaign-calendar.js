@@ -80,6 +80,11 @@ io.github.shunshun94.trpg.OpenCampaignCalendar.getMonthLength = (date) => {
     return (Number(io.github.shunshun94.trpg.OpenCampaignCalendar.getMonthLastDay(date)) - Number(io.github.shunshun94.trpg.OpenCampaignCalendar.getMonthFirstDay(date)) + 1) / (1000 * 60 * 60 * 24)
 };
 
+/**
+ * 月を与えると季節を表す文字列を返却する
+ * @param {Integer} month 月を表す数字。Januaryから順番に1からカウントする
+ * @returns 3～5月は spring、6～8月は summar、9～11月は autumn、12～2月は winter を返す
+ */
 io.github.shunshun94.trpg.OpenCampaignCalendar.getSeason = (month) => {
     if( 3 <= month && month <= 5 ) {
         return 'spring';
@@ -105,7 +110,7 @@ io.github.shunshun94.trpg.OpenCampaignCalendar.proceedRaxiaTime = (raxiaDate, da
     raxiaDate.day    =           (raxiaDate.day         % 30) || 30;
     raxiaDate.year  += Math.floor((raxiaDate.month - 1) / 12);
     raxiaDate.month  =           (raxiaDate.month       % 12) || 12;
-    raxiaDate.text   = `${raxiaDate.year}/${raxiaDate.month}/${Math.ceil(raxiaDate.day)}/`;
+    raxiaDate.text   = `${raxiaDate.year}/${raxiaDate.month}/${Math.ceil(raxiaDate.day)}`;
     raxiaDate.season = io.github.shunshun94.trpg.OpenCampaignCalendar.getSeason(raxiaDate.month);
     return raxiaDate;
 };
@@ -116,10 +121,10 @@ io.github.shunshun94.trpg.OpenCampaignCalendar.proceedRaxiaTime = (raxiaDate, da
  * @param {Object} params fromRealDateおよびendRealDateが利用できます。fromRealDateはキャンペーン開始時の日付を、endRealDateは月末ないし月末までの10日以内の場合は翌月末の日が指定されます
  * @returns {Array} 私達の世界の日付とラクシアの日付の対照表の配列
  */
-io.github.shunshun94.trpg.OpenCampaignCalendar.getDateArray = (tempDisplayFrom = new Date(), params = {}) => {
+io.github.shunshun94.trpg.OpenCampaignCalendar.getDateArray = (params = {}) => {
     const fromRealDate = params.fromRealDate || io.github.shunshun94.trpg.OpenCampaignCalendar.CONSTS.COMMON_START_DATE;
-    const endRealDate = params.endRealDate || io.github.shunshun94.trpg.OpenCampaignCalendar.getMonthLastDay(io.github.shunshun94.trpg.OpenCampaignCalendar.addDays(tempDisplayFrom, 20));
-    const displayFrom = io.github.shunshun94.trpg.OpenCampaignCalendar.getMonthFirstDay(tempDisplayFrom);
+    const displayFrom =  params.displayFrom || io.github.shunshun94.trpg.OpenCampaignCalendar.getMonthFirstDay(new Date());
+    const endRealDate =  params.endRealDate || io.github.shunshun94.trpg.OpenCampaignCalendar.getMonthLastDay(io.github.shunshun94.trpg.OpenCampaignCalendar.addDays((params.displayFrom || new Date()), 20));
 
     const spentMonth = io.github.shunshun94.trpg.OpenCampaignCalendar.diffMonth(fromRealDate, displayFrom);
     let raxiaDate = {
@@ -157,25 +162,21 @@ io.github.shunshun94.trpg.OpenCampaignCalendar.getDateArray = (tempDisplayFrom =
  * @returns {HTMLTableElement} html のエレメントのオブジェクトが返却されます
  */
 io.github.shunshun94.trpg.OpenCampaignCalendar.generateHtml = (dateArray = io.github.shunshun94.trpg.OpenCampaignCalendar.getDateArray()) => {
+    const generateElement = (tagName, attributes) => {
+        const result = document.createElement(tagName);
+        for(var key in attributes) { result[key] = attributes[key]; }
+        return result;
+    };
     const table = document.createElement('table');
     table.setAttribute('border', '1');
     const header = document.createElement('tr');
-    const realHeader = document.createElement('th');
-    realHeader.textContent = '現実世界時間';
-    header.append(realHeader);
-    const raxiaHeader = document.createElement('th');
-    raxiaHeader.textContent = 'ラクシア時間';
-    header.append(raxiaHeader);
+    header.append(generateElement('th', {textContent: '現実世界時間'}));
+    header.append(generateElement('th', {textContent: 'ラクシア時間'}));
     table.append(header);
     dateArray.forEach((d)=>{
         const tr = document.createElement('tr');
-        const real = document.createElement('td');
-        real.textContent = d.real;
-        tr.append(real);
-        const raxia = document.createElement('td');
-        raxia.className = d.season;
-        raxia.textContent = d.raxia;
-        tr.append(raxia);
+        tr.append(generateElement('td', {textContent: d.real}));
+        tr.append(generateElement('td', {textContent: d.raxia, className: d.season}));
         table.append(tr);
     });
     return table;

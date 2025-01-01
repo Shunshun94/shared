@@ -51,6 +51,18 @@
         <h1>Calendar - RaxiaLifeNeo</h1>
         <div id="result"></div>
         <script src="./open-campaign-calendar.js"></script>
-        <script>document.getElementById('result').append(io.github.shunshun94.trpg.OpenCampaignCalendar.generateHtml());  </script>
+        <script src="../../../../../../jquery/com/hiyoko/util/v2/utils.js"></script>
+        <script>
+        const queries = com.hiyoko.util.getQueries();
+        const params = {
+            fromRealDate: queries.fromRealDate ? new Date(Number(queries.fromRealDate)) : null,
+            endRealDate:  queries.endRealDate  ? new Date(Number(queries.endRealDate))  : null,
+            displayFrom:  queries.displayFrom  ? new Date(Number(queries.displayFrom))  : null
+        };
+        console.log(queries, params);
+        document.getElementById('result').append(io.github.shunshun94.trpg.OpenCampaignCalendar.generateHtml(
+            io.github.shunshun94.trpg.OpenCampaignCalendar.getDateArray(params)
+        ));
+        </script>
     </body>
 </html>
