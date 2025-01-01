@@ -121,10 +121,10 @@ io.github.shunshun94.trpg.OpenCampaignCalendar.proceedRaxiaTime = (raxiaDate, da
  * @param {Object} params fromRealDateおよびendRealDateが利用できます。fromRealDateはキャンペーン開始時の日付を、endRealDateは月末ないし月末までの10日以内の場合は翌月末の日が指定されます
  * @returns {Array} 私達の世界の日付とラクシアの日付の対照表の配列
  */
-io.github.shunshun94.trpg.OpenCampaignCalendar.getDateArray = (tempDisplayFrom = new Date(), params = {}) => {
+io.github.shunshun94.trpg.OpenCampaignCalendar.getDateArray = (params = {}) => {
     const fromRealDate = params.fromRealDate || io.github.shunshun94.trpg.OpenCampaignCalendar.CONSTS.COMMON_START_DATE;
-    const endRealDate = params.endRealDate || io.github.shunshun94.trpg.OpenCampaignCalendar.getMonthLastDay(io.github.shunshun94.trpg.OpenCampaignCalendar.addDays(tempDisplayFrom, 20));
-    const displayFrom = io.github.shunshun94.trpg.OpenCampaignCalendar.getMonthFirstDay(tempDisplayFrom);
+    const displayFrom =  params.displayFrom || io.github.shunshun94.trpg.OpenCampaignCalendar.getMonthFirstDay(new Date());
+    const endRealDate =  params.endRealDate || io.github.shunshun94.trpg.OpenCampaignCalendar.getMonthLastDay(io.github.shunshun94.trpg.OpenCampaignCalendar.addDays((params.displayFrom || new Date()), 20));
 
     const spentMonth = io.github.shunshun94.trpg.OpenCampaignCalendar.diffMonth(fromRealDate, displayFrom);
     let raxiaDate = {
