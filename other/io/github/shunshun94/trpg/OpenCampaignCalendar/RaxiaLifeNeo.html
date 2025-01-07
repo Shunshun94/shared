@@ -56,6 +56,10 @@
             #result tr:nth-child(odd) td.winter {
                 background-color: #e5e4e6;
             }
+
+            .today {
+                background-color: skyblue;
+            }
         </style>
         <title>Calendar - RaxiaLifeNeo</title>
     </head>
@@ -71,7 +75,6 @@
             endRealDate:  queries.endRealDate  ? new Date(Number(queries.endRealDate))  : null,
             displayFrom:  queries.displayFrom  ? new Date(Number(queries.displayFrom))  : null
         };
-        console.log(queries, params);
         document.getElementById('result').append(io.github.shunshun94.trpg.OpenCampaignCalendar.generateHtml(
             io.github.shunshun94.trpg.OpenCampaignCalendar.getDateArray(params)
         ));

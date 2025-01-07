@@ -7,6 +7,7 @@ io.github.shunshun94.trpg.OpenCampaignCalendar = io.github.shunshun94.trpg.OpenC
 io.github.shunshun94.trpg.OpenCampaignCalendar.CONSTS = io.github.shunshun94.trpg.OpenCampaignCalendar.CONSTS || {};
 io.github.shunshun94.trpg.OpenCampaignCalendar.CONSTS.ONEDAY = 1000 * 60 * 60 * 24;
 io.github.shunshun94.trpg.OpenCampaignCalendar.CONSTS.COMMON_START_DATE = new Date('2024/12/1');
+io.github.shunshun94.trpg.OpenCampaignCalendar.CONSTS.TODAY = (new Date()).toLocaleDateString('jp-JP');
 
 /**
  * 月の先頭の日付を取得します
@@ -143,8 +144,10 @@ io.github.shunshun94.trpg.OpenCampaignCalendar.getDateArray = (params = {}) => {
         const dayCount = io.github.shunshun94.trpg.OpenCampaignCalendar.getMonthLength(cursor);
         const delta = 180 / dayCount;
         while(Number(cursor) < nextMonth) {
+            const realDay = cursor.toLocaleDateString('jp-JP')
             result.push({
-                real: cursor.toLocaleDateString('jp-JP'),
+                real: realDay,
+                isToday: realDay === io.github.shunshun94.trpg.OpenCampaignCalendar.CONSTS.TODAY ? 'today' : 'not-today',
                 raxia: raxiaDate.text,
                 season: raxiaDate.season
             })
@@ -175,12 +178,9 @@ io.github.shunshun94.trpg.OpenCampaignCalendar.generateHtml = (dateArray = io.gi
     table.append(header);
     dateArray.forEach((d)=>{
         const tr = document.createElement('tr');
-        tr.append(generateElement('td', {textContent: d.real}));
-        tr.append(generateElement('td', {textContent: d.raxia, className: d.season}));
+        tr.append(generateElement('td', {textContent: d.real,  className: d.isToday}));
+        tr.append(generateElement('td', {textContent: d.raxia, className: d.season }));
         table.append(tr);
     });
     return table;
 };
-
-
-
