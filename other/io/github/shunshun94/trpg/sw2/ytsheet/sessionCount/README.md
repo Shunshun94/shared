@@ -29,3 +29,8 @@
 ## 動作テスト
 
 [こちら](./test.html)から確認。
+
+## 活用
+
+* [ytsheetBoard](https://github.com/Shunshun94/GoogleAppScripts/tree/main/ytsheetBoard) で活用
+* [sameSessionCount](./sameSessionCount.html) で利用

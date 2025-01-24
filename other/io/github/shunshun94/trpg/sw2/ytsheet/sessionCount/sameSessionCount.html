@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+</style>
+</head>
+<body>
+    <div id="input"></div>
+    <p>以下に表示される結果をゆとシートにコピペして使ってください</p>
+    <textarea cols="80" rows="40" id="result"></textarea>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="../../../../../../../../other/io/github/shunshun94/util/common.js"></script>
+    <script src="../../component/SheetInput/sheetInputComponent.js"></script>
+    <script src="./ytsheet-session-count.js"></script>
+    <script>
+        const generateTable = (raw) => {
+            const memberMap = {};
+            const gmMap = {};
+            for(var i = 1; i < Number(raw.historyNum); i++) {
+                const isSession = io.github.shunshun94.trpg.sw2.ytsheet.countSession.isSessionAsPlayer.RaxiaLifeNeo(raw, i);
+                if(isSession) {
+                    (raw[`history${i}Member`] || '').split(/[\s　,、]/).filter((d)=>{return d;}).forEach((d)=>{
+                        if(! memberMap[d]) { memberMap[d] = 0; }
+                        memberMap[d]++;
+                    });
+                    if(! gmMap[raw[`history${i}Gm`]]) {  gmMap[raw[`history${i}Gm`]] = 0; }
+                    gmMap[raw[`history${i}Gm`]]++;
+                }
+            }
+            const resultText = [];
+            resultText.push('**同卓回数');
+            resultText.push('|名前|回数|');
+            io.github.shunshun94.util.mapToArray(io.github.shunshun94.util.objectToMap(memberMap), (value, key)=>{return {key: key, value: value}}).sort((a,b)=>{return b.value - a.value;}).map((d)=>{
+               resultText.push(`|${d.key}|${d.value}|`);
+            });
+            resultText.push(``);
+            resultText.push('**GM毎の参加回数');
+            io.github.shunshun94.util.mapToArray(io.github.shunshun94.util.objectToMap(gmMap), (value, key)=>{return {key: key, value: value}}).sort((a,b)=>{return b.value - a.value;}).map((d)=>{
+               resultText.push(`|${d.key}|${d.value}|`);
+            });
+            document.getElementById('result').value = resultText.join('\n');
+        };
+        const request = (url) => {
+            return new Promise((resolve, reject)=>{
+                $.ajax({
+                    type:'get',
+                    url: `${url}&mode=json`,
+                    async:true,
+                    dataType:'jsonp'
+                }).done(resolve);
+            });
+        };
+        document.getElementById('input').addEventListener(
+            io.github.shunshun94.trpg.sw2.component.SheetInput.EVENTS.SHEET_URL_INPUT,
+            (e) => {
+                const url = e.url;
+                request(url).then(generateTable)
+            }
+        );
+        document.getElementById('result').addEventListener('click', (e)=>{
+            e.target.focus(e.target);
+            e.target.setSelectionRange(0, e.target.value.length);
+            if(document.execCommand('copy')) {
+                alert('コピーしました');
+            } 
+        });
+        const param = io.github.shunshun94.util.getQueries();
+        if(param.get('target')) {
+            request( decodeURIComponent(param.get('target')) ).then(generateTable);
+        } else {
+            io.github.shunshun94.trpg.sw2.component.SheetInput.build(document.getElementById('input'), {characterSheetFilter:'ytsheet'});
+        }        
+    </script>
+</body>
