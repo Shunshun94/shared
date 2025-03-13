@@ -134,7 +134,8 @@ io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.generateSkills = (json) => {
         'getAbilityInfo',
         'getMagicInfo',
         'getMagicLikeInfo',
-        'getBattleSkillsInfo'
+        'getBattleSkillsInfo',
+        'getMysticArtsInfo'
     ].forEach((functionName)=>{
         const result = io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY[functionName](json);
         resultText = resultText.concat(result.texts);
@@ -285,6 +286,15 @@ io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.countHowManyAdditionalskills = (j
         }
     }
     return 0;
+};
+
+io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.getMysticArtsInfo = (json) => {
+    const count = Number(json.mysticArtsNum || '0');
+    const result = { texts: [] }
+    for(var i = 1; i <= count; i++) {
+        result.texts.push( '🗨' + json[`mysticArts${i}`] );
+    }
+    return result;
 };
 
 io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.getMagicLikeInfo = (json) => {
