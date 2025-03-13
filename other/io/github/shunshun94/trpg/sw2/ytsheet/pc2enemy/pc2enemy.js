@@ -98,7 +98,6 @@ io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.getWeaponList = (json) => {
 };
 
 io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.calcExpectedDamage = (w) => {
-    console.log(w);
     return w.dmgTotal + Math.round(((w.rate + 10) / 6) * (io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.CRITICAL_COEFFCIENTS[w.crit] || 1));
 };
 
@@ -154,7 +153,6 @@ io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.getAbilityInfo = (json) => {
     let modifyStatus = {};
     const textsArray = list.map((ability)=>{
         const target = map[ability];
-        console.log(ability, target);
         if( target ) {
             if(target.modifyStatus) {
                 modifyStatus = io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.mergeMapSimplyOverride(modifyStatus, target.modifyStatus(json));
@@ -163,7 +161,6 @@ io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.getAbilityInfo = (json) => {
                 return target.replaceFunction(json);
             }
             if(target.replace) {
-                console.log('replace', target.replace);
                 return target.replace;
             }
             if(target.skip) {return '';}
@@ -344,7 +341,6 @@ io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.getAttackWay = (json) => {
 
 io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.getLanguage = (json) => {
     const languageCount = Number(json.languageNum);
-    console.log('種族', json.race, io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.RACE_LANGUAGE.LIST[json.race]);
     const list = io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.RACE_LANGUAGE.LIST[json.race] ? io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.RACE_LANGUAGE.LIST[json.race].language : [];
     for(var i = 0; i < languageCount; i++) {
         if(json[`language${i + 1}Talk`]) { list.push(json[`language${i + 1}`]) }
