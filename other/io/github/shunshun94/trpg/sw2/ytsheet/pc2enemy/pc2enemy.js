@@ -19,7 +19,6 @@ io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.exec = (json) => {
         monsterName: json.characterName,
         perception: (json.raceAbility.includes('［暗視］')) ? '五感（暗視）' : '五感',
         reputation: Number(json.level) + 3,
-        'reputation+': '-',
         sin: json.sin || 0,
         status1Defense:json.defenseTotal1Def,
         status1Evasion:Number(json.defenseTotal1Eva),
@@ -131,21 +130,16 @@ io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.generateSkills = (json) => {
     let resultText = [];
     let resultModifyStatus = {};
 
-    const abilities = io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.getAbilityInfo(json);
-    resultText = resultText.concat(abilities.texts);
-    resultModifyStatus = io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.mergeMapSimplyOverride(resultModifyStatus, abilities.modifyStatus);
-
-    const magics = io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.getMagicInfo(json);
-    resultText = resultText.concat(magics.texts);
-    resultModifyStatus = io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.mergeMapSimplyOverride(resultModifyStatus, magics.modifyStatus);
-
-    const magicLikes = io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.getMagicLikeInfo(json);
-    resultText = resultText.concat(magicLikes.texts);
-    resultModifyStatus = io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.mergeMapSimplyOverride(resultModifyStatus, magicLikes.modifyStatus);
-
-    const battleSkills = io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.getBattleSkillsInfo(json);
-    resultText = resultText.concat(battleSkills.texts);
-    resultModifyStatus = io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.mergeMapSimplyOverride(resultModifyStatus, battleSkills.modifyStatus);
+    [
+        'getAbilityInfo',
+        'getMagicInfo',
+        'getMagicLikeInfo',
+        'getBattleSkillsInfo'
+    ].forEach((functionName)=>{
+        const result = io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY[functionName](json);
+        resultText = resultText.concat(result.texts);
+        resultModifyStatus = io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.mergeMapSimplyOverride(resultModifyStatus, result.modifyStatus);
+    });
 
     return {
         text: resultText.join('&lt;br&gt;&lt;br&gt;').trim(),
