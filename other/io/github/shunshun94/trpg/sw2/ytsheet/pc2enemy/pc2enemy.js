@@ -19,6 +19,7 @@ io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.exec = (json) => {
         monsterName: json.characterName,
         perception: (json.raceAbility.includes('［暗視］')) ? '五感（暗視）' : '五感',
         reputation: Number(json.level) + 3,
+        'reputation+': '-',
         sin: json.sin || 0,
         status1Defense:json.defenseTotal1Def,
         status1Evasion:Number(json.defenseTotal1Eva),
@@ -159,8 +160,7 @@ io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.getAbilityInfo = (json) => {
     const textsArray = list.map((ability)=>{
         const target = map[ability];
         console.log(ability, target);
-        if(target) {
-            if(target.skip) {return '';}
+        if( target ) {
             if(target.modifyStatus) {
                 modifyStatus = io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.mergeMapSimplyOverride(modifyStatus, target.modifyStatus(json));
             }
@@ -168,8 +168,10 @@ io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.getAbilityInfo = (json) => {
                 return target.replaceFunction(json);
             }
             if(target.replace) {
+                console.log('replace', target.replace);
                 return target.replace;
             }
+            if(target.skip) {return '';}
         }
         return '○' + ability;
     }).filter((d)=>{return d});

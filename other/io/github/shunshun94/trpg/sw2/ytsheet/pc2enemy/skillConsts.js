@@ -1264,6 +1264,7 @@ io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.RACE_ABILITY.LIST = {
   "太陽の再生": {skip: true},
   "太陽の子": {},
   "蛮族の身体": {
+    skip: true,
     modifyStatus: (json) => {
       const weeklingMap = {
         'ガルーダ': '衝撃属性ダメージ+3点',
