@@ -98,7 +98,6 @@ io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.getWeaponList = (json) => {
 };
 
 io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.calcExpectedDamage = (w) => {
-    console.log(w);
     return w.dmgTotal + Math.round(((w.rate + 10) / 6) * (io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.CRITICAL_COEFFCIENTS[w.crit] || 1));
 };
 
@@ -130,21 +129,17 @@ io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.generateSkills = (json) => {
     let resultText = [];
     let resultModifyStatus = {};
 
-    const abilities = io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.getAbilityInfo(json);
-    resultText = resultText.concat(abilities.texts);
-    resultModifyStatus = io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.mergeMapSimplyOverride(resultModifyStatus, abilities.modifyStatus);
-
-    const magics = io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.getMagicInfo(json);
-    resultText = resultText.concat(magics.texts);
-    resultModifyStatus = io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.mergeMapSimplyOverride(resultModifyStatus, magics.modifyStatus);
-
-    const magicLikes = io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.getMagicLikeInfo(json);
-    resultText = resultText.concat(magicLikes.texts);
-    resultModifyStatus = io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.mergeMapSimplyOverride(resultModifyStatus, magicLikes.modifyStatus);
-
-    const battleSkills = io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.getBattleSkillsInfo(json);
-    resultText = resultText.concat(battleSkills.texts);
-    resultModifyStatus = io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.mergeMapSimplyOverride(resultModifyStatus, battleSkills.modifyStatus);
+    [
+        'getAbilityInfo',
+        'getMagicInfo',
+        'getMagicLikeInfo',
+        'getBattleSkillsInfo',
+        'getMysticArtsInfo'
+    ].forEach((functionName)=>{
+        const result = io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY[functionName](json);
+        resultText = resultText.concat(result.texts);
+        resultModifyStatus = io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.mergeMapSimplyOverride(resultModifyStatus, result.modifyStatus);
+    });
 
     return {
         text: resultText.join('&lt;br&gt;&lt;br&gt;').trim(),
@@ -158,9 +153,7 @@ io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.getAbilityInfo = (json) => {
     let modifyStatus = {};
     const textsArray = list.map((ability)=>{
         const target = map[ability];
-        console.log(ability, target);
-        if(target) {
-            if(target.skip) {return '';}
+        if( target ) {
             if(target.modifyStatus) {
                 modifyStatus = io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.mergeMapSimplyOverride(modifyStatus, target.modifyStatus(json));
             }
@@ -170,6 +163,7 @@ io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.getAbilityInfo = (json) => {
             if(target.replace) {
                 return target.replace;
             }
+            if(target.skip) {return '';}
         }
         return '○' + ability;
     }).filter((d)=>{return d});
@@ -291,6 +285,15 @@ io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.countHowManyAdditionalskills = (j
     return 0;
 };
 
+io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.getMysticArtsInfo = (json) => {
+    const count = Number(json.mysticArtsNum || '0');
+    const result = { texts: [] }
+    for(var i = 1; i <= count; i++) {
+        result.texts.push( '🗨' + json[`mysticArts${i}`] );
+    }
+    return result;
+};
+
 io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.getMagicLikeInfo = (json) => {
     const result = {
         max: 0,
@@ -338,7 +341,6 @@ io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.getAttackWay = (json) => {
 
 io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.getLanguage = (json) => {
     const languageCount = Number(json.languageNum);
-    console.log('種族', json.race, io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.RACE_LANGUAGE.LIST[json.race]);
     const list = io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.RACE_LANGUAGE.LIST[json.race] ? io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS.RACE_LANGUAGE.LIST[json.race].language : [];
     for(var i = 0; i < languageCount; i++) {
         if(json[`language${i + 1}Talk`]) { list.push(json[`language${i + 1}`]) }
