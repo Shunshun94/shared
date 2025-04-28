@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Your Name">
+    <title>風映える街 - 募集テンプレ</title>
+    
+</head>
+<body>
+    <table border="1" oninput="update()">
+        <tr>
+            <td>シナリオ概要</td>
+            <td><input type="text" value="新規で見つかった遺跡を探索します" id="outline" /></td>
+        </tr>
+        <tr>
+            <td>定員</td>
+            <td><input type="text" value="4～5名" id="headcount" /></td>
+        </tr>
+        <tr>
+            <td>開始時刻</td>
+            <td><input type="text" value="21:00" id="from" /></td>
+        </tr>
+        <tr>
+            <td>所要時間</td>
+            <td><input type="text" value="4時間程度" id="timespan" /></td>
+        </tr>
+        <tr>
+            <td>一次募集〆切時間</td>
+            <td><input type="text" value="18:00" id="timelimit_1" /></td>
+        </tr>
+        <tr>
+            <td>二次募集〆切時間</td>
+            <td><input type="text" value="20:00" id="timelimit_2" /></td>
+        </tr>
+    </table>
+    <hr/>
+    <p>以下をコピペして貼り付けてください</p>
+    <textarea readonly id="result" onclick="copy()" cols="50" rows="10"></textarea>
+    <script>
+        const update = () => {
+            const outline = document.getElementById('outline').value;
+            const from = document.getElementById('from').value;
+            const headcount = document.getElementById('headcount').value;
+            const timespan = document.getElementById('timespan').value;
+            const timelimit1 = document.getElementById('timelimit_1').value;
+            const timelimit2 = document.getElementById('timelimit_2').value;
+
+            const result = [
+                `本日 ${from} からの卓を募集します。`,
+    　　　　    `【概要】　　${outline}`,
+    　　　　    `【定員】　　${headcount}`,
+                `【所要時間】${timespan}`,
+                `【募集〆切】${timelimit1}`,
+                ``,
+                `定員に満たなかった場合、1回休みの制限を撤廃し${timelimit2}まで再募集を行います。`,
+                ``,
+                `参加希望をする方は参加表明の旨と、使用PCについての記入をお願いします。`].join('\n');
+            document.getElementById('result').value = result;
+        };
+        const copy = () => {
+            const result = document.getElementById('result');
+            result.select();
+            document.execCommand('copy');
+            alert('コピーしました！');
+        };
+        update();
+    </script>
+</body>
+</html>
