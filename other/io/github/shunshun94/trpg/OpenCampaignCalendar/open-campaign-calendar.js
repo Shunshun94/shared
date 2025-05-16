@@ -99,6 +99,10 @@ io.github.shunshun94.trpg.OpenCampaignCalendar.getSeason = (month) => {
     return 'winter';
 };
 
+io.github.shunshun94.trpg.OpenCampaignCalendar.generateAdditinalText = (raxiaDate) => {
+    return ` （アルフレイム新歴${raxiaDate.year + 322}年 / ラーヤ歴${String(raxiaDate.year + 5).padStart(2, '0')}年）`;
+};
+
 /**
  * ラクシア時間で第二引数日だけ時計を進めた値を返却する
  * @param {Object} raxiaDate ラクシア時間のオブジェクト。year, month, day の値を持つ
@@ -111,7 +115,7 @@ io.github.shunshun94.trpg.OpenCampaignCalendar.proceedRaxiaTime = (raxiaDate, da
     raxiaDate.day    =           (raxiaDate.day         % 30) || 30;
     raxiaDate.year  += Math.floor((raxiaDate.month - 1) / 12);
     raxiaDate.month  =           (raxiaDate.month       % 12) || 12;
-    raxiaDate.text   = `${raxiaDate.year}/${raxiaDate.month}/${Math.ceil(raxiaDate.day)}`;
+    raxiaDate.text   = `${raxiaDate.year}年目　${String(raxiaDate.month).padStart(2, '0')}/${String(Math.ceil(raxiaDate.day)).padStart(2, '0')}${io.github.shunshun94.trpg.OpenCampaignCalendar.generateAdditinalText(raxiaDate)}`;
     raxiaDate.season = io.github.shunshun94.trpg.OpenCampaignCalendar.getSeason(raxiaDate.month);
     return raxiaDate;
 };
