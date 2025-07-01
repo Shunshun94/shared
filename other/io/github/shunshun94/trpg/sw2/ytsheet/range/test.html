@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>動作テスト</title>
+    <style>
+        .ng {
+            background-color: #f88;
+        }
+        .ok {
+            background-color: #8f8;
+        }
+    </style>
+</head>
+<body>
+<table border="1" id="result">
+    <caption>テスト結果</caption>
+    <tr>
+        <th>レベル</th>
+        <th>経験点</th>
+        <th>ガメル</th>
+        <th>成長回数</th>
+        <th>総合値</th>
+    </tr>
+</table>
+<script src="./range.js"></script>
+<script>
+const roundDown = (value, digits = 2) => {
+    return Math.floor(value * Math.pow(10, digits)) / Math.pow(10, digits);
+};
+const resultFromAbs = (level, range) => {
+    return (Math.abs(range - level) > 0.2) ? 'ng' : 'ok';
+};
+
+[
+  {
+    "level": 2,
+    "expTotal": 3000,
+    "expRest": 0,
+    "historyMoneyTotal": 1200,
+    "moneyTotal": 0,
+    "historyGrowTotal": 0
+  },
+  {
+    "level": 3,
+    "expTotal": 5500,
+    "expRest": 0,
+    "historyMoneyTotal": 2500,
+    "moneyTotal": 0,
+    "historyGrowTotal": 2
+  },
+  {
+    "level": 4,
+    "expTotal": 10000,
+    "expRest": 0,
+    "historyMoneyTotal": 6000,
+    "moneyTotal": 0,
+    "historyGrowTotal": 5
+  },
+  {
+    "level": 5,
+    "expTotal": 16000,
+    "expRest": 0,
+    "historyMoneyTotal": 14000,
+    "moneyTotal": 0,
+    "historyGrowTotal": 9
+  },
+  {
+    "level": 6,
+    "expTotal": 23000,
+    "expRest": 0,
+    "historyMoneyTotal": 24000,
+    "moneyTotal": 0,
+    "historyGrowTotal": 13
+  },
+  {
+    "level": 7,
+    "expTotal": 30000,
+    "expRest": 0,
+    "historyMoneyTotal": 36000,
+    "moneyTotal": 0,
+    "historyGrowTotal": 17
+  },
+  {
+    "level": 8,
+    "expTotal": 40000,
+    "expRest": 0,
+    "historyMoneyTotal": 54000,
+    "moneyTotal": 0,
+    "historyGrowTotal": 22
+  },
+  {
+    "level": 9,
+    "expTotal": 50000,
+    "expRest": 0,
+    "historyMoneyTotal": 80000,
+    "moneyTotal": 0,
+    "historyGrowTotal": 28
+  },
+  {
+    "level": 10,
+    "expTotal": 65000,
+    "expRest": 0,
+    "historyMoneyTotal": 120000,
+    "moneyTotal": 0,
+    "historyGrowTotal": 34
+  },
+  {
+    "level": 11,
+    "expTotal": 85000,
+    "expRest": 0,
+    "historyMoneyTotal": 160000,
+    "moneyTotal": 0,
+    "historyGrowTotal": 44
+  },
+  {
+    "level": 12,
+    "expTotal": 105000,
+    "expRest": 0,
+    "historyMoneyTotal": 210000,
+    "moneyTotal": 0,
+    "historyGrowTotal": 54
+  },
+  {
+    "level": 13,
+    "expTotal": 135000,
+    "expRest": 0,
+    "historyMoneyTotal": 270000,
+    "moneyTotal": 0,
+    "historyGrowTotal": 65
+  },
+  {
+    "level": 14,
+    "expTotal": 165000,
+    "expRest": 0,
+    "historyMoneyTotal": 350000,
+    "moneyTotal": 0,
+    "historyGrowTotal": 77
+  },
+  {
+    "level": 15,
+    "expTotal": 200000,
+    "expRest": 0,
+    "historyMoneyTotal": 450000,
+    "moneyTotal": 0,
+    "historyGrowTotal": 90
+  },
+  {
+    "level": 16,
+    "expTotal": 220000,
+    "expRest": 0,
+    "historyMoneyTotal": 500000,
+    "moneyTotal": 0,
+    "historyGrowTotal": 100
+  },
+  {
+    "level": 17,
+    "expTotal": 250000,
+    "expRest": 0,
+    "historyMoneyTotal": 550000,
+    "moneyTotal": 0,
+    "historyGrowTotal": 110
+  }
+].forEach((data) => {
+    data.historyMoneyTotal = data.historyMoneyTotal * 1.5; // ガメルは1.5倍。キャンペーンの値を想定
+    const level = data.level;
+
+    const totalRange = io.github.shunshun94.trpg.sw2.ytsheet.range.calculate(data);
+    const totalResult = resultFromAbs(level, totalRange);
+    const expRange = io.github.shunshun94.trpg.sw2.ytsheet.range.calculateFromExperience(data);
+    const expResult = resultFromAbs(level, expRange);
+    const moenyRange = io.github.shunshun94.trpg.sw2.ytsheet.range.calculateFromMoney(data);
+    const moneyResult = resultFromAbs(level, moenyRange);
+    const growRange = io.github.shunshun94.trpg.sw2.ytsheet.range.calculateFromGrow(data);
+    const growResult = resultFromAbs(level, growRange);
+
+    const row = document.createElement('tr');
+    row.innerHTML = `
+        <td>${level}</td>
+        <td class="${expResult}">${roundDown(expRange)}</td>
+        <td class="${moneyResult}">${roundDown(moenyRange)}</td>
+        <td class="${growResult}">${roundDown(growRange)}</td>
+        <td class="${totalResult}">${roundDown(totalRange)}</td>`;
+    document.getElementById('result').appendChild(row);
+});
+</script>
+
+
+</body>
+</html>

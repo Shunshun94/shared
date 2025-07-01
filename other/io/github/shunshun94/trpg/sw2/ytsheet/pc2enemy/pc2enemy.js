@@ -7,6 +7,7 @@ io.github.shunshun94.trpg.sw2.ytsheet = io.github.shunshun94.trpg.sw2.ytsheet ||
 io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY = io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY || {};
 io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS = io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.CONSTS || {};
 io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.exec = (json) => {
+    const isMultiParts = Number(json.partNum);
     let result = {
         author: json.playerName,
         initiative: Number(json.initiative) + 7 + io.github.shunshun94.trpg.sw2.ytsheet.PC2ENEMY.baseAppendCalcInitiative(json),
