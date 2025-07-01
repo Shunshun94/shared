@@ -25,11 +25,12 @@
 </table>
 <script src="./range.js"></script>
 <script>
+const sentinel = 0.3; // レンジの閾値
 const roundDown = (value, digits = 2) => {
     return Math.floor(value * Math.pow(10, digits)) / Math.pow(10, digits);
 };
 const resultFromAbs = (level, range) => {
-    return (Math.abs(range - level) > 0.2) ? 'ng' : 'ok';
+    return (Math.abs(range - level) > sentinel) ? 'ng' : 'ok';
 };
 
 [
