@@ -11,21 +11,21 @@ io.github.shunshun94.trpg.sw2.ytsheet.range.LATEST = 'v1';
 
 io.github.shunshun94.trpg.sw2.ytsheet.range.v1.CONSTS = {
     experience: {
-        a: 604,
-        b: -122,
-        c: 68.5
+        sentinel: 50000,
+        low:  { a: 604,    b: -122,    c: 68.5    },
+        high: { a: 893,    b: 2702,    c: -50310  }
     },
     money: {
-        a: 2758,
-        b: -14101,
-        c: 20483
+        sentinel: 120000,
+        low:  { a: 2758,   b: -14101,  c: 20483   },
+        high: { a: 3539,   b: 1487,    c: -192675 }
     },
     grow: {
-        a: 0.262,
-        b: 1.12,
-        c: -3.45
+        sentinel: 28,
+        low:  { a: 0.262,  b: 1.12,    c: -3.45   },
+        high: { a: 0.22,   b: 4.97,    c: -36.3   }
     }
-}
+};
 
 io.github.shunshun94.trpg.sw2.ytsheet.range.v1.calculate = (json) => {
     return (
@@ -38,28 +38,32 @@ io.github.shunshun94.trpg.sw2.ytsheet.range.v1.calculate = (json) => {
 
 io.github.shunshun94.trpg.sw2.ytsheet.range.v1.calculateFromExperience = (json) => {
     const experience = json.expTotal - json.expRest;
+    const highLowValue = experience < io.github.shunshun94.trpg.sw2.ytsheet.range.v1.CONSTS.experience.sentinel ? 'low' : 'high';
+    
     return io.github.shunshun94.trpg.sw2.ytsheet.range.v1.calculateQuadraticFormula(
-        io.github.shunshun94.trpg.sw2.ytsheet.range.v1.CONSTS.experience.a,
-        io.github.shunshun94.trpg.sw2.ytsheet.range.v1.CONSTS.experience.b,
-        io.github.shunshun94.trpg.sw2.ytsheet.range.v1.CONSTS.experience.c - experience
+        io.github.shunshun94.trpg.sw2.ytsheet.range.v1.CONSTS.experience[highLowValue].a,
+        io.github.shunshun94.trpg.sw2.ytsheet.range.v1.CONSTS.experience[highLowValue].b,
+        io.github.shunshun94.trpg.sw2.ytsheet.range.v1.CONSTS.experience[highLowValue].c - experience
     );
 };
 
 io.github.shunshun94.trpg.sw2.ytsheet.range.v1.calculateFromMoney = (json) => {
     const money = json.historyMoneyTotal - json.moneyTotal - Number(json.depositTotal || 0) + Number(json.debtTotal || 0);
+    const highLowValue = money < io.github.shunshun94.trpg.sw2.ytsheet.range.v1.CONSTS.money.sentinel ? 'low' : 'high';
     return io.github.shunshun94.trpg.sw2.ytsheet.range.v1.calculateQuadraticFormula(
-        io.github.shunshun94.trpg.sw2.ytsheet.range.v1.CONSTS.money.a,
-        io.github.shunshun94.trpg.sw2.ytsheet.range.v1.CONSTS.money.b,
-        io.github.shunshun94.trpg.sw2.ytsheet.range.v1.CONSTS.money.c - money
+        io.github.shunshun94.trpg.sw2.ytsheet.range.v1.CONSTS.money[highLowValue].a,
+        io.github.shunshun94.trpg.sw2.ytsheet.range.v1.CONSTS.money[highLowValue].b,
+        io.github.shunshun94.trpg.sw2.ytsheet.range.v1.CONSTS.money[highLowValue].c - money
     );
 };
 
 io.github.shunshun94.trpg.sw2.ytsheet.range.v1.calculateFromGrow = (json) => {
     const grow = json.historyGrowTotal;
+    const highLowValue = grow < io.github.shunshun94.trpg.sw2.ytsheet.range.v1.CONSTS.grow.sentinel ? 'low' : 'high';
     return io.github.shunshun94.trpg.sw2.ytsheet.range.v1.calculateQuadraticFormula(
-        io.github.shunshun94.trpg.sw2.ytsheet.range.v1.CONSTS.grow.a,
-        io.github.shunshun94.trpg.sw2.ytsheet.range.v1.CONSTS.grow.b,
-        io.github.shunshun94.trpg.sw2.ytsheet.range.v1.CONSTS.grow.c - grow
+        io.github.shunshun94.trpg.sw2.ytsheet.range.v1.CONSTS.grow[highLowValue].a,
+        io.github.shunshun94.trpg.sw2.ytsheet.range.v1.CONSTS.grow[highLowValue].b,
+        io.github.shunshun94.trpg.sw2.ytsheet.range.v1.CONSTS.grow[highLowValue].c - grow
     );
 };
 

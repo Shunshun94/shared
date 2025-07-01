@@ -96,6 +96,15 @@ io.github.shunshun94.trpg.logEditor.EVENTS = {
 <script src="./exporter/exporterFactory.js"></script>
 <script src="./editUtils/resources.js"></script>
 <script>
+const generateRandomeString = (length = 16) => {
+	const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+	let result = '';
+	for(let i = 0; i < length; i++) {
+		result += chars.charAt(Math.floor(Math.random() * chars.length));
+	}
+	return result;
+};
+
 const exportHandlerClass = class {
 	constructor() {
 		this.importedFile = null;
@@ -127,7 +136,18 @@ const exportHandlerClass = class {
 		this.importedFile = opt_importedFile || this.importedFile;
 		this.importedFile.doms = this.actionsForHtmlDoms.reduce((currentList, func)=>{
 			return func(currentList);
-		}, this.importedFile.doms);
+		}, this.importedFile.doms).map((dom)=>{
+			['# ', '## ', '### '].forEach((prefix, i)=>{
+				if(dom.content.startsWith(prefix)) {
+					dom.content = dom.content.replace(prefix, '');
+					dom.style = '';
+					dom.tag	= ['h1', 'h2', 'h3'][i];
+					dom.name = '';
+					dom.id = generateRandomeString();
+				}
+			});
+			return dom;
+		});
 		return exporter.domListToOutput(this.importedFile, opt_appendClassName || this.appendClassName)
 			.replaceAll(/弱点([\-\+]\d+)/g, '<span class="weekpoint">$1</span>')
 			.replaceAll(/痛恨撃([\-\+]\d+)/g, '<span class="deadlyDamage">$1</span>')
@@ -136,7 +156,7 @@ const exportHandlerClass = class {
 			.replaceAll(/ファンブル[だで][よす](KeyNo[^<]*)＞ 自動的失敗</g, '<span class="fumble2">$1</span><')
 			.replaceAll(/ファンブル[だで][よす](\(2D6[^<]*)</g, '<span class="fumble2">$1</span><')
 			.replaceAll(/ファンブル[だで][よす](\(2D6[^<自]*)＞ 自動的失敗</g, '<span class="fumble2">$1</span><')
-			+ `<`+ `script` + `>if(document.getElementsByTagName('body')[0].textContent.includes('//TODO')){ alert('TODO が残っているようです'); }</`+`script`+`>`;
+			+ `<`+ `script` + `>if(document.getElementsByTagName('body')[0].textContent.includes('//' + 'TODO')){ alert('TODO が残っているようです'); }</`+`script`+`>`;
 	}
 	downloadGeneratedFile(generateFileResult, opt_mode) {
 		const exporter = opt_mode ? io.github.shunshun94.trpg.logEditor.export.getExporter(opt_mode) : this.exporter;
