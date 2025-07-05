@@ -4,11 +4,20 @@
     <meta charset="UTF-8" />
     <title>動作テスト</title>
     <style>
-        .ng {
+        td.ng {
             background-color: #f88;
         }
-        .ok {
+        tr:nth-child(odd) > td.ng {
+            background-color: #fbb;
+        }
+        td.ok {
             background-color: #8f8;
+        }
+        tr:nth-child(odd) > td.ok {
+            background-color: #bfb;
+        }
+        td {
+            text-align: right;
         }
     </style>
 </head>
@@ -16,19 +25,25 @@
 <table border="1" id="result">
     <caption>テスト結果</caption>
     <tr>
-        <th>レベル</th>
-        <th>経験点</th>
-        <th>ガメル</th>
-        <th>成長回数</th>
-        <th>総合値</th>
+        <th>ＬＶ</th>
+        <th>経験</th>
+        <th>資金</th>
+        <th>回数</th>
+        <th>総合</th>
     </tr>
 </table>
 <script src="./range.js"></script>
 <script>
-const sentinel = 0.3; // レンジの閾値
 const roundDown = (value, digits = 2) => {
-    return Math.floor(value * Math.pow(10, digits)) / Math.pow(10, digits);
+  const result = Math.floor(value * Math.pow(10, digits)) / Math.pow(10, digits);
+  if( result > 10 ) {
+    return String(result).padEnd(5, '0');
+  } else {
+    return String(result).padEnd(4, '0');
+  }
 };
+
+const sentinel = 0.3; // レンジの閾値
 const resultFromAbs = (level, range) => {
     return (Math.abs(range - level) > sentinel) ? 'ng' : 'ok';
 };
@@ -163,26 +178,26 @@ const resultFromAbs = (level, range) => {
     "historyGrowTotal": 110
   }
 ].forEach((data) => {
-    data.historyMoneyTotal = data.historyMoneyTotal * 1.5; // ガメルは1.5倍。キャンペーンの値を想定
-    const level = data.level;
+  data.historyMoneyTotal = data.historyMoneyTotal * 1.5; // ガメルは1.5倍。キャンペーンの値を想定
+  const level = data.level;
 
-    const totalRange = io.github.shunshun94.trpg.sw2.ytsheet.range.calculate(data);
-    const totalResult = resultFromAbs(level, totalRange);
-    const expRange = io.github.shunshun94.trpg.sw2.ytsheet.range.calculateFromExperience(data);
-    const expResult = resultFromAbs(level, expRange);
-    const moenyRange = io.github.shunshun94.trpg.sw2.ytsheet.range.calculateFromMoney(data);
-    const moneyResult = resultFromAbs(level, moenyRange);
-    const growRange = io.github.shunshun94.trpg.sw2.ytsheet.range.calculateFromGrow(data);
-    const growResult = resultFromAbs(level, growRange);
+  const totalRange = io.github.shunshun94.trpg.sw2.ytsheet.range.calculate(data);
+  const totalResult = resultFromAbs(level, totalRange);
+  const expRange = io.github.shunshun94.trpg.sw2.ytsheet.range.calculateFromExperience(data);
+  const expResult = resultFromAbs(level, expRange);
+  const moenyRange = io.github.shunshun94.trpg.sw2.ytsheet.range.calculateFromMoney(data);
+  const moneyResult = resultFromAbs(level, moenyRange);
+  const growRange = io.github.shunshun94.trpg.sw2.ytsheet.range.calculateFromGrow(data);
+  const growResult = resultFromAbs(level, growRange);
 
-    const row = document.createElement('tr');
-    row.innerHTML = `
-        <td>${level}</td>
-        <td class="${expResult}">${roundDown(expRange)}</td>
-        <td class="${moneyResult}">${roundDown(moenyRange)}</td>
-        <td class="${growResult}">${roundDown(growRange)}</td>
-        <td class="${totalResult}">${roundDown(totalRange)}</td>`;
-    document.getElementById('result').appendChild(row);
+  const row = document.createElement('tr');
+  row.innerHTML = `
+    <td>${level}</td>
+    <td class="${expResult}">${roundDown(expRange)}</td>
+    <td class="${moneyResult}">${roundDown(moenyRange)}</td>
+    <td class="${growResult}">${roundDown(growRange)}</td>
+    <td class="${totalResult}">${roundDown(totalRange)}</td>`;
+  document.getElementById('result').appendChild(row);
 });
 </script>
 </body>
