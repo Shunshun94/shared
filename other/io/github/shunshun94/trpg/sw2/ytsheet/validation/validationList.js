@@ -203,7 +203,7 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_LIST = [
                     includes: '魔法拡大／数',
                     levelLimitaion: { level: 'level' }
                 },
-                'fairyContractWind': { func: (key, value, json)=>{
+                'fairyContractWind': { func: (_, __, json)=>{
                     const contractCount = ['fairyContractDark', 'fairyContractEarth', 'fairyContractFire', 'fairyContractLight', 'fairyContractWater', 'fairyContractWind'].filter((contract)=>{
                         return json[contract];
                     }).length;
@@ -361,7 +361,7 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_LIST = [
             }
         },
         expect: {
-            'weapon\\d+Name': { func: (key, value, json) => {
+            'weapon\\d+Name': { func: (key, _, json) => {
                 const keyPrefix = /(weapon\d+)Name/.exec(key)[1];
                 return Boolean(json[`${keyPrefix}Class`] || '');
             }}
@@ -453,7 +453,6 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_LIST = [
                 const weaponIndex = /weapon(\d+)Crit/.exec(key)[1];
                 const weaponCategory = `weapon${weaponIndex}Category`;
                 const commonCritical = weaponCommonCriticalMap[json[weaponCategory]];
-                console.log(key, value, weaponIndex, weaponCategory, commonCritical);
                 if(commonCritical) {
                     return Number(value) < commonCritical;
                 } else {
@@ -490,6 +489,51 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_LIST = [
         },
         ifNot: '万が一の時のためにアウェイクポーション（『1』325頁）を持っておくことをおすすめします',
         label: 'adventurerRequiresAwakePotion'
+    }, {
+        level: 'info',
+        when: 'always',
+        expect: {
+            'history0Note': { func: (_, value) => { return /能力値作成履歴#\d+-\d+/.test(value); } },
+            'sttBaseA': {
+                func: (_, __, json) => {
+                    const errorFlag = 1024;
+                    const pointBuyScore = {
+                        '1' : {
+                            1 : -15, 2 : -10, 3 :  -5,
+                            4 :   5, 5 :  10, 6 :  20,
+                        },
+                        '2' : {
+                            2 : -25,  3 : -20,  4 : -15,  5 : -10,
+                            6 :  -5,  7 :   0,  8 :   5,  9 :  10,
+                            10 :  20, 11 :  40, 12 :  70,
+                        },
+                        'adv' : {
+                            2 : -100, 3 :  -80, 4 :  -60, 5 :  -40,
+                            6 :  -20, 7 :    0, 8 :   20, 9 :   40,
+                            10 :  70, 11 :  110,12 :  160,
+                        }
+                    };
+                    const diceCountMap = SET.races[json.race].dice;
+                    const statusScore = ['A', 'B', 'C', 'D', 'E', 'F'].map((stt)=>{
+                        const diceCount = diceCountMap[stt];
+                        const sttValue = Number(json[`sttBase${stt}`]) - Number( diceCountMap[`${stt}+`] || 0 );
+                        const score = pointBuyScore[String(diceCount)][sttValue]
+                        return score || (score === 0 ? 0 : errorFlag);
+                    }).reduce((a, b) => a + b, 0);
+                    if( ! (json.birth || '').includes('冒険者') ) {
+                        return statusScore <= 0;
+                    }
+                    const advStatusScore = ['Tec', 'Phy', 'Spi'].map((stt)=>{
+                        const sttValue = Number(json[`sttAdd${stt}`]);
+                        const score = pointBuyScore['adv'][sttValue];
+                        return score || (score === 0 ? 0 : errorFlag);
+                    }).reduce((a, b) => a + b, 0);
+                    return statusScore <= 0 && advStatusScore <= 0;
+                }
+            },
+        },
+        ifNot: '能力値のダイスがどのように決定されたかを履歴欄に記録しておくことをおすすめします。作成レギュレーションの備考欄に「能力値作成履歴#123456-2」のように記入することで特定の能力値作成履歴へのリンクを張ることができます',
+        label: 'initialCharacterStatusDisitionWay'
     }
 ].sort((a, b)=>{
     return io.github.shunshun94.trpg.sw2.ytsheet.validation.CONSTS.LEVEL[b.level].weight - io.github.shunshun94.trpg.sw2.ytsheet.validation.CONSTS.LEVEL[a.level].weight;
