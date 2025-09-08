@@ -1671,6 +1671,103 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_TEST_LIST = {
             'lvPri': '3',
             'expect': true
         }
+    ],
+    "initialCharacterStatusDisitionWay": [
+        {
+            'testName': 'キャラクターの能力値作成へのリンクが記載されている場合',
+            'history0Note': '能力値作成履歴#388929-2',
+            'expect': true
+        }, {
+            'testName': 'キャラクターの能力値作成へのリンクが記載されていない場合',
+            'history0Note': '能力値は適当に決めました。',
+            'expect': false
+        }, {
+            'testName': 'キャラクターの能力値作成へのリンクが記載されていない場合(history0Noteが未定義)',
+            'expect': false
+        }, {
+            'testName': 'キャラクターの能力値作成へのリンクが記載されておらず、能力値の割り振りが合計0の場合',
+            'race': 'ティエンス',
+            'sttBaseA': 2,
+            'sttBaseB': 3,
+            'sttBaseC': 1,
+            'sttBaseD': 9,
+            'sttBaseE': 7,
+            'sttBaseF': 14,
+            'expect': true
+        }, {
+            'testName': 'キャラクターの能力値作成へのリンクが記載されておらず、能力値の割り振りが合計0未満の場合',
+            'race': 'ティエンス',
+            'sttBaseA': 2,
+            'sttBaseB': 3,
+            'sttBaseC': 1,
+            'sttBaseD': 8,
+            'sttBaseE': 7,
+            'sttBaseF': 14,
+            'expect': true
+        }, {
+            'testName': 'キャラクターの能力値作成へのリンクが記載されておらず、能力値の割り振りが合計1以上の場合',
+            'race': 'ティエンス',
+            'sttBaseA': 2,
+            'sttBaseB': 3,
+            'sttBaseC': 1,
+            'sttBaseD': 10,
+            'sttBaseE': 7,
+            'sttBaseF': 14,
+            'expect': false
+        }, {
+            'testName': '能力値の割り振りが合計1以上だがキャラクターの能力値作成へのリンクが記載されている場合',
+            'race': 'ティエンス',
+            'history0Note': '能力値作成履歴#388929-2',
+            'sttBaseA': 2,
+            'sttBaseB': 3,
+            'sttBaseC': 1,
+            'sttBaseD': 10,
+            'sttBaseE': 7,
+            'sttBaseF': 14,
+            'expect': true
+        }, {
+            'testName': 'キャラクターの能力値作成へのリンクが記載されておらず、冒険者で基礎能力値の割り振りが合計0の場合',
+            'race': '人間',
+            'birth': '冒険者',
+            'sttBaseA': 2,
+            'sttBaseB': 2,
+            'sttBaseC': 2,
+            'sttBaseD': 10,
+            'sttBaseE': 4,
+            'sttBaseF': 12,
+            'sttAddTec': 7,
+            'sttAddPhy': 5,
+            'sttAddSpi': 9,
+            'expect': true
+        }, {
+            'testName': 'キャラクターの能力値作成へのリンクが記載されておらず、冒険者で基礎能力値の割り振りが合計0未満の場合',
+            'race': '人間',
+            'birth': '冒険者',
+            'sttBaseA': 2,
+            'sttBaseB': 2,
+            'sttBaseC': 2,
+            'sttBaseD': 10,
+            'sttBaseE': 4,
+            'sttBaseF': 12,
+            'sttAddTec': 7,
+            'sttAddPhy': 7,
+            'sttAddSpi': 6,
+            'expect': true
+        }, {
+            'testName': 'キャラクターの能力値作成へのリンクが記載されておらず、冒険者で基礎能力値の割り振りが合計1以上の場合',
+            'race': '人間',
+            'birth': '冒険者',
+            'sttBaseA': 2,
+            'sttBaseB': 2,
+            'sttBaseC': 2,
+            'sttBaseD': 10,
+            'sttBaseE': 4,
+            'sttBaseF': 12,
+            'sttAddTec': 7,
+            'sttAddPhy': 4,
+            'sttAddSpi': 10,
+            'expect': false
+        }
     ]
 };
 
