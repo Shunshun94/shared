@@ -6,7 +6,15 @@ io.github.shunshun94.trpg.OpenCampaignCalendar = io.github.shunshun94.trpg.OpenC
 
 io.github.shunshun94.trpg.OpenCampaignCalendar.CONSTS = io.github.shunshun94.trpg.OpenCampaignCalendar.CONSTS || {};
 io.github.shunshun94.trpg.OpenCampaignCalendar.CONSTS.ONEDAY = 1000 * 60 * 60 * 24;
-io.github.shunshun94.trpg.OpenCampaignCalendar.CONSTS.COMMON_START_DATE = new Date('2024/12/1');
+io.github.shunshun94.trpg.OpenCampaignCalendar.CONSTS.DEFAULT_MODE = 'RAXIA_LIFE_3RD';
+io.github.shunshun94.trpg.OpenCampaignCalendar.CONSTS.COMMON_START_DATE = {
+    RAXIA_LIFE_3RD: new Date('2025/11/01'),
+    RAXIA_LIFE_NEO: new Date('2024/12/01'),
+};
+io.github.shunshun94.trpg.OpenCampaignCalendar.CONSTS.WORLD_HEADER = {
+    RAXIA_LIFE_3RD: 'アルコイリス時間',
+    RAXIA_LIFE_NEO: 'アクシア時間',
+};
 io.github.shunshun94.trpg.OpenCampaignCalendar.CONSTS.TODAY = (new Date()).toLocaleDateString('jp-JP');
 
 /**
@@ -99,8 +107,17 @@ io.github.shunshun94.trpg.OpenCampaignCalendar.getSeason = (month) => {
     return 'winter';
 };
 
-io.github.shunshun94.trpg.OpenCampaignCalendar.generateAdditinalText = (raxiaDate) => {
-    return ` （アルフレイム新歴${raxiaDate.year + 322}年 / ラーヤ歴${String(raxiaDate.year + 5).padStart(2, '0')}年）`;
+/**
+ * カレンダーに付与する追加のテキストを生成する
+ * @param {*} raxiaDate ラクシア時間のオブジェクト。year, month, day の値を持つ
+ * @param {*} mode モード。RAXIA_LIFE_3RD や RAXIA_LIFE_NEO を指定する
+ * @returns 
+ */
+io.github.shunshun94.trpg.OpenCampaignCalendar.generateAdditinalText = (raxiaDate, mode) => {
+    if (mode === 'RAXIA_LIFE_NEO') {
+        return ` （アルフレイム新歴${raxiaDate.year + 322}年 / ラーヤ歴${String(raxiaDate.year + 5).padStart(2, '0')}年）`;
+    }
+    return '';
 };
 
 /**
@@ -109,13 +126,13 @@ io.github.shunshun94.trpg.OpenCampaignCalendar.generateAdditinalText = (raxiaDat
  * @param {Integer} days day を何日進めるのか
  * @returns 進めた後のラクシア時間のオブジェクト
  */
-io.github.shunshun94.trpg.OpenCampaignCalendar.proceedRaxiaTime = (raxiaDate, days) => {
+io.github.shunshun94.trpg.OpenCampaignCalendar.proceedRaxiaTime = (raxiaDate, days, mode) => {
     raxiaDate.day   += days;
     raxiaDate.month += Math.floor(raxiaDate.day         / 30);
     raxiaDate.day    =           (raxiaDate.day         % 30) || 30;
     raxiaDate.year  += Math.floor((raxiaDate.month - 1) / 12);
     raxiaDate.month  =           (raxiaDate.month       % 12) || 12;
-    raxiaDate.text   = `${raxiaDate.year}年目　${String(raxiaDate.month).padStart(2, '0')}/${String(Math.ceil(raxiaDate.day)).padStart(2, '0')}${io.github.shunshun94.trpg.OpenCampaignCalendar.generateAdditinalText(raxiaDate)}`;
+    raxiaDate.text   = `${raxiaDate.year}年目　${String(raxiaDate.month).padStart(2, '0')}/${String(Math.ceil(raxiaDate.day)).padStart(2, '0')}${io.github.shunshun94.trpg.OpenCampaignCalendar.generateAdditinalText(raxiaDate, mode)}`;
     raxiaDate.season = io.github.shunshun94.trpg.OpenCampaignCalendar.getSeason(raxiaDate.month);
     return raxiaDate;
 };
@@ -127,7 +144,8 @@ io.github.shunshun94.trpg.OpenCampaignCalendar.proceedRaxiaTime = (raxiaDate, da
  * @returns {Array} 私達の世界の日付とラクシアの日付の対照表の配列
  */
 io.github.shunshun94.trpg.OpenCampaignCalendar.getDateArray = (params = {}) => {
-    const fromRealDate = params.fromRealDate || io.github.shunshun94.trpg.OpenCampaignCalendar.CONSTS.COMMON_START_DATE;
+    const mode  = params.mode || io.github.shunshun94.trpg.OpenCampaignCalendar.CONSTS.DEFAULT_MODE;
+    const fromRealDate = params.fromRealDate || io.github.shunshun94.trpg.OpenCampaignCalendar.CONSTS.COMMON_START_DATE[mode];
     const displayFrom =  params.displayFrom || io.github.shunshun94.trpg.OpenCampaignCalendar.getMonthFirstDay(new Date());
     const endRealDate =  params.endRealDate || io.github.shunshun94.trpg.OpenCampaignCalendar.getMonthLastDay(io.github.shunshun94.trpg.OpenCampaignCalendar.addDays((params.displayFrom || new Date()), 20));
 
@@ -137,7 +155,7 @@ io.github.shunshun94.trpg.OpenCampaignCalendar.getDateArray = (params = {}) => {
         month:            (4 + spentMonth * 6) % 12 || 12,
         day:   1,
     };
-    raxiaDate = io.github.shunshun94.trpg.OpenCampaignCalendar.proceedRaxiaTime(raxiaDate, 0);
+    raxiaDate = io.github.shunshun94.trpg.OpenCampaignCalendar.proceedRaxiaTime(raxiaDate, 0, mode);
 
     let cursor = displayFrom;
     const sentinel = Number(endRealDate);
@@ -156,7 +174,7 @@ io.github.shunshun94.trpg.OpenCampaignCalendar.getDateArray = (params = {}) => {
                 season: raxiaDate.season
             })
             cursor = io.github.shunshun94.trpg.OpenCampaignCalendar.addDays(cursor, 1);
-            raxiaDate = io.github.shunshun94.trpg.OpenCampaignCalendar.proceedRaxiaTime(raxiaDate, delta);
+            raxiaDate = io.github.shunshun94.trpg.OpenCampaignCalendar.proceedRaxiaTime(raxiaDate, delta, mode);
         }
         cursor = new Date(nextMonth);
     }
@@ -168,7 +186,7 @@ io.github.shunshun94.trpg.OpenCampaignCalendar.getDateArray = (params = {}) => {
  * @param {Array} dateArray getDateArray メソッドの結果です。代入しない場合引数無しで実行した結果を利用します
  * @returns {HTMLTableElement} html のエレメントのオブジェクトが返却されます
  */
-io.github.shunshun94.trpg.OpenCampaignCalendar.generateHtml = (dateArray = io.github.shunshun94.trpg.OpenCampaignCalendar.getDateArray()) => {
+io.github.shunshun94.trpg.OpenCampaignCalendar.generateHtml = (dateArray = io.github.shunshun94.trpg.OpenCampaignCalendar.getDateArray(), mode= io.github.shunshun94.trpg.OpenCampaignCalendar.CONSTS.DEFAULT_MODE) => {
     const generateElement = (tagName, attributes) => {
         const result = document.createElement(tagName);
         for(var key in attributes) { result[key] = attributes[key]; }
@@ -178,7 +196,7 @@ io.github.shunshun94.trpg.OpenCampaignCalendar.generateHtml = (dateArray = io.gi
     table.setAttribute('border', '1');
     const header = document.createElement('tr');
     header.append(generateElement('th', {textContent: '現実世界時間'}));
-    header.append(generateElement('th', {textContent: 'ラクシア時間'}));
+    header.append(generateElement('th', {textContent: io.github.shunshun94.trpg.OpenCampaignCalendar.CONSTS.WORLD_HEADER[mode]}));
     table.append(header);
     dateArray.forEach((d)=>{
         const tr = document.createElement('tr');
