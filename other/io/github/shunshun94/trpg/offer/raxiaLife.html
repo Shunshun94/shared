@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Shunshun94">
+    <meta property="og:title" content="ラクシアらいふ セッション募集テンプレ" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://shunshun94.github.io/shared/other/io/github/shunshun94/trpg/OpenCampaignCalendar/pics/ogp.png?251005" />
+    <meta property="og:site_name" content="https://github.com/Shunshun94/shared/" />
+    <meta property="og:description" content="ラクシアらいふのセッション募集内容を生成するツール" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@Shunshun94" />
+    <meta name="twitter:domain" content="shunshun94.github.io" />
+    <meta name="twitter:title" content="ラクシアらいふ セッション募集テンプレ" />
+    <meta name="twitter:description" content="ラクシアらいふのセッション募集内容を生成するツール" />
+    <meta name="twitter:image" content="https://shunshun94.github.io/shared/other/io/github/shunshun94/trpg/OpenCampaignCalendar/pics/ogp.png?251005" />
+    <title>ラクシアらいふ！ - 募集テンプレ</title>
+    
+</head>
+<body>
+    <table border="1" oninput="update()">
+        <tr>
+            <td>シナリオ概要</td>
+            <td><input type="text" value="新規で見つかった遺跡を探索します" id="outline" /></td>
+        </tr>
+        <tr>
+            <td>適正レベル</td>
+            <td><input type="number" value="2" id="level" /></td>
+        </tr>
+        <tr>
+            <td>定員</td>
+            <td><input type="text" value="4～5名" id="headcount" /></td>
+        </tr>
+        <tr>
+            <td>開始時刻</td>
+            <td><input type="time" value="21:00" id="from" /></td>
+        </tr>
+        <tr>
+            <td>所要時間</td>
+            <td><input type="text" value="4時間程度" id="timespan" /></td>
+        </tr>
+        <tr>
+            <td>一次募集〆切時間</td>
+            <td><input type="time" value="18:00" id="timelimit_1" /></td>
+        </tr>
+        <tr>
+            <td>二次募集〆切時間</td>
+            <td><input type="time" value="20:00" id="timelimit_2" /></td>
+        </tr>
+    </table>
+    <hr/>
+    <p>以下をコピペして貼り付けてください</p>
+    <textarea readonly id="result" onclick="copy()" cols="100" rows="20"></textarea>
+    <hr/>
+    <p>※募集〆切時間は、開始時刻の2時間前を過ぎている場合、最初から制限なしで募集します</p>
+    <p>※前回の入力内容を覚えておき、毎回それを読み込んでいます</p>
+    <script>
+        const update = () => {
+            const now = Number(new Date());
+            const result = [
+                {
+                    key: 'from',
+                    template: '本日 ${placeholder} からの卓を募集します。'
+                }, {
+                    key: 'outline',
+                    template: '【概要】　　${placeholder}'
+                }, {
+                    key: 'level',
+                    template: '【適正Lv】　${placeholder}'
+                }, {
+                    key: 'headcount',
+                    template: '【定員】　　${placeholder}'
+                }, {
+                    key: 'timespan',
+                    template: '【所要時間】${placeholder}'
+                }, {
+                    key: 'timelimit_1',
+                    template: '【募集〆切】${placeholder}'
+                }, { key: null, template: ' ' },
+                {
+                    key: null,
+                    template: '定員を越えて集まった場合は抽選となります。'
+                }, { key: null, template: ' ' }, {
+                    key: null,
+                    template: ()=>{
+                        const rawFrom = document.getElementById('from').value.split(':');
+                        const from = new Date();
+                        from.setHours(Number(rawFrom[0]), Number(rawFrom[1]), 0, 0);
+
+                        if( now + ( 1000 * 60 * 60 * 2 ) > Number(from))  {
+                            return '今回は募集開始時間が遅かったので最初から制限なしで募集します。';
+                        } else {
+                            return `定員に満たなかった場合、1回休みの制限を撤廃し${document.getElementById('timelimit_2').value}まで再募集を行います。`;
+                        }
+                    }
+                }, { key: null, template: ' ' }, {
+                    key: null,
+                    template: 'GM はボイスチャットを併用して進行しますので、声が聞こえる状態での参加をお願いします。'
+                }, {
+                    key: null,
+                    template: '反応はすべてテキストでも構いません。'
+                }, { key: null, template: ' ' }, {
+                    key: null,
+                    template: '参加希望をする方は参加表明の旨と、使用PCについての記入をお願いします。'
+                }, {
+                    key: null,
+                    template: '必要に応じて[セッション参加のガイド](https://sites.google.com/view/raxia-life/%E3%83%AC%E3%82%AE%E3%83%A5%E3%83%AC%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3/%E3%82%BB%E3%83%83%E3%82%B7%E3%83%A7%E3%83%B3%E3%81%B8%E3%81%AE%E5%8F%82%E5%8A%A0)もご参照ください。'
+                }
+            ].map((lineObject) => {
+                if( typeof lineObject.template === 'function' ) {
+                    return lineObject.template();
+                } else if( lineObject.key ) {
+                    return lineObject.template.replace('${placeholder}', document.getElementById(lineObject.key).value);
+                } else {
+                    return lineObject.template;
+                }
+            }).join('\n');
+            document.getElementById('result').value = result;
+        };
+        const copy = () => {
+            const result = document.getElementById('result');
+            result.select();
+            document.execCommand('copy');
+            alert('コピーしました！');
+            saveInput();
+        };
+        const saveInput = () => {
+            const result = {};
+            Array.from(document.getElementsByTagName('table')[0].getElementsByTagName('input')).map((elem)=>{return elem.id}).map((id)=>{
+                result[id] = document.getElementById(id).value;
+            });
+            localStorage.setItem('RaxiaLifeOfferTemplate', JSON.stringify(result));
+        };
+        const loadInput = () => {
+            const saved = localStorage.getItem('RaxiaLifeOfferTemplate') || '{}';
+            const parsed = JSON.parse(saved);
+            Object.keys(parsed).map((id)=>{
+                if( parsed[id] ) {
+                    document.getElementById(id).value = parsed[id];
+                }
+            });
+        };
+        loadInput();
+        update();
+    </script>
+</body>
+</html>
