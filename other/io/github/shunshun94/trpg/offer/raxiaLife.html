@@ -45,11 +45,11 @@
             <td><input type="text" value="4時間程度" id="timespan" /></td>
         </tr>
         <tr>
-            <td>一次募集〆切時間</td>
+            <td>一次募集〆切時刻</td>
             <td><input type="time" value="18:00" id="timelimit_1" /></td>
         </tr>
         <tr>
-            <td>二次募集〆切時間</td>
+            <td>二次募集〆切時刻</td>
             <td><input type="time" value="20:00" id="timelimit_2" /></td>
         </tr>
     </table>
@@ -57,8 +57,8 @@
     <p>以下をコピペして貼り付けてください</p>
     <textarea readonly id="result" onclick="copy()" cols="100" rows="20"></textarea>
     <hr/>
-    <p>※募集〆切時間は、開始時刻の2時間前を過ぎている場合、最初から制限なしで募集します</p>
-    <p>※前回の入力内容を覚えておき、毎回それを読み込んでいます</p>
+    <p>※現在時刻と開始時刻の間が2時間以内の場合、最初から制限なしで募集します</p>
+    <p>※このツールは前回の入力内容を覚えておき、毎回それを読み込んでいます</p>
     <script>
         const update = () => {
             const now = Number(new Date());
@@ -71,7 +71,7 @@
                     template: '【概要】　　${placeholder}'
                 }, {
                     key: 'level',
-                    template: '【適正Lv】　${placeholder}'
+                    template: '【適正Lv】　Lv.${placeholder}'
                 }, {
                     key: 'headcount',
                     template: '【定員】　　${placeholder}'
@@ -80,7 +80,14 @@
                     template: '【所要時間】${placeholder}'
                 }, {
                     key: 'battleCount',
-                    template: '【戦闘回数】${placeholder}'
+                    template: (value)=>{
+                        const battleCount = Number(value);
+                        if( battleCount === 0 ) {
+                            return '【戦闘回数】**戦闘なし**';
+                        } else {
+                            return `【戦闘回数】${value}回`;
+                        }
+                    }
                 }, {
                     key: 'timelimit_1',
                     template: '【募集〆切】${placeholder}'
@@ -89,16 +96,16 @@
                     key: null,
                     template: '定員を越えて集まった場合は抽選となります。'
                 }, { key: null, template: ' ' }, {
-                    key: null,
-                    template: ()=>{
+                    key: 'timelimit_2',
+                    template: (value)=>{
                         const rawFrom = document.getElementById('from').value.split(':');
                         const from = new Date();
                         from.setHours(Number(rawFrom[0]), Number(rawFrom[1]), 0, 0);
 
-                        if( now + ( 1000 * 60 * 60 * 2 ) > Number(from))  {
+                        if( now + ( 1000 * 60 * 60 * 2 ) >= Number(from))  {
                             return '今回は募集開始時間が遅かったので最初から制限なしで募集します。';
                         } else {
-                            return `定員に満たなかった場合、1回休みの制限を撤廃し${document.getElementById('timelimit_2').value}まで再募集を行います。`;
+                            return `定員に満たなかった場合、1回休みの制限を撤廃し${value}まで再募集を行います。`;
                         }
                     }
                 }, { key: null, template: ' ' }, {
@@ -116,7 +123,7 @@
                 }
             ].map((lineObject) => {
                 if( typeof lineObject.template === 'function' ) {
-                    return lineObject.template();
+                    return lineObject.template( lineObject.key ? document.getElementById(lineObject.key).value : null );
                 } else if( lineObject.key ) {
                     return lineObject.template.replace('${placeholder}', document.getElementById(lineObject.key).value);
                 } else {
