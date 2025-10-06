@@ -29,6 +29,10 @@
             <td><input type="number" value="2" id="level" /></td>
         </tr>
         <tr>
+            <td>戦闘回数</td>
+            <td><input type="number" value="2" id="battleCount" /></td>
+        </tr>
+        <tr>
             <td>定員</td>
             <td><input type="text" value="4～5名" id="headcount" /></td>
         </tr>
@@ -74,6 +78,9 @@
                 }, {
                     key: 'timespan',
                     template: '【所要時間】${placeholder}'
+                }, {
+                    key: 'battelCount',
+                    template: '【戦闘回数】${placeholder}'
                 }, {
                     key: 'timelimit_1',
                     template: '【募集〆切】${placeholder}'
