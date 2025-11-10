@@ -15,7 +15,7 @@ io.github.shunshun94.trpg.sw2.ytsheet.countSession.prizeToCode = (prize)=>{
     return resultArray.join(' / ');
 };
 
-io.github.shunshun94.trpg.sw2.ytsheet.countSession.countSession = (json, algorithm='RaxiaLifeNeo') => {
+io.github.shunshun94.trpg.sw2.ytsheet.countSession.countSession = (json, algorithm='RaxiaLife3rd') => {
     let result = 0;
     const max = Number(json.historyNum) + 1;
     for(var sessionCount = 1; sessionCount < max; sessionCount++) {
@@ -27,6 +27,7 @@ io.github.shunshun94.trpg.sw2.ytsheet.countSession.countSession = (json, algorit
 io.github.shunshun94.trpg.sw2.ytsheet.countSession.isSessionAsPlayer = io.github.shunshun94.trpg.sw2.ytsheet.countSession.isSessionAsPlayer || {};
 
 io.github.shunshun94.trpg.sw2.ytsheet.countSession.isSessionAsPlayer.isGmEqualPlayer = (json, gm) => {
+    if( gm === '' ) { return false; } // GM名が空欄の場合はGM回とはしない
     return ['自分', '私'].includes(gm) || gm.includes(json.playerName) || json.playerName.includes(gm)
 };
 
@@ -41,15 +42,12 @@ io.github.shunshun94.trpg.sw2.ytsheet.countSession.isSessionAsPlayer.RaxiaLife3r
     }
 
     // 報酬が両方とも空または 0 の場合はカウントしない(GM回と思われる)
-    if((exp === '' || exp === '0') &&
-       (money === '' || money === '0')) {
+    if((exp === '' || exp === '0') && (money === '' || money === '0')) {
         return false;
     }
 
     // 経験点のみが設定されている場合はカウントしない(ピンゾロ経験値の集計行と思われる)
-    if((exp !== '' || exp !== '0') &&
-       (money === '' || money === '0') &&
-       (gm === '')) {
+    if(exp && (money === '' || money === '0') && (gm === '')) {
         return false;
     }
     return true;

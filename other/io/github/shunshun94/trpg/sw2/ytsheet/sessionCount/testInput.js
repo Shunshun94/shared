@@ -1,7 +1,6 @@
 const testDataRaxiaLifeNeo = {
     playerName: 'ひよこ',
     algorithm: 'RaxiaLifeNeo',
-    expectedSessionCount: 0,
     testCases: [
         {
             Title: 'GM 回（報酬はレギュ通り１・GM名が「ひよこ」（PL 名と同一）)',
@@ -103,7 +102,59 @@ const testDataRaxiaLifeNeo = {
     ]
 };
 
-const testCharacters = [testDataRaxiaLifeNeo].map(testCharacter => {
+const testDataRaxiaLife3rd = {
+    playerName: 'ひよこ',
+    algorithm: 'RaxiaLife3rd',
+    testCases: [
+        {
+            Title: 'GM 回（GM名が「ひよこ」（PL 名と同一）)',
+            Exp: '1250',
+            Money: '500',
+            Gm: 'ひよこ',
+            ExpectedResult: false,
+        }, {
+            Title: 'GM 回（GM名が「自分」）',
+            Exp: '1250',
+            Money: '500',
+            Gm: '自分',
+            ExpectedResult: false,
+        }, {
+            Title: 'GM 回（GM名が「ひよ」（PL名に含まれる文字列））',
+            Exp: '1250',
+            Money: '500',
+            Gm: 'ひよ',
+            ExpectedResult: false,
+        }, {
+            Title: 'GM 回（GM名が「ひよこちゃん」（PL名を含む文字列））',
+            Exp: '1250',
+            Money: '500',
+            Gm: 'ひよこちゃん',
+            ExpectedResult: false,
+        }, {
+            Title: 'GM 回（虚無）',
+            ExpectedResult: false,
+        }, {
+            Title: 'メモ　ピンゾロの集計の場合',
+            Exp: '50*23',
+            ExpectedResult: false,
+        }, {
+            Title: '通常のセッション',
+            Exp: '1150+50*3',
+            Money: '703',
+            Gm: '誰か',
+            ExpectedResult: true,
+        }, {
+            Title: '通常のセッション(GM名が空欄)',
+            Exp: '1150+50*3',
+            Money: '703',
+            Gm: '',
+            ExpectedResult: true,
+        }
+    ]
+};
+
+const testCharacters = [testDataRaxiaLifeNeo, testDataRaxiaLife3rd].map(testCharacter => {
+    testCharacter.expectedSessionCount = 0;
     testCharacter.historyNum = String(testCharacter.testCases.length);
     testCharacter.testCases.forEach((testCase, i)=>{
         for(var key in testCase) {
