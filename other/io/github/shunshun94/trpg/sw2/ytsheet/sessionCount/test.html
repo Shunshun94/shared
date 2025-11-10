@@ -48,27 +48,29 @@
 
             let totalTestCount = 0;
             let passScore = 0;
-            testsRaxiaLifeNeo.forEach((testCase, i) => {
+
+            testCharacters.forEach(testData => {
+                const testCases = testData.testCases;
+                testCases.forEach((testCase, i) => {
+                    totalTestCount++;
+                    const result = io.github.shunshun94.trpg.sw2.ytsheet.countSession.isSessionAsPlayer[testData.algorithm](testData, i + 1);
+                    if(result === testCase.ExpectedResult ) {
+                        passHandle(null, testCase);
+                        passScore++;
+                    } else {
+                        errorHandle(null, testCase);
+                    }
+                });
                 totalTestCount++;
-                const result = io.github.shunshun94.trpg.sw2.ytsheet.countSession.isSessionAsPlayer.RaxiaLifeNeo(testDataRaxiaLifeNeo, i + 1);
-                if(result === testCase.ExpectedResult ) {
-                    passHandle(null, testCase);
+                const sessionCount = io.github.shunshun94.trpg.sw2.ytsheet.countSession.countSession(testData, testData.algorithm);
+                if(sessionCount === testData.expectedSessionCount) {
+                    passHandle(null, {}, `${testData.algorithm}の卓数は予定通り${testData.expectedSessionCount}件でした`);
                     passScore++;
                 } else {
-                    errorHandle(null, testCase);
+                    errorHandle(null, {}, `${testData.algorithm}の卓数は${testData.expectedSessionCount}件であることが期待されますが、実際には${sessionCount}件でした`);
+                    console.error('仮想キャラクターのデータ', testData);
                 }
             });
-
-            totalTestCount++;
-            const sessionCount = io.github.shunshun94.trpg.sw2.ytsheet.countSession.countSession(testDataRaxiaLifeNeo, 'RaxiaLifeNeo');
-            if(sessionCount === expectedSessionCount) {
-                passHandle(null, {}, `仮想キャラクターの卓数は予定通り${expectedSessionCount}件でした`);
-                passScore++;
-            } else {
-                errorHandle(null, {}, `仮想キャラクターの卓数は${expectedSessionCount}件であることが期待されますが、実際には${sessionCount}件でした`);
-                console.error('仮想キャラクターのデータ', testData);
-            }
-
             document.getElementById('shortReport').textContent = `PASS / FAIL / TOTAL = ${passScore} / ${totalTestCount - passScore} / ${totalTestCount}`;
             document.getElementById('shortReport').className = (totalTestCount - passScore) ? 'error' : 'pass';
         </script>
