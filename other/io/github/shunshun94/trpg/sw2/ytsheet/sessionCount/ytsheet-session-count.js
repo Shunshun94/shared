@@ -18,7 +18,7 @@ io.github.shunshun94.trpg.sw2.ytsheet.countSession.prizeToCode = (prize)=>{
 io.github.shunshun94.trpg.sw2.ytsheet.countSession.countSession = (json, algorithm='RaxiaLife3rd') => {
     let result = 0;
     const max = Number(json.historyNum) + 1;
-    for(var sessionCount = 1; sessionCount < max; sessionCount++) {
+    for(var sessionCount = 1; sessionCount <= max; sessionCount++) {
         if(io.github.shunshun94.trpg.sw2.ytsheet.countSession.isSessionAsPlayer[algorithm](json, sessionCount)){ result++; }
     }
     return result;
