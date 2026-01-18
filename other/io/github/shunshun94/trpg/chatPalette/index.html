@@ -14,6 +14,7 @@
     <main>
         <details id="palette-section" open>
             <summary>生のチャットパレット</summary>
+            <button id="insert-sample">サンプルのチャットパレットで試す</button><br/>
             <textarea id="chat-palette" placeholder="ここにチャットパレットを入力してください..."></textarea>
             <br/><button id="save-button">出力</button>
         </details>
@@ -22,11 +23,12 @@
         </section>
     </main>
     <footer>
-        <p></p>
+        <p><a href="https://twitter.com/Shunshun94">作者 Twitter</a> | <a href="https://github.com/Shunshun94/shared/tree/master/other/io/github/shunshun94/trpg/chatPalette">ソースコード</a> | <a href="http://amzn.asia/8mNqdKy">ひよこのほしい物りすと</a></p>
     </footer>
     <script>
         document.getElementById('save-button').addEventListener('click', (_)=>{io.github.shunshun94.trpg.ChatPalette.buildPreview();});
         document.getElementById('preview-area').addEventListener('click', (event)=>{io.github.shunshun94.trpg.ChatPalette.copyItem(event);});
+        document.getElementById('insert-sample').addEventListener('click', (_)=>{document.getElementById('chat-palette').value = io.github.shunshun94.trpg.ChatPalette.consts.SAMPLE_PALETTE; alert('入力欄下部の「出力」を叩いてみてください')});
         window.onload = (_)=>{
             console.log('Initializing ChatPalette...');
             io.github.shunshun94.trpg.ChatPalette.initialize();
