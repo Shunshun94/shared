@@ -30,7 +30,7 @@ io.github.shunshun94.trpg.ChatPalette.parse = (rawPalette) => {
             flushCurrentLines();
             currentKey = headingMatch[1];
             currentLines = [];
-        } else if((! line.startsWith('//')) && (! /=+/.test(line))) {
+        } else if((! line.startsWith('//'))) {
             currentLines.push(line);
         }
     }
@@ -39,6 +39,12 @@ io.github.shunshun94.trpg.ChatPalette.parse = (rawPalette) => {
     return result;
 };
 
+/**
+ * 出力を html として吐き出させます
+ * @param {element} paletteSection チャットパレットの入力欄を含む details 要素
+ * @param {element} previewArea プレビュー表示エリアの要素
+ * @param {String} saveKey ローカルストレージに保存する際のキー
+ */
 io.github.shunshun94.trpg.ChatPalette.buildPreview = (
     paletteSection = document.getElementById('palette-section'),
     previewArea = document.getElementById('preview-area'),
@@ -65,12 +71,21 @@ io.github.shunshun94.trpg.ChatPalette.buildPreview = (
     localStorage.setItem(saveKey, inputtedText);
 };
 
+/**
+ * チャットパレットの項目をクリックした際にコピーします
+ * @param {Event} event 
+ */
 io.github.shunshun94.trpg.ChatPalette.copyItem = (event) => {
     if( event.target.classList.contains('preview-item-line') ) {
         navigator.clipboard.writeText(event.target.textContent);
     }
 };
 
+/**
+ * アプリ起動時にチャットパレットの内容をローカルストレージから復元します
+ * @param {element} paletteSection チャットパレットの入力欄を含む details 要素
+ * @param {String} saveKey ローカルストレージに保存する際のキー
+ */
 io.github.shunshun94.trpg.ChatPalette.initialize = (
     paletteSection = document.getElementById('palette-section'),
     saveKey = 'io-github-shunshun94-trpg-chat-palette'
