@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>チャパレを別画面でオペレートしたい時のなにか</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <header>
+        <h1>チャパレを別画面でオペレートしたい時のなにか</h1>
+    </header>
+    <main>
+        <details id="palette-section" open>
+            <summary>生のチャットパレット</summary>
+            <textarea id="chat-palette" placeholder="ここにチャットパレットを入力してください..."></textarea>
+            <br/><button id="save-button">出力</button>
+        </details>
+        <section id="preview-section">
+            <div id="preview-area"></div>
+        </section>
+    </main>
+    <footer>
+        <p></p>
+    </footer>
+    <script>
+        document.getElementById('save-button').addEventListener('click', (_)=>{io.github.shunshun94.trpg.ChatPalette.buildPreview();});
+        document.getElementById('preview-area').addEventListener('click', (event)=>{io.github.shunshun94.trpg.ChatPalette.copyItem(event);});
+        window.onload = (_)=>{
+            console.log('Initializing ChatPalette...');
+            io.github.shunshun94.trpg.ChatPalette.initialize();
+        };
+    </script>
+</body>
+</html>
