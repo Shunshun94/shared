@@ -226,7 +226,6 @@ io.github.shunshun94.trpg.OpenCampaignCalendar.generateHtml = (
         tr.append(generateElement('td', {textContent: d.real,  className: d.isToday}));
         tr.append(generateElement('td', {textContent: d.raxia, className: d.season }));
         const eventsTd = generateElement('td', {className: 'event-cell'});
-        console.log(d.specialDays);
         d.specialDays.forEach((sd, sdsIndex, sds)=>{
             sd.list.forEach((event, eventsIndex, events)=>{
                 if(event.url) {
