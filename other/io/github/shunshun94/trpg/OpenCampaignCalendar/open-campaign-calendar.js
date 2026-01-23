@@ -225,10 +225,23 @@ io.github.shunshun94.trpg.OpenCampaignCalendar.generateHtml = (
         const tr = document.createElement('tr');
         tr.append(generateElement('td', {textContent: d.real,  className: d.isToday}));
         tr.append(generateElement('td', {textContent: d.raxia, className: d.season }));
-        tr.append(generateElement('td', {
-            textContent: d.specialDays.map((sd)=>{return sd.list.map((event)=>{return event.name;}).join(', ')}).join(', '),
-            className: 'event-cell'
-        }));
+        const eventsTd = generateElement('td', {className: 'event-cell'});
+        d.specialDays.forEach((sd, sdsIndex, sds)=>{
+            sd.list.forEach((event, eventsIndex, events)=>{
+                if(event.url) {
+                    const a = generateElement('a', {href: event.url, textContent: event.name, target: '_blank'});
+                    eventsTd.appendChild(a);
+                } else {
+                    const span = generateElement('span', {textContent: event.name});
+                    eventsTd.appendChild(span);
+                }    
+                if((sdsIndex !== sds.length - 1) || (eventsIndex !== events.length - 1)) {
+                    const separate = generateElement('span', {textContent: ', '});
+                    eventsTd.appendChild(separate);
+                }
+            });
+        });
+        tr.append(eventsTd);
         table.append(tr);
     });
     return table;
