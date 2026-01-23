@@ -188,7 +188,6 @@ io.github.shunshun94.trpg.OpenCampaignCalendar.getDateArray = (params = {}) => {
         const end = array[i + 1] || io.github.shunshun94.trpg.OpenCampaignCalendar.proceedRaxiaTime({
             year: 0, month: Number(d.raxia.split('　')[1].split('/')[0]), day: Number(d.raxia.split('　')[1].split('/')[1]),
         }, d.delta, mode);
-        console.log(start, end);
         const targetSpecialDay = specialDays.filter((sd)=>{
             if (start.simpleText < end.simpleText) {
                 return (start.simpleText <= sd.key) && (sd.key < end.simpleText);
@@ -210,7 +209,6 @@ io.github.shunshun94.trpg.OpenCampaignCalendar.getDateArray = (params = {}) => {
 io.github.shunshun94.trpg.OpenCampaignCalendar.generateHtml = (
     dateArray = io.github.shunshun94.trpg.OpenCampaignCalendar.getDateArray(),
     mode = io.github.shunshun94.trpg.OpenCampaignCalendar.CONSTS.DEFAULT_MODE) => {
-    console.log(dateArray);
     const generateElement = (tagName, attributes) => {
         const result = document.createElement(tagName);
         for(var key in attributes) { result[key] = attributes[key]; }
