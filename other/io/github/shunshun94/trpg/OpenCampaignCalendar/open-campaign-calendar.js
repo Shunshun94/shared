@@ -133,7 +133,9 @@ io.github.shunshun94.trpg.OpenCampaignCalendar.proceedRaxiaTime = (raxiaDate, da
     raxiaDate.year  += Math.floor((raxiaDate.month - 1) / 12);
     raxiaDate.month  =           (raxiaDate.month       % 12) || 12;
     raxiaDate.text   = `${raxiaDate.year}年目　${String(raxiaDate.month).padStart(2, '0')}/${String(Math.ceil(raxiaDate.day)).padStart(2, '0')}${io.github.shunshun94.trpg.OpenCampaignCalendar.generateAdditinalText(raxiaDate, mode)}`;
+    raxiaDate.simpleText = `${String(raxiaDate.month).padStart(2, '0')}${String(Math.ceil(raxiaDate.day)).padStart(2, '0')}`;
     raxiaDate.season = io.github.shunshun94.trpg.OpenCampaignCalendar.getSeason(raxiaDate.month);
+    raxiaDate.delta = days;
     return raxiaDate;
 };
 
@@ -171,22 +173,44 @@ io.github.shunshun94.trpg.OpenCampaignCalendar.getDateArray = (params = {}) => {
                 real: realDay,
                 isToday: realDay === io.github.shunshun94.trpg.OpenCampaignCalendar.CONSTS.TODAY ? 'today' : 'not-today',
                 raxia: raxiaDate.text,
-                season: raxiaDate.season
-            })
+                season: raxiaDate.season,
+                simpleText: raxiaDate.simpleText,
+                delta: delta
+            });
             cursor = io.github.shunshun94.trpg.OpenCampaignCalendar.addDays(cursor, 1);
             raxiaDate = io.github.shunshun94.trpg.OpenCampaignCalendar.proceedRaxiaTime(raxiaDate, delta, mode);
         }
         cursor = new Date(nextMonth);
     }
-    return result;
+    const specialDays = io.github.shunshun94.trpg.OpenCampaignCalendar.CONSTS[mode]?.SPECIAL_DAYS || [];
+    return result.map((d, i, array)=>{
+        const start = d;
+        const end = array[i + 1] || io.github.shunshun94.trpg.OpenCampaignCalendar.proceedRaxiaTime({
+            year: 0, month: Number(d.raxia.split('　')[1].split('/')[0]), day: Number(d.raxia.split('　')[1].split('/')[1]),
+        }, d.delta, mode);
+        console.log(start, end);
+        const targetSpecialDay = specialDays.filter((sd)=>{
+            if (start.simpleText < end.simpleText) {
+                return (start.simpleText <= sd.key) && (sd.key < end.simpleText);
+            } else {
+                // 年末年始をまたいでいる場合
+                return (start.simpleText <= sd.key) && (sd.key < '1301') || ('0000' <= sd.key) && (sd.key < end.simpleText);
+            }
+        });
+        d.specialDays = targetSpecialDay;
+        return d;
+    });
 };
 
 /**
  * 私達の世界のカレンダーとラクシアのカレンダーの対照表を作成します
- * @param {Array} dateArray getDateArray メソッドの結果です。代入しない場合引数無しで実行した結果を利用します
+ * @param {Array} rawDateArray getDateArray メソッドの結果です。代入しない場合引数無しで実行した結果を利用します
  * @returns {HTMLTableElement} html のエレメントのオブジェクトが返却されます
  */
-io.github.shunshun94.trpg.OpenCampaignCalendar.generateHtml = (dateArray = io.github.shunshun94.trpg.OpenCampaignCalendar.getDateArray(), mode= io.github.shunshun94.trpg.OpenCampaignCalendar.CONSTS.DEFAULT_MODE) => {
+io.github.shunshun94.trpg.OpenCampaignCalendar.generateHtml = (
+    dateArray = io.github.shunshun94.trpg.OpenCampaignCalendar.getDateArray(),
+    mode = io.github.shunshun94.trpg.OpenCampaignCalendar.CONSTS.DEFAULT_MODE) => {
+    console.log(dateArray);
     const generateElement = (tagName, attributes) => {
         const result = document.createElement(tagName);
         for(var key in attributes) { result[key] = attributes[key]; }
@@ -197,11 +221,16 @@ io.github.shunshun94.trpg.OpenCampaignCalendar.generateHtml = (dateArray = io.gi
     const header = document.createElement('tr');
     header.append(generateElement('th', {textContent: '現実世界時間'}));
     header.append(generateElement('th', {textContent: io.github.shunshun94.trpg.OpenCampaignCalendar.CONSTS.WORLD_HEADER[mode]}));
+    header.append(generateElement('th', {textContent: 'イベント'}))
     table.append(header);
     dateArray.forEach((d)=>{
         const tr = document.createElement('tr');
         tr.append(generateElement('td', {textContent: d.real,  className: d.isToday}));
         tr.append(generateElement('td', {textContent: d.raxia, className: d.season }));
+        tr.append(generateElement('td', {
+            textContent: d.specialDays.map((sd)=>{return sd.list.map((event)=>{return event.name;}).join(', ')}).join(', '),
+            className: 'event-cell'
+        }));
         table.append(tr);
     });
     return table;
