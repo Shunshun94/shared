@@ -142,5 +142,14 @@ io.github.shunshun94.trpg.OpenCampaignCalendar.CONSTS.RAXIA_LIFE_3RD.SPECIAL_DAY
         "url": "https://yutorize.2-d.jp/ytsheet/sw2.5/?id=n5Ehb5"
       }
     ]
+  },
+  {
+    "key": "1229",
+    "list": [
+      {
+        "name": "シキ誕生日",
+        "url": "https://yutorize.2-d.jp/ytsheet/sw2.5/?id=1qHZvk"
+      }
+    ]
   }
 ];
