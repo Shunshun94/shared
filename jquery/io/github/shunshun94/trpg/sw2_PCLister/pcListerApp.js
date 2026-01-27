@@ -307,6 +307,8 @@ JSON.parse(localStorage.getItem('io-github-shunshun94-trpg-sw2_pclister-buffs') 
     });
 });
 
-(com.hiyoko.util.getQueriesV3().sheets || '').split(',').filter((d)=>{return d.trim()}).forEach((url)=>{
-    io.github.shunshun94.trpg.SW2_PCLister.getSheet(url).then(io.github.shunshun94.trpg.SW2_PCListerApp.handleLoadedCharacterSheet);
+Promise.all((com.hiyoko.util.getQueriesV3().sheets || '').split(',').filter((d)=>{return d.trim()}).map((url)=>{
+    return io.github.shunshun94.trpg.SW2_PCLister.getSheet(url);
+})).then((dataList)=>{
+    dataList.forEach(io.github.shunshun94.trpg.SW2_PCListerApp.handleLoadedCharacterSheet);
 });
