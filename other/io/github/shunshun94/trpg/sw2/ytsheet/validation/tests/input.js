@@ -841,6 +841,43 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_TEST_LIST = {
             'expect': true
         }
     ],
+    'bibliomancerRequiresBook': [
+        {
+            'testName': 'ビブリオマンサーで魔導書を持っていない場合',
+            'lvBib': '1',
+            'expect': false
+        }, {
+            'testName': 'ビブリオマンサーで魔導書を持っている場合（名前欄）',
+            'lvBib': '1',
+            'weapon1Note': '打開の魔導書',
+            'expect': true
+        }, {
+            'testName': 'ビブリオマンサーで魔導書を持っている場合（効果欄）',
+            'lvBib': '1',
+            'weapon1Note': '魔導書',
+            'expect': true
+        }, {
+            'testName': 'ビブリオマンサーで魔導書を持っている場合（カテゴリ欄）',
+            'lvBib': '1',
+            'weapon1Category': '魔導書',
+            'expect': true
+        }, {
+            'testName': 'ビブリオマンサーで魔導書を持っている場合（盾）',
+            'lvBib': '1',
+            'armour2Name': '魔導書',
+            'expect': true
+        }, {
+            'testName': 'ビブリオマンサーで魔導書を持っている場合（効果欄・記載が魔導書）',
+            'lvBib': '1',
+            'armour2Note': '魔導書',
+            'expect': true
+        }, {
+            'testName': 'ビブリオマンサーで魔導書を持っている場合（アイテム欄）',
+            'lvBib': '1',
+            'items': '魔導書',
+            'expect': true
+        }
+    ],
     "hasArrowHolders": [
         {
             'testName': 'ボウ装備のシューターでえびらも矢筒も持っていない場合',
