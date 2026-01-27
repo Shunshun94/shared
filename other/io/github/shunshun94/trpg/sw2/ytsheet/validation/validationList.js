@@ -158,6 +158,23 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_LIST = [
     }, {
         level: 'error',
         when: {
+            'lvBib': 1
+        },
+        expect: {
+            'or': {
+                'weapon\\d+Category': {includes: '魔導書'},
+                'weapon\\d+Name': {includes: ['魔導書']},
+                'weapon\\d+Note': {includes: '魔導書'},
+                'items': {includes: '魔導書'},
+                "armour\\d+Name":  { includes: '魔導書' },
+                "armour\\d+Note":  { includes: '魔導書' },
+            }
+        },
+        ifNot: 'ビブリオマンサー技能による魔法を行使するには魔導書を所持または装備している必要があります（『TC』6頁）',
+        label: 'bibliomancerRequiresBook'
+    }, {
+        level: 'error',
+        when: {
             'weapon\\dCategory': { equal: ['ボウ', 'クロスボウ'] }
         },
         expect: {            
@@ -247,14 +264,15 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_LIST = [
                     'lvFai': 1,
                     'lvDru': 1,
                     'lvDem': 1,
-                    'lvAby': 1
+                    'lvAby': 1,
+                    'lvBib': 1
                 }
             }
         },
         expect: {
             'race': { includes: 'ナイトメア' }
         },
-        ifNot: '金属鎧を着ている場合にソーサラー、コンジャラー、フェアリーテイマー、ドルイド、デーモンルーラー、アビスゲイザーの各技能による魔法を行使するとペナルティ修正を受けます',
+        ifNot: '金属鎧を着ている場合にソーサラー、コンジャラー、フェアリーテイマー、ドルイド、デーモンルーラー、アビスゲイザー、ビブリオマンサーの各技能による魔法を行使するとペナルティ修正を受けます',
         label: 'metalArmorLimitatesMagics'
     }, {
         level: 'warn',
@@ -270,14 +288,15 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_LIST = [
                 'or': {
                     'lvSor': 1,
                     'lvCon': 1,
-                    'lvDem': 1
+                    'lvDem': 1,
+                    'lvBib': 1
                 }
             }
         },
         expect: {
             'race': { includes: 'ナイトメア' }
         },
-        ifNot: '必要筋力が10以上の非金属鎧を着ている場合にソーサラー、コンジャラー、またはデーモンルーラーの各技能による魔法による魔法を行使するとペナルティ修正を受けます',
+        ifNot: '必要筋力が10以上の非金属鎧を着ている場合にソーサラー、コンジャラー、デーモンルーラーまたはビブリオマンサーの各技能による魔法による魔法を行使するとペナルティ修正を受けます',
         label: 'heavyArmorLimitatesMagics'
     }, {
         level: 'warn',
