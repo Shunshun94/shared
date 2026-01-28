@@ -125,6 +125,7 @@ io.github.shunshun94.trpg.SW2_PCLister.getYtSheetEnemy = (data) => {
 io.github.shunshun94.trpg.SW2_PCLister.getYtSheetPC = (data) => {
     const result = {
         name:              data.characterName,
+        pl:                data.playerName,
         hp:         Number(data.hpTotal           ),
         mp:         Number(data.mpTotal           ),
         life:       Number(data.vitResistTotal    ),

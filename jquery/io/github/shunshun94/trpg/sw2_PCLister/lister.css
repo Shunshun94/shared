@@ -44,6 +44,19 @@ td {
     background-color:#E0FFE0;
 }
 
+.name span {
+    display: none;
+}
+
+#outputLinks p {
+    position:relative;
+}
+
+#outputLinks input {
+    position: absolute;
+    left: 320px;
+}
+
 #buffManager {
     position:relative;
 }
