@@ -269,7 +269,10 @@ io.github.shunshun94.trpg.SW2_PCListerApp.onloadJson = (json) => {
 
 io.github.shunshun94.trpg.SW2_PCListerApp.bindEvents = () => {
     $('#add').click((e)=>{
-        io.github.shunshun94.trpg.SW2_PCLister.getSheet($('#sheetUrl').val()).then(io.github.shunshun94.trpg.SW2_PCListerApp.handleLoadedCharacterSheet);
+        io.github.shunshun94.trpg.SW2_PCLister.getSheet($('#sheetUrl').val()).then((data)=>{
+            io.github.shunshun94.trpg.SW2_PCListerApp.handleLoadedCharacterSheet(data);
+            io.github.shunshun94.trpg.SW2_PCListerApp.drawOutput();
+        });
     });
     $('#buffTable-appendTr-exec').click((e)=>{
         io.github.shunshun94.trpg.SW2_PCListerApp.appendBuffDataTableTr();
