@@ -49,7 +49,7 @@ io.github.shunshun94.trpg.SW2_PCListerApp.drawOutput = () => {
 
         Object.keys(urlsResult).forEach((key)=>{
             urlsResult[key].push(
-                urlsResultFormat[key] // char 内にはないので html から取るように修正すること
+                urlsResultFormat[key]
                     .replace('{url}', url)
                     .replace('{name}', name)
                     .replace('{pl}', pl)
