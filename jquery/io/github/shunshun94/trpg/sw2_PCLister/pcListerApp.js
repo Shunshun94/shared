@@ -7,10 +7,27 @@ io.github.shunshun94.trpg.SW2_PCListerApp.CONSTS = io.github.shunshun94.trpg.SW2
 
 io.github.shunshun94.trpg.SW2_PCListerApp.CONSTS.COLUMNS_LIST = ['hit', 'dodge', 'magic', 'mental', 'life', 'hp', 'guard', 'rate', 'damage', 'initiative', 'enemy'];
 
-io.github.shunshun94.trpg.SW2_PCListerApp.rewriteFixedBaseTable = () => {
+io.github.shunshun94.trpg.SW2_PCListerApp.drawOutput = () => {
     const characters =   io.github.shunshun94.trpg.SW2_PCListerApp.getCharacterIdMap();
     const buffs      =   io.github.shunshun94.trpg.SW2_PCListerApp.getBuffIdMap();
     const appliedBuffs = io.github.shunshun94.trpg.SW2_PCListerApp.getBuffApplyTable();
+    const urlsResult = {
+        'outputUrl': [`${location.origin}${location.pathname}?sheets=`],
+        'pcList-simple': [], 'pcList-fullA': [], 'pcList-fullB': [], 'pcList-fullC': [], 'pcList-fullD': [], 'pcList-fullE': [], 'pcList-fullF': []
+    };
+    const urlsResultConnector = {
+        'outputUrl': ',', 'pcList-simple': ' ', 'pcList-fullA': ' ', 'pcList-fullB': ' ', 'pcList-fullC': ' ', 'pcList-fullD': ' ', 'pcList-fullE': ' ', 'pcList-fullF': ' '
+    };
+    const urlsResultFormat = {
+        'outputUrl': '{url}', 
+        'pcList-simple': '[{name}#{ID}]',
+        'pcList-fullA': '[{name}({pl})#{ID}]',
+        'pcList-fullB': '[{name}#{ID}]({pl})',
+        'pcList-fullC': '[{name}({pl}さん)#{ID}]',
+        'pcList-fullD': '[{name}#{ID}]({pl}さん)',
+        'pcList-fullE': '[[{name}>{url}]]',
+        'pcList-fullF': '[{name}({pl}さん)]({url})'
+    };
     for(const buffId in appliedBuffs) {
         const buff = buffs[buffId];
         const buffedCharacters = appliedBuffs[buffId];
@@ -25,7 +42,24 @@ io.github.shunshun94.trpg.SW2_PCListerApp.rewriteFixedBaseTable = () => {
         io.github.shunshun94.trpg.SW2_PCListerApp.CONSTS.COLUMNS_LIST.forEach((c, i)=>{
             $(`#${id} .${c}`).text(char[i + 1]);
         });
+        const url = $(`#${id} .name a`).attr('href');
+        const name = $(`#${id} .name a`).text();
+        const pl = $(`#${id} .name span`).text();
+        const cid = /id=([a-zA-Z0-9]+)/.exec(url)[1];
+
+        Object.keys(urlsResult).forEach((key)=>{
+            urlsResult[key].push(
+                urlsResultFormat[key]
+                    .replace('{url}', url)
+                    .replace('{name}', name)
+                    .replace('{pl}', pl)
+                    .replace('{ID}', cid)
+            );
+        });
     }
+    Object.keys(urlsResult).forEach((key)=>{
+        $('#outputLinks #' + key).val(urlsResult[key].join(urlsResultConnector[key]));
+    });
 };
 
 io.github.shunshun94.trpg.SW2_PCListerApp.getCharacterIdMap = () => {
@@ -150,7 +184,6 @@ io.github.shunshun94.trpg.SW2_PCListerApp.appendBuffDataTableTr = () => {
 io.github.shunshun94.trpg.SW2_PCListerApp.generateTr = (data) => {
     const tr = $('<tr class="baseTable-line"></tr>');
     tr.attr('id', com.hiyoko.util.rndString());
-
     const name = $('<td></td>');
     const nameA = $('<a></a>');
     nameA.text(data.name);
@@ -158,6 +191,9 @@ io.github.shunshun94.trpg.SW2_PCListerApp.generateTr = (data) => {
     nameA.attr('href', data.url);
     nameA.attr('target', '_blank');
     name.append(nameA);
+    const plName = $('<span></span>');
+    plName.text(data.pl || '無記名');
+    name.append(plName);
     tr.append(name);
 
     ['hit', 'dodge', 'magic', 'mental', 'life', 'hp', 'guard', 'rate', 'damage', 'disabled', 'initiative', 'enemy', 'remove'].forEach((d)=>{
@@ -188,7 +224,7 @@ io.github.shunshun94.trpg.SW2_PCListerApp.getBaseTableOriginalData = () => {
 
 io.github.shunshun94.trpg.SW2_PCListerApp.getBuffTableData = () => {
     const result = [];
-    $('.buffTable-line').each((dummy1, d)=>{
+    $('.buffTable-line').each((_, d)=>{
         const buff = [];
         $(d).find('input').each((i, input)=>{
             const $input = $(input);
@@ -227,7 +263,7 @@ io.github.shunshun94.trpg.SW2_PCListerApp.onloadJson = (json) => {
                 $(`input[value=${buffMap[b.name]}-${characterMap[c.name]}]`).prop('checked', true);
             });
         });
-        io.github.shunshun94.trpg.SW2_PCListerApp.rewriteFixedBaseTable();
+        io.github.shunshun94.trpg.SW2_PCListerApp.drawOutput();
     });
 };
 
@@ -241,21 +277,24 @@ io.github.shunshun94.trpg.SW2_PCListerApp.bindEvents = () => {
     });
     $('.buffTable').change((e)=>{
         localStorage.setItem('io-github-shunshun94-trpg-sw2_pclister-buffs', JSON.stringify(io.github.shunshun94.trpg.SW2_PCListerApp.getBuffTableData()));
-        io.github.shunshun94.trpg.SW2_PCListerApp.rewriteFixedBaseTable();
+        io.github.shunshun94.trpg.SW2_PCListerApp.drawOutput();
     });
     $('.output').click((e)=>{
         const target = $(e.target);
         if(target.hasClass('removeButton')) {
             target.parent().parent().remove();
             io.github.shunshun94.trpg.SW2_PCListerApp.reloadBuffApplyTable();
-            io.github.shunshun94.trpg.SW2_PCListerApp.rewriteFixedBaseTable();
+            io.github.shunshun94.trpg.SW2_PCListerApp.drawOutput();
         }
     });
     $('#buffManager').change((e)=>{
-        io.github.shunshun94.trpg.SW2_PCListerApp.rewriteFixedBaseTable();
+        io.github.shunshun94.trpg.SW2_PCListerApp.drawOutput();
     });
     $('footer').on('dblclick', (e)=>{
         $('footer').remove();
+    });
+    $('#outputLinks input').focus((e)=>{
+        $(e.target).select();
     });
     const body = $('body');
     body.on('dragleave', (e) => {
@@ -307,6 +346,9 @@ JSON.parse(localStorage.getItem('io-github-shunshun94-trpg-sw2_pclister-buffs') 
     });
 });
 
-(com.hiyoko.util.getQueriesV3().sheets || '').split(',').filter((d)=>{return d.trim()}).forEach((url)=>{
-    io.github.shunshun94.trpg.SW2_PCLister.getSheet(url).then(io.github.shunshun94.trpg.SW2_PCListerApp.handleLoadedCharacterSheet);
+Promise.all((com.hiyoko.util.getQueriesV3().sheets || '').split(',').filter((d)=>{return d.trim()}).map((url)=>{
+    return io.github.shunshun94.trpg.SW2_PCLister.getSheet(url);
+})).then((dataList)=>{
+    io.github.shunshun94.trpg.SW2_PCListerApp.handleLoadedCharacterSheet(dataList.flat());
+    io.github.shunshun94.trpg.SW2_PCListerApp.drawOutput();
 });

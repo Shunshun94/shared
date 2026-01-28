@@ -41,6 +41,18 @@
             </tr>
         </table>
         <hr/>
+        <details id="outputLinks">
+            <summary>リンク・ゆとシートに貼り付けるようリスト</summary>
+            <p>URL：<input type="text" id="outputUrl" readonly /></p>
+            <p>PC 一覧（<code>[{PC名}#{ID}]</code>）：<input type="text" id="pcList-simple" readonly /></p>
+            <p>PC 一覧（<code>[{PC名}({PL名})#{ID}]</code>）：<input type="text" id="pcList-fullA" readonly /></p>
+            <p>PC 一覧（<code>[{PC名}#{ID}]({PL名})</code>）：<input type="text" id="pcList-fullB" readonly /></p>
+            <p>PC 一覧（<code>[{PC名}({PL名}さん)#{ID}]</code>）：<input type="text" id="pcList-fullC" readonly /></p>
+            <p>PC 一覧（<code>[{PC名}#{ID}]({PL名}さん)</code>）：<input type="text" id="pcList-fullD" readonly /></p>
+            <p>PC 一覧（<code>[[{PC名}>{url}]]</code>）：<input type="text" id="pcList-fullE" readonly /></p>
+            <p>PC 一覧（<code>[{PC名}({PL名}さん)]({url})</code>）：<input type="text" id="pcList-fullF" readonly /></p>
+        </details>
+        <hr/>
         <div id="buffManager">
             <table class="buffTable" border="1">
                 <tr>
