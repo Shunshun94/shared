@@ -12,14 +12,15 @@ io.github.shunshun94.trpg.SW2_PCListerApp.drawOutput = () => {
     const buffs      =   io.github.shunshun94.trpg.SW2_PCListerApp.getBuffIdMap();
     const appliedBuffs = io.github.shunshun94.trpg.SW2_PCListerApp.getBuffApplyTable();
     const urlsResult = {
-        'outputUrl': [`${location.origin}${location.pathname}?sheets=`],
+        'outputUrl': [`${location.origin}${location.pathname}?sheets=`], 'pcList-choice': ['choice'],
         'pcList-simple': [], 'pcList-fullA': [], 'pcList-fullB': [], 'pcList-fullC': [], 'pcList-fullD': [], 'pcList-fullE': [], 'pcList-fullF': []
     };
     const urlsResultConnector = {
-        'outputUrl': ',', 'pcList-simple': ' ', 'pcList-fullA': ' ', 'pcList-fullB': ' ', 'pcList-fullC': ' ', 'pcList-fullD': ' ', 'pcList-fullE': ' ', 'pcList-fullF': ' '
+        'outputUrl': ',', 'pcList-choice': ' ', 'pcList-simple': ' ', 'pcList-fullA': ' ', 'pcList-fullB': ' ', 'pcList-fullC': ' ', 'pcList-fullD': ' ', 'pcList-fullE': ' ', 'pcList-fullF': ' '
     };
     const urlsResultFormat = {
         'outputUrl': '{url}', 
+        'pcList-choice': '{name}',
         'pcList-simple': '[{name}#{ID}]',
         'pcList-fullA': '[{name}({pl})#{ID}]',
         'pcList-fullB': '[{name}#{ID}]({pl})',
