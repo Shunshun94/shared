@@ -153,7 +153,7 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_LIST = [
             'weapon\\d+Name': {includes: 'アビスナイフ'},
             'weapon\\d+Note': {includes: 'アビスナイフ'}
         },
-        ifNot: 'アビスゲイザー技能による魔法を行使するにはアビスナイフを所持している必要があります',
+        ifNot: 'アビスゲイザー技能による魔法を行使するにはアビスナイフを所持している必要があります（『AB』8頁）',
         label: 'hasAbyssknife'
     }, {
         level: 'error',
@@ -457,7 +457,7 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_LIST = [
             'weapon\\d+Name': {includes: ['[刃]', 'ライジングサン', 'タイラント', 'エッジドアーム']},
             'weapon\\d+Category': { equal: ['ソード', 'アックス', 'スピア', 'ウォーハンマー', 'ボウ', 'クロスボウ'] }
         },
-        ifNot: 'アビスナイフ加工を施す武器は刃のついた武器である必要があります',
+        ifNot: 'アビスナイフ加工を施す武器は刃のついた武器である必要があります（『AB』8頁）',
         label: 'abyssKnifeMustBeEdged'
     }, {
         level: 'info',
@@ -551,7 +551,7 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_LIST = [
                 }
             },
         },
-        ifNot: '能力値のダイスがどのように決定されたかを履歴欄に記録しておくことをおすすめします。作成レギュレーションの備考欄に「能力値作成履歴#123456-2」のように記入することで特定の能力値作成履歴へのリンクを張ることができます',
+        ifNot: '能力値のダイスがどのように決定されたかを記録しておくことをおすすめします。作成レギュレーションの備考欄に「能力値作成履歴#123456-2」のように記入することで特定の能力値作成履歴へのリンクを張ることができます',
         label: 'initialCharacterStatusDisitionWay'
     }
 ].sort((a, b)=>{
