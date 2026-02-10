@@ -1,0 +1,34 @@
+@charset "utf-8";
+body * {
+	box-sizing: border-box;
+	font-family: "BIZ UDゴシック","UD Shin Go NT Light JIS2004","UD デジタル 教科書体 N-R", Verdana, Roboto, "Droid Sans", "游ゴシック", YuGothic, "メイリオ", Meiryo, "ヒラギノ角ゴ ProN W3", "Hiragino Kaku Gothic ProN", "ＭＳ Ｐゴシック", sans-serif;
+}
+
+body {
+    position: relative;
+}
+
+#output {
+    user-select: all;
+    position: absolute;
+    top: 2em;
+    left: 660px;
+}
+
+.buff-management-table tr td > * {
+    width: 100%;
+}
+
+.buff-management-table tr td input {
+    background-color: transparent;
+}
+
+.buff-management-table tr td:nth-child(n + 3) {
+    width: 4em;
+    text-align: center;
+}
+
+.buff-management-table tr:nth-child(even) {
+    background-color: #F0F0F0;
+}
+
