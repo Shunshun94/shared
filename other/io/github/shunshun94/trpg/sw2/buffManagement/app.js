@@ -102,6 +102,7 @@ io.github.shunshun94.trpg.sw2.BuffManagement.removeBuffLine = (e) => {
     const button = e.target;
     const row = button.closest('tr');
     row.parentNode.removeChild(row);
+    io.github.shunshun94.trpg.sw2.BuffManagement.onUpate(e);
 };
 
 io.github.shunshun94.trpg.sw2.BuffManagement.generateBuffLine = (_, buff = {}, checkStatus = false) => {
