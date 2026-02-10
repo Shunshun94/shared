@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta property="og:title" content="ソードワールド2.X バフ管理ツール" />
+<meta property="og:type" content="website" />
+<meta property="og:image" content="https://shunshun94.github.io/shared/other/io/github/shunshun94/trpg/sw2/buffManagement/ogp.png" />
+<meta property="og:site_name" content="https://github.com/Shunshun94/shared/" />
+<meta property="og:description" content="ソードワールド2.X のバフを管理し、チャパレ修正・情報共有のテンプレートを出力するツール" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content="@Shunshun94" />
+<meta name="twitter:domain" content="shunshun94.github.io" />
+<meta name="twitter:title" content="ソードワールド2.X バフ管理ツール" />
+<meta name="twitter:description" content="ソードワールド2.X のバフを管理し、チャパレ修正・情報共有のテンプレートを出力するツール" />
+<meta name="twitter:image" content="https://shunshun94.github.io/shared/other/io/github/shunshun94/trpg/sw2/buffManagement/ogp.png" />
+<title>ソードワールド2.X バフ管理ツール</title>
+<link rel="stylesheet" href="./style.css" type="text/css" />
+</head>
+<body>
+    <h1>ソードワールド2.X バフ管理ツール</h1>
+    <div id="input"></div>
+    <pre id="output"></pre>
+    <h2>使い方（ココフォリアの場合）</h2>
+    <ol>
+        <li>ゆとシートの機能を使ってココフォリアにコマを作ります</li>
+        <li>駒のパラメータの欄にある以下をステータスに移します<ul>
+            <li>命中修正</li>
+            <li>回避修正</li>
+            <li>追加D修正</li>
+            <li>魔力修正</li>
+            <li>精神抵抗修正</li>
+            <li>生命抵抗修正</li>
+        </ul></li>
+        <li>このツールでバフ・デバフを管理します</li>
+        <li>修正値更新コマンドの行の項目をクリックするとクリップボードにコピーされるので、<br/>ココフォリアのテキストチャットに貼り付けて発言すると修正値が反映されます</li>
+    </ol>
+    <footer>
+        <p><a href="https://twitter.com/Shunshun94">作者 Twitter</a> | <a href="https://github.com/Shunshun94/shared/tree/master/other/io/github/shunshun94/trpg/sw2/buffManagement">ソースコード</a> | <a href="http://amzn.asia/8mNqdKy">ひよこのほしい物りすと</a></p>
+    </footer>
+<script src="./app.js"></script>
+<script>
+    document.getElementById("input").appendChild(io.github.shunshun94.trpg.sw2.BuffManagement.generateInitialTableElement());
+    // io.github.shunshun94.trpg.sw2.BuffManagement.CONSTS.EVENT
+    document.getElementById("input").addEventListener(io.github.shunshun94.trpg.sw2.BuffManagement.CONSTS.EVENT, (e) => {
+        document.getElementById("output").textContent = e.detail.report;
+    });
+</script>
+</body>
+</html>
