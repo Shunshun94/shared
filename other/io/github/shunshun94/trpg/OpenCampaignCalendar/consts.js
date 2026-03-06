@@ -13,7 +13,7 @@ io.github.shunshun94.trpg.OpenCampaignCalendar.CONSTS.RAXIA_LIFE_3RD.SPECIAL_DAY
     "list": [
       {
         "name": "モーネ誕生日",
-        "url": "https://yutorize.2-d.jp/ytsheet/sw2.5/?id=Nl3Piy"
+        "url": "https://yutorize.work/ytsheet/sw2.5/?id=Nl3Piy"
       }
     ]
   },
@@ -22,7 +22,7 @@ io.github.shunshun94.trpg.OpenCampaignCalendar.CONSTS.RAXIA_LIFE_3RD.SPECIAL_DAY
     "list": [
       {
         "name": "フェリシア誕生日",
-        "url": "https://yutorize.2-d.jp/ytsheet/sw2.5/?id=mGE1A5"
+        "url": "https://yutorize.work/ytsheet/sw2.5/?id=mGE1A5"
       }
     ]
   },
@@ -31,7 +31,10 @@ io.github.shunshun94.trpg.OpenCampaignCalendar.CONSTS.RAXIA_LIFE_3RD.SPECIAL_DAY
     "list": [
       {
         "name": "シャーロット誕生日",
-        "url": "https://yutorize.2-d.jp/ytsheet/sw2.5/?id=hwVy6T"
+        "url": "https://yutorize.work/ytsheet/sw2.5/?id=hwVy6T"
+      }, {
+        "name": "フロラ誕生日",
+        "url": "https://yutorize.work/ytsheet/sw2.5/?id=TYWFC9"
       }
     ]
   },
@@ -40,7 +43,7 @@ io.github.shunshun94.trpg.OpenCampaignCalendar.CONSTS.RAXIA_LIFE_3RD.SPECIAL_DAY
     "list": [
       {
         "name": "クリスティ誕生日",
-        "url": "https://yutorize.2-d.jp/ytsheet/sw2.5/?id=g7T7te"
+        "url": "https://yutorize.work/ytsheet/sw2.5/?id=g7T7te"
       }
     ]
   },
@@ -49,7 +52,16 @@ io.github.shunshun94.trpg.OpenCampaignCalendar.CONSTS.RAXIA_LIFE_3RD.SPECIAL_DAY
     "list": [
       {
         "name": "レジェダ誕生日",
-        "url": "https://yutorize.2-d.jp/ytsheet/sw2.5/?id=Gm9Btr"
+        "url": "https://yutorize.work/ytsheet/sw2.5/?id=Gm9Btr"
+      }
+    ]
+  },
+  {
+    "key": "0329",
+    "list": [
+      {
+        "name": "レオン誕生日",
+        "url": "https://yutorize.work/ytsheet/sw2.5/?id=FVOXHZ"
       }
     ]
   },
@@ -58,7 +70,7 @@ io.github.shunshun94.trpg.OpenCampaignCalendar.CONSTS.RAXIA_LIFE_3RD.SPECIAL_DAY
     "list": [
       {
         "name": "サーティア誕生日",
-        "url": "https://yutorize.2-d.jp/ytsheet/sw2.5/?id=vN8Wti"
+        "url": "https://yutorize.work/ytsheet/sw2.5/?id=vN8Wti"
       }
     ]
   },
@@ -67,7 +79,7 @@ io.github.shunshun94.trpg.OpenCampaignCalendar.CONSTS.RAXIA_LIFE_3RD.SPECIAL_DAY
     "list": [
       {
         "name": "カレン誕生日",
-        "url": "https://yutorize.2-d.jp/ytsheet/sw2.5/?id=7vNjQm"
+        "url": "https://yutorize.work/ytsheet/sw2.5/?id=7vNjQm"
       }
     ]
   },
@@ -76,7 +88,7 @@ io.github.shunshun94.trpg.OpenCampaignCalendar.CONSTS.RAXIA_LIFE_3RD.SPECIAL_DAY
     "list": [
       {
         "name": "マニオイディア誕生日",
-        "url": "https://yutorize.2-d.jp/ytsheet/sw2.5/?id=j0nmue"
+        "url": "https://yutorize.work/ytsheet/sw2.5/?id=j0nmue"
       }
     ]
   },
@@ -85,7 +97,7 @@ io.github.shunshun94.trpg.OpenCampaignCalendar.CONSTS.RAXIA_LIFE_3RD.SPECIAL_DAY
     "list": [
       {
         "name": "ウォンチュン誕生日",
-        "url": "https://yutorize.2-d.jp/ytsheet/sw2.5/?id=rTae2P"
+        "url": "https://yutorize.work/ytsheet/sw2.5/?id=rTae2P"
       }
     ]
   },
@@ -94,7 +106,16 @@ io.github.shunshun94.trpg.OpenCampaignCalendar.CONSTS.RAXIA_LIFE_3RD.SPECIAL_DAY
     "list": [
       {
         "name": "リオ誕生日",
-        "url": "https://yutorize.2-d.jp/ytsheet/sw2.5/?id=YFIUg9"
+        "url": "https://yutorize.work/ytsheet/sw2.5/?id=YFIUg9"
+      }
+    ]
+  },
+  {
+    "key": "0423",
+    "list": [
+      {
+        "name": "セルマ誕生日",
+        "url": "https://yutorize.work/ytsheet/sw2.5/?id=uqOzAE"
       }
     ]
   },
@@ -103,7 +124,11 @@ io.github.shunshun94.trpg.OpenCampaignCalendar.CONSTS.RAXIA_LIFE_3RD.SPECIAL_DAY
     "list": [
       {
         "name": "ハリエット誕生日",
-        "url": "https://yutorize.2-d.jp/ytsheet/sw2.5/?id=bTsZoF"
+        "url": "https://yutorize.work/ytsheet/sw2.5/?id=bTsZoF"
+      },
+      {
+        "name": "レオネス誕生日",
+        "url": "https://yutorize.work/ytsheet/sw2.5/?id=DflTQD"
       }
     ]
   },
@@ -112,7 +137,34 @@ io.github.shunshun94.trpg.OpenCampaignCalendar.CONSTS.RAXIA_LIFE_3RD.SPECIAL_DAY
     "list": [
       {
         "name": "カイ誕生日",
-        "url": "https://yutorize.2-d.jp/ytsheet/sw2.5/?id=nIcLq4"
+        "url": "https://yutorize.work/ytsheet/sw2.5/?id=nIcLq4"
+      }
+    ]
+  },
+  {
+    "key": "0710",
+    "list": [
+      {
+        "name": "スフェン誕生日",
+        "url": "https://yutorize.work/ytsheet/sw2.5/?id=7nBddE"
+      }
+    ]
+  },
+  {
+    "key": "0814",
+    "list": [
+      {
+        "name": "アンビオ誕生日",
+        "url": "https://yutorize.work/ytsheet/sw2.5/?id=ALG81s"
+      }
+    ]
+  },
+  {
+    "key": "0815",
+    "list": [
+      {
+        "name": "ヨミヅ誕生日",
+        "url": "https://yutorize.work/ytsheet/sw2.5/?id=x2kjVG"
       }
     ]
   },
@@ -121,7 +173,7 @@ io.github.shunshun94.trpg.OpenCampaignCalendar.CONSTS.RAXIA_LIFE_3RD.SPECIAL_DAY
     "list": [
       {
         "name": "ルミア誕生日",
-        "url": "https://yutorize.2-d.jp/ytsheet/sw2.5/?id=IE8Up2"
+        "url": "https://yutorize.work/ytsheet/sw2.5/?id=IE8Up2"
       }
     ]
   },
@@ -130,7 +182,7 @@ io.github.shunshun94.trpg.OpenCampaignCalendar.CONSTS.RAXIA_LIFE_3RD.SPECIAL_DAY
     "list": [
       {
         "name": "グリム誕生日",
-        "url": "https://yutorize.2-d.jp/ytsheet/sw2.5/?id=TKiv8O"
+        "url": "https://yutorize.work/ytsheet/sw2.5/?id=TKiv8O"
       }
     ]
   },
@@ -139,7 +191,25 @@ io.github.shunshun94.trpg.OpenCampaignCalendar.CONSTS.RAXIA_LIFE_3RD.SPECIAL_DAY
     "list": [
       {
         "name": "うすはね誕生日",
-        "url": "https://yutorize.2-d.jp/ytsheet/sw2.5/?id=n5Ehb5"
+        "url": "https://yutorize.work/ytsheet/sw2.5/?id=n5Ehb5"
+      }
+    ]
+  },
+  {
+    "key": "1004",
+    "list": [
+      {
+        "name": "シア誕生日",
+        "url": "https://yutorize.work/ytsheet/sw2.5/?id=a6C3j2"
+      }
+    ]
+  },
+  {
+    "key": "1219",
+    "list": [
+      {
+        "name": "プリムラ誕生日",
+        "url": "https://yutorize.work/ytsheet/sw2.5/?id=dzZwZ1"
       }
     ]
   },
@@ -148,7 +218,16 @@ io.github.shunshun94.trpg.OpenCampaignCalendar.CONSTS.RAXIA_LIFE_3RD.SPECIAL_DAY
     "list": [
       {
         "name": "シキ誕生日",
-        "url": "https://yutorize.2-d.jp/ytsheet/sw2.5/?id=1qHZvk"
+        "url": "https://yutorize.work/ytsheet/sw2.5/?id=1qHZvk"
+      }
+    ]
+  },
+  {
+    "key": "1231",
+    "list": [
+      {
+        "name": "アブサン誕生日",
+        "url": "https://yutorize.work/ytsheet/sw2.5/?id=7rCvLI"
       }
     ]
   }
