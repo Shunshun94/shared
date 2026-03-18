@@ -43,15 +43,22 @@
         <hr/>
         <details id="outputLinks">
             <summary>リンク・ゆとシートに貼り付けるようリスト</summary>
+            <p>PC名の処理方法：<select id="pcNameFormat">
+                <option value="asIs">そのまま</option>
+                <option value="noFurigana">ふりがな除去</option>
+                <option value="simple">ふりがな除去＋シンプル</option>
+                <option value="removeSpaces">ふりがな除去＋スペース除去</option>
+            </select></p>
             <p>URL：<input type="text" id="outputUrl" readonly /></p>
             <p>choice：<input type="text" id="pcList-choice" readonly /></p>
-            <p>PC 一覧（<code>[{PC名}#{ID}]</code>）：<input type="text" id="pcList-simple" readonly /></p>
-            <p>PC 一覧（<code>[{PC名}({PL名})#{ID}]</code>）：<input type="text" id="pcList-fullA" readonly /></p>
-            <p>PC 一覧（<code>[{PC名}#{ID}]({PL名})</code>）：<input type="text" id="pcList-fullB" readonly /></p>
-            <p>PC 一覧（<code>[{PC名}({PL名}さん)#{ID}]</code>）：<input type="text" id="pcList-fullC" readonly /></p>
-            <p>PC 一覧（<code>[{PC名}#{ID}]({PL名}さん)</code>）：<input type="text" id="pcList-fullD" readonly /></p>
-            <p>PC 一覧（<code>[[{PC名}>{url}]]</code>）：<input type="text" id="pcList-fullE" readonly /></p>
-            <p>PC 一覧（<code>[{PC名}({PL名}さん)]({url})</code>）：<input type="text" id="pcList-fullF" readonly /></p>
+            <p>ゆとシ用（<code>[{PC名}#{ID}]</code>）：<input type="text" id="pcList-simple" readonly /></p>
+            <p>ゆとシ用（<code>[{PC名}({PL名})#{ID}]</code>）：<input type="text" id="pcList-fullA" readonly /></p>
+            <p>ゆとシ用（<code>[{PC名}#{ID}]({PL名})</code>）：<input type="text" id="pcList-fullB" readonly /></p>
+            <p>ゆとシ用（<code>[{PC名}({PL名}さん)#{ID}]</code>）：<input type="text" id="pcList-fullC" readonly /></p>
+            <p>ゆとシ用（<code>[{PC名}#{ID}]({PL名}さん)</code>）：<input type="text" id="pcList-fullD" readonly /></p>
+            <p>ゆとシ用（<code>[[{PC名}>{url}]]</code>）：<input type="text" id="pcList-fullE" readonly /></p>
+            <p>Discord（<code>[{PC名}({PL名}さん)]({url})</code>）：<input type="text" id="pcList-fullF" readonly /></p>
+            <p>テキスト（<code>{PC名}({PL名}さん)</code>）：<input type="text" id="pcList-fullG" readonly /></p>
         </details>
         <hr/>
         <div id="buffManager">

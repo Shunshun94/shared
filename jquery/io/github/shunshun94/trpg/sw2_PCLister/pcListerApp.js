@@ -7,16 +7,38 @@ io.github.shunshun94.trpg.SW2_PCListerApp.CONSTS = io.github.shunshun94.trpg.SW2
 
 io.github.shunshun94.trpg.SW2_PCListerApp.CONSTS.COLUMNS_LIST = ['hit', 'dodge', 'magic', 'mental', 'life', 'hp', 'guard', 'rate', 'damage', 'initiative', 'enemy'];
 
+io.github.shunshun94.trpg.SW2_PCListerApp.CONSTS.NAME_FORMAT_ALGORITHMS = {
+    'asIs': (name) => {return name},
+    'noFurigana': (name) => {
+        const regexp = /\|(.+)《.+》/;
+        const result = regexp.exec(name);
+        if(result) {
+            return result[1];
+        } else {
+            return name;
+        }
+    },
+    'simple': (name) => {
+        const tempName = io.github.shunshun94.trpg.SW2_PCListerApp.CONSTS.NAME_FORMAT_ALGORITHMS.noFurigana(name);
+        return tempName.split(/[ 　=＝・]/)[0];
+    },
+    'removeSpaces': (name) => {
+        const tempName = io.github.shunshun94.trpg.SW2_PCListerApp.CONSTS.NAME_FORMAT_ALGORITHMS.noFurigana(name);
+        return tempName.replace(/[ 　]/g, '');
+    }
+};
+
 io.github.shunshun94.trpg.SW2_PCListerApp.drawOutput = () => {
     const characters =   io.github.shunshun94.trpg.SW2_PCListerApp.getCharacterIdMap();
     const buffs      =   io.github.shunshun94.trpg.SW2_PCListerApp.getBuffIdMap();
     const appliedBuffs = io.github.shunshun94.trpg.SW2_PCListerApp.getBuffApplyTable();
+    const nameFormatAlgorithm = io.github.shunshun94.trpg.SW2_PCListerApp.CONSTS.NAME_FORMAT_ALGORITHMS[$('#pcNameFormat').val()] || io.github.shunshun94.trpg.SW2_PCListerApp.CONSTS.NAME_FORMAT_ALGORITHMS.asIs;
     const urlsResult = {
         'outputUrl': [`${location.origin}${location.pathname}?sheets=`], 'pcList-choice': ['choice'],
-        'pcList-simple': [], 'pcList-fullA': [], 'pcList-fullB': [], 'pcList-fullC': [], 'pcList-fullD': [], 'pcList-fullE': [], 'pcList-fullF': []
+        'pcList-simple': [], 'pcList-fullA': [], 'pcList-fullB': [], 'pcList-fullC': [], 'pcList-fullD': [], 'pcList-fullE': [], 'pcList-fullF': [], 'pcList-fullG': []
     };
     const urlsResultConnector = {
-        'outputUrl': ',', 'pcList-choice': ' ', 'pcList-simple': ' ', 'pcList-fullA': ' ', 'pcList-fullB': ' ', 'pcList-fullC': ' ', 'pcList-fullD': ' ', 'pcList-fullE': ' ', 'pcList-fullF': ' '
+        'outputUrl': ',', 'pcList-choice': ' ', 'pcList-simple': ' ', 'pcList-fullA': ' ', 'pcList-fullB': ' ', 'pcList-fullC': ' ', 'pcList-fullD': ' ', 'pcList-fullE': ' ', 'pcList-fullF': ' ', 'pcList-fullG': ' '
     };
     const urlsResultFormat = {
         'outputUrl': '{url}', 
@@ -27,7 +49,8 @@ io.github.shunshun94.trpg.SW2_PCListerApp.drawOutput = () => {
         'pcList-fullC': '[{name}({pl}さん)#{ID}]',
         'pcList-fullD': '[{name}#{ID}]({pl}さん)',
         'pcList-fullE': '[[{name}>{url}]]',
-        'pcList-fullF': '[{name}({pl}さん)]({url})'
+        'pcList-fullF': '[{name}({pl}さん)]({url})',
+        'pcList-fullG': '{name}({pl}さん)'
     };
     for(const buffId in appliedBuffs) {
         const buff = buffs[buffId];
@@ -44,9 +67,10 @@ io.github.shunshun94.trpg.SW2_PCListerApp.drawOutput = () => {
             $(`#${id} .${c}`).text(char[i + 1]);
         });
         const url = $(`#${id} .name a`).attr('href');
-        const name = $(`#${id} .name a`).text();
+        const name = nameFormatAlgorithm($(`#${id} .name a`).text());
         const pl = $(`#${id} .name span`).text();
-        const cid = /id=([a-zA-Z0-9]+)/.exec(url)[1];
+        const execResult = /id=([a-zA-Z0-9]+)/.exec(url);
+        const cid = execResult ? execResult[1] : '';
 
         Object.keys(urlsResult).forEach((key)=>{
             urlsResult[key].push(
@@ -331,6 +355,9 @@ io.github.shunshun94.trpg.SW2_PCListerApp.bindEvents = () => {
     	fileReader.readAsArrayBuffer(e.originalEvent.dataTransfer.files[0]);
         body.css('background-color', '');
     });
+    $('#pcNameFormat').change((e)=>{
+        io.github.shunshun94.trpg.SW2_PCListerApp.drawOutput();
+    });
 };
 
 io.github.shunshun94.trpg.SW2_PCListerApp.bindEvents();
@@ -353,6 +380,8 @@ JSON.parse(localStorage.getItem('io-github-shunshun94-trpg-sw2_pclister-buffs') 
 Promise.all((com.hiyoko.util.getQueriesV3().sheets || '').split(',').filter((d)=>{return d.trim()}).map((url)=>{
     return io.github.shunshun94.trpg.SW2_PCLister.getSheet(url);
 })).then((dataList)=>{
-    io.github.shunshun94.trpg.SW2_PCListerApp.handleLoadedCharacterSheet(dataList.flat());
-    io.github.shunshun94.trpg.SW2_PCListerApp.drawOutput();
+    if(dataList.length) {
+        io.github.shunshun94.trpg.SW2_PCListerApp.handleLoadedCharacterSheet(dataList.flat());
+        io.github.shunshun94.trpg.SW2_PCListerApp.drawOutput();
+    }
 });
