@@ -20,7 +20,7 @@ io.github.shunshun94.trpg.SW2_PCListerApp.CONSTS.NAME_FORMAT_ALGORITHMS = {
     },
     'simple': (name) => {
         const tempName = io.github.shunshun94.trpg.SW2_PCListerApp.CONSTS.NAME_FORMAT_ALGORITHMS.noFurigana(name);
-        return tempName.split(/[ 　=＝・]/)[0];
+        return tempName.split(/[ 　=＝・･]/)[0];
     },
     'removeSpaces': (name) => {
         const tempName = io.github.shunshun94.trpg.SW2_PCListerApp.CONSTS.NAME_FORMAT_ALGORITHMS.noFurigana(name);
