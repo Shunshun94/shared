@@ -88,7 +88,6 @@ if(io.github.shunshun94.ytsheet.addSkin.eroStaMode) {
 				input.setAttribute('type', element.type);
 			}
 			input.value = decodeURI(io.github.shunshun94.ytsheet.addSkin.param[element.columnId] || element.default);
-			console.log(input.value);
 			dd.append(input);
 		}
 		appendBox.append(dd);
