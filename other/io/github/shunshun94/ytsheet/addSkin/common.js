@@ -1,4 +1,4 @@
-var io = {};
+var io = io || {};
 io.github = io.github || {};
 io.github.shunshun94 = io.github.shunshun94 || {};
 io.github.shunshun94.ytsheet = io.github.shunshun94.ytsheet || {};
