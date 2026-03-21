@@ -9,8 +9,7 @@ io.github.shunshun94.ytsheet.addSkin.param = io.github.shunshun94.ytsheet.addSki
 io.github.shunshun94.ytsheet.addSkin.defaultDisplayModeLogic = () => { return true; };
 
 io.github.shunshun94.ytsheet.addSkin.displayEroEditMenu = (displayModeLogic = io.github.shunshun94.ytsheet.addSkin.defaultDisplayModeLogic) => {
-    const userIdCandiate = /ytsheet2=(\d+)/.exec(document.cookie);
-    const userId = (userIdCandiate) ? userIdCandiate[1] : '';
+    const userId = io.github.shunshun94.ytsheet.addSkin.getUserId();
     const isActive = displayModeLogic(userId, location.href);
     if((isActive) && (generateType === 'SwordWorld2PC')) {
         const navUl = document.getElementsByTagName('nav')[0].getElementsByTagName('ul')[0];

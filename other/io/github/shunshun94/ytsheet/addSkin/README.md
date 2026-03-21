@@ -6,10 +6,11 @@
 
 ### 使い方
 
-以下2つのファイルを読み込ませてください
+以下3つのファイルを読み込ませてください
 
 ```html
 <script src="https://shunshun94.github.io/shared/jquery/com/hiyoko/util/v2/utils.js"></script>
+<script src="https://shunshun94.github.io/shared/other/io/github/shunshun94/ytsheet/addSkin/common.js"></script>
 <script src="https://shunshun94.github.io/shared/other/io/github/shunshun94/ytsheet/addSkin/ero.js"></script>
 ```
 
