@@ -107,7 +107,7 @@ if( io.github.shunshun94.ytsheet.addSkin.eroStaMode === 'edit' ) {
 		location.href = `./?${sheetIdentifier}&ero=1&${inputs.map((element)=>{ return `${element.id.replace('input_', '')}=${ encodeURI(element.value) }` }).join('&')}`;
 	};
 	document.getElementById('personal').append(send);
-} else if( eroStaMode === 'view' ) {
+} else if( io.github.shunshun94.ytsheet.addSkin.eroStaMode === 'view' ) {
 	document.getElementById('appendTextRightTop').remove();
 	document.getElementById('appendTextLeftBottom').remove();
 	if(io.github.shunshun94.ytsheet.addSkin.param.appendTextRightTop) {
