@@ -1,0 +1,20 @@
+<html>
+<h1>運命変転ツール動作確認</h1>
+<div id="result"></div>
+<p><a href="./index.html">実提供環境</a></p>
+<script src="./tests.js"></script>
+<script src="./fateAlteration.js"></script>
+<script>
+
+    document.getElementById('result').innerHTML = tests.map((d, i)=>{
+        d.result = io.github.shunshun94.trpg.sw2.FateAlteration.calc(d.input, d.boost);
+        return d;
+    }).map((d, i)=>{
+        return `<h2>ケース${i+1}（${d.note}）</h2>
+            <p>入力：<code>${d.input.replaceAll('\n', '<br/>')}</code></p>
+            <p>結果：${ d.result === d.expected ?
+                '<span style="color:blue">OK（' + d.expected + '）</span>' :
+                '<span style="color:red">NG<br/>EXPECTED: <code>' + d.expected + '</code><br/>ACTUAL  : <code>' +  d.result + '</code></span>' }</p>`;
+    }).join('\n');
+    </script>
+</html>
