@@ -49,6 +49,21 @@
         const onInput = () => {
             document.getElementById('fixResult').value = io.github.shunshun94.trpg.sw2.FateAlteration.calc(document.getElementById('rawResult').value, Number(document.getElementById('boost').value));
         };
+        document.getElementById('sample').innerHTML = [
+            {
+                input: `SwordWorld2.5: KeyNo.20c[10]+9 ＞ 2D:[1,2]=3 ＞ 1+9 ＞ 10`,
+                note: '通常の変転'
+            }, {
+                input: `SwordWorld2.5: KeyNo.20c[9]+9 ＞ 2D:[1,2]=3 ＞ 1+9 ＞ 10`,
+                note: '通常の変転(クリティカルが9の場合)'
+            }, {
+                input: `SwordWorld2.5: KeyNo.48c[11]a[+2]+9 ＞ 2D:[1,1]=2 ＞ ** ＞ 自動的失敗`,
+                note: '自動失敗時の変転'
+            }, {
+                input: `SwordWorld2.5: KeyNo.20c[10] ＞ 2D:[5,5 6,4 4,6 1,2]=10,10,10,3 ＞ 8,8,8,1 ＞ 3回転 ＞ 25`,
+                note: '複数回転時の変転'
+            }
+        ].map((d)=>{ return `<option value="${d.input}">入力サンプル：${d.note}</option>` }).join('');
     </script>
 </body>
 </html>
