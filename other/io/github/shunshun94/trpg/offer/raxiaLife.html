@@ -52,10 +52,14 @@
             <td>二次募集〆切時刻</td>
             <td><input type="time" value="20:00" id="timelimit_2" /></td>
         </tr>
+        <tr>
+            <td>備考</td>
+            <td><textarea style="width:96%;resize: none;" rows="12" value="特になし" id="note"></textarea></td>
+        </tr>
     </table>
     <hr/>
     <p>以下をコピペして貼り付けてください</p>
-    <textarea readonly id="result" onclick="copy()" cols="100" rows="20"></textarea>
+    <textarea readonly style="resize: none;" id="result" onclick="copy()" cols="100" rows="20"></textarea>
     <hr/>
     <p>※現在時刻と開始時刻の間が2時間以内の場合、最初から制限なしで募集します</p>
     <p>※このツールは前回の入力内容を覚えておき、毎回それを読み込んでいます</p>
@@ -121,6 +125,9 @@
                     key: null,
                     template: '必要に応じて[セッション参加のガイド](https://sites.google.com/view/raxia-life/%E3%83%AC%E3%82%AE%E3%83%A5%E3%83%AC%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3/%E3%82%BB%E3%83%83%E3%82%B7%E3%83%A7%E3%83%B3%E3%81%B8%E3%81%AE%E5%8F%82%E5%8A%A0)もご参照ください。'
                 }, { key: null, template: ' ' }, {
+                    key: 'note',
+                    template: '${placeholder}'
+                }, {
                     key: null,
                     template: '@everyone'
                 }
