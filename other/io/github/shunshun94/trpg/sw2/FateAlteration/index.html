@@ -40,28 +40,35 @@
     </datalist>
     <hr/>
     <p>使い方：威力のダメージ計算の結果を入力すると運命変転適用後の式に結果が表示される。<br/>振り直しの式をクリックすればコピーされるのでココフォリアなりゆどなりうむなりにペースト</p>
+    <p>注意点：半減ダメージの自動失敗時の変転に対応していません</p>
     <hr/>
     <p>本ツールは、「グループＳＮＥ」及び「株式会社ＫＡＤＯＫＡＷＡ」が権利を有する『ソード・ワールド2.5』のプレイを支援するために作られたツールです。<br>
     (C)GroupSNE<br>
     (C)KADOKAWA</p>
-    <p>作者連絡先：<a href="https://twitter.com/Shunshun94">@Shunshun94</a> / <a href="https://github.com/Shunshun94/shared/tree/master/other/io/github/shunshun94/trpg/sw2/FateAlteration">ソースコード</a></p>
+    <p>作者連絡先：<a href="https://twitter.com/Shunshun94">@Shunshun94</a> / <a href="https://github.com/Shunshun94/shared/tree/master/other/io/github/shunshun94/trpg/sw2/FateAlteration">ソースコード</a> / <a href="./test.html">テストページ</a></p>
     <script>
         const onInput = () => {
             document.getElementById('fixResult').value = io.github.shunshun94.trpg.sw2.FateAlteration.calc(document.getElementById('rawResult').value, Number(document.getElementById('boost').value));
         };
         document.getElementById('sample').innerHTML = [
             {
-                input: `SwordWorld2.5: KeyNo.20c[10]+9 ＞ 2D:[1,2]=3 ＞ 1+9 ＞ 10`,
+                input: `KeyNo.20c[10]+9 ＞ 2D:[1,2]=3 ＞ 1+9 ＞ 10`,
                 note: '通常の変転'
             }, {
-                input: `SwordWorld2.5: KeyNo.20c[9]+9 ＞ 2D:[1,2]=3 ＞ 1+9 ＞ 10`,
+                input: `KeyNo.20c[9]+9 ＞ 2D:[1,2]=3 ＞ 1+9 ＞ 10`,
                 note: '通常の変転(クリティカルが9の場合)'
             }, {
-                input: `SwordWorld2.5: KeyNo.48c[11]a[+2]+9 ＞ 2D:[1,1]=2 ＞ ** ＞ 自動的失敗`,
+                input: `KeyNo.48c[11]a[+2]+9 ＞ 2D:[1,1]=2 ＞ ** ＞ 自動的失敗`,
                 note: '自動失敗時の変転'
             }, {
-                input: `SwordWorld2.5: KeyNo.20c[10] ＞ 2D:[5,5 6,4 4,6 1,2]=10,10,10,3 ＞ 8,8,8,1 ＞ 3回転 ＞ 25`,
+                input: `KeyNo.20c[10] ＞ 2D:[5,5 6,4 4,6 1,2]=10,10,10,3 ＞ 8,8,8,1 ＞ 3回転 ＞ 25`,
                 note: '複数回転時の変転'
+            }, {
+                input: `KeyNo.30c[13]+9 ＞ 2D:[3,1]=4 ＞ (4+9)/2+5 ＞ 12`,
+                note: '半減ダメージの変転'
+            }, {
+                input: `KeyNo.30c[10]r[5]a[+1]+8 ＞ 2D:[6,6 6,6 5,5 6,6 6,6 4,5 6,6 4,2]=12,12,11,12,12,10,12,7 ＞ 10,12,12,14,15,14,18,13+8 ＞ 7回転 ＞ 116`,
+                note: '首切り刀によるダメージの変転'
             }
         ].map((d)=>{ return `<option value="${d.input}">入力サンプル：${d.note}</option>` }).join('');
     </script>
