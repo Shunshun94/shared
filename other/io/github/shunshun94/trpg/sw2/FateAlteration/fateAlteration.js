@@ -43,7 +43,7 @@ io.github.shunshun94.trpg.sw2.FateAlteration.calc = (input, boost = 0) => {
             const notHalfedFixedValue = /[+-]\d+$/.test(damageListString) ? /[+-]\d+$/.exec(damageListString)[0] : '';
             const halfedDamageValuesString = /\(([\d,]+[\+\-]?\d*)\)\/2/.exec(damageListString)[1];
             const alternatedDamageValue = (Math.ceil(io.github.shunshun94.trpg.sw2.FateAlteration.calcAlternatedDamageValue(halfedDamageValuesString) / 2)) + Number(notHalfedFixedValue);
-            return `k${key}[${critical}]+${alternatedDamageValue}$${alternatedDiceResult}#${sharpValueString}r${executioner}${greatestFortune}`;
+            return `k${key}[${critical}]h+${alternatedDamageValue}$${alternatedDiceResult}#${sharpValueString}r${executioner}${greatestFortune}`;
         } else {
             const damageListString = /\]=[\d,]+\s＞\s([\d,*]+[\+\-]?\d*)\s?＞?/.exec(input)[1];
             const alternatedDamageValue = io.github.shunshun94.trpg.sw2.FateAlteration.calcAlternatedDamageValue(damageListString);
