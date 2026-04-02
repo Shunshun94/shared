@@ -363,6 +363,14 @@ io.github.shunshun94.trpg.SW2_PCListerApp.bindEvents = () => {
     $('#pcNameFormat').change((e)=>{
         io.github.shunshun94.trpg.SW2_PCListerApp.drawOutput();
     });
+    $('#saveImage').click((e)=>{
+        html2canvas(document.querySelector('.baseTable')).then(canvas => {
+            const link = document.createElement('a');
+            link.href = canvas.toDataURL('image/png');
+            link.download = 'pc_list.png';
+            link.click();
+        });
+    });
 };
 
 io.github.shunshun94.trpg.SW2_PCListerApp.bindEvents();
