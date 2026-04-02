@@ -136,14 +136,14 @@ io.github.shunshun94.trpg.SW2_PCLister.getYtSheetPC = (data) => {
         initiative: Number(data.initiative        ),
         type:       'c'
     };
-    const weaponsHit = Array(Number(data.weaponNum)).fill().map((dummy, i)=>{return Number(data[`weapon${i + 1}AccTotal`]);});
-    const weaponsRate = Array(Number(data.weaponNum)).fill().map((dummy, i)=>{return Number(data[`weapon${i + 1}Rate`]);});
-    const weaponsDamage = Array(Number(data.weaponNum)).fill().map((dummy, i)=>{return Number(data[`weapon${i + 1}DmgTotal`]);});
+    const weaponsHit = Array(Number(data.weaponNum)).fill().map((_, i)=>{return Number(data[`weapon${i + 1}AccTotal`]);});
+    const weaponsRate = Array(Number(data.weaponNum)).fill().map((_, i)=>{return Number(data[`weapon${i + 1}Rate`]);});
+    const weaponsDamage = Array(Number(data.weaponNum)).fill().map((_, i)=>{return Number(data[`weapon${i + 1}DmgTotal`]);});
     result.hit    = Math.max.apply(null, weaponsHit);
     result.rate   = Math.max.apply(null, weaponsRate);
     result.damage = Math.max.apply(null, weaponsDamage);
 
-    const magicsCast = ['Sor', 'Con', 'Pri', 'Mag', 'Fai', 'Dem', 'Dru'].map((name)=>{
+    const magicsCast = ['Sor', 'Con', 'Pri', 'Mag', 'Fai', 'Dem', 'Dru', 'Aby', 'Bib', 'Gri'].map((name)=>{
         return Number(data[`magicPower${name}`]) + Number(data[`magicCastAdd${name}`] || 0);
     });
     result.magic =   Math.max.apply(null, magicsCast);
