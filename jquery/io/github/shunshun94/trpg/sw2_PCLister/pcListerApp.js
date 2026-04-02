@@ -32,6 +32,7 @@ io.github.shunshun94.trpg.SW2_PCListerApp.drawOutput = () => {
     const characters =   io.github.shunshun94.trpg.SW2_PCListerApp.getCharacterIdMap();
     const buffs      =   io.github.shunshun94.trpg.SW2_PCListerApp.getBuffIdMap();
     const appliedBuffs = io.github.shunshun94.trpg.SW2_PCListerApp.getBuffApplyTable();
+    const buffNames = {};
     const nameFormatAlgorithm = io.github.shunshun94.trpg.SW2_PCListerApp.CONSTS.NAME_FORMAT_ALGORITHMS[$('#pcNameFormat').val()] || io.github.shunshun94.trpg.SW2_PCListerApp.CONSTS.NAME_FORMAT_ALGORITHMS.asIs;
     const urlsResult = {
         'outputUrl': [`${location.origin}${location.pathname}?sheets=`], 'pcList-choice': ['choice'],
@@ -59,6 +60,7 @@ io.github.shunshun94.trpg.SW2_PCListerApp.drawOutput = () => {
             io.github.shunshun94.trpg.SW2_PCListerApp.CONSTS.COLUMNS_LIST.forEach((columnName, i)=>{
                 characters[charId][i + 1] += buff[io.github.shunshun94.trpg.SW2_PCListerApp.CONSTS.BUFF_COLOMN_INDEX[columnName]];
             });
+            (buffNames[charId] ||= []).push(buff[0]);
         }
     }
     for(const id in characters) {
@@ -66,6 +68,7 @@ io.github.shunshun94.trpg.SW2_PCListerApp.drawOutput = () => {
         io.github.shunshun94.trpg.SW2_PCListerApp.CONSTS.COLUMNS_LIST.forEach((c, i)=>{
             $(`#${id} .${c}`).text(char[i + 1]);
         });
+        $(`#buffList-${id} .buffList`).text(buffNames[id]?.join(', ') || '');
         const url = $(`#${id} .name a`).attr('href');
         const name = nameFormatAlgorithm($(`#${id} .name a`).text());
         const pl = $(`#${id} .name span`).text();
@@ -100,17 +103,17 @@ io.github.shunshun94.trpg.SW2_PCListerApp.getBuffIdMap = () => {
     const buffIds = io.github.shunshun94.trpg.SW2_PCListerApp.getBuffIdList();
     const buffs = {};
     io.github.shunshun94.trpg.SW2_PCListerApp.getBuffTableData().forEach((l, i)=>{
-        buffs[buffIds[i].id] = l.map(Number);
+        buffs[buffIds[i].id] = [l[0]].concat(l.slice(1).map(Number));
     });
     return buffs;
 };
 
 io.github.shunshun94.trpg.SW2_PCListerApp.getCharacterIdList = () => {
-    return $('.baseTable-line').map((i, v)=>{return {id: v.id, name: $(v).find('.name').text()}}).get();
+    return $('.baseTable-line').map((_, v)=>{return {id: v.id, name: $(v).find('.name').text()}}).get();
 }
 
 io.github.shunshun94.trpg.SW2_PCListerApp.getBuffIdList = () => {
-    return $('.buffTable-line').map((i, v)=>{return {id: v.id, name: $(v).find('.buff-name').val()}}).get();
+    return $('.buffTable-line').map((_, v)=>{return {id: v.id, name: $(v).find('.buff-name').val()}}).get();
 }
 
 io.github.shunshun94.trpg.SW2_PCListerApp.generateBuffApplyTable = (currentValue = {}) => {
@@ -264,7 +267,9 @@ io.github.shunshun94.trpg.SW2_PCListerApp.handleLoadedCharacterSheet = (dataList
     $('#sheetUrl').val('');
     $('.noDisplay').removeClass('noDisplay');
     dataList.forEach((data)=>{
-        $('.baseTable').append(io.github.shunshun94.trpg.SW2_PCListerApp.generateTr(data));
+        const tr = io.github.shunshun94.trpg.SW2_PCListerApp.generateTr(data);
+        $('.baseTable').append(tr);
+        $('.baseTable').append(`<tr id="buffList-${tr.attr('id')}"><td colspan="14" class="buffList"></td></tr>`);
     });
     if(dataList[0].type !== 'm') {
         com.hiyoko.util.updateLocalStorage('com-hiyoko-sample-sw2sheetparse-index', dataList[0].url, dataList[0].name);

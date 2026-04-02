@@ -44,6 +44,11 @@ td {
     background-color:#E0FFE0;
 }
 
+.buffList {
+    text-align:left;
+    font-size: 60%;
+}
+
 .name span {
     display: none;
 }
