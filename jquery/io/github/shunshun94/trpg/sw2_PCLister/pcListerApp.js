@@ -315,7 +315,10 @@ io.github.shunshun94.trpg.SW2_PCListerApp.bindEvents = () => {
     $('.output').click((e)=>{
         const target = $(e.target);
         if(target.hasClass('removeButton')) {
-            target.parent().parent().remove();
+            const parentTr = target.parent().parent();
+            const id = parentTr.attr('id');
+            parentTr.remove();
+            $(`#buffList-${id}`).remove();
             io.github.shunshun94.trpg.SW2_PCListerApp.reloadBuffApplyTable();
             io.github.shunshun94.trpg.SW2_PCListerApp.drawOutput();
         }
