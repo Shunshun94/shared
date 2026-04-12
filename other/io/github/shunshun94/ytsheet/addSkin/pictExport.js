@@ -24,6 +24,7 @@ io.github.shunshun94.ytsheet.addSkin.exportPicture.export = (_) => {
         return;
     }
     Array.from(document.getElementsByClassName('screen-shot-remove')).forEach((e)=>{ e.style.display = 'none'; });
+    Array.from(document.getElementsByClassName('fragments')).forEach((e)=>{ e.style.display = 'none'; });
     document.getElementById('author').style.display = 'none';
     document.getElementById('tags').style.display = 'none';
     const waterMark = document.getElementById(io.github.shunshun94.ytsheet.addSkin.exportPicture.waterMarkId);
