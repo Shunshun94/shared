@@ -9,7 +9,7 @@ io.github.shunshun94.ytsheet.addSkin.param = io.github.shunshun94.ytsheet.addSki
 io.github.shunshun94.ytsheet.addSkin.defaultDisplayModeLogic = () => { return true; };
 
 io.github.shunshun94.ytsheet.addSkin.displayEroEditMenu = (displayModeLogic = io.github.shunshun94.ytsheet.addSkin.defaultDisplayModeLogic) => {
-    const userId = io.github.shunshun94.ytsheet.addSkin.getUserId();
+    const userId = io.github.shunshun94.ytsheet.addSkin.userId
     const isActive = displayModeLogic(userId, location.href);
     if((isActive) && (generateType === 'SwordWorld2PC')) {
 		io.github.shunshun94.ytsheet.addSkin.drawTopMenuButton('エロステ<br/>編集', `./${location.search}&eroedit=1`);
