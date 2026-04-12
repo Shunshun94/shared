@@ -23,7 +23,7 @@ io.github.shunshun94.ytsheet.addSkin.exportPicture.export = (_) => {
         alert('この機能は利用できません。必要なライブラリがインポートされていないか、魔物データ以外のシートを参照しています。フォースリロードして解決しなければ管理者に問い合わせてください');
         return;
     }
-    Array.from(document.getElementsByClassName('fragments')).forEach((e)=>{ e.style.display = 'none'; });
+    Array.from(document.getElementsByClassName('screen-shot-remove')).forEach((e)=>{ e.style.display = 'none'; });
     document.getElementById('author').style.display = 'none';
     document.getElementById('tags').style.display = 'none';
     const waterMark = document.getElementById(io.github.shunshun94.ytsheet.addSkin.exportPicture.waterMarkId);
