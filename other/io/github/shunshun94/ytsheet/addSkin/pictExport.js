@@ -4,6 +4,7 @@ io.github.shunshun94 = io.github.shunshun94 || {};
 io.github.shunshun94.ytsheet = io.github.shunshun94.ytsheet || {};
 io.github.shunshun94.ytsheet.addSkin = io.github.shunshun94.ytsheet.addSkin || {};
 io.github.shunshun94.ytsheet.addSkin.exportPicture = {};
+io.github.shunshun94.ytsheet.addSkin.exportPicture.waterMarkId = 'exportPictureWaterMark';
 io.github.shunshun94.ytsheet.addSkin.exportPicture.isActive = (generateType === 'SwordWorld2Enemy') && io.github.shunshun94.ytsheet.addSkin.userId && html2canvas;
 
 /**
@@ -11,6 +12,7 @@ io.github.shunshun94.ytsheet.addSkin.exportPicture.isActive = (generateType === 
  */
 io.github.shunshun94.ytsheet.addSkin.exportPicture.initialize = () => {
 	const waterMark = document.createElement('div');
+    waterMark.setAttribute('id', io.github.shunshun94.ytsheet.addSkin.exportPicture.waterMarkId);
 	waterMark.style = `opacity:0.1;position:absolute;top:3em;font-size:5em;transform: rotate(15deg);display:none;`;
 	waterMark.innerHTML = io.github.shunshun94.ytsheet.addSkin.userId + '<br/>' + new Date().toLocaleString();
 	document.getElementsByTagName('article')[0].append(waterMark);
@@ -24,6 +26,7 @@ io.github.shunshun94.ytsheet.addSkin.exportPicture.export = (_) => {
     Array.from(document.getElementsByClassName('fragments')).forEach((e)=>{ e.style.display = 'none'; });
     document.getElementById('author').style.display = 'none';
     document.getElementById('tags').style.display = 'none';
+    const waterMark = document.getElementById(io.github.shunshun94.ytsheet.addSkin.exportPicture.waterMarkId);
     waterMark.style.display = 'block';
     document.getElementsByTagName('article')[0].style.padding = '1em';
     html2canvas(document.getElementsByTagName('article')[0], {
@@ -37,6 +40,7 @@ io.github.shunshun94.ytsheet.addSkin.exportPicture.export = (_) => {
         document.getElementsByTagName('article')[0].style.padding = '0';
         document.getElementById('author').style.display = 'block';
         document.getElementById('tags').style.display = 'block';
+        const waterMark = document.getElementById(io.github.shunshun94.ytsheet.addSkin.exportPicture.waterMarkId);
         waterMark.style.display = 'none';
         Array.from(document.getElementsByClassName('fragments')).forEach((e)=>{ e.style.display = 'block'; });
     });
