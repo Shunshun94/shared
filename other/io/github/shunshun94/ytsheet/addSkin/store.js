@@ -20,7 +20,7 @@ io.github.shunshun94.ytsheet.addSkin.store.elements.registCells = Array.from(doc
 io.github.shunshun94.ytsheet.addSkin.store.hp = io.github.shunshun94.ytsheet.addSkin.store.hp || {};
 io.github.shunshun94.ytsheet.addSkin.store.mp = io.github.shunshun94.ytsheet.addSkin.store.mp || {};
 io.github.shunshun94.ytsheet.addSkin.store.regist = io.github.shunshun94.ytsheet.addSkin.store.regist || {};
-io.github.shunshun94.ytsheet.addSkin.store.regist.physial = io.github.shunshun94.ytsheet.addSkin.store.regist.physial || {};
+io.github.shunshun94.ytsheet.addSkin.store.regist.physical = io.github.shunshun94.ytsheet.addSkin.store.regist.physical || {};
 io.github.shunshun94.ytsheet.addSkin.store.regist.mental = io.github.shunshun94.ytsheet.addSkin.store.regist.mental || {};
 
 io.github.shunshun94.ytsheet.addSkin.store.hp.set = (index, value) => {
@@ -65,16 +65,16 @@ io.github.shunshun94.ytsheet.addSkin.store.mp.setAsDiff = (index, diff) => {
     }
 };
 
-io.github.shunshun94.ytsheet.addSkin.store.regist.physial.set = (value) => {
+io.github.shunshun94.ytsheet.addSkin.store.regist.physical.set = (value) => {
     const valueAsNum = Number(value);
     io.github.shunshun94.ytsheet.addSkin.store.elements.registCells[0].textContent = `${valueAsNum} (${valueAsNum + 7})`;
 };
 
-io.github.shunshun94.ytsheet.addSkin.store.regist.physial.get = () => {
+io.github.shunshun94.ytsheet.addSkin.store.regist.physical.get = () => {
     return Number(/^(\d+)/.exec(io.github.shunshun94.ytsheet.addSkin.store.elements.registCells[0].textContent.trim())[1]);
 };
 
-io.github.shunshun94.ytsheet.addSkin.store.regist.physial.setAsDiff = (value) => {
+io.github.shunshun94.ytsheet.addSkin.store.regist.physical.setAsDiff = (value) => {
     const valueAsNum = Number(value);
     const baseValue = Number(io.github.shunshun94.ytsheet.addSkin.store.elements.registCells[0].title.trim());
     io.github.shunshun94.ytsheet.addSkin.store.elements.registCells[0].textContent = `${baseValue + valueAsNum} (${baseValue + valueAsNum + 7})`;
@@ -96,6 +96,6 @@ io.github.shunshun94.ytsheet.addSkin.store.regist.mental.setAsDiff = (value) => 
 }
 
 io.github.shunshun94.ytsheet.addSkin.store.regist.setAsDiff = (value) => {
-    io.github.shunshun94.ytsheet.addSkin.store.regist.physial.setAsDiff(value);
+    io.github.shunshun94.ytsheet.addSkin.store.regist.physical.setAsDiff(value);
     io.github.shunshun94.ytsheet.addSkin.store.regist.mental.setAsDiff(value);
 };
