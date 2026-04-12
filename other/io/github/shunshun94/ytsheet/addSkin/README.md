@@ -52,9 +52,9 @@ io.github.shunshun94.ytsheet.addSkin.displayEroEditMenu();
 以下3つのファイルを読み込ませてください。
 
 ```html
-<script src="https://shunshun94.github.io/shared/jquery/com/hiyoko/util/v2/utils.js"></script>
 <script src="https://shunshun94.github.io/shared/other/io/github/shunshun94/ytsheet/addSkin/common.js"></script>
 <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+<script src="https://shunshun94.github.io/shared/other/io/github/shunshun94/ytsheet/addSkin/pictExport.js"></script>
 ```
 
 その上で以下 JavaScript を実行します。
@@ -67,3 +67,16 @@ if(io.github.shunshun94.ytsheet.addSkin.exportPicture.isActive) {
 ```
 
 drawDownloadButton の使い方は [common.js](./common.js) を参照してください。
+
+## store.js
+
+ゆとシート上のキャラクターシートのデータを操作します（現状は魔物シートのみ）。
+
+### 使い方
+
+以下のファイルを読み込ませてください。
+
+```html
+<script src="https://shunshun94.github.io/shared/other/io/github/shunshun94/ytsheet/addSkin/store.js"></script>
+```
+
