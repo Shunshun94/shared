@@ -11,6 +11,8 @@ io.github.shunshun94.ytsheet.addSkin.getUserId = () => {
     return (userIdCandiate) ? userIdCandiate[1] : '';
 };
 
+io.github.shunshun94.ytsheet.addSkin.userId = io.github.shunshun94.ytsheet.addSkin.getUserId();
+
 /**
  * ゆとシートの出力メニューにボタンを追加します
  * @param {string} buttonId ボタンに付与する HTML の ID 属性値です
