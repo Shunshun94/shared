@@ -10,7 +10,7 @@ io.github.shunshun94.ytsheet.addSkin.flagments.initialize = () => {
         return;
     };
     Array.from(document.getElementsByClassName('name')).filter((e)=>{ return e.tagName === 'TD' }).forEach((e, i)=>{
-    e.innerHTML = e.innerHTML += `<div style="font-size:70%;background-color:rgba(120, 120, 120, 0.5);" class="fragments screen-shot-remove">
+    e.innerHTML += `<div style="font-size:70%;background-color:rgba(120, 120, 120, 0.5);" class="fragments screen-shot-remove">
         剣の欠片：
         <button style="width:1em;" class="fragments-minus" value="${i}">-</button>
         <span style="display:inline-block;width:2em;" class="flagments-count">0</span>
