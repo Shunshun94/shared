@@ -25,11 +25,11 @@ io.github.shunshun94.ytsheet.addSkin.flagments.initialize = () => {
     });
 };
 
-io.github.shunshun94.ytsheet.addSkin.flagments.onUpdate = (_) => {
+io.github.shunshun94.ytsheet.addSkin.flagments.onUpdate = (e) => {
     const index = e.target.value;
     const countSpan = document.getElementsByClassName('flagments-count')[index];
     let count = parseInt(countSpan.textContent);
-    if(target.className === 'fragments-minus')  {				
+    if(e.target.className === 'fragments-minus')  {				
         if(count > 0) {
             count--;
         }

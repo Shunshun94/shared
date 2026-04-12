@@ -17,6 +17,12 @@ io.github.shunshun94.ytsheet.addSkin.store.elements.registCells = Array.from(doc
     return dl.getElementsByTagName('dd')[0];
 });
 
+io.github.shunshun94.ytsheet.addSkin.store.hp = io.github.shunshun94.ytsheet.addSkin.store.hp || {};
+io.github.shunshun94.ytsheet.addSkin.store.mp = io.github.shunshun94.ytsheet.addSkin.store.mp || {};
+io.github.shunshun94.ytsheet.addSkin.store.regist = io.github.shunshun94.ytsheet.addSkin.store.regist || {};
+io.github.shunshun94.ytsheet.addSkin.store.regist.physial = io.github.shunshun94.ytsheet.addSkin.store.regist.physial || {};
+io.github.shunshun94.ytsheet.addSkin.store.regist.mental = io.github.shunshun94.ytsheet.addSkin.store.regist.mental || {};
+
 io.github.shunshun94.ytsheet.addSkin.store.hp.set = (index, value) => {
     if(io.github.shunshun94.ytsheet.addSkin.store.elements.hpCells[index]) {
         io.github.shunshun94.ytsheet.addSkin.store.elements.hpCells[index].textContent = value;
