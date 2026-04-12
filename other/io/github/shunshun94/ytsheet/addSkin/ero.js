@@ -96,9 +96,9 @@ if( io.github.shunshun94.ytsheet.addSkin.eroStaMode === 'edit' ) {
 	const send = document.createElement(`button`);
 	send.style = `flex-basis: 100%; order: 30;`;
 	send.textContent = '保存（サーバには保存されず URL に情報が保持されます！）';
-	send.onclick = (e) =>{ 
+	send.onclick = (_) =>{ 
 		const inputs = Array.from(document.getElementById('personal').getElementsByTagName('input')).concat(Array.from(document.getElementById('personal').getElementsByTagName('select')));
-		const id = io.github.shunshun94.ytsheet.addSkin.param.id;
+		const sheetIdentifier = (io.github.shunshun94.ytsheet.addSkin.param.url) ? `url=${io.github.shunshun94.ytsheet.addSkin.param.url}` : `id=${io.github.shunshun94.ytsheet.addSkin.param.id}`;
 		location.href = `./?${sheetIdentifier}&ero=1&${inputs.map((element)=>{ return `${element.id.replace('input_', '')}=${ encodeURI(element.value) }` }).join('&')}`;
 	};
 	document.getElementById('personal').append(send);
