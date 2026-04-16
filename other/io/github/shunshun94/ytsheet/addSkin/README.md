@@ -97,9 +97,12 @@ if(io.github.shunshun94.ytsheet.addSkin.exportPicture.isActive) {
 
 ### 使い方
 
+以下4つのファイルを読み込ませてください。
+
 ```html
 <script src="https://shunshun94.github.io/shared/other/io/github/shunshun94/ytsheet/addSkin/common.js"></script>
 <script src="https://shunshun94.github.io/shared/other/io/github/shunshun94/ytsheet/addSkin/store.js"></script>
+<script src="https://shunshun94.github.io/shared/other/io/github/shunshun94/ytsheet/addSkin/flagments.js"></script>
 <script src="https://shunshun94.github.io/shared/other/io/github/shunshun94/ytsheet/addSkin/hiyokoFormatCcfoliaJson.js"></script>
 ```
 
