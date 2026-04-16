@@ -150,7 +150,7 @@ io.github.shunshun94.ytsheet.addSkin.ModifiedEnemy.beMagiReplica = (_) => {
 
 io.github.shunshun94.ytsheet.addSkin.ModifiedEnemy.beModifiedEnemy = (json, modifiedEnemyConsts, nameFunction) => {
     Object.assign(json, modifiedEnemyConsts.static);
-	Object.keys(modifiedEnemyConsts.sharedDynamic).forEach(column => { json[column] = addParamByColumn(json, column, modifiedEnemyConsts.sharedDynamic[column]); });
+	Object.keys(modifiedEnemyConsts.sharedDynamic).forEach(column => { json[column] = io.github.shunshun94.ytsheet.addSkin.ModifiedEnemy.addParamByColumn(json, column, modifiedEnemyConsts.sharedDynamic[column]); });
     json.monsterName = nameFunction(json.monsterName);
     const partsNum = Number(json.partsNum) + 1;
     for(var i = 1; i < partsNum; i++) {
