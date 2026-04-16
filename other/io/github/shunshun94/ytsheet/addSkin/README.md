@@ -97,9 +97,12 @@ if(io.github.shunshun94.ytsheet.addSkin.exportPicture.isActive) {
 
 ### 使い方
 
+以下4つのファイルを読み込ませてください。
+
 ```html
 <script src="https://shunshun94.github.io/shared/other/io/github/shunshun94/ytsheet/addSkin/common.js"></script>
 <script src="https://shunshun94.github.io/shared/other/io/github/shunshun94/ytsheet/addSkin/store.js"></script>
+<script src="https://shunshun94.github.io/shared/other/io/github/shunshun94/ytsheet/addSkin/flagments.js"></script>
 <script src="https://shunshun94.github.io/shared/other/io/github/shunshun94/ytsheet/addSkin/hiyokoFormatCcfoliaJson.js"></script>
 ```
 
@@ -127,4 +130,47 @@ if( generateType === 'SwordWorld2Enemy' ) {
     );
 }
 ```
+
+## modifiedEnemy.js
+
+レブナントやマギレプリカといった既存エネミーのアレンジデータをダウンロードできるようにします
+
+### 使い方
+
+以下のファイルを読み込ませてください。
+
+```html
+<script src="https://shunshun94.github.io/shared/other/io/github/shunshun94/ytsheet/addSkin/modifiedEnemy.js"></script>
+```
+
+その上で以下 JavaScript を実行します。
+
+```javascript
+if( generateType === 'SwordWorld2Enemy' ) {
+	if(['蛮族', '動物', '幻獣', '人族'].includes(document.getElementsByClassName('taxa')[0].innerText.trim().replace('分類：', ''))) {
+		io.github.shunshun94.ytsheet.addSkin.drawDownloadButton(
+            'downloadlist-revenant',
+            'レブナント化したデータを出力',
+            io.github.shunshun94.ytsheet.addSkin.ModifiedEnemy.beRevenant,
+            'downloadlist-zipped',
+            false,
+            false,
+            'jsonデータを出力、ゆとシートでコンバートして使用'
+        );
+	}
+
+	if((document.getElementsByClassName('taxa')[0].innerText.trim().replace('分類：', '')) === '動物') {
+		io.github.shunshun94.ytsheet.addSkin.drawDownloadButton(
+            'downloadlist-magi-replica',
+            'マギレプリカ化したデータを出力',
+            io.github.shunshun94.ytsheet.addSkin.ModifiedEnemy.beMagiReplica,
+            'downloadlist-zipped',
+            false,
+            false,
+            'jsonデータを出力、ゆとシートでコンバートして使用'
+        );
+	}
+}
+```
+
 
