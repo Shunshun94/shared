@@ -18,8 +18,8 @@ io.github.shunshun94.ytsheet.addSkin.userId = io.github.shunshun94.ytsheet.addSk
  * @param {string} buttonId ボタンに付与する HTML の ID 属性値です
  * @param {string} buttonText  ボタンに表示するテキストです
  * @param {function} onClickFunction ボタンを押した際に実行される関数です
- * @param {string} beforeElementId この ID を持つ要素の後ろにボタンを配置します。afterElementId と両方していした場合はこちらが優先されます。afterElementId もこれも指定しない場合は配置されません。
- * @param {string} afterElementId この ID を持つ要素の前にボタンを配置します。beforeElementId もこれも指定しない場合は配置されません。
+ * @param {string} beforeElementId この ID を持つ要素の後ろにボタンを配置します。afterElementId と両方指定した場合はこちらが優先されます。afterElementId もこれも指定しない場合はリストの末尾に配置されます
+ * @param {string} afterElementId この ID を持つ要素の前にボタンを配置します。beforeElementId もこれも指定しない場合はリストの末尾に配置されます
  * @param {string} popupDescription ボタンにカーソルを合わせた際に表示される説明です
  * @param {string} smallDescription ボタンの下に小さく表示される説明です
  * @returns 生成されたボタンの HTML 要素です
@@ -50,10 +50,13 @@ io.github.shunshun94.ytsheet.addSkin.drawDownloadButton = (
 	buttonBase.appendChild(button);
     if(beforeElementId) {
         document.getElementById(beforeElementId).after(buttonBase);
+        return buttonBase;
     }
     if(afterElementId) {
         document.getElementById(afterElementId).before(buttonBase);
+        return buttonBase;
     }
+    document.getElementById('downloadlist').getElementsByTagName('ul')[0].appendChild(buttonBase);
     return buttonBase;
 };
 

@@ -15,9 +15,9 @@ io.github.shunshun94.ytsheet.addSkin.drawDownloadButton(
     onClickFunction, // ボタンを押した際に実行される関数です
     beforeElementId, // この ID を持つ要素の後ろにボタンを配置します。
                      // afterElementId と両方していした場合はこちらが優先されます。
-                     // afterElementId もこれも指定しない場合は配置されません
+                     // afterElementId もこれも指定しない場合は末尾に配置されます
     afterElementId,  // この ID を持つ要素の前にボタンを配置します。
-                     // beforeElementId もこれも指定しない場合は配置されません
+                     // beforeElementId もこれも指定しない場合は末尾に配置されます
     popupDescription,// ボタンにカーソルを合わせた際に表示される説明です。省略しても構いません
     smallDescription // ボタンの下に小さく表示される説明です。省略しても構いません
 );
