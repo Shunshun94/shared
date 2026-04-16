@@ -141,7 +141,7 @@ io.github.shunshun94.ytsheet.addSkin.ModifiedEnemy.beRevenant = () => {
 
 io.github.shunshun94.ytsheet.addSkin.ModifiedEnemy.beMagiReplica = (_) => {
     getJsonData('ccfolia').then((json) => {
-        const modifiedJson = io.github.shunshun94.ytsheet.addSkin.ModifiedEnemy.beModifiedEnemy(json, io.github.shunshun94.ytsheet.addSkin.ModifiedEnemy.modifiedEnemyConsts.magiReplica, (name) => { return name + '・魔機人形'; });
+        const modifiedJson = io.github.shunshun94.ytsheet.addSkin.ModifiedEnemy.beModifiedEnemy(json, io.github.shunshun94.ytsheet.addSkin.ModifiedEnemy.modifiedEnemyConsts.magiReplica, (name) => { return name + '・マギレプリカ'; });
         downloadFile(
             modifiedJson.monsterName + '.json', 
             window.URL.createObjectURL(new Blob([ JSON.stringify(modifiedJson) ], { "type" : 'text/plain;charset=utf-8;' })));
