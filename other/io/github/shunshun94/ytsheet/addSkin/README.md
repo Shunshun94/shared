@@ -147,8 +147,8 @@ if( generateType === 'SwordWorld2Enemy' ) {
 
 ```javascript
 if( generateType === 'SwordWorld2Enemy' ) {
-	if(['蛮族', '動物', '幻獣', '人族'].includes(document.getElementsByClassName('taxa')[0].innerText.trim().replace('分類：', ''))) {
-		io.github.shunshun94.ytsheet.addSkin.drawDownloadButton(
+    if(['蛮族', '動物', '幻獣', '人族'].includes(document.getElementsByClassName('taxa')[0].innerText.trim().replace('分類：', ''))) {
+        io.github.shunshun94.ytsheet.addSkin.drawDownloadButton(
             'downloadlist-revenant',
             'レブナント化したデータを出力',
             io.github.shunshun94.ytsheet.addSkin.ModifiedEnemy.beRevenant,
@@ -157,10 +157,10 @@ if( generateType === 'SwordWorld2Enemy' ) {
             false,
             'jsonデータを出力、ゆとシートでコンバートして使用'
         );
-	}
+    }
 
-	if((document.getElementsByClassName('taxa')[0].innerText.trim().replace('分類：', '')) === '動物') {
-		io.github.shunshun94.ytsheet.addSkin.drawDownloadButton(
+    if((document.getElementsByClassName('taxa')[0].innerText.trim().replace('分類：', '')) === '動物') {
+        io.github.shunshun94.ytsheet.addSkin.drawDownloadButton(
             'downloadlist-magi-replica',
             'マギレプリカ化したデータを出力',
             io.github.shunshun94.ytsheet.addSkin.ModifiedEnemy.beMagiReplica,
@@ -169,7 +169,7 @@ if( generateType === 'SwordWorld2Enemy' ) {
             false,
             'jsonデータを出力、ゆとシートでコンバートして使用'
         );
-	}
+    }
 }
 ```
 
