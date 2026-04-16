@@ -40,11 +40,15 @@ io.github.shunshun94.ytsheet.addSkin.flagments.onUpdate = (e) => {
     io.github.shunshun94.ytsheet.addSkin.store.hp.setAsDiff(index, count * 5);
     io.github.shunshun94.ytsheet.addSkin.store.mp.setAsDiff(index, count);
 
-    const totalFragments = Array.from(document.getElementsByClassName('flagments-count')).reduce((sum, span) => {
-        return sum + parseInt(span.textContent);
-    }, 0);
+    const totalFragments = io.github.shunshun94.ytsheet.addSkin.flagments.getTotalFragments();
     const registBonusByFragments = Math.min(4, Math.ceil(totalFragments / 5));
     io.github.shunshun94.ytsheet.addSkin.store.regist.setAsDiff(registBonusByFragments);
+};
+
+io.github.shunshun94.ytsheet.addSkin.flagments.getTotalFragments = () => {
+    return Array.from(document.getElementsByClassName('flagments-count')).reduce((sum, span) => {
+        return sum + parseInt(span.textContent);
+    }, 0);
 };
 
 io.github.shunshun94.ytsheet.addSkin.flagments.initialize();
