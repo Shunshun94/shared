@@ -22,6 +22,7 @@ io.github.shunshun94.ytsheet.addSkin.store.mp = io.github.shunshun94.ytsheet.add
 io.github.shunshun94.ytsheet.addSkin.store.regist = io.github.shunshun94.ytsheet.addSkin.store.regist || {};
 io.github.shunshun94.ytsheet.addSkin.store.regist.physical = io.github.shunshun94.ytsheet.addSkin.store.regist.physical || {};
 io.github.shunshun94.ytsheet.addSkin.store.regist.mental = io.github.shunshun94.ytsheet.addSkin.store.regist.mental || {};
+io.github.shunshun94.ytsheet.addSkin.store.taxa = io.github.shunshun94.ytsheet.addSkin.store.taxa || {};
 
 io.github.shunshun94.ytsheet.addSkin.store.hp.set = (index, value) => {
     if(io.github.shunshun94.ytsheet.addSkin.store.elements.hpCells[index]) {
@@ -98,4 +99,8 @@ io.github.shunshun94.ytsheet.addSkin.store.regist.mental.setAsDiff = (value) => 
 io.github.shunshun94.ytsheet.addSkin.store.regist.setAsDiff = (value) => {
     io.github.shunshun94.ytsheet.addSkin.store.regist.physical.setAsDiff(value);
     io.github.shunshun94.ytsheet.addSkin.store.regist.mental.setAsDiff(value);
+};
+
+io.github.shunshun94.ytsheet.addSkin.store.taxa.get = () => {
+    return document.getElementsByClassName('taxa')[0].innerText.trim().replace('分類：', '');
 };
