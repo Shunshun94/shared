@@ -8,3 +8,13 @@ const readKozip = (file) => {
         });
     });
 };
+
+const fileLoad = (e) => {
+    console.log(e.dataTransfer);
+    e.stopPropagation();
+    e.preventDefault();
+    const targetFile = e.dataTransfer.items[0];
+    readKozip(targetFile).then((dom) => {
+        console.log(dom);
+    });
+};
