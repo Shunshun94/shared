@@ -82,6 +82,7 @@ io.github.shunshun94.ytsheet.addSkin.drawTextForCopy = (
 	const textBaseSpan = document.createElement('span');
 	textBaseSpan.appendChild(document.createTextNode(description));
 	textBaseSpan.appendChild(document.createElement('br'));
+    textBase.appendChild(textBaseSpan);
 	const textInput = document.createElement('input');
 	textInput.type = 'text';
 	if(typeof textContent === 'function') {
@@ -90,7 +91,7 @@ io.github.shunshun94.ytsheet.addSkin.drawTextForCopy = (
         textInput.value = textContent;
     }
 	textInput.onclick = (e) => { e.target.select(); };
-	textBase.appendChild(textInput);
+	textBaseSpan.appendChild(textInput);
     if(beforeElementId) {
         document.getElementById(beforeElementId).after(textBase);
         return textBase;
