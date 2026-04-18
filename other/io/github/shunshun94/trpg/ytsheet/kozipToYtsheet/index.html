@@ -9,13 +9,11 @@
     <script src="https://cdn.jsdelivr.net/npm/jszip@3.2.1/dist/jszip.js"></script>
     <script src="./readKozip.js"></script>
     <script>
-        document.getElementById('dropZone').addEventListener('drop', (e) => {
-			e.preventDefault();
-			const targetFile = e.dataTransfer.files[0];
-			readKozip(targetFile).then((dom) => {
-				console.log(dom);
-			});
-		});
+        document.getElementById('dropZone').addEventListener('drop', fileLoad);
+        document.getElementById('dropZone').addEventListener('dragover', (e) => {
+            e.stopPropagation();
+            e.preventDefault();
+        });
     </script>
 </body>
 </html>
