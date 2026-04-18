@@ -8,18 +8,30 @@
 // ログインしているユーザの名前を格納しています
 io.github.shunshun94.ytsheet.addSkin.userId;
 
-// 出力メニューにコマンドを追加します
+// 出力メニューにボタンを含むメニューを追加します
 io.github.shunshun94.ytsheet.addSkin.drawDownloadButton(
-    buttonId,        // ボタンに付与する HTML の ID 属性値です
-    buttonText,      //  ボタンに表示するテキストです
+    buttonId,        // メニューに付与する HTML の ID 属性値です
+    buttonText,      // ボタンに表示するテキストです
     onClickFunction, // ボタンを押した際に実行される関数です
     beforeElementId, // この ID を持つ要素の後ろにボタンを配置します。
                      // afterElementId と両方していした場合はこちらが優先されます。
-                     // afterElementId もこれも指定しない場合は配置されません
+                     // afterElementId もこれも指定しない場合は末尾に配置されます
     afterElementId,  // この ID を持つ要素の前にボタンを配置します。
-                     // beforeElementId もこれも指定しない場合は配置されません
+                     // beforeElementId もこれも指定しない場合は末尾に配置されます
     popupDescription,// ボタンにカーソルを合わせた際に表示される説明です。省略しても構いません
     smallDescription // ボタンの下に小さく表示される説明です。省略しても構いません
+);
+
+// 出力メニューにコピー用のテキストを含むメニューを追加します
+io.github.shunshun94.ytsheet.addSkin.drawTextForCopy = (
+    elementId,       // 追加されるメニューに付与する HTML の ID 属性値です
+    description,     // 追加されるメニューの説明欄です
+    textContent,     // コピーされるテキストです。関数を渡した場合は、コピーされるテキストを返す関数として扱います
+    beforeElementId, // この ID を持つ要素の後ろにボタンを配置します。
+                     // afterElementId と両方していした場合はこちらが優先されます。
+                     // afterElementId もこれも指定しない場合は末尾に配置されます
+    afterElementId,  // この ID を持つ要素の前にボタンを配置します。
+                     // beforeElementId もこれも指定しない場合は末尾に配置されます
 );
 
 // トップメニューにボタンを追加します
@@ -147,8 +159,8 @@ if( generateType === 'SwordWorld2Enemy' ) {
 
 ```javascript
 if( generateType === 'SwordWorld2Enemy' ) {
-	if(['蛮族', '動物', '幻獣', '人族'].includes(document.getElementsByClassName('taxa')[0].innerText.trim().replace('分類：', ''))) {
-		io.github.shunshun94.ytsheet.addSkin.drawDownloadButton(
+    if(['蛮族', '動物', '幻獣', '人族'].includes(document.getElementsByClassName('taxa')[0].innerText.trim().replace('分類：', ''))) {
+        io.github.shunshun94.ytsheet.addSkin.drawDownloadButton(
             'downloadlist-revenant',
             'レブナント化したデータを出力',
             io.github.shunshun94.ytsheet.addSkin.ModifiedEnemy.beRevenant,
@@ -157,10 +169,10 @@ if( generateType === 'SwordWorld2Enemy' ) {
             false,
             'jsonデータを出力、ゆとシートでコンバートして使用'
         );
-	}
+    }
 
-	if((document.getElementsByClassName('taxa')[0].innerText.trim().replace('分類：', '')) === '動物') {
-		io.github.shunshun94.ytsheet.addSkin.drawDownloadButton(
+    if((document.getElementsByClassName('taxa')[0].innerText.trim().replace('分類：', '')) === '動物') {
+        io.github.shunshun94.ytsheet.addSkin.drawDownloadButton(
             'downloadlist-magi-replica',
             'マギレプリカ化したデータを出力',
             io.github.shunshun94.ytsheet.addSkin.ModifiedEnemy.beMagiReplica,
@@ -169,7 +181,7 @@ if( generateType === 'SwordWorld2Enemy' ) {
             false,
             'jsonデータを出力、ゆとシートでコンバートして使用'
         );
-	}
+    }
 }
 ```
 

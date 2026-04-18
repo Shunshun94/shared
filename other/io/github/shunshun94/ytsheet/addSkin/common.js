@@ -14,12 +14,12 @@ io.github.shunshun94.ytsheet.addSkin.getUserId = () => {
 io.github.shunshun94.ytsheet.addSkin.userId = io.github.shunshun94.ytsheet.addSkin.getUserId();
 
 /**
- * ゆとシートの出力メニューにボタンを追加します
- * @param {string} buttonId ボタンに付与する HTML の ID 属性値です
+ * 出力メニューにボタンを含むメニューを追加します
+ * @param {string} buttonId 追加されるメニューに付与する HTML の ID 属性値です
  * @param {string} buttonText  ボタンに表示するテキストです
  * @param {function} onClickFunction ボタンを押した際に実行される関数です
- * @param {string} beforeElementId この ID を持つ要素の後ろにボタンを配置します。afterElementId と両方していした場合はこちらが優先されます。afterElementId もこれも指定しない場合は配置されません。
- * @param {string} afterElementId この ID を持つ要素の前にボタンを配置します。beforeElementId もこれも指定しない場合は配置されません。
+ * @param {string} beforeElementId この ID を持つ要素の後ろにボタンを配置します。afterElementId と両方指定した場合はこちらが優先されます。afterElementId もこれも指定しない場合はリストの末尾に配置されます
+ * @param {string} afterElementId この ID を持つ要素の前にボタンを配置します。beforeElementId もこれも指定しない場合はリストの末尾に配置されます
  * @param {string} popupDescription ボタンにカーソルを合わせた際に表示される説明です
  * @param {string} smallDescription ボタンの下に小さく表示される説明です
  * @returns 生成されたボタンの HTML 要素です
@@ -50,11 +50,58 @@ io.github.shunshun94.ytsheet.addSkin.drawDownloadButton = (
 	buttonBase.appendChild(button);
     if(beforeElementId) {
         document.getElementById(beforeElementId).after(buttonBase);
+        return buttonBase;
     }
     if(afterElementId) {
         document.getElementById(afterElementId).before(buttonBase);
+        return buttonBase;
     }
+    document.getElementById('downloadlist').getElementsByTagName('ul')[0].appendChild(buttonBase);
     return buttonBase;
+};
+
+/**
+ * 出力メニューにコピー用のテキストを含むメニューを追加します
+ * @param {string} elementId 追加されるメニューに付与する HTML の ID 属性値です
+ * @param {string} description 追加されるメニューの説明欄です
+ * @param {string|function} textContent コピーされるテキストです。関数を渡した場合は、コピーされるテキストを返す関数として扱います
+ * @param {string} beforeElementId この ID を持つ要素の後ろにテキスト欄を配置します。afterElementId と両方指定した場合はこちらが優先されます。afterElementId もこれも指定しない場合はリストの末尾に配置されます
+ * @param {string} afterElementId この ID を持つ要素の前にテキスト欄を配置します。beforeElementId もこれも指定しない場合はリストの末尾に配置されます
+ * @returns 生成されたテキスト欄の HTML 要素です
+ */
+io.github.shunshun94.ytsheet.addSkin.drawTextForCopy = (
+    elementId,
+    description,
+    textContent,
+    beforeElementId,
+    afterElementId
+) => {
+    const textBase = document.createElement('li');
+	textBase.setAttribute('class', 'link-tag');
+    textBase.setAttribute('id', elementId);
+	const textBaseSpan = document.createElement('span');
+	textBaseSpan.appendChild(document.createTextNode(description));
+	textBaseSpan.appendChild(document.createElement('br'));
+    textBase.appendChild(textBaseSpan);
+	const textInput = document.createElement('input');
+	textInput.type = 'text';
+	if(typeof textContent === 'function') {
+        textInput.value = textContent();
+    } else {
+        textInput.value = textContent;
+    }
+	textInput.onclick = (e) => { e.target.select(); };
+	textBaseSpan.appendChild(textInput);
+    if(beforeElementId) {
+        document.getElementById(beforeElementId).after(textBase);
+        return textBase;
+    }
+    if(afterElementId) {
+        document.getElementById(afterElementId).before(textBase);
+        return textBase;
+    }
+    document.getElementById('downloadlist').getElementsByTagName('ul')[0].appendChild(textBase);
+    return textBase;
 };
 
 /**
