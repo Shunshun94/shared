@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Kozip to Ytsheet2M</title>
+</head>
+<body>
+    <div id="dropZone" style="position:absolute;top:0;left:0;width:100%;height:100%;">エネミーの zip ファイルをここにドラッグ & ドロップしてください</div>
+    <script src="https://cdn.jsdelivr.net/npm/jszip@3.2.1/dist/jszip.js"></script>
+    <script src="./readKozip.js"></script>
+    <script>
+        document.getElementById('dropZone').addEventListener('drop', (e) => {
+			e.preventDefault();
+			const targetFile = e.dataTransfer.files[0];
+			readKozip(targetFile).then((dom) => {
+				console.log(dom);
+			});
+		});
+    </script>
+</body>
+</html>
