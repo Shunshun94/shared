@@ -13,10 +13,10 @@ io.github.shunshun94.util.xmlToJson = (xml) => {
 
     if (xml.nodeType === 1) { // 要素ノード
         if (xml.attributes.length > 0) {
-        obj["@attributes"] = {};
-        for (let attr of xml.attributes) {
-            obj["@attributes"][attr.nodeName] = attr.nodeValue;
-        }
+            obj["@attributes"] = {};
+            for (let attr of xml.attributes) {
+                obj["@attributes"][attr.nodeName] = attr.nodeValue;
+            }
         }
     } else if (xml.nodeType === 3) { // テキストノード
         return xml.nodeValue.trim();
@@ -25,18 +25,18 @@ io.github.shunshun94.util.xmlToJson = (xml) => {
     // 子ノードを再帰処理
     if (xml.hasChildNodes()) {
         for (let child of xml.childNodes) {
-        const nodeName = child.nodeName;
-        const value = xmlToJson(child);
-        if (value !== "") {
-            if (!obj[nodeName]) {
-            obj[nodeName] = value;
-            } else {
-            if (!Array.isArray(obj[nodeName])) {
-                obj[nodeName] = [obj[nodeName]];
+            const nodeName = child.nodeName;
+            const value = xmlToJson(child);
+            if (value !== "") {
+                if (!obj[nodeName]) {
+                    obj[nodeName] = value;
+                } else {
+                    if (!Array.isArray(obj[nodeName])) {
+                        obj[nodeName] = [obj[nodeName]];
+                    }
+                    obj[nodeName].push(value);
+                }
             }
-            obj[nodeName].push(value);
-            }
-        }
         }
     }
     return obj;
