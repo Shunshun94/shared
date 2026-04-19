@@ -5,14 +5,26 @@
 <title>Kozip to Ytsheet2M</title>
 </head>
 <body>
-    <div id="dropZone" style="position:absolute;top:0;left:0;width:100%;height:100%;">エネミーの zip ファイルをここにドラッグ & ドロップしてください</div>
+    <div id="dropZone" style="position:absolute;top:0;left:0;width:100%;height:100%;padding:4em;">
+        <!--エネミーの zip ファイルをここにドラッグ & ドロップしてください<br/>-->
+        <input type="file" id="fileInput" accept=".zip" /></div>
     <script src="https://cdn.jsdelivr.net/npm/jszip@3.2.1/dist/jszip.js"></script>
     <script src="./readKozip.js"></script>
+    <script src="./parseKozip.js"></script>
     <script>
-        document.getElementById('dropZone').addEventListener('drop', fileLoad);
-        document.getElementById('dropZone').addEventListener('dragover', (e) => {
-            e.stopPropagation();
-            e.preventDefault();
+        //document.getElementById('dropZone').addEventListener('drop', fileLoad);
+        //document.getElementById('dropZone').addEventListener('dragover', (e) => {
+        //    e.stopPropagation();
+        //    e.preventDefault();
+        //});
+        document.getElementById('fileInput').addEventListener('change', (e) => {
+            const files = e.target.files;
+            for (const file of files) {
+                readKozip(file).then((xml)=>{
+                    const ytSheetJson = parse(xml);
+                    download(JSON.stringify(ytSheetJson), `ゆとシインポート用_${ytSheetJson.monsterName}.json`);
+                });
+            }
         });
     </script>
 </body>
