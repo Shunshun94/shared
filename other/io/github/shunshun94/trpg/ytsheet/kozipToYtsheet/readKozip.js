@@ -28,4 +28,4 @@ const download = (text, title, fileType = 'application/json') => {
 	dlLink.click();
 	dlLink.remove();
 	URL.revokeObjectURL(url);
-}
+};
