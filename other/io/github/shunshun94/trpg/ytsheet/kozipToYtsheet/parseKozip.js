@@ -1,5 +1,6 @@
 const parse = (xml) => {
-    const json = xmlToJson(xml).character.character;
+  const json = xmlToJson(xml).character.character;
+  try {
     const spec = json.detail['能力'];
     const info = json.detail['魔物知識'];
     const resource = json.detail['リソース'];
@@ -60,6 +61,10 @@ const parse = (xml) => {
     
 
     return result;
+  } catch (e) {
+    console.error('パースエラー:', e, json);
+    throw new Error(`パースに失敗しました。（${e.message}）`);
+  }
 };
 
 const getName = (xml) => {
