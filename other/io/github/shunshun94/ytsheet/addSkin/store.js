@@ -26,7 +26,7 @@ io.github.shunshun94.ytsheet.addSkin.store.taxa = io.github.shunshun94.ytsheet.a
 
 io.github.shunshun94.ytsheet.addSkin.store.hp.set = (index, value) => {
     if(io.github.shunshun94.ytsheet.addSkin.store.elements.hpCells[index]) {
-        io.github.shunshun94.ytsheet.addSkin.store.elements.hpCells[index].textContent = value;
+        io.github.shunshun94.ytsheet.addSkin.store.elements.hpCells[index].textContent = value || '―';
     }
 };
 
@@ -40,7 +40,7 @@ io.github.shunshun94.ytsheet.addSkin.store.hp.get = (index) => {
 
 io.github.shunshun94.ytsheet.addSkin.store.mp.set = (index, value) => {
     if(io.github.shunshun94.ytsheet.addSkin.store.elements.mpCells[index]) {
-        io.github.shunshun94.ytsheet.addSkin.store.elements.mpCells[index].textContent = value;
+        io.github.shunshun94.ytsheet.addSkin.store.elements.mpCells[index].textContent = value || '―';
     }
 };
 
@@ -55,14 +55,14 @@ io.github.shunshun94.ytsheet.addSkin.store.mp.get = (index) => {
 io.github.shunshun94.ytsheet.addSkin.store.hp.setAsDiff = (index, diff) => {
     if(io.github.shunshun94.ytsheet.addSkin.store.elements.hpCells[index]) {
         const base = parseInt(io.github.shunshun94.ytsheet.addSkin.store.elements.hpCells[index].title.trim());
-        io.github.shunshun94.ytsheet.addSkin.store.elements.hpCells[index].textContent = base + diff || base;
+        io.github.shunshun94.ytsheet.addSkin.store.elements.hpCells[index].textContent = base + diff || base || '―';
     }
 };
 
 io.github.shunshun94.ytsheet.addSkin.store.mp.setAsDiff = (index, diff) => {
     if(io.github.shunshun94.ytsheet.addSkin.store.elements.mpCells[index]) {
         const base = parseInt(io.github.shunshun94.ytsheet.addSkin.store.elements.mpCells[index].title.trim());
-        io.github.shunshun94.ytsheet.addSkin.store.elements.mpCells[index].textContent = base + diff || base;
+        io.github.shunshun94.ytsheet.addSkin.store.elements.mpCells[index].textContent = base + diff || base || '―';
     }
 };
 
