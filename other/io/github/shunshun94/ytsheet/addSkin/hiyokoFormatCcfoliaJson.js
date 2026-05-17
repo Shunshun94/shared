@@ -58,11 +58,14 @@ io.github.shunshun94.ytsheet.addSkin.HiyokoFormatCcfoliaJson.generate = (isUseFi
                     json.data.status[i].max = value;
                 }
             });
+            let skippedCount = 0;
             io.github.shunshun94.ytsheet.addSkin.store.elements.mpCells.forEach((e, i)=>{
                 const value = io.github.shunshun94.ytsheet.addSkin.store.mp.get(i);
-                if( value ) {
-                    json.data.status[i + io.github.shunshun94.ytsheet.addSkin.store.elements.hpCells.length].value = value;
-                    json.data.status[i + io.github.shunshun94.ytsheet.addSkin.store.elements.hpCells.length].max = value;
+                if( value && json.data.status[i + io.github.shunshun94.ytsheet.addSkin.store.elements.hpCells.length - skippedCount] ) {
+                    json.data.status[i + io.github.shunshun94.ytsheet.addSkin.store.elements.hpCells.length - skippedCount].value = value;
+                    json.data.status[i + io.github.shunshun94.ytsheet.addSkin.store.elements.hpCells.length - skippedCount].max = value;
+                } else {
+                    skippedCount++;
                 }
             });
             const totalFragments = io.github.shunshun94.ytsheet.addSkin.flagments.getTotalFragments();
