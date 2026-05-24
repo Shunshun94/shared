@@ -460,6 +460,118 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_LIST = [
         ifNot: 'アビスナイフ加工を施す武器は刃のついた武器である必要があります（『AB』8頁）',
         label: 'abyssKnifeMustBeEdged'
     }, {
+        level: 'warn',
+        when: {
+            'language\\d+$': { equal: '海獣語' }
+        },
+        expect: {
+            'language\\d+$': {
+                func: (key, value, json) => {
+                    return io.github.shunshun94.trpg.sw2.ytsheet.validation.languageValidation('海獣語', 'Read', key, value, json);
+                }
+            }
+        },
+        ifNot: '海獣語には読文がありません（『2』31頁）',
+        label: 'language-seaAnimal'
+    }, {
+        level: 'warn',
+        when: {
+            'language\\d+$': { equal: 'ドラゴン語' }
+        },
+        expect: {
+            'language\\d+$': {
+                func: (key, value, json) => {
+                    return io.github.shunshun94.trpg.sw2.ytsheet.validation.languageValidation('ドラゴン語', 'Read', key, value, json);
+                }
+            }
+        },
+        ifNot: 'ドラゴン語には読文がありません（『2』31頁）',
+        label: 'language-dragon'
+    }, {
+        level: 'warn',
+        when: {
+            'language\\d+$': { equal: '魔神語' }
+        },
+        expect: {
+            'language\\d+$': {
+                func: (key, value, json) => {
+                    return io.github.shunshun94.trpg.sw2.ytsheet.validation.languageValidation('魔神語', 'Read', key, value, json);
+                }
+            }
+        },
+        ifNot: '魔神語には読文がありません（『2』31頁）',
+        label: 'language-demon'
+    }, {
+        level: 'warn',
+        when: {
+            'language\\d+$': { equal: '妖精語' }
+        },
+        expect: {
+            'language\\d+$': {
+                func: (key, value, json) => {
+                    return io.github.shunshun94.trpg.sw2.ytsheet.validation.languageValidation('妖精語', 'Read', key, value, json);
+                }
+            }
+        },
+        ifNot: '妖精語には読文がありません（『2』31頁）',
+        label: 'language-fae'
+    }, {
+        level: 'warn',
+        when: {
+            'language\\d+$': { equal: '妖魔語' }
+        },
+        expect: {
+            'language\\d+$': {
+                func: (key, value, json) => {
+                    return io.github.shunshun94.trpg.sw2.ytsheet.validation.languageValidation('妖魔語', 'Read', key, value, json);
+                }
+            }
+        },
+        ifNot: '妖魔語には読文がありません（『2』31頁）',
+        label: 'language-lessorBarbarous'
+    }, {
+        level: 'warn',
+        when: {
+            'language\\d+$': { equal: '翼人語' }
+        },
+        expect: {
+            'language\\d+$': {
+                func: (key, value, json) => {
+                    return io.github.shunshun94.trpg.sw2.ytsheet.validation.languageValidation('翼人語', 'Read', key, value, json);
+                }
+            }
+        },
+        ifNot: '翼人語には読文がありません（『2』31頁）',
+        label: 'language-winged'
+    }, {
+        level: 'warn',
+        when: {
+            'language\\d+$': { equal: 'ソレイユ語' }
+        },
+        expect: {
+            'language\\d+$': {
+                func: (key, value, json) => {
+                    return io.github.shunshun94.trpg.sw2.ytsheet.validation.languageValidation('ソレイユ語', 'Read', key, value, json);
+                }
+            }
+        },
+        ifNot: 'ソレイユ語には読文がありません（『AR』61頁）',
+        label: 'language-soleil'
+    }, {
+        level: 'warn',
+        when: {
+            'language\\d+$': { equal: '神紀文明語' }
+        },
+        expect: {
+            'language\\d+$': {
+                func: (key, value, json) => {
+                    return io.github.shunshun94.trpg.sw2.ytsheet.validation.languageValidation('神紀文明語', 'Talk', key, value, json);
+                }
+            }
+        },
+        ifNot: '神紀文明語には会話がありません（『2』31頁）',
+        label: 'language-ancient'
+    }, {
         level: 'info',
         when: {
             'lvFen': { isEnoughLevel: true }

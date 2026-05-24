@@ -12,7 +12,7 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.isMatch = (json, conditions) =>
     for(var key in list) {
         if( key === 'and') {
             let result = true;
-            for(var keyInAnd in  list[key]) {
+            for(var keyInAnd in list[key]) {
                 const tmpMap = {};
                 tmpMap[keyInAnd] = list[key][keyInAnd];
                 result = result && io.github.shunshun94.trpg.sw2.ytsheet.validation.isMatch(json, tmpMap);
@@ -155,3 +155,8 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.isFrontMember = (json) => {
     });
 };
 
+io.github.shunshun94.trpg.sw2.ytsheet.validation.languageValidation = (languageName, unexpectedLanguageType, key, value, json) => {
+    if(value !== languageName) { return false; }
+    const languageIndex = /language(\d+)/.exec(key)[1];
+    return (json[`language${languageIndex}${unexpectedLanguageType}`] || '').length === 0;
+};
