@@ -1545,6 +1545,110 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_TEST_LIST = {
             'expect': true
         }
     ],
+    "language-seaAnimal": [
+        {
+            'testName': '海獣語の読文を習得している場合',
+            'language1': '海獣語',
+            'language1Read': 'Sag',
+            'expect': false
+        }, {
+            'testName': '海獣語の会話を習得している場合',
+            'language1': '海獣語',
+            'language1Talk': 'Sag',
+            'expect': true
+        }
+    ],
+    "language-dragon": [
+        {
+            'testName': 'ドラゴン語の読文を習得している場合',
+            'language1': 'ドラゴン語',
+            'language1Read': 'Sag',
+            'expect': false
+        }, {
+            'testName': 'ドラゴン語の会話を習得している場合',
+            'language1': 'ドラゴン語',
+            'language1Talk': 'Sag',
+            'expect': true
+        }
+    ],
+    "language-demon": [
+        {
+            'testName': '魔神語の読文を習得している場合',
+            'language1': '魔神語',
+            'language1Read': 'Sag',
+            'expect': false
+        }, {
+            'testName': '魔神語の会話を習得している場合',
+            'language1': '魔神語',
+            'language1Talk': 'Sag',
+            'expect': true
+        }
+    ],
+    "language-fae": [
+        {
+            'testName': '妖精語の読文を習得している場合',
+            'language1': '妖精語',
+            'language1Read': 'Sag',
+            'expect': false
+        }, {
+            'testName': '妖精語の会話を習得している場合',
+            'language1': '妖精語',
+            'language1Talk': 'Sag',
+            'expect': true
+        }
+    ],
+    "language-lessorBarbarous": [
+        {
+            'testName': '妖魔語の読文を習得している場合',
+            'language1': '妖魔語',
+            'language1Read': 'Sag',
+            'expect': false
+        }, {
+            'testName': '妖魔語の会話を習得している場合',
+            'language1': '妖魔語',
+            'language1Talk': 'Sag',
+            'expect': true
+        }
+    ],
+    "language-winged": [
+        {
+            'testName': '翼人語の読文を習得している場合',
+            'language1': '翼人語',
+            'language1Read': 'Sag',
+            'expect': false
+        }, {
+            'testName': '翼人語の会話を習得している場合',
+            'language1': '翼人語',
+            'language1Talk': 'Sag',
+            'expect': true
+        }
+    ],
+    "language-soleil": [
+        {
+            'testName': 'ソレイユ語の読文を習得している場合',
+            'language1': 'ソレイユ語',
+            'language1Read': 'Sag',
+            'expect': false
+        }, {
+            'testName': 'ソレイユ語の会話を習得している場合',
+            'language1': 'ソレイユ語',
+            'language1Talk': 'Sag',
+            'expect': true
+        }
+    ],
+    "language-ancient": [
+        {
+            'testName': '神紀文明語の読文を習得している場合',
+            'language1': '神紀文明語',
+            'language1Read': 'Sag',
+            'expect': true
+        }, {
+            'testName': '神紀文明語の会話を習得している場合',
+            'language1': '神紀文明語',
+            'language1Talk': 'Sag',
+            'expect': false
+        }
+    ],
     "fencerCriticalBonusShouldBeInputed": [
         {
             'testName': 'フェンサーが主技能かつソードを持っていてクリティカル値が10の場合',
