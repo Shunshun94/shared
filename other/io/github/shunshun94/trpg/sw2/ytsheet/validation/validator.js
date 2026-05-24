@@ -158,6 +158,5 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.isFrontMember = (json) => {
 io.github.shunshun94.trpg.sw2.ytsheet.validation.languageValidation = (languageName, unexpectedLanguageType, key, value, json) => {
     if(value !== languageName) { return false; }
     const languageIndex = /language(\d+)/.exec(key)[1];
-    console.log(languageName, unexpectedLanguageType, languageIndex, json[`language${languageIndex}${unexpectedLanguageType}`]);
     return (json[`language${languageIndex}${unexpectedLanguageType}`] || '').length === 0;
 };
