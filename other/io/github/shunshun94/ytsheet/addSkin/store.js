@@ -200,7 +200,7 @@ io.github.shunshun94.ytsheet.addSkin.store.eva.get = (index) => {
 };
 io.github.shunshun94.ytsheet.addSkin.store.eva.set = (index, value) => {
     if(io.github.shunshun94.ytsheet.addSkin.store.elements.evaCells[index]) {
-        io.github.shunshun94.ytsheet.addSkin.store.elements.evaCells[index].textContent = Number(value) ? `${value}(${Number(value) + 7})` : '―';
+        io.github.shunshun94.ytsheet.addSkin.store.elements.evaCells[index].textContent = Number(value) ? `${value} (${Number(value) + 7})` : '―';
     }
 };
 io.github.shunshun94.ytsheet.addSkin.store.eva.setAsDiff = (index, diff) => {
