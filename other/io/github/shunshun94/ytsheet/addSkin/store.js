@@ -170,7 +170,7 @@ io.github.shunshun94.ytsheet.addSkin.store.atk.get = (index) => {
     if(io.github.shunshun94.ytsheet.addSkin.store.elements.atkCells[index]) {
         const cellText = io.github.shunshun94.ytsheet.addSkin.store.elements.atkCells[index].textContent.trim();
         if( io.github.shunshun94.ytsheet.addSkin.store.consts.damageRegExp.test(cellText) ) {
-            return io.github.shunshun94.ytsheet.addSkin.store.consts.exec(cellText)[1];
+            return io.github.shunshun94.ytsheet.addSkin.store.consts.damageRegExp.exec(cellText)[1];
         }
     }
     return null;
