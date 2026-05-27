@@ -7,21 +7,21 @@ io.github.shunshun94.ytsheet.addSkin.HiyokoFormatCcfoliaJson = io.github.shunshu
 
 io.github.shunshun94.ytsheet.addSkin.HiyokoFormatCcfoliaJson.generateStatusSummary = (characterJsonData) => {
     const result = [];
-    const mountSuffix = (characterJsonData.mount && (Number(characterJsonData.lv) - Number(characterJsonData.lvMin))) ? `-${Number(characterJsonData.lv) - Number(characterJsonData.lvMin) + 1}` : '';
+    const store = io.github.shunshun94.ytsheet.addSkin.store;
     result.push([
-        `生命抵抗力：${io.github.shunshun94.ytsheet.addSkin.store.regist.physical.get()}（${io.github.shunshun94.ytsheet.addSkin.store.regist.physical.get() + 7}）`,
-        `精神抵抗力：${io.github.shunshun94.ytsheet.addSkin.store.regist.mental.get()}（${io.github.shunshun94.ytsheet.addSkin.store.regist.mental.get() + 7}）`
+        `生命抵抗力：${store.regist.physical.get()}（${store.regist.physical.get() + 7}）`,
+        `精神抵抗力：${store.regist.mental.get()}（${store.regist.mental.get() + 7}）`
     ].join(' '));
     const statusLength = Number(characterJsonData.statusNum);
     for(var i = 0; i < statusLength; i++) {
         result.push('●' + characterJsonData[`status${ i + 1}Style`]);
         result.push([
-            characterJsonData[`status${ i + 1}${mountSuffix}Accuracy`] ? `命中：${characterJsonData[`status${ i + 1}${mountSuffix}Accuracy`]}（${characterJsonData[`status${ i + 1}${mountSuffix}AccuracyFix`]}）` : '',
-            characterJsonData[`status${ i + 1}${mountSuffix}Damage`] ? `打撃：${characterJsonData[`status${ i + 1}${mountSuffix}Damage`]}`: ''
+            Number(store.acc.get(i)) ? `命中：${store.acc.get(i)}（${Number(store.acc.get(i)) + 7}）` : '',
+            (store.atk.get(i) !== null) ? `打撃：2d${store.atk.get(i)}`: ''
         ].filter((d)=>{return d}).join(' '));
         result.push([
-            characterJsonData[`status${ i + 1}${mountSuffix}Evasion`] ? `回避：${characterJsonData[`status${ i + 1}${mountSuffix}Evasion`]}（${characterJsonData[`status${ i + 1}${mountSuffix}EvasionFix`]}）` : '',
-            characterJsonData[`status${ i + 1}${mountSuffix}Defense`] ? `防護：${characterJsonData[`status${ i + 1}${mountSuffix}Defense`]}` : ''
+            Number(store.eva.get(i)) ? `回避：${store.eva.get(i)}（${Number(store.eva.get(i)) + 7}）` : '',
+            Number(store.def.get(i)) ? `防護：${store.def.get(i)}` : ''
         ].filter((d)=>{return d}).join(' '));
     }
     result.push('\n特殊能力');
@@ -32,6 +32,7 @@ io.github.shunshun94.ytsheet.addSkin.HiyokoFormatCcfoliaJson.generateStatusSumma
 };
 
 io.github.shunshun94.ytsheet.addSkin.HiyokoFormatCcfoliaJson.generate = (isUseFixedValue = false) => {
+    const store = io.github.shunshun94.ytsheet.addSkin.store;
     getJsonData('ccfolia').then((characterJsonData) => {
         output.generateCcfoliaJson(generateType, characterJsonData, location.href).then((jsonString)=>{
             const json = JSON.parse(jsonString);
@@ -50,20 +51,20 @@ io.github.shunshun94.ytsheet.addSkin.HiyokoFormatCcfoliaJson.generate = (isUseFi
             json.data.commands += '\n' + Array.from(document.getElementsByClassName('loots')[0]?.getElementsByTagName('dl')[0].children || []).map((elem)=>{return elem.textContent}).map((d, i)=>{
                 if( i % 2 ) { return `${d}\n`} else { return `戦利品　${d}：`; }
             }).join('').trim();
-            json.data.commands += '\n' + `魔物知識判定：${characterJsonData.reputation} / ${characterJsonData['reputation+']} @まもち`;
-            io.github.shunshun94.ytsheet.addSkin.store.elements.hpCells.forEach((e, i)=>{
-                const value = io.github.shunshun94.ytsheet.addSkin.store.hp.get(i);
+            json.data.commands += '\n' + `魔物知識判定：${store.reputation.known.get()} / ${store.reputation.weak.get()} @まもち`;
+            store.elements.hpCells.forEach((e, i)=>{
+                const value = store.hp.get(i);
                 if( value ) {
                     json.data.status[i].value = value;
                     json.data.status[i].max = value;
                 }
             });
             let skippedCount = 0;
-            io.github.shunshun94.ytsheet.addSkin.store.elements.mpCells.forEach((e, i)=>{
-                const value = io.github.shunshun94.ytsheet.addSkin.store.mp.get(i);
-                if( value && json.data.status[i + io.github.shunshun94.ytsheet.addSkin.store.elements.hpCells.length - skippedCount] ) {
-                    json.data.status[i + io.github.shunshun94.ytsheet.addSkin.store.elements.hpCells.length - skippedCount].value = value;
-                    json.data.status[i + io.github.shunshun94.ytsheet.addSkin.store.elements.hpCells.length - skippedCount].max = value;
+            store.elements.mpCells.forEach((e, i)=>{
+                const value = store.mp.get(i);
+                if( value && json.data.status[i + store.elements.hpCells.length - skippedCount] ) {
+                    json.data.status[i + store.elements.hpCells.length - skippedCount].value = value;
+                    json.data.status[i + store.elements.hpCells.length - skippedCount].max = value;
                 } else {
                     skippedCount++;
                 }
