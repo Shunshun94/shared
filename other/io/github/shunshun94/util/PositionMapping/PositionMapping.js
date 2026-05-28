@@ -8,7 +8,7 @@ io.github.shunshun94.util.PositionMapping.consts = {
     className: 'io-github-shunshun94-util-PositionMapping'
 };
 
-io.github.shunshun94.util.PositionMapping.View = class {
+io.github.shunshun94.util.PositionMapping.Viewer = class {
     constructor(element, config = {
         title: 'ポジションマッピング',
         top: 'row軸 上',
@@ -17,15 +17,15 @@ io.github.shunshun94.util.PositionMapping.View = class {
         right: 'column軸 右'
     }, items = []) {
         this.dom = element;
-        this.config = config;
         this.items = [];
         this.graph = null;
-        this.render();
+        this.render(config);
         items.forEach((item) => { this.add(item); });
     }
+    getItems() { return this.items; }
     add(item) {
         const itemElement = document.createElement('div');
-        itemElement.className = `${io.github.shunshun94.util.PositionMapping.consts.className}-view-item`;
+        itemElement.className = `${io.github.shunshun94.util.PositionMapping.consts.className}-viewer-item`;
         if(item.name) {
             const nameElement = document.createElement('div');
             nameElement.textContent = item.name;
@@ -35,18 +35,18 @@ io.github.shunshun94.util.PositionMapping.View = class {
         if(item.image) {
             itemElement.style.backgroundImage = `url(${item.image})`;
         }
-        itemElement.style.left = `calc(${(item.column + 0.5) * 100}% - 30px)`;
-        itemElement.style.top = `calc(${(item.row + 0.5) * 100}% - 30px)`;
+        itemElement.style.left = `calc(${(Number(item.column) + 0.5) * 100}% - 30px)`;
+        itemElement.style.top = `calc(${(Number(item.row) + 0.5) * 100}% - 30px)`;
 
         this.graph.appendChild(itemElement);
         this.items.push(item);
     }
-    render() {
-        const className = io.github.shunshun94.util.PositionMapping.consts.className + '-view';
-        this.dom.className = className + (this.config.className ? ' ' + this.config.className : '');
+    render(config) {
+        const className = io.github.shunshun94.util.PositionMapping.consts.className + '-viewer';
+        this.dom.className = className + (config.className ? ' ' + config.className : '');
 
         const titleElement = document.createElement('div');
-        titleElement.textContent = this.config.title;
+        titleElement.textContent = config.title;
         titleElement.className = `${className}-title`;
         this.dom.appendChild(titleElement);
 
@@ -64,7 +64,7 @@ io.github.shunshun94.util.PositionMapping.View = class {
 
         ['top', 'bottom', 'left', 'right'].forEach((position) => {
             const mapTitle = document.createElement('div');
-            mapTitle.textContent = this.config[position] || '';
+            mapTitle.textContent = config[position] || '';
             mapTitle.className = `${className}-position ${className}-position-${position}`;
             this.dom.appendChild(mapTitle);
         });

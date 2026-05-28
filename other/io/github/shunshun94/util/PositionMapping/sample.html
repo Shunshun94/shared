@@ -8,14 +8,14 @@
     <body>
         <div id="result"></div>
         <script>
-            const mapping = new io.github.shunshun94.util.PositionMapping.View(
+            const mapping = new io.github.shunshun94.util.PositionMapping.Viewer(
                 document.getElementById('result'),
                 {
                     title: '恋バナのとき',
-                    top: '話す事が多い',
-                    bottom: '聞く事が多い',
-                    left: '実は好き',
-                    right: '実は苦手'
+                    top: '話す',
+                    bottom: '聞く',
+                    left: '好き',
+                    right: '苦手'
                 }, items = [
                     {
                         name: 'リオ',
@@ -28,14 +28,14 @@
                         image: './img/sample-amerin.png',
                         row: -0.4,
                         column: -0.4
-                    },
-                    {
-                        name: 'モートン',
-                        image: './img/sample-morton.png',
-                        row: 0.4,
-                        column: 0.4
                     }
                 ]);
+            mapping.add({
+                name: 'モートン',
+                image: './img/sample-morton.png',
+                row: 0.4,
+                column: 0.4
+            });
         </script>
     </body>
 </html>
