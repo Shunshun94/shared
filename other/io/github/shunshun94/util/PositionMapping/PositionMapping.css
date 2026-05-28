@@ -1,0 +1,88 @@
+@charset "utf-8";
+
+.io-github-shunshun94-util-PositionMapping-view {
+    box-sizing: border-box;
+    border: 1px solid #000;
+    display: inline-block;
+    position:relative;
+    padding: 4px;
+    width: 760px;
+    height: 752px;
+}
+
+.io-github-shunshun94-util-PositionMapping-view-title {
+    font-weight: bold;
+    text-align: center;
+}
+
+.io-github-shunshun94-util-PositionMapping-view-graph {
+    position: absolute;
+    width: 640px;
+    height: 640px;
+    left: 60px;
+    right:60px;
+    bottom: 48px;
+    background-color: black;
+}
+
+.io-github-shunshun94-util-PositionMapping-view-crossRow {
+	position: relative;
+    top:48.5%;
+    transform: rotate(-0.25turn);
+}
+
+.io-github-shunshun94-util-PositionMapping-view-crossColumn {
+	position: relative;
+    top:47%;
+}
+
+.io-github-shunshun94-util-PositionMapping-view-item {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: top;
+}
+
+.io-github-shunshun94-util-PositionMapping-view-item > div {
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    font-size: 50%;
+    text-align: center;
+    color:black;
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+.io-github-shunshun94-util-PositionMapping-view-position {
+    position: absolute;
+    text-align: center;
+}
+
+.io-github-shunshun94-util-PositionMapping-view-position-top {
+    top: 32px;
+    left: 60px;
+    right: 60px;
+}
+
+.io-github-shunshun94-util-PositionMapping-view-position-left {
+    top: 64px;
+    bottom: 48px;
+    left: 24px;
+    writing-mode: vertical-rl;
+}
+
+.io-github-shunshun94-util-PositionMapping-view-position-right {
+    top: 64px;
+    bottom: 48px;
+    right: 24px;
+    writing-mode: vertical-rl;
+}
+
+.io-github-shunshun94-util-PositionMapping-view-position-bottom {
+    bottom: 16px;
+    left: 80px;
+    right: 80px;
+}
