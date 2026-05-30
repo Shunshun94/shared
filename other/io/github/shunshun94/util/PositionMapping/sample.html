@@ -6,10 +6,16 @@
         <link rel="stylesheet" href="./PositionMapping.css" type="text/css" />
     </head>
     <body>
-        <div id="result"></div>
+        <div id="viewer"></div>
+        <div id="editor"></div>
         <script>
-            const mapping = new io.github.shunshun94.util.PositionMapping.Viewer(
-                document.getElementById('result'),
+            const editor = new io.github.shunshun94.util.PositionMapping.Editor(document.getElementById('editor'));
+            editor.add({
+                name: 'リオ',
+                image: './img/sample-rio.png'
+            });
+            const viewer = new io.github.shunshun94.util.PositionMapping.Viewer(
+                document.getElementById('viewer'),
                 {
                     title: '恋バナのとき',
                     top: '話す',
@@ -30,7 +36,7 @@
                         column: -0.4
                     }
                 ]);
-            mapping.add({
+            viewer.add({
                 name: 'モートン',
                 image: './img/sample-morton.png',
                 row: 0.4,

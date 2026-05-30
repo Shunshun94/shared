@@ -1,6 +1,7 @@
 @charset "utf-8";
 
-.io-github-shunshun94-util-PositionMapping-viewer {
+.io-github-shunshun94-util-PositionMapping-viewer,
+.io-github-shunshun94-util-PositionMapping-editor {
     box-sizing: border-box;
     font-family: "BIZ UDゴシック","UD Shin Go NT Light JIS2004","UD デジタル 教科書体 N-R", Verdana, Roboto, "Droid Sans", "游ゴシック", YuGothic, "メイリオ", Meiryo, "ヒラギノ角ゴ ProN W3", "Hiragino Kaku Gothic ProN", "ＭＳ Ｐゴシック", sans-serif;
     border: 1px solid #000;
@@ -12,13 +13,22 @@
     user-select: none;
 }
 
-.io-github-shunshun94-util-PositionMapping-viewer-title {
+.io-github-shunshun94-util-PositionMapping-editor input {
+    display: block;
+}
+
+.io-github-shunshun94-util-PositionMapping-viewer-title,
+.io-github-shunshun94-util-PositionMapping-editor-title {
     font-weight: bold;
     text-align: center;
     padding:4px;
+    left: 60px;
+    right: 60px;
+    position: absolute;
 }
 
-.io-github-shunshun94-util-PositionMapping-viewer-graph {
+.io-github-shunshun94-util-PositionMapping-viewer-graph,
+.io-github-shunshun94-util-PositionMapping-editor-graph {
     position: absolute;
     width: 640px;
     height: 640px;
@@ -28,18 +38,21 @@
     background-color: black;
 }
 
-.io-github-shunshun94-util-PositionMapping-viewer-crossRow {
+.io-github-shunshun94-util-PositionMapping-viewer-crossRow,
+.io-github-shunshun94-util-PositionMapping-editor-crossRow {
 	position: relative;
     top:48.5%;
     transform: rotate(-0.25turn);
 }
 
-.io-github-shunshun94-util-PositionMapping-viewer-crossColumn {
+.io-github-shunshun94-util-PositionMapping-viewer-crossColumn,
+.io-github-shunshun94-util-PositionMapping-editor-crossColumn {
 	position: relative;
     top:47%;
 }
 
-.io-github-shunshun94-util-PositionMapping-viewer-item {
+.io-github-shunshun94-util-PositionMapping-viewer-item,
+.io-github-shunshun94-util-PositionMapping-editor-item {
     position: absolute;
     width: 60px;
     height: 60px;
@@ -48,7 +61,12 @@
     background-position: top;
 }
 
-.io-github-shunshun94-util-PositionMapping-viewer-item > div {
+.io-github-shunshun94-util-PositionMapping-editor-dragging {
+    border: 3px dashed red;
+}
+
+.io-github-shunshun94-util-PositionMapping-viewer-item > div,
+.io-github-shunshun94-util-PositionMapping-editor-item > div {
     position: absolute;
     bottom: 0px;
     left: 0px;
@@ -61,32 +79,37 @@
     background-color: rgba(255, 255, 255, 0.7);
 }
 
-.io-github-shunshun94-util-PositionMapping-viewer-position {
+.io-github-shunshun94-util-PositionMapping-viewer-position,
+.io-github-shunshun94-util-PositionMapping-editor-position {
     position: absolute;
     text-align: center;
 }
 
-.io-github-shunshun94-util-PositionMapping-viewer-position-top {
+.io-github-shunshun94-util-PositionMapping-viewer-position-top,
+.io-github-shunshun94-util-PositionMapping-editor-position-top {
     top: 32px;
     left: 60px;
     right: 60px;
 }
 
-.io-github-shunshun94-util-PositionMapping-viewer-position-left {
+.io-github-shunshun94-util-PositionMapping-viewer-position-left,
+.io-github-shunshun94-util-PositionMapping-editor-position-left {
     top: 64px;
     bottom: 48px;
     left: 24px;
     writing-mode: vertical-rl;
 }
 
-.io-github-shunshun94-util-PositionMapping-viewer-position-right {
+.io-github-shunshun94-util-PositionMapping-viewer-position-right,
+.io-github-shunshun94-util-PositionMapping-editor-position-right {
     top: 64px;
     bottom: 48px;
     right: 24px;
     writing-mode: vertical-rl;
 }
 
-.io-github-shunshun94-util-PositionMapping-viewer-position-bottom {
+.io-github-shunshun94-util-PositionMapping-viewer-position-bottom,
+.io-github-shunshun94-util-PositionMapping-editor-position-bottom {
     bottom: 16px;
     left: 80px;
     right: 80px;
