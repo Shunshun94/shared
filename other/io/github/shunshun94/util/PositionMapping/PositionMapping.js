@@ -103,13 +103,28 @@ io.github.shunshun94.util.PositionMapping.Editor = class {
         this.items.push(item);
     }
     getItems() {
+        const getPos = (style, areaParameter) => {
+            if (style.startsWith('calc')) {
+                return /calc\((\d+)%/.exec(style)[1] / 100 * areaParameter;
+            } else {
+                return parseFloat(style) + 30;
+            }
+        };
+        const justifySigDegit = (num) => {
+            const str = num.toString();
+            if(str.includes('.')) {
+                return parseFloat(str.slice(0, str.indexOf('.') + 3));
+            } else {
+                return num;
+            }
+        };
         return this.items.map((item)=>{
             const itemElement = this.graph.querySelector(`#${this.id}-${item.id}`);
             const area = this.graph.getBoundingClientRect();
-            const left = parseFloat(itemElement.style.left) + 30;
-            const top = parseFloat(itemElement.style.top) + 30;
-            item.column = (left / area.width) - 0.5;
-            item.row = (top / area.height) - 0.5;
+            const left = getPos(itemElement.style.left, area.width);
+            const top = getPos(itemElement.style.top, area.height);
+            item.column = justifySigDegit((left / area.width) - 0.5);
+            item.row = justifySigDegit((top / area.height) - 0.5);
             return item;
         });
     }
