@@ -1,0 +1,47 @@
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>io.github.shunshun94.util.PositionMapping のサンプル</title>
+        <script src="./PositionMapping.js"></script>
+        <link rel="stylesheet" href="./PositionMapping.css" type="text/css" />
+    </head>
+    <body>
+        <div id="viewer"></div>
+        <div id="editor"></div>
+        <script>
+            const editor = new io.github.shunshun94.util.PositionMapping.Editor(document.getElementById('editor'));
+            editor.add({
+                name: 'リオ',
+                image: './img/sample-rio.png'
+            });
+            const viewer = new io.github.shunshun94.util.PositionMapping.Viewer(
+                document.getElementById('viewer'),
+                {
+                    title: '恋バナのとき',
+                    top: '話す',
+                    bottom: '聞く',
+                    left: '好き',
+                    right: '苦手'
+                }, items = [
+                    {
+                        name: 'リオ',
+                        image: './img/sample-rio.png',
+                        row: 0.4,
+                        column: -0.35
+                    },
+                    {
+                        name: 'アメリン',
+                        image: './img/sample-amerin.png',
+                        row: -0.4,
+                        column: -0.4
+                    }
+                ]);
+            viewer.add({
+                name: 'モートン',
+                image: './img/sample-morton.png',
+                row: 0.4,
+                column: 0.4
+            });
+        </script>
+    </body>
+</html>
