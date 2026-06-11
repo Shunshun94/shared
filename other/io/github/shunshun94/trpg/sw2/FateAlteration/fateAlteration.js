@@ -31,14 +31,6 @@ io.github.shunshun94.trpg.sw2.FateAlteration.calc = (input, boost = 0) => {
         const inputDiceResult = Number(/\]=([\d,]+)/.exec(input)[1].split(',').at(-1));
         const actualDiceResult = inputDiceResult - (sharpValue + dollerPlusValue);
         const alternatedDiceResult = Math.min(12, (14 - actualDiceResult + boost + dollerPlusValue));
-        console.log({
-            inputDiceResult,
-            actualDiceResult,
-            alternatedDiceResult,
-            boost,
-            sharpValue,
-            dollerPlusValue
-        });
 
         const greatestFortune = /gf/.test(input) ? 'gf' : '';
 
