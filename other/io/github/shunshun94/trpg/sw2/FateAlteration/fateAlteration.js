@@ -27,9 +27,18 @@ io.github.shunshun94.trpg.sw2.FateAlteration.calc = (input, boost = 0) => {
 
         const sharpValue = /a\[\+?(-?\d+)\]/.test(input) ? Number(/a\[\+?(-?\d+)\]/.exec(input)[1]) : 0;
         const sharpValueString = sharpValue < 0 ? `-${sharpValue}` : `+${sharpValue}`;
+        const dollerPlusValue = ((criticalCount === '0') && /m\[\+?(-?\d+)\]/.test(input)) ? Number(/m\[\+?(-?\d+)\]/.exec(input)[1]) : 0;
         const inputDiceResult = Number(/\]=([\d,]+)/.exec(input)[1].split(',').at(-1));
-        const actualDiceResult = inputDiceResult - sharpValue;
-        const alternatedDiceResult = Math.min(12, (14 - actualDiceResult + boost));
+        const actualDiceResult = inputDiceResult - (sharpValue + dollerPlusValue);
+        const alternatedDiceResult = Math.min(12, (14 - actualDiceResult + boost + dollerPlusValue));
+        console.log({
+            inputDiceResult,
+            actualDiceResult,
+            alternatedDiceResult,
+            boost,
+            sharpValue,
+            dollerPlusValue
+        });
 
         const greatestFortune = /gf/.test(input) ? 'gf' : '';
 
