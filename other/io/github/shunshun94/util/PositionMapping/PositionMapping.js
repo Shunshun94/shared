@@ -158,7 +158,10 @@ io.github.shunshun94.util.PositionMapping.Editor = class {
             return element;
         };
         const className = io.github.shunshun94.util.PositionMapping.consts.className + '-editor';
-        this.dom.className = className + (config.className ? ' ' + config.className : '');
+        this.dom.classList.add(className);
+        if(config.className) {
+            this.dom.classList.add(config.className);
+        }
 
         const titleElement = generateTextElement('title');
         this.dom.appendChild(titleElement);
@@ -218,7 +221,10 @@ io.github.shunshun94.util.PositionMapping.Viewer = class {
     }
     render(config) {
         const className = io.github.shunshun94.util.PositionMapping.consts.className + '-viewer';
-        this.dom.className = className + (config.className ? ' ' + config.className : '');
+        this.dom.classList.add(className);
+        if(config.className) {
+            this.dom.classList.add(config.className);
+        }
 
         const titleElement = document.createElement('div');
         titleElement.textContent = config.title;
