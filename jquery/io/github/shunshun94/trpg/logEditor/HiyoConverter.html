@@ -151,11 +151,10 @@ const exportHandlerClass = class {
 		return exporter.domListToOutput(this.importedFile, opt_appendClassName || this.appendClassName)
 			.replaceAll(/弱点([\-\+]\d+)/g, '<span class="weekpoint">$1</span>')
 			.replaceAll(/痛恨撃([\-\+]\d+)/g, '<span class="deadlyDamage">$1</span>')
-			.replaceAll(/クリティカル[だで][よす](\(2D6[^<自]*)＞ 自動的成功</g, '<span class="critical2">$1</span><')
-			.replaceAll(/クリティカル[だで][よす](\(2D6[^<]*)</g, '<span class="critical2">$1</span><')
-			.replaceAll(/ファンブル[だで][よす](KeyNo[^<]*)＞ 自動的失敗</g, '<span class="fumble2">$1</span><')
-			.replaceAll(/ファンブル[だで][よす](\(2D6[^<]*)</g, '<span class="fumble2">$1</span><')
-			.replaceAll(/ファンブル[だで][よす](\(2D6[^<自]*)＞ 自動的失敗</g, '<span class="fumble2">$1</span><')
+			.replaceAll(/クリティカル[だで]?[よす]?(\(2D6[^<自]*)＞ 自動的成功</g, '<span class="critical2">$1</span><')
+			.replaceAll(/クリティカル[だで]?[よす]?(\(2D6[^<]*)</g, '<span class="critical2">$1</span><')
+			.replaceAll(/ファンブル[だで]?[よす]?(\(2D6[^<]*)</g, '<span class="fumble2">$1</span><')
+			.replaceAll(/ファンブル[だで]?[よす]?(\(2D6[^<自]*)＞ 自動的失敗</g, '<span class="fumble2">$1</span><')
 			+ `<`+ `script` + `>if(document.getElementsByTagName('body')[0].textContent.includes('//' + 'TODO')){ alert('TODO が残っているようです'); }</`+`script`+`>`;
 	}
 	downloadGeneratedFile(generateFileResult, opt_mode) {
