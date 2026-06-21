@@ -1,0 +1,40 @@
+<html>
+    <head prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# article: http://ogp.me/ns/article#">
+        <meta property="og:title" content="ポジションマッピングの編集" />
+        <meta property="og:type" content="website" />
+        <meta property="og:image" content="https://shunshun94.github.io/shared/replies/terms/ogp.jpg" />
+        <meta property="og:site_name" content="https://shunshun94.github.io/shared" />
+        <meta property="og:description" content="ポジションマッピングの編集ツール" />
+        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:site" content="@Shunshun94" />
+        <meta name="twitter:text:title" content="ポジションマッピングの編集" />
+        <title>ポジションマッピングの編集</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+        <script src="../../../util/PositionMapping/PositionMapping.js"></script>
+        <script src="../../../util/common.js"></script>
+        <script src="./shared.js"></script>
+        <script src="./edit.js"></script>
+        <link rel="stylesheet" href="../../../util/PositionMapping/PositionMapping.css" type="text/css" />
+        <link rel="stylesheet" href="./css/editor.css" type="text/css" />
+    </head>
+    <body>
+        <div id="editor">
+            <div id="editor-tab-list">
+                <div class="editor-tab-list-item" id="editor-tab-list-item-output">出力</div><div class="editor-tab-list-item" id="editor-tab-list-item-add">マップを追加</div>
+            </div>
+            <div id="editor-tab-content" class="positionMapping-content">
+                <div id="editor-tab-content-output" class="io-github-shunshun94-util-PositionMapping-output io-github-shunshun94-util-PositionMapping-editor">
+                    <div id="editor-tab-content-output-description" class="io-github-shunshun94-util-PositionMapping-output-description">以下をコピーして、キャラクターシートの「容姿・経歴・その他メモ」欄に<strong>そのまま編集せずに</strong>貼り付けてください。「容姿・経歴・その他メモ」欄に他の記述が含まれていても構いません。</div>
+                    <textarea id="editor-tab-content-output-textarea" class="io-github-shunshun94-util-PositionMapping-output-textarea"></textarea>
+                </div>
+            </div>
+        </div>
+        <script>
+            const params = io.github.shunshun94.util.getQueries();
+            if(! params.get('sheet')) {
+                params.set('sheet', prompt('キャラクターシートの URL を入力してください'));
+            }
+            io.github.shunshun94.trpg.ytsheet.posmap.initializeEditor(params.get('sheet'), (params.get('import') || '').split(',').filter((url) => url));
+        </script>
+    </body>
+</html>
