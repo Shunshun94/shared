@@ -35,6 +35,9 @@ io.github.shunshun94.trpg.ytsheet.posmap.getSheetDataList = (urlList) => {
  
 io.github.shunshun94.trpg.ytsheet.posmap.importPosMapData = (sheetData) => {
     const startString = '{{PositionMapping}}';
+    if(!sheetData.freeNote || !sheetData.freeNote.includes(startString)) {
+        return {};
+    }
     const result = {};
     const rawFreeText = (sheetData.freeNote || '').split(startString).at(-1).split('&lt;br&gt;').slice(1);
     let cursor = '';
