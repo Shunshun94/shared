@@ -19,7 +19,7 @@ io.github.shunshun94.trpg.ytsheet.posmap.getSheetData = (encodedTmpUrl) => {
                 url: url,
                 name: data.namePlate || data.characterName,
                 id: data.id,
-                imageURL: data.imageURL
+                image: data.imageURL
             };
             sheetData.posMapData = io.github.shunshun94.trpg.ytsheet.posmap.importPosMapData(data);
             resolve(sheetData);
@@ -35,7 +35,7 @@ io.github.shunshun94.trpg.ytsheet.posmap.getSheetDataList = (urlList) => {
  
 io.github.shunshun94.trpg.ytsheet.posmap.importPosMapData = (sheetData) => {
     const startString = '{{PositionMapping}}';
-    if(!sheetData.freeNote || !sheetData.freeNote.includes(startString)) {
+    if(! (sheetData.freeNote || '').includes(startString)) {
         return {};
     }
     const result = {};
