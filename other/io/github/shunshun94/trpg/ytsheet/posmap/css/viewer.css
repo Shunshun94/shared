@@ -52,3 +52,16 @@
 #viewer-tab-content > div.active {
     display: block;
 }
+
+#viewer-tab-content-links > table tr:nth-child(odd) {
+    background-color: #f0f0f0;
+}
+
+#viewer-tab-content-links {
+    overflow: scroll;
+}
+
+#viewer-tab-content-links > table tr td,
+#viewer-tab-content-links > table tr th {
+    padding: 4px;
+}
