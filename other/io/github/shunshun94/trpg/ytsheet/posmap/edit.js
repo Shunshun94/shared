@@ -31,7 +31,7 @@ io.github.shunshun94.trpg.ytsheet.posmap.appendNewEditorTab = (idSuffix, items, 
 io.github.shunshun94.trpg.ytsheet.posmap.buildInitialEditorDoms = (sheetData, importedDataList) => {
     const name = sheetData.name;
     const id = sheetData.id;
-    const image = sheetData.imageURL;
+    const image = sheetData.image;
     const defaultPosMapMap = importedDataList.map((c)=>{ return c.posMapData; }).reduce((map, posMap)=>{
         return Object.assign(map, posMap);
     }, {});
@@ -89,7 +89,7 @@ io.github.shunshun94.trpg.ytsheet.posmap.initializeEditor = (targetCharacterUrl,
         io.github.shunshun94.trpg.ytsheet.posmap.defaultCharacter = {
             name: sheetData.name,
             id: sheetData.id,
-            image: sheetData.imageURL,
+            image: sheetData.image,
             row: 0,
             column: 0
         };
