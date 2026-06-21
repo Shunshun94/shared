@@ -5,7 +5,8 @@ io.github.shunshun94.trpg = io.github.shunshun94.trpg || {};
 io.github.shunshun94.trpg.ytsheet = io.github.shunshun94.trpg.ytsheet || {};
 io.github.shunshun94.trpg.ytsheet.posmap = io.github.shunshun94.trpg.ytsheet.posmap || {};
 
-io.github.shunshun94.trpg.ytsheet.posmap.getSheetData = (tmpUrl) => {
+io.github.shunshun94.trpg.ytsheet.posmap.getSheetData = (encodedTmpUrl) => {
+    const tmpUrl = decodeURIComponent(encodedTmpUrl);
     const url = (/^[A-Za-z0-9]+$/).test(tmpUrl) ? `https://yutorize.work/ytsheet/sw2.5/?id=${tmpUrl}` : tmpUrl;
     return new Promise((resolve, reject)=>{
         $.ajax({
@@ -15,6 +16,7 @@ io.github.shunshun94.trpg.ytsheet.posmap.getSheetData = (tmpUrl) => {
             dataType:'jsonp'
         }).done((data)=>{
             const sheetData = {
+                url: url,
                 name: data.namePlate || data.characterName,
                 id: data.id,
                 imageURL: data.imageURL
