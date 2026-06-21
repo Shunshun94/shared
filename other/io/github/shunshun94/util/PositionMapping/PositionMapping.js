@@ -26,7 +26,18 @@ io.github.shunshun94.util.PositionMapping.Editor = class {
         this.items = [];
         this.graph = null;
         this.render(config);
+        this.bindInputEvents();
         items.forEach((item) => { this.add(item); });
+    }
+    bindInputEvents() {
+        this.dom.addEventListener('input', (e) => {
+            const eventOptions = {};
+            eventOptions.detail = this.getConfig();
+            eventOptions.bubbles = true;
+            eventOptions.cancelable = true;
+            const event = new CustomEvent(io.github.shunshun94.util.PositionMapping.consts.className + '-input', eventOptions);
+            this.dom.dispatchEvent(event);
+        });
     }
     bindDragEvents(itemElement) {
         const draggingClass = `${io.github.shunshun94.util.PositionMapping.consts.className}-editor-dragging`;
@@ -68,7 +79,17 @@ io.github.shunshun94.util.PositionMapping.Editor = class {
             itemElement.style.left = `${left}px`;
             itemElement.style.top = `${top}px`;
         };
-        const endDrag = (e) => { isDragging = false; itemElement.classList.remove(draggingClass); };
+        const endDrag = (e) => {
+            isDragging = false;
+            itemElement.classList.remove(draggingClass);
+            const eventOptions = {
+                details: this.getItems(),
+                bubbles: true,
+                cancelable: true
+            };
+            const event = new CustomEvent(io.github.shunshun94.util.PositionMapping.consts.className + '-move', eventOptions);
+            this.dom.dispatchEvent(event);
+        };
         itemElement.addEventListener('mousedown', startDrag);
         itemElement.addEventListener('touchstart', startDrag);
         itemElement.addEventListener('mousemove', moveDrag);
