@@ -77,7 +77,7 @@ io.github.shunshun94.trpg.ytsheet.posmap.generateLinks = (sheetDataList) => {
     sheetDataList.forEach((sheetData)=>{
         const row = document.createElement('tr');
 
-        const nameCell = document.createElement('td');
+        const nameCell = document.createElement('th');
         nameCell.textContent = sheetData.name;
         row.appendChild(nameCell);
 
