@@ -36,10 +36,11 @@ io.github.shunshun94.trpg.SW2_PCListerApp.drawOutput = () => {
     const nameFormatAlgorithm = io.github.shunshun94.trpg.SW2_PCListerApp.CONSTS.NAME_FORMAT_ALGORITHMS[$('#pcNameFormat').val()] || io.github.shunshun94.trpg.SW2_PCListerApp.CONSTS.NAME_FORMAT_ALGORITHMS.asIs;
     const urlsResult = {
         'outputUrl': [`${location.origin}${location.pathname}?sheets=`], 'pcList-choice': ['choice'],
-        'pcList-simple': [], 'pcList-fullA': [], 'pcList-fullB': [], 'pcList-fullC': [], 'pcList-fullD': [], 'pcList-fullE': [], 'pcList-fullF': [], 'pcList-fullG': []
+        'pcList-simple': [], 'pcList-fullA': [], 'pcList-fullB': [], 'pcList-fullC': [], 'pcList-fullD': [], 'pcList-fullE': [], 'pcList-fullF': [], 'pcList-fullG': [],
+        'posmapUrl': ['https://shunshun94.github.io/shared/other/io/github/shunshun94/trpg/ytsheet/posmap/view.html?sheet=']
     };
     const urlsResultConnector = {
-        'outputUrl': ',', 'pcList-choice': ' ', 'pcList-simple': ' ', 'pcList-fullA': ' ', 'pcList-fullB': ' ', 'pcList-fullC': ' ', 'pcList-fullD': ' ', 'pcList-fullE': ' ', 'pcList-fullF': ' ', 'pcList-fullG': ' '
+        'outputUrl': ',', 'pcList-choice': ' ', 'pcList-simple': ' ', 'pcList-fullA': ' ', 'pcList-fullB': ' ', 'pcList-fullC': ' ', 'pcList-fullD': ' ', 'pcList-fullE': ' ', 'pcList-fullF': ' ', 'pcList-fullG': ' ', 'posmapUrl':','
     };
     const urlsResultFormat = {
         'outputUrl': '{url}', 
@@ -51,7 +52,8 @@ io.github.shunshun94.trpg.SW2_PCListerApp.drawOutput = () => {
         'pcList-fullD': '[{name}#{ID}]({pl}さん)',
         'pcList-fullE': '[[{name}>{url}]]',
         'pcList-fullF': '[{name}({pl}さん)]({url})',
-        'pcList-fullG': '{name}({pl}さん)'
+        'pcList-fullG': '{name}({pl}さん)',
+        'posmapUrl': '{url}'
     };
     for(const buffId in appliedBuffs) {
         const buff = buffs[buffId];
