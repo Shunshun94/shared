@@ -53,6 +53,10 @@ td {
     display: none;
 }
 
+#outputLinks {
+    margin-top: 1em;
+}
+
 #outputLinks p {
     position:relative;
 }
