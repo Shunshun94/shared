@@ -42,21 +42,72 @@ io.github.shunshun94.trpg.ytsheet.posmap.buildInitialEditorDoms = (sheetData, im
     });
 };
 
-io.github.shunshun94.trpg.ytsheet.posmap.updateOutput = () => {
-    document.getElementById('editor-tab-content').classList.add('display-all');
-    document.getElementById('editor-tab-content-output-textarea').value = '{{PositionMapping}}\n' + io.github.shunshun94.trpg.ytsheet.posmap.editorInstances.map((editor)=>{
-        return {
-            config: editor.getConfig(),
-            items: editor.getItems()
-        };
+io.github.shunshun94.trpg.ytsheet.posmap.updateOutput = (mapResultList = [], ignoreList = []) => {
+    
+    const body = mapResultList.filter((editor)=>{
+        return ! ignoreList.includes(editor.config.title);
     }).map((editor)=>{
         const result = [];
         result.push(`|>|>|${editor.config.title}|`);
         result.push(`|${editor.config.top}|${editor.items[0].row}|${editor.config.bottom}|`);
         result.push(`|${editor.config.left}|${editor.items[0].column}|${editor.config.right}|`);
         return result.join('\n');
-    }).join('\n') + '\n{{/PositionMapping}}';
+    }).join('\n');
+    document.getElementById('editor-tab-content-output-textarea').value = `{{PositionMapping}}\n${body}\n{{/PositionMapping}}`;
+    
+    return document.getElementById('editor-tab-content-output-textarea');
+};
+
+io.github.shunshun94.trpg.ytsheet.posmap.getMapResultList = () => {
+    document.getElementById('editor-tab-content').classList.add('display-all');
+    const result = io.github.shunshun94.trpg.ytsheet.posmap.editorInstances.map((editor)=>{
+        return {
+            config: editor.getConfig(),
+            items: editor.getItems()
+        };
+    });
     document.getElementById('editor-tab-content').classList.remove('display-all');
+    return result;
+};
+
+io.github.shunshun94.trpg.ytsheet.posmap.getIgnoredList = () => {
+    return Array.from(document.getElementById('editor-tab-content-output-ignoreList').getElementsByTagName('input')).filter((e)=>{
+        return e.checked;
+    }).map((e)=>{
+        return e.title;
+    });
+};
+
+io.github.shunshun94.trpg.ytsheet.posmap.buildIgnoreListCheckLists = (mapResultList = []) => {
+    const base = document.getElementById('editor-tab-content-output-ignoreList');
+    base.innerHTML = '';
+    const description = document.createElement('p');
+    description.textContent = '出力から除外するものにチェック';
+    base.append(description);
+    mapResultList.forEach((posMap) => {
+        const checkBase = document.createElement('span');
+
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.checked = (Number(posMap.items[0].row) === 0) && (Number(posMap.items[0].column) === 0);
+        checkbox.title = posMap.config.title;
+        checkBase.append(checkbox);
+
+        const label = document.createElement('label');
+        label.textContent = posMap.config.title;
+        checkBase.append(label);
+
+        base.append(checkBase);
+    });
+    return io.github.shunshun94.trpg.ytsheet.posmap.getIgnoredList();
+};
+
+io.github.shunshun94.trpg.ytsheet.posmap.onOpenOutput = () => {
+    const posMapList = io.github.shunshun94.trpg.ytsheet.posmap.getMapResultList();
+    io.github.shunshun94.trpg.ytsheet.posmap.buildIgnoreListCheckLists(posMapList);
+    const ignoreList = io.github.shunshun94.trpg.ytsheet.posmap.getIgnoredList();
+    const resultElement = io.github.shunshun94.trpg.ytsheet.posmap.updateOutput(posMapList, ignoreList);
+    resultElement.select();
 };
 
 io.github.shunshun94.trpg.ytsheet.posmap.setupEditorEventListeners = () => {
@@ -68,8 +119,8 @@ io.github.shunshun94.trpg.ytsheet.posmap.setupEditorEventListeners = () => {
             io.github.shunshun94.trpg.ytsheet.posmap.appendNewEditorTab(idSuffix, [structuredClone(io.github.shunshun94.trpg.ytsheet.posmap.defaultCharacter)]);
             io.github.shunshun94.trpg.ytsheet.posmap.changeTab(newTabElement);
         } else if(event.target.id === 'editor-tab-list-item-output') {
-            io.github.shunshun94.trpg.ytsheet.posmap.updateOutput();
             io.github.shunshun94.trpg.ytsheet.posmap.changeTab(event.target);
+            io.github.shunshun94.trpg.ytsheet.posmap.onOpenOutput();
         } else if(event.target.classList.contains('editor-tab-list-item')) {
             io.github.shunshun94.trpg.ytsheet.posmap.changeTab(event.target);
         }
@@ -78,6 +129,12 @@ io.github.shunshun94.trpg.ytsheet.posmap.setupEditorEventListeners = () => {
         const idSuffix = event.target.id.replace('editor-tab-content-', '');
         const tabElement = document.getElementById(`editor-tab-list-item-${idSuffix}`);
         tabElement.textContent = event.detail.title;
+    });
+    document.getElementById('editor-tab-content-output-ignoreList').addEventListener('change', (e)=>{
+        const posMapList = io.github.shunshun94.trpg.ytsheet.posmap.getMapResultList();
+        const ignoreList = io.github.shunshun94.trpg.ytsheet.posmap.getIgnoredList();
+        const resultElement = io.github.shunshun94.trpg.ytsheet.posmap.updateOutput(posMapList, ignoreList);
+        resultElement.select();
     });
 };
 
