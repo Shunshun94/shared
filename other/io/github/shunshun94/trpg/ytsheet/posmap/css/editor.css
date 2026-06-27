@@ -55,12 +55,30 @@
 
 #editor-tab-content-output-textarea {
     position: relative;
-    margin:auto;
     margin-top: 8px;
-    width: 100%;
+    width: 49%;
     height: 94%;
     border: 1px solid #ccc;
     background-color: #f8f8f8;
     resize: none;
     padding: 8px;
+    user-select: all;
+    display: inline-block;
+}
+
+#editor-tab-content-output-ignoreList {
+    position: relative;
+    margin-top: 8px;
+    width: 49%;
+    height: 94%;
+    display: inline-block;
+    overflow: scroll;
+}
+#editor-tab-content-output-ignoreList span {
+    display: block;
+}
+
+#editor-tab-content-output-ignoreList input,
+#editor-tab-content-output-ignoreList label {
+    display: inline;
 }
