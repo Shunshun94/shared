@@ -1,58 +1,5 @@
 @charset "utf-8";
 
-* {
-    font-family: "BIZ UDゴシック","UD Shin Go NT Light JIS2004","UD デジタル 教科書体 N-R", Verdana, Roboto, "Droid Sans", "游ゴシック", YuGothic, "メイリオ", Meiryo, "ヒラギノ角ゴ ProN W3", "Hiragino Kaku Gothic ProN", "ＭＳ Ｐゴシック", sans-serif;
-    box-sizing:border-box;
-}
-
-#viewer-tab-list {
-    padding-top: 4px;
-    padding-left: 4px;
-    padding-right: 4px;
-    border-bottom:gray solid 1px;
-    background: lightgray;
-    user-select: none;
-}
-
-.viewer-tab-list-item{
-    display:inline-block;
-    width: 108px;
-    height: 32px;
-    padding: 8px 0;
-    text-align:center;
-    border-top:1px solid gray;
-    border-left:1px solid gray;
-    border-right:1px solid gray;
-    border-radius: 16px 0 0 0;
-    background: dimgray;
-    color: white;
-    overflow: hidden;
-    white-space: nowrap;
-    cursor:pointer;
-}
-
-#viewer-tab-list > .active {
-    background: white;
-    color: black;
-    font-weight: bold;
-}
-
-#viewer-tab-list-item-add {
-    background-color: rosybrown;
-}
-
-#viewer-tab-content > div {
-    display: none;
-}
-
-#viewer-tab-content.display-all > div {
-    display: block;
-}
-
-#viewer-tab-content > div.active {
-    display: block;
-}
-
 #viewer-tab-content-links > table tr:nth-child(odd) {
     background-color: #f0f0f0;
 }

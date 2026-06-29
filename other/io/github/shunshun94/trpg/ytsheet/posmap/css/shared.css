@@ -1,0 +1,117 @@
+@charset "utf-8";
+
+* {
+    font-family: "BIZ UDゴシック","UD Shin Go NT Light JIS2004","UD デジタル 教科書体 N-R", Verdana, Roboto, "Droid Sans", "游ゴシック", YuGothic, "メイリオ", Meiryo, "ヒラギノ角ゴ ProN W3", "Hiragino Kaku Gothic ProN", "ＭＳ Ｐゴシック", sans-serif;
+    box-sizing:border-box;
+}
+
+h1 {
+    font-size: 140%;
+    padding: 8px;
+    margin-bottom: 0px;
+    background-color: lightgray;
+}
+
+h2 {
+    font-size: 120%;
+    padding: 8px;
+    margin-bottom: 0px;
+    background-color: lightgray;
+}
+
+#viewer-tab-list,
+#editor-tab-list {
+    padding-top: 4px;
+    padding-left: 4px;
+    padding-right: 4px;
+    border-bottom:gray solid 1px;
+    background: lightgray;
+    user-select: none;
+}
+
+.viewer-tab-list-item,
+.editor-tab-list-item {
+    display:inline-block;
+    width: 108px;
+    height: 32px;
+    padding: 8px 0;
+    text-align:center;
+    border-top:1px solid gray;
+    border-left:1px solid gray;
+    border-right:1px solid gray;
+    border-radius: 16px 0 0 0;
+    background: dimgray;
+    color: white;
+    overflow: hidden;
+    white-space: nowrap;
+    cursor:pointer;
+}
+
+#viewer-tab-list > .active,
+#editor-tab-list > .active {
+    background: white;
+    color: black;
+    font-weight: bold;
+}
+
+#viewer-tab-content > div,
+#editor-tab-content > div {
+    display: none;
+}
+
+#viewer-tab-content.display-all > div,
+#editor-tab-content.display-all > div {
+    display: block;
+}
+
+#viewer-tab-content-readme,
+#editor-tab-content-readme {
+    padding: 1em;
+}
+
+#viewer-tab-content-readme > p,
+#editor-tab-content-readme > p {
+    text-indent: 1em;
+}
+
+#viewer-tab-content > div.active,
+#editor-tab-content > div.active {
+    display: block;
+}
+
+#initial-config {
+    display: none;
+    position: absolute;
+    top: 0px;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    background-color: lightgray;
+    padding: 2em;
+}
+
+#initial-config.visible {
+    display: block;
+}
+
+#initial-config textarea {
+    resize: none;
+    width: 80%;
+    max-width: 664px;
+    height: 160px;    
+}
+
+#initial-config .initial-config-sheet-InputArea-Exec {
+    display: none;
+}
+
+#initial-config .initial-config-sheet-InputArea-SheetUrl {
+    width: 80%;
+    max-width: 480px;
+}
+
+#initial-config #initial-config-exec {
+    display: block;
+    padding: 4px;
+    margin-top:1em;
+}

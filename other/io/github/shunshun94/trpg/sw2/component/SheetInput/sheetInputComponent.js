@@ -9,6 +9,24 @@ io.github.shunshun94.trpg.sw2.component.SheetInput.EVENTS = io.github.shunshun94
 io.github.shunshun94.trpg.sw2.component.SheetInput.EVENTS = {
     SHEET_URL_INPUT: 'io-github-shunshun94-trpg-sw2-component-SheetInput-events-sheet_url_input'
 };
+
+io.github.shunshun94.trpg.sw2.component.SheetInput.changeDomain = () => {
+    const currentMap = JSON.parse(localStorage.getItem('com-hiyoko-sample-sw2sheetparse-index') || '{}');
+    const result = {};
+    Object.keys(currentMap).forEach((tmpUrl) => {
+        let url= '';
+        if(tmpUrl.startsWith('https://yutorize.2-d.jp/ytsheet')) {
+            url = tmpUrl.replace('https://yutorize.2-d.jp/ytsheet', 'https://yutorize.work/ytsheet');
+        } else {
+            url = tmpUrl;
+        }
+        result[url] = currentMap[tmpUrl];
+    });
+    localStorage.setItem('com-hiyoko-sample-sw2sheetparse-index', JSON.stringify(result));
+    return result;
+};
+
+
 io.github.shunshun94.trpg.sw2.component.SheetInput.build = (targetDom, options={}) => {
     const uniqueId = Math.floor(Math.random()*50000);
     const baseClass = options.className || targetDom.class || targetDom.id || 'io-github-shunshun94-trpg-sw2-component-SheetInput';
@@ -45,6 +63,7 @@ io.github.shunshun94.trpg.sw2.component.SheetInput.build = (targetDom, options={
     const dataList = document.createElement('datalist');
     dataList.id = listId;
     const characterList = JSON.parse(localStorage.getItem('com-hiyoko-sample-sw2sheetparse-index') || '{}');
+
     const characterSheetFilter = io.github.shunshun94.trpg.sw2.component.SheetInput.getCharacterSheetFilter(options);
     for(var url in characterList) {
         if(characterSheetFilter(url)) {
@@ -72,4 +91,4 @@ io.github.shunshun94.trpg.sw2.component.SheetInput.getCharacterSheetFilter = (op
     return ()=>{return true;};
 };
 
-
+io.github.shunshun94.trpg.sw2.component.SheetInput.changeDomain();

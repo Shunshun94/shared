@@ -2,7 +2,7 @@
     <head prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# article: http://ogp.me/ns/article#">
         <meta property="og:title" content="ポジションマッピングの編集" />
         <meta property="og:type" content="website" />
-        <meta property="og:image" content="https://shunshun94.github.io/shared/replies/terms/ogp.jpg" />
+        <meta property="og:image" content="./img/ogp.png" />
         <meta property="og:site_name" content="https://shunshun94.github.io/shared" />
         <meta property="og:description" content="ポジションマッピングの編集ツール" />
         <meta name="twitter:card" content="summary" />
@@ -14,15 +14,27 @@
         <script src="../../../util/common.js"></script>
         <script src="./shared.js"></script>
         <script src="./edit.js"></script>
+        <script src="../../sw2/component/SheetInput/sheetInputComponent.js"></script>
+        <script src="./initialInput.js"></script>
         <link rel="stylesheet" href="../../../util/PositionMapping/PositionMapping.css" type="text/css" />
         <link rel="stylesheet" href="./css/editor.css" type="text/css" />
+        <link rel="stylesheet" href="./css/shared.css" type="text/css" />
     </head>
     <body>
         <div id="editor">
+            <h1>ポジションマッピング 編集画面</h1>
             <div id="editor-tab-list">
-                <div class="editor-tab-list-item" id="editor-tab-list-item-output">出力</div><div class="editor-tab-list-item" id="editor-tab-list-item-add">マップを追加</div>
+                <div class="editor-tab-list-item" id="editor-tab-list-item-readme">説明</div><div class="editor-tab-list-item" id="editor-tab-list-item-output">出力</div><div class="editor-tab-list-item" id="editor-tab-list-item-add">マップを追加</div>
             </div>
             <div id="editor-tab-content" class="positionMapping-content">
+                <div id="editor-tab-content-readme" class="io-github-shunshun94-util-PositionMapping-output io-github-shunshun94-util-PositionMapping-editor">
+                    <p>いわゆる「レーダーチャート」とか「クロスチャート」とか言われる十字上のマップにキャラ駒を配置してキャラクターの紹介をするものを生成するアプリです。業界用語では「ポジションマッピング」と呼ぶそうです。</p>
+                    <p>既にマップが作られている場合はここから編集が可能です。</p>
+                    <p>また、「マップを追加」をクリックすることで新しいマップを追加できます。</p>
+                    <p>編集したポジションマッピングの保存はゆとシート上で行います。「出力」のタブを開き、そこに書かれたテキストをキャラクターシートの「容姿・経歴・その他メモ」に貼り付けてください。「容姿・経歴・その他メモ」に情報が含まれていれば十分なので折りたたむなどして普段は隠しておいても構いません。</p>
+                    <p>完成したものを閲覧する際は<a target="_blank" href="" id="editor-tab-content-readme-link">こちら</a>からどうぞ。</p>
+                    <p>ソースコードは<a target="_blank" href="https://github.com/Shunshun94/shared/tree/master/other/io/github/shunshun94/trpg/ytsheet/posmap">こちら</a>。</p>
+                </div>
                 <div id="editor-tab-content-output" class="io-github-shunshun94-util-PositionMapping-output io-github-shunshun94-util-PositionMapping-editor">
                     <div id="editor-tab-content-output-description" class="io-github-shunshun94-util-PositionMapping-output-description">以下をコピーして、キャラクターシートの「容姿・経歴・その他メモ」欄に<strong>そのまま編集せずに</strong>貼り付けてください。「容姿・経歴・その他メモ」欄に他の記述が含まれていても構いません。</div>
                     <textarea readonly id="editor-tab-content-output-textarea" class="io-github-shunshun94-util-PositionMapping-output-textarea"></textarea>
@@ -30,12 +42,25 @@
                 </div>
             </div>
         </div>
+        <div id="initial-config">
+            <h1>ポジションマッピング 編集画面 初期設定</h1>
+            <h2>設定したい PC のキャラクターシートの URL</h2>
+            <div id="initial-config-sheet"></div>
+            <h2>既存のポジションマッピングの取り込み先</h2>
+            <p>他のキャラクターシートに既に書かれているマップを取り込んで設定することができます。取り込みたいキャラクターシートの URL をカンマまたは改行区切りで入力してください</p>
+            <textarea id="initial-config-import"></textarea>
+            <button id="initial-config-exec">開く</button>
+        </div>
         <script>
             const params = io.github.shunshun94.util.getQueries();
-            if(! params.get('sheet')) {
-                params.set('sheet', prompt('キャラクターシートの URL を入力してください'));
+            const sheet = params.get('sheet');
+            const importList = (params.get('import') || '').split(',').filter((url) => url);
+            if(sheet) {
+                io.github.shunshun94.trpg.ytsheet.posmap.initializeEditor(sheet, importList);
+                document.getElementById('editor-tab-content-readme-link').href = `./view.html?sheet=${sheet},${importList}`;
+            } else {
+               io.github.shunshun94.trpg.ytsheet.posmap.EditorInitialConfig.initialize();
             }
-            io.github.shunshun94.trpg.ytsheet.posmap.initializeEditor(params.get('sheet'), (params.get('import') || '').split(',').filter((url) => url));
         </script>
     </body>
 </html>
