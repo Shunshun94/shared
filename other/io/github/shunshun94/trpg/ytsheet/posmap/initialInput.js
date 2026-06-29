@@ -7,9 +7,10 @@ io.github.shunshun94.trpg.ytsheet.posmap = io.github.shunshun94.trpg.ytsheet.pos
 
 io.github.shunshun94.trpg.ytsheet.posmap.EditorInitialConfig = io.github.shunshun94.trpg.ytsheet.posmap.EditorInitialConfig || {};
 
-io.github.shunshun94.trpg.ytsheet.posmap.EditorInitialConfig.initialize = () => {
+io.github.shunshun94.trpg.ytsheet.posmap.EditorInitialConfig.initialize = (importList = []) => {
     const inputPlace = document.getElementById('initial-config');
     inputPlace.classList.add('visible');
+    document.getElementById('initial-config-import').value = importList.join('\n')
     io.github.shunshun94.trpg.sw2.component.SheetInput.build(document.getElementById('initial-config-sheet'), {characterSheetFilter: 'ytsheet'});
     document.getElementById('initial-config-exec').addEventListener('click', (e)=>{
         const sheetUrl = io.github.shunshun94.trpg.ytsheet.posmap.fixUrl(inputPlace.getElementsByClassName('initial-config-sheet-InputArea-SheetUrl')[0].value);
