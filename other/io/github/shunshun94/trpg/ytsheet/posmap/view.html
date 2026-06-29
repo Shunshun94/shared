@@ -2,7 +2,7 @@
     <head prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# article: http://ogp.me/ns/article#">
         <meta property="og:title" content="ポジションマッピングの閲覧" />
         <meta property="og:type" content="website" />
-        <meta property="og:image" content="https://shunshun94.github.io/shared/replies/terms/ogp.jpg" />
+        <meta property="og:image" content="./img/ogp.png" />
         <meta property="og:site_name" content="https://shunshun94.github.io/shared" />
         <meta property="og:description" content="ポジションマッピングの閲覧ツール" />
         <meta name="twitter:card" content="summary" />
@@ -14,21 +14,40 @@
         <script src="../../../util/common.js"></script>
         <script src="./shared.js"></script>
         <script src="./view.js"></script>
+        <script src="./initialInput.js"></script>
         <link rel="stylesheet" href="../../../util/PositionMapping/PositionMapping.css" type="text/css" />
+        <link rel="stylesheet" href="./css/shared.css" type="text/css" />
         <link rel="stylesheet" href="./css/viewer.css" type="text/css" />
     </head>
     <body>
         <div id="viewer">
+            <h1>ポジションマッピング 閲覧画面</h1>
             <div id="viewer-tab-list">
-                <div class="viewer-tab-list-item" id="viewer-tab-list-item-links">編集画面</div>
+                <div class="viewer-tab-list-item" id="viewer-tab-list-item-links">編集画面</div><div class="viewer-tab-list-item" id="viewer-tab-list-item-readme">説明</div>
+            </div>
+            <div id="viewer-tab-readme" class="positionMapping-content">
+                <p>いわゆる「レーダーチャート」とか「クロスチャート」とか言われる十字上のマップにキャラ駒を配置してキャラクターの紹介をするものを閲覧するアプリです。業界用語では「ポジションマッピング」と呼ぶそうです。</p>
+                <p>編集したい場合は「編集画面」のタブから編集用のリンクを開き、編集してください。</p>
+                <p>ソースコードは<a target="_blank" href="https://github.com/Shunshun94/shared/tree/master/other/io/github/shunshun94/trpg/ytsheet/posmap">こちら</a>。</p>
             </div>
             <div id="viewer-tab-content" class="positionMapping-content">
                 <div id="viewer-tab-content-links" class="io-github-shunshun94-util-PositionMapping-output io-github-shunshun94-util-PositionMapping-viewer"></div>
             </div>
         </div>
+        <div id="initial-config">
+            <h1>ポジションマッピング 閲覧画面 初期設定</h1>
+            <p>カンマまたは改行区切りで表示させたいキャラクターシートの URL を入力してください</p>
+            <textarea id="initial-config-import"></textarea>
+            <button id="initial-config-exec">開く</button>
+        </div>
         <script>
             const params = io.github.shunshun94.util.getQueries();
-            io.github.shunshun94.trpg.ytsheet.posmap.initializeViewer((params.get('sheet') || params.get('sheets') || params.get('import') || '').split(',').filter((url) => url));
+            const list = (params.get('sheet') || params.get('sheets') || params.get('import') || '').split(',').filter((url) => url);
+            if( list.length ) {
+                io.github.shunshun94.trpg.ytsheet.posmap.initializeViewer(list);
+            } else {
+                io.github.shunshun94.trpg.ytsheet.posmap.ViewerInitialConfig.initialize();
+            }
         </script>
     </body>
 </html>

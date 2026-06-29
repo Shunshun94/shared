@@ -50,9 +50,6 @@ io.github.shunshun94.trpg.ytsheet.posmap.setupViewerEventListeners = () => {
 };
 
 io.github.shunshun94.trpg.ytsheet.posmap.generateLinks = (sheetDataList) => {
-    const fixUrl = (url) => {
-        return encodeURIComponent(/https:\/\/yutorize\.work\/ytsheet\/sw2\.5\/\?id=([a-zA-Z0-9]+)/.exec(url)?.[1] || url);
-    };
     const generateLinkElement = (text, url) => {
         const link = document.createElement('a');
         link.href = url;
@@ -60,7 +57,7 @@ io.github.shunshun94.trpg.ytsheet.posmap.generateLinks = (sheetDataList) => {
         link.target = '_blank';
         return link;
     };
-    const allUrls = sheetDataList.map((sheetData)=>{ return fixUrl(sheetData.url); });
+    const allUrls = sheetDataList.map((sheetData)=>{ return io.github.shunshun94.trpg.ytsheet.posmap.fixUrl(sheetData.url); });
     const base = document.getElementById('viewer-tab-content-links');
     const table = document.createElement('table');
     const header = document.createElement('tr');
@@ -87,7 +84,7 @@ io.github.shunshun94.trpg.ytsheet.posmap.generateLinks = (sheetDataList) => {
         row.appendChild(sheetCell);
 
         const editCell = document.createElement('td');
-        const editLink = generateLinkElement('編集', `edit.html?sheet=${fixUrl(sheetData.url)}&import=${allUrls.join(',')}`);
+        const editLink = generateLinkElement('編集', `edit.html?sheet=${io.github.shunshun94.trpg.ytsheet.posmap.fixUrl(sheetData.url)}&import=${allUrls.join(',')}`);
         editCell.appendChild(editLink);
         row.appendChild(editCell);
 

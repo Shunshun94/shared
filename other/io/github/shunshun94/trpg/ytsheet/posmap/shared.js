@@ -5,6 +5,10 @@ io.github.shunshun94.trpg = io.github.shunshun94.trpg || {};
 io.github.shunshun94.trpg.ytsheet = io.github.shunshun94.trpg.ytsheet || {};
 io.github.shunshun94.trpg.ytsheet.posmap = io.github.shunshun94.trpg.ytsheet.posmap || {};
 
+io.github.shunshun94.trpg.ytsheet.posmap.fixUrl = (url) => {
+    return encodeURIComponent(/https:\/\/yutorize\.work\/ytsheet\/sw2\.5\/\?id=([a-zA-Z0-9]+)/.exec(url)?.[1] || url);
+};
+
 io.github.shunshun94.trpg.ytsheet.posmap.getSheetData = (encodedTmpUrl) => {
     const tmpUrl = decodeURIComponent(encodedTmpUrl);
     const url = (/^[A-Za-z0-9]+$/).test(tmpUrl) ? `https://yutorize.work/ytsheet/sw2.5/?id=${tmpUrl}` : tmpUrl;
