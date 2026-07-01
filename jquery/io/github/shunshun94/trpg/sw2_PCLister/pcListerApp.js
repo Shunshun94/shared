@@ -40,7 +40,7 @@ io.github.shunshun94.trpg.SW2_PCListerApp.drawOutput = () => {
         'posmapUrl': ['https://shunshun94.github.io/shared/other/io/github/shunshun94/trpg/ytsheet/posmap/view.html?sheet=']
     };
     const urlsResultConnector = {
-        'outputUrl': ',', 'pcList-choice': ' ', 'pcList-simple': ' ', 'pcList-fullA': ' ', 'pcList-fullB': ' ', 'pcList-fullC': ' ', 'pcList-fullD': ' ', 'pcList-fullE': ' ', 'pcList-fullF': ' ', 'pcList-fullG': ' ', 'posmapUrl':','
+        'outputUrl': ',', 'pcList-choice': ' ', 'pcList-simple': ' ', 'pcList-fullA': ' ', 'pcList-fullB': ' ', 'pcList-fullC': ' ', 'pcList-fullD': ', ', 'pcList-fullE': ' ', 'pcList-fullF': ', ', 'pcList-fullG': ', ', 'posmapUrl':','
     };
     const urlsResultFormat = {
         'outputUrl': '{url}', 

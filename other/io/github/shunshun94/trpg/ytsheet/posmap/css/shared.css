@@ -115,3 +115,9 @@ h2 {
     padding: 4px;
     margin-top:1em;
 }
+
+#initial-config p {
+    width: 80%;
+    max-width: 664px;
+    text-indent: 1em;
+}

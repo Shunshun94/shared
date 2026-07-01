@@ -49,6 +49,7 @@
             <h2>既存のポジションマッピングの取り込み先</h2>
             <p>他のキャラクターシートに既に書かれているマップを取り込んで設定することができます。取り込みたいキャラクターシートの URL をカンマまたは改行区切りで入力してください</p>
             <textarea id="initial-config-import"></textarea>
+            <p>キャラクターシートにもポジションマッピングの取り込み先にもマップが記載されていない場合は、デフォルトのマップが使用されます。</p>
             <button id="initial-config-exec">開く</button>
         </div>
         <script>
@@ -57,7 +58,6 @@
             const importList = (params.get('import') || '').split(',').filter((url) => url);
             if(sheet) {
                 io.github.shunshun94.trpg.ytsheet.posmap.initializeEditor(sheet, importList);
-                document.getElementById('editor-tab-content-readme-link').href = `./view.html?sheet=${sheet},${importList}`;
             } else {
                io.github.shunshun94.trpg.ytsheet.posmap.EditorInitialConfig.initialize(importList);
             }

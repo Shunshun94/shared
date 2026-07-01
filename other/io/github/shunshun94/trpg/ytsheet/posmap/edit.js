@@ -28,13 +28,22 @@ io.github.shunshun94.trpg.ytsheet.posmap.appendNewEditorTab = (idSuffix, items, 
     return editor;
 };
 
+io.github.shunshun94.trpg.ytsheet.posmap.getInitialPositionMapData = (importedDataList) => {
+    const defaultPosMapMap = importedDataList.map((c)=>{ return c.posMapData; }).reduce((map, posMap)=>{
+        return Object.assign(map, posMap);
+    }, {});
+    if( Object.keys(defaultPosMapMap).length === 0 ) {
+        return structuredClone(io.github.shunshun94.trpg.ytsheet.posmap.DefaultMapData);
+    } else {
+        return defaultPosMapMap;
+    }
+};
+
 io.github.shunshun94.trpg.ytsheet.posmap.buildInitialEditorDoms = (sheetData, importedDataList) => {
     const name = sheetData.name;
     const id = sheetData.id;
     const image = sheetData.image;
-    const defaultPosMapMap = importedDataList.map((c)=>{ return c.posMapData; }).reduce((map, posMap)=>{
-        return Object.assign(map, posMap);
-    }, {});
+    const defaultPosMapMap = io.github.shunshun94.trpg.ytsheet.posmap.getInitialPositionMapData(importedDataList);
     Object.keys(defaultPosMapMap).forEach((key, index)=>{
         const idSuffix = `tab${index}`;
         io.github.shunshun94.trpg.ytsheet.posmap.appendTabButton   (idSuffix, defaultPosMapMap[key].map.title);
@@ -155,4 +164,38 @@ io.github.shunshun94.trpg.ytsheet.posmap.initializeEditor = (targetCharacterUrl,
             io.github.shunshun94.trpg.ytsheet.posmap.setupEditorEventListeners();
         });
     });
+    const urlList = importCharacterUrlList.map(io.github.shunshun94.trpg.ytsheet.posmap.fixUrl).filter((d)=>{return d;});
+    document.getElementById('editor-tab-content-readme-link').href = `./view.html?sheet=${urlList.join(',')}`;
 };
+
+io.github.shunshun94.trpg.ytsheet.posmap.DefaultMapData = {
+    "恋バナをするとき": {
+        "map": {
+            "title": "恋バナをするとき",
+            "top": "積極的に話す",
+            "bottom": "聞き手に回る",
+            "left": "恋バナが好き",
+            "right": "恋バナは苦手"
+        }
+    },
+    "人間関係": {
+        "map": {
+            "title": "人間関係",
+            "top": "性善説で人を信じる",
+            "bottom": "性悪説で人を疑う",
+            "left": "距離が近い",
+            "right": "距離を保つ"
+        }
+    },
+    "料理": {
+        "map": {
+            "title": "料理",
+            "top": "作るのが得意",
+            "bottom": "作るのが苦手",
+            "left": "食べることに関心がある",
+            "right": "食べることに関心がない"
+        }
+    }
+};
+
+
