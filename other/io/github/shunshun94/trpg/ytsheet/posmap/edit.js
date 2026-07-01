@@ -155,4 +155,6 @@ io.github.shunshun94.trpg.ytsheet.posmap.initializeEditor = (targetCharacterUrl,
             io.github.shunshun94.trpg.ytsheet.posmap.setupEditorEventListeners();
         });
     });
+    const urlList = importCharacterUrlList.map(io.github.shunshun94.trpg.ytsheet.posmap.fixUrl).filter((d)=>{return d;});
+    document.getElementById('editor-tab-content-readme-link').href = `./view.html?sheet=${urlList.join(',')}`;
 };
