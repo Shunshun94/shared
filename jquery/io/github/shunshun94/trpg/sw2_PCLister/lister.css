@@ -40,7 +40,7 @@ td {
     padding:4px;
 }
 
-.baseTable tr:nth-child(odd), {
+.baseTable tr:nth-child(odd) {
     background-color:#E0FFE0;
 }
 
