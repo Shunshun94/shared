@@ -9,6 +9,19 @@ io.github.shunshun94.trpg.ytsheet.posmap.fixUrl = (url) => {
     return encodeURIComponent(/https:\/\/yutorize\.work\/ytsheet\/sw2\.5\/\?id=([a-zA-Z0-9]+)/.exec(url)?.[1] || url);
 };
 
+io.github.shunshun94.trpg.ytsheet.posmap.simplifyName = (name) => {
+    const removeFurigana = (name) => {
+        const regexp = /\|(.+)《.+》/;
+        const result = regexp.exec(name);
+        if(result) {
+            return result[1];
+        } else {
+            return name;
+        };
+    };
+    return removeFurigana(name).split(/[ 　=＝・･]/)[0].trim();
+};
+
 io.github.shunshun94.trpg.ytsheet.posmap.getSheetData = (encodedTmpUrl) => {
     const tmpUrl = decodeURIComponent(encodedTmpUrl);
     const url = (/^[A-Za-z0-9]+$/).test(tmpUrl) ? `https://yutorize.work/ytsheet/sw2.5/?id=${tmpUrl}` : tmpUrl;
@@ -21,7 +34,7 @@ io.github.shunshun94.trpg.ytsheet.posmap.getSheetData = (encodedTmpUrl) => {
         }).done((data)=>{
             const sheetData = {
                 url: url,
-                name: data.namePlate || data.characterName,
+                name: data.namePlate || io.github.shunshun94.trpg.ytsheet.posmap.simplifyName(data.characterName),
                 id: data.id,
                 image: data.imageURL
             };
