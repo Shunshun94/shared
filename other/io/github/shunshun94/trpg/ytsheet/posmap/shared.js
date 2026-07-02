@@ -69,7 +69,7 @@ io.github.shunshun94.trpg.ytsheet.posmap.importPosMapData = (sheetData) => {
                     title: title
                 },
                 items: [{
-                    name: sheetData.namePlate || sheetData.characterName,
+                    name: sheetData.namePlate || io.github.shunshun94.trpg.ytsheet.posmap.simplifyName(sheetData.characterName),
                     id: sheetData.id,
                     image: sheetData.imageURL
                 }]
