@@ -40,7 +40,7 @@ td {
     padding:4px;
 }
 
-.baseTable tr:nth-child(odd) {
+.baseTable tr:nth-child(odd), {
     background-color:#E0FFE0;
 }
 
@@ -88,7 +88,8 @@ td {
     text-align:center;
 }
 
-.buffTable tr:nth-child(odd) {
+.buffTable tr:nth-child(odd),
+.buffApplyTable tr:nth-child(odd) {
     background-color:#E0E0FF;
 }
 
