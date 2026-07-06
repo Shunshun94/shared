@@ -34,9 +34,9 @@ io.github.shunshun94.ytsheet.addSkin.drawDownloadButton = (
     smallDescription = '',
 ) => {
     const buttonBase = document.createElement('li');
-	buttonBase.setAttribute('id', buttonId);
-	const button = document.createElement('a');
-	button.appendChild(document.createTextNode(buttonText));
+    buttonBase.setAttribute('id', buttonId);
+    const button = document.createElement('a');
+    button.appendChild(document.createTextNode(buttonText));
     button.onclick = (e)=>{onClickFunction(e);};
 
     if(popupDescription) {
@@ -44,10 +44,10 @@ io.github.shunshun94.ytsheet.addSkin.drawDownloadButton = (
     }
     if(smallDescription) {
         const smallNotification = document.createElement('small');
-	    smallNotification.textContent = `（${smallDescription}）`;
+        smallNotification.textContent = `（${smallDescription}）`;
         button.appendChild(smallNotification);
     }
-	buttonBase.appendChild(button);
+    buttonBase.appendChild(button);
     if(beforeElementId) {
         document.getElementById(beforeElementId).after(buttonBase);
         return buttonBase;
@@ -77,21 +77,21 @@ io.github.shunshun94.ytsheet.addSkin.drawTextForCopy = (
     afterElementId
 ) => {
     const textBase = document.createElement('li');
-	textBase.setAttribute('class', 'link-tag');
+    textBase.setAttribute('class', 'link-tag');
     textBase.setAttribute('id', elementId);
-	const textBaseSpan = document.createElement('span');
-	textBaseSpan.appendChild(document.createTextNode(description));
-	textBaseSpan.appendChild(document.createElement('br'));
+    const textBaseSpan = document.createElement('span');
+    textBaseSpan.appendChild(document.createTextNode(description));
+    textBaseSpan.appendChild(document.createElement('br'));
     textBase.appendChild(textBaseSpan);
-	const textInput = document.createElement('input');
-	textInput.type = 'text';
-	if(typeof textContent === 'function') {
+    const textInput = document.createElement('input');
+    textInput.type = 'text';
+    if(typeof textContent === 'function') {
         textInput.value = textContent();
     } else {
         textInput.value = textContent;
     }
-	textInput.onclick = (e) => { e.target.select(); };
-	textBaseSpan.appendChild(textInput);
+    textInput.onclick = (e) => { e.target.select(); };
+    textBaseSpan.appendChild(textInput);
     if(beforeElementId) {
         document.getElementById(beforeElementId).after(textBase);
         return textBase;
@@ -114,7 +114,10 @@ io.github.shunshun94.ytsheet.addSkin.drawTopMenuButton = (buttonHtml, url) => {
     const navUl = document.getElementsByTagName('nav')[0].getElementsByTagName('ul')[0];
     const lastLi = Array.from(navUl.children).at(-1);
     const newMenu = document.createElement('li');
-    newMenu.innerHTML = `<a href="${url}"><span>${buttonHtml}</span></a>`;
+    newMenu.innerHTML = `<a href="${url}">
+        <span class="icon"><!--<span class="material-symbols-outlined" aria-hidden="true"></span>--></span>
+        <span class="label"><span>${buttonHtml}</span></span>
+    </a>`;
     navUl.insertBefore(newMenu, lastLi);
     return newMenu;
 };
