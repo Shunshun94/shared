@@ -108,7 +108,7 @@ if( io.github.shunshun94.ytsheet.addSkin.eroStaMode === 'edit' ) {
 	if(io.github.shunshun94.ytsheet.addSkin.param.appendTextRightTop) {
 		const item = document.createElement('span');
 		item.id = 'image-append-right-top';
-		item.style = `padding:0.8em;top:8px;right:8px;position:absolute;width:3em;writing-mode: vertical-rl;color:black;background-color:white;border:black solid 2px;font-weight: bold;`;
+		item.style = `z-index:3;padding:0.8em;top:8px;right:8px;position:absolute;width:3em;writing-mode: vertical-rl;color:black;background-color:white;border:black solid 2px;font-weight: bold;`;
 		item.textContent = decodeURI(io.github.shunshun94.ytsheet.addSkin.param.appendTextRightTop);
 		document.getElementById('image').append(item);
 	}
@@ -116,7 +116,7 @@ if( io.github.shunshun94.ytsheet.addSkin.eroStaMode === 'edit' ) {
 	if(io.github.shunshun94.ytsheet.addSkin.param.appendTextLeftBottom) {
 		const item = document.createElement('span');
 		item.id = 'image-append-left-bottom';
-		item.style = `padding:0.8em;bottom:8px;left:8px;position:absolute;width:3em;writing-mode: vertical-rl;color:black;background-color:white;border:black solid 2px;font-weight: bold;`;
+		item.style = `z-index:3;padding:0.8em;bottom:8px;left:8px;position:absolute;width:3em;writing-mode: vertical-rl;color:black;background-color:white;border:black solid 2px;font-weight: bold;`;
 		item.textContent = decodeURI(io.github.shunshun94.ytsheet.addSkin.param.appendTextLeftBottom);
 		document.getElementById('image').append(item);
 	}
