@@ -12,7 +12,7 @@ io.github.shunshun94.ytsheet.addSkin.displayEroEditMenu = (displayModeLogic = io
     const userId = io.github.shunshun94.ytsheet.addSkin.userId;
     const isActive = displayModeLogic(userId, location.href);
     if((isActive) && (generateType === 'SwordWorld2PC')) {
-		io.github.shunshun94.ytsheet.addSkin.drawTopMenuButton('エロステ<br/>編集', `./${location.search}&eroedit=1`);
+		io.github.shunshun94.ytsheet.addSkin.drawTopMenuButton('エロステ<br/>編集', `./${location.search}&eroedit=1`, 'circle_notifications');
     }
 };
 
