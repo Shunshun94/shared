@@ -110,12 +110,12 @@ io.github.shunshun94.ytsheet.addSkin.drawTextForCopy = (
  * @param {string} url 
  * @returns 追加されたボタンの HTML 要素
  */
-io.github.shunshun94.ytsheet.addSkin.drawTopMenuButton = (buttonHtml, url) => {
+io.github.shunshun94.ytsheet.addSkin.drawTopMenuButton = (buttonHtml, url, icon = '') => {
     const navUl = document.getElementsByTagName('nav')[0].getElementsByTagName('ul')[0];
     const lastLi = Array.from(navUl.children).at(-1);
     const newMenu = document.createElement('li');
     newMenu.innerHTML = `<a href="${url}">
-        <span class="icon"><!--<span class="material-symbols-outlined" aria-hidden="true"></span>--></span>
+        <span class="icon"><span class="material-symbols-outlined" aria-hidden="true">${icon}</span></span>
         <span class="label"><span>${buttonHtml}</span></span>
     </a>`;
     navUl.insertBefore(newMenu, lastLi);
