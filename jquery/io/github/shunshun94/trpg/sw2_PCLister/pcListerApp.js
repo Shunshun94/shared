@@ -89,10 +89,8 @@ io.github.shunshun94.trpg.SW2_PCListerApp.drawOutput = () => {
     }
     Object.keys(urlsResult).forEach((key)=>{
         $('#outputLinks #' + key).val(urlsResult[key].join(urlsResultConnector[key]));
-        if(key === 'outputUrl') {
-            $('#outputLinks #' + key).val(io.github.shunshun94.trpg.SW2_PCLister.removeYtSheetOfficialPrefix($('#outputLinks #' + key).val()));
-        }
     });
+    $('#outputLinks #outputUrl').val(io.github.shunshun94.trpg.SW2_PCLister.removeYtSheetOfficialPrefix($('#outputLinks #outputUrl').val()));
 };
 
 io.github.shunshun94.trpg.SW2_PCListerApp.getCharacterIdMap = () => {
