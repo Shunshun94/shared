@@ -17,7 +17,7 @@ io.github.shunshun94.trpg.SW2_PCLister.getUrl = (url) => {
     if( /^[a-zA-Z0-9]+&mode=json$/.test(url) ) {
         url = `${io.github.shunshun94.trpg.SW2_PCLister.consts.OFFICIAL_YTSHEET_PREFIX}${url}`;
     }
-    return new Promise((resolve, reject)=>{
+    return new Promise((resolve)=>{
         $.ajax({
             type:'get',
             url: url,
@@ -34,6 +34,8 @@ io.github.shunshun94.trpg.SW2_PCLister.isVampireBlood = (url) => {
 io.github.shunshun94.trpg.SW2_PCLister.getGuiUrl = (url) => {
     if(io.github.shunshun94.trpg.SW2_PCLister.isVampireBlood(url)) {
         return /https:\/\/charasheet.vampire-blood.net\/[a-fm0-9]+/.exec(url)[0];
+    } else if( /^[a-zA-Z0-9]+$/.test(url) ) {
+        return io.github.shunshun94.trpg.SW2_PCLister.consts.OFFICIAL_YTSHEET_PREFIX + url;
     } else {
         return url;
     }
