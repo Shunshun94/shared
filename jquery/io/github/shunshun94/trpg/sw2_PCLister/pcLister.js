@@ -4,7 +4,19 @@ io.github.shunshun94 = io.github.shunshun94 || {};
 io.github.shunshun94.trpg = io.github.shunshun94.trpg || {};
 io.github.shunshun94.trpg.SW2_PCLister = io.github.shunshun94.trpg.SW2_PCLister || {};
 
+io.github.shunshun94.trpg.SW2_PCLister.consts = {
+    OFFICIAL_YTSHEET_PREFIX: 'https://yutorize.work/ytsheet/sw2.5/?id=',
+    VAMPIREBLOOD_PREFIX: 'https://charasheet.vampire-blood.net/'
+};
+
+io.github.shunshun94.trpg.SW2_PCLister.removeYtSheetOfficialPrefix = (text) => {
+    return text.replaceAll(io.github.shunshun94.trpg.SW2_PCLister.consts.OFFICIAL_YTSHEET_PREFIX, '');
+};
+
 io.github.shunshun94.trpg.SW2_PCLister.getUrl = (url) => {
+    if( /^[a-zA-Z0-9]+&mode=json$/.test(url) ) {
+        url = `${io.github.shunshun94.trpg.SW2_PCLister.consts.OFFICIAL_YTSHEET_PREFIX}${url}`;
+    }
     return new Promise((resolve, reject)=>{
         $.ajax({
             type:'get',
@@ -16,7 +28,7 @@ io.github.shunshun94.trpg.SW2_PCLister.getUrl = (url) => {
 };
 
 io.github.shunshun94.trpg.SW2_PCLister.isVampireBlood = (url) => {
-    return url.startsWith('https://charasheet.vampire-blood.net/');
+    return url.startsWith(io.github.shunshun94.trpg.SW2_PCLister.consts.VAMPIREBLOOD_PREFIX);
 };
 
 io.github.shunshun94.trpg.SW2_PCLister.getGuiUrl = (url) => {
