@@ -13,7 +13,7 @@ io.github.shunshun94.trpg.logEditor.convertors.CcfoliaHtmlConvertor.doms = {
 };
 
 io.github.shunshun94.trpg.logEditor.convertors.CcfoliaHtmlConvertor.dropEventToJson = (file) => {
-	return new Promise((resolve, reject)=>{
+	return new Promise((resolve, _)=>{
 		io.github.shunshun94.trpg.logEditor.convertors.ConvertorFactory.fileToText(file).then((rawHtml)=>{
 			resolve(io.github.shunshun94.trpg.logEditor.convertors.CcfoliaHtmlConvertor.htmlToJson(rawHtml));
 		});
@@ -22,9 +22,12 @@ io.github.shunshun94.trpg.logEditor.convertors.CcfoliaHtmlConvertor.dropEventToJ
 
 io.github.shunshun94.trpg.logEditor.convertors.CcfoliaHtmlConvertor.convertDomToJson = (dom, idx) => {
     try {
+        if(dom.tagName !== 'ARTICLE') {
+            return null;
+        }
         const isSystemMessage = dom.classList.value.includes('system');
         if(isSystemMessage) {
-            const message = dom.children[1].textContent.trim();
+            const message = (dom.children[1] || dom.children[0]).textContent.trim();
 			const nameExecResult = /^\[\s+(.+)\s+\]\s*/.exec(message);
 			if(nameExecResult) {
                 return {
@@ -40,13 +43,13 @@ io.github.shunshun94.trpg.logEditor.convertors.CcfoliaHtmlConvertor.convertDomTo
 			}
         } else {
             const msgHeader = dom.children[1].children[0];
-            const tabName = msgHeader.children[2].textContent.trim();
+            const tempTabName = msgHeader.children[2]?.textContent.trim();
+            const tabName = (tempTabName === '[編集済]') ? '[メイン]' : tempTabName || '[メイン]';
             if(! io.github.shunshun94.trpg.logEditor.convertors.CcfoliaHtmlConvertor.doms[tabName]) {
                 io.github.shunshun94.trpg.logEditor.convertors.CcfoliaHtmlConvertor.doms[tabName] = `tab${Object.keys(io.github.shunshun94.trpg.logEditor.convertors.CcfoliaHtmlConvertor.doms).length}`;
             }
             const avatarClassRegExpResult = /avatar-image-\d+/.exec(dom.children[0].classList.value);
             const avatarClass = avatarClassRegExpResult ? avatarClassRegExpResult[0] : '';
-            console.log(dom.children[0].classList.value, avatarClassRegExpResult, avatarClass);
             const name = msgHeader.children[0].textContent.trim();
             const hasDiceResult = dom.children[1].children.length >= 3;
             const baseContent = dom.children[1].children[1].textContent.trim().split('\n').join('<br/>');
@@ -57,7 +60,7 @@ io.github.shunshun94.trpg.logEditor.convertors.CcfoliaHtmlConvertor.convertDomTo
                 title: '',
                 style: '',
                 id: '',
-                class: avatarClass + ' ' + io.github.shunshun94.trpg.logEditor.convertors.CcfoliaHtmlConvertor.doms[tabName],
+                class: avatarClass,
                 tabName: tabName,
                 name: name,
                 content: content
@@ -73,12 +76,21 @@ io.github.shunshun94.trpg.logEditor.convertors.CcfoliaHtmlConvertor.convertDomTo
 
 io.github.shunshun94.trpg.logEditor.convertors.CcfoliaHtmlConvertor.htmlToJson = (rawHtml) => {
     const dom = (new DOMParser()).parseFromString(rawHtml, 'text/html');
-	const doms = Array.from(dom.body.children[0].children).slice(1, -1).map(io.github.shunshun94.trpg.logEditor.convertors.CcfoliaHtmlConvertor.convertDomToJson)
+    const omits = [];
+	const doms = Array.from(dom.body.children[0].children).slice(1, -1).map((elem, idx) => {
+        const result = io.github.shunshun94.trpg.logEditor.convertors.CcfoliaHtmlConvertor.convertDomToJson(elem, idx);
+        if(result) {
+            return result;
+        } else {
+            omits.push(elem.outerHTML);
+            return null;
+        }
+    }).filter((d)=>{return d;});
     console.log(doms);
     return {
 		doms: doms,
-		omitted: '',
-		head: '',
+		omitted: omits,
+		head: '', // もしかしたら画像付き出力に寄せたほうがいいかも
 		tabs: io.github.shunshun94.trpg.logEditor.convertors.CcfoliaHtmlConvertor.doms
 	};
 };

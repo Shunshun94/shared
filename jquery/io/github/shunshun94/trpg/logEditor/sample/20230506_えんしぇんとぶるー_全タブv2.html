@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>えんしぇんとぶるー</title>
+<!--Tekeyチャットログv2-->
+<style>
+:root {
+--color-dark: rgb(66, 66, 66);
+--color-white: rgb(255, 255, 255);
+--color-gray: rgb(136, 136, 136);
+--color-01: rgb(255, 100, 100);
+--color-02: rgb(255, 255, 100);
+--color-03: rgb(100, 255, 100);
+--color-04: rgb(100, 255, 255);
+--color-05: rgb(150, 100, 255);
+--color-06: rgb(255, 100, 150);
+--color-07: rgb(150, 255, 100);
+--color-08: rgb(100, 150, 255);
+--color-09: rgb(255, 100, 255);
+--color-10: rgb(100, 255, 150);
+--color-11: rgb(255, 150, 100);
+--color-12: rgb(100, 100, 255);
+}
+body.dark {
+background-color: var(--color-dark);
+}
+body.dark .controll {
+background-color: rgba(255, 255, 255, 0.8);
+}
+body.dark .header div {
+color: var(--color-dark);
+}
+.chatlog-wrap {
+position: fixed;
+padding-top: 8px;
+top: 37px;
+left: 8px;
+right: 0;
+bottom: 8px;
+}
+.chatlog {
+height: 100%;
+overflow-y: auto;
+}
+.chatlog div {
+padding: 4px;
+}
+.chatlog span {
+color: var(--color-gray);
+font-size: 12px;
+margin-left: 8px;
+}
+.chatlog:not(.timestamp-show) span {
+display: none;
+}
+.filter-diceroll div:not(.diceroll) {
+display: none;
+}
+.controll {
+position: fixed;
+top: 0;
+left: 0;
+padding: 4px 6px;
+width: 100%;
+box-sizing: border-box;
+background-color: rgba(255, 255, 255, 0.9);
+border-bottom: solid 1px rgba(0, 0, 0, 0.5);
+}
+.controll input[type=checkbox] {
+margin-right: 8px;
+}
+.controll.hidden .controll-buttons {
+display: none;
+}
+.controll-buttons label {
+padding: 4px 18px 2px 8px;
+}
+.header {
+display: flex;
+align-items: flex-end;
+padding-bottom: 4px;
+border-bottom: 1px dotted rgba(0, 0, 0, 0.5);
+cursor: pointer;
+}
+.header h1 {
+margin: 0 4px;
+font-size: 1.2em;
+}
+.header div {
+color: var(--color-gray);
+font-size: 12px;
+margin: 0 0 4px 8px;
+}
+.header div::before {
+content: "ログ保存日：";
+} 
+.controll.hidden .header {
+border-bottom: none;
+padding-bottom: 0;
+margin-top: 0;
+}
+.controll-checkbox-icon {
+display: block;
+margin: 0 8px 0 auto;
+transform: rotate(0deg);
+}
+.controll-checkbox {
+position: absolute;
+z-index: -1;
+opacity: 0;
+}
+.controll-checkbox:checked+.controll-checkbox-icon {
+transform: rotate(180deg);
+margin: 0 8px 4px auto;
+}
+.setting-list {
+display: flex;
+flex-wrap: wrap;
+border-top: dotted 1px rgba(0, 0, 0, 0.5);
+}
+.tab-list {
+display: flex;
+flex-wrap: wrap;
+}
+.chatlog div:not(.tab1) {
+position: relative;
+font-size: 0.8em;
+padding: 6px 4px 6px 12px;
+}
+.chatlog div:not(.tab1)::before {
+content: "";
+position: absolute;
+width: 100%;
+height: 100%;
+top: 0;
+left: 0;
+opacity: 0.08;
+}
+.tab-list label:nth-child(2) { background-color: var(--color-01); }
+
+.chatlog .tab2 { margin-left: 12em; border-left: solid 4px var(--color-01); } .chatlog .tab2::before { background-color: var(--color-01); }
+
+.chatlog.tab1-hidden .tab1,
+.chatlog.tab2-hidden .tab2 { display: none; } 
+@media screen and (max-width:480px) {
+.controll.hidden .header {
+margin-top: 2px;
+}
+.controll-checkbox-icon {
+margin: 0 8px -2px 0;
+}
+.controll-checkbox:checked+.controll-checkbox-icon {
+margin: 0 8px 0 0;
+}
+.header {
+padding-bottom: 7px;
+}
+.header h1 {
+font-size: 0.8em;
+}
+.header div {
+font-size: 10px;
+margin: 0 4px 1px auto;
+}
+.header div::before {
+content: "";
+}
+.chatlog div {
+padding-top: 8px;
+padding-bottom: 8px;
+}
+.chatlog div.tab1 {
+text-indent: -1em;
+padding-left: 1em;
+}
+.chatlog div:not(.tab1) {
+margin-left: 3em;
+text-indent: -1em;
+padding-left: 2em;
+}
+.chatlog b {
+display: block;
+}
+.chatlog span {
+display: block;
+text-align: end;
+color: var(--color-gray);
+font-size: 10px;
+margin: 0 16px 4px 0;
+}
+}
+</style>
+</head>
+<body>
+<div class="chatlog-wrap">
+<div class="chatlog">
+<div class="tab1" style="color: #00AA00;"><b>Tekey：</b>チャットログの全削除が完了しました。<span>[01:23]</span></div>
+<div class="tab1" style="color: #00AA00;"><b>Tekey：</b>「イ重カレナ」がログアウトしました。<span>[01:24]</span></div>
+<div class="tab1" style="color: #00AA00;"><b>Tekey：</b>「しゅんしゅんひよこ」がログインしました。<span>[20:46]</span></div>
+<div class="tab1" style="color: #00AA00;"><b>Tekey：</b>「枝折」がログインしました。<span>[20:53]</span></div>
+<div class="tab1" style="color: #00AA00;"><b>Tekey：</b>「イ重カレナ」がログインしました。<span>[21:45]</span></div>
+<div class="tab1" style="color: #87ceeb;"><b>アズール：</b>ということで、まずは俺たちから。<span>[22:44]</span></div>
+<div class="tab1" style="color: #87ceeb;"><b>アズール：</b>俺の名前はアズール・ナヴォリック。ティエンスの冒険者。<span>[22:45]</span></div>
+<div class="tab1" style="color: #87ceeb;"><b>アズール：</b>自分で戦うのは得意じゃないけど、相棒の騎獣とのコンビネーションで賊や蛮族退治に大貢献。<span>[22:45]</span></div>
+<div class="tab1" style="color: #87ceeb;"><b>アズール：</b>まだ経験は少ないけど、着実に力は付いてきてるし、目的のための金も貯まってきてるぜ！<span>[22:45]</span></div>
+<div class="tab1" style="color: #87ceeb;"><b>アズール：</b>……<span>[22:45]</span></div>
+<div class="tab1" style="color: #87ceeb;"><b>アズール：</b>金も貯まって……たまって…………<span>[22:45]</span></div>
+<div class="tab1" style="color: #87ceeb;"><b>アズール：</b>「貯まってなくない？なんで？？」(手持ち:50G)<span>[22:45]</span></div>
+<div class="tab1" style="color: #00fa9a;"><b>スィーリア：</b>「……なんでって……騎獣くんのごはんと契約費のせい、でしょ」<span>[22:46]</span></div>
+<div class="tab1" style="color: #87ceeb;"><b>アズール：</b>こっちはスィーリア。メリアの魔法使いで、腹が減って死にそうだった所を助けてくれた命の恩人。<span>[22:46]</span></div>
+<div class="tab1" style="color: #87ceeb;"><b>アズール：</b>……うん、命の恩人のはず、なんだけど。<span>[22:46]</span></div>
+<div class="tab1" style="color: #00fa9a;"><b>スィーリア：</b>「……でも、アズールより騎獣くんの方が、強いし、いい子だし……どちらかというと、アズールに使うお金を削った方が、コスパがよさそう」<span>[22:46]</span></div>
+<div class="tab1" style="color: #87ceeb;"><b>アズール：</b>「遠回しでもなんでもなくド直球で酷いこと言われてない俺？？」<span>[22:46]</span></div>
+<div class="tab1" style="color: #87ceeb;"><b>アズール：</b>めちゃくちゃ辛辣だし、小言が多いし、やたらと偉そうなとこがあるしで、ぜんっぜん感謝の念を抱けないでいます。なんでだろうね。<span>[22:47]</span></div>
+<div class="tab1" style="color: #87ceeb;"><b>アズール：</b>「はぁ……こう、騎獣の契約費とか気にならなくなるくらい、ドカーンと稼げる仕事がありゃ良いのに───」<span>[22:47]</span></div>
+<div class="tab1" style="color: #87ceeb;"><b>アズール：</b>そんな時だった。支部長のロッソさんから、ドカーンと稼げる依頼を持ちかけられたのは。<span>[22:47]</span></div>
+<div class="tab1" style="color: #87ceeb;"><b>アズール：</b>その内容を聞いた俺……とスィーリアは───<span>[22:47]</span></div>
+<div class="tab1" style="color: #87ceeb;"><b>アズール：</b>「そ、それだけの金があれば……ダウレスどころか、ドラゴンだって借りられる……！」<span>[22:48]</span></div>
+<div class="tab1" style="color: #00fa9a;"><b>スィーリア：</b>「十万ガメル……うん、いい響き。……アズール。いけに───壁役よろしくね」<span>[22:48]</span></div>
+<div class="tab1" style="color: #87ceeb;"><b>アズール：</b>「おう、絶対にお前と二人っきりでは行かない方がいいってことは分かった」<span>[22:48]</span></div>
+<div class="tab1" style="color: #87ceeb;"><b>アズール：</b>まぁそんな感じで、お互いこの依頼に乗っかることになりました。<span>[22:48]</span></div>
+<div class="tab1" style="color: #87ceeb;"><b>アズール：</b>こんなところ。　お次、クララ・ヴェスペルバディよろしく。<span>[22:49]</span></div>
+<div class="tab1" style="color: #fcdc00;"><b>クララ：</b>「はーい！　クララとヴェスペルです！」<span>[22:49]</span></div>
+<div class="tab1" style="color: #fda1ff;"><b>ヴェスペル：</b>「……お嬢様、最初から目立とうとしないでください。<br>
+　見ての通り、お嬢様はバトルダンサー、斧を振り回すタイプのソレイユです」<span>[22:50]</span></div>
+<div class="tab1" style="color: #fcdc00;"><b>クララ：</b>「ヴェスペルはグラップラー、手数で相手を追い詰めてくれるタイプだよね。<br>
+　私が斧をぶんぶん振り回して、相手を追い詰めていく感じ、<br>
+　ヴェスペルが追い詰めた相手にトドメをさしてくれるの。<br>
+<br>
+　こうやってみると結構いいコンビじゃない、わたし達？」<span>[22:51]</span></div>
+<div class="tab1" style="color: #fda1ff;"><b>ヴェスペル：</b>そう言われましても、という顔をしながらも<br>
+<br>
+「……訳あってお嬢様（クララ）の実家に居続けるのが難しくなり、冒険者になりました。<br>
+　できれば遠い土地に行きたいという考えもあり今回の島々を巡るロッソ殿の話を請けることにしたのです」<span>[22:52]</span></div>
+<div class="tab1" style="color: #fcdc00;"><b>クララ：</b>「別に隠さなくてもいいじゃん。私の両親が人間だった関係で……ほら、私、ソレイユだから。<br>
+<br>
+　お母様が不義を働いたわけじゃないにせよ、先祖返りってあまり見られない話だから……<br>
+　私は実家からするといないことになっているの。<br>
+　その関係で実家にあまり長くいると弟が困るから出たってわけ。別に喧嘩別れとか追い出されたとかじゃないよ」<span>[22:54]</span></div>
+<div class="tab1" style="color: #fda1ff;"><b>ヴェスペル：</b>（不満そうな顔でそっぽを向く）<span>[22:54]</span></div>
+<div class="tab1" style="color: #fcdc00;"><b>クララ：</b>「で、そんな私に付いてきてくれたのが」<br>
+と言いながら筋力25の力でヴェスペルを抱き寄せる<br>
+<br>
+「ヴェスペルなの。ついてきてくれてありがとう～！　だいすきー！」<span>[22:55]</span></div>
+<div class="tab1" style="color: #fda1ff;"><b>ヴェスペル：</b>「お嬢様、人前で大好きとかおっしゃらないで下さい」<br>
+苦しそうな顔。<br>
+<br>
+あと、この場合の大好きは異性とかそういう意味ではないであろうことはご承知おきください、の顔も見せる。<span>[22:55]</span></div>
+<div class="tab1" style="color: #fcdc00;"><b>クララ：</b>なんで？って顔をしながらも<br>
+「私たちはそんなところかな。これから先、長いかもしれませんがよろしくお願いします！」<span>[22:56]</span></div>
+<div class="tab1" style="color: #fda1ff;"><b>ヴェスペル：</b>（クララの腕をぺちぺちと叩いて苦しいことを伝えつつ）<br>
+以上です<span>[22:56]</span></div>
+<div class="tab1" style="color: #d33115;"><b>フンヌ：</b>じゃあ、次はオレたちの番だな。……ん、一人づつ？　はいよ。<span>[22:59]</span></div>
+<div class="tab1" style="color: #d33115;"><b>フンヌ：</b>オレの名前はフンヌ。<br>
+……いや、本当はもっと別の名前があるんだが、今はこういう呼ばれ方をしてる。<br>
+まぁオレも気に入ってるし、そう呼んでくれ。<span>[22:59]</span></div>
+<div class="tab1" style="color: #d33115;"><b>フンヌ：</b>ルーンフォークの例に漏れず、オレも仕える先ってのを探していたんだが、なんだか雇ってくれる人がいなくてなぁ……（けらけら<span>[22:59]</span></div>
+<div class="tab1" style="color: #d33115;"><b>フンヌ：</b>そんな時にたまたま出会ったのがレノーレだ。<br>
+別にコイツが雇い主ってわけじゃないが、なんだか流れで一緒に七王群島に行くことになっちまった。<span>[23:00]</span></div>
+<div class="tab1" style="color: #d33115;"><b>フンヌ：</b>まぁ、金が無いまま餓死するよりはマシだしな。いっちょ遺産を見つけてやろうじゃないか。<span>[23:00]</span></div>
+<div class="tab1" style="color: #fb9e00;"><b>レノーレ：</b>次、わたし。<span>[23:01]</span></div>
+<div class="tab1" style="color: #fb9e00;"><b>レノーレ：</b>レノーレ。一般的なレプラカーン。<br>
+でも普通って、つまんない。なんか刺激が欲しい。<br>
+親は変だって言うけど。……変なのかも。<span>[23:01]</span></div>
+<div class="tab1" style="color: #fb9e00;"><b>レノーレ：</b>ある日、刺激的なのを拾ったの。でも持ち帰ったら、怒られた。<br>
+だから、出てった。しばらく帰ってやらない。<span>[23:02]</span></div>
+<div class="tab1" style="color: #fb9e00;"><b>レノーレ：</b>ただ、行く場所は無かった。街は怖いし。<br>
+そしたら、フンヌが……ふふ、変な名前。<br>
+フンヌが、張り紙見つけたの。おとぎ話みたいなの。<span>[23:02]</span></div>
+<div class="tab1" style="color: #fb9e00;"><b>レノーレ：</b>遺産なんて無いって、みんな思ってる。<br>
+けど、フンヌは見つけりゃいい、って言う。<br>
+なにそれ、変だよ（くす<span>[23:03]</span></div>
+<div class="tab1" style="color: #fb9e00;"><b>レノーレ：</b>だから行ってみる。きっと刺激的で、面白い旅。<span>[23:05]</span></div>
+<div class="tab1" style="color: #d33115;"><b>フンヌ：</b>とまぁ、そういうわけだ。なんだか互いの認識に差がある気もするけど……よくあることだろきっと。<span>[23:06]</span></div>
+<div class="tab1" style="color: #d33115;"><b>フンヌ：</b>特別息の合うコンビってわけじゃないが、まぁ仲良くしてくれ。<span>[23:07]</span></div>
+<div class="tab1" style="color: #fb9e00;"><b>レノーレ：</b>おわり。<span>[23:07]</span></div>
+<div class="tab1" style="color: #b3b3b3;"><b>GM@働：</b>ありがとうございます。　さて、これで冒険の準備は整いましたね<span>[23:08]</span></div>
+<div class="tab1" style="color: #87ceeb;"><b>アズール：</b>(みんな仲が良さそうでいいなぁ、と思っている)<span>[23:08]</span></div>
+<div class="tab1" style="color: #00fa9a;"><b>スィーリア：</b>(みんな優秀そうな相方がいていいなぁ、と思っている)<span>[23:09]</span></div>
+<div class="tab1" style="color: #9acd32;"><b>ネイラ：</b>(騎獣です。主の胃が心配です)<span>[23:09]</span></div>
+<div class="tab1" style="color: #fda1ff;"><b>ヴェスペル：</b>（周囲と異なり自分の相方へのスタンスがはっきりしていないことにもどかしさを感じる）<span>[23:10]</span></div>
+<div class="tab1" style="color: #fcdc00;"><b>クララ：</b>（うん、なんかいい感じの人たちだなーと思っている）<span>[23:10]</span></div>
+<div class="tab1" style="color: #d33115;"><b>フンヌ：</b>（打てば響く感じの相方では無いよなぁ、と思った）<span>[23:11]</span></div>
+<div class="tab1" style="color: #fb9e00;"><b>レノーレ：</b>（6人+1体もいて打ち解けられるか心配）<span>[23:13]</span></div>
+<div class="tab1" style="color: #fcdc00;"><b>クララ：</b>（なんとかーなるーなるーという顔）<span>[23:13]</span></div>
+<div class="tab1" style="color: #b3b3b3;"><b>GM@働：</b>大丈夫、きっと長い旅になる。打ち解けるには十分すぎるほどに。<span>[23:13]</span></div>
+<div class="tab1" style="color: #b3b3b3;"><b>GM@働：</b>お時間にまだ余裕があれば、このまま&quot;エンシェントブルー&quot;本編、早速少し進めていこうかと思います。<span>[23:23]</span></div>
+<div class="tab1" style="color: #b3b3b3;"><b>GM@働：</b>(たぶんここから2時間くらいです)<span>[23:25]</span></div>
+<div class="tab1" style="color: #b3b3b3;"><b>GM@働：</b>(大丈夫そうでしょうか)<span>[23:27]</span></div>
+<div class="tab1" style="color: #d33115;"><b>フンヌ@枝：</b>2時間なら問題ないな<span>[23:28]</span></div>
+<div class="tab1" style="color: #fcdc00;"><b>クララ＠ひよこ：</b>はーい！　大丈夫です！<span>[23:28]</span></div>
+<div class="tab1" style="color: #b3b3b3;"><b>GM@働：</b>では、遥か遠方の&quot;七王群島&quot;に向けて、いざ出発。　よろしくお願いします<span>[23:29]</span></div>
+<div class="tab1" style="color: #fcdc00;"><b>クララ＠ひよこ：</b>よろしくおねがいしますー！<span>[23:29]</span></div>
+<div class="tab1" style="color: #fe9200;"><b>レノーレ@枝：</b>よろしくお願いします<span>[23:29]</span></div>
+<div class="tab1" style="color: #b3b3b3;"><b>GM@働：</b>さて。群島の調査依頼を受けて、さっそく中型の帆船に乗り込んだ君たち。<span>[23:30]</span></div>
+<div class="tab1" style="color: #b3b3b3;"><b>GM@働：</b>船には君たち六人以外にも、無事に送り届けるために、とギルドが寄越してくれた船乗りたちも数人乗っている。<span>[23:31]</span></div>
+<div class="tab1 diceroll" style="color: #b3b3b3;"><b>GM@働：</b>name<br>
+SwordWorld2.5 : ランダム名前決定表(男性名／女性名)((D66) → 34) → ウンベルト／アーシュラ<span>[23:31]</span></div>
+<div class="tab1" style="color: #e27300;"><b>ウンベルト@GM：</b>「しかし、君らも物好きだね。冒険者になって早々、こんな依頼に乗っかるとは」<span>[23:32]</span></div>
+<div class="tab1" style="color: #fcdc00;"><b>クララ＠ひよこ：</b>「風が気持ち良い～」と両腕を広げて風を受けながら甲板に立ってます。<span>[23:32]</span></div>
+<div class="tab1" style="color: #fcdc00;"><b>クララ＠ひよこ：</b>「ウンベルト様、船を出してくださってありがとうございます。<br>
+　まぁ、ちょっと……大陸を離れたかったので。えっと、こういうのを」<span>[23:33]</span></div>
+<div class="tab1" style="color: #fda1ff;"><b>ヴェスペル@ひよこ：</b>「渡りに船、です」<span>[23:33]</span></div>
+<div class="tab1" style="color: #e27300;"><b>ウンベルト@GM：</b>船乗りたちの代表であるウンベルトに、そう声をかけられる。　群島まではまだ遠く、世間話に興じる時間がいくらかある。<span>[23:33]</span></div>
+<div class="tab1" style="color: #fe9200;"><b>レノーレ@枝：</b>「このためになったの」順番が逆。<span>[23:33]</span></div>
+<div class="tab1" style="color: #e27300;"><b>ウンベルト@GM：</b>具体的には二週間くらい。<span>[23:33]</span></div>
+<div class="tab1" style="color: #fcdc00;"><b>クララ＠ひよこ：</b>「そうそう。渡りに船。ヴェスペル、ありがとね」<span>[23:33]</span></div>
+<div class="tab1" style="color: #87ceeb;"><b>アズール@働：</b>「文字通り、ってやつだな」「意味的にも合ってるし」<span>[23:34]</span></div>
+<div class="tab1" style="color: #fcdc00;"><b>クララ＠ひよこ：</b>「レノーレ様も遠出したいのでしたね」謎に嬉しそうな顔<span>[23:34]</span></div>
+<div class="tab1" style="color: #fda1ff;"><b>ヴェスペル@ひよこ：</b>（全く同じ事情ってわけじゃないんだぞ、大丈夫かお嬢様）<span>[23:34]</span></div>
+<div class="tab1" style="color: #fe9200;"><b>レノーレ@枝：</b>「そう」同士に違いない。んふー。<span>[23:35]</span></div>
+<div class="tab1" style="color: #fda1ff;"><b>ヴェスペル@ひよこ：</b>（当事者が納得しているのなら大丈夫か。何より）<span>[23:35]</span></div>
+<div class="tab1" style="color: #e27300;"><b>ウンベルト@GM：</b>「はは。楽しそうなのはいいが……君たちはあの群島について、どれくらい知ってるんだ？」「簡単な說明くらいは、ロッソさん……というか、ギルドから聞かされてるとは思うけど」<span>[23:35]</span></div>
+<div class="tab1" style="color: #d33115;"><b>フンヌ@枝：</b>「二週間先にあるってことだ」どや。<span>[23:36]</span></div>
+<div class="tab1" style="color: #fcdc00;"><b>クララ@ひよこ：</b>「えっと……7人の神様がどうこう、だっけ？」<span>[23:36]</span></div>
+<div class="tab1" style="color: #fda1ff;"><b>ヴェスペル@ひよこ：</b>「六柱です」訂正。<span>[23:36]</span></div>
+<div class="tab1" style="color: #87ceeb;"><b>アズール@働：</b>「遺産が眠ってる、みたいな話も聞いたな」「ロマンあるよな。見つけたら追加報酬も狙えそうだし」<span>[23:37]</span></div>
+<div class="tab1" style="color: #fcdc00;"><b>クララ@ひよこ：</b>「アズール様は騎獣のお世話もありますしね。お金は大事ですよね」うむうむ<span>[23:37]</span></div>
+<div class="tab1" style="color: #00fa9a;"><b>スィーリア@働：</b>「……アズールの場合、金欠の原因は、自己管理能力の低さによるところが─────」<span>[23:38]</span></div>
+<div class="tab1" style="color: #fda1ff;"><b>ヴェスペル@ひよこ：</b>あちゃぁ……の顔<span>[23:39]</span></div>
+<div class="tab1" style="color: #fcdc00;"><b>クララ@ひよこ：</b>「そっかぁ……ヴェスペル、大変そうだね」<span>[23:39]</span></div>
+<div class="tab1" style="color: #d33115;"><b>フンヌ@枝：</b>「なぁに、なるようになるもんだ」おかげでまだ餓死はしていない<span>[23:39]</span></div>
+<div class="tab1" style="color: #fda1ff;"><b>ヴェスペル@ひよこ：</b>（お嬢様の財布を管理しているのは私なんだが？？？の顔）<span>[23:40]</span></div>
+<div class="tab1" style="color: #87ceeb;"><b>アズール@働：</b>「─────ウンベルトさん。群島に関する情報って、他にはどんなのが？」　涼しい顔でスルー。慣れた。<span>[23:40]</span></div>
+<div class="tab1" style="color: #fcdc00;"><b>クララ@ひよこ：</b>「フンヌ様、前向きでいらっしゃいますね」嬉しそうな顔。そういうスタンス好き。<span>[23:40]</span></div>
+<div class="tab1" style="color: #fda1ff;"><b>ヴェスペル@ひよこ：</b>確かにアズール殿の気にする情報が今は重要かもしれない。生存を左右するかもしれないからな<span>[23:40]</span></div>
+<div class="tab1" style="color: #e27300;"><b>ウンベルト@GM：</b>(不安だな、この子ら……)　始まる前から心配になりつつも、群島にまつわる有名な伝承をいくつか教えてもらえる。<span>[23:41]</span></div>
+<div class="tab1" style="color: #fe9200;"><b>レノーレ@枝：</b>変なだけ、って顔をしながら聞く姿勢。<span>[23:41]</span></div>
+<div class="tab1" style="color: #e27300;"><b>ウンベルト@GM：</b>具体的にはp.26-27の内容です。　書き起こすのが大変なので(怠惰)各自暇な時に読みましょう<span>[23:41]</span></div>
+<div class="tab1" style="color: #fe9200;"><b>レノーレ@枝：</b>みんなが持ってるとそれができるのが楽<span>[23:42]</span></div>
+<div class="tab1" style="color: #b3b3b3;"><b>GM@働：</b>ちなみにわたしもまだそんなにちゃんと読んでない。<span>[23:42]</span></div>
+<div class="tab1" style="color: #e27300;"><b>ウンベルト@GM：</b>「─────とまぁ、こんなところか」「もっとも、実際に島が見つかったのはつい最近だから、どこまで本当の話かは分からないけどもね」<span>[23:43]</span></div>
+<div class="tab1" style="color: #fcdc00;"><b>クララ@ひよこ：</b>「そっか、さっき7人の神様といったのは7人の王様とごっちゃになっちゃったのかも」反省<span>[23:43]</span></div>
+<div class="tab1" style="color: #fda1ff;"><b>ヴェスペル@ひよこ：</b>（昔勉強を教えたときもこんな感じだったな……）首を横に振る<span>[23:44]</span></div>
+<div class="tab1" style="color: #fcdc00;"><b>クララ@ひよこ：</b>「先程ウンベルト様がご教示くださった海賊や蛮族、ドラゴンはちょっと怖いね」<span>[23:45]</span></div>
+<div class="tab1" style="color: #fda1ff;"><b>ヴェスペル@ひよこ：</b>「それぞれに適切な対応が必要そうですね」頷く。<span>[23:45]</span></div>
+<div class="tab1" style="color: #00fa9a;"><b>スィーリア@働：</b>「だいじょうぶ。ドラゴンが出てきても、アズールがみんなを守ってくれるよ」<span>[23:45]</span></div>
+<div class="tab1" style="color: #fe9200;"><b>レノーレ@枝：</b>「ドラゴン……」半信半疑。怖いが会いたい気持ちもある。<span>[23:46]</span></div>
+<div class="tab1" style="color: #87ceeb;"><b>アズール@働：</b>「それ、俺が生きて帰れる前提の話？」<span>[23:46]</span></div>
+<div class="tab1" style="color: #fcdc00;"><b>クララ@ひよこ：</b>「スィーリア様、そうなのですか？　アズール様は頼もしいですね」ぱあぁぁと笑顔<span>[23:46]</span></div>
+<div class="tab1" style="color: #fda1ff;"><b>ヴェスペル@ひよこ：</b>アズール殿、強く生きてくれという顔<span>[23:46]</span></div>
+<div class="tab1" style="color: #d33115;"><b>フンヌ@枝：</b>「心強いなぁ」野郎でも守ってもらえるだなんて<span>[23:46]</span></div>
+<div class="tab1" style="color: #87ceeb;"><b>アズール@働：</b>「…………島に着いたら、まずはドラゴン対策を考えるところからだな」　何度ゆくえふめいになるのだろうか。<span>[23:47]</span></div>
+<div class="tab1" style="color: #fda1ff;"><b>ヴェスペル@ひよこ：</b>「……腰を据えて考えましょう」 尊敬 / 憐憫 で関係を結びますの顔<span>[23:48]</span></div>
+<div class="tab1" style="color: #b3b3b3;"><b>GM@働：</b>そんな風に話をしながら過ごして、幾日か経過する。<span>[23:48]</span></div>
+<div class="tab1" style="color: #b3b3b3;"><b>GM@働：</b>後方にあったハーヴェスの姿が見えなくなり、代わりに前方に、ぽつりと小さな島々が見えるようになってきた。<span>[23:50]</span></div>
+<div class="tab1" style="color: #e27300;"><b>ウンベルト@GM：</b>「─────見えてきたな」「言ったとおり、あの付近は色んな意味で荒れてる。この辺りから、警戒は怠らないでくれ」<span>[23:51]</span></div>
+<div class="tab1" style="color: #fda1ff;"><b>ヴェスペル@ひよこ：</b>「承知いたしました」神妙な顔<span>[23:51]</span></div>
+<div class="tab1" style="color: #e27300;"><b>ウンベルト@GM：</b>そう言うのと同時。<span>[23:51]</span></div>
+<div class="tab1" style="color: #b3b3b3;"><b>GM@働：</b>海面に、水棲蛮族達が姿を現す。　いつの間にか囲まれていたようだ<span>[23:52]</span></div>
+<div class="tab1" style="color: #87ceeb;"><b>アズール@働：</b>「おっと─────手荒い歓迎だな」<span>[23:52]</span></div>
+<div class="tab1" style="color: #fcdc00;"><b>クララ＠ひよこ：</b>「囲まれて……っ！」<br>
+武器を構える。持ってきておいて良かった<span>[23:52]</span></div>
+<div class="tab1" style="color: #fe9200;"><b>レノーレ@枝：</b>「伏線回収」<span>[23:52]</span></div>
+<div class="tab1" style="color: #e27300;"><b>ウンベルト@GM：</b>「……そこまで手強い相手じゃなさそうだ。俺らは、このまま船の維持に務める」「君たちは、蛮族の相手を。余裕があれば、こちらを手伝って欲しい。いいかな？」<span>[23:53]</span></div>
+<div class="tab1" style="color: #fda1ff;"><b>ヴェスペル@ひよこ：</b>「承知いたしました……お嬢様」初手、フロントはいつもどおり任せますよ<span>[23:54]</span></div>
+<div class="tab1" style="color: #00fa9a;"><b>スィーリア@働：</b>「ん。海の底に、送り返してやろう」<span>[23:54]</span></div>
+<div class="tab1" style="color: #fcdc00;"><b>クララ@ひよこ：</b>「大丈夫、今は皆いる。ヴェスペルも」キメるところ、お願いね<span>[23:54]</span></div>
+<div class="tab1" style="color: #b3b3b3;"><b>GM@働：</b>ということで、チュートリアルな感じのチャレンジの時間です。　p.29をご確認ください<span>[23:55]</span></div>
+<div class="tab1" style="color: #fcdc00;"><b>クララ＠ひよこ：</b>ちゃれんじだった！！<span>[23:55]</span></div>
+<div class="tab1" style="color: #b3b3b3;"><b>GM@働：</b>戦闘ではないのだ<span>[23:56]</span></div>
+<div class="tab1" style="color: #d33115;"><b>レノーレ：</b>ふむふむ<span>[23:56]</span></div>
+<div class="tab1" style="color: #b3b3b3;"><b>GM@働：</b>書いてある通り、いくつかの判定やなんやらが指示されています。　この中から、各自が達成できそうな項目を選び、挑戦するという形になります<span>[23:56]</span></div>
+<div class="tab1" style="color: #b3b3b3;"><b>GM@働：</b>今回は3人なので、各『PL』で1つ選んで、任意のPCでそれに挑戦。　[複]がついているものは複数人で選択可、逆についていないものは重複不可です<span>[23:57]</span></div>
+<div class="tab1" style="color: #fcdc00;"><b>クララ@ひよこ：</b>「すると……私はマッスルベアーしながら全力攻撃して蛮族をやっつけてみせるのが一番いいかな」<span>[23:58]</span></div>
+<div class="tab1" style="color: #fda1ff;"><b>ヴェスペル@ひよこ：</b>「お嬢様、他の方々とのバランスもよくご覧になった上で判断なさったほうがよろしいかと。今は2人ではないのです」<span>[23:59]</span></div>
+<div class="tab1" style="color: #b3b3b3;"><b>GM@働：</b>そんなかんじです。　行動について補足すると『補助動作での行動や戦闘特技の適用は制限なし』『他のPCに影響を与える効果(補助魔法など)は使用不可』です<span>[00:00]</span></div>
+<div class="tab1" style="color: #fcdc00;"><b>クララ＠ひよこ：</b>「ダメージを与える場合、普段ならヴェスペルのほうが強いけど」<span>[00:00]</span></div>
+<div class="tab1" style="color: #fda1ff;"><b>ヴェスペル@ひよこ：</b>「3回攻撃が前提ですからね。この場合は1回のみが適用されますから私は不向きです」<span>[00:01]</span></div>
+<div class="tab1" style="color: #b3b3b3;"><b>GM@働：</b>なのでクララの言う通り、マッスルパワーで解決するのもあり。<span>[00:01]</span></div>
+<div class="tab1" style="color: #d33115;"><b>フンヌ：</b>「俺が半々で通せそうなのは船酔いに耐えることくらいだな」<span>[00:01]</span></div>
+<div class="tab1" style="color: #00fa9a;"><b>スィーリア@働：</b>逆にわたしは、操霊魔法も森羅魔法もそんなにいみなし。<span>[00:01]</span></div>
+<div class="tab1" style="color: #fda1ff;"><b>ヴェスペル@ひよこ：</b>「ここはスィーリア女史ではなくアズール殿の匠の技に期待するほうがよいわけですな」<span>[00:02]</span></div>
+<div class="tab1" style="color: #fe9200;"><b>レノーレ@枝：</b>「9点回復はかなりのチャレンジ」<span>[00:02]</span></div>
+<div class="tab1" style="color: #00fa9a;"><b>スィーリア@働：</b>「うんうん。　なので、アズールに15点の物理ダメージを受けさせ─────」<span>[00:02]</span></div>
+<div class="tab1" style="color: #87ceeb;"><b>アズール@働：</b>「経験点稼ぎたいとか思わないの？？」<span>[00:03]</span></div>
+<div class="tab1" style="color: #fda1ff;"><b>ヴェスペル@ひよこ：</b>船体補強とか地図作成とか風読みとかの仕事もあるよぉ？！の顔を見せる<span>[00:03]</span></div>
+<div class="tab1" style="color: #b3b3b3;"><b>GM@働：</b>あとそうだ、報酬でもらえる経験点なんですが<span>[00:03]</span></div>
+<div class="tab1" style="color: #b3b3b3;"><b>GM@働：</b>『挑戦したPCだけが貰える』のが(おそらく)正しい処理なんですが、そうなると『誰に経験点入れよっか』という更なる相談が加わって面倒くさいので……<span>[00:04]</span></div>
+<div class="tab1" style="color: #fcdc00;"><b>クララ＠ひよこ：</b>みんなで、にします？<span>[00:04]</span></div>
+<div class="tab1" style="color: #b3b3b3;"><b>GM@働：</b>します。<span>[00:04]</span></div>
+<div class="tab1" style="color: #fcdc00;"><b>クララ＠ひよこ：</b>「すると、ますます私責任重大だね。大丈夫かな」<span>[00:04]</span></div>
+<div class="tab1" style="color: #fda1ff;"><b>ヴェスペル@ひよこ：</b>「お嬢様に無理ならば誰もが無理です。やっちゃってください」<span>[00:04]</span></div>
+<div class="tab1" style="color: #b3b3b3;"><b>GM@働：</b>もちろんその分、全体の獲得経験点が大幅に増えますが、そこはこう、なんか、各GMがうまいこと(ろくろをこねる)<span>[00:05]</span></div>
+<div class="tab1" style="color: #d33115;"><b>フンヌ：</b>チャレンジの報酬はPC人数で割ってそれぞれが獲得する、が正しいっぽい<span>[00:05]</span></div>
+<div class="tab1" style="color: #fcdc00;"><b>クララ@ひよこ：</b>あっ、按分なんですね<span>[00:05]</span></div>
+<div class="tab1" style="color: #fda1ff;"><b>ヴェスペル@ひよこ：</b>確かにそれでも先に挙がった議論はなくなりますね<span>[00:05]</span></div>
+<div class="tab1" style="color: #b3b3b3;"><b>GM@働：</b>割るマ？(みおとし)<span>[00:05]</span></div>
+<div class="tab1" style="color: #d33115;"><b>フンヌ：</b>p13なのです。一人分は微々たるものにはなりますが、チリツモ――<span>[00:05]</span></div>
+<div class="tab1" style="color: #fcdc00;"><b>クララ@ひよこ：</b>「ますます重要ね。ちょっと応援してほしいかも」ヴェスペルをちらっ<span>[00:06]</span></div>
+<div class="tab1" style="color: #fda1ff;"><b>ヴェスペル@ひよこ：</b>お嬢様をスルーして他の面々を助けに走り回っています。<span>[00:07]</span></div>
+<div class="tab1" style="color: #fcdc00;"><b>クララ@ひよこ：</b>少し涙目。<span>[00:07]</span></div>
+<div class="tab1" style="color: #b3b3b3;"><b>GM@働：</b>では裁定をあらためて、頭割り(÷6)にしましょう。<span>[00:07]</span></div>
+<div class="tab1" style="color: #b3b3b3;"><b>GM@働：</b>160Gはなんか6で割れなさそうな顔をしていますが、こう……共有プールにそのままたたきこめば……<span>[00:07]</span></div>
+<div class="tab1" style="color: #d33115;"><b>フンヌ：</b>グリフォンロードでは一話終わるまでプールして最後に分配してたんですけど、これだとキリいいタイミングあるか分からないですしねぇ…<span>[00:09]</span></div>
+<div class="tab1" style="color: #b3b3b3;"><b>GM@働：</b>……あれ。純粋なPC人数って3?6?<span>[00:09]</span></div>
+<div class="tab1" style="color: #fcdc00;"><b>クララ＠ひよこ：</b>6ですね（同行者は含まれないがバディは含む）<span>[00:10]</span></div>
+<div class="tab1" style="color: #d33115;"><b>フンヌ：</b>p4に「純粋なPC人数」の項があるですね<span>[00:10]</span></div>
+<div class="tab1" style="color: #b3b3b3;"><b>GM@働：</b>あってた。<span>[00:10]</span></div>
+<div class="tab1" style="color: #fda1ff;"><b>ヴェスペル@ひよこ：</b>「しかし、報酬に端数が出る場合はどうしましょうね」別にどうでも良さはあるけど決めておかないとモメそう<span>[00:10]</span></div>
+<div class="tab1" style="color: #fcdc00;"><b>クララ@ひよこ：</b>「スィーリア様に管理いただくと安心できそうです」先日お金の管理の話していたし<span>[00:11]</span></div>
+<div class="tab1" style="color: #87ceeb;"><b>アズール@働：</b>「どうせしばらくは一緒に行動するんだし、共有資産に、ってのが丸そうだな」<span>[00:11]</span></div>
+<div class="tab1" style="color: #fda1ff;"><b>ヴェスペル@ひよこ：</b>サラッと面倒ごとを押し付けにかかるなよ、とは思うがお嬢様に任せるよりは7の70倍良いだろうという顔に戻る<span>[00:11]</span></div>
+<div class="tab1" style="color: #00fa9a;"><b>スィーリア@働：</b>「ん。……アズール、勝手に使わないでね」<span>[00:11]</span></div>
+<div class="tab1" style="color: #fcdc00;"><b>クララ@ひよこ：</b>「えぇ、共有資産」その言葉その言葉<span>[00:12]</span></div>
+<div class="tab1" style="color: #87ceeb;"><b>アズール@働：</b>「俺はむしろお前の方が横領しそうだと思ってるんだけどね？？」<span>[00:12]</span></div>
+<div class="tab1" style="color: #fe9200;"><b>レノーレ@枝：</b>「問題なし」こくん<span>[00:12]</span></div>
+<div class="tab1" style="color: #b3b3b3;"><b>GM@働：</b>では改めて、各自何に挑戦するか選んでいきましょうか<span>[00:12]</span></div>
+<div class="tab1" style="color: #fda1ff;"><b>ヴェスペル@ひよこ：</b>「……フンヌ殿とアズール殿に各々船や進路に関する対応をお願いするのが良さそうですね。お願いできますか……？」<span>[00:13]</span></div>
+<div class="tab1" style="color: #fcdc00;"><b>クララ@ひよこ：</b>「ヴェスペル、それってなんでー？」敵を小突きつつ質問<span>[00:13]</span></div>
+<div class="tab1" style="color: #fda1ff;"><b>ヴェスペル@ひよこ：</b>「適材適所です。それが最も成功率が高いでしょう」出目8要求。回復は出目9要求だし<span>[00:13]</span></div>
+<div class="tab1" style="color: #d33115;"><b>フンヌ@枝：</b>「オッケー。やってみるさ」できなかったらそれから考えるのだ<span>[00:14]</span></div>
+<div class="tab1" style="color: #87ceeb;"><b>アズール@働：</b>「でも、クララ……さんも、斥候としての技術は───」　ここまでの言動をふりかえる　「───悪化しそうだから俺がやろう。うん」<span>[00:14]</span></div>
+<div class="tab1" style="color: #fcdc00;"><b>クララ＠ひよこ：</b>「……フンヌ様に何もかもやっていただくのも一案じゃない？　フンヌ様が一番暴れまわる船で酔わずにいろいろなことできそう」出目7要求だよ<span>[00:15]</span></div>
+<div class="tab1" style="color: #fda1ff;"><b>ヴェスペル@ひよこ：</b>「お嬢様が急にまっとうなことを」<span>[00:15]</span></div>
+<div class="tab1" style="color: #fcdc00;"><b>クララ@ひよこ：</b>「こんなんでもちゃんと見ているんだからっ」斧で敵を海に叩き落としつつ<span>[00:16]</span></div>
+<div class="tab1" style="color: #d33115;"><b>フンヌ@枝：</b>「まさに適材適所ってやつだ」<span>[00:16]</span></div>
+<div class="tab1" style="color: #00fa9a;"><b>スィーリア@働：</b>「フンヌ、丈夫。…………(アズールを無言で見つめる)」<span>[00:16]</span></div>
+<div class="tab1" style="color: #d33115;"><b>フンヌ@枝：</b>というわけでオレは船酔いバトルをするぜ。<span>[00:16]</span></div>
+<div class="tab1" style="color: #fcdc00;"><b>クララ＠ひよこ：</b>「あと！　わたしは！」<br>
+後ろから飛びかかってきた敵をキックで蹴り返しつつ<br>
+<br>
+「勉強苦手っ！！！！　難しいことはアズール様お願いっ！！」<span>[00:16]</span></div>
+<div class="tab1" style="color: #fda1ff;"><b>ヴェスペル@ひよこ：</b>役割分担決まった感じありますね……各々判定しちゃいますか……？　ないし他の good でエレガントなアイディアがあればそれでも……！<span>[00:17]</span></div>
+<div class="tab1" style="color: #87ceeb;"><b>アズール@働：</b>「…………あれ。もしかして俺、ヒエラルキーの底辺にいる？？」<span>[00:17]</span></div>
+<div class="tab1" style="color: #fda1ff;"><b>ヴェスペル@ひよこ：</b>「難しいことを押し付けるのは……お嬢様なりの敬意とか信頼ではあります。わかりにくく申し訳ない」素直に謝る<span>[00:18]</span></div>
+<div class="tab1" style="color: #fda1ff;"><b>ヴェスペル@ひよこ：</b>でも、勉強はちゃんとしてほしかった（知力4を見つめつつ（筋力B4も見つめつつ<span>[00:18]</span></div>
+<div class="tab1" style="color: #fe9200;"><b>レノーレ@枝：</b>「下剋上、応援してる」ｂ<span>[00:18]</span></div>
+<div class="tab1" style="color: #87ceeb;"><b>アズール@働：</b>「そっか……そうだね……底辺ってことは、ここからは上がることしかできないもんね……」　かなしみを背負いながら補修をてつだいます<span>[00:19]</span></div>
+<div class="tab1" style="color: #b3b3b3;"><b>GM@働：</b>ということで、各自挑戦内容が決まりましたので<span>[00:19]</span></div>
+<div class="tab1" style="color: #b3b3b3;"><b>GM@働：</b>リストの上にあるものから順に、判定タブでやっていきましょうか。まずはクララの物理ダメージ13点かな<span>[00:20]</span></div>
+<div class="tab1" style="color: #fcdc00;"><b>クララ＠ひよこ：</b>はい！<span>[00:20]</span></div>
+<div class="tab1" style="color: #fcdc00;"><b>クララ＠ひよこ：</b>マッスルベアーと全力攻撃を宣言します！<span>[00:20]</span></div>
+<div class="tab1" style="color: #fcdc00;"><b>クララ＠ひよこ：</b>クララのMPを-3(→ -3)増加 (8 → 5)<span>[00:20]</span></div>
+<div class="tab2" style="color: #87ceeb;"><b>アズール@働：</b>▼物理ダメージ13点以上を与える／クララ<span>[00:20]</span></div>
+<div class="tab1" style="color: #fcdc00;"><b>クララ＠ひよこ：</b>攻撃しますね！<span>[00:21]</span></div>
+<div class="tab2 diceroll" style="color: #fcdc00;"><b>クララ@ひよこ：</b>k37[(11+0)]+7+6$+0#0 ダメージ／ブローバ2H<br>
+SwordWorld2.5 : KeyNo.37c[11]+13 → 2D:[6,5 5,2]=11,7 → 12,8+13 → 1回転 → 33<span>[00:21]</span></div>
+<div class="tab1" style="color: #fcdc00;"><b>クララ＠ひよこ：</b>「こっのおぉっ！」<br>
+ボスっぽい蛮族を全力で横薙ぎっ！<span>[00:21]</span></div>
+<div class="tab2" style="color: #b3b3b3;"><b>GM@働：</b>とてもオーバーキル。<span>[00:21]</span></div>
+<div class="tab2" style="color: #b3b3b3;"><b>GM@働：</b>▲成功：経験点240点<span>[00:22]</span></div>
+<div class="tab2" style="color: #b3b3b3;"><b>GM@働：</b>▼生命抵抗力判定：目標値12／フンヌ<span>[00:22]</span></div>
+<div class="tab1" style="color: #fda1ff;"><b>ヴェスペル@ひよこ：</b>今聞こえちゃいけない音がした気がするぞ？？？？　って顔になりながらも遊撃的に駆けずり回ってます。<span>[00:22]</span></div>
+<div class="tab1" style="color: #fe9200;"><b>レノーレ@枝：</b>「すご」お目々まんまる。<span>[00:22]</span></div>
+<div class="tab1" style="color: #b3b3b3;"><b>GM@働：</b>おみごと。　お次、フンヌくんどうぞ。<span>[00:23]</span></div>
+<div class="tab1" style="color: #87ceeb;"><b>アズール@働：</b>「……あれを受け止めろって言われたら、迷わず逃走を選択するよ、俺は」<span>[00:23]</span></div>
+<div class="tab1" style="color: #d33115;"><b>フンヌ@枝：</b>オッケー。オレの相手は船の揺れだ。<span>[00:23]</span></div>
+<div class="tab2" style="color: #d33115;"><b>フンヌ@枝：</b>▼船酔い「生命抵抗力判定」&gt;=12<span>[00:24]</span></div>
+<div class="tab2 diceroll" style="color: #d33115;"><b>フンヌ@枝：</b>2d+5+0 生命抵抗力<br>
+SwordWorld2.5 : (2D6+5+0) → 4[3,1]+5+0 → 9<span>[00:24]</span></div>
+<div class="tab1" style="color: #9acd32;"><b>ネイラ@働：</b>このパーティの誰が受けても一撃。その恐怖に震え上がっている。<span>[00:24]</span></div>
+<div class="tab1" style="color: #d33115;"><b>フンヌ@枝：</b>おろろろろ。<span>[00:24]</span></div>
+<div class="tab2" style="color: #b3b3b3;"><b>GM@働：</b>オロロ。<span>[00:25]</span></div>
+<div class="tab2" style="color: #b3b3b3;"><b>GM@働：</b>▲失敗：疲労点+3<span>[00:25]</span></div>
+<div class="tab1" style="color: #d33115;"><b>フンヌ：</b>フンヌの疲労点を3(→ 3)増加 (0 → 3)<span>[00:27]</span></div>
+<div class="tab1" style="color: #fda1ff;"><b>ヴェスペル@ひよこ：</b>「フンヌ殿、しっかり」背中さすさす<span>[00:27]</span></div>
+<div class="tab1" style="color: #d33115;"><b>フンヌ：</b>フンヌのMPを-3(→ -3)増加 (10 → 7)<span>[00:27]</span></div>
+<div class="tab1" style="color: #d33115;"><b>フンヌ：</b>最大MPを-3しまして<span>[00:27]</span></div>
+<div class="tab1" style="color: #d33115;"><b>フンヌ@枝：</b>「張り切りすぎみたいだｎうっぷ」<span>[00:28]</span></div>
+<div class="tab2" style="color: #b3b3b3;"><b>GM@働：</b>▼スカウト+器用度Bで12以上／アズール<span>[00:28]</span></div>
+<div class="tab2" style="color: #87ceeb;"><b>アズール@働：</b>おおとり。<span>[00:28]</span></div>
+<div class="tab2 diceroll" style="color: #87ceeb;"><b>アズール@働：</b>2d+2+(18/6)&gt;=12<br>
+SwordWorld2.5 : (2D6+2+(18/6)&gt;=12) → 8[4,4]+2+(18/6) → 13 → 成功<span>[00:28]</span></div>
+<div class="tab2" style="color: #b3b3b3;"><b>GM@働：</b>▲成功：経験点+120点<span>[00:28]</span></div>
+<div class="tab1" style="color: #87ceeb;"><b>アズール@働：</b>「こりゃ、急いで補修した方がいいかなっと……スィーリア、みんなの援護は任せた！」<span>[00:29]</span></div>
+<div class="tab1" style="color: #00fa9a;"><b>スィーリア@働：</b>「ん……これは、やむを得ない」　壁役以外にも仕事があるなら仕方ない、と納得<span>[00:30]</span></div>
+<div class="tab1" style="color: #fcdc00;"><b>クララ＠ひよこ：</b>雑魚を掃討しながらも視界の端で見る。<br>
+「アズール様、器用……っ」<span>[00:31]</span></div>
+<div class="tab1" style="color: #b3b3b3;"><b>GM@働：</b>かくあって、無事(?)に蛮族を撃退することができた。<span>[00:31]</span></div>
+<div class="tab1" style="color: #fcdc00;"><b>クララ＠ひよこ：</b>「ふぅ…………みんな、大丈夫？」サッと見る<span>[00:32]</span></div>
+<div class="tab1" style="color: #e27300;"><b>ウンベルト@GM：</b>「ふぅ……助かった。思っていたよりもやるじゃないか、君たち」「これなら、あの群島でもやっていけそうだな」<span>[00:32]</span></div>
+<div class="tab1" style="color: #fda1ff;"><b>ヴェスペル@ひよこ：</b>「恐縮です」怪我した人に素人ながら包帯ぐるーぐるーしつつ<span>[00:32]</span></div>
+<div class="tab1" style="color: #fe9200;"><b>レノーレ@枝：</b>「なんとか」そういう結論になったらしい。<span>[00:33]</span></div>
+<div class="tab1" style="color: #87ceeb;"><b>アズール@働：</b>「俺も船も無事。良かったよ、壁がいなくても問題ない人がたくさんで」<span>[00:33]</span></div>
+<div class="tab1" style="color: #00fa9a;"><b>スィーリア@働：</b>「……発言にふくみをかんじる」<span>[00:33]</span></div>
+<div class="tab1" style="color: #87ceeb;"><b>アズール@働：</b>(口笛を吹く)<span>[00:33]</span></div>
+<div class="tab1" style="color: #fcdc00;"><b>クララ＠ひよこ：</b>「アズール様がいらしたから安心して戦えました。ありがとうございます！」何も考えてない笑顔<span>[00:34]</span></div>
+<div class="tab1" style="color: #fda1ff;"><b>ヴェスペル@ひよこ：</b>（アズール殿には強く生きてもらいたい）<span>[00:34]</span></div>
+<div class="tab1" style="color: #e27300;"><b>ウンベルト@GM：</b>(あの子だけは生きて帰って来られるか心配だな……)「さて……明日には、島に船を着けられそうな訳だけど」<span>[00:35]</span></div>
+<div class="tab1" style="color: #d33115;"><b>フンヌ@枝：</b>「いやぁカバーしあえるってのは助かるもんだなぁ」うはは<span>[00:35]</span></div>
+<div class="tab1" style="color: #e27300;"><b>ウンベルト@GM：</b>「改めて、君たちの任務を確認するよ」「第一目標は島の調査。加えて、伝承が事実、かつ可能なのであれば、神域の復旧。」<span>[00:37]</span></div>
+<div class="tab1" style="color: #fda1ff;"><b>ヴェスペル@ひよこ：</b>頷く。「存在することの確認と回復の手順の調査が要りそうですね」<span>[00:37]</span></div>
+<div class="tab1" style="color: #fcdc00;"><b>クララ@ひよこ：</b>こういう難しい話はヴェスペルが頼りになるからお任せである。<span>[00:37]</span></div>
+<div class="tab1" style="color: #e27300;"><b>ウンベルト@GM：</b>「そうなるね。　で、先遣隊として、君たちより先に調査を行なってる人が……見えるかな？あの浦にいるんだ」<span>[00:38]</span></div>
+<div class="tab1" style="color: #fcdc00;"><b>クララ＠ひよこ：</b>どこどこ、と見てみます。<span>[00:38]</span></div>
+<div class="tab1" style="color: #e27300;"><b>ウンベルト@GM：</b>群島の中のひとつを指差す。指した先は─────<span>[00:39]</span></div>
+<div class="tab1 diceroll" style="color: #b3b3b3;"><b>GM@働：</b>d66<br>
+SwordWorld2.5 : (D66) → 41<span>[00:39]</span></div>
+<div class="tab1" style="color: #b3b3b3;"><b>GM@働：</b>1dでよかった。<span>[00:40]</span></div>
+<div class="tab1" style="color: #fcdc00;"><b>クララ＠ひよこ：</b>すると出目は……4かしら。<span>[00:40]</span></div>
+<div class="tab1" style="color: #b3b3b3;"><b>GM@働：</b>4を取って、1-3ですね。ここが〔知られずの浦〕になります。<span>[00:40]</span></div>
+<div class="tab1" style="color: #d33115;"><b>フンヌ：</b>おぉ、地名がはいった<span>[00:41]</span></div>
+<div class="tab1" style="color: #e27300;"><b>ウンベルト@GM：</b>「あそこで君たちを降ろしたら、済まないが俺たちはすぐに撤収する。さっきみたいに、また船を襲われたら敵わないからね」<span>[00:42]</span></div>
+<div class="tab1" style="color: #fda1ff;"><b>ヴェスペル@ひよこ：</b>「ここまでの助力ありがとうございました、ウンベルト殿」頭下げ<span>[00:43]</span></div>
+<div class="tab1" style="color: #e27300;"><b>ウンベルト@GM：</b>「もちろん、このままずっと置き去り、じゃあない。だいぶ長い間隔にはなるけど、定期的に確認に戻ってくるよ」　具体的には150日周期で。<span>[00:43]</span></div>
+<div class="tab1" style="color: #d33115;"><b>フンヌ@枝：</b>「無事に戻れることを祈ってるぜ」<span>[00:44]</span></div>
+<div class="tab1" style="color: #fcdc00;"><b>クララ＠ひよこ：</b>「5ヶ月ごとですか」<span>[00:44]</span></div>
+<div class="tab1" style="color: #87ceeb;"><b>アズール@働：</b>「逆に言うと、最低5ヶ月はこっちで生き延びろ、ってことだな」<span>[00:45]</span></div>
+<div class="tab1" style="color: #e27300;"><b>ウンベルト@GM：</b>「そうなる。まぁ、自力で戻ってこられるなら、それでもいいけど─────」<span>[00:45]</span></div>
+<div class="tab1" style="color: #fda1ff;"><b>ヴェスペル@ひよこ：</b>「この距離を超えるにはかなりしっかりした船が必要となります。現実的ではないでしょう」<span>[00:46]</span></div>
+<div class="tab1" style="color: #00fa9a;"><b>スィーリア@働：</b>「それこそ、島の上、だから。船が見つかることもあるかも、だけど」<span>[00:47]</span></div>
+<div class="tab1" style="color: #fcdc00;"><b>クララ@ひよこ：</b>「うんうん。ヴェスペルは心配性なんだから」もぅーぺちぺち<span>[00:47]</span></div>
+<div class="tab1" style="color: #fda1ff;"><b>ヴェスペル@ひよこ：</b>筋力25で叩くな、痛い痛い<span>[00:47]</span></div>
+<div class="tab1" style="color: #e27300;"><b>ウンベルト@GM：</b>「ま、この群島内を移動できる程度のボートは置いていってあげるから。役に立ててくれ」<span>[00:48]</span></div>
+<div class="tab1" style="color: #fe9200;"><b>レノーレ@枝：</b>「今は進む」家出を終えるにはまだ早い。<span>[00:48]</span></div>
+<div class="tab1" style="color: #fcdc00;"><b>クララ＠ひよこ：</b>「そうね。レノーレ様の仰る通り……少なくともここで成果を上げるまでは」そして、それにはそれなりの時間が必要となるだろう<span>[00:49]</span></div>
+<div class="tab1" style="color: #b3b3b3;"><b>GM@働：</b>そんなこんなで、この日も終わり、翌朝。ついに君たちは、群島の陸地に足をつけることができた。<span>[00:49]</span></div>
+<div class="tab1" style="color: #e27300;"><b>ウンベルト@GM：</b>「それじゃ。君たちに、幸運とハルーラ様の導きがあらんことを」　先述の通り、ウンベルトたちは踵を返す。<span>[00:50]</span></div>
+<div class="tab1" style="color: #fcdc00;"><b>クララ＠ひよこ：</b>「ウンベルト様にも」心配そうな顔で見つめる。行きも危ない目に遭ったし……<span>[00:51]</span></div>
+<div class="tab1" style="color: #fda1ff;"><b>ヴェスペル@ひよこ：</b>今は自分たちの心配のほうが先な気もするとも思うが、口には出さない。<span>[00:51]</span></div>
+<div class="tab1" style="color: #00fa9a;"><b>スィーリア@働：</b>「……それで、先に来てる、っていう人は……」　周囲を見渡す<span>[00:52]</span></div>
+<div class="tab1" style="color: #fcdc00;"><b>クララ＠ひよこ：</b>「ヴェスペル、ちょっとよくわからないから教えて」<span>[00:52]</span></div>
+<div class="tab1" style="color: #fda1ff;"><b>ヴェスペル@ひよこ：</b>「現在位置と目的地をまずは確認しましょう」<span>[00:52]</span></div>
+<div class="tab1" style="color: #87ceeb;"><b>アズール@働：</b>「あっちにあるのは……村かな」「だな。確認が済んだら、向かってみようか」<span>[00:53]</span></div>
+<div class="tab1" style="color: #b3b3b3;"><b>GM@働：</b>ということで、パラグラフを開きましょう。　52pをどうぞ<span>[00:54]</span></div>
+<div class="tab1" style="color: #d33115;"><b>フンヌ：</b>ふんふん<span>[00:55]</span></div>
+<div class="tab1" style="color: #fcdc00;"><b>クララ＠ひよこ：</b>「えっと、どなたに会いに行けばいいんだっけ」<span>[00:55]</span></div>
+<div class="tab1" style="color: #fda1ff;"><b>ヴェスペル@ひよこ：</b>「先遣隊の方でしたね。確か名前は」<span>[00:55]</span></div>
+<div class="tab1" style="color: #00fa9a;"><b>スィーリア@働：</b>「バクティ。人間で、神官で、女の人」<span>[00:56]</span></div>
+<div class="tab1" style="color: #fcdc00;"><b>クララ＠ひよこ：</b>「流石スィーリア様、よく覚えてますね！」きゃっきゃっきゃっきゃ<span>[00:56]</span></div>
+<div class="tab1" style="color: #fda1ff;"><b>ヴェスペル@ひよこ：</b>「すると神殿に向かうのがよろしいでしょうか」神官なら神殿にいるんじゃないかという短絡的発想<span>[00:57]</span></div>
+<div class="tab1" style="color: #fe9200;"><b>レノーレ@枝：</b>「人、いるんだ」街ほどいないならまだ……。<span>[00:57]</span></div>
+<div class="tab1" style="color: #87ceeb;"><b>アズール@働：</b>「かな？他にも神官がいれば、島についての情報も得られるだろうし」<span>[00:57]</span></div>
+<div class="tab1" style="color: #fcdc00;"><b>クララ＠ひよこ：</b>「レノーレ様、大丈夫です。フンヌ様もいますし」全幅の信頼<span>[00:58]</span></div>
+<div class="tab1" style="color: #d33115;"><b>フンヌ@枝：</b>「拠点になりそうだといいなぁ」とりあえずてくてく<span>[00:58]</span></div>
+<div class="tab1" style="color: #b3b3b3;"><b>GM@働：</b>ということで、簡単なマッピングの後、てこてこと村へ向かうのですが。<span>[00:58]</span></div>
+<div class="tab1" style="color: #fda1ff;"><b>ヴェスペル@ひよこ：</b>てこてこてここ。<span>[00:58]</span></div>
+<div class="tab1" style="color: #b3b3b3;"><b>GM@働：</b>どうにも村人たちの様子がおかしい。過酷な環境によるものもあるだろうが、それにしても弱っている者ばかりだ。<span>[00:59]</span></div>
+<div class="tab1" style="color: #fcdc00;"><b>クララ@ひよこ：</b>「ヴェスペル、これはいったい……妙に皆元気がなさそうです」<span>[00:59]</span></div>
+<div class="tab1" style="color: #b3b3b3;"><b>GM@働：</b>話しかけても、まともに返事や会話をしてくれる者はいない。　正確には、君たちの相手をする余裕などなさそう、といった様子。<span>[01:00]</span></div>
+<div class="tab1" style="color: #d33115;"><b>フンヌ@枝：</b>「拠点にはならなそうだなぁ……」<span>[01:00]</span></div>
+<div class="tab1" style="color: #00fa9a;"><b>スィーリア@働：</b>「……流行病、とか？」「こんな環境だと、治す手段も限られるから。致命的」<span>[01:00]</span></div>
+<div class="tab1" style="color: #fda1ff;"><b>ヴェスペル@ひよこ：</b>「バクティ女史に事情をお伺いするほうがよいかもしれません。病だとして神官がいながら何故対応ができていないのかも気になります」<span>[01:01]</span></div>
+<div class="tab1" style="color: #87ceeb;"><b>アズール@働：</b>「だな。神殿、早速行ってみるか」<span>[01:01]</span></div>
+<div class="tab1" style="color: #fe9200;"><b>レノーレ@枝：</b>てってって。<span>[01:01]</span></div>
+<div class="tab1" style="color: #fcdc00;"><b>クララ＠ひよこ：</b>とことことてて。<span>[01:01]</span></div>
+<div class="tab1" style="color: #b3b3b3;"><b>GM@働：</b>ということでgo to 神殿。<span>[01:01]</span></div>
+<div class="tab1" style="color: #fcdc00;"><b>クララ＠ひよこ：</b>「ごめんくださーい」神殿にエントリー！<span>[01:02]</span></div>
+<div class="tab1" style="color: #68bc00;"><b>バクティ@GM：</b>すると話に聞いていた通りの容貌をしている、神官女性がいるのが確認できた。<span>[01:03]</span></div>
+<div class="tab1" style="color: #68bc00;"><b>バクティ@GM：</b>彼女は病を患ってはいないようで、むしろ治療のために忙しなく動き続けている。<span>[01:03]</span></div>
+<div class="tab1" style="color: #fcdc00;"><b>クララ＠ひよこ：</b>「バクティ様ですか？」声掛け<span>[01:03]</span></div>
+<div class="tab1" style="color: #fda1ff;"><b>ヴェスペル@ひよこ：</b>まてまて、バクティ女史は忙しそうにしているだろう<span>[01:04]</span></div>
+<div class="tab1" style="color: #68bc00;"><b>バクティ@GM：</b>「あら、客人なんて珍しい。でもごめんなさい、今は相手をしている余裕が無くて───」<span>[01:04]</span></div>
+<div class="tab1" style="color: #fcdc00;"><b>クララ＠ひよこ：</b>「えぇ、だから、その……何か、助けになることはできませんか？」<span>[01:04]</span></div>
+<div class="tab1" style="color: #d33115;"><b>フンヌ：</b>「息つく暇もないってやつか…」<span>[01:04]</span></div>
+<div class="tab1" style="color: #fda1ff;"><b>ヴェスペル@ひよこ：</b>「お嬢様、まずは本題を……という余裕もなさそうではありますが」<span>[01:04]</span></div>
+<div class="tab1" style="color: #68bc00;"><b>バクティ@GM：</b>君たちが来る、という話は伝わってはいるだろうが、それすらも忘れていそうな様子である。<span>[01:05]</span></div>
+<div class="tab1" style="color: #fcdc00;"><b>クララ@ひよこ：</b>「本題？」よくわかんにゃいって顔<span>[01:05]</span></div>
+<div class="tab1" style="color: #00fa9a;"><b>スィーリア@働：</b>「……治療が一段落するまで、話、できなさそうだし」「他にやれることもないし。手伝ってく？」<span>[01:05]</span></div>
+<div class="tab1" style="color: #fda1ff;"><b>ヴェスペル@ひよこ：</b>「……さりとて、フンヌ殿の指摘通り息つく暇も無さそうなのも事実。スィーリア女史のおっしゃる通り今は手伝うのが良さそうですね」<span>[01:06]</span></div>
+<div class="tab1" style="color: #87ceeb;"><b>アズール@働：</b>「このまま放っといて島の調査にー、ってのもな」<span>[01:06]</span></div>
+<div class="tab1" style="color: #b3b3b3;"><b>GM@働：</b>ということで、君たちはバクティの手が空くまでの間、神殿を手伝うことにする。<span>[01:06]</span></div>
+<div class="tab1" style="color: #fcdc00;"><b>クララ＠ひよこ：</b>「この薬草はこっちかな……」ぱたぱた。傍から見ていると大型犬に見えるかもしれない<span>[01:07]</span></div>
+<div class="tab1" style="color: #b3b3b3;"><b>GM@働：</b>その過程で、この村に蔓延している病について調べたり、患者の様態を確認したりして、なにか閃いたりするかもしれない。<span>[01:08]</span></div>
+<div class="tab1" style="color: #d33115;"><b>フンヌ：</b>きゅぴーんとしたい<span>[01:08]</span></div>
+<div class="tab2" style="color: #b3b3b3;"><b>GM@働：</b>▼病気知識判定：目標値13<span>[01:08]</span></div>
+<div class="tab1" style="color: #b3b3b3;"><b>GM@働：</b>そんなわけで判定のお時間です。<span>[01:08]</span></div>
+<div class="tab1" style="color: #fda1ff;"><b>ヴェスペル@ひよこ：</b>「しかし、この病は一体……」全然しらない。誰か知ってる……？<span>[01:09]</span></div>
+<div class="tab1" style="color: #b3b3b3;"><b>GM@働：</b>誰が知ってるかはダイスの女神だけがしっている。　ので、各自知ってそうなほうのPCで病気知識判定しましょう。<span>[01:09]</span></div>
+<div class="tab2 diceroll" style="color: #fcdc00;"><b>クララ＠ひよこ：</b>2d6 わたし、病気とかわからないの……<br>
+SwordWorld2.5 : (2D6) → 11[5,6] → 11<span>[01:10]</span></div>
+<div class="tab2 diceroll" style="color: #00fa9a;"><b>スィーリア@働：</b>2d+1+(22/6)&gt;=13　そのときスィーリアに電流走<br>
+SwordWorld2.5 : (2D6+1+(22/6)&gt;=13) → 7[2,5]+1+(22/6) → 11 → 失敗<span>[01:10]</span></div>
+<div class="tab2" style="color: #00fa9a;"><b>スィーリア@働：</b>らない<span>[01:10]</span></div>
+<div class="tab2 diceroll" style="color: #d33115;"><b>フンヌ@枝：</b>2d+1+2&gt;=13 セージ知識。まだオレの方が知識多いらしいぜ。<br>
+SwordWorld2.5 : (2D6+1+2&gt;=13) → 8[2,6]+1+2 → 11 → 失敗<span>[01:11]</span></div>
+<div class="tab2" style="color: #b3b3b3;"><b>GM@働：</b>きれいに11がならびました<span>[01:11]</span></div>
+<div class="tab2" style="color: #fcdc00;"><b>クララ＠ひよこ：</b>きれいですね！！！！　ちがう、そうじゃない。<span>[01:11]</span></div>
+<div class="tab2" style="color: #b3b3b3;"><b>GM@働：</b>▲失敗：成果なし。<span>[01:12]</span></div>
+<div class="tab1" style="color: #00fa9a;"><b>スィーリア@働：</b>「……うーん……わかりそうで、わからない」<span>[01:12]</span></div>
+<div class="tab1" style="color: #d33115;"><b>フンヌ@枝：</b>初めて来た時には開かない扉みたいなやつだ<span>[01:12]</span></div>
+<div class="tab1" style="color: #fcdc00;"><b>クララ＠ひよこ：</b>ちんぷんかんぷんって顔<span>[01:12]</span></div>
+<div class="tab1" style="color: #d33115;"><b>フンヌ@枝：</b>「しかしそうなると、どう手伝うもんかねぇ……」状況の改善は望めなそうだ。<span>[01:13]</span></div>
+<div class="tab1" style="color: #fda1ff;"><b>ヴェスペル@ひよこ：</b>「スィーリア女史とフンヌ殿をもってしてもわからないとなると事態は深刻ですね」<span>[01:13]</span></div>
+<div class="tab1" style="color: #fcdc00;"><b>クララ＠ひよこ：</b>「ちゃ、ちゃんとご飯食べてもらうとか！」そういうことしか提案できないよね……<span>[01:14]</span></div>
+<div class="tab1" style="color: #68bc00;"><b>バクティ@GM：</b>「私も治療だけで手一杯で、調べる余裕が無くって……でも、ありがとうございます。おかげで、いつもより迅速な治療が行なえました」<span>[01:14]</span></div>
+<div class="tab1" style="color: #68bc00;"><b>バクティ@GM：</b>なおこの人、毎日MPが0になるまで治療している。<span>[01:14]</span></div>
+<div class="tab1" style="color: #fda1ff;"><b>ヴェスペル@ひよこ：</b>「しかし、3人寄れば文殊の知恵とも申します。観察を継続すれば正体がわかるかもしれません」<span>[01:15]</span></div>
+<div class="tab1" style="color: #fcdc00;"><b>クララ＠ひよこ：</b>「へっとへとになるまで頑張ってくださっているバクティ様に報いるためにもがんばらないとね」セージ技能がないから私は6ゾロチャンスなんだけどね<span>[01:15]</span></div>
+<div class="tab1" style="color: #87ceeb;"><b>アズール@働：</b>「だな。……とはいえ、今日は村でやれることは何もないかな」「まだ日が落ちるまで時間もあるし、少し散策とかしてみる？」<span>[01:17]</span></div>
+<div class="tab1" style="color: #b3b3b3;"><b>GM@働：</b>ということで、〔自由行動タイミング〕です。p8をご確認ください。<span>[01:17]</span></div>
+<div class="tab1" style="color: #fcdc00;"><b>クララ＠ひよこ：</b>「そう、ね……アズール様のおっしゃる通りね」<span>[01:18]</span></div>
+<div class="tab1" style="color: #fe9200;"><b>レノーレ@枝：</b>「慣れたい」新天地、怖いものいっぱい。<span>[01:18]</span></div>
+<div class="tab1" style="color: #b3b3b3;"><b>GM@働：</b>各種魔法や薬草を使ったりできるのと、(〔拠点〕があるパラグラフなので)〔共通クエスト〕なるものを受注できるそうです。メインシナリオには関係しない、経験点稼ぎのためのものですね<span>[01:19]</span></div>
+<div class="tab1" style="color: #fcdc00;"><b>クララ＠ひよこ：</b>共通クエスト。<span>[01:20]</span></div>
+<div class="tab1" style="color: #b3b3b3;"><b>GM@働：</b>このパラグラフ自体に探索できるところは……ないみたいなので、これを確認してみましょう(わたしも初めて確認する)<span>[01:20]</span></div>
+<div class="tab1" style="color: #fe9200;"><b>レノーレ@枝：</b>経験点、大事（こくこく<span>[01:20]</span></div>
+<div class="tab1" style="color: #b3b3b3;"><b>GM@働：</b>ということでp106。<span>[01:20]</span></div>
+<div class="tab1" style="color: #b3b3b3;"><b>GM@働：</b>1dを2回振って、クエストをふたつ受注するみたいです。振ってみよう<span>[01:21]</span></div>
+<div class="tab1" style="color: #d33115;"><b>フンヌ：</b>まさかのランダム<span>[01:21]</span></div>
+<div class="tab1 diceroll" style="color: #b3b3b3;"><b>GM@働：</b>x2 1d<br>
+SwordWorld2.5 : #1<br>
+(1D6) → 3<br>
+<br>
+#2<br>
+(1D6) → 1<span>[01:21]</span></div>
+<div class="tab1" style="color: #b3b3b3;"><b>GM@働：</b>3の方から。『物資の輸送』ですね<span>[01:21]</span></div>
+<div class="tab1" style="color: #fcdc00;"><b>クララ＠ひよこ：</b>「物資の輸送、ですか」取って眺めてみる。<span>[01:21]</span></div>
+<div class="tab1" style="color: #fda1ff;"><b>ヴェスペル@ひよこ：</b>「重要なのはどこに、何を、ですね」<span>[01:22]</span></div>
+<div class="tab1" style="color: #b3b3b3;"><b>GM@働：</b>追加でd66してパラグラフをひとつ決定、そこへ物資を持っていけと。<span>[01:22]</span></div>
+<div class="tab1 diceroll" style="color: #b3b3b3;"><b>GM@働：</b>d66<br>
+SwordWorld2.5 : (D66) → 32<span>[01:22]</span></div>
+<div class="tab1" style="color: #b3b3b3;"><b>GM@働：</b>〔32:暴食の砂漠〕が<span>[01:22]</span></div>
+<div class="tab1 diceroll" style="color: #b3b3b3;"><b>GM@働：</b>1d<br>
+SwordWorld2.5 : (1D6) → 3<span>[01:22]</span></div>
+<div class="tab1" style="color: #b3b3b3;"><b>GM@働：</b>1-2に。<span>[01:23]</span></div>
+<div class="tab1" style="color: #d33115;"><b>フンヌ：</b>ちか<span>[01:23]</span></div>
+<div class="tab1" style="color: #fcdc00;"><b>クララ＠ひよこ：</b>「すぐそこ、といえばすぐそこね」楽観的<span>[01:23]</span></div>
+<div class="tab1" style="color: #b3b3b3;"><b>GM@働：</b>で、ここに物資を運べと。　ただし、運搬中に戦闘になった場合、必ず「自軍後方エリア」にこれを置かないといけないそうです<span>[01:24]</span></div>
+<div class="tab1" style="color: #87ceeb;"><b>アズール@働：</b>俺の仕事が増える音がする。<span>[01:24]</span></div>
+<div class="tab1" style="color: #d33115;"><b>フンヌ@枝：</b>「どうせいろんな所を回るんだ、あってないようなもんだろ」けろ<span>[01:24]</span></div>
+<div class="tab1" style="color: #fcdc00;"><b>クララ＠ひよこ：</b>「お釈迦にならないように注意してください、ということね」<span>[01:24]</span></div>
+<div class="tab1" style="color: #fcdc00;"><b>クララ＠ひよこ：</b>「ともあれ、アズール様が守ってくださるなら安心です」嬉しそうに笑う<span>[01:26]</span></div>
+<div class="tab1" style="color: #d33115;"><b>フンヌ@枝：</b>「まさかその盾、この事を予想して――」<span>[01:26]</span></div>
+<div class="tab1" style="color: #fda1ff;"><b>ヴェスペル@ひよこ：</b>だから、アズール殿に面倒事を即座に押し付けるなってば<span>[01:26]</span></div>
+<div class="tab1" style="color: #87ceeb;"><b>アズール@働：</b>「……まぁ、守る対象が横にあるか後ろにいるか、の違いかぁ」<span>[01:26]</span></div>
+<div class="tab1" style="color: #b3b3b3;"><b>GM@働：</b>ということで、クエストログを更新してみました。<span>[01:27]</span></div>
+<div class="tab1" style="color: #b3b3b3;"><b>GM@働：</b>この感じで①のほうも<span>[01:27]</span></div>
+<div class="tab1" style="color: #d33115;"><b>フンヌ@枝：</b>「んで、もう一つは……」<span>[01:28]</span></div>
+<div class="tab1" style="color: #b3b3b3;"><b>GM@働：</b>d66を2回振ってパラグラフを2つ選択、その二箇所を通過してから拠点に帰還すればクリアと<span>[01:28]</span></div>
+<div class="tab1" style="color: #fcdc00;"><b>クララ＠ひよこ：</b>「……新航路の開拓、ですか」<span>[01:28]</span></div>
+<div class="tab1 diceroll" style="color: #b3b3b3;"><b>GM@働：</b>x2 d66<br>
+SwordWorld2.5 : #1<br>
+(D66) → 36<br>
+<br>
+#2<br>
+(D66) → 24<span>[01:28]</span></div>
+<div class="tab1" style="color: #b3b3b3;"><b>GM@働：</b>36:去りし神々の座が<span>[01:28]</span></div>
+<div class="tab1 diceroll" style="color: #b3b3b3;"><b>GM@働：</b>1d6<br>
+SwordWorld2.5 : (1D6) → 3<span>[01:29]</span></div>
+<div class="tab1" style="color: #b3b3b3;"><b>GM@働：</b>4-1かな<span>[01:29]</span></div>
+<div class="tab1" style="color: #fe9200;"><b>レノーレ@枝：</b>真反対<span>[01:29]</span></div>
+<div class="tab1" style="color: #b3b3b3;"><b>GM@働：</b>もう片方、24:螺旋修道院が<span>[01:30]</span></div>
+<div class="tab1 diceroll" style="color: #b3b3b3;"><b>GM@働：</b>1d6<br>
+SwordWorld2.5 : (1D6) → 5<span>[01:30]</span></div>
+<div class="tab1" style="color: #b3b3b3;"><b>GM@働：</b>1-4。おとなりさん<span>[01:30]</span></div>
+<div class="tab1" style="color: #fcdc00;"><b>クララ＠ひよこ：</b>場所が重複した場合は 1d6 して出目 1-3 で出目を -1, 4-6で出目を +1 みたいですね<span>[01:31]</span></div>
+<div class="tab1" style="color: #b3b3b3;"><b>GM@働：</b>(たすかります)<span>[01:31]</span></div>
+<div class="tab1 diceroll" style="color: #b3b3b3;"><b>GM@働：</b>1d6　神々の座再決定<br>
+SwordWorld2.5 : (1D6) → 4<span>[01:32]</span></div>
+<div class="tab1" style="color: #fcdc00;"><b>クララ＠ひよこ：</b>ｱｯ､ﾁｶﾞｯﾀ<span>[01:32]</span></div>
+<div class="tab1" style="color: #fcdc00;"><b>クララ＠ひよこ：</b>出目重複時は2列目、3列目……でした<span>[01:32]</span></div>
+<div class="tab1" style="color: #b3b3b3;"><b>GM@働：</b>(みる)　新規エリアの場合の処理がこれ、ですね<span>[01:33]</span></div>
+<div class="tab1" style="color: #fcdc00;"><b>クララ＠ひよこ：</b>だから、4-1かぁ。遠いな……<span>[01:33]</span></div>
+<div class="tab1" style="color: #b3b3b3;"><b>GM@働：</b>遠いですね……　物資運びたいし、これは一旦保留になりそう。<span>[01:33]</span></div>
+<div class="tab1" style="color: #fe9200;"><b>レノーレ@枝：</b>「もっと近くから、見たい」真ん中に行くには時期尚早<span>[01:35]</span></div>
+<div class="tab1" style="color: #fcdc00;"><b>クララ＠ひよこ：</b>「そうね、もうちょっと力を蓄えてからでも」流石に慎重論<span>[01:35]</span></div>
+<div class="tab1" style="color: #b3b3b3;"><b>GM@働：</b>ログ更新完了と。　メインシナリオをこなしつつ、これらを消化してく感じですわね<span>[01:35]</span></div>
+<div class="tab1" style="color: #b3b3b3;"><b>GM@働：</b>かつ、最大同時受注数は2つまでなので……　開拓、きみ呪いのアイテムと化さないか？<span>[01:36]</span></div>
+<div class="tab1" style="color: #fcdc00;"><b>クララ＠ひよこ：</b>「請けるだけ請けますけど無理でしたって報告することになりそうですね」しょんぼり<span>[01:36]</span></div>
+<div class="tab1" style="color: #87ceeb;"><b>アズール@働：</b>「ま、受けるだけならタダってことで……」「移動するだけでも危ない土地だし、割り切るしかないなぁ」<span>[01:37]</span></div>
+<div class="tab1" style="color: #d33115;"><b>フンヌ@枝：</b>「やれることをやっていこうぜ」荷物こつこつ。目的地が生まれたのは良い。<span>[01:38]</span></div>
+<div class="tab1" style="color: #b3b3b3;"><b>GM@働：</b>そんな感じで物資と受け取って。　自由行動イベントはここまでかな<span>[01:39]</span></div>
+<div class="tab1" style="color: #fcdc00;"><b>クララ＠ひよこ：</b>はーい。<span>[01:39]</span></div>
+<div class="tab1" style="color: #d33115;"><b>フンヌ：</b>はーい<span>[01:39]</span></div>
+<div class="tab1" style="color: #fcdc00;"><b>クララ＠ひよこ：</b>ついで……ランダムイベントタイミングでしょうか<span>[01:39]</span></div>
+<div class="tab1" style="color: #fda1ff;"><b>ヴェスペル@ひよこ：</b>これは拠点が存在するエリアでは発生しないのか<span>[01:40]</span></div>
+<div class="tab1" style="color: #b3b3b3;"><b>GM@働：</b>野営した時のハプニング表、という感じですかね<span>[01:40]</span></div>
+<div class="tab1" style="color: #b3b3b3;"><b>GM@働：</b>なので飛ばして、追加行動タイミング。徹夜して動くか、おとなしく寝るかの選択ですが<span>[01:41]</span></div>
+<div class="tab1" style="color: #00fa9a;"><b>スィーリア@働：</b>「メリア少女は、眠らない」<span>[01:41]</span></div>
+<div class="tab1" style="color: #fcdc00;"><b>クララ＠ひよこ：</b>スィーリア様には申し訳無さはありますが寝ておいたほうが、その。<span>[01:41]</span></div>
+<div class="tab1" style="color: #87ceeb;"><b>アズール@働：</b>「他五人は死ぬんだよね」<span>[01:42]</span></div>
+<div class="tab1" style="color: #fda1ff;"><b>ヴェスペル@ひよこ：</b>「スィーリア女史とて、眠らなくても大丈夫だとしても疲労は残りますものね」やすもう<span>[01:42]</span></div>
+<div class="tab1" style="color: #00fa9a;"><b>スィーリア@働：</b>まぁ、メリア統一パでもなければ中々危険そう。<span>[01:42]</span></div>
+<div class="tab1" style="color: #fe9200;"><b>レノーレ@枝：</b>「きつそう」ソレイユなクララちら。<span>[01:42]</span></div>
+<div class="tab1" style="color: #fcdc00;"><b>クララ＠ひよこ：</b>大きなあくびして恥ずかしそうな顔をする<span>[01:43]</span></div>
+<div class="tab1" style="color: #d33115;"><b>フンヌ：</b>夜行軍パ、いずれ何かでやってみたい気持ちもあります<span>[01:43]</span></div>
+<div class="tab1" style="color: #87ceeb;"><b>アズール@働：</b>「初日からかっ飛ばすのも、な」「明日は……物資運ぶか、また村の手伝いをするか。朝になったら考えるか」<span>[01:44]</span></div>
+<div class="tab1" style="color: #b3b3b3;"><b>GM@働：</b>そんなこんなで一連の処理が終わりまして。　最後、〔時間経過タイミング〕ですね<span>[01:44]</span></div>
+<div class="tab1" style="color: #b3b3b3;"><b>GM@働：</b>といっても、日数が30の倍数にならないと特になにも起こらないそうです。<span>[01:45]</span></div>
+<div class="tab1" style="color: #b3b3b3;"><b>GM@働：</b>各種数値管理用の疲労点を1(→ 1)増加 (0 → 1)<span>[01:45]</span></div>
+<div class="tab1" style="color: #b3b3b3;"><b>GM@働：</b>なので本日はこれだけ。<span>[01:45]</span></div>
+<div class="tab1" style="color: #d33115;"><b>フンヌ：</b>知らないところで邪神が動くの怖ぁ…<span>[01:46]</span></div>
+<div class="tab1" style="color: #b3b3b3;"><b>GM@働：</b>そんな感じで、初日の行動が完了したところで。　丁度予定していたぐらいのお時間ですね<span>[01:46]</span></div>
+<div class="tab1" style="color: #b3b3b3;"><b>GM@働：</b>マスターシーンでひっそりと蠢いたり胎動したりするアレですね……<span>[01:46]</span></div>
+<div class="tab1" style="color: #fcdc00;"><b>クララ＠ひよこ：</b>なんか嫌な予感がしながらもねんね。<span>[01:46]</span></div>
+<div class="tab1" style="color: #b3b3b3;"><b>GM@働：</b>二日目からどうしていこうか、というところで、セッションも一旦区切りとしましょうか<span>[01:47]</span></div>
+<div class="tab1" style="color: #fcdc00;"><b>クララ＠ひよこ：</b>はーい！　おつかれさまでした！<span>[01:47]</span></div>
+<div class="tab1" style="color: #d33115;"><b>フンヌ：</b>おつかれさまでした～！<span>[01:48]</span></div>
+
+</div>
+</div>
+<div class="controll hidden">
+<label for="expansion">
+<div class="header">
+<h1>えんしぇんとぶるー</h1><div>2023/05/06</div>
+<input id="expansion" class="controll-checkbox" type="checkbox" />
+<span class="controll-checkbox-icon"><svg height="18px" viewBox="0 0 24 24" width="18px">
+<path d="M0 0h24v24H0z" fill="none" />
+<path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z" />
+</svg>
+</span>
+</div>
+</label>
+<div class="controll-buttons">
+<div class="tab-list">
+<label class="tab-checkbox"><input id="tab1" type="checkbox" checked="true" />メイン</label>
+<label class="tab-checkbox"><input id="tab2" type="checkbox" checked="true" />判定</label>
+
+</div>
+<div class="setting-list">
+<label class="timestamp-checkbox">
+<input type="checkbox" />タイムスタンプ表示
+</label>
+<label class="diceroll-checkbox">
+<input type="checkbox" />ダイスロール結果抽出
+</label>
+<label class="fontsize-input">文字サイズ <input type="number" style="font-size: 16px;" min="10" max="24" value="16" /> px
+</label>
+</div>
+</div>
+</details>
+</div>
+<script type="text/javascript">
+const chatlog = document.getElementsByClassName("chatlog")[0];
+const chatlogWrap = document.getElementsByClassName("chatlog-wrap")[0];
+const header = document.getElementsByClassName("header")[0];
+const controll = document.getElementsByClassName("controll")[0];
+const timestampCheckbox =
+document.getElementsByClassName("timestamp-checkbox")[0];
+const dicerollCheckbox =
+document.getElementsByClassName("diceroll-checkbox")[0];
+const fontsizeInput =
+document.getElementsByClassName("fontsize-input")[0];
+const controllCheckbox =
+document.getElementsByClassName("controll-checkbox")[0];
+const tabCheckboxes = document.getElementsByClassName("tab-checkbox");
+const chatlogHeight = header.clientHeight + 8;
+chatlogWrap.style = "top: " + chatlogHeight + "px;"
+function changeTab(event) {
+const tab = event.target.id;
+const tabHidden = " " + tab + "-hidden";
+if (event.target.checked) {
+chatlog.className = chatlog.className.replace(tabHidden, "");
+} else {
+chatlog.className += tabHidden;
+}
+}
+function changeTimestamp(event) {
+if (event.target.checked) {
+chatlog.className += " timestamp-show";
+} else {
+chatlog.className = chatlog.className.replace(" timestamp-show", "");
+}
+}
+function changeDiceroll(event) {
+if (event.target.checked) {
+chatlog.className += " filter-diceroll";
+} else {
+chatlog.className = chatlog.className.replace(
+" filter-diceroll",
+""
+);
+}
+}
+function chanceFontSize(event) {
+if (event.target.value) {
+const chatlogHeight = header.clientHeight + 8;
+chatlogWrap.style = "top: " + chatlogHeight + "px;" + "font-size: " + event.target.value + "px;";
+}
+}
+function changeControll(event) {
+if (event.target.checked) {
+controll.className = "controll";
+} else {
+controll.className = "controll hidden";
+}
+}
+for (let i = 0; i < tabCheckboxes.length; i++) {
+const element = tabCheckboxes[i];
+element.addEventListener("change", changeTab);
+}
+timestampCheckbox.addEventListener("change", changeTimestamp);
+dicerollCheckbox.addEventListener("change", changeDiceroll);
+fontsizeInput.addEventListener("change", chanceFontSize);
+controllCheckbox.addEventListener("change", changeControll);
+</script>
+</body>
+</html>
