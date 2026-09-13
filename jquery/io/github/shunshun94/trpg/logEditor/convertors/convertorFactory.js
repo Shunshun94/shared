@@ -16,6 +16,9 @@ io.github.shunshun94.trpg.logEditor.convertors.ConvertorFactory.getConvertor = (
 		if(file.name.endsWith('.dat')) {
 			resolve(io.github.shunshun94.trpg.logEditor.convertors.ytchatConvertor);
 		}
+		if(file.name.endsWith('.json')) {
+			resolve(io.github.shunshun94.trpg.logEditor.convertors.CcfoliaJsonConvertor);
+		}
 		io.github.shunshun94.trpg.logEditor.convertors.ConvertorFactory.htmlHub(file).then(resolve);
 	});
 };
@@ -32,6 +35,10 @@ io.github.shunshun94.trpg.logEditor.convertors.ConvertorFactory.isFloconSimpleLo
 		return true;
 	}
 	return false;
+};
+
+io.github.shunshun94.trpg.logEditor.convertors.ConvertorFactory.isCcfoliaV2Html = (rawHtml, _) => {
+	return rawHtml.includes('<span class="avatar') && rawHtml.includes('aria-hidden="true"></span>');
 };
 
 io.github.shunshun94.trpg.logEditor.convertors.ConvertorFactory.isTekeyV1WithTimestump = (rawHtml, dom) => {
@@ -51,7 +58,7 @@ io.github.shunshun94.trpg.logEditor.convertors.ConvertorFactory.isMuseru = (rawH
 };
 
 io.github.shunshun94.trpg.logEditor.convertors.ConvertorFactory.htmlHub = (file)=>{
-	return new Promise((resolve, reject)=>{
+	return new Promise((resolve, _)=>{
 		io.github.shunshun94.trpg.logEditor.convertors.ConvertorFactory.fileToText(file).then((rawHtml)=>{
 			const dom = (new DOMParser()).parseFromString(rawHtml, 'text/html');
 			if(io.github.shunshun94.trpg.logEditor.convertors.ConvertorFactory.isTekeyV1WithTimestump(rawHtml, dom)) {
@@ -74,13 +81,17 @@ io.github.shunshun94.trpg.logEditor.convertors.ConvertorFactory.htmlHub = (file)
 				resolve(io.github.shunshun94.trpg.logEditor.convertors.MuseruConvertor);
 				return;
 			}
+			if(io.github.shunshun94.trpg.logEditor.convertors.ConvertorFactory.isCcfoliaV2Html(rawHtml, dom)) {
+				resolve(io.github.shunshun94.trpg.logEditor.convertors.CcfoliaHtmlConvertor);
+				return;
+			}
 			resolve(io.github.shunshun94.trpg.logEditor.convertors.CcfoliaConvertor);
 		});
 	});
 };
 
 io.github.shunshun94.trpg.logEditor.convertors.ConvertorFactory.fileToText = (file)=>{
-	return new Promise((resolve, reject)=>{
+	return new Promise((resolve, _)=>{
 		file.arrayBuffer().then((result)=>{
 			const codes = new Uint8Array(result);
 			const rawHtml = Encoding.convert(codes, {

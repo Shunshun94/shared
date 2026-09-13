@@ -46,7 +46,7 @@ io.github.shunshun94.trpg.logEditor.FileLoader.filterDoms = (doms, collectedTabI
     return doms.filter((dom)=>{
         return collectedTabInfo[dom.tabName].isActive;
     }).map((dom)=>{
-        dom.class = collectedTabInfo[dom.tabName].classes;
+        dom.class = collectedTabInfo[dom.tabName].classes + ' ' + dom.class.replace(/tab\d+/, '');
         return dom;
     });
 };

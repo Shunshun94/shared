@@ -227,7 +227,7 @@ io.github.shunshun94.trpg.logEditor.Editor = class {
 			if(target.class) {
 				target.list.find(`.io-github-shunshun94-trpg-logEditor-Post-params-param-input-class`).each((i,v)=>{
 					const keptValues = $(v).val().split(' ').filter((c)=>{
-						return this.tabList.includes(c) || /tab\d+/.exec(c);
+						return this.tabList.includes(c) || /tab\d+/.test(c) || /avatar-image-\d+/.test(c);
 					}).join(' ');
 					$(v).val(`${keptValues} ${target.class}`.trim());
 				});
