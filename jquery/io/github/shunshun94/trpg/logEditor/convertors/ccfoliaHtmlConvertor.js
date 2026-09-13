@@ -54,7 +54,7 @@ io.github.shunshun94.trpg.logEditor.convertors.CcfoliaHtmlConvertor.convertDomTo
             const hasDiceResult = dom.children[1].children.length >= 3;
             const baseContent = dom.children[1].children[1].textContent.trim().split('\n').join('<br/>');
             const content = hasDiceResult ?
-                baseContent + '<br/>' + dom.children[1].children[2].textContent.trim() : baseContent;
+                baseContent + '<br/>' + dom.children[1].children[2].textContent.trim().split('\n').join('<br/>') : baseContent;
             return {
                 tag: 'p',
                 title: '',
@@ -86,7 +86,6 @@ io.github.shunshun94.trpg.logEditor.convertors.CcfoliaHtmlConvertor.htmlToJson =
             return null;
         }
     }).filter((d)=>{return d;});
-    console.log(doms);
     return {
 		doms: doms,
 		omitted: omits,

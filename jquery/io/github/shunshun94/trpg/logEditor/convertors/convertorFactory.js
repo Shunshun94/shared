@@ -16,6 +16,9 @@ io.github.shunshun94.trpg.logEditor.convertors.ConvertorFactory.getConvertor = (
 		if(file.name.endsWith('.dat')) {
 			resolve(io.github.shunshun94.trpg.logEditor.convertors.ytchatConvertor);
 		}
+		if(file.name.endsWith('.json')) {
+			resolve(io.github.shunshun94.trpg.logEditor.convertors.CcfoliaJsonConvertor);
+		}
 		io.github.shunshun94.trpg.logEditor.convertors.ConvertorFactory.htmlHub(file).then(resolve);
 	});
 };
