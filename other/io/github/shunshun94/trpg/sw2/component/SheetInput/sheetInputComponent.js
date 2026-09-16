@@ -13,10 +13,13 @@ io.github.shunshun94.trpg.sw2.component.SheetInput.EVENTS = {
 io.github.shunshun94.trpg.sw2.component.SheetInput.changeDomain = () => {
     const currentMap = JSON.parse(localStorage.getItem('com-hiyoko-sample-sw2sheetparse-index') || '{}');
     const result = {};
+    const simplerUrlRegExp = /^[a-zA-Z0-9]+$/;
     Object.keys(currentMap).forEach((tmpUrl) => {
         let url= '';
         if(tmpUrl.startsWith('https://yutorize.2-d.jp/ytsheet')) {
             url = tmpUrl.replace('https://yutorize.2-d.jp/ytsheet', 'https://yutorize.work/ytsheet');
+        } if (simplerUrlRegExp.test(tmpUrl)) {
+            url = `https://yutorize.work/ytsheet/sw2.5/?id=${tmpUrl}`;
         } else {
             url = tmpUrl;
         }
