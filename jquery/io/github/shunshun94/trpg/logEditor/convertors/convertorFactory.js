@@ -37,6 +37,10 @@ io.github.shunshun94.trpg.logEditor.convertors.ConvertorFactory.isFloconSimpleLo
 	return false;
 };
 
+io.github.shunshun94.trpg.logEditor.convertors.ConvertorFactory.isCriticalStageHtml = (rawHtml, _) => {
+	return rawHtml.includes('--chat-name-light');
+};
+
 io.github.shunshun94.trpg.logEditor.convertors.ConvertorFactory.isCcfoliaV2Html = (rawHtml, _) => {
 	return rawHtml.includes('<span class="avatar') && rawHtml.includes('aria-hidden="true"></span>');
 };
@@ -85,6 +89,10 @@ io.github.shunshun94.trpg.logEditor.convertors.ConvertorFactory.htmlHub = (file)
 				resolve(io.github.shunshun94.trpg.logEditor.convertors.CcfoliaHtmlConvertor);
 				return;
 			}
+			if(io.github.shunshun94.trpg.logEditor.convertors.ConvertorFactory.isCriticalStageHtml(rawHtml, dom)) {
+				resolve(io.github.shunshun94.trpg.logEditor.convertors.CriticalStageConvertor);
+				return;
+			};
 			resolve(io.github.shunshun94.trpg.logEditor.convertors.CcfoliaConvertor);
 		});
 	});
