@@ -35,6 +35,11 @@ const tests = [
         expected: `k48[11]+0$12#+2r0`,
         note: '自動失敗時の変転(追加ダメージなし)'
     }, {
+        input: `KeyNo.0+8 ＞ 2D:[1,1]=2 ＞ ** ＞ 自動的失敗`,
+        boost: 0,
+        expected: `k0[13]+8$12#+0r0`,
+        note: 'クリティカルしない場合の自動失敗時の変転'
+    }, {
         input: `SwordWorld2.5: KeyNo.48c[11]a[+2]+9 ＞ 2D:[5,2]=9 ＞ 12+9 ＞ 21`,
         boost: 2,
         expected: `k48[11]+9$9#+2r0`,

@@ -37,7 +37,7 @@ io.github.shunshun94.trpg.sw2.FateAlteration.calc = (input, boost = 0) => {
         const isFumble = /自動的失敗$/.test(input);
         const isHalfDamage = /\/2/.test(input);
         if(isFumble) {
-            const alternatedDamageValue = Number(/\]([\-\+]?\d*)\s＞\s2D:\[/.exec(input)[1] || '0');
+            const alternatedDamageValue = Number(/\]?([\-\+]?\d*)\s＞\s2D:\[/.exec(input)[1] || '0');
             return `k${key}[${critical}]+${alternatedDamageValue}$${alternatedDiceResult}#${sharpValueString}r${executioner}${greatestFortune}`;
         } else if(isHalfDamage) {
             const damageListString = /\]=[\d,]+\s＞\s(\([\d,*]+[\+\-]?\d*\)\/2[\+\-]?\d*)\s?＞?/.exec(input)[1];
