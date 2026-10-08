@@ -699,6 +699,11 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_TEST_LIST = {
             'lvAlc': '1',
             'weapon1Note': 'アルケミーキット',
             'expect': true
+        }, {
+            'testName': 'アルケミストでガーターキットを持っている場合',
+            'lvAlc': '1',
+            'armour2Name': 'ガーダーキット',
+            'expect': true
         }
     ],
     "druidRequiresMistletoe": [

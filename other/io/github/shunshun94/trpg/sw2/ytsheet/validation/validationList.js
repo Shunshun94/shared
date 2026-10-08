@@ -88,6 +88,7 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_LIST = [
             'items': {includes: 'カードシューター'},
             'weapon\\d+Name': {includes: 'カードシューター'},
             'weapon\\d+Note': {includes: 'アルケミーキット'},
+            'armour\\d+Name': {includes: 'ガーダーキット'},
             'accessory[^_]*_+Name': {includes: 'アルケミーキット'}
         },
         ifNot: 'アルケミスト技能による賦術を行使するにはアルケミーキットを適切な部位に装備している必要があります（『3』114頁）',
