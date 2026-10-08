@@ -455,8 +455,16 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_LIST = [
             'weapon\\d+Note': {includes: 'アビスナイフ'}
         },
         expect: {
-            'weapon\\d+Name': {includes: ['[刃]', 'ライジングサン', 'タイラント', 'エッジドアーム']},
-            'weapon\\d+Category': { equal: ['ソード', 'アックス', 'スピア', 'ウォーハンマー', 'ボウ', 'クロスボウ'] }
+            'weapon\\d+Name': {
+                func: (key, _, json) => {
+                    const weaponIndex = /weapon(\d+)Name/.exec(key)[1];
+                    const isAbyssKnife = Boolean(json[`weapon${weaponIndex}Name`].includes('アビスナイフ') || json[`weapon${weaponIndex}Note`]?.includes('アビスナイフ'));
+                    if( !isAbyssKnife ) { return false; }
+                    const isEdged = Boolean(json[`weapon${weaponIndex}Name`].includes('[刃]') || json[`weapon${weaponIndex}Name`].includes('ライジングサン') || json[`weapon${weaponIndex}Name`].includes('タイラント') || json[`weapon${weaponIndex}Name`].includes('エッジドアーム'));
+                    const isCollectCategory = Boolean(['ソード', 'アックス', 'スピア', 'ウォーハンマー', 'ボウ', 'クロスボウ'].includes(json[`weapon${weaponIndex}Category`]));
+                    return isEdged || isCollectCategory;
+                }
+            }
         },
         ifNot: 'アビスナイフ加工を施す武器は刃のついた武器である必要があります（『AB』8頁）',
         label: 'abyssKnifeMustBeEdged'

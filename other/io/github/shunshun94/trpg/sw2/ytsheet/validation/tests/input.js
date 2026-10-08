@@ -1528,13 +1528,17 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_TEST_LIST = {
     "abyssKnifeMustBeEdged": [
         {
             'testName': 'アビスナイフがソードな場合',
+            'weapon1Name': 'ロングソード',
             'weapon1Note': 'アビスナイフ加工済',
             'weapon1Category': 'ソード',
             'expect': true
         }, {
             'testName': 'アビスナイフがメイスな場合',
+            'weapon1Name': 'ヘビーメイス', 
             'weapon1Note': 'アビスナイフ加工済',
             'weapon1Category': 'メイス',
+            'weapon2Name': 'ロングソード',
+            'weapon2Category': 'ソード',
             'expect': false
         }, {
             'testName': 'アビスナイフが刃のついたメイスな場合',
