@@ -979,6 +979,32 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_TEST_LIST = {
             'expect': false
         }
     ],
+    "grapplerUnableToHaveshield": [{
+            'testName': 'グラップラーで非金属鎧を装備している場合',
+            'level': "3",
+            'lvGra': '3',
+            "armour2Category": '非金属鎧',
+            'expect': true
+        }, {
+            'testName': 'グラップラーで盾を装備している場合',
+            'level': "3",
+            'lvGra': '3',
+            "armour2Category": '盾',
+            'expect': false
+        }, {
+            'testName': 'バトルダンサーで盾を装備している場合',
+            'level': "3",
+            'lvBat': '3',
+            "armour2Category": '盾',
+            'expect': false
+        }, {
+            'testName': '他の技能がメインでグラップラーも3でとっていて盾を装備している場合',
+            'level': "7",
+            'lvBat': '3',
+            "armour2Category": '盾',
+            'expect': true
+        }
+    ],
     "initialCharacterLevelLimitation": [{
             'testName': '初期作成で冒険者レベルが3の場合',
             'level': "3",

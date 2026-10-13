@@ -203,6 +203,22 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_LIST = [
     }, {
         level: 'error',
         when: {
+            'and': {
+                'or': {
+                    'lvGra': { isEnoughLevel: true },
+                    'lvBat': { isEnoughLevel: true }
+                },
+                "armour\\d+Category": { equal: ['盾', '金属鎧'] }
+            }
+        },
+        expect: {
+            'enytime-notexist-parameter': true
+        },
+        ifNot: 'グラップラー・バトルダンサーは装備できる防具に制限があります（『1』168, 169頁, 『BM』6頁）',
+        label: 'grapplerUnableToHaveshield'
+    }, {
+        level: 'error',
+        when: {
             and: {
                 historyExpTotal: { equal: "3000" },
                 historyMoneyTotal: { equal: "1200" }
