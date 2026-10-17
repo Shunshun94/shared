@@ -212,7 +212,21 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_LIST = [
             }
         },
         expect: {
-            'enytime-notexist-parameter': true
+            "level": { func: (_, __, json) => {
+                    console.log(json);
+                    const armourCount = Number(json.armourNum) || 0;
+                    for(var i=1; i<=armourCount; i++) {
+                        console.log(json[`armour${i}Category`], json[`armour${i}Name`]);
+                        if( ['盾', '金属鎧'].includes( json[`armour${i}Category`] ) ) {
+                            
+                            if( json[`armour${i}Name`] ) {
+                                return false;
+                            }
+                        }
+                    }
+                    return true;
+                }
+            }
         },
         ifNot: 'グラップラー・バトルダンサーは装備できる防具に制限があります（『1』168, 169頁, 『BM』6頁）',
         label: 'grapplerUnableToHaveshield'
@@ -313,7 +327,7 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_LIST = [
         expect: {
             'race': { includes: 'ナイトメア' }
         },
-        ifNot: '必要筋力が10以上の非金属鎧を着ている場合にソーサラー、コンジャラー、デーモンルーラーまたはビブリオマンサーの各技能による魔法による魔法を行使するとペナルティ修正を受けます',
+        ifNot: '必要筋力が10以上の非金属鎧を着ている場合にソーサラー、コンジャラー、デーモンルーラーまたはビブリオマンサーの各技能による魔法を行使するとペナルティ修正を受けます',
         label: 'heavyArmorLimitatesMagics'
     }, {
         level: 'warn',

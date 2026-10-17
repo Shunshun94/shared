@@ -983,25 +983,45 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_TEST_LIST = {
             'testName': 'グラップラーで非金属鎧を装備している場合',
             'level': "3",
             'lvGra': '3',
-            "armour2Category": '非金属鎧',
+            "armour1Category": '非金属鎧',
+            "armour1Name": 'クロースアーマー',
+            "armour2Category": '盾',
+            "armour2Name": '',
+            "armour3Category": '金属鎧',
+            "armour3Name": '',
+            "armour4Category": 'その他',
+            "armour4Name": '',
+            "armourNum": '4',
             'expect': true
         }, {
             'testName': 'グラップラーで盾を装備している場合',
             'level': "3",
             'lvGra': '3',
+            "armour1Category": '非金属鎧',
+            "armour1Name": 'クロースアーマー',
             "armour2Category": '盾',
+            "armour2Name": 'バックラー',
+            "armourNum": '2',
             'expect': false
         }, {
             'testName': 'バトルダンサーで盾を装備している場合',
             'level': "3",
             'lvBat': '3',
+            "armour1Category": '非金属鎧',
+            "armour1Name": 'クロースアーマー',
             "armour2Category": '盾',
+            "armour2Name": 'バックラー',
+            "armourNum": '2',
             'expect': false
         }, {
             'testName': '他の技能がメインでグラップラーも3でとっていて盾を装備している場合',
             'level': "7",
             'lvBat': '3',
+            "armour1Category": '非金属鎧',
+            "armour1Name": 'クロースアーマー',
             "armour2Category": '盾',
+            "armour2Name": 'バックラー',
+            "armourNum": '2',
             'expect': true
         }
     ],
