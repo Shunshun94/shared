@@ -213,12 +213,9 @@ io.github.shunshun94.trpg.sw2.ytsheet.validation.VALIDATION_LIST = [
         },
         expect: {
             "level": { func: (_, __, json) => {
-                    console.log(json);
                     const armourCount = Number(json.armourNum) || 0;
                     for(var i=1; i<=armourCount; i++) {
-                        console.log(json[`armour${i}Category`], json[`armour${i}Name`]);
                         if( ['盾', '金属鎧'].includes( json[`armour${i}Category`] ) ) {
-                            
                             if( json[`armour${i}Name`] ) {
                                 return false;
                             }
