@@ -17,8 +17,8 @@
         const generateTable = (raw) => {
             const memberMap = {};
             const gmMap = {};
-            for(var i = 1; i < Number(raw.historyNum); i++) {
-                const isSession = io.github.shunshun94.trpg.sw2.ytsheet.countSession.isSessionAsPlayer.RaxiaLifeNeo(raw, i);
+            for(var i = 1; i <= Number(raw.historyNum); i++) {
+                const isSession = io.github.shunshun94.trpg.sw2.ytsheet.countSession.isSessionAsPlayer.RaxiaLife3rd(raw, i);
                 if(isSession) {
                     (raw[`history${i}Member`] || '').split(/[\s　,、]|&lt;br&gt;/).filter((d)=>{return d;}).forEach((d)=>{
                         if(! memberMap[d]) { memberMap[d] = 0; }
